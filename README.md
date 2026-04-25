@@ -119,7 +119,7 @@ From the project root:
     python -m playwright install chromium
 ```
 
----
+
 
 ## 🔐 Environment Configuration
 
@@ -250,7 +250,7 @@ From the project root:
     plain_text[:1000]
 ```
 
----
+
 
 ## 🔗 Example: Scrape Hyperlinks
 
@@ -266,7 +266,6 @@ From the project root:
     links[:10]
 ```
 
----
 
 ## 📊 Example: Scrape Table Text
 
@@ -282,7 +281,7 @@ From the project root:
     table_cells[:25]
 ```
 
----
+
 
 ## 🔎 Example: Google Custom Search
 
@@ -336,7 +335,7 @@ Requires:
         print("-" * 100)
 ```
 
----
+
 
 ## 🧠 Example: ArXiv Search
 
@@ -387,7 +386,7 @@ Requires:
     len(chunks)
 ```
 
----
+
 
 ## 📕 Example: Load a PDF
 
@@ -515,7 +514,7 @@ Split PDF documents:
     len(documents)
 ```
 
----
+
 
 ## 🛠️ Tool Registry
 
@@ -662,7 +661,7 @@ Split PDF documents:
     response
 ```
 
----
+
 
 ## 🔌 Adapter Usage
 
