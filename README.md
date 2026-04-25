@@ -958,4 +958,8 @@ It provides:
 * 🗂️ centralized registry exports
 * 🤖 LangChain-compatible tool workflows
 
+## 📝 License
+
+- Fonky is published under
+  the [MIT General Public License v3](https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE).
 
