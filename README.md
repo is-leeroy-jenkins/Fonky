@@ -1,4 +1,4 @@
-###### Fonky
+######## Fonky
 
 ![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky_project.png)
 ---
@@ -8,7 +8,7 @@ orchestration. Fonky provides a stable service layer for fetchers, scrapers, loa
 agents, notebooks, web applications, FastAPI services, and other agentic workflows.
 
 
-## 🎯 Purpose
+#### 🎯 Purpose
 
 Fonky provides a reusable library for:
 
@@ -24,11 +24,11 @@ Fonky provides a reusable library for:
 | 🔁 Serialization         | Normalize outputs into JSON-safe tool results                                                              |
 
 
-## 🧱 Architecture
+#### 🧱 Architecture
 
 Funky is divided into two layers.
 
-### 🧩 Service Layer
+##### 🧩 Service Layer
 
 The service layer contains ordinary Python classes.
 
@@ -40,7 +40,7 @@ The service layer contains ordinary Python classes.
     fonky.config
 ```
 
-## 🧰 Project Structure
+#### 🧰 Project Structure
 
 ```text
 Fonky/
@@ -80,7 +80,7 @@ Examples:
     from fonky.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
 ```
 
-### 🛠️ Tool Layer
+##### 🛠️ Tool Layer
 
 The tool layer adapts service-layer methods into agent-ready tools.
 
@@ -101,7 +101,7 @@ Examples:
 
 
 
-## ⚙️ Installation
+#### ⚙️ Installation
 
 From the project root:
 
@@ -121,7 +121,7 @@ From the project root:
 
 
 
-## 🔐 Environment Configuration
+#### 🔐 Environment Configuration
 
 - Funky reads credentials from environment variables through `fonky.config`.
 
@@ -157,7 +157,7 @@ From the project root:
 - Credentials should remain in environment variables, configuration, or controlled dependency injection.
 
 
-## 📓 Jupyter Notebook
+#### 📓 Jupyter Notebook
 
 - The included notebook is located at:
 
@@ -192,7 +192,7 @@ From the project root:
 
 
 
-## 📦 Basic Imports
+#### 📦 Basic Imports
 
 ```python
     from fonky import config as cfg
@@ -204,7 +204,7 @@ From the project root:
 
 
 
-## 🌐 Example: Fetch a Web Page
+#### 🌐 Example: Fetch a Web Page
 
 ```python
     from fonky.fetchers import WebFetcher
@@ -233,7 +233,7 @@ From the project root:
 ```
 
 
-## 🧹 Example: Convert HTML to Text
+#### 🧹 Example: Convert HTML to Text
 
 ```python
     from fonky.fetchers import WebFetcher
@@ -252,7 +252,7 @@ From the project root:
 
 
 
-## 🔗 Example: Scrape Hyperlinks
+#### 🔗 Example: Scrape Hyperlinks
 
 ```python
     from fonky.fetchers import WebFetcher
@@ -267,7 +267,7 @@ From the project root:
 ```
 
 
-## 📊 Example: Scrape Table Text
+#### 📊 Example: Scrape Table Text
 
 ```python
     from fonky.fetchers import WebFetcher
@@ -283,7 +283,7 @@ From the project root:
 
 
 
-## 🔎 Example: Google Custom Search
+#### 🔎 Example: Google Custom Search
 
 Requires:
 
@@ -314,7 +314,7 @@ Requires:
 
 
 
-## 📚 Example: Wikipedia Search
+#### 📚 Example: Wikipedia Search
 
 ```python
     from fonky.fetchers import Wikipedia
@@ -337,7 +337,7 @@ Requires:
 
 
 
-## 🧠 Example: ArXiv Search
+#### 🧠 Example: ArXiv Search
 
 ```python
     from fonky.fetchers import ArXiv
@@ -360,7 +360,7 @@ Requires:
 
 
 
-## 📄 Example: Load a Text File
+#### 📄 Example: Load a Text File
 
 ```python
     from fonky.loaders import TextLoader
@@ -388,7 +388,7 @@ Requires:
 
 
 
-## 📕 Example: Load a PDF
+#### 📕 Example: Load a PDF
 
 ```python
     from fonky.loaders import PdfLoader
@@ -430,7 +430,7 @@ Split PDF documents:
 
 
 
-## 🧾 Example: Load a CSV File
+#### 🧾 Example: Load a CSV File
 
 ```python
     from fonky.loaders import CsvLoader
@@ -456,7 +456,7 @@ Split PDF documents:
 
 
 
-## 🌍 Example: Load Web Pages as Documents
+#### 🌍 Example: Load Web Pages as Documents
 
 ```python
     from fonky.loaders import WebLoader
@@ -493,7 +493,7 @@ Split PDF documents:
 
 ---
 
-## 🕸️ Example: Recursively Load a Website
+#### 🕸️ Example: Recursively Load a Website
 
 ```python
     from fonky.loaders import WebLoader
@@ -514,9 +514,7 @@ Split PDF documents:
     len(documents)
 ```
 
-
-
-## 🛠️ Tool Registry
+###### 🛠️ Tool Registry
 
 - The completed `fonky.tools.registry` module exposes curated tool groups.
 
@@ -530,7 +528,7 @@ Split PDF documents:
 
 
 
-## 🗂️ Tool Groups
+#### 🗂️ Tool Groups
 
 ```python
     from fonky.tools.registry import get_tool_groups
@@ -554,7 +552,7 @@ Split PDF documents:
 
 
 
-## 📄 Example: Load Document Tools
+#### 📄 Example: Load Document Tools
 
 ```python
     from fonky.tools.registry import get_tools_by_group
@@ -567,9 +565,7 @@ Split PDF documents:
         print()
 ```
 
-
-
-## 🌐 Example: Load Web Tools
+###### 🌐 Example: Load Web Tools
 
 ```python
     from fonky.tools.registry import get_tools_by_group
@@ -580,9 +576,7 @@ Split PDF documents:
         print(tool.name)
 ```
 
-
-
-## 🔎 Example: Retrieve One Tool by Name
+###### 🔎 Example: Retrieve One Tool by Name
 
 ```python
     from fonky.tools.registry import get_tool_by_name
@@ -609,7 +603,7 @@ Split PDF documents:
 
 
 
-## 🤖 Example: Use Funky Tools with LangChain
+###### 🤖 Example: Use Funky Tools with LangChain
 
 ```python
     from fonky.tools.registry import get_tools_by_group
@@ -663,7 +657,7 @@ Split PDF documents:
 
 
 
-## 🔌 Adapter Usage
+#### 🔌 Adapter Usage
 
 - The adapter layer can turn any approved class method into a structured tool.
 
@@ -700,7 +694,7 @@ Split PDF documents:
 
 
 
-## 🔁 Serializer Usage
+#### 🔁 Serializer Usage
 
 - Serializers convert internal return objects into JSON-safe payloads.
 
@@ -734,7 +728,7 @@ Split PDF documents:
 
 
 
-## ✅ Tool Result Envelope
+#### ✅ Tool Result Envelope
 
 - Most tools return a consistent result envelope.
 
@@ -767,11 +761,11 @@ Failed result:
 
 
 
-## 🧪 Notebook Validation
+#### 🧪 Notebook Validation
 
 - Run the following inside `notebook/fonkytown.ipynb`.
 
-### Confirm imports
+##### Confirm imports
 
 ```python
     from fonky.fetchers import WebFetcher, Wikipedia, ArXiv
@@ -783,7 +777,7 @@ Failed result:
     print("Imports successful.")
 ```
 
-### Confirm environment variables
+##### Confirm environment variables
 
 ```python
     import os
@@ -803,7 +797,7 @@ Failed result:
         print(f"{key}: {status}")
 ```
 
-### Confirm local package path
+##### Confirm local package path
 
 ```python
     import fonky
@@ -812,7 +806,7 @@ Failed result:
     print(Path(fonky.__file__).resolve())
 ```
 
-### Confirm registry
+##### Confirm registry
 
 ```python
     from fonky.tools.registry import get_all_tools
@@ -826,7 +820,7 @@ Failed result:
 ```
 
 
-## 🧭 Design Principles
+#### 🧭 Design Principles
 
 | Principle                   | Description                                                                           |
 | --------------------------- | ------------------------------------------------------------------------------------- |
@@ -840,7 +834,7 @@ Failed result:
 | 🔄 Support Multiple Apps    | Tools can be reused in notebooks, Streamlit, FastAPI, agents, and scripts             |
 
 
-## 🧰 Common Tool Names
+#### 🧰 Common Tool Names
 
 | Tool                        | Group        | Description                                    |
 | --------------------------- | ------------ | ---------------------------------------------- |
@@ -864,7 +858,7 @@ Failed result:
 
 
 
-## 📤 Provider-Neutral Tool Export
+#### 📤 Provider-Neutral Tool Export
 
 - Funky can expose tools through several formats.
 
@@ -880,7 +874,7 @@ Failed result:
     manifest = get_tool_manifest()
 ```
 
-## 🧾 Requirements
+#### 🧾 Requirements
 
 | Package                      | Purpose                                                   | Notes                                                       |
 | ---------------------------- | --------------------------------------------------------- | ----------------------------------------------------------- |
@@ -931,7 +925,7 @@ Failed result:
 | `grokipedia-api`             | Grokipedia client support                                 | Required only when Grokipedia tools are enabled             |
 | `boogr`                      | Custom error wrapper used by service classes              | Keep as local package/module or replace with `fonky.errors` |
 
-## 📝 License
+#### 📝 License
 
 - Fonky is published under
   the [MIT General Public License v3](https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE).
