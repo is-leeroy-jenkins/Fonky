@@ -941,7 +941,7 @@ Failed result:
 
 ## 🧩 Summary
 
-Funky is a finished, reusable Python package for turning data-fetching and document-loading classes
+Fonky is a finished, reusable Python package for turning data-fetching and document-loading classes
 into agent-ready tools. The service classes perform the work. The `fonky.tools` package makes that
 work agent-ready.
 
