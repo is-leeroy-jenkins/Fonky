@@ -1,4 +1,4 @@
-######## Fonky
+###### Fonky
 
 ![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky_project.png)
 ---
@@ -28,7 +28,7 @@ Fonky provides a reusable library for:
 
 Funky is divided into two layers.
 
-##### 🧩 Service Layer
+#### 🧩 Service Layer
 
 The service layer contains ordinary Python classes.
 
@@ -80,7 +80,7 @@ Examples:
     from fonky.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
 ```
 
-##### 🛠️ Tool Layer
+#### 🛠️ Tool Layer
 
 The tool layer adapts service-layer methods into agent-ready tools.
 
@@ -514,7 +514,7 @@ Split PDF documents:
     len(documents)
 ```
 
-###### 🛠️ Tool Registry
+#### 🛠️ Tool Registry
 
 - The completed `fonky.tools.registry` module exposes curated tool groups.
 
@@ -565,7 +565,7 @@ Split PDF documents:
         print()
 ```
 
-###### 🌐 Example: Load Web Tools
+#### 🌐 Example: Load Web Tools
 
 ```python
     from fonky.tools.registry import get_tools_by_group
@@ -576,7 +576,7 @@ Split PDF documents:
         print(tool.name)
 ```
 
-###### 🔎 Example: Retrieve One Tool by Name
+#### 🔎 Example: Retrieve One Tool by Name
 
 ```python
     from fonky.tools.registry import get_tool_by_name
@@ -603,7 +603,7 @@ Split PDF documents:
 
 
 
-###### 🤖 Example: Use Funky Tools with LangChain
+#### 🤖 Example: Use Funky Tools with LangChain
 
 ```python
     from fonky.tools.registry import get_tools_by_group
@@ -765,7 +765,7 @@ Failed result:
 
 - Run the following inside `notebook/fonkytown.ipynb`.
 
-##### Confirm imports
+- Confirm imports
 
 ```python
     from fonky.fetchers import WebFetcher, Wikipedia, ArXiv
@@ -777,7 +777,7 @@ Failed result:
     print("Imports successful.")
 ```
 
-##### Confirm environment variables
+- Confirm environment variables
 
 ```python
     import os
@@ -797,7 +797,7 @@ Failed result:
         print(f"{key}: {status}")
 ```
 
-##### Confirm local package path
+- Confirm local package path
 
 ```python
     import fonky
@@ -806,7 +806,7 @@ Failed result:
     print(Path(fonky.__file__).resolve())
 ```
 
-##### Confirm registry
+- Confirm registry
 
 ```python
     from fonky.tools.registry import get_all_tools
