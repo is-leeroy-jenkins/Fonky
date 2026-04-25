@@ -1,44 +1,11 @@
 ###### Fonky
-**Fonky** is a reusable Python package for data retrieval, document ingestion, and agent-ready tool
-orchestration. It provides a stable service layer for fetchers, scrapers, loaders, and processing, plus a completed
+
+[](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky_project.png)
+---
+A reusable Python framework for data retrieval, document ingestion, and agent-ready tool
+orchestration. Fonky provides a stable service layer for fetchers, scrapers, loaders, and processing, plus a completed
 `fonky.tools` package that exposes selected class methods as structured tools for ad-hoc LangChain-style
-agents, notebooks, Streamlit applications, FastAPI services, and other agentic workflows.
-
-
-
-## 🧰 Project Structure
-
-```text
-Fonky/
-    README.md
-    requirements.txt
-
-    notebook/
-        fonkytown.ipynb
-
-    fonky/
-        __init__.py
-        config.py
-        core.py
-        fetchers.py
-        loaders.py
-        models.py
-        processors.py
-        scrapers.py
-
-        tools/
-            __init__.py
-            schemas.py
-            serializers.py
-            adapters.py
-            registry.py
-            fetcher_tools.py
-            loader_tools.py
-        
-        notebook/
-           funkytown.ipynb 
-```
-
+agents, notebooks, web applications, FastAPI services, and other agentic workflows.
 
 
 ## 🎯 Purpose
@@ -73,7 +40,38 @@ The service layer contains ordinary Python classes.
     fonky.config
 ```
 
-These classes do the actual work.
+## 🧰 Project Structure
+
+```text
+Fonky/
+    README.md
+    requirements.txt
+
+    notebook/
+        fonkytown.ipynb
+
+    fonky/
+        __init__.py
+        config.py
+        core.py
+        fetchers.py
+        loaders.py
+        models.py
+        processors.py
+        scrapers.py
+
+        tools/
+            __init__.py
+            schemas.py
+            serializers.py
+            adapters.py
+            registry.py
+            fetcher_tools.py
+            loader_tools.py
+        
+        notebook/
+           funkytown.ipynb 
+```
 
 Examples:
 
@@ -105,54 +103,53 @@ Examples:
 
 ## 🧾 Requirements
 
-| Category                   | Package                      | Purpose                                                    | Notes                                                       |
-| -------------------------- | ---------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------- |
-| 🧱 Core Data / Validation  | `pydantic`                   | Defines structured models and tool input schemas           | Required for `models.py` and `tools/schemas.py`             |
-| 🧱 Core Data / Validation  | `typing_extensions`          | Backports newer typing features                            | Useful for compatibility across Python versions             |
-| 🧱 Core Data / Validation  | `requests`                   | HTTP client for API fetchers                               | Required by most fetchers                                   |
-| 🧱 Core Data / Validation  | `pandas`                     | DataFrame handling and tabular data processing             | Used for structured data and loader outputs                 |
-| 🧱 Core Data / Validation  | `numpy`                      | Numeric processing                                         | Common dependency for data workflows                        |
-| 🧱 Core Data / Validation  | `python-dateutil`            | Date parsing and date utilities                            | Useful for API date parameters and notebooks                |
-| 🔗 LangChain               | `langchain`                  | Main LangChain framework                                   | Required for agent/tool workflows                           |
-| 🔗 LangChain               | `langchain-core`             | Core LangChain abstractions                                | Required for `Document`, tools, and retrievers              |
-| 🔗 LangChain               | `langchain-community`        | Community loaders and retrievers                           | Required by many loader/fetcher wrappers                    |
-| 🔗 LangChain               | `langchain-text-splitters`   | Document chunking                                          | Required for recursive text splitting                       |
-| 🔗 LangChain               | `langchain-google-community` | Google community integrations                              | Used by Google loaders                                      |
-| 🔗 LangChain               | `langchain-googledrive`      | Google Drive retriever support                             | Used by Google Drive tools                                  |
-| 📄 Document Loading        | `pypdf`                      | PDF parsing                                                | Required by PDF loaders                                     |
-| 📄 Document Loading        | `docx2txt`                   | Word document extraction                                   | Required by DOCX loaders                                    |
-| 📄 Document Loading        | `openpyxl`                   | Excel `.xlsx` support                                      | Required for Excel workflows                                |
-| 📄 Document Loading        | `xlrd`                       | Legacy Excel `.xls` support                                | Optional but useful                                         |
-| 📄 Document Loading        | `python-pptx`                | PowerPoint document support                                | Used by PowerPoint loaders                                  |
-| 📄 Document Loading        | `unstructured`               | Parsing Office, HTML, Markdown, and mixed document formats | Heavy dependency; useful for full document support          |
-| 📄 Document Loading        | `lxml`                       | XML/HTML parsing                                           | Required by XML and HTML workflows                          |
-| 📄 Document Loading        | `beautifulsoup4`             | HTML parsing and scraping                                  | Required by web scraping methods                            |
-| 📄 Document Loading        | `html5lib`                   | HTML parser backend                                        | Useful with BeautifulSoup and document loaders              |
-| 📄 Document Loading        | `markdown`                   | Markdown parsing                                           | Useful for Markdown loader workflows                        |
-| 📄 Document Loading        | `nbformat`                   | Jupyter notebook parsing                                   | Required for notebook loader support                        |
-| 👁️ OCR / Image            | `pillow`                     | Image handling                                             | Required by image and OCR-related loaders                   |
-| 👁️ OCR / Image            | `rapidocr-onnxruntime`       | OCR fallback for PDFs/images                               | Useful for image-heavy PDFs                                 |
-| 🌐 Web / Browser           | `playwright`                 | Browser automation/rendering                               | Requires browser installation                               |
-| 🌐 Web / Browser           | `crawl4ai`                   | Web crawling/rendering support                             | Useful for dynamic pages                                    |
-| 🔎 Search / Research       | `arxiv`                      | ArXiv API support                                          | Required by ArXiv retrieval                                 |
-| 🔎 Search / Research       | `wikipedia`                  | Wikipedia API support                                      | Required by Wikipedia retrieval                             |
-| 🔎 Search / Research       | `xmltodict`                  | XML-to-dictionary conversion                               | Useful for API and XML workflows                            |
-| ☁️ Google / Cloud          | `google-genai`               | Gemini / Google GenAI SDK                                  | Required for Gemini-oriented workflows                      |
-| ☁️ Google / Cloud          | `google-api-python-client`   | Google API client support                                  | Useful for Google Drive and other Google APIs               |
-| ☁️ Google / Cloud          | `google-auth`                | Google authentication                                      | Required for Google API access                              |
-| ☁️ Google / Cloud          | `google-auth-oauthlib`       | OAuth support for Google services                          | Required for user-authenticated Google workflows            |
-| ☁️ Google / Cloud          | `google-cloud-storage`       | Google Cloud Storage support                               | Required by GCS loaders                                     |
-| ☁️ Google / Cloud          | `google-cloud-speech`        | Google Speech-to-Text support                              | Required by speech loaders                                  |
-| ☁️ AWS / S3                | `boto3`                      | AWS SDK                                                    | Required by S3 file/directory loaders                       |
-| ☁️ AWS / S3                | `botocore`                   | Low-level AWS dependency                                   | Installed with `boto3`, but can be pinned explicitly        |
-| 🛰️ Astronomy / Geospatial | `astropy`                    | Astronomy coordinate and data tools                        | Required by astronomy fetchers                              |
-| 🛰️ Astronomy / Geospatial | `astroquery`                 | Astronomy data queries                                     | Required by SIMBAD / astronomy workflows                    |
-| 🛰️ Astronomy / Geospatial | `sscws`                      | NASA SSC Web Services client                               | Required by satellite center tools                          |
-| 🛰️ Astronomy / Geospatial | `OWSLib`                     | Web Map Service support                                    | Required by WMS/global imagery workflows                    |
-| 🛰️ Astronomy / Geospatial | `cartopy`                    | Geospatial mapping/projections                             | Heavy dependency; needed for map rendering                  |
-| 🛰️ Astronomy / Geospatial | `matplotlib`                 | Plotting and map rendering                                 | Required by imagery/geospatial rendering                    |
-| 🧩 Optional API Clients    | `grokipedia-api`             | Grokipedia client support                                  | Required only when Grokipedia tools are enabled             |
-| 🧰 Local/Internal          | `boogr`                      | Custom error wrapper used by service classes               | Keep as local package/module or replace with `fonky.errors` |
+| Category                 | Package                      | Purpose                                                    | Notes                                                       |
+|--------------------------| ---------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------- |
+| 🧱 Core Data             | `pydantic`                   | Defines structured models and tool input schemas           | Required for `models.py` and `tools/schemas.py`             |
+| 🧱 Core Data             | `typing_extensions`          | Backports newer typing features                            | Useful for compatibility across Python versions             |
+| 🧱 Core Data             | `requests`                   | HTTP client for API fetchers                               | Required by most fetchers                                   |
+| 🧱 Core Data             | `numpy`                      | Numeric processing                                         | Common dependency for data workflows                        |
+| 🧱 Core Data             | `python-dateutil`            | Date parsing and date utilities                            | Useful for API date parameters and notebooks                |
+| 🔗 LangChain             | `langchain`                  | Main LangChain framework                                   | Required for agent/tool workflows                           |
+| 🔗 LangChain             | `langchain-core`             | Core LangChain abstractions                                | Required for `Document`, tools, and retrievers              |
+| 🔗 LangChain             | `langchain-community`        | Community loaders and retrievers                           | Required by many loader/fetcher wrappers                    |
+| 🔗 LangChain             | `langchain-text-splitters`   | Document chunking                                          | Required for recursive text splitting                       |
+| 🔗 LangChain             | `langchain-google-community` | Google community integrations                              | Used by Google loaders                                      |
+| 🔗 LangChain             | `langchain-googledrive`      | Google Drive retriever support                             | Used by Google Drive tools                                  |
+| 📄 Document Loading      | `pypdf`                      | PDF parsing                                                | Required by PDF loaders                                     |
+| 📄 Document Loading      | `docx2txt`                   | Word document extraction                                   | Required by DOCX loaders                                    |
+| 📄 Document Loading      | `openpyxl`                   | Excel `.xlsx` support                                      | Required for Excel workflows                                |
+| 📄 Document Loading      | `xlrd`                       | Legacy Excel `.xls` support                                | Optional but useful                                         |
+| 📄 Document Loading      | `python-pptx`                | PowerPoint document support                                | Used by PowerPoint loaders                                  |
+| 📄 Document Loading      | `unstructured`               | Parsing Office, HTML, Markdown, and mixed document formats | Heavy dependency; useful for full document support          |
+| 📄 Document Loading      | `lxml`                       | XML/HTML parsing                                           | Required by XML and HTML workflows                          |
+| 📄 Document Loading      | `beautifulsoup4`             | HTML parsing and scraping                                  | Required by web scraping methods                            |
+| 📄 Document Loading      | `html5lib`                   | HTML parser backend                                        | Useful with BeautifulSoup and document loaders              |
+| 📄 Document Loading      | `markdown`                   | Markdown parsing                                           | Useful for Markdown loader workflows                        |
+| 📄 Document Loading      | `nbformat`                   | Jupyter notebook parsing                                   | Required for notebook loader support                        |
+| 👁️ OCR / Image          | `pillow`                     | Image handling                                             | Required by image and OCR-related loaders                   |
+| 👁️ OCR / Image          | `rapidocr-onnxruntime`       | OCR fallback for PDFs/images                               | Useful for image-heavy PDFs                                 |
+| 🌐 Web / Browser         | `playwright`                 | Browser automation/rendering                               | Requires browser installation                               |
+| 🌐 Web / Browser         | `crawl4ai`                   | Web crawling/rendering support                             | Useful for dynamic pages                                    |
+| 🔎 Search / Research     | `arxiv`                      | ArXiv API support                                          | Required by ArXiv retrieval                                 |
+| 🔎 Search / Research     | `wikipedia`                  | Wikipedia API support                                      | Required by Wikipedia retrieval                             |
+| 🔎 Search / Research     | `xmltodict`                  | XML-to-dictionary conversion                               | Useful for API and XML workflows                            |
+| ☁️ Google / Cloud        | `google-genai`               | Gemini / Google GenAI SDK                                  | Required for Gemini-oriented workflows                      |
+| ☁️ Google / Cloud        | `google-api-python-client`   | Google API client support                                  | Useful for Google Drive and other Google APIs               |
+| ☁️ Google / Cloud        | `google-auth`                | Google authentication                                      | Required for Google API access                              |
+| ☁️ Google / Cloud        | `google-auth-oauthlib`       | OAuth support for Google services                          | Required for user-authenticated Google workflows            |
+| ☁️ Google / Cloud        | `google-cloud-storage`       | Google Cloud Storage support                               | Required by GCS loaders                                     |
+| ☁️ Google / Cloud        | `google-cloud-speech`        | Google Speech-to-Text support                              | Required by speech loaders                                  |
+| ☁️ AWS / S3              | `boto3`                      | AWS SDK                                                    | Required by S3 file/directory loaders                       |
+| ☁️ AWS / S3              | `botocore`                   | Low-level AWS dependency                                   | Installed with `boto3`, but can be pinned explicitly        |
+| 🛰️ Astronomy/Geospatial | `astropy`                    | Astronomy coordinate and data tools                        | Required by astronomy fetchers                              |
+| 🛰️ Astronomy/Geospatial | `astroquery`                 | Astronomy data queries                                     | Required by SIMBAD / astronomy workflows                    |
+| 🛰️ Astronomy/Geospatial | `sscws`                      | NASA SSC Web Services client                               | Required by satellite center tools                          |
+| 🛰️ Astronomy/Geospatial | `OWSLib`                     | Web Map Service support                                    | Required by WMS/global imagery workflows                    |
+| 🛰️ Astronomy/Geospatial | `cartopy`                    | Geospatial mapping/projections                             | Heavy dependency; needed for map rendering                  |
+| 🛰️ Astronomy/Geospatial | `matplotlib`                 | Plotting and map rendering                                 | Required by imagery/geospatial rendering                    |
+| 🧩 Optional Clients  | `grokipedia-api`             | Grokipedia client support                                  | Required only when Grokipedia tools are enabled             |
+| 🧰 Local/Internal        | `boogr`                      | Custom error wrapper used by service classes               | Keep as local package/module or replace with `fonky.errors` |
 
 
 
