@@ -80,7 +80,7 @@ O365_CLIENT_ID = os.getenv( 'O365_CLIENT_ID ' )
 O365_CLIENT_SECRET = os.getenv( 'O365_CLIENT_SECRET ' )
 OPENSKY_API_CLIENT_ID = os.getenv( 'OPENSKY_API_CLIENT_ID' )
 OPENSKY_API_CREDENTIALS = os.getenv( 'OPENSKY_API_CREDENTIALS' )
-
+AGENTS = os.getenv( 'USER_AGENT' )
 # ------------- API DEFINITIONS ------------------
 
 ARXIV = r'''arXiv is a free distribution service and an open-access archive for nearly 2.4 million

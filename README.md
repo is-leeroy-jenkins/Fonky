@@ -142,6 +142,7 @@ From the project root:
     MISTRAL_API_KEY
     PINECONE_API_KEY
     XAI_API_KEY
+    USER_AGENTS 
 ```
 
 - Example PowerShell setup:
@@ -190,688 +191,506 @@ From the project root:
         sys.path.insert(0, str(project_root))
 ```
 
+## Ad Hoc AI Tool Examples
 
 
-#### 📦 Basic Imports
-
-```python
-    from fonky import config as cfg
-    from fonky.core import Result
-    from fonky.fetchers import WebFetcher, GoogleSearch, Wikipedia, ArXiv
-    from fonky.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
-    from fonky.tools.registry import get_all_tools, get_tools_by_group, get_tool_by_name
-```
-
-
-
-#### 🌐 Example: Fetch a Web Page
+### Create an OpenAI-compatible tool from `TextLoader.load`
 
 ```python
-    from fonky.fetchers import WebFetcher
-    
-    fetcher = WebFetcher()
-    
-    result = fetcher.fetch(
-        url="https://www.python.org",
-        time=10
-    )
-    
-    payload = result.to_dict()
-    payload
+from fonky.documents import TextLoader
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=TextLoader(),
+	method='load',
+	name='load_text_file',
+	category='documents'
+)
+
+schema = tool.to_openai()
+
+print(schema)
 ```
 
-- Expected shape:
+- Expected schema shape:
 
 ```python
-    {
-        "url": "https://www.python.org/",
-        "status_code": 200,
-        "text": "...",
-        "encoding": "utf-8",
-        "headers": {...}
-    }
+{
+	'type': 'function',
+	'function': {
+		'name': 'load_text_file',
+		'description': '...',
+		'parameters': {
+			'type': 'object',
+			'properties': {
+				'path': {
+					'type': 'string'
+				},
+				'encoding': {
+					'type': 'string',
+					'default': None
+				}
+			},
+			'required': [
+				'path'
+			]
+		},
+		'strict': True
+	}
+}
 ```
 
-
-#### 🧹 Example: Convert HTML to Text
+### Execute an ad hoc text-loader tool
 
 ```python
-    from fonky.fetchers import WebFetcher
-    
-    fetcher = WebFetcher()
-    
-    result = fetcher.fetch(
-        url="https://www.python.org",
-        time=10
-    )
-    
-    plain_text = fetcher.html_to_text(result.text)
-    
-    plain_text[:1000]
+from fonky.documents import TextLoader
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=TextLoader(),
+	method='load',
+	name='load_text_file',
+	category='documents'
+)
+
+result = tool.call(
+	{
+		'path': 'sample.txt',
+		'encoding': 'utf-8'
+	}
+)
+
+print(result['ok'])
+print(result['name'])
+print(result['data'][0]['page_content'])
 ```
 
-
-
-#### 🔗 Example: Scrape Hyperlinks
+- Expected result shape:
 
 ```python
-    from fonky.fetchers import WebFetcher
-    
-    fetcher = WebFetcher()
-    
-    links = fetcher.scrape_hyperlinks(
-        uri="https://www.python.org"
-    )
-    
-    links[:10]
+{
+	'ok': True,
+	'name': 'load_text_file',
+	'data': [
+		{
+			'page_content': '...',
+			'metadata': {
+				'source': 'sample.txt'
+			}
+		}
+	],
+	'error': None,
+	'metadata': {
+		'category': 'documents',
+		'source_module': 'fonky.loaders',
+		'source_class': 'TextLoader',
+		'method': 'load',
+		'callable_name': 'load'
+	}
+}
 ```
 
-
-#### 📊 Example: Scrape Table Text
+### Create an AI tool from `PdfLoader.load`
 
 ```python
-    from fonky.fetchers import WebFetcher
-    
-    fetcher = WebFetcher()
-    
-    table_cells = fetcher.scrape_tables(
-        uri="https://www.w3schools.com/html/html_tables.asp"
-    )
-    
-    table_cells[:25]
+from fonky.documents import PdfLoader
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=PdfLoader(),
+	method='load',
+	name='load_pdf_file',
+	category='documents'
+)
+
+print(tool.parameters)
+print(tool.to_openai())
 ```
 
-
-
-#### 🔎 Example: Google Custom Search
-
-Requires:
-
-```text
-    GOOGLE_API_KEY
-    GOOGLE_CSE_ID
-```
+- Example call:
 
 ```python
-    from fonky.fetchers import GoogleSearch
-    
-    search = GoogleSearch()
-    
-    results = search.fetch(
-        keywords="LangChain StructuredTool examples",
-        results=5,
-        start=1,
-        safe="off"
-    )
-    
-    items = results.get("items", [])
-    
-    for item in items:
-        print(item.get("title"))
-        print(item.get("link"))
-        print()
+from fonky.documents import PdfLoader
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=PdfLoader(),
+	method='load',
+	name='load_pdf_file',
+	category='documents'
+)
+
+result = tool.call(
+	{
+		'path': 'sample.pdf',
+		'mode': 'single',
+		'extract': 'plain',
+		'include': False,
+		'format': 'markdown-img'
+	}
+)
+
+if result['ok']:
+	print(result['data'][0]['page_content'][:1000])
+else:
+	print(result['error'])
 ```
 
-
-
-#### 📚 Example: Wikipedia Search
+### Create an AI tool from `CsvLoader.load`
 
 ```python
-    from fonky.fetchers import Wikipedia
-    
-    wiki = Wikipedia(
-        language="en",
-        max_documents=3,
-        include_metadata=True
-    )
-    
-    documents = wiki.fetch(
-        question="retrieval augmented generation"
-    )
-    
-    for document in documents:
-        print(document.metadata)
-        print(document.page_content[:500])
-        print("-" * 100)
+from fonky.documents import CsvLoader
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=CsvLoader(),
+	method='load',
+	name='load_csv_file',
+	category='documents'
+)
+
+print(tool.parameters)
 ```
 
-
-
-#### 🧠 Example: ArXiv Search
+- Example call:
 
 ```python
-    from fonky.fetchers import ArXiv
-    
-    arxiv = ArXiv(
-        max_documents=3,
-        full_documents=False,
-        include_metadata=True
-    )
-    
-    documents = arxiv.fetch(
-        question="large language model tool use"
-    )
-    
-    for document in documents:
-        print(document.metadata)
-        print(document.page_content[:500])
-        print("-" * 100)
+from fonky.documents import CsvLoader
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=CsvLoader(),
+	method='load',
+	name='load_csv_file',
+	category='documents'
+)
+
+result = tool.call(
+	{
+		'path': 'sample.csv',
+		'encoding': 'utf-8',
+		'source_column': None,
+		'delimiter': ',',
+		'quotechar': '"'
+	}
+)
+
+if result['ok']:
+	print(result['data'][0]['page_content'])
+else:
+	print(result['error'])
 ```
 
-
-
-#### 📄 Example: Load a Text File
+### Create an AI tool from `WebExtractor.html_to_text`
 
 ```python
-    from fonky.loaders import TextLoader
-    
-    loader = TextLoader()
-    
-    documents = loader.load(
-        path="data/sample.txt",
-        encoding="utf-8"
-    )
-    
-    documents[0].page_content[:500]
+from fonky.web import WebExtractor
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=WebExtractor(),
+	method='html_to_text',
+	name='extract_html_text',
+	category='web'
+)
+
+print(tool.parameters)
+print(tool.to_openai())
 ```
 
-- Split the loaded text:
+- Example call:
 
 ```python
-    chunks = loader.split(
-        chunk=1000,
-        overlap=200
-    )
-    
-    len(chunks)
+from fonky.web import WebExtractor
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=WebExtractor(),
+	method='html_to_text',
+	name='extract_html_text',
+	category='web'
+)
+
+result = tool.call(
+	{
+		'html': '<html><body><p>Hello Fonky</p></body></html>'
+	}
+)
+
+print(result)
 ```
 
-
-
-#### 📕 Example: Load a PDF
+- Expected result shape:
 
 ```python
-    from fonky.loaders import PdfLoader
-    
-    loader = PdfLoader(
-        size=1000,
-        overlap=150,
-        has_tables=True,
-        include=False
-    )
-    
-    documents = loader.load(
-        path="data/sample.pdf",
-        mode="single",
-        extract="plain",
-        include=False,
-        format="markdown-img"
-    )
-    
-    len(documents)
+{
+	'ok': True,
+	'name': 'extract_html_text',
+	'data': 'Hello Fonky',
+	'error': None,
+	'metadata': {
+		'category': 'web',
+		'source_module': 'fonky.scrapers',
+		'source_class': 'WebExtractor',
+		'method': 'html_to_text',
+		'callable_name': 'html_to_text'
+	}
+}
 ```
 
-- Preview content:
+### Create an AI tool from `ArXiv.fetch`
 
 ```python
-    documents[0].page_content[:1000]
+from fonky.collections import ArXiv
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=ArXiv(max_documents=2),
+	method='fetch',
+	name='search_arxiv',
+	category='collections'
+)
+
+print(tool.parameters)
+print(tool.to_openai())
 ```
 
-Split PDF documents:
+- Example parameter schema:
 
 ```python
-    chunks = loader.split(
-        chunk=1000,
-        overlap=150
-    )
-    
-    len(chunks)
+{
+	'type': 'object',
+	'properties': {
+		'question': {
+			'type': 'string'
+		},
+		'max_documents': {
+			'type': 'integer',
+			'default': None
+		},
+		'full_documents': {
+			'type': 'boolean',
+			'default': None
+		},
+		'include_metadata': {
+			'type': 'boolean',
+			'default': None
+		}
+	},
+	'required': [
+		'question'
+	]
+}
 ```
 
-
-
-#### 🧾 Example: Load a CSV File
+- Example call:
 
 ```python
-    from fonky.loaders import CsvLoader
-    
-    loader = CsvLoader()
-    
-    documents = loader.load(
-        path="data/sample.csv",
-        encoding="utf-8",
-        source_column=None,
-        delimiter=",",
-        quotechar='"'
-    )
-    
-    len(documents)
+from fonky.collections import ArXiv
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=ArXiv(max_documents=2),
+	method='fetch',
+	name='search_arxiv',
+	category='collections'
+)
+
+result = tool.call(
+	{
+		'question': 'large language model tool use',
+		'max_documents': 2,
+		'full_documents': False,
+		'include_metadata': True
+	}
+)
+
+if result['ok']:
+	for document in result['data']:
+		print(document['metadata'])
+		print(document['page_content'][:500])
+		print('-' * 100)
+else:
+	print(result['error'])
 ```
 
-- Preview the first row/document:
+### Create an AI tool from `Wikipedia.fetch`
 
 ```python
-    documents[0].page_content
+from fonky.collections import Wikipedia
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=Wikipedia(language='en', max_documents=2),
+	method='fetch',
+	name='search_wikipedia',
+	category='collections'
+)
+
+print(tool.parameters)
+print(tool.to_openai())
 ```
 
-
-
-#### 🌍 Example: Load Web Pages as Documents
+- Example call:
 
 ```python
-    from fonky.loaders import WebLoader
-    
-    loader = WebLoader(
-        recursive=False,
-        max_depth=2,
-        prevent_outside=True,
-        timeout=10,
-        ignore=True,
-        progress=True
-    )
-    
-    documents = loader.load(
-        urls=[
-            "https://www.python.org",
-            "https://docs.python.org/3/"
-        ]
-    )
-    
-    len(documents)
+from fonky.collections import Wikipedia
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=Wikipedia(language='en', max_documents=2),
+	method='fetch',
+	name='search_wikipedia',
+	category='collections'
+)
+
+result = tool.call(
+	{
+		'question': 'retrieval augmented generation',
+		'language': 'en',
+		'max_documents': 2,
+		'include_metadata': True
+	}
+)
+
+if result['ok']:
+	for document in result['data']:
+		print(document['metadata'])
+		print(document['page_content'][:500])
+		print('-' * 100)
+else:
+	print(result['error'])
 ```
 
-- Split loaded web pages:
+### Export a tool to provider formats
 
 ```python
-    chunks = loader.split(
-        chunk=1200,
-        overlap=200
-    )
-    
-    len(chunks)
+from fonky.documents import TextLoader
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=TextLoader(),
+	method='load',
+	name='load_text_file',
+	category='documents'
+)
+
+openai_tool = tool.to_openai()
+gemini_tool = tool.to_gemini()
+grok_tool = tool.to_grok()
+
+print(openai_tool)
+print(gemini_tool)
+print(grok_tool)
 ```
 
----
+### Create an AI tool from a plain Python function
 
-#### 🕸️ Example: Recursively Load a Website
+`ToolDef` can also wrap ordinary Python functions.
 
 ```python
-    from fonky.loaders import WebLoader
-    
-    loader = WebLoader(
-        recursive=True,
-        max_depth=2,
-        prevent_outside=True,
-        timeout=10,
-        ignore=True,
-        progress=True
-    )
-    
-    documents = loader.load(
-        urls="https://docs.python.org/3/tutorial/"
-    )
-    
-    len(documents)
+from fonky.models import ToolDef
+
+def add_numbers( left: int, right: int ) -> int:
+	'''
+
+		Purpose:
+		--------
+		Add two integers.
+
+		Parameters:
+		-----------
+		left (int): Left integer.
+		right (int): Right integer.
+
+		Returns:
+		--------
+		int: Sum of left and right.
+
+	'''
+	return left + right
+
+
+tool = ToolDef.from_callable(
+	function=add_numbers,
+	name='add_numbers',
+	category='utility'
+)
+
+print(tool.parameters)
+
+result = tool.call(
+	{
+		'left': 2,
+		'right': 3
+	}
+)
+
+print(result)
 ```
 
-#### 🛠️ Tool Registry
-
-- The completed `fonky.tools.registry` module exposes curated tool groups.
+- Expected result shape:
 
 ```python
-    from fonky.tools.registry import get_all_tools
-    
-    tools = get_all_tools()
-    
-    [tool.name for tool in tools]
+{
+	'ok': True,
+	'name': 'add_numbers',
+	'data': 5,
+	'error': None,
+	'metadata': {
+		'category': 'utility',
+		'source_module': '__main__',
+		'source_class': None,
+		'method': None,
+		'callable_name': 'add_numbers'
+	}
+}
 ```
 
+### Handle tool-call failures
 
-
-#### 🗂️ Tool Groups
+- When the underlying callable fails, `ToolDef.call(...)` returns a structured failure envelope.
 
 ```python
-    from fonky.tools.registry import get_tool_groups
-    
-    groups = get_tool_groups()
-    
-    groups.keys()
+from fonky.documents import TextLoader
+from fonky.models import ToolDef
+
+tool = ToolDef.from_method(
+	target=TextLoader(),
+	method='load',
+	name='load_text_file',
+	category='documents'
+)
+
+result = tool.call(
+	{
+		'path': 'missing-file.txt'
+	}
+)
+
+print(result['ok'])
+print(result['error'])
 ```
 
-- Typical groups:
-
-| Group             | Purpose                                              |
-| ----------------- | ---------------------------------------------------- |
-| 🌐 `web`          | Web fetch, scrape, links, tables, search             |
-| 📚 `research`     | Wikipedia, ArXiv, PubMed, public research            |
-| 📄 `documents`    | PDF, text, CSV, Excel, Word, Markdown, HTML loading  |
-| 🗺️ `geospatial`  | Maps, geocoding, directions, weather                 |
-| 🏛️ `public_data` | Socrata, Census, GovInfo, health data                |
-| 🛰️ `space`       | NASA, satellite, astronomy, near-earth objects       |
-| 🧰 `utility`      | Serialization, validation, path resolution, chunking |
-
-
-
-#### 📄 Example: Load Document Tools
+Expected shape:
 
 ```python
-    from fonky.tools.registry import get_tools_by_group
-    
-    document_tools = get_tools_by_group("documents")
-    
-    for tool in document_tools:
-        print(tool.name)
-        print(tool.description)
-        print()
-```
-
-#### 🌐 Example: Load Web Tools
-
-```python
-    from fonky.tools.registry import get_tools_by_group
-    
-    web_tools = get_tools_by_group("web")
-    
-    for tool in web_tools:
-        print(tool.name)
-```
-
-#### 🔎 Example: Retrieve One Tool by Name
-
-```python
-    from fonky.tools.registry import get_tool_by_name
-    
-    tool = get_tool_by_name("google_search")
-    
-    tool.name
-```
-
-- Invoke the tool:
-
-```python
-    result = tool.invoke(
-        {
-            "keywords": "LangChain tools registry example",
-            "results": 5,
-            "start": 1,
-            "safe": "off"
-        }
-    )
-    
-    result
-```
-
-
-
-#### 🤖 Example: Use Funky Tools with LangChain
-
-```python
-    from fonky.tools.registry import get_tools_by_group
-    
-    tools = get_tools_by_group("web")
-```
-
-- Conceptual LangChain usage:
-
-```python
-    from langchain.agents import create_tool_calling_agent, AgentExecutor
-    from langchain_openai import ChatOpenAI
-    from langchain_core.prompts import ChatPromptTemplate
-    from fonky.tools.registry import get_tools_by_group
-    
-    llm = ChatOpenAI(
-        model="gpt-4.1",
-        temperature=0
-    )
-    
-    tools = get_tools_by_group("web")
-    
-    prompt = ChatPromptTemplate.from_messages(
-        [
-            ("system", "You are a precise research assistant."),
-            ("human", "{input}"),
-            ("placeholder", "{agent_scratchpad}")
-        ]
-    )
-    
-    agent = create_tool_calling_agent(
-        llm=llm,
-        tools=tools,
-        prompt=prompt
-    )
-    
-    executor = AgentExecutor(
-        agent=agent,
-        tools=tools,
-        verbose=True
-    )
-    
-    response = executor.invoke(
-        {
-            "input": "Search for recent examples of structured tool registries in LangChain."
-        }
-    )
-    
-    response
-```
-
-
-
-#### 🔌 Adapter Usage
-
-- The adapter layer can turn any approved class method into a structured tool.
-
-```python
-    from fonky.fetchers import GoogleSearch
-    from fonky.tools.adapters import create_method_tool
-    from fonky.tools.schemas import GoogleSearchInput
-    
-    google_search_tool = create_method_tool(
-        name="google_search",
-        description="Search the web using Google Custom Search.",
-        class_type=GoogleSearch,
-        method_name="fetch",
-        args_schema=GoogleSearchInput
-    )
-    
-    google_search_tool.name
-```
-
-- Invoke it:
-
-```python
-    result = google_search_tool.invoke(
-        {
-            "keywords": "agent tool registry architecture",
-            "results": 5,
-            "start": 1,
-            "safe": "off"
-        }
-    )
-    
-    result
-```
-
-
-
-#### 🔁 Serializer Usage
-
-- Serializers convert internal return objects into JSON-safe payloads.
-
-```python
-    from fonky.fetchers import WebFetcher
-    from fonky.tools.serializers import serialize_result
-    
-    fetcher = WebFetcher()
-    
-    result = fetcher.fetch(
-        url="https://www.python.org",
-        time=10
-    )
-    
-    payload = serialize_result(result)
-    
-    payload
-```
-
-- Expected shape:
-
-```python
-    {
-        "url": "https://www.python.org/",
-        "status_code": 200,
-        "text": "...",
-        "encoding": "utf-8",
-        "headers": {...}
-    }
-```
-
-
-
-#### ✅ Tool Result Envelope
-
-- Most tools return a consistent result envelope.
-
-Successful result:
-
-```python
-    {
-        "ok": True,
-        "tool": "google_search",
-        "data": {...},
-        "metadata": {...},
-        "error": None
-    }
-```
-
-Failed result:
-
-```python
-    {
-        "ok": False,
-        "tool": "google_search",
-        "data": None,
-        "metadata": {...},
-        "error": {
-            "type": "ValueError",
-            "message": "Google API key is required."
-        }
-    }
-```
-
-
-
-#### 🧪 Notebook Validation
-
-- Run the following inside `notebook/fonkytown.ipynb`.
-
-- Confirm imports
-
-```python
-    from fonky.fetchers import WebFetcher, Wikipedia, ArXiv
-    from fonky.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
-    from fonky.tools.registry import get_all_tools
-    from fonky.core import Result
-    from fonky import config as cfg
-    
-    print("Imports successful.")
-```
-
-- Confirm environment variables
-
-```python
-    import os
-    
-    required_keys = [
-        "GOOGLE_API_KEY",
-        "GOOGLE_CSE_ID",
-        "GOOGLE_WEATHER_API_KEY",
-        "OPENAI_API_KEY",
-        "NASA_API_KEY",
-        "THENEWSAPI_API_KEY",
-    ]
-    
-    for key in required_keys:
-        value = os.getenv(key)
-        status = "configured" if value else "missing"
-        print(f"{key}: {status}")
-```
-
-- Confirm local package path
-
-```python
-    import fonky
-    from pathlib import Path
-    
-    print(Path(fonky.__file__).resolve())
-```
-
-- Confirm registry
-
-```python
-    from fonky.tools.registry import get_all_tools
-    
-    tools = get_all_tools()
-    
-    print(f"Loaded {len(tools)} tools.")
-    
-    for tool in tools:
-        print(tool.name)
-```
-
-
-#### 🧭 Design Principles
-
-| Principle                   | Description                                                                           |
-| --------------------------- | ------------------------------------------------------------------------------------- |
-| 🧱 Preserve Service Classes | `fetchers.py` and `loaders.py` remain ordinary wrapper libraries                      |
-| 🛠️ Adapt Externally        | Tool behavior lives in `fonky.tools`, not inside service classes                      |
-| 🧾 Validate Inputs          | Pydantic schemas define all agent-facing arguments                                    |
-| 🔁 Normalize Outputs        | Serializers convert `Document`, `Result`, DataFrame, response, XML, and error objects |
-| 🗂️ Curate the Registry     | Only approved methods are exposed as tools                                            |
-| 🧩 Prefer Narrow Tools      | Single-purpose tools work better than broad mode dispatchers                          |
-| 🔐 Protect Credentials      | API keys stay in environment/configuration, not prompts                               |
-| 🔄 Support Multiple Apps    | Tools can be reused in notebooks, Streamlit, FastAPI, agents, and scripts             |
-
-
-#### 🧰 Common Tool Names
-
-| Tool                        | Group        | Description                                    |
-| --------------------------- | ------------ | ---------------------------------------------- |
-| 🌐 `fetch_url`              | `web`        | Fetch a URL and return normalized page content |
-| 🔗 `scrape_web_links`       | `web`        | Extract hyperlinks from a page                 |
-| 📊 `scrape_web_tables`      | `web`        | Extract table cell text from a page            |
-| 🔎 `google_search`          | `web`        | Query Google Custom Search                     |
-| 📚 `wikipedia_search`       | `research`   | Retrieve Wikipedia documents                   |
-| 🧠 `arxiv_search`           | `research`   | Retrieve ArXiv documents                       |
-| 📄 `load_text`              | `documents`  | Load a text file into documents                |
-| 📕 `load_pdf`               | `documents`  | Load a PDF into documents                      |
-| 🧾 `load_csv`               | `documents`  | Load a CSV into documents                      |
-| 📘 `load_excel`             | `documents`  | Load an Excel workbook into documents          |
-| 🌍 `load_web_page`          | `documents`  | Load one or more web pages as documents        |
-| ✂️ `split_documents`        | `documents`  | Split documents into smaller chunks            |
-| 🗺️ `geocode_location`      | `geospatial` | Convert an address to coordinates              |
-| 🧭 `get_directions`         | `geospatial` | Retrieve route directions                      |
-| 🌦️ `get_current_weather`   | `geospatial` | Retrieve current weather                       |
-| 🛰️ `fetch_eonet_events`    | `space`      | Retrieve NASA EONET natural event records      |
-| ☄️ `fetch_close_approaches` | `space`      | Retrieve near-earth-object close approaches    |
-
-
-
-#### 📤 Provider-Neutral Tool Export
-
-- Funky can expose tools through several formats.
-
-```python
-    from fonky.tools.registry import get_langchain_tools
-    from fonky.tools.registry import get_openai_tools
-    from fonky.tools.registry import get_gemini_tools
-    from fonky.tools.registry import get_tool_manifest
-    
-    langchain_tools = get_langchain_tools()
-    openai_tools = get_openai_tools()
-    gemini_tools = get_gemini_tools()
-    manifest = get_tool_manifest()
+{
+	'ok': False,
+	'name': 'load_text_file',
+	'data': None,
+	'error': {
+		'type': 'Error',
+		'message': '...'
+	},
+	'metadata': {
+		'category': 'documents',
+		'source_module': 'fonky.loaders',
+		'source_class': 'TextLoader',
+		'method': 'load',
+		'callable_name': 'load'
+	}
+}
 ```
 
 #### 🧾 Requirements
