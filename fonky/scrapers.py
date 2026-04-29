@@ -1,6 +1,6 @@
 '''
   ******************************************************************************************
-      Assembly:                fonky
+      Assembly:                Fonky
       Filename:                scrapers.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
@@ -45,10 +45,10 @@ from typing import Optional, List, Pattern, Dict
 from bs4 import BeautifulSoup
 from requests import Response, HTTPError
 from boogr import Error
-import config as cfg
+from fonky import config as cfg
 import re
 import requests
-from core import Result
+from fonky.core import Result
 
 def throw_if( name: str, value: object ):
 	if value is None:

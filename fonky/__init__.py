@@ -1,17 +1,17 @@
 '''
   ******************************************************************************************
-      Assembly:                funky
-      Filename:                serializers.py
+      Assembly:                Name
+      Filename:                name.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
 
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="serializers.py" company="Terry D. Eppler">
+  <copyright file="guro.py" company="Terry D. Eppler">
 
-	     serializers.py
-	     Copyright ©  2026  Terry Eppler
+	     name.py
+	     Copyright ©  2022  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
      of this software and associated documentation files (the “Software”),
@@ -37,7 +37,7 @@
 
   </copyright>
   <summary>
-    serializers.py
+    name.py
   </summary>
   ******************************************************************************************
-'''
+  '''

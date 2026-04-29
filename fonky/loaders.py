@@ -1,6 +1,6 @@
 '''
   ******************************************************************************************
-      Assembly:                fonky
+      Assembly:                Fonky
       Filename:                loaders.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
@@ -81,7 +81,6 @@ from langchain_google_community import GCSDirectoryLoader
 
 from lxml import etree
 
-import config as cfg
 from boogr import Error
 
 def throw_if( name: str, value: Any ) -> None:

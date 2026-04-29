@@ -1,0 +1,17 @@
+[project]
+name = "fonky"
+version = "0.1.0"
+description = "Provider-agnostic data fetching, loading, scraping, and tool orchestration framework."
+requires-python = ">=3.11"
+readme = "README.md"
+authors = [
+    { name = "Terry D. Eppler" }
+]
+dependencies = []
+
+[tool.setuptools]
+packages = ["fonky", "fonky.tools"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
