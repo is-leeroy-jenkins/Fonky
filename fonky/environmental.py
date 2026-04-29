@@ -1,16 +1,16 @@
 '''
   ******************************************************************************************
       Assembly:                Fonky
-      Filename:                __init__.py
+      Filename:                environmental.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
 
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="__init__.py" company="Terry D. Eppler">
+  <copyright file="environmental.py" company="Terry D. Eppler">
 
-	     __init__.py
+	     environmental.py
 	     Copyright ©  2026  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,95 +37,46 @@
 
   </copyright>
   <summary>
-    __init__.py
+    environmental.py
   </summary>
   ******************************************************************************************
 '''
 from __future__ import annotations
 
-import importlib
-from types import ModuleType
-from typing import List
-
-# ==========================================================================================
-# PACKAGE METADATA
-# ==========================================================================================
-
-__author__: str = 'Terry D. Eppler'
-__copyright__: str = 'Copyright © 2026 Terry Eppler'
-__description__: str = 'Data fetching, loading, scraping, and processing framework.'
-__email__: str = 'terryeppler@gmail.com'
-__license__: str = 'MIT'
-__package_name__: str = 'fonky'
-__version__: str = '0.1.0'
-
-# ==========================================================================================
-# LAZY MODULE EXPORTS
-# ==========================================================================================
-
-_MODULES: List[ str ] = [
-		'astronomical',
-		'cloud',
-		'collections',
-		'demographic',
-		'documents',
-		'environmental',
-		'geospatial',
-		'health',
-		'web',
-]
-
-def __getattr__( name: str ) -> ModuleType:
-	'''
-
-		Purpose:
-		--------
-		Lazily import a public Fonky category module when the attribute is first accessed.
-
-		Parameters:
-		-----------
-		name (str): Requested module attribute name.
-
-		Returns:
-		--------
-		ModuleType: Imported Fonky category module.
-
-	'''
-	if name in _MODULES:
-		return importlib.import_module( f'fonky.{name}' )
-	
-	raise AttributeError( f'module "fonky" has no attribute "{name}"' )
-
-def __dir__( ) -> List[ str ]:
-	'''
-
-		Purpose:
-		--------
-		Return package-level names exposed for interactive inspection.
-
-		Parameters:
-		-----------
-		None
-
-		Returns:
-		--------
-		List[str]: Sorted package-level names.
-
-	'''
-	return sorted( list( globals( ).keys( ) ) + _MODULES )
+from fonky.fetchers import AirNow
+from fonky.fetchers import ClimateData
+from fonky.fetchers import EarthObservatory
+from fonky.fetchers import EnviroFacts
+from fonky.fetchers import EoNet
+from fonky.fetchers import Firms
+from fonky.fetchers import GoogleWeather
+from fonky.fetchers import HistoricalWeather
+from fonky.fetchers import OpenAQ
+from fonky.fetchers import OpenWeather
+from fonky.fetchers import PurpleAir
+from fonky.fetchers import TidesAndCurrents
+from fonky.fetchers import USGSEarthquakes
+from fonky.fetchers import USGSWaterData
+from fonky.fetchers import UvIndex
 
 # ==========================================================================================
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: List[ str ] = [
-		'astronomical',
-		'cloud',
-		'collections',
-		'demographic',
-		'documents',
-		'environmental',
-		'geospatial',
-		'health',
-		'web',
+__all__: list[ str ] = [
+		'AirNow',
+		'ClimateData',
+		'EarthObservatory',
+		'EnviroFacts',
+		'EoNet',
+		'Firms',
+		'GoogleWeather',
+		'HistoricalWeather',
+		'OpenAQ',
+		'OpenWeather',
+		'PurpleAir',
+		'TidesAndCurrents',
+		'USGSEarthquakes',
+		'USGSWaterData',
+		'UvIndex',
 ]

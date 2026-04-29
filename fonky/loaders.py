@@ -41,47 +41,51 @@
   </summary>
   ******************************************************************************************
 '''
+from __future__ import annotations
+
 import glob
 import os
-from typing import Optional, List, Dict, Any
+from typing import Any, Dict, List, Optional
+
 from langchain_community.document_loaders import (
 	ArxivLoader,
 	Docx2txtLoader,
+	GithubFileLoader,
+	JSONLoader,
+	NotebookLoader,
+	OpenCityDataLoader,
 	OutlookMessageLoader,
+	PubMedLoader,
 	PyPDFLoader,
+	RecursiveUrlLoader,
+	S3DirectoryLoader,
+	S3FileLoader,
 	TextLoader as TextDocLoader,
-	UnstructuredExcelLoader,
 	UnstructuredEmailLoader,
+	UnstructuredExcelLoader,
+	UnstructuredHTMLLoader,
 	UnstructuredMarkdownLoader,
 	UnstructuredPowerPointLoader,
-	UnstructuredHTMLLoader,
-	WikipediaLoader,
-	WebBaseLoader,
-	JSONLoader,
-	GithubFileLoader,
 	UnstructuredXMLLoader,
-	RecursiveUrlLoader,
-	PubMedLoader,
-	OpenCityDataLoader,
-	NotebookLoader,
-	S3FileLoader,
+	WebBaseLoader,
+	WikipediaLoader,
 )
-
-from langchain_google_community import (GCSFileLoader, SpeechToTextLoader)
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.document_loaders.onedrive import OneDriveLoader
 from langchain_community.document_loaders.parsers import RapidOCRBlobParser
 from langchain_community.document_loaders.sharepoint import SharePointLoader
 from langchain_core.document_loaders.base import BaseLoader
 from langchain_core.documents import Document
-from langchain_google_community import GoogleDriveLoader
+from langchain_google_community import (
+	GCSDirectoryLoader,
+	GCSFileLoader,
+	GoogleDriveLoader,
+	SpeechToTextLoader,
+)
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import S3DirectoryLoader
-from langchain_google_community import GCSDirectoryLoader
-
 from lxml import etree
 
-from boogr import Error
+from fonky.boogr import Error
 
 def throw_if( name: str, value: Any ) -> None:
 	'''

@@ -10,7 +10,7 @@ authors = [
 dependencies = []
 
 [tool.setuptools]
-packages = ["fonky", "fonky.tools"]
+packages = ["fonky"]
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]

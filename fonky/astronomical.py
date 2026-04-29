@@ -1,16 +1,16 @@
 '''
   ******************************************************************************************
       Assembly:                Fonky
-      Filename:                __init__.py
+      Filename:                astronomical.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
 
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="__init__.py" company="Terry D. Eppler">
+  <copyright file="astronomical.py" company="Terry D. Eppler">
 
-	     __init__.py
+	     astronomical.py
 	     Copyright ©  2026  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,95 +37,36 @@
 
   </copyright>
   <summary>
-    __init__.py
+    astronomical.py
   </summary>
   ******************************************************************************************
 '''
 from __future__ import annotations
 
-import importlib
-from types import ModuleType
-from typing import List
-
-# ==========================================================================================
-# PACKAGE METADATA
-# ==========================================================================================
-
-__author__: str = 'Terry D. Eppler'
-__copyright__: str = 'Copyright © 2026 Terry Eppler'
-__description__: str = 'Data fetching, loading, scraping, and processing framework.'
-__email__: str = 'terryeppler@gmail.com'
-__license__: str = 'MIT'
-__package_name__: str = 'fonky'
-__version__: str = '0.1.0'
-
-# ==========================================================================================
-# LAZY MODULE EXPORTS
-# ==========================================================================================
-
-_MODULES: List[ str ] = [
-		'astronomical',
-		'cloud',
-		'collections',
-		'demographic',
-		'documents',
-		'environmental',
-		'geospatial',
-		'health',
-		'web',
-]
-
-def __getattr__( name: str ) -> ModuleType:
-	'''
-
-		Purpose:
-		--------
-		Lazily import a public Fonky category module when the attribute is first accessed.
-
-		Parameters:
-		-----------
-		name (str): Requested module attribute name.
-
-		Returns:
-		--------
-		ModuleType: Imported Fonky category module.
-
-	'''
-	if name in _MODULES:
-		return importlib.import_module( f'fonky.{name}' )
-	
-	raise AttributeError( f'module "fonky" has no attribute "{name}"' )
-
-def __dir__( ) -> List[ str ]:
-	'''
-
-		Purpose:
-		--------
-		Return package-level names exposed for interactive inspection.
-
-		Parameters:
-		-----------
-		None
-
-		Returns:
-		--------
-		List[str]: Sorted package-level names.
-
-	'''
-	return sorted( list( globals( ).keys( ) ) + _MODULES )
+from fonky.fetchers import AstroCatalog
+from fonky.fetchers import AstroQuery
+from fonky.fetchers import NavalObservatory
+from fonky.fetchers import NearbyObjects
+from fonky.fetchers import OpenScience
+from fonky.fetchers import OpenSky
+from fonky.fetchers import SatelliteCenter
+from fonky.fetchers import SpaceWeather
+from fonky.fetchers import StarChart
+from fonky.fetchers import StarMap
 
 # ==========================================================================================
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: List[ str ] = [
-		'astronomical',
-		'cloud',
-		'collections',
-		'demographic',
-		'documents',
-		'environmental',
-		'geospatial',
-		'health',
-		'web',
+__all__: list[ str ] = [
+		'AstroCatalog',
+		'AstroQuery',
+		'NavalObservatory',
+		'NearbyObjects',
+		'OpenScience',
+		'OpenSky',
+		'SatelliteCenter',
+		'SpaceWeather',
+		'StarChart',
+		'StarMap',
 ]

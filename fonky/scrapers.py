@@ -41,13 +41,17 @@
   </summary>
   ******************************************************************************************
   '''
-from typing import Optional, List, Pattern, Dict
-from bs4 import BeautifulSoup
-from requests import Response, HTTPError
-from boogr import Error
-from fonky import config as cfg
+from __future__ import annotations
+
 import re
+from typing import Dict, List, Optional, Pattern
+
 import requests
+from bs4 import BeautifulSoup
+from requests import Response
+
+from fonky import config as cfg
+from fonky.boogr import Error
 from fonky.core import Result
 
 def throw_if( name: str, value: object ):
@@ -662,7 +666,6 @@ class WebExtractor( Extractor ):
 			exception.cause = ''
 			exception.method = ('create_schema( self, function: str, tool: str, description: str, '
 			                    'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]')
-			error = ErrorDialog( exception )
-			error.show( )
+			raise exception
 	
 

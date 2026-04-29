@@ -1,16 +1,16 @@
 '''
   ******************************************************************************************
-      Assembly:                funky
-      Filename:                adapters.py
+      Assembly:                Fonky
+      Filename:                collections.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
 
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="adapters.py" company="Terry D. Eppler">
+  <copyright file="collections.py" company="Terry D. Eppler">
 
-	     adapters.py
+	     collections.py
 	     Copyright ©  2026  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,7 +37,34 @@
 
   </copyright>
   <summary>
-    adapters.py
+    collections.py
   </summary>
   ******************************************************************************************
 '''
+from __future__ import annotations
+
+from fonky.fetchers import ArXiv
+from fonky.fetchers import Congress
+from fonky.fetchers import GoogleDrive
+from fonky.fetchers import GoogleSearch
+from fonky.fetchers import GovData
+from fonky.fetchers import Grokipedia
+from fonky.fetchers import InternetArchive
+from fonky.fetchers import TheNews
+from fonky.fetchers import Wikipedia
+
+# ==========================================================================================
+# PUBLIC EXPORTS
+# ==========================================================================================
+
+__all__: list[ str ] = [
+		'ArXiv',
+		'Congress',
+		'GoogleDrive',
+		'GoogleSearch',
+		'GovData',
+		'Grokipedia',
+		'InternetArchive',
+		'TheNews',
+		'Wikipedia',
+]

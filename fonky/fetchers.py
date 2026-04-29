@@ -46,37 +46,41 @@ from __future__ import annotations
 import base64
 import datetime as dt
 import io
-import re
 import os
+import re
 import urllib.parse
+import xml.etree.ElementTree as ET
 from pathlib import Path
-import pandas as pd
-from typing import Any, Dict, Optional, Pattern, List, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Pattern, Tuple
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+import pandas as pd
 import requests
-from PIL.Image import Image
+from astropy import units as u
 from astropy.coordinates import SkyCoord
 from astropy.table import Table
-from astropy import units as u
 from astroquery.simbad import Simbad
 from bs4 import BeautifulSoup
-from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
+from cartopy.mpl.gridliner import LATITUDE_FORMATTER, LONGITUDE_FORMATTER
 from google import genai
 from grokipedia_api import GrokipediaClient
 from langchain_community.retrievers import ArxivRetriever, WikipediaRetriever
 from langchain_core.documents import Document
 from langchain_core.tools import Tool
-from langchain_googledrive.retrievers import GoogleDriveRetriever
-from playwright.sync_api import sync_playwright
 from owslib.wms import WebMapService
+from PIL.Image import Image
+from playwright.sync_api import sync_playwright
 from requests import Response
 from sscws.sscws import SscWs
-import config as cfg
-from boogr import Error
-from core import Result
-import xml.etree.ElementTree as ET
 
+from fonky import config as cfg
+from fonky.boogr import Error
+from fonky.core import Result
+
+if TYPE_CHECKING:
+	from langchain_googledrive.retrievers import GoogleDriveRetriever
+	
 def throw_if( name: str, value: Any ) -> None:
 	'''
 		
@@ -1176,7 +1180,7 @@ class GoogleDrive( Fetcher ):
 			
 			if cfg.GOOGLE_DRIVE_TOKEN_PATH:
 				retriever_kwargs[ 'token_path' ] = cfg.GOOGLE_DRIVE_TOKEN_PATH
-			
+			from langchain_googledrive.retrievers import GoogleDriveRetriever
 			self.fetcher = GoogleDriveRetriever( **retriever_kwargs )
 			
 			invoke_query = self.query
