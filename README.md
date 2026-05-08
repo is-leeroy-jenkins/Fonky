@@ -655,8 +655,7 @@ print(result)
 from fonky.documents import TextLoader
 from fonky.models import ToolDef
 
-tool = ToolDef.from_method(
-	target=TextLoader(),
+tool = ToolDef.from_method( target=TextLoader(),
 	method='load',
 	name='load_text_file',
 	category='documents'

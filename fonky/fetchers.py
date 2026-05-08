@@ -1345,14 +1345,11 @@ class TheNews( Fetcher ):
 		         'limit', 'page', 'params', 'fetch', ]
 	
 	def fetch( self, endpoint: str='all', query: str='', language: str='en',
-			categories: str='',
-			exclude_categories: str='', locale: str='', domains: str='',
-			exclude_domains: str='',
-			source_ids: str='', exclude_source_ids: str='', published_after: str='',
-			published_before: str='', published_on: str='', sort: str='published_at',
-			limit: int=10, page: int=1, include_similar: bool=True,
-			headlines_per_category: int=6,
-			time: int=10, api_key: str=None ) -> Dict[ str, Any ] | None:
+			categories: str='', exclude_categories: str='', locale: str='', domains: str='',
+			exclude_domains: str='', source_ids: str='', exclude_source_ids: str='',
+			published_after: str='', published_before: str='', published_on: str='',
+			sort: str='published_at', limit: int=10, page: int=1, include_similar: bool=True,
+			headlines_per_category: int=6, time: int=10, api_key: str=None ) -> Dict[ str, Any ] | None:
 		'''Send a request to The News API using one of the documented endpoints and return the parsed JSON response.
 
 			Parameters:
@@ -1610,11 +1607,9 @@ class GoogleSearch( Fetcher ):
 		return [ 'keywords', 'url', 'timeout', 'headers', 'fetch', 'api_key',
 		         'response', 'cse_id', 'params', 'agents', 'results', 'start', ]
 	
-	def fetch( self, keywords: str, results: int=10,
-			start: int=1, exact_terms: str='', exclude_terms: str='',
-			file_type: str='', date_restrict: str='', gl: str='', lr: str='',
-			safe: str='off', search_type: str='', site_search: str='',
-			site_search_filter: str='',
+	def fetch( self, keywords: str, results: int=10, start: int=1, exact_terms: str='',
+			exclude_terms: str='', file_type: str='', date_restrict: str='', gl: str='', lr: str='',
+			safe: str='off', search_type: str='', site_search: str='', site_search_filter: str='',
 			sort: str='', img_size: str='', img_type: str='', img_color_type: str='',
 			img_dominant_color: str='', time: int=10, api_key: str=None,
 			cse_id: str=None ) -> Dict[ str, Any ] | None:
@@ -1800,7 +1795,7 @@ class GoogleMaps( Fetcher ):
 	
 	def __init__( self ) -> None:
 		super( ).__init__( )
-		self.api_key = cfg.GOOGLE_API_KEY
+		self.api_key = cfg.GOOGLEMAPS_API_KEY
 		self.headers = { }
 		self.params = { }
 		self.longitude = None
@@ -1863,8 +1858,8 @@ class GoogleMaps( Fetcher ):
 
 		'''
 		try:
-			throw_if( 'latitiude', lat )
-			throw_if( 'longitude', long )
+			throw_if( 'lat', lat )
+			throw_if( 'long', long )
 			self.latitude = lat
 			self.longitude = long
 			self.coordinates = (lat, long)
@@ -1900,14 +1895,14 @@ class GoogleMaps( Fetcher ):
 			throw_if( 'address', address )
 			url = 'https://addressvalidation.googleapis.com/v1:validateAddress'
 			payload = \
-				{
-						'address': { 'addressLines': address, }
-				}
+			{
+					'address': { 'addressLines': address, }
+			}
 			
 			self.params = \
-				{
-						'key': self.api_key
-				}
+			{
+					'key': self.api_key
+			}
 			
 			response = requests.post( url, params=self.params, json=payload )
 			if response.status_code != 200:
@@ -1947,12 +1942,12 @@ class GoogleMaps( Fetcher ):
 			self.mode = mode
 			self.url = "https://maps.googleapis.com/maps/api/directions/json"
 			self.params = \
-				{
-						'origin': origin,
-						'destination': destination,
-						'mode': self.mode,
-						'key': self.api_key
-				}
+			{
+					'origin': origin,
+					'destination': destination,
+					'mode': self.mode,
+					'key': self.api_key
+			}
 			
 			self.response = requests.get( url=self.url, params=self.params )
 			self.response.raise_for_status( )
@@ -2032,16 +2027,16 @@ class GoogleMaps( Fetcher ):
 			if required is None:
 				required = list( parameters.keys( ) )
 			_schema = \
-				{
-						'name': func_name,
-						'description': f'{desc} This function uses the {tool_name} service.',
-						'parameters':
-							{
-									'type': 'object',
-									'properties': parameters,
-									'required': required
-							}
-				}
+			{
+					'name': func_name,
+					'description': f'{desc} This function uses the {tool_name} service.',
+					'parameters':
+					{
+							'type': 'object',
+							'properties': parameters,
+							'required': required
+					}
+			}
 			return _schema
 		except Exception as e:
 			exception = Error( e )
