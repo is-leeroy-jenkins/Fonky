@@ -82,6 +82,13 @@ O365_CLIENT_SECRET = os.getenv( 'O365_CLIENT_SECRET ' )
 OPENSKY_API_CLIENT_ID = os.getenv( 'OPENSKY_API_CLIENT_ID' )
 OPENSKY_API_CREDENTIALS = os.getenv( 'OPENSKY_API_CREDENTIALS' )
 AGENTS = os.getenv( 'USER_AGENT' )
+
+AIRNOW_API_KEY = os.getenv( 'AIRNOW_API_KEY' )
+OPENAQ_API_KEY = os.getenv( 'OPENAQ_API_KEY' )
+GOVINFO_API_KEY = os.getenv( 'GOVINFO_API_KEY' )
+FIRMS_MAP_KEY = os.getenv( 'FIRMS_MAP_KEY' )
+PURPLEAIR_API_KEY = os.getenv( 'PURPLEAIR_API_KEY' )
+
 # ------------- API DEFINITIONS ------------------
 
 ARXIV = r'''arXiv is a free distribution service and an open-access archive for nearly 2.4 million
