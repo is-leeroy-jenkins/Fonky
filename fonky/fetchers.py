@@ -79,25 +79,28 @@ from boogr import Error
 from core import Result
 import xml.etree.ElementTree as ET
 
-def throw_if( name: str, value: Any ) -> None:
-	'''
-		
+def throw_if( name: str, value: object ) -> None:
+	"""
+	
 		Purpose:
-		-----------
-		Simple guard which raises ValueError when `value` is falsy (None, empty).
+		--------
+		Validate that a required value is not empty.
 		
 		Parameters:
 		-----------
-		name (str): Variable name used in the raised message.
-		value (Any): Value to validate.
+		name (str): Name of the argument being validated.
+		value (object): Value to validate.
 		
 		Returns:
-		-----------
-		None: Raises ValueError when `value` is falsy.
+		--------
+		None
 		
-	'''
+	"""
 	if value is None:
-		raise ValueError( f"Argument '{name}' cannot be empty!" )
+		raise ValueError( f'Argument "{name}" cannot be None.' )
+	
+	if isinstance( value, str ) and not value.strip( ):
+		raise ValueError( f'Argument "{name}" cannot be empty.' )
 
 def encode_image( path: str ) -> str:
 	'''
@@ -367,7 +370,6 @@ class WebFetcher( Fetcher ):
 		try:
 			throw_if( 'name', name )
 			throw_if( name, value )
-			
 			if not isinstance( value, str ):
 				raise TypeError( f'{name} must be a string.' )
 			
@@ -376,7 +378,6 @@ class WebFetcher( Fetcher ):
 				raise ValueError( f'{name} cannot be empty.' )
 			
 			return text
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -469,7 +470,6 @@ class WebFetcher( Fetcher ):
 		'''
 		try:
 			throw_if( 'name', name )
-			
 			if value is None:
 				raise ValueError( f'{name} cannot be None.' )
 			
@@ -507,17 +507,13 @@ class WebFetcher( Fetcher ):
 			self.url = self.validate_required_string( 'url', url )
 			self.timeout = self.validate_positive_integer( 'time', time )
 			
-			self.response = requests.get(
-				url=self.url,
-				headers=self.headers,
-				timeout=self.timeout
-			)
+			self.response = requests.get( url=self.url, headers=self.headers,
+				timeout=self.timeout )
 			self.response.raise_for_status( )
 			self.html = self.response.text or ''
 			self.soup = BeautifulSoup( self.html, 'html.parser' )
 			self.result = Result( self.response )
 			return self.result
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -711,7 +707,6 @@ class WebFetcher( Fetcher ):
 			left_host = (urllib.parse.urlparse( left ).netloc or '').lower( )
 			right_host = (urllib.parse.urlparse( right ).netloc or '').lower( )
 			return bool( left_host ) and left_host == right_host
-		
 		except Exception:
 			return False
 	
@@ -744,7 +739,6 @@ class WebFetcher( Fetcher ):
 					results.append( candidate )
 			
 			return results
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -789,8 +783,7 @@ class WebFetcher( Fetcher ):
 											tag.get_text( ' ', strip=True )
 											for tag in
 											soup.find_all( [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ] )
-											if tag.get_text( ' ', strip=True )
-									]
+											if tag.get_text( ' ', strip=True ) ]
 							),
 						'scrape_paragraphs':
 							(
@@ -798,64 +791,51 @@ class WebFetcher( Fetcher ):
 									lambda: [
 											tag.get_text( ' ', strip=True )
 											for tag in soup.find_all( 'p' )
-											if tag.get_text( ' ', strip=True )
-									]
+											if tag.get_text( ' ', strip=True ) ]
 							),
 						'scrape_lists':
 							(
 									'Lists',
-									lambda: [
-											tag.get_text( ' ', strip=True )
-											for tag in soup.find_all( 'li' )
-											if tag.get_text( ' ', strip=True )
-									]
+									lambda: [ tag.get_text( ' ', strip=True )
+									          for tag in soup.find_all( 'li' )
+									          if tag.get_text( ' ', strip=True ) ]
 							),
 						'scrape_tables':
 							(
 									'Tables',
-									lambda: [
-											cell.get_text( ' ', strip=True )
-											for table in soup.find_all( 'table' )
-											for row in table.find_all( 'tr' )
-											for cell in row.find_all( [ 'td', 'th' ] )
-											if cell.get_text( ' ', strip=True )
-									]
+									lambda: [ cell.get_text( ' ', strip=True )
+									          for table in soup.find_all( 'table' )
+									          for row in table.find_all( 'tr' )
+									          for cell in row.find_all( [ 'td', 'th' ] )
+									          if cell.get_text( ' ', strip=True ) ]
 							),
 						'scrape_articles':
 							(
 									'Articles',
-									lambda: [
-											tag.get_text( ' ', strip=True )
-											for tag in soup.find_all( 'article' )
-											if tag.get_text( ' ', strip=True )
-									]
+									lambda: [ tag.get_text( ' ', strip=True )
+									          for tag in soup.find_all( 'article' )
+									          if tag.get_text( ' ', strip=True ) ]
 							),
 						'scrape_sections':
 							(
 									'Sections',
-									lambda: [
-											tag.get_text( ' ', strip=True )
-											for tag in soup.find_all( 'section' )
-											if tag.get_text( ' ', strip=True )
-									]
+									lambda: [ tag.get_text( ' ', strip=True )
+									          for tag in soup.find_all( 'section' )
+									          if tag.get_text( ' ', strip=True ) ]
 							),
 						'scrape_divisions':
 							(
 									'Divisions',
-									lambda: [
-											tag.get_text( ' ', strip=True )
-											for tag in soup.find_all( 'div' )
-											if tag.get_text( ' ', strip=True )
-									]
+									lambda: [ tag.get_text( ' ', strip=True )
+									          for tag in soup.find_all( 'div' )
+									          if tag.get_text( ' ', strip=True ) ]
 							),
 						'scrape_blockquotes':
 							(
 									'Blockquotes',
-									lambda: [
-											tag.get_text( ' ', strip=True )
-											for tag in soup.find_all( 'blockquote' )
-											if tag.get_text( ' ', strip=True )
-									]
+									lambda: [ tag.get_text( ' ', strip=True )
+									          for tag in soup.find_all( 'blockquote' )
+									          if tag.get_text( ' ', strip=True ) ]
 							),
 						'scrape_hyperlinks':
 							(
@@ -863,19 +843,16 @@ class WebFetcher( Fetcher ):
 									lambda: [
 											self.normalize_url( source_url, tag.get( 'href', '' ) )
 											for tag in soup.find_all( 'a', href=True )
-											if
-											self.normalize_url( source_url, tag.get( 'href', '' ) )
-									]
+											if self.normalize_url( source_url,
+												tag.get( 'href', '' ) ) ]
 							),
 						'scrape_images':
 							(
 									'Images',
-									lambda: [
-											self.normalize_url( source_url, tag.get( 'src', '' ) )
-											for tag in soup.find_all( 'img', src=True )
-											if
-											self.normalize_url( source_url, tag.get( 'src', '' ) )
-									]
+									lambda: [ self.normalize_url( source_url, tag.get( 'src', '' ) )
+									          for tag in soup.find_all( 'img', src=True )
+									          if self.normalize_url( source_url,
+												tag.get( 'src', '' ) ) ]
 							),
 				}
 			
@@ -887,7 +864,6 @@ class WebFetcher( Fetcher ):
 				values = self.coerce_items( extractor( ) )
 				deduped: List[ str ] = [ ]
 				seen: set[ str ] = set( )
-				
 				for value in values:
 					if value not in seen:
 						seen.add( value )
@@ -896,16 +872,11 @@ class WebFetcher( Fetcher ):
 				results[ label ] = deduped
 			
 			return results
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
-			exception.method = (
-					'extract_structured_data( self, url: str, html: str, '
-					'selected_methods: Optional[ List[ str ] ]=None ) '
-					'-> Dict[ str, List[ str ] ]'
-			)
+			exception.method = 'extract_structured_data( self, *args ) -> Dict[ str, List[ str ] ]'
 			raise exception
 	
 	def scrape_paragraphs( self, uri: str ) -> List[ str ] | None:
@@ -1304,26 +1275,10 @@ class WebCrawler( WebFetcher ):
 			--------
 			List[str]: Ordered attribute and method names.
 		'''
-		return [
-				'use_playwright',
-				'browser_context',
-				'raw_url',
-				'raw_html',
-				'pages',
-				'summary',
-				'fetch',
-				'html_to_text',
-				'coerce_items',
-				'extract_title',
-				'truncate_text',
-				'normalize_url',
-				'same_domain',
-				'extract_links',
-				'extract_structured_data',
-				'render_with_playwright',
-				'scrape_page',
-				'crawl'
-		]
+		return [ 'use_playwright', 'browser_context', 'raw_url', 'raw_html', 'pages', 'summary',
+		         'fetch', 'html_to_text', 'coerce_items', 'extract_title', 'truncate_text',
+		         'normalize_url', 'same_domain', 'extract_links', 'extract_structured_data',
+		         'render_with_playwright', 'scrape_page', 'crawl' ]
 	
 	def fetch( self, url: str, time: int = 10 ) -> Result | None:
 		'''
@@ -1397,10 +1352,9 @@ class WebCrawler( WebFetcher ):
 			exception.method = 'render_with_playwright( self, url: str, timeout: int=15 ) -> str'
 			raise exception
 	
-	def scrape_page( self, url: str, include_title: bool = True,
-			include_basic_text: bool = True, include_raw_html: bool = False,
-			selected_methods: Optional[ List[ str ] ] = None, request_timeout: int = 10,
-			max_bytes: int = 1000000 ) -> Dict[ str, Any ]:
+	def scrape_page( self, url: str, include_title: bool = True, include_basic_text: bool = True,
+			include_raw_html: bool = False, selected_methods: Optional[ List[ str ] ] = None,
+			request_timeout: int = 10, max_bytes: int = 1000000 ) -> Dict[ str, Any ]:
 		'''
 			Purpose:
 			--------
@@ -1438,7 +1392,6 @@ class WebCrawler( WebFetcher ):
 		try:
 			methods = selected_methods or [ ]
 			self.fetch( url=url, time=int( request_timeout ) )
-			
 			raw_html = self.html or ''
 			if self.response is not None:
 				page_result[ 'status_code' ] = getattr( self.response, 'status_code', None )
@@ -1446,7 +1399,6 @@ class WebCrawler( WebFetcher ):
 			else:
 				page_result[ 'status_code' ] = 200
 				page_result[ 'encoding' ] = 'rendered'
-			
 			raw_bytes = raw_html.encode( 'utf-8', errors='ignore' )
 			page_result[ 'content_bytes' ] = len( raw_bytes )
 			
@@ -1470,21 +1422,17 @@ class WebCrawler( WebFetcher ):
 			if include_raw_html:
 				page_result[ 'raw_html' ] = raw_html
 			
-			page_result[ 'data' ] = self.extract_structured_data(
-				url=url,
-				html=raw_html,
+			page_result[ 'data' ] = self.extract_structured_data( url=url, html=raw_html,
 				selected_methods=methods )
-			
 			return page_result
-		
 		except Exception as exc:
 			page_result[ 'errors' ].append( f'Fetch: {str( exc )}' )
 			return page_result
 	
-	def crawl( self, seed_url: str, include_title: bool = True,
-			include_basic_text: bool = True, include_raw_html: bool = False,
-			selected_methods: Optional[ List[ str ] ] = None, recursive: bool = False,
-			max_depth: int = 1, max_pages: int = 10, same_domain_only: bool = True,
+	def crawl( self, seed_url: str, include_title: bool = True, include_basic_text: bool = True,
+			include_raw_html: bool = False, selected_methods: Optional[ List[ str ] ] = None,
+			recursive: bool = False, max_depth: int = 1, max_pages: int = 10,
+			same_domain_only: bool = True,
 			request_timeout: int = 10, delay_seconds: float = 0.25,
 			max_bytes: int = 1000000 ) -> Dict[ str, Any ]:
 		'''
@@ -1513,7 +1461,6 @@ class WebCrawler( WebFetcher ):
 		'''
 		try:
 			throw_if( 'seed_url', seed_url )
-			
 			started_at = dt.datetime.now( )
 			normalized_seed = self.normalize_url( seed_url, seed_url )
 			if not normalized_seed:
@@ -1530,24 +1477,16 @@ class WebCrawler( WebFetcher ):
 			while index < len( queue ) and len( pages ) < int( max_pages ):
 				current_url, depth = queue[ index ]
 				index += 1
-				
 				if current_url in visited:
 					continue
-				
 				visited.add( current_url )
-				
-				page_result = self.scrape_page(
-					url=current_url,
-					include_title=include_title,
-					include_basic_text=include_basic_text,
-					include_raw_html=include_raw_html,
-					selected_methods=methods,
-					request_timeout=int( request_timeout ),
+				page_result = self.scrape_page( url=current_url, include_title=include_title,
+					include_basic_text=include_basic_text, include_raw_html=include_raw_html,
+					selected_methods=methods, request_timeout=int( request_timeout ),
 					max_bytes=int( max_bytes ) )
 				
 				page_result[ 'depth' ] = depth
 				pages.append( page_result )
-				
 				if float( delay_seconds ) > 0 and index < len( queue ):
 					time.sleep( float( delay_seconds ) )
 				
@@ -1575,7 +1514,6 @@ class WebCrawler( WebFetcher ):
 			finished_at = dt.datetime.now( )
 			error_count = sum( len( page.get( 'errors', [ ] ) or [ ] ) for page in pages )
 			total_bytes = sum( int( page.get( 'content_bytes', 0 ) or 0 ) for page in pages )
-			
 			self.pages = pages
 			self.summary = {
 					'mode': 'recursive' if recursive else 'single-page',
@@ -1605,19 +1543,11 @@ class WebCrawler( WebFetcher ):
 					'pages': self.pages,
 					'summary': self.summary
 			}
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'WebCrawler'
-			exception.method = (
-					'crawl( self, seed_url: str, include_title: bool=True, '
-					'include_basic_text: bool=True, include_raw_html: bool=False, '
-					'selected_methods: Optional[ List[ str ] ]=None, recursive: bool=False, '
-					'max_depth: int=1, max_pages: int=10, same_domain_only: bool=True, '
-					'request_timeout: int=10, delay_seconds: float=0.25, '
-					'max_bytes: int=1000000 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'crawl( self, *args ) -> Dict[ str, Any ]'
 			raise exception
 
 class ArXiv( Fetcher ):
@@ -2039,12 +1969,12 @@ class TheNews( Fetcher ):
 	def fetch( self, endpoint: str = 'all', query: str = '', language: str = 'en',
 			categories: str = '',
 			exclude_categories: str = '', locale: str = '', domains: str = '',
-			exclude_domains: str = '',
-			source_ids: str = '', exclude_source_ids: str = '', published_after: str = '',
-			published_before: str = '', published_on: str = '', sort: str = 'published_at',
-			limit: int = 10, page: int = 1, include_similar: bool = True,
-			headlines_per_category: int = 6,
-			time: int = 10, api_key: str = None ) -> Dict[ str, Any ] | None:
+			exclude_domains: str = '', source_ids: str = '', exclude_source_ids: str = '',
+			published_after: str = '', published_before: str = '', published_on: str = '',
+			sort: str = 'published_at', limit: int = 10, page: int = 1,
+			include_similar: bool = True,
+			headlines_per_category: int = 6, time: int = 10, api_key: str = None ) -> Dict[
+		str, Any ]:
 		'''Send a request to The News API using one of the documented endpoints and return the parsed JSON response.
 
 			Parameters:
@@ -2302,9 +2232,9 @@ class GoogleSearch( Fetcher ):
 		return [ 'keywords', 'url', 'timeout', 'headers', 'fetch', 'api_key',
 		         'response', 'cse_id', 'params', 'agents', 'results', 'start', ]
 	
-	def fetch( self, keywords: str, results: int = 10,
-			start: int = 1, exact_terms: str = '', exclude_terms: str = '',
-			file_type: str = '', date_restrict: str = '', gl: str = '', lr: str = '',
+	def fetch( self, keywords: str, results: int = 10, start: int = 1, exact_terms: str = '',
+			exclude_terms: str = '', file_type: str = '', date_restrict: str = '', gl: str = '',
+			lr: str = '',
 			safe: str = 'off', search_type: str = '', site_search: str = '',
 			site_search_filter: str = '',
 			sort: str = '', img_size: str = '', img_type: str = '', img_color_type: str = '',
@@ -2439,7 +2369,6 @@ class GoogleSearch( Fetcher ):
 			
 			self.response.raise_for_status( )
 			return self.response.json( )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -22777,8 +22706,8 @@ class PurpleAir( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'PurpleAir'
 			exception.method = (
-				'fetch_sensor( self, sensor_index: int, fields: str="", time: int=20 ) '
-				'-> Dict[ str, Any ]')
+					'fetch_sensor( self, sensor_index: int, fields: str="", time: int=20 ) '
+					'-> Dict[ str, Any ]')
 			raise exception
 	
 	def fetch( self, mode: str = 'sensors', sensor_index: int = None,
@@ -24379,8 +24308,7 @@ class OpenSky( Fetcher ):
 		self.base_url = 'https://opensky-network.org/api'
 		self.token_url = (
 				'https://auth.opensky-network.org/auth/realms/opensky-network/'
-				'protocol/openid-connect/token'
-		)
+				'protocol/openid-connect/token')
 		self.client_id = None
 		self.client_secret = None
 		self.access_token = None
@@ -24417,8 +24345,7 @@ class OpenSky( Fetcher ):
 				'flights_aircraft',
 				'arrivals_airport',
 				'departures_airport',
-				'track_aircraft',
-		]
+				'track_aircraft', ]
 	
 	def get_token( self, client_id: str, client_secret: str ) -> str:
 		'''
@@ -24446,18 +24373,13 @@ class OpenSky( Fetcher ):
 			throw_if( 'client_secret', client_secret )
 			self.client_id = client_id.strip( )
 			self.client_secret = client_secret.strip( )
-			response = requests.post(
-				self.token_url,
+			response = requests.post( self.token_url,
 				headers={ 'Content-Type': 'application/x-www-form-urlencoded' },
 				data={
 						'grant_type': 'client_credentials',
 						'client_id': self.client_id,
-						'client_secret': self.client_secret,
-				},
-				timeout=self.timeout,
-			)
+						'client_secret': self.client_secret, }, timeout=self.timeout, )
 			response.raise_for_status( )
-			
 			payload = response.json( )
 			token = payload.get( 'access_token' )
 			if not token:
@@ -24465,12 +24387,11 @@ class OpenSky( Fetcher ):
 			
 			self.access_token = token
 			return token
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
-			exception.method = 'get_token( self, client_id: str, client_secret: str ) -> str'
+			exception.method = 'get_token( self, *args ) -> str'
 			raise exception
 	
 	def request( self, endpoint: str, params: Dict[ str, Any ], client_id: str = None,
@@ -24604,44 +24525,38 @@ class OpenSky( Fetcher ):
 			exception.method = 'normalize_states( self, payload: Dict[ str, Any ] | None )'
 			raise exception
 	
-	def normalize_flights(
-			self,
-			payload: List[ Dict[ str, Any ] ] | None,
+	def normalize_flights( self, payload: List[ Dict[ str, Any ] ] | None,
 			mode: str ) -> Dict[ str, Any ] | None:
 		try:
 			rows = payload or [ ]
 			items: List[ Dict[ str, Any ] ] = [ ]
-			
 			for row in rows:
-				items.append(
-					{
-							'icao24': row.get( 'icao24' ),
-							'callsign': (row.get( 'callsign' ) or '').strip( ),
-							'first_seen': row.get( 'firstSeen' ),
-							'last_seen': row.get( 'lastSeen' ),
-							'est_departure_airport': row.get( 'estDepartureAirport' ),
-							'est_arrival_airport': row.get( 'estArrivalAirport' ),
-							'est_departure_airport_horiz_distance_m':
-								row.get( 'estDepartureAirportHorizDistance' ),
-							'est_departure_airport_vert_distance_m':
-								row.get( 'estDepartureAirportVertDistance' ),
-							'est_arrival_airport_horiz_distance_m':
-								row.get( 'estArrivalAirportHorizDistance' ),
-							'est_arrival_airport_vert_distance_m':
-								row.get( 'estArrivalAirportVertDistance' ),
-							'departure_airport_candidates_count':
-								row.get( 'departureAirportCandidatesCount' ),
-							'arrival_airport_candidates_count':
-								row.get( 'arrivalAirportCandidatesCount' ),
-					}
-				)
+				items.append( {
+						'icao24': row.get( 'icao24' ),
+						'callsign': (row.get( 'callsign' ) or '').strip( ),
+						'first_seen': row.get( 'firstSeen' ),
+						'last_seen': row.get( 'lastSeen' ),
+						'est_departure_airport': row.get( 'estDepartureAirport' ),
+						'est_arrival_airport': row.get( 'estArrivalAirport' ),
+						'est_departure_airport_horiz_distance_m':
+							row.get( 'estDepartureAirportHorizDistance' ),
+						'est_departure_airport_vert_distance_m':
+							row.get( 'estDepartureAirportVertDistance' ),
+						'est_arrival_airport_horiz_distance_m':
+							row.get( 'estArrivalAirportHorizDistance' ),
+						'est_arrival_airport_vert_distance_m':
+							row.get( 'estArrivalAirportVertDistance' ),
+						'departure_airport_candidates_count':
+							row.get( 'departureAirportCandidatesCount' ),
+						'arrival_airport_candidates_count':
+							row.get( 'arrivalAirportCandidatesCount' ),
+				} )
 			
 			return {
 					'mode': mode,
 					'count': len( items ),
 					'items': items,
 			}
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -24668,16 +24583,14 @@ class OpenSky( Fetcher ):
 			path = payload.get( 'path' ) or [ ]
 			items: List[ Dict[ str, Any ] ] = [ ]
 			for row in path:
-				items.append(
-					{
-							'time': row[ 0 ] if len( row ) > 0 else None,
-							'latitude': row[ 1 ] if len( row ) > 1 else None,
-							'longitude': row[ 2 ] if len( row ) > 2 else None,
-							'baro_altitude_m': row[ 3 ] if len( row ) > 3 else None,
-							'true_track_deg': row[ 4 ] if len( row ) > 4 else None,
-							'on_ground': row[ 5 ] if len( row ) > 5 else None,
-					}
-				)
+				items.append( {
+						'time': row[ 0 ] if len( row ) > 0 else None,
+						'latitude': row[ 1 ] if len( row ) > 1 else None,
+						'longitude': row[ 2 ] if len( row ) > 2 else None,
+						'baro_altitude_m': row[ 3 ] if len( row ) > 3 else None,
+						'true_track_deg': row[ 4 ] if len( row ) > 4 else None,
+						'on_ground': row[ 5 ] if len( row ) > 5 else None,
+				} )
 			
 			return {
 					'mode': 'track_aircraft',
@@ -24688,7 +24601,6 @@ class OpenSky( Fetcher ):
 					'count': len( items ),
 					'items': items,
 			}
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -24704,7 +24616,6 @@ class OpenSky( Fetcher ):
 		try:
 			self.timeout = int( time )
 			active_mode = (mode or 'states_bbox').strip( ).lower( )
-			
 			if active_mode == 'states_bbox':
 				params: Dict[ str, Any ] = { }
 				if time_value is not None:
