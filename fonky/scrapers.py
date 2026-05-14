@@ -49,7 +49,6 @@ from typing import Dict, List, Optional, Pattern
 import requests
 from bs4 import BeautifulSoup
 from requests import Response
-
 from fonky import config as cfg
 from fonky.boogr import Error
 from fonky.core import Result

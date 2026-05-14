@@ -60,5 +60,4 @@ __all__: list[ str ] = [
 		'GoogleBucketLoader',
 		'GoogleCloudFileLoader',
 		'GoogleSpeechToTextLoader',
-		'OneDriveDocLoader',
-]
+		'OneDriveDocLoader',]
