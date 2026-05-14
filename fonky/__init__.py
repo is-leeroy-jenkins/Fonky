@@ -127,5 +127,4 @@ __all__: List[ str ] = [
 		'environmental',
 		'geospatial',
 		'health',
-		'web',
-]
+		'web', ]

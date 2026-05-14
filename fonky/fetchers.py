@@ -1967,15 +1967,17 @@ class TheNews( Fetcher ):
 		         'limit', 'page', 'params', 'fetch', ]
 	
 	def fetch( self, endpoint: str = 'all', query: str = '', language: str = 'en',
-			categories: str = '',
-			exclude_categories: str = '', locale: str = '', domains: str = '',
+			categories: str = '', exclude_categories: str = '', locale: str = '', domains: str = '',
 			exclude_domains: str = '', source_ids: str = '', exclude_source_ids: str = '',
 			published_after: str = '', published_before: str = '', published_on: str = '',
 			sort: str = 'published_at', limit: int = 10, page: int = 1,
-			include_similar: bool = True,
-			headlines_per_category: int = 6, time: int = 10, api_key: str = None ) -> Dict[
-		str, Any ]:
-		'''Send a request to The News API using one of the documented endpoints and return the parsed JSON response.
+			include_similar: bool = True, headlines_per_category: int = 6, time: int = 10,
+			api_key: str = None ) -> Dict[ str, Any ]:
+		'''
+		
+			Purpose:
+			--------
+			Send a request to The News API using one of the documented endpoints and return the parsed JSON response.
 
 			Parameters:
 			-----------
