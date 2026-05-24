@@ -3176,7 +3176,11 @@ class NavalObservatory( Fetcher ):
 		         'location_label', 'fetch_celnav', 'fetch', 'create_schema' ]
 	
 	def validate_date( self, date_value: str ) -> str:
-		'''Validate and normalize a USNO date string.
+		'''
+		
+			Purpose:
+			________
+			Validate and normalize a USNO date string.
 
 			Parameters:
 			-----------
@@ -3200,7 +3204,11 @@ class NavalObservatory( Fetcher ):
 			raise exception
 	
 	def validate_time( self, time_value: str ) -> str:
-		'''Validate and normalize a USNO time string.
+		'''
+		
+			Purpose:
+			________
+			Validate and normalize a USNO time string.
 
 			Parameters:
 			-----------
@@ -3232,7 +3240,11 @@ class NavalObservatory( Fetcher ):
 			raise exception
 	
 	def validate_coordinates( self, latitude: float, longitude: float ) -> tuple[ float, float ]:
-		'''Validate latitude and longitude against documented decimal-degree ranges.
+		'''
+		
+			Purpose:
+			________
+			Validate latitude and longitude against documented decimal-degree ranges.
 
 			Parameters:
 			-----------
@@ -3266,7 +3278,11 @@ class NavalObservatory( Fetcher ):
 	
 	def fetch_celnav( self, date_value: str, time_value: str, latitude: float,
 			longitude: float, location_label: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Fetch celestial navigation data for an assumed position and time.
+		'''
+		
+			Purpose:
+			________
+			Fetch celestial navigation data for an assumed position and time.
 
 			Parameters:
 			-----------
@@ -3321,7 +3337,11 @@ class NavalObservatory( Fetcher ):
 	def fetch( self, mode: str = 'celnav', date_value: str = '',
 			time_value: str = '', latitude: float = 0.0, longitude: float = 0.0,
 			location_label: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Unified dispatcher for Naval Observatory requests.
+		'''
+		
+			Purpose:
+			________
+			Unified dispatcher for Naval Observatory requests.
 
 			Parameters:
 			-----------
@@ -3368,7 +3388,11 @@ class NavalObservatory( Fetcher ):
 	
 	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''Construct and return a fully dynamic OpenAI Tool API schema definition.
+		'''
+		
+			Purpose:
+			________
+			Construct and return a fully dynamic OpenAI Tool API schema definition.
 
 			Parameters:
 			-----------
@@ -3420,8 +3444,12 @@ class NavalObservatory( Fetcher ):
 			raise exception
 
 class SatelliteCenter( Fetcher ):
-	'''Fetches satellite observatory, ground-station, and location data from SSC Web Services.
-	
+	'''
+		
+		PURPOSE:
+		________
+		Fetches satellite observatory, ground-station, and location data from SSC Web Services.
+
 		Attributes:
 		-----------
 		ssc,
@@ -3470,7 +3498,11 @@ class SatelliteCenter( Fetcher ):
 		         'fetch_locations', 'fetch', ]
 	
 	def fetch_observatories( self ) -> Dict[ str, Any ] | None:
-		"""Get descriptions of the observatories available from SSC.
+		"""
+		
+			PURPOSE:
+			________
+			Get descriptions of the observatories available from SSC.
 			
 			Returns:
 			--------
@@ -3489,7 +3521,11 @@ class SatelliteCenter( Fetcher ):
 			raise exception
 	
 	def fetch_ground_stations( self ) -> Dict[ str, Any ] | None:
-		"""Get descriptions of the ground stations available from SSC.
+		"""
+		
+			PURPOSE:
+			________
+			Get descriptions of the ground stations available from SSC.
 
 			Returns:
 			--------
@@ -3510,8 +3546,12 @@ class SatelliteCenter( Fetcher ):
 	def fetch_locations( self, observatories: str, start_time: str, end_time: str,
 			coordinate_systems: str = 'gse', resolution_factor: int = 1,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		"""Get location data for one or more observatories over a time range using the documented
-		SSC REST GET endpoint.
+		"""
+		
+			PURPOSE:
+			________
+			Get location data for one or more observatories over a time range using the documented
+			SSC REST GET endpoint.
 
 			Parameters:
 			-----------
@@ -3565,10 +3605,13 @@ class SatelliteCenter( Fetcher ):
 			raise exception
 	
 	def fetch( self, mode: str = 'observatories', query: str = '', start_time: str = '',
-			end_time: str = '',
-			coordinate_systems: str = 'gse', resolution_factor: int = 1, time: int = 20 ) -> Dict[
-				                                                                                 str, Any ] | None:
-		"""Unified dispatch method for Satellite Center requests.
+			end_time: str = '', coordinate_systems: str = 'gse', resolution_factor: int = 1,
+			time: int = 20 ) -> Dict[ str, Any ] | None:
+		"""
+		
+			Purpose:
+			________
+			Unified dispatch method for Satellite Center requests.
 
 			Returns:
 			--------
@@ -3749,7 +3792,6 @@ class EarthObservatory( Fetcher ):
 		self.start_date = ''
 		self.end_date = ''
 		self.agents = cfg.AGENTS
-		
 		if 'User-Agent' not in self.headers:
 			self.headers[ 'User-Agent' ] = self.agents
 	
@@ -3788,9 +3830,8 @@ class EarthObservatory( Fetcher ):
 		]
 	
 	def fetch_events( self, status: str = 'open', category: str = '', source: str = '',
-			limit: int = 20,
-			days: int = 30, start_date: str = '', end_date: str = '', time: int = 20 ) -> Dict[
-		str, Any ]:
+			limit: int = 20, days: int = 30, start_date: str = '', end_date: str = '',
+			time: int = 20 ) -> Dict[ str, Any ]:
 		'''Fetch EONET events using documented v3 filters.
 
 			Parameters:
@@ -3926,7 +3967,7 @@ class EarthObservatory( Fetcher ):
 			self.url = f'{self.base_url}/sources'
 			self.params = { }
 			self.response = requests.get( url=self.url, params=self.params, headers=self.headers,
-				timeout=int( time ) )
+				timeout=time )
 			self.response.raise_for_status( )
 			payload = self.response.json( ) or { }
 			return {
@@ -3989,10 +4030,13 @@ class EarthObservatory( Fetcher ):
 			raise exception
 	
 	def fetch( self, mode: str = 'events', status: str = 'open', category: str = '',
-			source: str = '', limit: int = 20,
-			days: int = 30, start_date: str = '', end_date: str = '', time: int = 20 ) -> Dict[
-		str, Any ]:
-		'''Unified dispatcher for EONET v3 operations.
+			source: str = '', limit: int = 20, days: int = 30, start_date: str = '',
+			end_date: str = '', time: int = 20 ) -> Dict[ str, Any ]:
+		'''
+		
+			Purpose:
+			________
+			Unified dispatcher for EONET v3 operations.
 
 			Parameters:
 			-----------
@@ -4084,7 +4128,6 @@ class EarthObservatory( Fetcher ):
 			throw_if( 'tool', tool )
 			throw_if( 'description', description )
 			throw_if( 'parameters', parameters )
-			
 			if required is None:
 				required = list( parameters.keys( ) )
 			
@@ -4102,10 +4145,7 @@ class EarthObservatory( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'EarthObservatory'
-			exception.method = (
-					'create_schema( self, function: str, tool: str, description: str, '
-					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
-			)
+			exception.method = 'create_schema( self, *args ) -> Dict[ str, str ]'
 			raise exception
 
 class GlobalImagery( Fetcher ):
@@ -4270,10 +4310,8 @@ class GlobalImagery( Fetcher ):
 			quality_value = str( quality or 'best' ).strip( ).lower( )
 			version_value = str( version or '1.1.1' ).strip( )
 			
-			base_url = (
-					f'https://gibs.earthdata.nasa.gov/wms/'
-					f'{projection_value}/{quality_value}/wms.cgi'
-			)
+			base_url = ( f'https://gibs.earthdata.nasa.gov/wms/'
+					f'{projection_value}/{quality_value}/wms.cgi' )
 			
 			params = {
 					'SERVICE': 'WMS',
@@ -4282,7 +4320,6 @@ class GlobalImagery( Fetcher ):
 			}
 			
 			return f'{base_url}?{urllib.parse.urlencode( params )}'
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -4349,15 +4386,11 @@ class GlobalImagery( Fetcher ):
 			projection_value = str( projection or 'epsg4326' ).strip( ).lower( )
 			quality_value = str( quality or 'best' ).strip( ).lower( )
 			version_value = str( version or '1.1.1' ).strip( )
-			
 			west, south, east, north = [ float( value ) for value in bbox ]
 			width_value = max( 1, int( width ) )
 			height_value = max( 1, int( height ) )
-			
-			base_url = (
-					f'https://gibs.earthdata.nasa.gov/wms/'
-					f'{projection_value}/{quality_value}/wms.cgi'
-			)
+			base_url = ( f'https://gibs.earthdata.nasa.gov/wms/'
+					f'{projection_value}/{quality_value}/wms.cgi' )
 			
 			params = {
 					'SERVICE': 'WMS',
@@ -4447,16 +4480,9 @@ class GlobalImagery( Fetcher ):
 			self.mode = 'wms_map'
 			self.timeout = int( time )
 			
-			request_url = self.build_wms_url(
-				layer=layer,
-				image_date=image_date,
-				bbox=bbox,
-				width=width,
-				height=height,
-				projection=projection,
-				quality=quality,
-				image_format=image_format,
-				transparent=transparent )
+			request_url = self.build_wms_url( layer=layer, image_date=image_date, bbox=bbox,
+				width=width, height=height, projection=projection, quality=quality,
+				image_format=image_format, transparent=transparent )
 			
 			directory = Path( output_dir or 'python-examples' )
 			directory.mkdir( parents=True, exist_ok=True )
@@ -4486,8 +4512,7 @@ class GlobalImagery( Fetcher ):
 			
 			Path( self.file_path ).write_bytes( self.response.content )
 			
-			self.result = {
-					'mode': self.mode,
+			self.result = { 'mode': self.mode,
 					'url': self.url,
 					'params': self.params,
 					'image_path': self.file_path,
@@ -7635,11 +7660,8 @@ class GovData( Fetcher ):
 		self.package_id = ''
 		self.collection = ''
 		self.start_date = ''
-		self.headers = {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-				'User-Agent': cfg.AGENTS
-		}
+		self.headers = { 'Accept': 'application/json', 'Content-Type': 'application/json',
+				'User-Agent': cfg.AGENTS }
 		self.agents = cfg.AGENTS
 	
 	def __dir__( self ) -> List[ str ]:
@@ -18591,10 +18613,7 @@ class USGSScienceBase( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'USGSScienceBase'
-			exception.method = (
-					'create_schema( self, function: str, tool: str, description: str, '
-					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
-			)
+			exception.method = 'create_schema( self, *args ) -> Dict[ str, str ]'
 			raise exception
 
 class AirNow( Fetcher ):
@@ -18699,10 +18718,8 @@ class AirNow( Fetcher ):
 			Optional[str]
 		'''
 		try:
-			candidates: List[ Optional[ str ] ] = [
-					os.getenv( 'AIRNOW_API_KEY' ),
-					os.getenv( 'EPA_AIRNOW_API_KEY' )
-			]
+			candidates: List[ Optional[ str ] ] = [ os.getenv( 'AIRNOW_API_KEY' ),
+					os.getenv( 'EPA_AIRNOW_API_KEY' ) ]
 			
 			for candidate in candidates:
 				if candidate is not None and str( candidate ).strip( ):
@@ -18759,31 +18776,17 @@ class AirNow( Fetcher ):
 			
 			self.params[ 'format' ] = 'application/json'
 			self.params[ 'API_KEY' ] = self.api_key
-			
-			self.response = requests.get(
-				url=self.url,
-				params=self.params,
-				headers=self.headers,
-				timeout=int( time )
-			)
+			self.response = requests.get( url=self.url, params=self.params, headers=self.headers,
+				timeout=time )
 			self.response.raise_for_status( )
-			
 			self.payload = self.response.json( )
-			
-			return {
-					'url': self.url,
-					'params': self.params,
-					'raw': self.payload
-			}
+			return { 'url': self.url, 'params': self.params, 'raw': self.payload }
 		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'AirNow'
-			exception.method = (
-					'request( self, endpoint: str, params: Optional[ Dict[ str, Any ] ]=None, '
-					'time: int=20 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'request( self, *args ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def _shape_rows( self, records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
@@ -18803,10 +18806,8 @@ class AirNow( Fetcher ):
 		'''
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
-			
 			for item in records or [ ]:
-				rows.append(
-					{
+				rows.append( {
 							'Date Observed': item.get( 'DateObserved', '' ),
 							'Hour Observed': item.get( 'HourObserved', '' ),
 							'Local Time Zone': item.get( 'LocalTimeZone', '' ),
@@ -18823,8 +18824,7 @@ class AirNow( Fetcher ):
 							),
 							'Action Day': item.get( 'ActionDay', '' ),
 							'Discussion': item.get( 'Discussion', '' )
-					}
-				)
+					} )
 			
 			return rows
 		
@@ -18832,10 +18832,7 @@ class AirNow( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'AirNow'
-			exception.method = (
-					'_shape_rows( self, records: List[ Dict[ str, Any ] ] ) '
-					'-> List[ Dict[ str, Any ] ]'
-			)
+			exception.method = '_shape_rows( self, *args )  -> List[ Dict[ str, Any ] ]'
 			raise exception
 	
 	def _summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
@@ -18859,7 +18856,6 @@ class AirNow( Fetcher ):
 			dominant_parameter = ''
 			top_category = ''
 			reporting_area = ''
-			
 			for row in rows or [ ]:
 				if not reporting_area and row.get( 'Reporting Area', '' ):
 					reporting_area = str( row.get( 'Reporting Area', '' ) )
@@ -19073,6 +19069,7 @@ class AirNow( Fetcher ):
 	def fetch_forecast_latlon( self, latitude: float, longitude: float,
 			date: str, distance: int = 25, time: int = 20 ) -> Dict[ str, Any ] | None:
 		'''
+		
 			Purpose:
 			--------
 			Fetch AQI forecasts by latitude and longitude.
@@ -19100,18 +19097,14 @@ class AirNow( Fetcher ):
 		'''
 		try:
 			throw_if( 'date', date )
-			
 			self.mode = 'forecast-latlon'
-			base = self.request(
-				endpoint='forecast/latLong/',
+			base = self.request( endpoint='forecast/latLong/',
 				params={
 						'latitude': float( latitude ),
 						'longitude': float( longitude ),
 						'date': str( date ).strip( ),
 						'distance': max( 0, int( distance ) )
-				},
-				time=int( time )
-			) or { }
+				}, time=int( time ) ) or { }
 			
 			records = base.get( 'raw', [ ] ) or [ ]
 			rows = self._shape_rows( records )
