@@ -1,16 +1,16 @@
 '''
   ******************************************************************************************
       Assembly:                Fonky
-      Filename:                demographic.py
+      Filename:                web.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
 
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="demographic.py" company="Terry D. Eppler">
+  <copyright file="web.py" company="Terry D. Eppler">
 
-	     demographic.py
+	     web.py
 	     Copyright ©  2026  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,28 +37,40 @@
 
   </copyright>
   <summary>
-    demographic.py
+    web.py
   </summary>
   ******************************************************************************************
 '''
 from __future__ import annotations
 
-from fonky.fetchers import CensusData
-from fonky.fetchers import Socrata
-from fonky.fetchers import UnitedNations
-from fonky.fetchers import Wonder
-from fonky.fetchers import WorldPopulation
-from fonky.loaders import OpenCityLoader
+from fetchers import Fetcher
+from fetchers import WebCrawler
+from fetchers import WebFetcher
+from fetchers import encode_image
+from loaders import ArXivLoader
+from loaders import GithubLoader
+from loaders import OpenCityLoader
+from loaders import PubMedSearchLoader
+from loaders import WebLoader
+from loaders import WikiLoader
+from scrapers import Extractor
+from scrapers import WebExtractor
 
 # ==========================================================================================
 # PUBLIC EXPORTS
 # ==========================================================================================
 
 __all__: list[ str ] = [
-		'CensusData',
+		'ArXivLoader',
+		'Extractor',
+		'Fetcher',
+		'GithubLoader',
 		'OpenCityLoader',
-		'Socrata',
-		'UnitedNations',
-		'Wonder',
-		'WorldPopulation',
+		'PubMedSearchLoader',
+		'WebCrawler',
+		'WebExtractor',
+		'WebFetcher',
+		'WebLoader',
+		'WikiLoader',
+		'encode_image',
 ]

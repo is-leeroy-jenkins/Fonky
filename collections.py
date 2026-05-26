@@ -1,16 +1,16 @@
 '''
   ******************************************************************************************
       Assembly:                Fonky
-      Filename:                astronomical.py
+      Filename:                collections.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
 
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="astronomical.py" company="Terry D. Eppler">
+  <copyright file="collections.py" company="Terry D. Eppler">
 
-	     astronomical.py
+	     collections.py
 	     Copyright ©  2026  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,36 +37,34 @@
 
   </copyright>
   <summary>
-    astronomical.py
+    collections.py
   </summary>
   ******************************************************************************************
 '''
 from __future__ import annotations
 
-from fonky.fetchers import AstroCatalog
-from fonky.fetchers import AstroQuery
-from fonky.fetchers import NavalObservatory
-from fonky.fetchers import NearbyObjects
-from fonky.fetchers import OpenScience
-from fonky.fetchers import OpenSky
-from fonky.fetchers import SatelliteCenter
-from fonky.fetchers import SpaceWeather
-from fonky.fetchers import StarChart
-from fonky.fetchers import StarMap
+from fetchers import ArXiv
+from fetchers import Congress
+from fetchers import GoogleDrive
+from fetchers import GoogleSearch
+from fetchers import GovData
+from fetchers import Grokipedia
+from fetchers import InternetArchive
+from fetchers import TheNews
+from fetchers import Wikipedia
 
 # ==========================================================================================
 # PUBLIC EXPORTS
 # ==========================================================================================
 
 __all__: list[ str ] = [
-		'AstroCatalog',
-		'AstroQuery',
-		'NavalObservatory',
-		'NearbyObjects',
-		'OpenScience',
-		'OpenSky',
-		'SatelliteCenter',
-		'SpaceWeather',
-		'StarChart',
-		'StarMap',
+		'ArXiv',
+		'Congress',
+		'GoogleDrive',
+		'GoogleSearch',
+		'GovData',
+		'Grokipedia',
+		'InternetArchive',
+		'TheNews',
+		'Wikipedia',
 ]

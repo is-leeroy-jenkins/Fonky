@@ -1,16 +1,16 @@
 '''
   ******************************************************************************************
       Assembly:                Fonky
-      Filename:                documents.py
+      Filename:                astronomical.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
 
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="documents.py" company="Terry D. Eppler">
+  <copyright file="astronomical.py" company="Terry D. Eppler">
 
-	     documents.py
+	     astronomical.py
 	     Copyright ©  2026  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,48 +37,36 @@
 
   </copyright>
   <summary>
-    documents.py
+    astronomical.py
   </summary>
   ******************************************************************************************
 '''
 from __future__ import annotations
 
-from fonky.loaders import CsvLoader
-from fonky.loaders import EmailLoader
-from fonky.loaders import ExcelLoader
-from fonky.loaders import HtmlLoader
-from fonky.loaders import JsonLoader
-from fonky.loaders import JupyterNotebookLoader
-from fonky.loaders import Loader
-from fonky.loaders import MarkdownLoader
-from fonky.loaders import OutlookLoader
-from fonky.loaders import PdfLoader
-from fonky.loaders import PdfReader
-from fonky.loaders import PowerPointLoader
-from fonky.loaders import SpfxLoader
-from fonky.loaders import TextLoader
-from fonky.loaders import WordLoader
-from fonky.loaders import XmlLoader
+from fetchers import AstroCatalog
+from fetchers import AstroQuery
+from fetchers import NavalObservatory
+from fetchers import NearbyObjects
+from fetchers import OpenScience
+from fetchers import OpenSky
+from fetchers import SatelliteCenter
+from fetchers import SpaceWeather
+from fetchers import StarChart
+from fetchers import StarMap
 
 # ==========================================================================================
 # PUBLIC EXPORTS
 # ==========================================================================================
 
 __all__: list[ str ] = [
-		'CsvLoader',
-		'EmailLoader',
-		'ExcelLoader',
-		'HtmlLoader',
-		'JsonLoader',
-		'JupyterNotebookLoader',
-		'Loader',
-		'MarkdownLoader',
-		'OutlookLoader',
-		'PdfLoader',
-		'PdfReader',
-		'PowerPointLoader',
-		'SpfxLoader',
-		'TextLoader',
-		'WordLoader',
-		'XmlLoader',
+		'AstroCatalog',
+		'AstroQuery',
+		'NavalObservatory',
+		'NearbyObjects',
+		'OpenScience',
+		'OpenSky',
+		'SatelliteCenter',
+		'SpaceWeather',
+		'StarChart',
+		'StarMap',
 ]

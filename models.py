@@ -45,11 +45,255 @@ from __future__ import annotations
 
 import inspect
 import types
-from fonky.boogr import Error
-from collections.abc import Callable
-from typing import Any, Dict, List, Optional, Union, get_args, get_origin, get_type_hints
+from boogr import Error
+from typing import Any, Dict, List, Optional, Union, get_args, get_origin, get_type_hints, Callable
 
 from pydantic import BaseModel, ConfigDict
+
+def throw_if( name: str, value: Any ) -> None:
+	'''
+
+		Purpose:
+		--------
+		Validate a required argument and raise a ValueError when the supplied value is None
+		or an empty string.
+
+		Parameters:
+		-----------
+		name (str): Name of the argument being validated.
+		value (Any): Value being validated.
+
+		Returns:
+		--------
+		None
+
+	'''
+	if value is None:
+		raise ValueError( f'Argument "{name}" cannot be None.' )
+	
+	if isinstance( value, str ) and not value.strip( ):
+		raise ValueError( f'Argument "{name}" cannot be empty.' )
+
+def clean_docstring( value: Optional[ str ] ) -> str:
+	'''
+
+		Purpose:
+		--------
+		Clean a callable docstring for use as a tool description.
+
+		Parameters:
+		-----------
+		value (Optional[str]): Raw docstring value.
+
+		Returns:
+		--------
+		str: Cleaned docstring text.
+
+	'''
+	try:
+		if not value:
+			return ''
+		
+		return inspect.cleandoc( value ).strip( )
+	except Exception as e:
+		exception = Error( e )
+		exception.module = 'models'
+		exception.cause = 'ToolDef'
+		exception.method = 'clean_docstring( value: Optional[ str ] ) -> str'
+		raise exception
+
+def python_type_to_json_schema( annotation: Any ) -> Dict[ str, Any ]:
+	'''
+
+		Purpose:
+		--------
+		Convert a Python type annotation into a JSON Schema fragment suitable for
+		provider-neutral tool definitions.
+
+		Parameters:
+		-----------
+		annotation (Any): Python type annotation.
+
+		Returns:
+		--------
+		Dict[str, Any]: JSON Schema fragment.
+
+	'''
+	try:
+		if annotation is inspect.Signature.empty:
+			return { 'type': 'string' }
+		
+		if annotation is Any:
+			return { 'type': 'object' }
+		
+		origin = get_origin( annotation )
+		args = get_args( annotation )
+		
+		if origin in (Union, types.UnionType):
+			non_null = [ arg for arg in args if arg is not type( None ) ]
+			
+			if len( non_null ) == 1:
+				return python_type_to_json_schema( non_null[ 0 ] )
+			
+			return { 'type': 'object' }
+		
+		if origin in (list, List):
+			item_type = args[ 0 ] if args else Any
+			
+			return {
+					'type': 'array',
+					'items': python_type_to_json_schema( item_type )
+			}
+		
+		if origin in (dict, Dict):
+			return { 'type': 'object' }
+		
+		if annotation is str:
+			return { 'type': 'string' }
+		
+		if annotation is int:
+			return { 'type': 'integer' }
+		
+		if annotation is float:
+			return { 'type': 'number' }
+		
+		if annotation is bool:
+			return { 'type': 'boolean' }
+		
+		if annotation in (list, tuple, set):
+			return { 'type': 'array' }
+		
+		if annotation is dict:
+			return { 'type': 'object' }
+		
+		return { 'type': 'object' }
+	except Exception as e:
+		exception = Error( e )
+		exception.module = 'models'
+		exception.cause = 'ToolDef'
+		exception.method = 'python_type_to_json_schema( annotation: Any ) -> Dict[ str, Any ]'
+		raise exception
+
+def build_parameter_schema( function: Callable[ ..., Any ] ) -> Dict[ str, Any ]:
+	'''
+
+		Purpose:
+		--------
+		Build a provider-neutral JSON Schema parameters object from a Python callable
+		signature and resolved type hints.
+
+		Parameters:
+		-----------
+		function (Callable[..., Any]): Callable used to generate the schema.
+
+		Returns:
+		--------
+		Dict[str, Any]: JSON Schema object with properties and required fields.
+
+	'''
+	try:
+		throw_if( 'function', function )
+		
+		if not callable( function ):
+			raise TypeError( 'Argument "function" must be callable.' )
+		
+		signature = inspect.signature( function )
+		
+		try:
+			type_hints = get_type_hints( function )
+		except Exception:
+			type_hints = { }
+		
+		properties: Dict[ str, Any ] = { }
+		required: List[ str ] = [ ]
+		
+		for name, parameter in signature.parameters.items( ):
+			if name in ('self', 'cls'):
+				continue
+			
+			if parameter.kind in (
+						inspect.Parameter.VAR_POSITIONAL,
+						inspect.Parameter.VAR_KEYWORD
+			):
+				continue
+			
+			annotation = type_hints.get( name, parameter.annotation )
+			schema = python_type_to_json_schema( annotation )
+			
+			if parameter.default is not inspect.Signature.empty:
+				schema[ 'default' ] = parameter.default
+			else:
+				required.append( name )
+			
+			properties[ name ] = schema
+		
+		return {
+				'type': 'object',
+				'properties': properties,
+				'required': required
+		}
+	except Exception as e:
+		exception = Error( e )
+		exception.module = 'models'
+		exception.cause = 'ToolDef'
+		exception.method = 'build_parameter_schema( function: Callable[ ..., Any ] ) -> Dict[ str, Any ]'
+		raise exception
+
+def serialize_value( value: Any ) -> Any:
+	'''
+
+		Purpose:
+		--------
+		Convert common Fonky, LangChain, Pydantic, pandas, and Python values into a
+		JSON-safe representation suitable for tool-call results.
+
+		Parameters:
+		-----------
+		value (Any): Value to serialize.
+
+		Returns:
+		--------
+		Any: JSON-safe value.
+
+	'''
+	try:
+		if value is None:
+			return None
+		
+		if isinstance( value, (str, int, float, bool) ):
+			return value
+		
+		if hasattr( value, 'page_content' ) and hasattr( value, 'metadata' ):
+			return {
+					'page_content': serialize_value( value.page_content ),
+					'metadata': serialize_value( value.metadata )
+			}
+		
+		if hasattr( value, 'model_dump' ) and callable( value.model_dump ):
+			return serialize_value( value.model_dump( ) )
+		
+		if hasattr( value, 'to_dict' ) and callable( value.to_dict ):
+			return serialize_value( value.to_dict( ) )
+		
+		if hasattr( value, 'to_json' ) and callable( value.to_json ):
+			return value.to_json( )
+		
+		if isinstance( value, dict ):
+			return {
+					str( key ): serialize_value( item )
+					for key, item in value.items( )
+			}
+		
+		if isinstance( value, (list, tuple, set) ):
+			return [ serialize_value( item ) for item in value ]
+		
+		return str( value )
+	except Exception as e:
+		exception = Error( e )
+		exception.module = 'models'
+		exception.cause = 'ToolDef'
+		exception.method = 'serialize_value( value: Any ) -> Any'
+		raise exception
 
 class Prompt( BaseModel ):
 	'''
@@ -385,259 +629,85 @@ class Function( Tool ):
 	parameters: Optional[ Dict[ str, Any ] ]
 	strict: Optional[ bool ]
 
-# ==========================================================================================
-# TOOL DEFINITION HELPERS
-# ==========================================================================================
-
-def throw_if( name: str, value: Any ) -> None:
+class FileSearch( Tool ):
 	'''
 
 		Purpose:
 		--------
-		Validate a required argument and raise a ValueError when the supplied value is None
-		or an empty string.
+		Represents configuration for a file-search tool invocation. Boo uses this to keep tool
+		config structured and to support serialization/rehydration of tool configurations.
 
-		Parameters:
-		-----------
-		name (str): Name of the argument being validated.
-		value (Any): Value being validated.
+		Attributes:
+		----------
+		type: Optional[ str ]
+			Type discriminator for the tool (commonly "file_search").
 
-		Returns:
-		--------
-		None
+		vector_store_ids: Optional[ List[ str ] ]
+			Vector store identifiers available to the search tool.
+
+		max_num_results: Optional[ int ]
+			Maximum number of results to return.
+
+		filters: Optional[ Dict[ str, Any ] ]
+			Optional filter object (metadata filters, namespace filters, etc.).
 
 	'''
-	if value is None:
-		raise ValueError( f'Argument "{name}" cannot be None.' )
+	vector_store_ids: Optional[ List[ str ] ]
+	max_num_results: Optional[ int ]
+	filters: Optional[ Dict[ str, Any ] ]
+
+class WebSearch( Tool ):
+	'''
+
+		Purpose:
+		--------
+		Represents configuration for a web-search tool invocation.
+
+		Attributes:
+		----------
+		type: Optional[ str ]
+			Type discriminator for the tool (commonly "web_search").
+
+		search_context_size: Optional[ str ]
+			Desired context size (vendor-specific; common values are "low", "medium", "high").
+
+		user_location: Optional[ Any ]
+			Optional location descriptor to bias search results. This may be a Location,
+			GeoCoordinates, or a vendor-specific object.
+
+	'''
+	type: Optional[ str ]
+	search_context_size: Optional[ str ]
+	user_location: Optional[ Any ]
+
+class ComputerUse( Tool ):
+	'''
+
+		Purpose:
+		--------
+		Represents configuration for a computer-use tool invocation (UI automation / virtual
+		display sessions).
+
+		Attributes:
+		----------
+		type: Optional[ str ]
+			Type discriminator for the tool (commonly "computer_use").
+
+		display_height: Optional[ int ]
+			Height (pixels) of the virtual display.
+
+		display_width: Optional[ int ]
+			Width (pixels) of the virtual display.
+
+		environment: Optional[ str ]
+			Environment label (e.g., "browser", "desktop") when supported by the tool provider.
+
+	'''
+	type: Optional[ str ]
+	display_height: Optional[ int ]
+	display_width: Optional[ int ]
+	environment: Optional[ str ]
 	
-	if isinstance( value, str ) and not value.strip( ):
-		raise ValueError( f'Argument "{name}" cannot be empty.' )
-
-def clean_docstring( value: Optional[ str ] ) -> str:
-	'''
-
-		Purpose:
-		--------
-		Clean a callable docstring for use as a tool description.
-
-		Parameters:
-		-----------
-		value (Optional[str]): Raw docstring value.
-
-		Returns:
-		--------
-		str: Cleaned docstring text.
-
-	'''
-	try:
-		if not value:
-			return ''
-		
-		return inspect.cleandoc( value ).strip( )
-	except Exception as e:
-		exception = Error( e )
-		exception.module = 'models'
-		exception.cause = 'ToolDef'
-		exception.method = 'clean_docstring( value: Optional[ str ] ) -> str'
-		raise exception
-
-def python_type_to_json_schema( annotation: Any ) -> Dict[ str, Any ]:
-	'''
-
-		Purpose:
-		--------
-		Convert a Python type annotation into a JSON Schema fragment suitable for
-		provider-neutral tool definitions.
-
-		Parameters:
-		-----------
-		annotation (Any): Python type annotation.
-
-		Returns:
-		--------
-		Dict[str, Any]: JSON Schema fragment.
-
-	'''
-	try:
-		if annotation is inspect.Signature.empty:
-			return { 'type': 'string' }
-		
-		if annotation is Any:
-			return { 'type': 'object' }
-		
-		origin = get_origin( annotation )
-		args = get_args( annotation )
-		
-		if origin in (Union, types.UnionType):
-			non_null = [ arg for arg in args if arg is not type( None ) ]
-			
-			if len( non_null ) == 1:
-				return python_type_to_json_schema( non_null[ 0 ] )
-			
-			return { 'type': 'object' }
-		
-		if origin in (list, List):
-			item_type = args[ 0 ] if args else Any
-			
-			return {
-					'type': 'array',
-					'items': python_type_to_json_schema( item_type )
-			}
-		
-		if origin in (dict, Dict):
-			return { 'type': 'object' }
-		
-		if annotation is str:
-			return { 'type': 'string' }
-		
-		if annotation is int:
-			return { 'type': 'integer' }
-		
-		if annotation is float:
-			return { 'type': 'number' }
-		
-		if annotation is bool:
-			return { 'type': 'boolean' }
-		
-		if annotation in (list, tuple, set):
-			return { 'type': 'array' }
-		
-		if annotation is dict:
-			return { 'type': 'object' }
-		
-		return { 'type': 'object' }
-	except Exception as e:
-		exception = Error( e )
-		exception.module = 'models'
-		exception.cause = 'ToolDef'
-		exception.method = 'python_type_to_json_schema( annotation: Any ) -> Dict[ str, Any ]'
-		raise exception
-
-def build_parameter_schema( function: Callable[ ..., Any ] ) -> Dict[ str, Any ]:
-	'''
-
-		Purpose:
-		--------
-		Build a provider-neutral JSON Schema parameters object from a Python callable
-		signature and resolved type hints.
-
-		Parameters:
-		-----------
-		function (Callable[..., Any]): Callable used to generate the schema.
-
-		Returns:
-		--------
-		Dict[str, Any]: JSON Schema object with properties and required fields.
-
-	'''
-	try:
-		throw_if( 'function', function )
-		
-		if not callable( function ):
-			raise TypeError( 'Argument "function" must be callable.' )
-		
-		signature = inspect.signature( function )
-		
-		try:
-			type_hints = get_type_hints( function )
-		except Exception:
-			type_hints = { }
-		
-		properties: Dict[ str, Any ] = { }
-		required: List[ str ] = [ ]
-		
-		for name, parameter in signature.parameters.items( ):
-			if name in ('self', 'cls'):
-				continue
-			
-			if parameter.kind in (
-						inspect.Parameter.VAR_POSITIONAL,
-						inspect.Parameter.VAR_KEYWORD
-			):
-				continue
-			
-			annotation = type_hints.get( name, parameter.annotation )
-			schema = python_type_to_json_schema( annotation )
-			
-			if parameter.default is not inspect.Signature.empty:
-				schema[ 'default' ] = parameter.default
-			else:
-				required.append( name )
-			
-			properties[ name ] = schema
-		
-		return {
-				'type': 'object',
-				'properties': properties,
-				'required': required
-		}
-	except Exception as e:
-		exception = Error( e )
-		exception.module = 'models'
-		exception.cause = 'ToolDef'
-		exception.method = 'build_parameter_schema( function: Callable[ ..., Any ] ) -> Dict[ str, Any ]'
-		raise exception
-
-def serialize_value( value: Any ) -> Any:
-	'''
-
-		Purpose:
-		--------
-		Convert common Fonky, LangChain, Pydantic, pandas, and Python values into a
-		JSON-safe representation suitable for tool-call results.
-
-		Parameters:
-		-----------
-		value (Any): Value to serialize.
-
-		Returns:
-		--------
-		Any: JSON-safe value.
-
-	'''
-	try:
-		if value is None:
-			return None
-		
-		if isinstance( value, (str, int, float, bool) ):
-			return value
-		
-		if hasattr( value, 'page_content' ) and hasattr( value, 'metadata' ):
-			return {
-					'page_content': serialize_value( value.page_content ),
-					'metadata': serialize_value( value.metadata )
-			}
-		
-		if hasattr( value, 'model_dump' ) and callable( value.model_dump ):
-			return serialize_value( value.model_dump( ) )
-		
-		if hasattr( value, 'to_dict' ) and callable( value.to_dict ):
-			return serialize_value( value.to_dict( ) )
-		
-		if hasattr( value, 'to_json' ) and callable( value.to_json ):
-			return value.to_json( )
-		
-		if isinstance( value, dict ):
-			return {
-					str( key ): serialize_value( item )
-					for key, item in value.items( )
-			}
-		
-		if isinstance( value, (list, tuple, set) ):
-			return [ serialize_value( item ) for item in value ]
-		
-		return str( value )
-	except Exception as e:
-		exception = Error( e )
-		exception.module = 'models'
-		exception.cause = 'ToolDef'
-		exception.method = 'serialize_value( value: Any ) -> Any'
-		raise exception
-
-# ==========================================================================================
-# TOOL DEFINITION
-# ==========================================================================================
-
 class ToolDef( Function ):
 	'''
 
@@ -730,20 +800,11 @@ class ToolDef( Function ):
 			callable_name = getattr( function, '__name__', function.__class__.__name__ )
 			source_module = getattr( function, '__module__', None )
 			
-			return cls(
-				name=name or callable_name,
-				type='function',
+			return cls( name=name or callable_name, type='function',
 				description=description or clean_docstring( getattr( function, '__doc__', '' ) ),
-				parameters=build_parameter_schema( function ),
-				strict=strict,
-				target=None,
-				method=None,
-				handler=function,
-				category=category,
-				source_module=source_module,
-				source_class=None,
-				callable_name=callable_name
-			)
+				parameters=build_parameter_schema( function ), strict=strict, target=None,
+				method=None, handler=function, category=category, source_module=source_module,
+				source_class=None, callable_name=callable_name )
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'models'
@@ -941,8 +1002,7 @@ class ToolDef( Function ):
 
 		'''
 		try:
-			return {
-					'name': self.name,
+			return { 'name': self.name,
 					'type': self.type,
 					'description': self.description,
 					'parameters': self.parameters,
@@ -951,8 +1011,7 @@ class ToolDef( Function ):
 					'source_module': self.source_module,
 					'source_class': self.source_class,
 					'method': self.method,
-					'callable_name': self.callable_name
-			}
+					'callable_name': self.callable_name }
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'models'
@@ -1057,82 +1116,4 @@ class ToolDef( Function ):
 			exception.cause = 'ToolDef'
 			exception.method = 'to_gemini( self ) -> Dict[ str, Any ]'
 			raise exception
-		
-class FileSearch( Tool ):
-	'''
 
-		Purpose:
-		--------
-		Represents configuration for a file-search tool invocation. Boo uses this to keep tool
-		config structured and to support serialization/rehydration of tool configurations.
-
-		Attributes:
-		----------
-		type: Optional[ str ]
-			Type discriminator for the tool (commonly "file_search").
-
-		vector_store_ids: Optional[ List[ str ] ]
-			Vector store identifiers available to the search tool.
-
-		max_num_results: Optional[ int ]
-			Maximum number of results to return.
-
-		filters: Optional[ Dict[ str, Any ] ]
-			Optional filter object (metadata filters, namespace filters, etc.).
-
-	'''
-	vector_store_ids: Optional[ List[ str ] ]
-	max_num_results: Optional[ int ]
-	filters: Optional[ Dict[ str, Any ] ]
-
-class WebSearch( Tool ):
-	'''
-
-		Purpose:
-		--------
-		Represents configuration for a web-search tool invocation.
-
-		Attributes:
-		----------
-		type: Optional[ str ]
-			Type discriminator for the tool (commonly "web_search").
-
-		search_context_size: Optional[ str ]
-			Desired context size (vendor-specific; common values are "low", "medium", "high").
-
-		user_location: Optional[ Any ]
-			Optional location descriptor to bias search results. This may be a Location,
-			GeoCoordinates, or a vendor-specific object.
-
-	'''
-	type: Optional[ str ]
-	search_context_size: Optional[ str ]
-	user_location: Optional[ Any ]
-
-class ComputerUse( Tool ):
-	'''
-
-		Purpose:
-		--------
-		Represents configuration for a computer-use tool invocation (UI automation / virtual
-		display sessions).
-
-		Attributes:
-		----------
-		type: Optional[ str ]
-			Type discriminator for the tool (commonly "computer_use").
-
-		display_height: Optional[ int ]
-			Height (pixels) of the virtual display.
-
-		display_width: Optional[ int ]
-			Width (pixels) of the virtual display.
-
-		environment: Optional[ str ]
-			Environment label (e.g., "browser", "desktop") when supported by the tool provider.
-
-	'''
-	type: Optional[ str ]
-	display_height: Optional[ int ]
-	display_width: Optional[ int ]
-	environment: Optional[ str ]

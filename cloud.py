@@ -43,12 +43,12 @@
 '''
 from __future__ import annotations
 
-from fonky.loaders import AwsBucketLoader
-from fonky.loaders import AwsFileLoader
-from fonky.loaders import GoogleBucketLoader
-from fonky.loaders import GoogleCloudFileLoader
-from fonky.loaders import GoogleSpeechToTextLoader
-from fonky.loaders import OneDriveDocLoader
+from loaders import AwsBucketLoader
+from loaders import AwsFileLoader
+from loaders import GoogleBucketLoader
+from loaders import GoogleCloudFileLoader
+from loaders import GoogleSpeechToTextLoader
+from loaders import OneDriveDocLoader
 
 # ==========================================================================================
 # PUBLIC EXPORTS

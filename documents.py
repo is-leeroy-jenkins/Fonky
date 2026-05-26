@@ -1,16 +1,16 @@
 '''
   ******************************************************************************************
       Assembly:                Fonky
-      Filename:                environmental.py
+      Filename:                documents.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
 
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="environmental.py" company="Terry D. Eppler">
+  <copyright file="documents.py" company="Terry D. Eppler">
 
-	     environmental.py
+	     documents.py
 	     Copyright ©  2026  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,46 +37,48 @@
 
   </copyright>
   <summary>
-    environmental.py
+    documents.py
   </summary>
   ******************************************************************************************
 '''
 from __future__ import annotations
 
-from fonky.fetchers import AirNow
-from fonky.fetchers import ClimateData
-from fonky.fetchers import EarthObservatory
-from fonky.fetchers import EnviroFacts
-from fonky.fetchers import EoNet
-from fonky.fetchers import Firms
-from fonky.fetchers import GoogleWeather
-from fonky.fetchers import HistoricalWeather
-from fonky.fetchers import OpenAQ
-from fonky.fetchers import OpenWeather
-from fonky.fetchers import PurpleAir
-from fonky.fetchers import TidesAndCurrents
-from fonky.fetchers import USGSEarthquakes
-from fonky.fetchers import USGSWaterData
-from fonky.fetchers import UvIndex
+from loaders import CsvLoader
+from loaders import EmailLoader
+from loaders import ExcelLoader
+from loaders import HtmlLoader
+from loaders import JsonLoader
+from loaders import JupyterNotebookLoader
+from loaders import Loader
+from loaders import MarkdownLoader
+from loaders import OutlookLoader
+from loaders import PdfLoader
+from loaders import PdfReader
+from loaders import PowerPointLoader
+from loaders import SpfxLoader
+from loaders import TextLoader
+from loaders import WordLoader
+from loaders import XmlLoader
 
 # ==========================================================================================
 # PUBLIC EXPORTS
 # ==========================================================================================
 
 __all__: list[ str ] = [
-		'AirNow',
-		'ClimateData',
-		'EarthObservatory',
-		'EnviroFacts',
-		'EoNet',
-		'Firms',
-		'GoogleWeather',
-		'HistoricalWeather',
-		'OpenAQ',
-		'OpenWeather',
-		'PurpleAir',
-		'TidesAndCurrents',
-		'USGSEarthquakes',
-		'USGSWaterData',
-		'UvIndex',
+		'CsvLoader',
+		'EmailLoader',
+		'ExcelLoader',
+		'HtmlLoader',
+		'JsonLoader',
+		'JupyterNotebookLoader',
+		'Loader',
+		'MarkdownLoader',
+		'OutlookLoader',
+		'PdfLoader',
+		'PdfReader',
+		'PowerPointLoader',
+		'SpfxLoader',
+		'TextLoader',
+		'WordLoader',
+		'XmlLoader',
 ]

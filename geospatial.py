@@ -1,16 +1,16 @@
 '''
   ******************************************************************************************
       Assembly:                Fonky
-      Filename:                web.py
+      Filename:                geospatial.py
       Author:                  Terry D. Eppler
       Created:                 05-31-2022
 
       Last Modified By:        Terry D. Eppler
       Last Modified On:        05-01-2025
   ******************************************************************************************
-  <copyright file="web.py" company="Terry D. Eppler">
+  <copyright file="geospatial.py" company="Terry D. Eppler">
 
-	     web.py
+	     geospatial.py
 	     Copyright ©  2026  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,40 +37,32 @@
 
   </copyright>
   <summary>
-    web.py
+    geospatial.py
   </summary>
   ******************************************************************************************
 '''
 from __future__ import annotations
 
-from fonky.fetchers import Fetcher
-from fonky.fetchers import WebCrawler
-from fonky.fetchers import WebFetcher
-from fonky.fetchers import encode_image
-from fonky.loaders import ArXivLoader
-from fonky.loaders import GithubLoader
-from fonky.loaders import OpenCityLoader
-from fonky.loaders import PubMedSearchLoader
-from fonky.loaders import WebLoader
-from fonky.loaders import WikiLoader
-from fonky.scrapers import Extractor
-from fonky.scrapers import WebExtractor
+from fetchers import CensusData
+from fetchers import GlobalImagery
+from fetchers import GoogleGeocoding
+from fetchers import GoogleMaps
+from fetchers import NearbyObjects
+from fetchers import Socrata
+from fetchers import USGSScienceBase
+from fetchers import USGSTheNationalMap
 
 # ==========================================================================================
 # PUBLIC EXPORTS
 # ==========================================================================================
 
 __all__: list[ str ] = [
-		'ArXivLoader',
-		'Extractor',
-		'Fetcher',
-		'GithubLoader',
-		'OpenCityLoader',
-		'PubMedSearchLoader',
-		'WebCrawler',
-		'WebExtractor',
-		'WebFetcher',
-		'WebLoader',
-		'WikiLoader',
-		'encode_image',
+		'CensusData',
+		'GlobalImagery',
+		'GoogleGeocoding',
+		'GoogleMaps',
+		'NearbyObjects',
+		'Socrata',
+		'USGSScienceBase',
+		'USGSTheNationalMap',
 ]

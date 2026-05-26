@@ -85,27 +85,30 @@ from langchain_google_community import (
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from lxml import etree
 
-from fonky.boogr import Error
+from boogr import Error
 
-def throw_if( name: str, value: Any ) -> None:
-	'''
-
+def throw_if( name: str, value: object ) -> None:
+	"""
+	
 		Purpose:
-		-----------
-		Simple guard which raises ValueError when `value` is falsy (None, empty).
-
+		--------
+		Validate that a required value is not empty.
+		
 		Parameters:
 		-----------
-		name (str): Variable name used in the raised message.
-		value (Any): Value to validate.
-
+		name (str): Name of the argument being validated.
+		value (object): Value to validate.
+		
 		Returns:
-		-----------
-		None: Raises ValueError when `value` is falsy.
-
-	'''
+		--------
+		None
+		
+	"""
 	if value is None:
-		raise ValueError( f"Argument '{name}' cannot be empty!" )
+		raise ValueError( f'Argument "{name}" cannot be None.' )
+	
+	if isinstance( value, str ) and not value.strip( ):
+		raise ValueError( f'Argument "{name}" cannot be empty.' )
 
 class Loader( ):
 	'''
@@ -2010,6 +2013,192 @@ class WikiLoader( Loader ):
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
 			raise exception
 
+class GoogleLoader( Loader ):
+	'''
+
+		Purpose:
+		--------
+		Provides Google Drive loading functionality
+		to parse contents into Document objects.
+
+		Attributes:
+		-----------
+		documents - List[ Document ]
+		file_path -  str
+		pattern -  str
+		expanded - List[ str ]
+		candidates - List[ str ]
+		resolved - List[ str ]
+		splitter - RecursiveCharacterTextSplitter
+		chunk_size - int
+		overlap_amount - int
+
+		Methods:
+		--------
+		verify_exists( self, path: str ) -> str;
+		resolve_paths( self, pattern: str ) -> List[ str ];
+		split_documents( self, docs: List[ Document ]  ) -> List[ Document ];
+		load( path: str, mode: str ) -> List[ Document ];
+		split( ) -> List[ Document ];
+
+	'''
+	loader: Optional[ GoogleDriveLoader ]
+	file_path: Optional[ str ]
+	documents: Optional[ List[ Document ] ]
+	query: Optional[ str ]
+	file_id: Optional[ str ]
+	folder_id: Optional[ str ]
+	query: Optional[ str ]
+	is_recursive: Optional[ bool ]
+	
+	def __init__( self ) -> None:
+		super( ).__init__( )
+		self.file_path = None
+		self.documents = None
+		self.query = None
+		self.file_id = None
+		self.folder_id = None
+		self.chunk_size = None
+		self.overlap_amount = None
+		self.loader = None
+		self.is_recursive = None
+	
+	def __dir__( self ):
+		'''
+
+			Returns:
+			--------
+			A list of all available members.
+
+
+		'''
+		return [ 'loader',
+		         'documents',
+		         'splitter',
+		         'pattern',
+		         'file_path',
+		         'expanded',
+		         'candidates',
+		         'resolved',
+		         'chunk_size',
+		         'overlap_amount',
+		         'query',
+		         'folder_id',
+		         'file_id',
+		         'is_recursive',
+		         'verify_exists',
+		         'resolve_paths',
+		         'split_documents',
+		         'load',
+		         'load_folder',
+		         'split', ]
+	
+	@property
+	def file_options( self ):
+		'''
+
+			Returns:
+			-------
+			List[ str ] of file options
+
+		'''
+		return [ 'document',
+		         'sheet',
+		         'pdf' ]
+	
+	def load_file( self, file_id: str, recursive: bool = False ) -> List[ Document ] | None:
+		'''
+
+			Purpose:
+			--------
+			Load an google drive file by id and convert its contents into LangChain Document objects.
+
+			Parameters:
+			-----------
+			path (str): Path to the HTML (.html or .htm) file.
+
+			Returns:
+			--------
+			List[Document]: List of Document objects parsed from HTML content.
+
+		'''
+		try:
+			throw_if( 'file_id', file_id )
+			throw_if( 'recursive', recursive )
+			self.file_id = file_id
+			self.is_recursive = recursive
+			self.loader = GoogleDriveLoader( file_ids=[ self.file_id ],
+				recursive=self.is_recursive )
+			self.documents = self.loader.load( )
+			return self.documents
+		except Exception as e:
+			exception = Error( e )
+			exception.module = 'Fonky'
+			exception.cause = 'GoogleDriveLoader'
+			exception.method = 'load_File( self, file_id: str ) -> List[ Document ]'
+			raise exception
+	
+	def load_folder( self, folder_id: str, recursive: bool = False ) -> List[ Document ] | None:
+		'''
+
+			Purpose:
+			--------
+			Load an google drive file and convert its contents into LangChain Document objects.
+
+			Parameters:
+			-----------
+			path (str): Path to the HTML (.html or .htm) file.
+
+			Returns:
+			--------
+			List[Document]: List of Document objects parsed from HTML content.
+
+		'''
+		try:
+			throw_if( 'folder_id', folder_id )
+			self.folder_id = folder_id
+			self.is_recursive = recursive
+			self.loader = GoogleDriveLoader( folder_id=self.folder_id, recursive=self.is_recursive )
+			self.documents = self.loader.load( )
+			return self.documents
+		except Exception as e:
+			exception = Error( e )
+			exception.module = 'Fonky'
+			exception.cause = 'GoogleDriveLoader'
+			exception.method = 'load_folder( self, path: str ) -> List[ Document ]'
+			raise exception
+	
+	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+		'''
+
+			Purpose:
+			--------
+			Split loaded google drive documents into manageable text chunks.
+
+			Parameters:
+			-----------
+			chunk_size (int): Max characters per chunk.
+			chunk_overlap (int): Overlapping characters between chunks.
+
+			Returns:
+			--------
+			List[Document]: Chunked list of LangChain Document objects.
+
+		'''
+		try:
+			throw_if( 'documents', self.documents )
+			self.chunk_size = chunk
+			self.overlap_amount = overlap
+			self.documents = self.split_documents( self.documents, chunk=self.chunk_size,
+				overlap=self.overlap_amount )
+			return self.documents
+		except Exception as e:
+			exception = Error( e )
+			exception.module = 'Fonky'
+			exception.cause = 'GoogleDriveLoader'
+			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			raise exception
+		
 class OutlookLoader( Loader ):
 	'''
 

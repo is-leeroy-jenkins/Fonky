@@ -49,13 +49,32 @@ from typing import Dict, List, Optional, Pattern
 import requests
 from bs4 import BeautifulSoup
 from requests import Response
-from fonky import config as cfg
-from fonky.boogr import Error
-from fonky.core import Result
+import config as cfg
+from boogr import Error
+from core import Result
 
-def throw_if( name: str, value: object ):
+def throw_if( name: str, value: object ) -> None:
+	"""
+	
+		Purpose:
+		--------
+		Validate that a required value is not empty.
+		
+		Parameters:
+		-----------
+		name (str): Name of the argument being validated.
+		value (object): Value to validate.
+		
+		Returns:
+		--------
+		None
+		
+	"""
 	if value is None:
-		raise ValueError( f'Argument "{name}" cannot be empty!' )
+		raise ValueError( f'Argument "{name}" cannot be None.' )
+	
+	if isinstance( value, str ) and not value.strip( ):
+		raise ValueError( f'Argument "{name}" cannot be empty.' )
 
 class Extractor( ):
 	"""
