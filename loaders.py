@@ -2013,7 +2013,7 @@ class WikiLoader( Loader ):
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
 			raise exception
 
-class GoogleLoader( Loader ):
+class GoogleDriveLoader( Loader ):
 	'''
 
 		Purpose:
