@@ -2,12 +2,14 @@
 
 ![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky_project.png)
 ---
+
+![License: Public Domain](https://img.shields.io/badge/license-public%20domain-brightgreen.svg)
+
 A reusable Python framework for data retrieval, document ingestion, and agent-ready tool
 orchestration. Fonky provides a stable service layer for fetchers, scrapers, loaders, and processing, plus a completed
 `fonky.tools` package that exposes selected class methods as structured tools for ad-hoc LangChain-style
 agents, notebooks, web applications, FastAPI services, and other agentic workflows.
 
-![License: Public Domain](https://img.shields.io/badge/license-public%20domain-brightgreen.svg)
 
 #### 🎯 Purpose
 
