@@ -7,6 +7,7 @@ orchestration. Fonky provides a stable service layer for fetchers, scrapers, loa
 `fonky.tools` package that exposes selected class methods as structured tools for ad-hoc LangChain-style
 agents, notebooks, web applications, FastAPI services, and other agentic workflows.
 
+![License: Public Domain](https://img.shields.io/badge/license-public%20domain-brightgreen.svg)
 
 #### 🎯 Purpose
 
