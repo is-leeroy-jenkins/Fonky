@@ -25440,8 +25440,7 @@ class OpenSky( Fetcher ):
 					begin=begin,
 					end=end,
 					client_id=client_id,
-					client_secret=client_secret
-				)
+					client_secret=client_secret )
 			
 			if self.mode == 'arrivals_airport':
 				return self.fetch_arrivals_airport(
@@ -25449,8 +25448,7 @@ class OpenSky( Fetcher ):
 					begin=begin,
 					end=end,
 					client_id=client_id,
-					client_secret=client_secret
-				)
+					client_secret=client_secret )
 			
 			if self.mode == 'departures_airport':
 				return self.fetch_departures_airport(
@@ -25458,21 +25456,17 @@ class OpenSky( Fetcher ):
 					begin=begin,
 					end=end,
 					client_id=client_id,
-					client_secret=client_secret
-				)
+					client_secret=client_secret )
 			
 			if self.mode == 'track_aircraft':
 				return self.fetch_track_aircraft(
 					icao24=icao24,
 					time_value=time_value,
 					client_id=client_id,
-					client_secret=client_secret
-				)
+					client_secret=client_secret )
 			
-			raise ValueError(
-				"Unsupported mode. Use 'states_bbox', 'flights_aircraft', "
-				"'arrivals_airport', 'departures_airport', or 'track_aircraft'."
-			)
+			raise ValueError( "Unsupported mode. Use 'states_bbox', 'flights_aircraft', "
+				"'arrivals_airport', 'departures_airport', or 'track_aircraft'." )
 		
 		except Exception as exc:
 			exception = Error( exc )
