@@ -5,267 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="685dddad-e825-4bf0-82d8-7075e3b95217" name="Changes" comment="updates">
-      <change afterPath="$PROJECT_DIR$/docs/api/archives.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/astronomical.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/boogr.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/cloud.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/config.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/core.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/demographic.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/documents.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/environmental.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/fetchers.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/geospatial.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/health.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/index.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/loaders.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/models.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/processors.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/scrapers.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/web.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/architecture.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/configuration.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/development.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/getting-started.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/github-pages.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/index.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/logging.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/stylesheets/extra.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/usage.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mkdocs.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/archives.py" beforeDir="false" afterPath="$PROJECT_DIR$/archives.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/astronomical.py" beforeDir="false" afterPath="$PROJECT_DIR$/astronomical.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr.py" beforeDir="false" afterPath="$PROJECT_DIR$/boogr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/default_icon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/enums.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/minion.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/BooIcon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/Booger.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/Save.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/adobe.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/atk.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/b.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/batch.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/black_sigma.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/boo.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/boogr.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/browse.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/chart.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/copy.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/csv.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/dataedit.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/doc.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/e_logo.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/error.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/euler_circle.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/excel.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/file_browse.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/filter.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/folder_browse.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/info.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/input.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/koolaid.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/machinelearning.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/message.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/pdf.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/pi.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/setting.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/sword_ninja.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/textfile.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/ico/webcam.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/atk.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/boogr.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/Authority.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/BOC.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/DERA.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/DWH.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/EMD.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/OAR.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/OECA.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/OGC.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/OMS.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/ORD.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/OW.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/RCRA.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/TSCA.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/WIFIA.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/access.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/add.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/adobe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/airline.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/analytics.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/appropriation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/atk.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/atk.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/attachment.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/bfy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/bluetooth.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/browse.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/budget.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/calculator.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/calendar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/cancel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/categoricalgrants.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/chart.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/chrome.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/close.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/columndelete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/columnedit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/columninsert.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/commandline.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/commute.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/compass.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/contracts.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/controlpanel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/csv.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/database.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/databaseadd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/databasedelete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/databaserefresh.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/databasesql.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/databaseverify.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/datagrid.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/delete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/division.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/document.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/documentadd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/documentation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/documentdelete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/documentedit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/documenterror.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/documentsearch.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/edge.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/edit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/efy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/environment.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/ev.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/excel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/expenses.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/export.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/file.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/file_word.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/fileadd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/filebrowse.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/filecopy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/filedelete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/fileedit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/filereader.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/filesearch.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/filetransfer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/fileverify.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/filewriter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/filter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/first.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/folder.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/folderbrowse.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/foldercompress.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/foldercopy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/folderdownload.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/folderopen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/fte.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/function.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/gmail.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/go.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/google.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/grants.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/guidance.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/home.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/id.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/import.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/information.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/internet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/justice.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/last.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/ledger.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/left.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/levels.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/logout.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/lust.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/menu.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/metrics.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/mpg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/next.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/no.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/oil.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/ok.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/omb.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/onenote.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/oust.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/outlay.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/outlook.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/pause.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/payroll.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/pdf.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/percentage.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/play.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/plusminus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/previous.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/print.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/recertification.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/recycle.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/redo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/refresh.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/remove.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/reserve.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/right.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/row.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/rowcopy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/rowdelete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/rowedit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/rowinsert.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/save.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/scan.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/sharepoint.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/sigma.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/site.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/sitetravel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/sort.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/spreadsheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/statistics.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/table.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/tableadd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/tabledelete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/tablesettings.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/text.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/traffic.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/travel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/undelete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/undo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/wcf.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/windows.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/word.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/xml.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/yes.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/button/zipfile.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/gooey.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/loaders/loader.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/loaders/loading.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/loaders/processing.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/img/web/google.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/svg/boogr.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/theme/Boo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/theme/Foo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/boogr/resources/theme/Gooey" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cloud.py" beforeDir="false" afterPath="$PROJECT_DIR$/cloud.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core.py" beforeDir="false" afterPath="$PROJECT_DIR$/core.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demographic.py" beforeDir="false" afterPath="$PROJECT_DIR$/demographic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/environmental.py" beforeDir="false" afterPath="$PROJECT_DIR$/environmental.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fetchers.py" beforeDir="false" afterPath="$PROJECT_DIR$/fetchers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geospatial.py" beforeDir="false" afterPath="$PROJECT_DIR$/geospatial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/health.py" beforeDir="false" afterPath="$PROJECT_DIR$/health.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loaders.py" beforeDir="false" afterPath="$PROJECT_DIR$/loaders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/processors.py" beforeDir="false" afterPath="$PROJECT_DIR$/processors.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scrapers.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrapers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web.py" beforeDir="false" afterPath="$PROJECT_DIR$/web.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -351,7 +91,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1781354278083</updated>
-      <workItem from="1781354279727" duration="15613000" />
+      <workItem from="1781354279727" duration="15815000" />
     </task>
     <task id="LOCAL-00001" summary="updates">
       <option name="closed" value="true" />
@@ -369,7 +109,15 @@
       <option name="project" value="LOCAL" />
       <updated>1781354700273</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="updates">
+      <option name="closed" value="true" />
+      <created>1781371186344</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1781371186344</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

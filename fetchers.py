@@ -25480,9 +25480,7 @@ class OpenSky( Fetcher ):
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
-			exception.method = (
-					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
-			)
+			exception.method = 'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			Logger( ).write( exception )
 			raise exception
 	
