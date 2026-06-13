@@ -37,7 +37,18 @@
 
   </copyright>
   <summary>
-    archives.py
+    Provides archive, search, public data, and reference-source exports for Fonky.
+
+    Purpose:
+        Exposes archive-oriented and reference-oriented fetcher classes through a focused
+        package module. This module keeps public imports stable for users who want access
+        to ArXiv, Congress, Google Drive, Google Custom Search, GovData, Grokipedia,
+        Internet Archive, news, and Wikipedia fetchers without importing the larger
+        ``fetchers`` module directly.
+
+    Notes:
+        This module replaces the former ``collections.py`` module name to avoid conflicts
+        with Python's standard-library ``collections`` module.
   </summary>
   ******************************************************************************************
 '''

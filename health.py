@@ -37,7 +37,14 @@
 
   </copyright>
   <summary>
-    health.py
+    Exposes health-data fetchers and biomedical document loaders.
+
+    Purpose:
+        Provides a focused public import surface for Fonky classes that retrieve global
+        health, health-data, CDC WONDER, and PubMed search content. This module groups
+        health-oriented workflows behind stable package imports while preserving the
+        implementation classes in the underlying ``fonky.fetchers`` and ``fonky.loaders``
+        modules.
   </summary>
   ******************************************************************************************
 '''

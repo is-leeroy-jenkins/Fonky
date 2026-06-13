@@ -37,7 +37,14 @@
 
   </copyright>
   <summary>
-    web.py
+    Exposes web-fetching, web-loading, crawling, and scraping utilities.
+
+    Purpose:
+        Provides a focused public import surface for Fonky classes that retrieve web
+        pages, crawl websites, load web content into documents, extract HTML content,
+        query research sources, and encode local images for downstream API calls. This
+        module groups web-oriented workflows behind stable imports while preserving the
+        implementation classes in the underlying fetcher, loader, and scraper modules.
   </summary>
   ******************************************************************************************
 '''

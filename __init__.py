@@ -37,7 +37,17 @@
 
   </copyright>
   <summary>
-    __init__.py
+    Initializes the public Fonky package namespace.
+
+    Purpose:
+        Defines package metadata and lazily exposes Fonky category modules for archive,
+        astronomy, cloud, demographic, document, environmental, geospatial, health, and web
+        workflows. The lazy import mechanism keeps package import lightweight while preserving
+        stable top-level access to public module groups.
+
+    Notes:
+        The former ``collections`` public module has been renamed to ``archives`` to avoid a
+        naming conflict with Python's standard-library ``collections`` module.
   </summary>
   ******************************************************************************************
 '''
@@ -64,9 +74,9 @@ __version__: str = '0.1.0'
 # ==========================================================================================
 
 _MODULES: List[ str ] = [
+		'archives',
 		'astronomical',
 		'cloud',
-		'collections',
 		'demographic',
 		'documents',
 		'environmental',
@@ -76,42 +86,38 @@ _MODULES: List[ str ] = [
 ]
 
 def __getattr__( name: str ) -> ModuleType:
-	'''
+	"""Lazily import a public Fonky category module.
 
-		Purpose:
-		--------
-		Lazily import a public Fonky category module when the attribute is first accessed.
+	Purpose:
+		Imports an approved public module only when it is first accessed from the package
+		namespace. This keeps the initial ``import fonky`` operation lightweight while still
+		supporting stable top-level access such as ``fonky.web`` and ``fonky.archives``.
 
-		Parameters:
-		-----------
-		name (str): Requested module attribute name.
+	Args:
+		name (str): Requested package attribute name.
 
-		Returns:
-		--------
-		ModuleType: Imported Fonky category module.
+	Returns:
+		Imported public Fonky category module.
 
-	'''
+	Raises:
+		AttributeError: Raised when ``name`` is not an approved public module.
+	"""
 	if name in _MODULES:
 		return importlib.import_module( f'fonky.{name}' )
 	
 	raise AttributeError( f'module "fonky" has no attribute "{name}"' )
 
 def __dir__( ) -> List[ str ]:
-	'''
+	"""Return package-level names for inspection.
 
-		Purpose:
-		--------
-		Return package-level names exposed for interactive inspection.
+	Purpose:
+		Combines the package globals with lazily exposed category modules so interactive
+		inspection, auto-complete, documentation tools, and debuggers can discover the public
+		Fonky namespace consistently.
 
-		Parameters:
-		-----------
-		None
-
-		Returns:
-		--------
-		List[str]: Sorted package-level names.
-
-	'''
+	Returns:
+		Sorted package-level names available for inspection.
+	"""
 	return sorted( list( globals( ).keys( ) ) + _MODULES )
 
 # ==========================================================================================
@@ -119,9 +125,9 @@ def __dir__( ) -> List[ str ]:
 # ==========================================================================================
 
 __all__: List[ str ] = [
+		'archives',
 		'astronomical',
 		'cloud',
-		'archives.py',
 		'demographic',
 		'documents',
 		'environmental',

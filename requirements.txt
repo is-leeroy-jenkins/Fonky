@@ -109,3 +109,14 @@ gensim
 pinecone
 PyMuPDF
 crawl4ai
+
+
+# --------------------------------------------------------------------------------------------------
+# MkDocs
+# --------------------------------------------------------------------------------------------------
+mkdocs
+mkdocs-material
+mkdocstrings[python]
+mkdocs-autorefs
+pymdown-extensions
+black

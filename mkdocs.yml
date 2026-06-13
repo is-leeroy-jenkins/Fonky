@@ -1,0 +1,125 @@
+site_name: Fonky Documentation
+site_description: Documentation for Fonky, a Python framework for data retrieval, document loading, scraping, processing, and agent-ready tool orchestration.
+site_author: Terry D. Eppler
+site_url: https://is-leeroy-jenkins.github.io/Fonky/
+
+repo_url: https://github.com/is-leeroy-jenkins/Fonky
+repo_name: is-leeroy-jenkins/Fonky
+edit_uri: ""
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - toc.follow
+    - toc.integrate
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+  palette:
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - .
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_signature: true
+            show_signature_annotations: true
+            separate_signature: true
+            merge_init_into_class: false
+            members_order: source
+            filters:
+              - "!^_"
+            heading_level: 2
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - tables
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home:
+      - Overview: index.md
+      - Getting Started: getting-started.md
+      - Configuration: configuration.md
+      - Architecture: architecture.md
+      - Logging: logging.md
+      - Usage Examples: usage.md
+      - User Guide: user-guide.md
+  - API Reference:
+      - API Overview: api/index.md
+      - Core: api/core.md
+      - Archives: api/archives.md
+      - Fetchers: api/fetchers.md
+      - Loaders: api/loaders.md
+      - Models: api/models.md
+      - Processors: api/processors.md
+      - Scrapers: api/scrapers.md
+      - Configuration: api/config.md
+      - Logging: api/boogr.md
+      - Astronomical: api/astronomical.md
+      - Cloud: api/cloud.md
+      - Demographic: api/demographic.md
+      - Documents: api/documents.md
+      - Environmental: api/environmental.md
+      - Geospatial: api/geospatial.md
+      - Health: api/health.md
+      - Web: api/web.md
+  - Development: development.md
+  - GitHub Pages: github-pages.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/is-leeroy-jenkins/Fonky
+
+extra_css:
+  - stylesheets/extra.css

@@ -37,7 +37,14 @@
 
   </copyright>
   <summary>
-    environmental.py
+    Exposes environmental, weather, air-quality, and natural-hazard fetchers.
+
+    Purpose:
+        Provides a focused public import surface for Fonky classes that retrieve air-quality,
+        climate, earth-observation, EnviroFacts, EONET, FIRMS, weather, tide, current,
+        earthquake, water, and ultraviolet-index data. This module groups environmental
+        workflows behind stable imports while preserving the implementation classes in
+        ``fetchers.py``.
   </summary>
   ******************************************************************************************
 '''

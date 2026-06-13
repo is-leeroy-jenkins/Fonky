@@ -3,8 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (Fonky)" />
   </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="78145f30-18cb-443d-a346-237522922b0e" />
-  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (Fonky)" project-jdk-type="Python SDK" />
 </project>

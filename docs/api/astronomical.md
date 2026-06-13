@@ -1,0 +1,3 @@
+## 🌌 Astronomical API
+
+::: astronomical

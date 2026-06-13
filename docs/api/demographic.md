@@ -1,0 +1,3 @@
+## 👥 Demographic API
+
+::: demographic

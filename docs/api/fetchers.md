@@ -1,0 +1,3 @@
+## 🔌 Fetchers API
+
+::: fetchers

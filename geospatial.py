@@ -37,7 +37,14 @@
 
   </copyright>
   <summary>
-    geospatial.py
+    Exposes geospatial, mapping, imagery, and location-oriented fetchers.
+
+    Purpose:
+        Provides a focused public import surface for Fonky classes that retrieve census,
+        global imagery, geocoding, mapping, near-earth object, Socrata, USGS ScienceBase,
+        and USGS National Map data. This module groups location-aware and geospatial
+        workflows behind stable imports while preserving the implementation classes in
+        ``fetchers.py``.
   </summary>
   ******************************************************************************************
 '''

@@ -51,7 +51,7 @@ from boogr import Error
 from bs4 import BeautifulSoup
 import chromadb
 from chromadb.config import Settings
-from archives import Counter
+from collections import Counter
 import html
 import glob
 from gensim.models import Word2Vec
@@ -86,7 +86,7 @@ try:
 	import fitz
 except Exception:
 	fitz = None
-	
+
 DELIMITERS: Set[ str ] = { '. ', '; ', '? ', '! ', ', ' }
 
 SYMBOLS: Set[ str ] = {
@@ -152,12 +152,10 @@ def throw_if( name: str, value: object ):
 		raise Exception( f'Argument "{name}" cannot be empty!' )
 
 class Processor( ):
-	'''
-		
-		Purpose:
-		Base class for processing classes
-		
-	'''
+	"""Base class for processing classes.
+	
+	Purpose:
+	    Documents the `Processor` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	lemmatizer: Optional[ WordNetLemmatizer ]
 	stemmer: Optional[ PorterStemmer ]
 	file_path: Optional[ str ]
@@ -215,42 +213,10 @@ class Processor( ):
 		self.cleaned_text = ''
 
 class TextParser( Processor ):
-	'''
-
-		Purpose:
-		---------
-		Class providing path preprocessing functionality
-
-		Methods:
-		--------
-		split_lines( self, path: str ) -> list
-		split_pages( self, path: str, delimit: str ) -> list
-		collapse_whitespace( self, path: str ) -> str
-		remove_punctuation( self, path: str ) -> str:
-		remove_special( self, path: str, keep_spaces: bool ) -> str:
-		remove_html( self, path: str ) -> str
-		remove_errors( self, path: str ) -> str
-		remove_markdown( self, path: str ) -> str
-		remove_stopwords( self, path: str ) -> str
-		remove_headers( self, pages, min: int=3 ) -> str
-		normalize_text( path: str ) -> str
-		lemmatize_tokens( words: List[ str ] ) -> str
-		tokenize_text( path: str ) -> str
-		tokenize_words( path: str ) -> List[ str ]
-		tokenize_sentences( path: str ) -> str
-		chunk_text( self, path: str, max: int=800 ) -> List[ str ]
-		chunk_words( self, path: str, max: int=800, over: int=50 ) -> List[ str ]
-		split_paragraphs( self, path: str ) -> List[ str ]
-		compute_frequency_distribution( self, words: List[ str ], proc: bool=True ) -> List[ str ]
-		compute_conditional_distribution( self, words: List[ str ], condition: str=None,
-		proc: bool=True ) -> List[ str ]
-		create_vocabulary( self, frequency, min: int=1 ) -> List[ str ]
-		create_wordbag( words: List[ str ] ) -> dict
-		create_word2vec( sentences: List[ str ], vector_size=100, window=5, min_count=1 ) ->
-		Word2Vec
-		create_tfidf( words: List[ str ], max_features=1000, prep=True ) -> tuple
-
-	'''
+	"""Class providing path preprocessing functionality.
+	
+	Purpose:
+	    Documents the `TextParser` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	lowercase: Optional[ str ]
 	cleaned_text: Optional[ str ]
 	cleaned_lines: Optional[ List[ str ] ]
@@ -266,13 +232,10 @@ class TextParser( Processor ):
 	NUMERALS: Optional[ str ]
 	
 	def __init__( self ):
-		'''
-
-			Purpose:
-			---------
-			Constructor for 'Text' objects
-
-		'''
+		"""Constructor for 'Text' objects.
+		
+		Purpose:
+		    Initializes `TextParser` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.PUNCTUATION = PUNCTUATION
 		self.CONTROL_CHARACTERS = ({ chr( i ) for i in range( 0x00, 0x20 ) } | { chr( 0x7F ) })
@@ -308,22 +271,13 @@ class TextParser( Processor ):
 		self.vectorizer = None
 	
 	def __dir__( self ) -> List[ str ] | None:
-		'''
-
-			Purpose:
-			---------
-			Provides a list of strings representing class members.
-
-
-			Parameters:
-			-----------
-			- self
-
-			Returns:
-			--------
-			- List[ str ] | None
-
-		'''
+		"""Provides a list of strings representing class members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [  # Attributes
 				'file_path',
 				'raw_input',
@@ -386,18 +340,19 @@ class TextParser( Processor ):
 				'semantic_search' ]
 	
 	def load_text( self, filepath: str ) -> str | None:
-		"""
-	`
-			Purpose:
-				Loads raw text from a file.
-				
-			Parameters:
-				file_path (str): Path to the .txt file.
-				
-			Returns:
-				str: Raw file content as string.`
-			
-		"""
+		"""Loads raw text from a file.
+		
+		Purpose:
+		    Provides the `load_text` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    filepath (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'filepath', filepath )
 			if not os.path.exists( filepath ):
@@ -414,24 +369,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def collapse_whitespace( self, text: str ) -> str | None:
-		"""
-
-			Purpose:
-			-----------
-			Removes extra lines from the string 'text'.
-
-			Parameters:
-			-----------
-			- text : str
-
-			Returns:
-			--------
-			A string with:
-				- Consecutive whitespace reduced to a single space
-				- Leading/trailing spaces removed
-				- Blank words removed
-
-		"""
+		"""Removes extra lines from the string 'text'.
+		
+		Purpose:
+		    Provides the `collapse_whitespace` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -444,31 +394,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_punctuation( self, text: str ) -> str:
-		"""
+		"""Removes all punctuation characters from the input text using NLTK's tokenizer.
 		
-			Purpose:
-			--------
-			Removes all punctuation characters from the input text using NLTK's tokenizer.
+		Purpose:
+		    Provides the `remove_punctuation` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
 		
-			This function tokenizes the input into words and filters out any tokens that
-			are composed entirely of punctuation characters.
+		Args:
+		    text (str): Input value passed to the callable.
 		
-			Parameters
-			----------
-			text : str
-				The raw input text from which to remove punctuation.
+		Returns:
+		    str: Returned value produced by the callable.
 		
-			Returns
-			-------
-			str
-				A cleaned string with all punctuation removed and original word spacing preserved.
-		
-			Example
-			-------
-			remove_punctuation("Hello, world! How's it going?")
-			'Hello world Hows it going'
-			
-		"""
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -484,27 +422,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def normalize_text( self, text: str ) -> str | None:
-		"""
-
-			Purpose:
-			-----------
-			Converts the input 'text' to lower case
-
-			This function:
-			  - Converts the input 'text' to lower case
-
-			Parameters:
-			-----------
-			- text : str
-				The raw text
-
-			Returns:
-			--------
-			- str
-				A cleaned_lines path containing
-				only letters, numbers, and spaces.
-
-		"""
+		"""Converts the input 'text' to lower case.
+		
+		Purpose:
+		    Provides the `normalize_text` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			return text.lower( )
@@ -516,28 +446,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_errors( self, text: str ) -> str:
-		"""
+		"""Removes tokens that are not recognized as valid English words.
 		
-			Purpose:
-			----------
-			Removes tokens that are not recognized as valid English words
-			using the NLTK `words` corpus as a reference dictionary.
-	
-			This function is useful for cleaning text from OCR output, web-scraped data,
-			or noisy documents by removing pseudo-words, typos, and out-of-vocabulary items.
-	
-			Parameters
-			----------
-			text : str
-			The raw input text
-	
-			Returns
-			-------
-			str
-			The raw input text without errors
-	
-			
-		"""
+		Purpose:
+		    Provides the `remove_errors` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_vocab = words.words( 'en' )
@@ -554,26 +475,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_fragments( self, text: str ) -> str | None:
-		"""
-
-			Purpose:
-			-----------
-			Removes strings less that 4 chars in length
-
-
-			Parameters:
-			-----------
-			- pages : str
-				The raw path path path potentially
-				containing special characters.
-
-			Returns:
-			--------
-			- str
-				A cleaned_lines path containing
-				only letters, numbers, and spaces.
-
-		"""
+		"""Removes strings less that 4 chars in length.
+		
+		Purpose:
+		    Provides the `remove_fragments` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -591,30 +505,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_symbols( self, text: str ) -> str | None:
-		"""
-
-			Purpose:
-			-----------
-			Removes special characters from the path path path.
-
-			This function:
-			  - Retains only alphanumeric characters and whitespace
-			  - Removes symbols like @, #, $, %, &, etc.
-			  - Preserves letters, numbers, and spaces
-
-			Parameters:
-			-----------
-			- pages : str
-				The raw path path path potentially
-				containing special characters.
-
-			Returns:
-			--------
-			- str
-				A cleaned_lines path containing
-				only letters, numbers, and spaces.
-
-		"""
+		"""Removes special characters from the path path path.
+		
+		Purpose:
+		    Provides the `remove_symbols` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -627,27 +530,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_html( self, text: str ) -> str | None:
-		"""
-
-			Purpose:
-			--------
-			Removes HTML tags from the path.
-
-			This function:
-			  - Parses the path as HTML
-			  - Extracts and returns only the visible content without tags
-
-			Parameters:
-			-----------
-			- pages : str
-				The path path containing HTML tags.
-
-			Returns:
-			--------
-			- str
-				A cleaned_lines path with all HTML tags removed.
-
-		"""
+		"""Removes HTML tags from the path.
+		
+		Purpose:
+		    Provides the `remove_html` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			self.raw_html = text
@@ -661,33 +556,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_xml( self, text: str ) -> str:
-		"""
+		"""Remove XML tags from a string while preserving inner text content using.
 		
-			Purpose:
-			--------
-			Remove XML tags from a string while preserving inner text content using
-			lxml for robust, fast, and XPath-capable parsing.
-	
-			This function safely parses XML fragments by wrapping them in a synthetic
-			root element, then extracts all textual content (element text and tails)
-			while discarding tags and attributes.
-	
-			Parameters:
-			-----------
-			text : str
-				Input text containing XML markup.
-	
-			Returns:
-			--------
-			str
-				Text with XML tags removed and inner text preserved.
-	
-			Raises:
-			-------
-			RuntimeError
-				Raised when XML parsing fails.
-			
-		"""
+		Purpose:
+		    Provides the `remove_xml` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		throw_if( 'text', text )
 		try:
 			_text = text.lower( )
@@ -712,24 +593,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_markdown( self, text: str ) -> str | None:
-		"""
-
-
-			Purpose:
-			-----------
-			Removes Markdown syntax (e.g., *, #, [], etc.)
-
-			Parameters:
-			-----------
-			- pages : str
-				The formatted path pages.
-
-			Returns:
-			--------
-			- str
-				A cleaned_lines version of the pages with formatting removed.
-
-		"""
+		"""Removes Markdown syntax (e.g., *, #, [], etc.).
+		
+		Purpose:
+		    Provides the `remove_markdown` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			self.raw_input = text.lower( )
@@ -745,28 +621,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_stopwords( self, text: str ) -> str | None:
-		"""
-
-			Purpose:
-			-----------
-			This function:
-			  - Removes English stopwords from the path pages path.
-			  - Tokenizes the path pages
-			  - Removes common stopwords (e.g., "the", "is", "and", etc.)
-			  - Returns the pages with only meaningful words
-
-
-			Parameters:
-			-----------
-			- pages : str
-				The text string.
-
-			Returns:
-			--------
-			- str
-				A text string without stopwords.
-
-		"""
+		"""This function:.
+		
+		Purpose:
+		    Provides the `remove_stopwords` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_stop_words = set( stopwords.words( 'english' ) )
@@ -783,24 +650,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_encodings( self, text: str ) -> str | None:
-		"""
-
-			Purpose:
-			---------
-			Cleans text of encoding artifacts by resolving HTML entities,
-			Unicode escape sequences, and over-encoded byte strings.
-
-			Parameters
-			----------
-			text : str
-			Input string potentially containing encoded characters.
-
-			Returns
-			-------
-			str
-			Cleaned Unicode-normalized text.
-
-		"""
+		"""Cleans text of encoding artifacts by resolving HTML entities,.
+		
+		Purpose:
+		    Provides the `remove_encodings` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			try:
@@ -824,30 +686,22 @@ class TextParser( Processor ):
 	
 	def remove_headers( self, filepath: str, lines: int = 50, headers: int = 3,
 			footers: int = 3 ) -> str | None:
-		"""
+		"""Remove repetitive headers and footers from a text document by identifying recurring.
 		
-			Purpose:
-			--------
-			Remove repetitive headers and footers from a text document by identifying recurring
-			line blocks at page boundaries and stripping the most frequent candidates.
-	
-			Parameters:
-			-----------
-			filepath (str):
-			Path to the plain-text document to clean.
-			lines_per_page (int, optional):
-			Approximate number of lines per page. Defaults to 50. Tune for your source.
-			header_lines (int, optional):
-			Number of top lines per page to consider a header candidate. Defaults to 3.
-			footer_lines (int, optional):
-			Number of bottom lines per page to consider a footer candidate. Defaults to 3.
-	
-			Returns:
-			--------
-			str:
-			Cleaned document text with repetitive headers and footers removed.
-			
-		"""
+		Purpose:
+		    Provides the `remove_headers` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    filepath (str): Input value passed to the callable.
+		    lines (int): Input value passed to the callable.
+		    headers (int): Input value passed to the callable.
+		    footers (int): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'filepath', filepath )
 			if not os.path.exists( filepath ):
@@ -917,23 +771,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_numbers( self, text: str ) -> str | None:
-		"""
-
-			Purpose:
-			---------
-			Removes the numbers 0 through 9 from the input text.
-
-			Parameters
-			----------
-			text : str
-			Input string potentially containing encoded characters.
-
-			Returns
-			-------
-			str
-			Cleaned Unicode-normalized text.
-
-		"""
+		"""Removes the numbers 0 through 9 from the input text.
+		
+		Purpose:
+		    Provides the `remove_numbers` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -946,23 +796,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_numerals( self, text: str ) -> str | None:
-		"""
-
-			Purpose:
-			---------
-			Removes the numbers 0 through 9 from the input text.
-
-			Parameters
-			----------
-			text : str
-			Input string potentially containing encoded characters.
-
-			Returns
-			-------
-			str
-			Cleaned Unicode-normalized text.
-
-		"""
+		"""Removes the numbers 0 through 9 from the input text.
+		
+		Purpose:
+		    Provides the `remove_numerals` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			self.raw_input = text.lower( )
@@ -976,27 +822,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def remove_images( self, text: str ) -> str:
-		"""
-			Purpose:
-			--------
-			Remove image references from text, including Markdown images, HTML <img> tags,
-			and standalone image URLs.
-	
-			Parameters:
-			-----------
-			text : str
-				Input text.
-	
-			Returns:
-			--------
-			str
-				Text with image references removed.
-	
-			Raises:
-			-------
-			RuntimeError
-				Raised when processing fails.
-		"""
+		"""Remove image references from text, including Markdown images, HTML <img> tags,.
+		
+		Purpose:
+		    Provides the `remove_images` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		throw_if( "text", text )
 		
 		try:
@@ -1034,31 +872,20 @@ class TextParser( Processor ):
 			raise exception
 	
 	def tiktokenize( self, text: str, encoding: str = 'cl100k_base' ) -> DataFrame | None:
-		"""
-
-			Purpose:
-			---------
-			Tokenizes text text into subword words using OpenAI's tiktoken tokenizer.
-			This function leverages the tiktoken library, which provides byte-pair encoding (BPE)
-			tokenization used in models such as GPT-3.5 and GPT-4. Unlike standard word
-			tokenization,
-			this function splits text into model-specific subword units.
-
-			Parameters
-			----------
-			- text : str
-				The text string to be tokenized.
-
-			- model : str, optional
-				The tokenizer model to use. Examples include 'cl100k_base' (default),
-				'gpt-3.5-turbo', or 'gpt-4'. Ensure the model is supported by tiktoken.
-
-			Returns
-			-------
-			- List[str]
-				A list of string words representing BPE subword units.
-
-		"""
+		"""Tokenizes text text into subword words using OpenAI's tiktoken tokenizer.
+		
+		Purpose:
+		    Provides the `tiktokenize` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		    encoding (str): Input value passed to the callable.
+		
+		Returns:
+		    DataFrame: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -1074,27 +901,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def split_sentences( self, text: str ) -> List[ str ] | None:
-		"""
-
-			Purpose:
-			________
-			Splits the text string into a list of strings using NLTK's Punkt sentence tokenizer.
-			This function is useful for preparing text for further processing,
-			such as tokenization, parsing, or named entity recognition.
-
-			Parameters
-			----------
-			- text : str
-			The raw text string to be segmented into sentences.
-			
-			- size : int
-			THe chunk size
-
-			Returns
-			-------
-			- List of strings
-
-		"""
+		"""Splits the text string into a list of strings using NLTK's Punkt sentence tokenizer.
+		
+		Purpose:
+		    Provides the `split_sentences` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -1108,24 +927,20 @@ class TextParser( Processor ):
 			raise exception
 	
 	def split_pages( self, filepath: str, num: int = 50 ) -> List[ str ] | None:
-		"""
-		    
-		    Purpose:
-		    ---------
-	        Splits a plain-text document into a list of pages using either form-feed characters
-	        or fixed line count windows when form-feeds are absent.
+		"""Splits a plain-text document into a list of pages using either form-feed characters.
 		
-		    Parameters:
-		    -----------
-	        file_path (str): Path to the text document.
-	        lines_per_page (int): Approximate number of lines per page (default: 55).
+		Purpose:
+		    Provides the `split_pages` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
 		
-		    Returns:
-		    ---------
-	        List[str]: List of page-level string segments.
+		Args:
+		    filepath (str): Input value passed to the callable.
+		    num (int): Input value passed to the callable.
 		
-
-		"""
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'filepath', filepath )
 			if not os.path.exists( filepath ):
@@ -1154,22 +969,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def split_paragraphs( self, filepath: str ) -> DataFrame | None:
-		"""
-
-			Purpose:
-			---------
-			Reads  a file and splits it into paragraphs. A paragraph is defined as a block
-			of text separated by one or more empty lines (eg, '\n\n').
-
-			Parameters:
-			-----------
-			- path (str): Path to the path file.
-
-			Returns:
-			---------
-			- list of str: List of paragraph strings.
-
-		"""
+		"""Reads  a file and splits it into paragraphs. A paragraph is defined as a block.
+		
+		Purpose:
+		    Provides the `split_paragraphs` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    filepath (str): Input value passed to the callable.
+		
+		Returns:
+		    DataFrame: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'filepath', filepath )
 			if not os.path.exists( filepath ):
@@ -1189,20 +1001,19 @@ class TextParser( Processor ):
 				return _data
 	
 	def create_frequency_distribution( self, tokens: List[ str ] ) -> DataFrame | None:
-		"""
-
-			Purpose:
-			--------
-			Creates a word frequency freq_dist from a list of tokens.
-
-			Parameters:
-			-----------
-			- tokens: List[ str ]
-
-			Returns:
-			- dict: Dictionary of words and their corresponding frequencies.
-
-		"""
+		"""Creates a word frequency freq_dist from a list of tokens.
+		
+		Purpose:
+		    Provides the `create_frequency_distribution` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    tokens (List[str]): Input value passed to the callable.
+		
+		Returns:
+		    DataFrame: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'tokens', tokens )
 			self.tokens = tokens
@@ -1219,26 +1030,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def create_vocabulary( self, tokens: List[ str ] ) -> Series | None:
-		"""
-
-			Purpose:
-			---------
-			Builds a vocabulary list from a frequency
-			distribution by applying a minimum frequency threshold.
-
-			Parameters:
-			-----------
-			- freq_dist (dict):
-				A dictionary mapping words to their frequencies.
-
-			- min (int): Minimum num
-				of occurrences required for a word to be included.
-
-			Returns:
-			--------
-			- list: Sorted list of unique vocabulary words.
-
-		"""
+		"""Builds a vocabulary list from a frequency.
+		
+		Purpose:
+		    Provides the `create_vocabulary` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    tokens (List[str]): Input value passed to the callable.
+		
+		Returns:
+		    Series: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'tokens', tokens )
 			self.tokens = tokens
@@ -1255,21 +1059,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def create_wordbag( self, tokens: List[ str ] ) -> DataFrame | None:
-		"""
-
-			Purpose:
-			--------
-			Construct a Bag-of-Words (BoW) frequency dictionary from a list of strings.
-
-			Parameters:
-			-----------
-			- words (list): List of words from a document.
-
-			Returns:
-			--------
-			- dict: Word frequency dictionary.
-
-		"""
+		"""Construct a Bag-of-Words (BoW) frequency dictionary from a list of strings.
+		
+		Purpose:
+		    Provides the `create_wordbag` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    tokens (List[str]): Input value passed to the callable.
+		
+		Returns:
+		    DataFrame: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'tokens', tokens )
 			self.tokens = tokens
@@ -1285,33 +1087,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def create_vectors( self, tokens: List[ str ] ) -> DataFrame | None:
-		"""
+		"""Generates word embeddings using TF-IDF vectors from a list of tokens.
 		
-			Purpose:
-			----------
-			Generates word embeddings using TF-IDF vectors from a list of tokens.
-			This function treats each token as its own "document" to simulate a corpus
-			and calculates a TF-IDF vector for each word based on term statistics.
+		Purpose:
+		    Provides the `create_vectors` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
 		
-			Parameters
-			----------
-			tokens : List[str]
-				A list of individual word tokens to be embedded.
+		Args:
+		    tokens (List[str]): Input value passed to the callable.
 		
-			Returns
-			-------
-			Dict[str, np.ndarray]
-				A dictionary mapping each word to its corresponding TF-IDF vector.
+		Returns:
+		    DataFrame: Returned value produced by the callable.
 		
-			Example
-			-------
-			create_tfidf_word_embeddings(["nlp", "text", "nlp", "model"])
-			{
-				'nlp': array([0.7071, 0.0, 0.7071]),
-				'text': array([0.0, 1.0, 0.0]),
-				'model': array([0.0, 0.0, 1.0])
-			}
-		"""
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			fake_docs = [ [ word ] for word in tokens ]
 			joined_docs = [ ' '.join( doc ) for doc in fake_docs ]
@@ -1333,21 +1121,19 @@ class TextParser( Processor ):
 			raise exception
 	
 	def clean_file( self, filepath: str ) -> str | None:
-		"""
-
-			Purpose:
-			________
-			Cleans text files given a source directory (src) and destination directory (dest)
-
-			Parameters:
-			----------
-			- src (str): Source directory
-
-			Returns:
-			--------
-			- None
-
-		"""
+		"""Cleans text files given a source directory (src) and destination directory (dest).
+		
+		Purpose:
+		    Provides the `clean_file` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    filepath (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'filepath', filepath )
 			if not os.path.exists( filepath ):
@@ -1373,22 +1159,17 @@ class TextParser( Processor ):
 			raise exception
 	
 	def clean_files( self, source: str, destination: str ) -> None:
-		"""
-
-			Purpose:
-			________
-			Cleans text files given a source directory (src) and destination directory (dest)
-
-			Parameters:
-			----------
-			- src (str): Source directory
-			- dest (str): Destination directory
-
-			Returns:
-			--------
-			- None
-
-		"""
+		"""Cleans text files given a source directory (src) and destination directory (dest).
+		
+		Purpose:
+		    Provides the `clean_files` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    source (str): Input value passed to the callable.
+		    destination (str): Input value passed to the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'src', source )
 			throw_if( 'dest', destination )
@@ -1427,22 +1208,17 @@ class TextParser( Processor ):
 			raise exception
 	
 	def chunk_files( self, source: str, destination: str ) -> None:
-		"""
-
-			Purpose:
-			________
-			Chunks cleaned text files given a _source directory and destination directory
-
-			Parameters:
-			----------
-			- src (str): Source directory
-			- dest (str): Destination directory
-
-			Returns:
-			--------
-			- None
-
-		"""
+		"""Chunks cleaned text files given a _source directory and destination directory.
+		
+		Purpose:
+		    Provides the `chunk_files` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    source (str): Input value passed to the callable.
+		    destination (str): Input value passed to the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'src', source )
 			throw_if( 'dest', destination )
@@ -1480,21 +1256,20 @@ class TextParser( Processor ):
 			raise exception
 	
 	def chunk_data( self, filepath: str, size: int = 10 ) -> DataFrame | None:
-		"""
-
-			Purpose:
-			________
-			Chunks cleaned text files given a source directory and destination directory
-
-			Parameters:
-			----------
-			- src (str): Source directory
-
-			Returns:
-			--------
-			- DataFrame
-
-		"""
+		"""Chunks cleaned text files given a source directory and destination directory.
+		
+		Purpose:
+		    Provides the `chunk_data` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    filepath (str): Input value passed to the callable.
+		    size (int): Input value passed to the callable.
+		
+		Returns:
+		    DataFrame: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'filepath', filepath )
 			if not os.path.exists( filepath ):
@@ -1525,21 +1300,21 @@ class TextParser( Processor ):
 			raise exception
 	
 	def chunk_datasets( self, source: str, destination: str, size: int = 10 ) -> DataFrame:
-		"""
-
-			Purpose:
-			________
-			Chunks cleaned text files given a source directory and destination directory
-
-			Parameters:
-			----------
-			- src (str): Source directory
-
-			Returns:
-			--------
-			- DataFrame
-
-		"""
+		"""Chunks cleaned text files given a source directory and destination directory.
+		
+		Purpose:
+		    Provides the `chunk_datasets` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    source (str): Input value passed to the callable.
+		    destination (str): Input value passed to the callable.
+		    size (int): Input value passed to the callable.
+		
+		Returns:
+		    DataFrame: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'filepath', source )
 			throw_if( 'destination', destination )
@@ -1589,23 +1364,18 @@ class TextParser( Processor ):
 			raise exception
 	
 	def convert_jsonl( self, source: str, destination: str, size: int = 10 ) -> None:
-		"""
-
-			Purpose:
-			________
-			Coverts text files to JSONL format given a source directory (Source)
-			 and destination directory (destination)
-
-			Parameters:
-			--------
-			- source (str): Source directory
-			- destination (str): Destination directory
-
-			Returns:
-			--------
-			- None
-
-		"""
+		"""Coverts text files to JSONL format given a source directory (Source).
+		
+		Purpose:
+		    Provides the `convert_jsonl` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    source (str): Input value passed to the callable.
+		    destination (str): Input value passed to the callable.
+		    size (int): Input value passed to the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'source', source )
 			throw_if( 'destination', destination )
@@ -1646,19 +1416,20 @@ class TextParser( Processor ):
 	
 	def encode_sentences( self, tokens: List[ str ], model: str = 'all-MiniLM-L6-v2' ) -> \
 			Tuple[ List[ str ], np.ndarray ]:
-		"""
+		"""Generate contextual sentence embeddings using SentenceTransformer.
 		
-			Purpose:
-			Generate contextual sentence embeddings using SentenceTransformer.
-			
-			Parameters:
-			sentences (list[str]): List of raw sentence strings.
-			model_name (str): Model to use for encoding.
-			
-			Returns:
-			tuple: (Cleaned sentences, Embeddings as np.ndarray)
-			
-		"""
+		Purpose:
+		    Provides the `encode_sentences` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    tokens (List[str]): Input value passed to the callable.
+		    model (str): Input value passed to the callable.
+		
+		Returns:
+		    Tuple[List[str], np.ndarray]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'tokens', tokens )
 			throw_if( 'model', model )
@@ -1675,20 +1446,23 @@ class TextParser( Processor ):
 	
 	def semantic_search( self, query: str, tokens: List[ str ], embeddings: np.ndarray,
 			model: SentenceTransformer, top: int = 5 ) -> List[ tuple[ str, float ] ]:
-		"""
-			Purpose:
-				Perform semantic search over embedded corpus using query.
-				
-			Parameters:
-				query (str): Natural language input.
-				tokens (list[str]): Corpus sentences.
-				embeddings (np.ndarray): Sentence embeddings.
-				model (SentenceTransformer): Same model used for encoding.
-				top (int): Number of matches to return.
-				
-			Returns:
-				list[tuple[str, float]]: Top-k (sentence, similarity) pairs.
-		"""
+		"""Perform semantic search over embedded corpus using query.
+		
+		Purpose:
+		    Provides the `semantic_search` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    tokens (List[str]): Input value passed to the callable.
+		    embeddings (np.ndarray): Input value passed to the callable.
+		    model (SentenceTransformer): Input value passed to the callable.
+		    top (int): Input value passed to the callable.
+		
+		Returns:
+		    List[tuple[str, float]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query', query )
 			throw_if( 'tokens', tokens )
@@ -1708,23 +1482,10 @@ class TextParser( Processor ):
 			raise exception
 
 class NltkParser( Processor ):
-	'''
-
-		Purpose:
-		---------
-		Class providing NLTK-based natural language processing functionality for text that
-		has already been cleaned and normalized by the Text Processing expander.
-
-		Methods:
-		--------
-		word_tokenizer( self, text: str ) -> List [ str ]
-		sentence_tokenizer( self, text: str ) -> List [ str ]
-		word_stemmer( self, text: str ) -> List [ str ]
-		word_lemmatizer( self, text: str ) -> List [ str ]
-		pos_tagger( self, text: str ) -> List[ Tuple[ str, str ] ]
-		named_entity_recognition( self, text: str ) -> List[ Tuple[ str, str ] ]
-
-	'''
+	"""Class providing NLTK-based natural language processing functionality for text that.
+	
+	Purpose:
+	    Documents the `NltkParser` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	word_tokens: Optional[ List[ str ] ]
 	sentence_tokens: Optional[ List[ str ] ]
 	stemmed_tokens: Optional[ List[ str ] ]
@@ -1733,22 +1494,10 @@ class NltkParser( Processor ):
 	named_entities: Optional[ List[ Tuple[ str, str ] ] ]
 	
 	def __init__( self ) -> None:
-		'''
-
-			Purpose:
-			---------
-			Initializes the NltkParser and prepares internal containers used by the
-			NLTK processing methods.
-
-			Parameters:
-			-----------
-			- self
-
-			Returns:
-			--------
-			- None
-
-		'''
+		"""Initializes the NltkParser and prepares internal containers used by the.
+		
+		Purpose:
+		    Initializes `NltkParser` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.initialize_resources( )
 		self.word_tokens = [ ]
@@ -1759,43 +1508,26 @@ class NltkParser( Processor ):
 		self.named_entities = [ ]
 	
 	def __dir__( self ) -> List[ str ] | None:
-		'''
-
-			Purpose:
-			---------
-			Provides a list of strings representing class members.
-
-			Parameters:
-			-----------
-			- self
-
-			Returns:
-			--------
-			- List[ str ] | None
-
-		'''
+		"""Provides a list of strings representing class members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'initialize_resources', 'word_tokenizer', 'sentence_tokenizer', 'word_stemmer',
 		         'word_lemmatizer', 'pos_tagger', 'named_entity_recognition', 'word_tokens',
 		         'sentence_tokens', 'stemmed_tokens', 'lemmatized_tokens', 'tagged_tokens',
 		         'named_entities' ]
 	
 	def initialize_resources( self ) -> None:
-		'''
-
-			Purpose:
-			---------
-			Ensures the NLTK tokenizers, taggers, and corpora required by this class
-			are available before processing begins.
-
-			Parameters:
-			-----------
-			- self
-
-			Returns:
-			--------
-			- None
-
-		'''
+		"""Ensures the NLTK tokenizers, taggers, and corpora required by this class.
+		
+		Purpose:
+		    Provides the `initialize_resources` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			required_resources: List[ Tuple[ str, str ] ] = [
 					('tokenizers/punkt', 'punkt'),
@@ -1821,23 +1553,19 @@ class NltkParser( Processor ):
 			raise exception
 	
 	def word_tokenizer( self, text: str ) -> List[ str ] | None:
-		'''
-
-			Purpose:
-			---------
-			Tokenizes the input text into word tokens and returns a display-ready
-			string with one token per line.
-
-			Parameters:
-			-----------
-			- text: str
-				The cleaned text to tokenize into words.
-
-			Returns:
-			--------
-			- str
-
-		'''
+		"""Tokenizes the input text into word tokens and returns a display-ready.
+		
+		Purpose:
+		    Provides the `word_tokenizer` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -1852,23 +1580,19 @@ class NltkParser( Processor ):
 			raise exception
 	
 	def sentence_tokenizer( self, text: str ) -> List[ str ] | None:
-		'''
-
-			Purpose:
-			---------
-			Tokenizes the input text into sentences and returns a display-ready
-			numbered string.
-
-			Parameters:
-			-----------
-			- text: str
-				The cleaned text to tokenize into sentences.
-
-			Returns:
-			--------
-			- str
-
-		'''
+		"""Tokenizes the input text into sentences and returns a display-ready.
+		
+		Purpose:
+		    Provides the `sentence_tokenizer` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -1882,23 +1606,19 @@ class NltkParser( Processor ):
 			raise exception
 	
 	def word_stemmer( self, text: str ) -> List[ str ] | None:
-		'''
-
-			Purpose:
-			---------
-			Applies stemming to the input text and returns a whitespace-joined
-			display-ready string of stemmed tokens.
-
-			Parameters:
-			-----------
-			- text: str
-				The cleaned text to stem.
-
-			Returns:
-			--------
-			- str
-
-		'''
+		"""Applies stemming to the input text and returns a whitespace-joined.
+		
+		Purpose:
+		    Provides the `word_stemmer` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -1915,23 +1635,19 @@ class NltkParser( Processor ):
 			raise exception
 	
 	def word_lemmatizer( self, text: str ) -> List[ str ] | None:
-		'''
-
-			Purpose:
-			---------
-			Applies WordNet lemmatization to the input text and returns a
-			whitespace-joined display-ready string of lemmatized tokens.
-
-			Parameters:
-			-----------
-			- text: str
-				The cleaned text to lemmatize.
-
-			Returns:
-			--------
-			- str
-
-		'''
+		"""Applies WordNet lemmatization to the input text and returns a.
+		
+		Purpose:
+		    Provides the `word_lemmatizer` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -1948,23 +1664,19 @@ class NltkParser( Processor ):
 			raise exception
 	
 	def pos_tagger( self, text: str ) -> List[ Tuple[ str, str ] ] | None:
-		'''
-
-			Purpose:
-			---------
-			Applies part-of-speech tagging to the input text and returns a
-			display-ready string containing one token-tag pair per line.
-
-			Parameters:
-			-----------
-			- text: str
-				The cleaned text to tag.
-
-			Returns:
-			--------
-			- str
-
-		'''
+		"""Applies part-of-speech tagging to the input text and returns a.
+		
+		Purpose:
+		    Provides the `pos_tagger` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Tuple[str, str]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -1979,23 +1691,19 @@ class NltkParser( Processor ):
 			raise exception
 	
 	def named_entity_recognition( self, text: str ) -> List[ Tuple[ str, str ] ] | None:
-		'''
-
-			Purpose:
-			---------
-			Applies named entity recognition to the input text and returns a
-			display-ready string containing one extracted entity per line.
-
-			Parameters:
-			-----------
-			- text: str
-				The cleaned text to analyze for named entities.
-
-			Returns:
-			--------
-			- str
-
-		'''
+		"""Applies named entity recognition to the input text and returns a.
+		
+		Purpose:
+		    Provides the `named_entity_recognition` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Tuple[str, str]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -2021,33 +1729,20 @@ class NltkParser( Processor ):
 			raise exception
 	
 	def chunk_words( self, text: str, size: int = 5 ) -> DataFrame | None:
-		"""
-
-			Purpose:
-			-----------
-			Tokenizes cleaned_lines pages and breaks it into chunks for downstream vectors.
-			  - Converts pages to lowercase
-			  - Tokenizes pages using NLTK's word_tokenize
-			  - Breaks words into chunks of a specified size
-			  - Optionally joins words into strings (for transformer models)
-
-			Parameters:
-			-----------
-			- pages : str
-				The cleaned_lines path pages to be tokenized and chunked.
-
-			- size : int, optional (default=50)
-				Number of words per chunk_words.
-
-			- return_as_string : bool, optional (default=True)
-				If True, returns each chunk_words as a path; otherwise, returns a get_list of
-				words.
-
-			Returns:
-			--------
-			- a list
-
-		"""
+		"""Tokenizes cleaned_lines pages and breaks it into chunks for downstream vectors.
+		
+		Purpose:
+		    Provides the `chunk_words` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		    size (int): Input value passed to the callable.
+		
+		Returns:
+		    DataFrame: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )
@@ -2068,33 +1763,20 @@ class NltkParser( Processor ):
 			raise exception
 	
 	def chunk_sentences( self, text: str, size: int = 15 ) -> DataFrame | None:
-		"""
-
-			Purpose:
-			-----------
-			Tokenizes cleaned_lines pages and breaks it into chunks for downstream vectors.
-			  - Converts pages to lowercase
-			  - Tokenizes pages using NLTK's sent_tokenize
-			  - Breaks words into chunks of a specified size
-			  - Optionally joins words into strings (for transformer models)
-
-			Parameters:
-			-----------
-			- pages : str
-				The cleaned_lines path pages to be tokenized and chunked.
-
-			- size : int, optional (default=50)
-				Number of words per chunk_words.
-
-			- return_as_string : bool, optional (default=True)
-				If True, returns each chunk_words as a path; otherwise, returns a get_list of
-				words.
-
-			Returns:
-			--------
-			- a list
-
-		"""
+		"""Tokenizes cleaned_lines pages and breaks it into chunks for downstream vectors.
+		
+		Purpose:
+		    Provides the `chunk_sentences` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		    size (int): Input value passed to the callable.
+		
+		Returns:
+		    DataFrame: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			_text = text.lower( )

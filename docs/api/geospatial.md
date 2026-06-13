@@ -1,0 +1,3 @@
+## 🗺️ Geospatial API
+
+::: geospatial

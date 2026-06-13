@@ -37,7 +37,13 @@
 
   </copyright>
   <summary>
-    demographic.py
+    Exposes demographic, public-health, population, and civic-data access classes.
+
+    Purpose:
+        Provides a focused public import surface for Fonky classes that retrieve demographic,
+        census, open-city, Socrata, United Nations, CDC WONDER, and world-population data.
+        This module groups population and civic-data workflows behind stable imports while
+        preserving the implementation classes in the underlying fetcher and loader modules.
   </summary>
   ******************************************************************************************
 '''

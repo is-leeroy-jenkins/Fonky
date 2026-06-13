@@ -10,7 +10,7 @@
   ******************************************************************************************
   <copyright file="loaders.py" company="Terry D. Eppler">
 
-	     name.py
+	     loaders.py
 	     Copyright ©  2026  Terry Eppler
 
      Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -37,7 +37,15 @@
 
   </copyright>
   <summary>
-    name.py
+    Provides LangChain document-loader wrappers for local files, web pages, cloud storage,
+    repositories, notebooks, structured data, office documents, email, XML, audio
+    transcription, and research search services.
+
+    Purpose:
+        Centralizes document ingestion behavior for Fonky by validating loader inputs,
+        configuring LangChain community loader instances, loading source content into
+        LangChain Document objects, and splitting loaded documents into chunks for
+        downstream retrieval, embedding, analysis, and tool-calling workflows.
   </summary>
   ******************************************************************************************
 '''
@@ -85,25 +93,20 @@ from langchain_google_community import (
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from lxml import etree
 
-from boogr import Error
+from boogr import Error, Logger
 
 def throw_if( name: str, value: object ) -> None:
-	"""
+	"""Executes the throw_if operation for the module loader workflow.
 	
-		Purpose:
-		--------
-		Validate that a required value is not empty.
-		
-		Parameters:
-		-----------
-		name (str): Name of the argument being validated.
-		value (object): Value to validate.
-		
-		Returns:
-		--------
-		None
-		
-	"""
+	Purpose:
+	    Provides the `throw_if` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+	
+	Args:
+	    name (str): Input value passed to the callable.
+	    value (object): Input value passed to the callable.
+	
+	Raises:
+	    Error: Raised when the wrapped operation fails and the exception is logged."""
 	if value is None:
 		raise ValueError( f'Argument "{name}" cannot be None.' )
 	
@@ -111,33 +114,10 @@ def throw_if( name: str, value: object ) -> None:
 		raise ValueError( f'Argument "{name}" cannot be empty.' )
 
 class Loader( ):
-	'''
-
-		Purpose:
-		--------
-		Base class providing shared utilities for concrete loader wrappers.
-		Encapsulates file validation, path resolution, and document splitting.
-
-		Attributes:
-		----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-
-		Methods:
-		-------
-		_ensure_existing_file( self, path: str ) -> str
-		_resolve_paths( self, pattern: str ) -> List[ str ]
-		_split_documents( self, docs: List[ Document ], chunk: int=1000, overlap: int=200 ) ->
-		List[ Document ]
-
-	'''
+	"""Loader loader wrapper.
+	
+	Purpose:
+	    Documents the `Loader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	documents: Optional[ List[ Document ] ]
 	file_path: Optional[ str ]
 	pattern: Optional[ str ]
@@ -161,18 +141,19 @@ class Loader( ):
 		self.loader = None
 	
 	def verify_exists( self, path: str ) -> str | None:
-		'''
-			Ensure the given file path exists.
-
-			Parameters:
-			-----------
-			path (str): Path to a file on disk.
-
-			Returns:
-			--------
-			str: The validated file path.
-
-		'''
+		"""Validates that a local file path exists before a loader attempts to read it.
+		
+		Purpose:
+		    Provides the `verify_exists` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = path
@@ -186,21 +167,23 @@ class Loader( ):
 			exception.module = 'loaders'
 			exception.cause = 'Loader'
 			exception.method = 'verify_exists( self, path: str ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def resolve_paths( self, pattern: str ) -> List[ str ] | None:
-		'''
-			Normalize a string glob pattern or a list of paths to a list of real file paths.
-
-			Parameters:
-			-----------
-			pattern (str | List[str]): Path pattern or list of file paths.
-
-			Returns:
-			--------
-			List[str]: Validated list of file paths.
-
-		'''
+		"""Resolves a direct file path or glob expression into existing local files.
+		
+		Purpose:
+		    Provides the `resolve_paths` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    pattern (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'pattern', pattern )
 			self.candidates.append( pattern )
@@ -220,25 +203,28 @@ class Loader( ):
 			exception.module = 'loaders'
 			exception.cause = 'Loader'
 			exception.method = 'resolve_paths( self, pattern: str ) -> List[ str ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def load_documents( self, path: str, encoding: Optional[ str ],
 			csv_args: Optional[ Dict[ str, Any ] ],
 			source_column: Optional[ str ] ) -> List[ Document ] | None:
-		'''
-			Load files into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the CSV file.
-			encoding (Optional[str]): File encoding (e.g., 'utf-8') if known.
-			source_column (Optional[str]): Column name used for source attribution.
-
-			Returns:
-			--------
-			List[Document]: List of LangChain Document objects parsed from the CSV.
-
-		'''
+		"""Loads CSV-style source content into LangChain Document objects using CSV loader options.
+		
+		Purpose:
+		    Provides the `load_documents` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		    encoding (str): Input value passed to the callable.
+		    csv_args (Dict[str, object]): Input value passed to the callable.
+		    source_column (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.file_path = self.verify_exists( path )
 			self.encoding = encoding
@@ -253,24 +239,26 @@ class Loader( ):
 			exception.module = 'loaders'
 			exception.cause = 'CSV'
 			exception.method = 'load_documents( self, **kwargs )'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split_documents( self, docs: List[ Document ], chunk: int = 1000, overlap: int = 200 ) -> \
 			List[ Document ] | None:
-		'''
-			Split long Document objects into smaller chunks for better token management.
-
-			Parameters:
-			-----------
-			docs (List[Document]): Input LangChain Document objects.
-			chunk_size (int): Max characters in each chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Re-chunked list of Document objects.
-
-		'''
+		"""Splits LangChain Document objects into smaller chunks with the configured recursive text splitter.
+		
+		Purpose:
+		    Provides the `split_documents` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    docs (List[Document]): Input value passed to the callable.
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'docs', docs )
 			self.documents = docs
@@ -285,38 +273,14 @@ class Loader( ):
 			exception.cause = 'Loader'
 			exception.method = ('split_documents( self, docs: List[ Document ], chunk: int=1000, '
 			                    'overlap: int=200 ) -> List[ Document ]')
+			Logger( ).write( exception )
 			raise exception
 
 class TextLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides LangChain's TextLoader functionality to parse plain-text files
-		into Document objects.
-
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path - str
-		pattern - str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-		encoding - str
-
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str,
-		resolve_paths( self, pattern: str ) -> List[ str ],
-		split_documents( self, docs: List[ Document ] ) -> List[ Document ]
-		load( path: str, encoding: Optional[ str ]=None ) -> List[ Document ]
-		split( ) -> List[ Document ]
-
-	'''
+	"""TextLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `TextLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ TextDocLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -332,14 +296,14 @@ class TextLoader( Loader ):
 		self.loader = None
 		self.encoding = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -358,19 +322,20 @@ class TextLoader( Loader ):
 		         'split', ]
 	
 	def load( self, path: str, encoding: Optional[ str ] = None ) -> List[ Document ] | None:
-		'''
-			Load a plain-text file into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): File path to the text file.
-			encoding (Optional[str]): Optional text encoding such as 'utf-8'.
-
-			Returns:
-			--------
-			List[Document]: List of parsed Document objects from the text file.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		    encoding (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -386,23 +351,24 @@ class TextLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'TextLoader'
 			exception.method = 'load( self, path: str, encoding: Optional[ str ]=None ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-			Split loaded text documents into manageable chunks for downstream LLM
-			processing.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -415,16 +381,14 @@ class TextLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'TextLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 )-> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class CsvLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Wrap LangChain's CSVLoader to load CSV files into LangChain Document objects.
-
-	'''
+	"""CsvLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `CsvLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ CSVLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -454,22 +418,23 @@ class CsvLoader( Loader ):
 	def load( self, path: str, encoding: Optional[ str ] = 'utf-8',
 			source_column: Optional[ str ] = None, delimiter: str = ',',
 			quotechar: str = '"' ) -> List[ Document ] | None:
-		'''
-			Load a CSV file into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the CSV file.
-			encoding (Optional[str]): File encoding.
-			source_column (Optional[str]): Optional source column name.
-			delimiter (str): CSV delimiter.
-			quotechar (str): CSV quote character.
-
-			Returns:
-			--------
-			List[Document] | None: Loaded Document objects.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		    encoding (str): Input value passed to the callable.
+		    source_column (str): Input value passed to the callable.
+		    delimiter (str): Input value passed to the callable.
+		    quotechar (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -498,25 +463,24 @@ class CsvLoader( Loader ):
 					'source_column: Optional[ str ]=None, delimiter: str=",", '
 					'quotechar: str=\'"\' ) -> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded CSV documents into smaller chunks.
-
-			Parameters:
-			-----------
-			chunk (int): Maximum number of characters per chunk.
-			overlap (int): Number of overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document] | None: Chunked Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -532,39 +496,14 @@ class CsvLoader( Loader ):
 					'split( self, chunk: int=1000, overlap: int=200 ) '
 					'-> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class WebLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Functionality to load all text from HTML webpages into
-		a document format that can be used downstream.
-
-		Attributes:
-		----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-		url - str
-		loader - WebBaseLoader
-
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str,
-		resolve_paths( self, pattern: str ) -> List[ str ],
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ]
-		load( self, urls: str | List[ str ] ) -> List[ Document ]
-		split( self ) -> List[ Document ]
-
-	'''
+	"""WebLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `WebLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ RecursiveUrlLoader | WebBaseLoader ]
 	url: Optional[ str ]
 	web_paths: Optional[ str | List[ str ] ]
@@ -580,31 +519,18 @@ class WebLoader( Loader ):
 	def __init__( self, recursive: bool = False, max_depth: int = 2,
 			prevent_outside: bool = True, timeout: int = 10,
 			ignore: bool = True, progress: bool = True ) -> None:
-		'''
-
-			Purpose:
-			--------
-			Initialize a WebLoader instance for either single-page loading
-			or recursive crawling.
-
-			Parameters:
-			-----------
-			recursive (bool): Indicates whether the loader should crawl
-				recursively from a starting URL.
-			max_depth (int): Maximum recursive crawl depth to use when
-				recursive mode is enabled.
-			prevent_outside (bool): Indicates whether recursively loaded
-				documents should be restricted to the starting domain.
-			timeout (int): Maximum request timeout in seconds.
-			ignore (bool): Indicates whether fetch failures should be ignored.
-			progress (bool): Indicates whether WebBaseLoader should display
-				progress while loading multiple pages.
-
-			Returns:
-			--------
-			None.
-
-		'''
+		"""Executes the __init__ operation for the WebLoader loader workflow.
+		
+		Purpose:
+		    Initializes `WebLoader` instance state while preserving the constructor contract used by the application.
+		
+		Args:
+		    recursive (bool): Input value passed to the callable.
+		    max_depth (int): Input value passed to the callable.
+		    prevent_outside (bool): Input value passed to the callable.
+		    timeout (int): Input value passed to the callable.
+		    ignore (bool): Input value passed to the callable.
+		    progress (bool): Input value passed to the callable."""
 		super( ).__init__( )
 		self.max_depth = max_depth
 		self.tiemout = timeout
@@ -621,23 +547,14 @@ class WebLoader( Loader ):
 		self.recursive = recursive
 		self.prevent_outside = prevent_outside
 	
-	def __dir__( self ):
-		'''
-
-			Purpose:
-			--------
-			Return a list of all available members.
-
-			Parameters:
-			-----------
-			None.
-
-			Returns:
-			--------
-			List[ str ]: A list of attribute and method names available on
-				the class.
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -663,25 +580,20 @@ class WebLoader( Loader ):
 	
 	def _same_domain_only( self, docs: List[ Document ], source_url: str ) -> List[
 		                                                                          Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Filter recursively crawled documents so only documents from the
-			same network location as the starting URL are retained.
-
-			Parameters:
-			-----------
-			docs (List[ Document ]): Documents returned by the recursive
-				web loader.
-			source_url (str): Starting URL used to seed the crawl.
-
-			Returns:
-			--------
-			List[ Document ] | None: Documents restricted to the same
-				domain as the starting URL.
-
-		'''
+		"""Filters recursively crawled documents to sources that match the original URL domain.
+		
+		Purpose:
+		    Provides the `_same_domain_only` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    docs (List[Document]): Input value passed to the callable.
+		    source_url (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'docs', docs )
 			throw_if( 'source_url', source_url )
@@ -710,27 +622,23 @@ class WebLoader( Loader ):
 			exception.cause = 'WebLoader'
 			exception.method = ('_same_domain_only( self, docs: List[ Document ], '
 			                    'source_url: str ) -> List[ Document ]')
+			Logger( ).write( exception )
 			raise exception
 	
 	def load( self, urls: str | List[ str ] ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load either one or more web pages or recursively crawl from a
-			starting URL, depending on the loader configuration.
-
-			Parameters:
-			-----------
-			urls (str | List[ str ]): A single URL string or a list of URL
-				strings to load.
-
-			Returns:
-			--------
-			List[ Document ] | None: Parsed Document objects from fetched
-				HTML content.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    urls (str | List[str]): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'urls', urls )
 			
@@ -768,31 +676,27 @@ class WebLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'WebLoader'
 			exception.method = 'load( self, urls: str | List[ str ] ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def load_recursive( self, url: str, depth: int = 2, max_time: int = 10,
 			ignore: bool = True ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Recursively crawl a starting URL and convert fetched HTML pages
-			into Document objects.
-
-			Parameters:
-			-----------
-			url (str): Starting URL for the crawl.
-			depth (int): Maximum recursive crawl depth.
-			max_time (int): Maximum request timeout in seconds.
-			ignore (bool): Indicates whether fetch failures should be
-				ignored.
-
-			Returns:
-			--------
-			List[ Document ] | None: Parsed Document objects from fetched
-				HTML content.
-
-		'''
+		"""Recursively loads documents from a starting URL.
+		
+		Purpose:
+		    Provides the `load_recursive` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    depth (int): Input value passed to the callable.
+		    max_time (int): Input value passed to the callable.
+		    ignore (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			self.url = url
@@ -820,33 +724,28 @@ class WebLoader( Loader ):
 			exception.cause = 'WebLoader'
 			exception.method = ('load_recursive( self, url: str, depth: int=2, '
 			                    'max_time: int=10, ignore: bool=True ) -> List[ Document ]')
+			Logger( ).write( exception )
 			raise exception
 	
 	def load_pages( self, urls: List[ str ], depth: int = 2, timeout: int = 10,
 			ignore: bool = True, progress: bool = True ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load one or more web pages and convert them into Document objects.
-
-			Parameters:
-			-----------
-			urls (List[ str ]): One or more URL strings to load.
-			depth (int): Preserved for API compatibility with the recursive
-				loader configuration.
-			timeout (int): Maximum request timeout in seconds.
-			ignore (bool): Indicates whether fetch failures should be
-				ignored.
-			progress (bool): Indicates whether WebBaseLoader should display
-				progress while loading.
-
-			Returns:
-			--------
-			List[ Document ] | None: Parsed Document objects from fetched
-				HTML content.
-
-		'''
+		"""Loads documents from one or more static web pages.
+		
+		Purpose:
+		    Provides the `load_pages` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    urls (List[str]): Input value passed to the callable.
+		    depth (int): Input value passed to the callable.
+		    timeout (int): Input value passed to the callable.
+		    ignore (bool): Input value passed to the callable.
+		    progress (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'urls', urls )
 			self.web_paths = urls
@@ -868,26 +767,24 @@ class WebLoader( Loader ):
 			exception.method = ('load_pages( self, urls: List[ str ], depth: int=2, '
 			                    'timeout: int=10, ignore: bool=True, '
 			                    'progress: bool=True ) -> List[ Document ]')
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded web documents into smaller chunks for better
-			LLM processing.
-
-			Parameters:
-			-----------
-			chunk (int): Maximum number of characters per chunk.
-			overlap (int): Number of overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[ Document ] | None: Chunked Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if self.documents is None:
 				raise ValueError( 'No documents loaded!' )
@@ -905,37 +802,14 @@ class WebLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'WebLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class PdfReader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Wrap LangChain's PyPDFLoader to extract and chunk PDF documents.
-		
-		Attributes:
-		----------
-		loader - SharePointLoader
-		file_path - str
-		documents - List[ Documents }
-		library_id - str
-		mode - str
-		folder_id - str
-		object_ids - List[ str ]
-		query - str
-		with_token - bool
-		is_recursive - bool
-		
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str,
-		resolve_paths( self, pattern: str ) -> List[ str ],
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ]
-		load( path: str, mode: str ) -> List[ Document ]
-		split( ) -> List[ Document ]
-
-	'''
+	"""PdfReader loader wrapper.
+	
+	Purpose:
+	    Documents the `PdfReader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ PyPDFLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -951,15 +825,14 @@ class PdfReader( Loader ):
 		self.loader = None
 		self.mode = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -978,23 +851,20 @@ class PdfReader( Loader ):
 		         'split', ]
 	
 	def load( self, path: str, mode: str = 'single' ) -> List[ Document ] | None:
-		'''
-
-
-			Purpose:
-			--------
-			Load a PDF file and convert its contents into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): File path to a PDF document.
-
-			Returns:
-			--------
-			List[Document]: List of parsed Document objects from the PDF.
-
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -1007,24 +877,24 @@ class PdfReader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'PdfLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-			Purpose:
-			--------
-			Split loaded PDF documents into smaller chunks.
-	
-			Parameters:
-			-----------
-			chunk (int): Maximum number of characters per chunk.
-			overlap (int): Number of overlapping characters between chunks.
-	
-			Returns:
-			--------
-			List[Document] | None: Chunked Document objects.
-	
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -1043,21 +913,14 @@ class PdfReader( Loader ):
 					'split( self, chunk: int=1000, overlap: int=200 ) '
 					'-> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class PdfLoader( PdfReader ):
-	"""
+	"""PdfLoader loader wrapper.
 	
-		PdfLoader
-	
-		Public, SDK-oriented PDF loader with:
-			- Page-aware metadata
-			- Two-stage chunking
-			- Configurable chunk profiles
-			- Table isolation
-			- Optional OCR fallback
-			
-	"""
+	Purpose:
+	    Documents the `PdfLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ PyPDFLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -1070,24 +933,16 @@ class PdfLoader( PdfReader ):
 	
 	def __init__( self, size: int = 1000, overlap: int = 150,
 			has_tables: bool = True, include: bool = True ) -> None:
-		"""
+		"""Executes the __init__ operation for the PdfLoader loader workflow.
 		
-			Purpose:
-			---------
-			Initialize the PdfLoader.
-	
-			Parameters:
-				path:
-					Path to the PDF file.
-				size:
-					Target chunk size (characters).
-				overlap:
-					Overlap between chunks.
-				has_tables:
-					Enable table detection and isolation.
-				use_ocr:
-					Enable OCR fallback for image-only PDFs.
-		"""
+		Purpose:
+		    Initializes `PdfLoader` instance state while preserving the constructor contract used by the application.
+		
+		Args:
+		    size (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		    has_tables (bool): Input value passed to the callable.
+		    include (bool): Input value passed to the callable."""
 		super( ).__init__( )
 		self.enable_tables = has_tables
 		self.include_images = include
@@ -1102,65 +957,57 @@ class PdfLoader( PdfReader ):
 		self.custom_delimiter = None
 	
 	@property
-	def mode_options( self ):
-		'''
-			
-			Returns:
-			--------
-			A List[ str ] of mode options
+	def mode_options( self ) -> List[ str ]:
+		"""Returns the supported loading mode names for the loader.
 		
-		'''
+		Purpose:
+		    Provides the `mode_options` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'page', 'single' ]
 	
 	@property
-	def extraction_options( self ):
-		'''
-			
-			Returns:
-			--------
-			A List[ str ] of mode options
+	def extraction_options( self ) -> List[ str ]:
+		"""Returns the supported PDF extraction mode names.
 		
-		'''
+		Purpose:
+		    Provides the `extraction_options` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'plain', 'layout' ]
 	
 	@property
-	def image_options( self ):
-		'''
-			
-			Returns:
-			--------
-			A List[ str ] of mode options
+	def image_options( self ) -> List[ str ]:
+		"""Returns the supported PDF image-output format names.
 		
-		'''
+		Purpose:
+		    Provides the `image_options` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'html-img', 'markdown-img', 'text-img' ]
 	
 	def load( self, path: str, mode: str = 'single', extract: str = 'plain',
 			include: bool = False, format: str = 'markdown-img' ) -> List[ Document ]:
-		"""
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
 		
-			Purpose:
-			---------
-			Loads PDF document into Langchain document objects. Attempts image
-			extraction only when explicitly requested, and falls back to text-only
-			parsing if the image path fails.
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
 		
-			Parameters:
-			-----------
-			path:
-				Path to the PDF file.
-			mode:
-				PDF loading mode passed to PyPDFLoader.
-			extract:
-				Extraction mode passed to PyPDFLoader.
-			include:
-				When True, attempt image extraction. Defaults to False for stability.
-			format:
-				Image output format used when image extraction is enabled.
+		Args:
+		    path (str): Input value passed to the callable.
+		    mode (str): Input value passed to the callable.
+		    extract (str): Input value passed to the callable.
+		    include (bool): Input value passed to the callable.
+		    format (str): Input value passed to the callable.
 		
-			Returns:
-			--------
-			List[Document]
-		"""
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -1200,39 +1047,14 @@ class PdfLoader( PdfReader ):
 			exception.module = 'loaders'
 			exception.cause = 'PdfLoader'
 			exception.method = 'load( self, path: str, mode: str=single, extract: str=plain ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class ExcelLoader( Loader ):
-	'''
-
-
-		Purpose:
-		--------
-		Provides LangChain's UnstructuredExcelLoader functionality
-		to parse Excel spreadsheets into documents.
-
-		Attibutes:
-		----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str,
-		resolve_paths( self, pattern: str ) -> List[ str ],
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ]
-		load( path: str, mode: str ) -> List[ Document ]
-		split( ) -> List[ Document ]
-
-
-	'''
+	"""ExcelLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `ExcelLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ UnstructuredExcelLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -1249,15 +1071,14 @@ class ExcelLoader( Loader ):
 		self.loader = None
 		self.mode = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -1275,37 +1096,33 @@ class ExcelLoader( Loader ):
 		         'split', ]
 	
 	@property
-	def mode_options( self ):
-		'''
-			
-			Returns:
-			-------
-			List[ str ] of loading mode options
-			
-		'''
+	def mode_options( self ) -> List[ str ]:
+		"""Returns the supported loading mode names for the loader.
+		
+		Purpose:
+		    Provides the `mode_options` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'single', 'page' ]
 	
 	def load( self, path: str, mode: str = 'elements', has_headers: bool = True ) -> List[
 		                                                                                 Document ] | None:
-		'''
-
-
-			Purpose:
-			--------
-			Load and convert Excel data into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): File path to the Excel spreadsheet.
-			mode (str): Extraction mode, either 'elements' or 'paged'.
-			headers (bool): Whether to include column headers in parsing.
-
-			Returns:
-			--------
-			List[Document]: List of parsed Document objects from Excel content.
-
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		    mode (str): Input value passed to the callable.
+		    has_headers (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.mode = mode
@@ -1319,27 +1136,24 @@ class ExcelLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'ExcelLoader'
 			exception.method = 'load( self, **kwargs ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-
-			Purpose:
-			--------
-			Split loaded Excel documents into manageable chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Maximum characters per chunk.
-			chunk_overlap (int): Characters overlapping between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked and cleaned list of Document objects.
-
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if self.documents is None:
 				raise ValueError( 'No documents loaded!' )
@@ -1353,39 +1167,14 @@ class ExcelLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'ExcelLoader'
 			exception.method = 'split( self,  **kwargs  ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class WordLoader( Loader ):
-	'''
-
-
-		Purpose:
-		--------
-		Provides LangChain's Docx2txtLoader functionality to
-		convert docx files into Document objects.
-
-		Attributes:
-		----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str,
-		resolve_paths( self, pattern: str ) -> List[ str ],
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ]
-		load( path: str, mode: str ) -> List[ Document ]
-		split( ) -> List[ Document ]
-
-
-	'''
+	"""WordLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `WordLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ Docx2txtLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -1399,15 +1188,14 @@ class WordLoader( Loader ):
 		self.overlap_amount = None
 		self.loader = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -1425,23 +1213,19 @@ class WordLoader( Loader ):
 		         'split', ]
 	
 	def load( self, path: str ) -> List[ Document ] | None:
-		'''
-
-
-			Purpose:
-			--------
-			Load the contents of a Word .docx file into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): File path to the .docx document.
-
-			Returns:
-			--------
-			List[Document]: Parsed Document list from Word file.
-
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -1453,27 +1237,24 @@ class WordLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'WordLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-
-			Purpose:
-			--------
-			Split Word documents into text chunks suitable for LLM processing.
-
-			Parameters:
-			-----------
-			chunk_size (int): Maximum characters per chunk.
-			chunk_overlap (int): Overlap between chunks in characters.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of Document objects.
-
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if self.documents is None:
 				raise ValueError( 'No documents loaded!' )
@@ -1487,38 +1268,14 @@ class WordLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'WordLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class MarkdownLoader( Loader ):
-	'''
-
-
-		Purpose:
-		--------
-		Wrap LangChain's UnstructuredMarkdownLoader to parse Markdown files into Document objects.
-		
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-		
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str,
-		resolve_paths( self, pattern: str ) -> List[ str ],
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ]
-		load( path: str, mode: str ) -> List[ Document ]
-		split( ) -> List[ Document ]
-
-
-	'''
+	"""MarkdownLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `MarkdownLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ UnstructuredMarkdownLoader ]
 	file_path: str | None
 	documents: List[ Document ] | None
@@ -1532,15 +1289,14 @@ class MarkdownLoader( Loader ):
 		self.overlap_amount = None
 		self.loader = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -1558,21 +1314,19 @@ class MarkdownLoader( Loader ):
 		         'split', ]
 	
 	def load( self, path: str ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load a Markdown (.md) file into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): File path to the Markdown file.
-
-			Returns:
-			--------
-			List[Document]: List of parsed Document objects from the Markdown file.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -1584,25 +1338,24 @@ class MarkdownLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'MarkdownLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ] '
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded Markdown content into text chunks for LLM consumption.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Number of characters that overlap between chunks.
-
-			Returns:
-			--------
-			List[Document]: Split Document chunks from the original Markdown content.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -1615,36 +1368,14 @@ class MarkdownLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'MarkdownLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class HtmlLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides the UnstructuredHTMLLoader's functionality to parse HTML files into Document objects.
-
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str,
-		resolve_paths( self, pattern: str ) -> List[ str ],
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ]
-		load( path: str, mode: str ) -> List[ Document ]
-		split( ) -> List[ Document ]
-
-	'''
+	"""HtmlLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `HtmlLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ UnstructuredHTMLLoader ]
 	file_path: str | None
 	documents: List[ Document ] | None
@@ -1658,15 +1389,14 @@ class HtmlLoader( Loader ):
 		self.overlap_amount = None
 		self.loader = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -1684,21 +1414,19 @@ class HtmlLoader( Loader ):
 		         'split', ]
 	
 	def load( self, path: str ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load an HTML file and convert its contents into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -1710,25 +1438,24 @@ class HtmlLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'HTML'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded HTML documents into manageable text chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if self.documents is None:
 				raise ValueError( 'No documents loaded!' )
@@ -1742,36 +1469,14 @@ class HtmlLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'HtmlLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class ArXivLoader( Loader ):
-	'''
-		Purpose:
-		---------
-		Provides the Arxiv loading functionality
-		to parse research papers into Document objects.
-		
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-		
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str;
-		resolve_paths( self, pattern: str ) -> List[ str ];
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ];
-		load( path: str, mode: str ) -> List[ Document ];
-		split( ) -> List[ Document ];
-
-	'''
+	"""ArXivLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `ArXivLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ ArxivLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -1792,15 +1497,14 @@ class ArXivLoader( Loader ):
 		self.max_characters = 1000
 		self.include_metadata = False
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -1821,16 +1525,19 @@ class ArXivLoader( Loader ):
 		         'split', ]
 	
 	def load( self, question: str ) -> List[ Document ] | None:
-		'''
-			Load an video file and convert its contents into LangChain Document objects.
-
-			:arg:
-			path (str): Path to the HTML (.html or .htm) file.
-
-			:returns:
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    question (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'question', question )
 			self.query = question
@@ -1843,22 +1550,24 @@ class ArXivLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'ArxivLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-			Split loaded ArXiv documents into manageable text chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			---------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -1871,37 +1580,14 @@ class ArXivLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'ArxivLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class WikiLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides the Arxiv loading functionality
-		to parse video research papers into Document objects.
-		
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-		
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str;
-		resolve_paths( self, pattern: str ) -> List[ str ];
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ];
-		load( path: str, mode: str ) -> List[ Document ];
-		split( ) -> List[ Document ];
-
-	'''
+	"""WikiLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `WikiLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ WikipediaLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -1923,15 +1609,14 @@ class WikiLoader( Loader ):
 		self.max_characters = 4000
 		self.include_all
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -1952,21 +1637,19 @@ class WikiLoader( Loader ):
 		         'split', ]
 	
 	def load( self, question: str ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load an wikipedia and convert its contents into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    question (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'question', question )
 			self.query = question
@@ -1980,25 +1663,24 @@ class WikiLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'WikiLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded Wikipedia search documents into manageable text chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -2011,37 +1693,14 @@ class WikiLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'WikiLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class GoogleDriveLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides Google Drive loading functionality
-		to parse contents into Document objects.
-
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str;
-		resolve_paths( self, pattern: str ) -> List[ str ];
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ];
-		load( path: str, mode: str ) -> List[ Document ];
-		split( ) -> List[ Document ];
-
-	'''
+	"""GoogleDriveLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `GoogleDriveLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ GoogleDriveLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -2063,15 +1722,14 @@ class GoogleDriveLoader( Loader ):
 		self.loader = None
 		self.is_recursive = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -2094,34 +1752,33 @@ class GoogleDriveLoader( Loader ):
 		         'split', ]
 	
 	@property
-	def file_options( self ):
-		'''
-
-			Returns:
-			-------
-			List[ str ] of file options
-
-		'''
+	def file_options( self ) -> List[ str ]:
+		"""Returns the supported Google Drive loading target names.
+		
+		Purpose:
+		    Provides the `file_options` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'document',
 		         'sheet',
 		         'pdf' ]
 	
 	def load_file( self, file_id: str, recursive: bool = False ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load an google drive file by id and convert its contents into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads a single file from the backing provider.
+		
+		Purpose:
+		    Provides the `load_file` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    file_id (str): Input value passed to the callable.
+		    recursive (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'file_id', file_id )
 			throw_if( 'recursive', recursive )
@@ -2136,24 +1793,24 @@ class GoogleDriveLoader( Loader ):
 			exception.module = 'Fonky'
 			exception.cause = 'GoogleDriveLoader'
 			exception.method = 'load_File( self, file_id: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def load_folder( self, folder_id: str, recursive: bool = False ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load an google drive file and convert its contents into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads documents from a provider folder or document-library folder.
+		
+		Purpose:
+		    Provides the `load_folder` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    folder_id (str): Input value passed to the callable.
+		    recursive (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'folder_id', folder_id )
 			self.folder_id = folder_id
@@ -2166,25 +1823,24 @@ class GoogleDriveLoader( Loader ):
 			exception.module = 'Fonky'
 			exception.cause = 'GoogleDriveLoader'
 			exception.method = 'load_folder( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded google drive documents into manageable text chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -2197,37 +1853,14 @@ class GoogleDriveLoader( Loader ):
 			exception.module = 'Fonky'
 			exception.cause = 'GoogleDriveLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
-		
+
 class OutlookLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides the Arxiv loading functionality
-		to parse video research papers into Document objects.
-		
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-		
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str;
-		resolve_paths( self, pattern: str ) -> List[ str ];
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ];
-		load( path: str, mode: str ) -> List[ Document ];
-		split( ) -> List[ Document ];
-
-	'''
+	"""OutlookLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `OutlookLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ OutlookMessageLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -2247,15 +1880,14 @@ class OutlookLoader( Loader ):
 		self.max_documents = 2
 		self.max_characters = 1000
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -2275,21 +1907,19 @@ class OutlookLoader( Loader ):
 		         'split', ]
 	
 	def load( self, path: str ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load Outlook Message from a path converting contents into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -2301,25 +1931,24 @@ class OutlookLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'OutlookLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded Wikipedia search documents into manageable text chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -2332,45 +1961,14 @@ class OutlookLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'OutlookLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class SpfxLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides the Sharepoint loading functionality
-		to parse video research papers into Document objects.
-		
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-		loader - SharePointLoader
-		library_id - str
-		subsite_id - str
-		folder_id - str
-		object_ids - List[ str ]
-		query - str
-		with_token - bool
-		is_recursive - bool
-		
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str;
-		resolve_paths( self, pattern: str ) -> List[ str ];
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ];
-		load( path: str, mode: str ) -> List[ Document ];
-		split( ) -> List[ Document ];
-
-	'''
+	"""SpfxLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `SpfxLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ SharePointLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -2396,15 +1994,14 @@ class SpfxLoader( Loader ):
 		self.with_token = None
 		self.is_recursive = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -2428,21 +2025,19 @@ class SpfxLoader( Loader ):
 		         'split', ]
 	
 	def load( self, library_id: str ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load Sharepoint files and convert their contents into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    library_id (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'library_id', library_id )
 			self.library_id = library_id
@@ -2457,24 +2052,24 @@ class SpfxLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'SpfxLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def load_folder( self, library_id: str, folder_id: str ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load Sharepoint files and convert their contents into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads documents from a provider folder or document-library folder.
+		
+		Purpose:
+		    Provides the `load_folder` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    library_id (str): Input value passed to the callable.
+		    folder_id (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'library_id', library_id )
 			throw_if( 'folder_id', folder_id )
@@ -2489,25 +2084,24 @@ class SpfxLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'SpfxLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded Sharepoint file documents into manageable text chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -2520,37 +2114,14 @@ class SpfxLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'SpfxLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class PowerPointLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides PowerPoint loading functionality
-		to parse ppt files into Document objects.
-		
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-		
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str;
-		resolve_paths( self, pattern: str ) -> List[ str ];
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ];
-		load( path: str, mode: str ) -> List[ Document ];
-		split( ) -> List[ Document ];
-
-	'''
+	"""PowerPointLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `PowerPointLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ UnstructuredPowerPointLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -2567,15 +2138,14 @@ class PowerPointLoader( Loader ):
 		self.loader = None
 		self.mode = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -2595,21 +2165,20 @@ class PowerPointLoader( Loader ):
 		         'split', ]
 	
 	def load( self, path: str, mode: str = 'single' ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load PowerPoint slides and convert their content into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -2622,24 +2191,23 @@ class PowerPointLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'PowerPointLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def load_multiple( self, path: str ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load PowerPoint slides and convert their content into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads documents from a multi-document source using the loader’s existing path contract.
+		
+		Purpose:
+		    Provides the `load_multiple` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -2652,25 +2220,24 @@ class PowerPointLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'PowerPointLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded Wikipedia search documents into manageable text chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -2683,17 +2250,14 @@ class PowerPointLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'PowerPointLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class OneDriveDocLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides Microsoft OneDrive loading functionality for drives, folders,
-		and explicit object IDs.
-
-	'''
+	"""OneDriveDocLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `OneDriveDocLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ OneDriveLoader ]
 	documents: Optional[ List[ Document ] ]
 	drive_id: Optional[ str ]
@@ -2728,24 +2292,22 @@ class OneDriveDocLoader( Loader ):
 	def load( self, drive_id: str, folder_path: Optional[ str ] = None,
 			object_ids: Optional[ List[ str ] ] = None,
 			auth_with_token: bool = True ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load documents from Microsoft OneDrive.
-
-			Parameters:
-			-----------
-			drive_id (str): OneDrive drive ID.
-			folder_path (Optional[str]): Optional folder path to scope the load.
-			object_ids (Optional[List[str]]): Optional explicit OneDrive object ids.
-			auth_with_token (bool): Reuse cached token when True.
-
-			Returns:
-			--------
-			List[Document] | None: Loaded OneDrive documents.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    drive_id (str): Input value passed to the callable.
+		    folder_path (str): Input value passed to the callable.
+		    object_ids (List[str]): Input value passed to the callable.
+		    auth_with_token (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'drive_id', drive_id )
 			
@@ -2778,6 +2340,7 @@ class OneDriveDocLoader( Loader ):
 					'object_ids: Optional[ List[ str ] ]=None, auth_with_token: bool=True ) '
 					'-> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
@@ -2795,39 +2358,14 @@ class OneDriveDocLoader( Loader ):
 			exception.method = (
 					'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class EmailLoader( Loader ):
-	'''
-
-
-		Purpose:
-		--------
-		Provides LangChain's UnstructuredEmailLoader functionality
-		to parse email documents (*.eml) into documents.
-
-		Attibutes:
-		----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str,
-		resolve_paths( self, pattern: str ) -> List[ str ],
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ]
-		load( path: str, mode: str ) -> List[ Document ]
-		split( ) -> List[ Document ]
-
-
-	'''
+	"""EmailLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `EmailLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ UnstructuredEmailLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -2844,15 +2382,14 @@ class EmailLoader( Loader ):
 		self.loader = None
 		self.mode = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -2873,25 +2410,21 @@ class EmailLoader( Loader ):
 	
 	def load( self, path: str, mode: str = 'single', attachments: bool = True ) -> List[
 		                                                                               Document ] | None:
-		'''
-
-
-			Purpose:
-			--------
-			Load and convert Email data (*.eml) into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): File path to the Excel spreadsheet.
-			mode (str): Extraction mode, either 'elements' or 'paged'.
-			include_headers (bool): Whether to include column headers in parsing.
-
-			Returns:
-			--------
-			List[Document]: List of parsed Document objects from Email content.
-
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		    mode (str): Input value passed to the callable.
+		    attachments (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -2907,27 +2440,24 @@ class EmailLoader( Loader ):
 			exception.cause = 'EmailLoader'
 			exception.method = ('load( self, path: str, mode: str=elements, '
 			                    'include_headers: bool=True ) -> List[ Document ]')
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-
-			Purpose:
-			--------
-			Split loaded Email documents into manageable chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Maximum characters per chunk.
-			chunk_overlap (int): Characters overlapping between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked and cleaned list of Document objects.
-
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.chunk_size = chunk
 			self.overlap_amount = overlap
@@ -2939,36 +2469,14 @@ class EmailLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'EmailLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class JsonLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides the UnstructuredHTMLLoader's functionality to parse HTML files into Document objects.
-
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str,
-		resolve_paths( self, pattern: str ) -> List[ str ],
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ]
-		load( path: str, mode: str ) -> List[ Document ]
-		split( ) -> List[ Document ]
-
-	'''
+	"""JsonLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `JsonLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ JSONLoader ]
 	file_path: str | None
 	jq: Optional[ str ]
@@ -2988,15 +2496,14 @@ class JsonLoader( Loader ):
 		self.is_lines = None
 		self.jq = '.messages[].content'
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -3015,21 +2522,21 @@ class JsonLoader( Loader ):
 	
 	def load( self, filepath: str, is_text: bool = True, is_lines: bool = False ) -> List[
 		                                                                                 Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load an HTML file and convert its contents into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the HTML (.html or .htm) file.
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    filepath (str): Input value passed to the callable.
+		    is_text (bool): Input value passed to the callable.
+		    is_lines (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'filepath', filepath )
 			self.file_path = self.verify_exists( filepath )
@@ -3044,25 +2551,24 @@ class JsonLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'JsonLoader'
 			exception.method = 'load( self, path: str ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded HTML documents into manageable text chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if self.documents is None:
 				raise ValueError( 'No documents loaded!' )
@@ -3076,36 +2582,14 @@ class JsonLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'JsonLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class GithubLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides the functionality to laod github files in to langchain documents
-
-		Attributes:
-		-----------
-		documents - List[ Document ]
-		file_path -  str
-		pattern -  str
-		expanded - List[ str ]
-		candidates - List[ str ]
-		resolved - List[ str ]
-		splitter - RecursiveCharacterTextSplitter
-		chunk_size - int
-		overlap_amount - int
-
-		Methods:
-		--------
-		verify_exists( self, path: str ) -> str;
-		resolve_paths( self, pattern: str ) -> List[ str ];
-		split_documents( self, docs: List[ Document ]  ) -> List[ Document ];
-		load( path: str, mode: str ) -> List[ Document ];
-		split( ) -> List[ Document ];
-
-	'''
+	"""GithubLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `GithubLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ GithubFileLoader ]
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -3136,15 +2620,14 @@ class GithubLoader( Loader ):
 		self.branch = None
 		self.file_filter = None
 	
-	def __dir__( self ):
-		'''
-
-			Returns:
-			--------
-			A list of all available members.
-
-
-		'''
+	def __dir__( self ) -> List[ str ]:
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'loader',
 		         'documents',
 		         'splitter',
@@ -3169,24 +2652,22 @@ class GithubLoader( Loader ):
 	
 	def load( self, url: str, repo: str, branch: str, filetype: str = '.md' ) -> List[
 		                                                                             Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load filtered contents of Github repo/branch into LangChain Document objects.
-
-			Parameters:
-			-----------
-			url (str):
-			repo (str):
-			branch (str):
-			filetype (str):
-
-			Returns:
-			--------
-			List[Document]: List of Document objects parsed from HTML content.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    repo (str): Input value passed to the callable.
+		    branch (str): Input value passed to the callable.
+		    filetype (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			self.github_url = url
@@ -3203,25 +2684,24 @@ class GithubLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'GithubLoader'
 			exception.method = 'load( self, **kwargs  ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded Wikipedia search documents into manageable text chunks.
-
-			Parameters:
-			-----------
-			chunk_size (int): Max characters per chunk.
-			chunk_overlap (int): Overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document]: Chunked list of LangChain Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if self.documents is None:
 				raise ValueError( 'No documents loaded!' )
@@ -3235,56 +2715,14 @@ class GithubLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'GithubLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class XmlLoader( Loader ):
-	"""
+	"""XmlLoader loader wrapper.
+	
 	Purpose:
-	--------
-	Load XML files using two explicit and independent paths:
-
-	1. Unstructured semantic loading via LangChain's UnstructuredXMLLoader,
-	   producing LangChain Document objects suitable for RAG and embeddings.
-
-	2. Structured XML loading via lxml, producing an ElementTree suitable for
-	   XPath queries and schema-aware processing.
-
-	Attributes:
-	----------
-	file_path : Optional[str]
-		Path to the XML file.
-
-	documents : Optional[List[Document]]
-		Documents produced by UnstructuredXMLLoader.
-
-	loader : Optional[UnstructuredXMLLoader]
-		Active unstructured loader instance.
-
-	splitter : Optional[RecursiveCharacterTextSplitter]
-		Text splitter for document chunking.
-
-	chunk_size : Optional[int]
-		Chunk size for splitting documents.
-
-	overlap_amount : Optional[int]
-		Overlap size for splitting documents.
-
-	xml_tree : Optional[etree._ElementTree]
-		Parsed XML tree produced by lxml.
-
-	xml_root : Optional[etree._Element]
-		Root element of the parsed XML tree.
-
-	xml_namespaces : Optional[Dict[str, str]]
-		Namespace mapping extracted from the XML root.
-
-	Public Methods:
-	---------------
-	load
-	split
-	load_tree
-	get_elements
-	"""
+	    Documents the `XmlLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	
 	file_path: Optional[ str ]
 	documents: Optional[ List[ Document ] ]
@@ -3309,15 +2747,13 @@ class XmlLoader( Loader ):
 		self.xml_namespaces = None
 	
 	def __dir__( self ) -> List[ str ]:
-		"""
+		"""Returns the public attributes and callable members exposed by this loader wrapper.
 		
-			Returns:
-			--------
-			
-			List[str]
-				List of available members.
-				
-		"""
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				"loader",
 				"documents",
@@ -3341,24 +2777,19 @@ class XmlLoader( Loader ):
 		]
 	
 	def load( self, filepath: str ) -> List[ Document ] | None:
-		"""
-			
-			Purpose:
-			--------
-			Load an XML file using LangChain's UnstructuredXMLLoader to produce
-			semantic Document objects.
-	
-			Parameters:
-			-----------
-			filepath : str
-				Path to the XML file.
-	
-			Returns:
-			--------
-			List[Document] | None
-				Parsed LangChain Document objects.
-				
-		"""
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    filepath (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.file_path = self.verify_exists( filepath )
 			self.loader = UnstructuredXMLLoader( file_path=self.file_path, mode="elements" )
@@ -3369,29 +2800,24 @@ class XmlLoader( Loader ):
 			exception.module = "chonky"
 			exception.cause = "XmlLoader"
 			exception.method = "load(self, filepath: str)"
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, size: int = 1000, amount: int = 200 ) -> List[ Document ] | None:
-		"""
-			
-			Purpose:
-			--------
-			Split loaded unstructured Documents into smaller chunks.
-	
-			Parameters:
-			-----------
-			size : int
-				Maximum number of characters per chunk.
-	
-			amount : int
-				Number of overlapping characters between chunks.
-	
-			Returns:
-			--------
-			List[Document] | None
-				Split Document chunks.
-			
-		"""
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    size (int): Input value passed to the callable.
+		    amount (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if self.documents is None:
 				raise ValueError( "No documents loaded via load()." )
@@ -3406,27 +2832,23 @@ class XmlLoader( Loader ):
 			exception.module = "chonky"
 			exception.cause = "XmlLoader"
 			exception.method = "split(self, size: int=1000, amount: int=200)"
+			Logger( ).write( exception )
 			raise exception
 	
 	def load_tree( self, filepath: str ) -> etree._ElementTree | None:
-		"""
-			
-			Purpose:
-			--------
-			Parse an XML file into a structured lxml ElementTree and store it
-			on the instance.
-	
-			Parameters:
-			-----------
-			filepath : str
-				Path to the XML file.
-	
-			Returns:
-			--------
-			etree._ElementTree | None
-				Parsed XML tree.
-			
-		"""
+		"""Parses an XML file into an element tree.
+		
+		Purpose:
+		    Provides the `load_tree` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    filepath (str): Input value passed to the callable.
+		
+		Returns:
+		    etree._ElementTree: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.file_path = self.verify_exists( filepath )
 			parser = etree.XMLParser( recover=True, remove_comments=True, remove_blank_text=True )
@@ -3443,27 +2865,23 @@ class XmlLoader( Loader ):
 			exception.module = "chonky"
 			exception.cause = "XmlLoader"
 			exception.method = "load_tree(self, filepath: str)"
+			Logger( ).write( exception )
 			raise exception
 	
 	def get_elements( self, xpath: str ) -> List[ etree._Element ] | None:
-		"""
+		"""Returns XML elements matching the supplied XPath expression.
 		
-			Purpose:
-			--------
-			Retrieve XML elements using an XPath expression against the
-			loaded XML tree.
-	
-			Parameters:
-			-----------
-			xpath : str
-				XPath expression.
-	
-			Returns:
-			--------
-			List[etree._Element] | None
-				Matching XML elements.
-			
-		"""
+		Purpose:
+		    Provides the `get_elements` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    xpath (str): Input value passed to the callable.
+		
+		Returns:
+		    List[etree._Element]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if self.xml_root is None:
 				raise ValueError( "XML tree not loaded. Call load_tree() first." )
@@ -3474,16 +2892,14 @@ class XmlLoader( Loader ):
 			exception.module = "chonky"
 			exception.cause = "XmlLoader"
 			exception.method = "get_elements(self, xpath: str)"
+			Logger( ).write( exception )
 			raise exception
 
 class PubMedSearchLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides PubMed loading functionality for biomedical literature search results.
-
-	'''
+	"""PubMedSearchLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `PubMedSearchLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ PubMedLoader ]
 	documents: Optional[ List[ Document ] ]
 	query: Optional[ str ]
@@ -3510,22 +2926,20 @@ class PubMedSearchLoader( Loader ):
 		]
 	
 	def load( self, query: str, max_docs: int = 5 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load PubMed search results into LangChain Document objects.
-
-			Parameters:
-			-----------
-			query (str): PubMed search query.
-			max_docs (int): Maximum number of records to load.
-
-			Returns:
-			--------
-			List[Document] | None: Loaded PubMed documents.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    max_docs (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query', query )
 			self.query = query
@@ -3540,6 +2954,7 @@ class PubMedSearchLoader( Loader ):
 			exception.method = (
 					'load( self, query: str, max_docs: int=5 ) -> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
@@ -3560,16 +2975,14 @@ class PubMedSearchLoader( Loader ):
 			exception.method = (
 					'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class OpenCityLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Load Open City / Socrata-backed city data through LangChain's OpenCityDataLoader.
-
-	'''
+	"""OpenCityLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `OpenCityLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ OpenCityDataLoader ]
 	documents: Optional[ List[ Document ] ]
 	city_id: Optional[ str ]
@@ -3597,23 +3010,21 @@ class OpenCityLoader( Loader ):
 		]
 	
 	def load( self, city_id: str, dataset_id: str, limit: int = 100 ) -> List[ Document ]:
-		'''
-
-			Purpose:
-			--------
-			Load Open City records from a Socrata-backed city dataset.
-
-			Parameters:
-			-----------
-			city_id (str): City open-data host identifier, such as data.sfgov.org.
-			dataset_id (str): Dataset identifier.
-			limit (int): Maximum number of records to load.
-
-			Returns:
-			--------
-			List[Document]: Loaded Open City data documents.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    city_id (str): Input value passed to the callable.
+		    dataset_id (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'city_id', city_id )
 			throw_if( 'dataset_id', dataset_id )
@@ -3642,25 +3053,24 @@ class OpenCityLoader( Loader ):
 					'load( self, city_id: str, dataset_id: str, limit: int=100 ) '
 					'-> List[ Document ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ]:
-		'''
-
-			Purpose:
-			--------
-			Split loaded Open City data documents into smaller chunks.
-
-			Parameters:
-			-----------
-			chunk (int): Maximum number of characters per chunk.
-			overlap (int): Number of overlapping characters.
-
-			Returns:
-			--------
-			List[Document]: Split Open City data documents.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -3681,16 +3091,14 @@ class OpenCityLoader( Loader ):
 			exception.method = (
 					'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class JupyterNotebookLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides Jupyter Notebook loading functionality for .ipynb files.
-
-	'''
+	"""JupyterNotebookLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `JupyterNotebookLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ NotebookLoader ]
 	documents: Optional[ List[ Document ] ]
 	file_path: Optional[ str ]
@@ -3727,25 +3135,23 @@ class JupyterNotebookLoader( Loader ):
 	
 	def load( self, path: str, include_outputs: bool = False, max_output_length: int = 10,
 			remove_newline: bool = False, traceback: bool = False ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load a Jupyter notebook into LangChain Document objects.
-
-			Parameters:
-			-----------
-			path (str): Path to the .ipynb notebook file.
-			include_outputs (bool): Include cell outputs when True.
-			max_output_length (int): Maximum output characters to include.
-			remove_newline (bool): Remove newline characters when True.
-			traceback (bool): Include traceback output when True.
-
-			Returns:
-			--------
-			List[Document] | None: Loaded notebook document(s).
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		    include_outputs (bool): Input value passed to the callable.
+		    max_output_length (int): Input value passed to the callable.
+		    remove_newline (bool): Input value passed to the callable.
+		    traceback (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'path', path )
 			self.file_path = self.verify_exists( path )
@@ -3773,6 +3179,7 @@ class JupyterNotebookLoader( Loader ):
 					'max_output_length: int=10, remove_newline: bool=False, '
 					'traceback: bool=False ) -> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
@@ -3793,16 +3200,14 @@ class JupyterNotebookLoader( Loader ):
 			exception.method = (
 					'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class GoogleCloudFileLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides Google Cloud Storage file loading functionality.
-
-	'''
+	"""GoogleCloudFileLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `GoogleCloudFileLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ GCSFileLoader ]
 	documents: Optional[ List[ Document ] ]
 	project_name: Optional[ str ]
@@ -3832,23 +3237,21 @@ class GoogleCloudFileLoader( Loader ):
 		]
 	
 	def load( self, project_name: str, bucket: str, blob: str ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load a single Google Cloud Storage object into LangChain Document objects.
-
-			Parameters:
-			-----------
-			project_name (str): Google Cloud project name or ID.
-			bucket (str): GCS bucket name.
-			blob (str): GCS object name.
-
-			Returns:
-			--------
-			List[Document] | None: Loaded document(s).
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    project_name (str): Input value passed to the callable.
+		    bucket (str): Input value passed to the callable.
+		    blob (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'project_name', project_name )
 			throw_if( 'bucket', bucket )
@@ -3868,6 +3271,7 @@ class GoogleCloudFileLoader( Loader ):
 					'load( self, project_name: str, bucket: str, blob: str ) '
 					'-> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
@@ -3885,16 +3289,14 @@ class GoogleCloudFileLoader( Loader ):
 			exception.method = (
 					'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class AwsFileLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides AWS S3 file loading functionality.
-
-	'''
+	"""AwsFileLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `AwsFileLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ S3FileLoader ]
 	documents: Optional[ List[ Document ] ]
 	bucket: Optional[ str ]
@@ -3936,26 +3338,24 @@ class AwsFileLoader( Loader ):
 			aws_secret_access_key: Optional[ str ] = None,
 			aws_session_token: Optional[ str ] = None,
 			region_name: Optional[ str ] = None ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load a single AWS S3 object into LangChain Document objects.
-
-			Parameters:
-			-----------
-			bucket (str): S3 bucket name.
-			key (str): S3 object key.
-			aws_access_key_id (Optional[str]): Optional AWS access key.
-			aws_secret_access_key (Optional[str]): Optional AWS secret key.
-			aws_session_token (Optional[str]): Optional AWS session token.
-			region_name (Optional[str]): Optional AWS region.
-
-			Returns:
-			--------
-			List[Document] | None: Loaded document(s).
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    bucket (str): Input value passed to the callable.
+		    key (str): Input value passed to the callable.
+		    aws_access_key_id (str): Input value passed to the callable.
+		    aws_secret_access_key (str): Input value passed to the callable.
+		    aws_session_token (str): Input value passed to the callable.
+		    region_name (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'bucket', bucket )
 			throw_if( 'key', key )
@@ -3997,6 +3397,7 @@ class AwsFileLoader( Loader ):
 					'region_name: Optional[ str ]=None ) '
 					'-> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
@@ -4015,16 +3416,14 @@ class AwsFileLoader( Loader ):
 					'split( self, chunk: int=1000, overlap: int=200 ) '
 					'-> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class GoogleSpeechToTextLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides Google Speech-to-Text loading functionality for audio transcription.
-
-	'''
+	"""GoogleSpeechToTextLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `GoogleSpeechToTextLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ SpeechToTextLoader ]
 	documents: Optional[ List[ Document ] ]
 	project_id: Optional[ str ]
@@ -4055,24 +3454,21 @@ class GoogleSpeechToTextLoader( Loader ):
 	
 	def load( self, project_id: str, file_path: str,
 			config: Optional[ Dict[ str, Any ] ] = None ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Transcribe audio with Google Cloud Speech-to-Text and load the transcript
-			into LangChain Document objects.
-
-			Parameters:
-			-----------
-			project_id (str): Google Cloud project ID.
-			file_path (str): Local path or gs:// URI for the audio file.
-			config (Optional[Dict[str, Any]]): Optional recognition config.
-
-			Returns:
-			--------
-			List[Document] | None: Loaded transcript document(s).
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    project_id (str): Input value passed to the callable.
+		    file_path (str): Input value passed to the callable.
+		    config (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'project_id', project_id )
 			throw_if( 'file_path', file_path )
@@ -4099,6 +3495,7 @@ class GoogleSpeechToTextLoader( Loader ):
 					'load( self, project_id: str, file_path: str, '
 					'config: Optional[ Dict[ str, Any ] ]=None ) -> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
@@ -4120,17 +3517,14 @@ class GoogleSpeechToTextLoader( Loader ):
 					'split( self, chunk: int=1000, overlap: int=200 ) '
 					'-> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class GoogleBucketLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides Google Cloud Storage bucket loading functionality using
-		LangChain's GCSDirectoryLoader.
-
-	'''
+	"""GoogleBucketLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `GoogleBucketLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ GCSDirectoryLoader ]
 	documents: Optional[ List[ Document ] ]
 	project_name: Optional[ str ]
@@ -4164,33 +3558,22 @@ class GoogleBucketLoader( Loader ):
 	
 	def load( self, project_name: str, bucket: str, prefix: Optional[ str ] = None,
 			continue_on_failure: bool = False ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load supported objects from a Google Cloud Storage bucket into
-			LangChain Document objects.
-
-			Parameters:
-			-----------
-			project_name (str):
-				Google Cloud project name or project ID.
-
-			bucket (str):
-				Google Cloud Storage bucket name.
-
-			prefix (Optional[str]):
-				Optional object prefix / folder filter.
-
-			continue_on_failure (bool):
-				Continue when a single object fails to load.
-
-			Returns:
-			--------
-			List[Document] | None:
-				Loaded bucket documents.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    project_name (str): Input value passed to the callable.
+		    bucket (str): Input value passed to the callable.
+		    prefix (str): Input value passed to the callable.
+		    continue_on_failure (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'project_name', project_name )
 			throw_if( 'bucket', bucket )
@@ -4216,30 +3599,24 @@ class GoogleBucketLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'GoogleBucketLoader'
 			exception.method = 'load( self, *kwargs ) -> List[ Document ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded Google Cloud Storage bucket documents into smaller
-			chunks for downstream processing.
-
-			Parameters:
-			-----------
-			chunk (int):
-				Maximum number of characters per chunk.
-
-			overlap (int):
-				Number of overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document] | None:
-				Chunked Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -4252,17 +3629,14 @@ class GoogleBucketLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'GoogleBucketLoader'
 			exception.method = 'split( self, *args ) -> List[ Document ] | None'
+			Logger( ).write( exception )
 			raise exception
 
 class AwsBucketLoader( Loader ):
-	'''
-
-		Purpose:
-		--------
-		Provides AWS S3 bucket/directory loading functionality using
-		LangChain's S3DirectoryLoader.
-
-	'''
+	"""AwsBucketLoader loader wrapper.
+	
+	Purpose:
+	    Documents the `AwsBucketLoader` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	loader: Optional[ S3DirectoryLoader ]
 	documents: Optional[ List[ Document ] ]
 	bucket: Optional[ str ]
@@ -4308,29 +3682,25 @@ class AwsBucketLoader( Loader ):
 			aws_secret_access_key: Optional[ str ] = None,
 			aws_session_token: Optional[ str ] = None, region_name: Optional[ str ] = None,
 			endpoint_url: Optional[ str ] = None ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Load all supported objects from an AWS S3 bucket or bucket prefix
-			into LangChain Document objects.
-
-			Parameters:
-			-----------
-			bucket (str): AWS S3 bucket name.
-			prefix (Optional[str]): Optional key prefix used to restrict loaded
-				objects to a virtual folder or subtree.
-			aws_access_key_id (Optional[str]): Optional AWS access key ID.
-			aws_secret_access_key (Optional[str]): Optional AWS secret access key.
-			aws_session_token (Optional[str]): Optional AWS session token.
-			region_name (Optional[str]): Optional AWS region name.
-			endpoint_url (Optional[str]): Optional custom S3-compatible endpoint.
-
-			Returns:
-			--------
-			List[Document] | None: Loaded bucket documents.
-
-		'''
+		"""Loads source content into LangChain Document objects using the wrapped provider-specific loader.
+		
+		Purpose:
+		    Provides the `load` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    bucket (str): Input value passed to the callable.
+		    prefix (str): Input value passed to the callable.
+		    aws_access_key_id (str): Input value passed to the callable.
+		    aws_secret_access_key (str): Input value passed to the callable.
+		    aws_session_token (str): Input value passed to the callable.
+		    region_name (str): Input value passed to the callable.
+		    endpoint_url (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'bucket', bucket )
 			self.bucket = bucket
@@ -4362,26 +3732,24 @@ class AwsBucketLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'AmazonBucketLoader'
 			exception.method = 'load( self, bucket: str, **kwargs ) -> List[ Document ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Split loaded AWS S3 bucket documents into smaller chunks for
-			downstream processing.
-
-			Parameters:
-			-----------
-			chunk (int): Maximum number of characters per chunk.
-			overlap (int): Number of overlapping characters between chunks.
-
-			Returns:
-			--------
-			List[Document] | None: Chunked Document objects.
-
-		'''
+		"""Splits the currently loaded documents into smaller LangChain Document chunks.
+		
+		Purpose:
+		    Provides the `split` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    chunk (int): Input value passed to the callable.
+		    overlap (int): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
@@ -4394,4 +3762,5 @@ class AwsBucketLoader( Loader ):
 			exception.module = 'loaders'
 			exception.cause = 'AmazonBucketLoader'
 			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None'
+			Logger( ).write( exception )
 			raise exception

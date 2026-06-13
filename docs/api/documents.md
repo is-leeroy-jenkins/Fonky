@@ -1,0 +1,3 @@
+## 📄 Documents API
+
+::: documents

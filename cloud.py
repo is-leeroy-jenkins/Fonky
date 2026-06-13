@@ -37,7 +37,13 @@
 
   </copyright>
   <summary>
-    cloud.py
+    Exposes cloud-storage and cloud-service loader classes.
+
+    Purpose:
+        Provides a focused public import surface for Fonky loader classes that retrieve or
+        ingest documents from AWS S3, Google Cloud Storage, Google Cloud Speech-to-Text, and
+        Microsoft OneDrive. This module keeps cloud-oriented loader imports grouped together
+        while preserving the underlying loader implementations in ``loaders.py``.
   </summary>
   ******************************************************************************************
 '''
@@ -60,4 +66,4 @@ __all__: list[ str ] = [
 		'GoogleBucketLoader',
 		'GoogleCloudFileLoader',
 		'GoogleSpeechToTextLoader',
-		'OneDriveDocLoader',]
+		'OneDriveDocLoader', ]

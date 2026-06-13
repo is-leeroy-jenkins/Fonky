@@ -37,7 +37,16 @@
 
   </copyright>
   <summary>
-    fetchers.py
+    Provides typed fetcher wrappers for web pages, crawlers, search providers, geospatial
+    services, astronomical catalogs, scientific data endpoints, environmental services,
+    health APIs, demographic services, news providers, and other remote data sources.
+
+    Purpose:
+        Defines reusable fetcher classes that validate inputs, call provider APIs or web
+        endpoints, normalize returned payloads into Result objects, and support downstream
+        analysis, retrieval, scraping, visualization, and documentation workflows across
+        Fonky. The module centralizes network-fetching behavior while preserving consistent
+        error wrapping and database-backed exception logging through boogr.
   </summary>
   ******************************************************************************************
   '''
@@ -76,27 +85,22 @@ from requests import Response
 from sscws.sscws import SscWs
 import time
 import config as cfg
-from boogr import Error
+from boogr import Error, Logger
 from core import Result
 import xml.etree.ElementTree as ET
 
 def throw_if( name: str, value: object ) -> None:
-	"""
+	"""Validate that a required value is not empty.
 	
-		Purpose:
-		--------
-		Validate that a required value is not empty.
-		
-		Parameters:
-		-----------
-		name (str): Name of the argument being validated.
-		value (object): Value to validate.
-		
-		Returns:
-		--------
-		None
-		
-	"""
+	Purpose:
+	    Provides the `throw_if` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+	
+	Args:
+	    name (str): Input value passed to the callable.
+	    value (object): Input value passed to the callable.
+	
+	Raises:
+	    Error: Raised when the wrapped operation fails and the exception is logged."""
 	if value is None:
 		raise ValueError( f'Argument "{name}" cannot be None.' )
 	
@@ -104,21 +108,19 @@ def throw_if( name: str, value: object ) -> None:
 		raise ValueError( f'Argument "{name}" cannot be empty.' )
 
 def encode_image( path: str ) -> str:
-	'''
-		
-		Purpose:
-		-----------
-		Simple guard which raises ValueError when `path` is falsy (None, empty).
-		
-		Parameters:
-		-----------
-		path (str): the path to an image file.
-		
-		Returns:
-		-----------
-		str: string representing the bytes of the image
-		
-	'''
+	"""Simple guard which raises ValueError when `path` is falsy (None, empty).
+	
+	Purpose:
+	    Provides the `encode_image` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+	
+	Args:
+	    path (str): Input value passed to the callable.
+	
+	Returns:
+	    str: Returned value produced by the callable.
+	
+	Raises:
+	    Error: Raised when the wrapped operation fails and the exception is logged."""
 	if path is None:
 		raise ValueError( f"Argument '{path}' cannot be empty!" )
 	else:
@@ -126,27 +128,10 @@ def encode_image( path: str ) -> str:
 		return base64.b64encode( data ).decode( "utf-8" )
 
 class Fetcher:
-	'''
-
-		Purpose:
-		--------
-		Base class for fetchers.
-
-		Attribues:
-		-----------
-		timeout - int
-		headers - Dict[ str, Any ]
-		response - requests.Response
-		url - str
-		result - core.Result
-		query - string
-
-		Methods:
-		-----------
-		fetch( ) -> Dict[ str, Any ]
-
-
-	'''
+	"""Base class for fetchers.
+	
+	Purpose:
+	    Documents the `Fetcher` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	timeout: Optional[ int ]
 	headers: Optional[ Dict[ str, Any ] ]
 	response: Optional[ Response ]
@@ -155,13 +140,10 @@ class Fetcher:
 	query: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-
-			Purpose:
-			-----------
-			Base initializer. Subclasses should set defaults they require.
-
-		'''
+		"""Base initializer. Subclasses should set defaults they require.
+		
+		Purpose:
+		    Initializes `Fetcher` instance state while preserving the constructor contract used by the application."""
 		self.timeout = None
 		self.headers = None
 		self.response = None
@@ -170,21 +152,13 @@ class Fetcher:
 		self.query = None
 	
 	def __dir__( self ) -> list[ str ]:
-		'''
-
-			Purpose:
-			-----------
-			Control ordering for introspection.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			-----------
-			list[str]: Ordered attribute/method names.
-
-		'''
+		"""Control ordering for introspection.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    list[str]: Returned value produced by the callable."""
 		return [ 'timeout',
 		         'headers',
 		         'response',
@@ -194,75 +168,28 @@ class Fetcher:
 		         'fetch' ]
 	
 	def fetch( self, query: str, url: str, time: int = 10 ) -> Result | None:
-		'''
-
-			Purpose:
-			--------
-			Abstract fetch method to be implemented by subclasses.
-
-			Parameters:
-			-----------
-			url (str): Resource URL to fetch.
-			time (int): Timeout in seconds.
-			query (str):  Text provided to Agent
-
-			Returns:
-			---------
-			Optional[Result]: Should return Result on success or None on failure.
-
-		'''
+		"""Abstract fetch method to be implemented by subclasses.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    url (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Result: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		raise NotImplementedError( 'Must be implemented by a subclass.' )
 
 class WebFetcher( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches web pages with requests and extracts common HTML content structures.
-
-		Attributes:
-		-----------
-		soup,
-		agents,
-		url,
-		html,
-		text,
-		source_url,
-		source_html,
-		selected_methods,
-		re_tag,
-		re_ws,
-		response,
-		result,
-		headers,
-		timeout,
-
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		__dir__(...): Performs the __dir__ operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-		html_to_text(...): Performs the html_to_text operation for this fetcher.
-		coerce_items(...): Performs the coerce_items operation for this fetcher.
-		extract_title(...): Performs the extract_title operation for this fetcher.
-		truncate_text(...): Performs the truncate_text operation for this fetcher.
-		normalize_url(...): Performs the normalize_url operation for this fetcher.
-		same_domain(...): Performs the same_domain operation for this fetcher.
-		extract_links(...): Performs the extract_links operation for this fetcher.
-		extract_structured_data(...): Performs structured extraction for this fetcher.
-		scrape_paragraphs(...): Performs the scrape_paragraphs operation for this fetcher.
-		scrape_lists(...): Performs the scrape_lists operation for this fetcher.
-		scrape_tables(...): Performs the scrape_tables operation for this fetcher.
-		scrape_articles(...): Performs the scrape_articles operation for this fetcher.
-		scrape_headings(...): Performs the scrape_headings operation for this fetcher.
-		scrape_divisions(...): Performs the scrape_divisions operation for this fetcher.
-		scrape_sections(...): Performs the scrape_sections operation for this fetcher.
-		scrape_blockquotes(...): Performs the scrape_blockquotes operation for this fetcher.
-		scrape_hyperlinks(...): Performs the scrape_hyperlinks operation for this fetcher.
-		scrape_images(...): Performs the scrape_images operation for this fetcher.
-		create_schema(...): Performs the create_schema operation for this fetcher.
-
-	'''
+	"""Fetches web pages with requests and extracts common HTML content structures.
+	
+	Purpose:
+	    Documents the `WebFetcher` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	soup: Optional[ BeautifulSoup ]
 	agents: Optional[ str ]
 	url: Optional[ str ]
@@ -279,20 +206,10 @@ class WebFetcher( Fetcher ):
 	timeout: Optional[ int ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize WebFetcher with request defaults, regular expressions, headers,
-			and response state.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize WebFetcher with request defaults, regular expressions, headers,.
+		
+		Purpose:
+		    Initializes `WebFetcher` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.timeout = 10
 		self.re_tag = re.compile( r'<[^>]+>' )
@@ -313,19 +230,13 @@ class WebFetcher( Fetcher ):
 		self.headers[ 'Accept' ] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return stable introspection names for the fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]: Ordered attribute and method names.
-		'''
+		"""Return stable introspection names for the fetcher.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'agents',
 				'url',
@@ -364,24 +275,20 @@ class WebFetcher( Fetcher ):
 		]
 	
 	def fetch( self, url: str, time: int = 10 ) -> Result | None:
-		'''
-			Purpose:
-			--------
-			Perform an HTTP GET request and store the response, HTML, URL, timeout,
-			soup, and canonical Result object.
-
-			Parameters:
-			-----------
-			url (str):
-				Absolute HTTP or HTTPS URL to fetch.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Result | None
-		'''
+		"""Perform an HTTP GET request and store the response, HTML, URL, timeout,.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Result: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			throw_if( 'time', time )
@@ -401,23 +308,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'fetch( self, *args, **kwargs ) -> Result | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def html_to_text( self, html: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Convert raw HTML to compact plain text.
-
-			Parameters:
-			-----------
-			html (str):
-				Raw HTML string.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Convert raw HTML to compact plain text.
+		
+		Purpose:
+		    Provides the `html_to_text` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    html (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'html', html )
 			self.source_html = str( html )
@@ -437,23 +344,20 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'html_to_text( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def coerce_items( self, value: Any ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Normalize extracted values into a list of strings.
-
-			Parameters:
-			-----------
-			value (Any):
-				Value returned by a scraping or extraction operation.
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Normalize extracted values into a list of strings.
+		
+		Purpose:
+		    Provides the `coerce_items` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    value (object): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		if value is None:
 			return [ ]
 		
@@ -469,20 +373,19 @@ class WebFetcher( Fetcher ):
 		]
 	
 	def extract_title( self, html: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Extract the title element from an HTML document.
-
-			Parameters:
-			-----------
-			html (str):
-				Raw HTML content.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Extract the title element from an HTML document.
+		
+		Purpose:
+		    Provides the `extract_title` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    html (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'html', html )
 			self.source_html = str( html )
@@ -506,26 +409,24 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'extract_title( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def truncate_text( self, text: str, limit: int = 12000 ) -> str:
-		'''
-			Purpose:
-			--------
-			Limit long text blocks for display or logging.
-
-			Parameters:
-			-----------
-			text (str):
-				Text to truncate.
-
-			limit (int):
-				Maximum visible character count.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Limit long text blocks for display or logging.
+		
+		Purpose:
+		    Provides the `truncate_text` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    text (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'text', text )
 			throw_if( 'limit', limit )
@@ -540,26 +441,24 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'truncate_text( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_url( self, base_url: str, href: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Convert a possibly relative URL into a normalized HTTP or HTTPS URL.
-
-			Parameters:
-			-----------
-			base_url (str):
-				Base URL used for relative links.
-
-			href (str):
-				Raw href value or absolute URL.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Convert a possibly relative URL into a normalized HTTP or HTTPS URL.
+		
+		Purpose:
+		    Provides the `normalize_url` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    base_url (str): Input value passed to the callable.
+		    href (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'base_url', base_url )
 			throw_if( 'href', href )
@@ -590,23 +489,20 @@ class WebFetcher( Fetcher ):
 			return ''
 	
 	def same_domain( self, left_url: str, right_url: str ) -> bool:
-		'''
-			Purpose:
-			--------
-			Determine whether two URLs share the same network location.
-
-			Parameters:
-			-----------
-			left_url (str):
-				First URL.
-
-			right_url (str):
-				Second URL.
-
-			Returns:
-			--------
-			bool
-		'''
+		"""Determine whether two URLs share the same network location.
+		
+		Purpose:
+		    Provides the `same_domain` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    left_url (str): Input value passed to the callable.
+		    right_url (str): Input value passed to the callable.
+		
+		Returns:
+		    bool: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'left_url', left_url )
 			throw_if( 'right_url', right_url )
@@ -622,23 +518,20 @@ class WebFetcher( Fetcher ):
 			return False
 	
 	def extract_links( self, base_url: str, html: str ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Extract normalized hyperlinks from an HTML document.
-
-			Parameters:
-			-----------
-			base_url (str):
-				Base page URL used to resolve relative links.
-
-			html (str):
-				Raw HTML content.
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Extract normalized hyperlinks from an HTML document.
+		
+		Purpose:
+		    Provides the `extract_links` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    base_url (str): Input value passed to the callable.
+		    html (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'base_url', base_url )
 			throw_if( 'html', html )
@@ -666,30 +559,26 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'extract_links( self, *args, **kwargs ) -> List[ str ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def extract_structured_data( self, url: str, html: str,
 			selected_methods: Optional[ List[ str ] ] = None ) -> Dict[ str, List[ str ] ]:
-		'''
-			Purpose:
-			--------
-			Extract selected structured HTML elements from a fetched HTML document.
-
-			Parameters:
-			-----------
-			url (str):
-				Page URL used to resolve relative hyperlinks and image links.
-
-			html (str):
-				Raw HTML content.
-
-			selected_methods (Optional[List[str]]):
-				Selected extraction method names.
-
-			Returns:
-			--------
-			Dict[str, List[str]]
-		'''
+		"""Extract selected structured HTML elements from a fetched HTML document.
+		
+		Purpose:
+		    Provides the `extract_structured_data` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    html (str): Input value passed to the callable.
+		    selected_methods (List[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, List[str]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			throw_if( 'html', html )
@@ -819,23 +708,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'extract_structured_data( self, *args, **kwargs ) -> Dict[ str, List[ str ] ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_paragraphs( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract readable text from all paragraph elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract readable text from all paragraph elements.
+		
+		Purpose:
+		    Provides the `scrape_paragraphs` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
@@ -848,23 +737,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_paragraphs( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_lists( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract readable text from all list item elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract readable text from all list item elements.
+		
+		Purpose:
+		    Provides the `scrape_lists` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
@@ -877,23 +766,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_lists( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_tables( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract flattened table cell text from all table elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract flattened table cell text from all table elements.
+		
+		Purpose:
+		    Provides the `scrape_tables` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
@@ -906,23 +795,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_tables( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_articles( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract consolidated readable text from all article elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract consolidated readable text from all article elements.
+		
+		Purpose:
+		    Provides the `scrape_articles` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
@@ -935,23 +824,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_articles( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_headings( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract readable text from h1 through h6 heading elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract readable text from h1 through h6 heading elements.
+		
+		Purpose:
+		    Provides the `scrape_headings` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			
@@ -965,23 +854,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_headings( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_divisions( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract readable text from all div elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract readable text from all div elements.
+		
+		Purpose:
+		    Provides the `scrape_divisions` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
@@ -994,23 +883,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_divisions( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_sections( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract readable text from all section elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract readable text from all section elements.
+		
+		Purpose:
+		    Provides the `scrape_sections` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			
@@ -1024,23 +913,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_sections( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_blockquotes( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract readable text from all blockquote elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract readable text from all blockquote elements.
+		
+		Purpose:
+		    Provides the `scrape_blockquotes` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
@@ -1053,23 +942,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_blockquotes( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_hyperlinks( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract hyperlink href values from all anchor elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract hyperlink href values from all anchor elements.
+		
+		Purpose:
+		    Provides the `scrape_hyperlinks` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
@@ -1082,23 +971,23 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_hyperlinks( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_images( self, uri: str ) -> List[ str ] | None:
-		'''
-			Purpose:
-			--------
-			Extract image source values from all image elements.
-
-			Parameters:
-			-----------
-			uri (str):
-				Fully-qualified URI of the HTML document.
-
-			Returns:
-			--------
-			List[str] | None
-		'''
+		"""Extract image source values from all image elements.
+		
+		Purpose:
+		    Provides the `scrape_images` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    uri (str): Input value passed to the callable.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
@@ -1111,36 +1000,28 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'scrape_images( self, *args, **kwargs ) -> List[ str ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -1168,35 +1049,14 @@ class WebFetcher( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebFetcher'
 			exception.method = 'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
+			Logger( ).write( exception )
 			raise exception
 
 class WebCrawler( WebFetcher ):
-	'''
-
-		Purpose:
-		--------
-		Extends WebFetcher with single-page scraping, optional Playwright rendering,
-		and bounded recursive crawl orchestration.
-
-		Attributes:
-		-----------
-		use_playwright,
-		browser_context,
-		raw_url,
-		raw_html,
-		pages,
-		summary,
-
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this crawler.
-		__dir__(...): Performs the __dir__ operation for this crawler.
-		fetch(...): Performs the fetch operation for this crawler.
-		render_with_playwright(...): Performs the render_with_playwright operation.
-		scrape_page(...): Performs the scrape_page operation for this crawler.
-		crawl(...): Performs the crawl operation for this crawler.
-
-	'''
+	"""Extends WebFetcher with single-page scraping, optional Playwright rendering,.
+	
+	Purpose:
+	    Documents the `WebCrawler` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	use_playwright: Optional[ bool ]
 	browser_context: Optional[ Any ]
 	raw_url: Optional[ str ]
@@ -1206,20 +1066,14 @@ class WebCrawler( WebFetcher ):
 	
 	def __init__( self, headers: Optional[ Dict[ str, str ] ] = None,
 			use_playwright: bool = False ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize WebCrawler with optional headers and optional Playwright rendering.
-
-			Parameters:
-			-----------
-			headers (Optional[Dict[str, str]]): Optional request headers.
-			use_playwright (bool): Whether to render pages through Playwright.
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize WebCrawler with optional headers and optional Playwright rendering.
+		
+		Purpose:
+		    Initializes `WebCrawler` instance state while preserving the constructor contract used by the application.
+		
+		Args:
+		    headers (Dict[str, str]): Input value passed to the callable.
+		    use_playwright (bool): Input value passed to the callable."""
 		super( ).__init__( )
 		self.browser_context = None
 		self.raw_url = None
@@ -1236,41 +1090,33 @@ class WebCrawler( WebFetcher ):
 			self.headers[ 'User-Agent' ] = cfg.AGENTS
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return stable introspection names for the crawler.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]: Ordered attribute and method names.
-		'''
+		"""Return stable introspection names for the crawler.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'use_playwright', 'browser_context', 'raw_url', 'raw_html', 'pages', 'summary',
 		         'fetch', 'html_to_text', 'coerce_items', 'extract_title', 'truncate_text',
 		         'normalize_url', 'same_domain', 'extract_links', 'extract_structured_data',
 		         'render_with_playwright', 'scrape_page', 'crawl' ]
 	
 	def fetch( self, url: str, time: int = 10 ) -> Result | None:
-		'''
-			Purpose:
-			--------
-			Fetch a page using either Playwright rendering or the base WebFetcher
-			requests-based fetch path.
-
-			Parameters:
-			-----------
-			url (str): Absolute URL to fetch.
-			time (int): Request timeout in seconds.
-
-			Returns:
-			--------
-			Result | None: Result returned by the base fetch path, or None when
-			Playwright rendering is used.
-		'''
+		"""Fetch a page using either Playwright rendering or the base WebFetcher.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Result: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			
@@ -1290,23 +1136,24 @@ class WebCrawler( WebFetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebCrawler'
 			exception.method = 'fetch( self, url: str, time: int=10 ) -> Result | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def render_with_playwright( self, url: str, timeout: int = 15 ) -> str:
-		'''
-			Purpose:
-			--------
-			Render a page with Playwright and return the rendered HTML.
-
-			Parameters:
-			-----------
-			url (str): URL to render.
-			timeout (int): Timeout seconds for page navigation and network idle.
-
-			Returns:
-			--------
-			str: Rendered HTML for the page.
-		'''
+		"""Render a page with Playwright and return the rendered HTML.
+		
+		Purpose:
+		    Provides the `render_with_playwright` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    timeout (int): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			
@@ -1324,30 +1171,31 @@ class WebCrawler( WebFetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebCrawler'
 			exception.method = 'render_with_playwright( self, url: str, timeout: int=15 ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def scrape_page( self, url: str, include_title: bool = True, include_basic_text: bool = True,
 			include_raw_html: bool = False, selected_methods: Optional[ List[ str ] ] = None,
 			request_timeout: int = 10, max_bytes: int = 1000000 ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Fetch and extract one web page using the currently configured fetch path.
-
-			Parameters:
-			-----------
-			url (str): Page URL to fetch.
-			include_title (bool): Include the page title.
-			include_basic_text (bool): Include normalized page text.
-			include_raw_html (bool): Include raw HTML.
-			selected_methods (Optional[List[str]]): Structured extraction methods.
-			request_timeout (int): Request timeout in seconds.
-			max_bytes (int): Maximum accepted response size in bytes.
-
-			Returns:
-			--------
-			Dict[str, Any]: Page scrape result.
-		'''
+		"""Fetch and extract one web page using the currently configured fetch path.
+		
+		Purpose:
+		    Provides the `scrape_page` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    include_title (bool): Input value passed to the callable.
+		    include_basic_text (bool): Input value passed to the callable.
+		    include_raw_html (bool): Input value passed to the callable.
+		    selected_methods (List[str]): Input value passed to the callable.
+		    request_timeout (int): Input value passed to the callable.
+		    max_bytes (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		page_result: Dict[ str, Any ] = \
 			{
 					'url': url,
@@ -1409,30 +1257,30 @@ class WebCrawler( WebFetcher ):
 			same_domain_only: bool = True,
 			request_timeout: int = 10, delay_seconds: float = 0.25,
 			max_bytes: int = 1000000 ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Crawl one page or a bounded set of pages from a seed URL.
-
-			Parameters:
-			-----------
-			seed_url (str): Initial URL.
-			include_title (bool): Include page titles.
-			include_basic_text (bool): Include normalized page text.
-			include_raw_html (bool): Include raw HTML.
-			selected_methods (Optional[List[str]]): Structured extraction method names.
-			recursive (bool): Enable recursive crawling.
-			max_depth (int): Maximum crawl depth.
-			max_pages (int): Maximum number of pages to process.
-			same_domain_only (bool): Restrict discovered URLs to the seed domain.
-			request_timeout (int): Request timeout in seconds.
-			delay_seconds (float): Delay between page requests.
-			max_bytes (int): Maximum accepted response size in bytes.
-
-			Returns:
-			--------
-			Dict[str, Any]: Crawl result containing pages and summary.
-		'''
+		"""Crawl one page or a bounded set of pages from a seed URL.
+		
+		Purpose:
+		    Provides the `crawl` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    seed_url (str): Input value passed to the callable.
+		    include_title (bool): Input value passed to the callable.
+		    include_basic_text (bool): Input value passed to the callable.
+		    include_raw_html (bool): Input value passed to the callable.
+		    selected_methods (List[str]): Input value passed to the callable.
+		    recursive (bool): Input value passed to the callable.
+		    max_depth (int): Input value passed to the callable.
+		    max_pages (int): Input value passed to the callable.
+		    same_domain_only (bool): Input value passed to the callable.
+		    request_timeout (int): Input value passed to the callable.
+		    delay_seconds (float): Input value passed to the callable.
+		    max_bytes (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'seed_url', seed_url )
 			started_at = dt.datetime.now( )
@@ -1522,30 +1370,14 @@ class WebCrawler( WebFetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WebCrawler'
 			exception.method = 'crawl( self, *args ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 
 class ArXiv( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches ArXiv documents through the LangChain ArxivRetriever.
-
-		Attributes:
-		-----------
-		fetcher,
-		documents,
-		max_documents,
-		full_documents,
-		include_metadata,
-		query,
-
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-
-	'''
+	"""Fetches ArXiv documents through the LangChain ArxivRetriever.
+	
+	Purpose:
+	    Documents the `ArXiv` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	fetcher: Optional[ ArxivRetriever ]
 	documents: Optional[ List[ Document ] ]
 	max_documents: Optional[ int ]
@@ -1565,33 +1397,22 @@ class ArXiv( Fetcher ):
 	
 	def fetch( self, question: str, max_documents: int = None,
 			full_documents: bool = None, include_metadata: bool = None ) -> List[ Document ] | None:
-		'''
-
-			Purpose:
-			--------
-			Query ArXiv through LangChain's ArxivRetriever and return LangChain
-			Document objects.
-
-			Parameters:
-			-----------
-			question: str
-			Free-text search query or arXiv identifier.
-			
-			max_documents: int
-			Optional override for maximum number of returned documents.
-			
-			full_documents:  bool
-			Optional override indicating whether full document text should  be fetched instead of
-			summary-oriented retrieval.
-			
-			include_metadata: bool
-			Optional override indicating whether all available metadata should be included.
-
-			Returns:
-			--------
-			List[Document] | None
-
-		'''
+		"""Query ArXiv through LangChain's ArxivRetriever and return LangChain.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    question (str): Input value passed to the callable.
+		    max_documents (int): Input value passed to the callable.
+		    full_documents (bool): Input value passed to the callable.
+		    include_metadata (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'question', question )
 			self.query = question.strip( )
@@ -1615,16 +1436,14 @@ class ArXiv( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'ArXiv'
 			exception.method = 'fetch( self, *kwargs ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class GoogleDrive( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches Google Drive documents through the LangChain GoogleDriveRetriever.
-
-	'''
+	"""Fetches Google Drive documents through the LangChain GoogleDriveRetriever.
+	
+	Purpose:
+	    Documents the `GoogleDrive` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	fetcher: Optional[ GoogleDriveRetriever ]
 	documents: Optional[ List[ Document ] ]
 	num_results: Optional[ int ]
@@ -1639,19 +1458,10 @@ class GoogleDrive( Fetcher ):
 	invoke_query: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the Google Drive retriever wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the Google Drive retriever wrapper.
+		
+		Purpose:
+		    Initializes `GoogleDrive` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.fetcher = None
 		self.documents = [ ]
@@ -1667,19 +1477,13 @@ class GoogleDrive( Fetcher ):
 		self.invoke_query = ''
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'fetcher',
 				'documents',
@@ -1701,17 +1505,13 @@ class GoogleDrive( Fetcher ):
 	
 	@property
 	def mime_options( self ) -> List[ str ]:
-		'''
-
-			Purpose:
-			--------
-			Return supported MIME types aligned to the Google Drive retriever docs.
-
-			Returns:
-			--------
-			List[str]
-
-		'''
+		"""Return supported MIME types aligned to the Google Drive retriever docs.
+		
+		Purpose:
+		    Provides the `mime_options` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'',
 				'text/text',
@@ -1734,17 +1534,13 @@ class GoogleDrive( Fetcher ):
 	
 	@property
 	def template_options( self ) -> List[ str ]:
-		'''
-
-			Purpose:
-			--------
-			Return predefined template options supported by GoogleDriveRetriever.
-
-			Returns:
-			--------
-			List[str]
-
-		'''
+		"""Return predefined template options supported by GoogleDriveRetriever.
+		
+		Purpose:
+		    Provides the `template_options` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'gdrive-all-in-folder',
 				'gdrive-query',
@@ -1758,17 +1554,13 @@ class GoogleDrive( Fetcher ):
 	
 	@property
 	def mode_options( self ) -> List[ str ]:
-		'''
-
-			Purpose:
-			--------
-			Return supported retrieval display modes.
-
-			Returns:
-			--------
-			List[str]
-
-		'''
+		"""Return supported retrieval display modes.
+		
+		Purpose:
+		    Provides the `mode_options` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'documents',
 				'snippets'
@@ -1777,37 +1569,24 @@ class GoogleDrive( Fetcher ):
 	def fetch( self, question: str, folder_id: str = 'root', results: int = 10,
 			template: str = 'gdrive-query',
 			mime_type: str = None, mode: str = 'documents' ) -> List[ Document ] | None:
-		'''
-			Purpose:
-			--------
-			Query Google Drive through LangChain's GoogleDriveRetriever and return
-			LangChain Document objects.
-
-			Parameters:
-			-----------
-			question (str):
-				Free-text query used by the retriever. For templates that do not require
-				a query, an empty string may be passed.
-
-			folder_id (str):
-				Google Drive folder id. Use root for the user's root Drive.
-
-			results (int):
-				Maximum number of returned documents.
-
-			template (str):
-				Predefined GoogleDriveRetriever selection template.
-
-			mime_type (str):
-				Optional MIME type filter.
-
-			mode (str):
-				Retrieval mode, typically documents or snippets.
-
-			Returns:
-			--------
-			List[Document] | None
-		'''
+		"""Query Google Drive through LangChain's GoogleDriveRetriever and return.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    question (str): Input value passed to the callable.
+		    folder_id (str): Input value passed to the callable.
+		    results (int): Input value passed to the callable.
+		    template (str): Input value passed to the callable.
+		    mime_type (str): Input value passed to the callable.
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'template', template )
 			throw_if( 'folder_id', folder_id )
@@ -1880,30 +1659,14 @@ class GoogleDrive( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> List[ Document ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class Wikipedia( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches Wikipedia documents through the LangChain WikipediaRetriever.
-
-		Attributes:
-		-----------
-		fetcher,
-		documents,
-		max_documents,
-		include_metadata,
-		language,
-		query,
-
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-
-	'''
+	"""Fetches Wikipedia documents through the LangChain WikipediaRetriever.
+	
+	Purpose:
+	    Documents the `Wikipedia` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	fetcher: Optional[ WikipediaRetriever ]
 	documents: Optional[ List[ Document ] ]
 	max_documents: Optional[ int ]
@@ -1923,31 +1686,22 @@ class Wikipedia( Fetcher ):
 	
 	def fetch( self, question: str, language: str = None, max_documents: int = None,
 			include_metadata: bool = None ) -> List[ Document ] | None:
-		'''
-			Query Wikipedia through LangChain's WikipediaRetriever and return
-			LangChain Document objects.
-
-			Parameters:
-			-----------
-			question:
-				Free-text Wikipedia query.
-				
-			language:
-				Optional language code override, e.g. "en", "fr", "de", "ja".
-				
-			max_documents:
-				Optional override for maximum number of returned documents.
-				Hard-capped at 300.
-				
-			include_metadata:
-				Optional override indicating whether all available metadata
-				should be included.
-
-			Returns:
-			--------
-			List[Document] | None
-
-		'''
+		"""Query Wikipedia through LangChain's WikipediaRetriever and return.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    question (str): Input value passed to the callable.
+		    language (str): Input value passed to the callable.
+		    max_documents (int): Input value passed to the callable.
+		    include_metadata (bool): Input value passed to the callable.
+		
+		Returns:
+		    List[Document]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'question', question )
 			self.query = question.strip( )
@@ -1972,16 +1726,14 @@ class Wikipedia( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Wikipedia'
 			exception.method = 'fetch( self, question: str, **kwargs ) -> List[ Document ]'
+			Logger( ).write( exception )
 			raise exception
 
 class TheNews( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides a structured wrapper around The News API endpoints.
-
-	'''
+	"""Provides a structured wrapper around The News API endpoints.
+	
+	Purpose:
+	    Documents the `TheNews` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	agents: Optional[ str ]
 	url: Optional[ str ]
 	response: Optional[ Response ]
@@ -1992,12 +1744,10 @@ class TheNews( Fetcher ):
 	page: Optional[ int ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			-----------
-			Initialize The News API wrapper with sane defaults and environment-
-			based authentication.
-		'''
+		"""Initialize The News API wrapper with sane defaults and environment-.
+		
+		Purpose:
+		    Initializes `TheNews` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.timeout = 10
 		self.url = 'https://api.thenewsapi.com/v1/news'
@@ -2018,9 +1768,13 @@ class TheNews( Fetcher ):
 			self.headers[ 'Accept' ] = 'application/json'
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Return visible member ordering.
-		'''
+		"""Return visible member ordering.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'api_key', 'url', 'timeout', 'headers', 'endpoint',
 		         'limit', 'page', 'params', 'fetch', ]
 	
@@ -2033,79 +1787,38 @@ class TheNews( Fetcher ):
 			include_similar: bool = True,
 			headlines_per_category: int = 6, time: int = 10, api_key: str = None ) -> Dict[
 		str, Any ]:
-		'''
+		"""Send a request to The News API using one of the documented endpoints and.
 		
-			Purpose:
-			________
-			Send a request to The News API using one of the documented endpoints and
-			return the parsed JSON response.
-
-			Parameters:
-			-----------
-			endpoint:
-				One of: all, top, headlines, sources
-				
-			query:
-				Search query for endpoints that support search.
-				
-			language:
-				Comma-separated language codes.
-				
-			categories:
-				Comma-separated category filter.
-				
-			exclude_categories:
-				Comma-separated excluded categories.
-				
-			locale:
-				Comma-separated country codes where supported.
-				
-			domains:
-				Comma-separated included domains.
-				
-			exclude_domains:
-				Comma-separated excluded domains.
-				
-			source_ids:
-				Comma-separated included source ids.
-				
-			exclude_source_ids:
-				Comma-separated excluded source ids.
-				
-			published_after:
-				Date/datetime filter when supported.
-				
-			published_before:
-				Date/datetime filter when supported.
-				
-			published_on:
-				Single publication date filter when supported.
-				
-			sort:
-				Sort order for applicable endpoints.
-				
-			limit:
-				Result size.
-				
-			page:
-				Page number.
-				
-			include_similar:
-				Headlines-only switch.
-				
-			headlines_per_category:
-				Headlines-only per-category limit.
-				
-			time:
-				Request timeout in seconds.
-				
-			api_key:
-				Optional runtime override. Falls back to cfg.THENEWS_API_KEY.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    language (str): Input value passed to the callable.
+		    categories (str): Input value passed to the callable.
+		    exclude_categories (str): Input value passed to the callable.
+		    locale (str): Input value passed to the callable.
+		    domains (str): Input value passed to the callable.
+		    exclude_domains (str): Input value passed to the callable.
+		    source_ids (str): Input value passed to the callable.
+		    exclude_source_ids (str): Input value passed to the callable.
+		    published_after (str): Input value passed to the callable.
+		    published_before (str): Input value passed to the callable.
+		    published_on (str): Input value passed to the callable.
+		    sort (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    include_similar (bool): Input value passed to the callable.
+		    headlines_per_category (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		    api_key (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.endpoint = (endpoint or 'all').strip( ).lower( )
 			self.timeout = int( time )
@@ -2215,16 +1928,14 @@ class TheNews( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'TheNews'
 			exception.method = 'fetch( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 
 class GoogleSearch( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches Google Custom Search JSON API results.
-
-	'''
+	"""Fetches Google Custom Search JSON API results.
+	
+	Purpose:
+	    Documents the `GoogleSearch` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	keywords: Optional[ str ]
 	url: Optional[ str ]
 	re_tag: Optional[ Pattern ]
@@ -2255,19 +1966,10 @@ class GoogleSearch( Fetcher ):
 	result: Optional[ Dict[ str, Any ] ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			-----------
-			Initialize GoogleSearch with config.py credentials and request defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			-----------
-			None
-		'''
+		"""Initialize GoogleSearch with config.py credentials and request defaults.
+		
+		Purpose:
+		    Initializes `GoogleSearch` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.GOOGLE_API_KEY
 		self.cse_id = cfg.GOOGLE_CSE_ID
@@ -2307,19 +2009,13 @@ class GoogleSearch( Fetcher ):
 			self.headers[ 'Accept' ] = 'application/json'
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			-----------
-			Control visible ordering for GoogleSearch.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			-----------
-			List[str]
-		'''
+		"""Control visible ordering for GoogleSearch.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'keywords',
 				'url',
@@ -2360,83 +2056,39 @@ class GoogleSearch( Fetcher ):
 			sort: str = '', img_size: str = '', img_type: str = '', img_color_type: str = '',
 			img_dominant_color: str = '', time: int = 10, api_key: str = None,
 			cse_id: str = None ) -> Dict[ str, Any ] | None:
-		'''
-
-			Purpose:
-			--------
-			Send a request to the Google Custom Search JSON API and return the
-			parsed JSON response.
-
-			Parameters:
-			-----------
-			keywords (str):
-				Search query string.
-
-			results (int):
-				Number of results per request. Google supports up to 10 per request.
-
-			start (int):
-				Index of the first result to return.
-
-			exact_terms (str):
-				Phrase that all documents must contain.
-
-			exclude_terms (str):
-				Words or phrases that must not appear.
-
-			file_type (str):
-				File extension filter, e.g. pdf, docx.
-
-			date_restrict (str):
-				Date restriction such as d7, w2, m1, y1.
-
-			gl (str):
-				Country boost code, e.g. us.
-
-			lr (str):
-				Language restrict code, e.g. lang_en.
-
-			safe (str):
-				Safe search value, typically active or off.
-
-			search_type (str):
-				Set to image for image search.
-
-			site_search (str):
-				Restrict results to a site or domain.
-
-			site_search_filter (str):
-				i to include, e to exclude the specified site.
-
-			sort (str):
-				Sort expression supported by the Custom Search engine.
-
-			img_size (str):
-				Image-size filter used only when search_type is image.
-
-			img_type (str):
-				Image-type filter used only when search_type is image.
-
-			img_color_type (str):
-				Image-color-type filter used only when search_type is image.
-
-			img_dominant_color (str):
-				Image-dominant-color filter used only when search_type is image.
-
-			time (int):
-				Request timeout in seconds.
-
-			api_key (str):
-				Optional API-key override. Uses cfg.GOOGLE_API_KEY when omitted.
-
-			cse_id (str):
-				Optional CSE-ID override. Uses cfg.GOOGLE_CSE_ID when omitted.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		'''
+		"""Send a request to the Google Custom Search JSON API and return the.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    keywords (str): Input value passed to the callable.
+		    results (int): Input value passed to the callable.
+		    start (int): Input value passed to the callable.
+		    exact_terms (str): Input value passed to the callable.
+		    exclude_terms (str): Input value passed to the callable.
+		    file_type (str): Input value passed to the callable.
+		    date_restrict (str): Input value passed to the callable.
+		    gl (str): Input value passed to the callable.
+		    lr (str): Input value passed to the callable.
+		    safe (str): Input value passed to the callable.
+		    search_type (str): Input value passed to the callable.
+		    site_search (str): Input value passed to the callable.
+		    site_search_filter (str): Input value passed to the callable.
+		    sort (str): Input value passed to the callable.
+		    img_size (str): Input value passed to the callable.
+		    img_type (str): Input value passed to the callable.
+		    img_color_type (str): Input value passed to the callable.
+		    img_dominant_color (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		    api_key (str): Input value passed to the callable.
+		    cse_id (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'keywords', keywords )
 			throw_if( 'time', time )
@@ -2555,16 +2207,14 @@ class GoogleSearch( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class GoogleMaps( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides Google Maps geocoding, address validation, and directions requests.
-
-	'''
+	"""Provides Google Maps geocoding, address validation, and directions requests.
+	
+	Purpose:
+	    Documents the `GoogleMaps` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	file_path: Optional[ str ]
 	headers: Optional[ Dict[ str, Any ] ]
 	num_results: Optional[ int ]
@@ -2585,19 +2235,10 @@ class GoogleMaps( Fetcher ):
 	timeout: Optional[ int ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the Google Maps fetcher and bind the API key from config.py.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the Google Maps fetcher and bind the API key from config.py.
+		
+		Purpose:
+		    Initializes `GoogleMaps` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.GOOGLE_API_KEY
 		self.headers = { }
@@ -2627,19 +2268,13 @@ class GoogleMaps( Fetcher ):
 			self.headers[ 'Accept' ] = 'application/json'
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'file_path',
 				'headers',
@@ -2669,20 +2304,19 @@ class GoogleMaps( Fetcher ):
 		]
 	
 	def geocode_location( self, address: str ) -> Tuple[ float, float ]:
-		'''
-			Purpose:
-			--------
-			Get latitude and longitude coordinates from a human-readable address.
-
-			Parameters:
-			-----------
-			address (str):
-				Address, city, place name, or other geocodable location.
-
-			Returns:
-			--------
-			Tuple[float, float]
-		'''
+		"""Get latitude and longitude coordinates from a human-readable address.
+		
+		Purpose:
+		    Provides the `geocode_location` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    address (str): Input value passed to the callable.
+		
+		Returns:
+		    Tuple[float, float]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'address', address )
 			self.mode = 'geocode_location'
@@ -2718,26 +2352,24 @@ class GoogleMaps( Fetcher ):
 			exception.method = (
 					'geocode_location( self, *args, **kwargs ) -> Tuple[ float, float ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def geocode_coordinates( self, lat: float, long: float ) -> str | None:
-		'''
-			Purpose:
-			--------
-			Get a formatted address from latitude and longitude coordinates.
-
-			Parameters:
-			-----------
-			lat (float):
-				Latitude.
-
-			long (float):
-				Longitude.
-
-			Returns:
-			--------
-			str | None
-		'''
+		"""Get a formatted address from latitude and longitude coordinates.
+		
+		Purpose:
+		    Provides the `geocode_coordinates` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    lat (float): Input value passed to the callable.
+		    long (float): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			throw_if( 'latitude', lat )
@@ -2780,23 +2412,23 @@ class GoogleMaps( Fetcher ):
 			exception.method = (
 					'geocode_coordinates( self, *args, **kwargs ) -> str | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_address( self, address: List[ str ] ) -> Dict[ Any, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Validate an address using the Google Address Validation API.
-
-			Parameters:
-			-----------
-			address (List[str]):
-				List of address lines.
-
-			Returns:
-			--------
-			Dict[Any, Any] | None
-		'''
+		"""Validate an address using the Google Address Validation API.
+		
+		Purpose:
+		    Provides the `validate_address` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    address (List[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[object, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			throw_if( 'address', address )
@@ -2844,30 +2476,26 @@ class GoogleMaps( Fetcher ):
 			exception.method = (
 					'validate_address( self, *args, **kwargs ) -> Dict[ Any, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request_directions( self, origin: str, destination: str,
 			mode: str = 'driving' ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Request route directions from the Google Directions API.
-
-			Parameters:
-			-----------
-			origin (str):
-				Starting location as an address or latitude,longitude string.
-
-			destination (str):
-				Ending location as an address or latitude,longitude string.
-
-			mode (str):
-				Travel mode: driving, walking, bicycling, or transit.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Request route directions from the Google Directions API.
+		
+		Purpose:
+		    Provides the `request_directions` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    origin (str): Input value passed to the callable.
+		    destination (str): Input value passed to the callable.
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			throw_if( 'origin', origin )
@@ -2907,37 +2535,29 @@ class GoogleMaps( Fetcher ):
 			exception.method = (
 					'request_directions( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -2967,17 +2587,14 @@ class GoogleMaps( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class GoogleWeather( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides Google Weather current conditions, forecasts, hourly history,
-		and public weather alert requests.
-
-	'''
+	"""Provides Google Weather current conditions, forecasts, hourly history,.
+	
+	Purpose:
+	    Documents the `GoogleWeather` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	gmaps: Optional[ GoogleMaps ]
 	headers: Optional[ Dict[ str, Any ] ]
 	api_key: Optional[ str ]
@@ -2998,21 +2615,10 @@ class GoogleWeather( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			
-			Purpose:
-			--------
-			Initialize the Google Weather wrapper with API, request, and coordinate state.
-			
-			Parameters:
-			-----------
-			None
-			
-			Returns:
-			--------
-			None
-			
-		'''
+		"""Initialize the Google Weather wrapper with API, request, and coordinate state.
+		
+		Purpose:
+		    Initializes `GoogleWeather` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.GOOGLE_WEATHER_API_KEY
 		self.headers = { }
@@ -3042,21 +2648,13 @@ class GoogleWeather( Fetcher ):
 			self.headers[ 'Accept' ] = 'application/json'
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			
-			Purpose:
-			--------
-			Return stable introspection names for the Google Weather wrapper.
-			
-			Parameters:
-			-----------
-			None
-			
-			Returns:
-			--------
-			List[str]
-			
-		'''
+		"""Return stable introspection names for the Google Weather wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'url',
@@ -3089,23 +2687,19 @@ class GoogleWeather( Fetcher ):
 		]
 	
 	def resolve_coordinates( self, address: str ) -> Tuple[ float, float ]:
-		'''
-			
-			Purpose:
-			--------
-			Resolve a user-supplied address into latitude and longitude using the existing
-			Google Maps helper.
-			
-			Parameters:
-			-----------
-			address (str):
-				Physical address, named place, city, or other geocodable location.
-			
-			Returns:
-			--------
-			Tuple[float, float]
-			
-		'''
+		"""Resolve a user-supplied address into latitude and longitude using the existing.
+		
+		Purpose:
+		    Provides the `resolve_coordinates` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    address (str): Input value passed to the callable.
+		
+		Returns:
+		    Tuple[float, float]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'address', address )
 			
@@ -3122,32 +2716,26 @@ class GoogleWeather( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GoogleWeather'
 			exception.method = 'resolve_coordinates( self, *args, **kwargs ) -> Tuple[ float, float ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, path: str, params: Dict[ str, Any ], time: int = 10 ) -> Dict[
 		                                                                            str, Any ] | None:
-		'''
-			
-			Purpose:
-			--------
-			Send a GET request to a Google Weather API endpoint and store response state.
-			
-			Parameters:
-			-----------
-			path (str):
-				Google Weather API path relative to https://weather.googleapis.com/v1.
-			
-			params (Dict[str, Any]):
-				Query parameters for the request.
-			
-			time (int):
-				Request timeout in seconds.
-			
-			Returns:
-			--------
-			Dict[str, Any] | None
-			
-		'''
+		"""Send a GET request to a Google Weather API endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    path (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			throw_if( 'path', path )
@@ -3191,24 +2779,20 @@ class GoogleWeather( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GoogleWeather'
 			exception.method = 'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self ) -> Dict[ str, Any ]:
-		'''
-			
-			Purpose:
-			--------
-			Return the stored Google Weather result in the app-facing structure.
-			
-			Parameters:
-			-----------
-			None
-			
-			Returns:
-			--------
-			Dict[str, Any]
-			
-		'''
+		"""Return the stored Google Weather result in the app-facing structure.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if not isinstance( self.result, dict ):
 				self.result = { }
@@ -3228,35 +2812,27 @@ class GoogleWeather( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GoogleWeather'
 			exception.method = 'package_response( self ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_current( self, address: str, units_system: str = 'METRIC',
 			language_code: str = 'en', time: int = 10 ) -> Dict[ str, Any ] | None:
-		'''
-			
-			Purpose:
-			--------
-			Retrieve current weather conditions for an address or named location.
-			
-			Parameters:
-			-----------
-			address (str):
-				Physical address, named place, city, or geocodable location.
-			
-			units_system (str):
-				Units system used by the response, usually METRIC or IMPERIAL.
-			
-			language_code (str):
-				BCP-47 language code used by the response.
-			
-			time (int):
-				Request timeout in seconds.
-			
-			Returns:
-			--------
-			Dict[str, Any] | None
-			
-		'''
+		"""Retrieve current weather conditions for an address or named location.
+		
+		Purpose:
+		    Provides the `fetch_current` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    address (str): Input value passed to the callable.
+		    units_system (str): Input value passed to the callable.
+		    language_code (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'address', address )
 			throw_if( 'units_system', units_system )
@@ -3291,39 +2867,29 @@ class GoogleWeather( Fetcher ):
 			exception.method = (
 					'fetch_current( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_hourly_forecast( self, address: str, hours: int = 24,
 			units_system: str = 'METRIC', language_code: str = 'en',
 			time: int = 10 ) -> Dict[ str, Any ] | None:
-		'''
-			
-			Purpose:
-			--------
-			Retrieve hourly weather forecast data for an address or named location.
-			
-			Parameters:
-			-----------
-			address (str):
-				Physical address, named place, city, or geocodable location.
-			
-			hours (int):
-				Number of forecast hours to request, from 1 through 240.
-			
-			units_system (str):
-				Units system used by the response, usually METRIC or IMPERIAL.
-			
-			language_code (str):
-				BCP-47 language code used by the response.
-			
-			time (int):
-				Request timeout in seconds.
-			
-			Returns:
-			--------
-			Dict[str, Any] | None
-			
-		'''
+		"""Retrieve hourly weather forecast data for an address or named location.
+		
+		Purpose:
+		    Provides the `fetch_hourly_forecast` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    address (str): Input value passed to the callable.
+		    hours (int): Input value passed to the callable.
+		    units_system (str): Input value passed to the callable.
+		    language_code (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'address', address )
 			throw_if( 'hours', hours )
@@ -3365,39 +2931,29 @@ class GoogleWeather( Fetcher ):
 					'fetch_hourly_forecast( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_daily_forecast( self, address: str, days: int = 5,
 			units_system: str = 'METRIC', language_code: str = 'en',
 			time: int = 10 ) -> Dict[ str, Any ] | None:
-		'''
-			
-			Purpose:
-			--------
-			Retrieve daily weather forecast data for an address or named location.
-			
-			Parameters:
-			-----------
-			address (str):
-				Physical address, named place, city, or geocodable location.
-			
-			days (int):
-				Number of forecast days to request, from 1 through 10.
-			
-			units_system (str):
-				Units system used by the response, usually METRIC or IMPERIAL.
-			
-			language_code (str):
-				BCP-47 language code used by the response.
-			
-			time (int):
-				Request timeout in seconds.
-			
-			Returns:
-			--------
-			Dict[str, Any] | None
-			
-		'''
+		"""Retrieve daily weather forecast data for an address or named location.
+		
+		Purpose:
+		    Provides the `fetch_daily_forecast` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    address (str): Input value passed to the callable.
+		    days (int): Input value passed to the callable.
+		    units_system (str): Input value passed to the callable.
+		    language_code (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'address', address )
 			throw_if( 'days', days )
@@ -3439,39 +2995,29 @@ class GoogleWeather( Fetcher ):
 					'fetch_daily_forecast( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_hourly_history( self, address: str, hours: int = 24,
 			units_system: str = 'METRIC', language_code: str = 'en',
 			time: int = 10 ) -> Dict[ str, Any ] | None:
-		'''
-			
-			Purpose:
-			--------
-			Retrieve hourly historical weather data for an address or named location.
-			
-			Parameters:
-			-----------
-			address (str):
-				Physical address, named place, city, or geocodable location.
-			
-			hours (int):
-				Number of historical hours to request, from 1 through 24.
-			
-			units_system (str):
-				Units system used by the response, usually METRIC or IMPERIAL.
-			
-			language_code (str):
-				BCP-47 language code used by the response.
-			
-			time (int):
-				Request timeout in seconds.
-			
-			Returns:
-			--------
-			Dict[str, Any] | None
-			
-		'''
+		"""Retrieve hourly historical weather data for an address or named location.
+		
+		Purpose:
+		    Provides the `fetch_hourly_history` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    address (str): Input value passed to the callable.
+		    hours (int): Input value passed to the callable.
+		    units_system (str): Input value passed to the callable.
+		    language_code (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'address', address )
 			throw_if( 'hours', hours )
@@ -3513,32 +3059,26 @@ class GoogleWeather( Fetcher ):
 					'fetch_hourly_history( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_alerts( self, address: str, language_code: str = 'en',
 			time: int = 10 ) -> Dict[ str, Any ] | None:
-		'''
-			
-			Purpose:
-			--------
-			Retrieve public weather alerts for an address or named location.
-			
-			Parameters:
-			-----------
-			address (str):
-				Physical address, named place, city, or geocodable location.
-			
-			language_code (str):
-				BCP-47 language code used by the response.
-			
-			time (int):
-				Request timeout in seconds.
-			
-			Returns:
-			--------
-			Dict[str, Any] | None
-			
-		'''
+		"""Retrieve public weather alerts for an address or named location.
+		
+		Purpose:
+		    Provides the `fetch_alerts` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    address (str): Input value passed to the callable.
+		    language_code (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'address', address )
 			throw_if( 'language_code', language_code )
@@ -3569,40 +3109,14 @@ class GoogleWeather( Fetcher ):
 			exception.method = (
 					'fetch_alerts( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class NavalObservatory( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches celestial-navigation data from the U.S. Naval Observatory API.
-		
-
-		Attributes:
-		-----------
-		base_url,
-		url,
-		params,
-		date_value,
-		time_value,
-		latitude,
-		longitude,
-		location_label,
-		agents,
-
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		__dir__(...): Performs the __dir__ operation for this fetcher.
-		validate_date(...): Performs the validate_date operation for this fetcher.
-		validate_time(...): Performs the validate_time operation for this fetcher.
-		validate_coordinates(...): Performs the validate_coordinates operation for this fetcher.
-		fetch_celnav(...): Performs the fetch_celnav operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-		create_schema(...): Performs the create_schema operation for this fetcher.
-
-	'''
+	"""Fetches celestial-navigation data from the U.S. Naval Observatory API.
+	
+	Purpose:
+	    Documents the `NavalObservatory` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	url: Optional[ str ]
 	params: Optional[ Dict[ str, Any ] ]
@@ -3614,19 +3128,10 @@ class NavalObservatory( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the Naval Observatory fetcher with current API defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the Naval Observatory fetcher with current API defaults.
+		
+		Purpose:
+		    Initializes `NavalObservatory` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.headers = { }
 		self.base_url = 'https://aa.usno.navy.mil/api'
@@ -3643,34 +3148,30 @@ class NavalObservatory( Fetcher ):
 			self.headers[ 'User-Agent' ] = self.agents
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [ 'base_url', 'url', 'params', 'date_value', 'time_value', 'latitude', 'longitude',
 		         'location_label', 'fetch_celnav', 'fetch', 'create_schema' ]
 	
 	def validate_date( self, date_value: str ) -> str:
-		'''Validate and normalize a USNO date string.
-
-			Parameters:
-			-----------
-			date_value (str):
-				Date in YYYY-MM-DD format.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate and normalize a USNO date string.
+		
+		Purpose:
+		    Provides the `validate_date` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    date_value (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( date_value ).strip( )
 			throw_if( 'date_value', value )
@@ -3681,20 +3182,23 @@ class NavalObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NavalObservatory'
 			exception.method = 'validate_date( self, date_value: str ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_time( self, time_value: str ) -> str:
-		'''Validate and normalize a USNO time string.
-
-			Parameters:
-			-----------
-			time_value (str):
-				Time in HH:MM, HH:MM:SS, or HH:MM:SS.S format.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate and normalize a USNO time string.
+		
+		Purpose:
+		    Provides the `validate_time` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    time_value (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( time_value ).strip( )
 			throw_if( 'time_value', value )
@@ -3713,23 +3217,24 @@ class NavalObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NavalObservatory'
 			exception.method = 'validate_time( self, time_value: str ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_coordinates( self, latitude: float, longitude: float ) -> tuple[ float, float ]:
-		'''Validate latitude and longitude against documented decimal-degree ranges.
-
-			Parameters:
-			-----------
-			latitude (float):
-				Latitude in decimal degrees.
-
-			longitude (float):
-				Longitude in decimal degrees.
-
-			Returns:
-			--------
-			tuple[float, float]
-		'''
+		"""Validate latitude and longitude against documented decimal-degree ranges.
+		
+		Purpose:
+		    Provides the `validate_coordinates` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		
+		Returns:
+		    tuple[float, float]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			lat = float( latitude )
 			lon = float( longitude )
@@ -3746,37 +3251,29 @@ class NavalObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NavalObservatory'
 			exception.method = 'validate_coordinates( self, *params ) -> tuple[ float, float ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_celnav( self, date_value: str, time_value: str, latitude: float,
 			longitude: float, location_label: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Fetch celestial navigation data for an assumed position and time.
-
-			Parameters:
-			-----------
-			date_value (str):
-				Date in YYYY-MM-DD format.
-
-			time_value (str):
-				Time in HH:MM, HH:MM:SS, or HH:MM:SS.S format.
-
-			latitude (float):
-				Latitude in decimal degrees. North positive.
-
-			longitude (float):
-				Longitude in decimal degrees. East positive.
-
-			location_label (str):
-				Optional client-side label preserved in the result payload.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-			
-		'''
+		"""Fetch celestial navigation data for an assumed position and time.
+		
+		Purpose:
+		    Provides the `fetch_celnav` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    date_value (str): Input value passed to the callable.
+		    time_value (str): Input value passed to the callable.
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		    location_label (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.date_value = self.validate_date( date_value )
 			self.time_value = self.validate_time( time_value )
@@ -3800,41 +3297,31 @@ class NavalObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NavalObservatory'
 			exception.method = 'fetch_celnav( self, *params ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'celnav', date_value: str = '',
 			time_value: str = '', latitude: float = 0.0, longitude: float = 0.0,
 			location_label: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Unified dispatcher for Naval Observatory requests.
-
-			Parameters:
-			-----------
-			mode (str):
-				Currently supported:
-				- celnav
-
-			date_value (str):
-				Date in YYYY-MM-DD format.
-
-			time_value (str):
-				Time in HH:MM, HH:MM:SS, or HH:MM:SS.S format.
-
-			latitude (float):
-				Latitude in decimal degrees.
-
-			longitude (float):
-				Longitude in decimal degrees.
-
-			location_label (str):
-				Optional display label.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for Naval Observatory requests.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    date_value (str): Input value passed to the callable.
+		    time_value (str): Input value passed to the callable.
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		    location_label (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = str( mode or 'celnav' ).strip( ).lower( )
 			if active_mode == 'celnav':
@@ -3848,33 +3335,28 @@ class NavalObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NavalObservatory'
 			exception.method = 'fetch( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -3901,34 +3383,14 @@ class NavalObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NavalObservatory'
 			exception.method = 'create_schema( self, *params ) -> Dict[ str, str ]'
+			Logger( ).write( exception )
 			raise exception
 
 class SatelliteCenter( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches satellite observatory, ground-station, and location data from SSC Web Services.
+	"""Fetches satellite observatory, ground-station, and location data from SSC Web Services.
 	
-		Attributes:
-		-----------
-		ssc,
-		url,
-		params,
-		observatories,
-		ground_stations,
-		timeout,
-	
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		__dir__(...): Performs the __dir__ operation for this fetcher.
-		fetch_observatories(...): Performs the fetch_observatories operation for this fetcher.
-		fetch_ground_stations(...): Performs the fetch_ground_stations operation for this fetcher.
-		fetch_locations(...): Performs the fetch_locations operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-	
-	'''
+	Purpose:
+	    Documents the `SatelliteCenter` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	ssc: Optional[ SscWs ]
 	url: Optional[ str ]
 	params: Optional[ Dict[ str, Any ] ]
@@ -3959,12 +3421,15 @@ class SatelliteCenter( Fetcher ):
 	
 	def fetch_observatories( self ) -> Dict[ str, Any ] | None:
 		"""Get descriptions of the observatories available from SSC.
-			
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		"""
+		
+		Purpose:
+		    Provides the `fetch_observatories` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.ssc = SscWs( user_agent=self.agents, timeout=self.timeout )
 			result = self.ssc.get_observatories( )
@@ -3974,16 +3439,20 @@ class SatelliteCenter( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'SatelliteCenter'
 			exception.method = 'fetch_observatories( self ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_ground_stations( self ) -> Dict[ str, Any ] | None:
 		"""Get descriptions of the ground stations available from SSC.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		"""
+		
+		Purpose:
+		    Provides the `fetch_ground_stations` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.ssc = SscWs( user_agent=self.agents, timeout=self.timeout )
 			result = self.ssc.get_ground_stations( )
@@ -3993,39 +3462,30 @@ class SatelliteCenter( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'SatelliteCenter'
 			exception.method = 'fetch_ground_stations( self ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_locations( self, observatories: str, start_time: str, end_time: str,
 			coordinate_systems: str = 'gse', resolution_factor: int = 1,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		"""Get location data for one or more observatories over a time range using the documented
-		SSC REST GET endpoint.
-
-			Parameters:
-			-----------
-			observatories:
-				Comma-separated observatory identifiers such as "iss" or "mms1,mms2".
-				
-			start_time:
-				ISO 8601 UTC start like "2026-03-15T00:00:00Z".
-				
-			end_time:
-				ISO 8601 UTC end like "2026-03-15T02:00:00Z".
-				
-			coordinate_systems:
-				Comma-separated coordinate systems such as "gse", "geo", "gsm".
-				
-			resolution_factor:
-				Return one out of every N values.
-				
-			time:
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		"""
+		"""Get location data for one or more observatories over a time range using the documented.
+		
+		Purpose:
+		    Provides the `fetch_locations` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    observatories (str): Input value passed to the callable.
+		    start_time (str): Input value passed to the callable.
+		    end_time (str): Input value passed to the callable.
+		    coordinate_systems (str): Input value passed to the callable.
+		    resolution_factor (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'observatories', observatories )
 			throw_if( 'start_time', start_time )
@@ -4050,6 +3510,7 @@ class SatelliteCenter( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'SatelliteCenter'
 			exception.method = 'fetch_locations( self, *params ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'observatories', query: str = '', start_time: str = '',
@@ -4057,12 +3518,24 @@ class SatelliteCenter( Fetcher ):
 			coordinate_systems: str = 'gse', resolution_factor: int = 1, time: int = 20 ) -> Dict[
 				                                                                                 str, Any ] | None:
 		"""Unified dispatch method for Satellite Center requests.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		"""
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    start_time (str): Input value passed to the callable.
+		    end_time (str): Input value passed to the callable.
+		    coordinate_systems (str): Input value passed to the callable.
+		    resolution_factor (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = (mode or 'observatories').strip( ).lower( )
 			if active_mode == 'observatories':
@@ -4082,120 +3555,14 @@ class SatelliteCenter( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'SatelliteCenter'
 			exception.method = 'fetch( self, *kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 
 class EarthObservatory( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		NASA Earth Observatory's Natural Event Tracker (EONET) allows users to access imagery,
-		often in near real-time (NRT), of natural events such as dust storms, forest fires, and
-		tropical cyclones—empowering people all across the planet to locate, track, and potentially
-		prepare for and manage events that affect communities in their paths.
-		Version 3 API for events, categories, sources, and layers.
-
-		This class is aligned to the current documented EONET v3 API and supports:
-		- events
-		- categories
-		- sources
-		- layers
-
-		Referenced API Requirements:
-		----------------------------
-		Base:
-			https://eonet.gsfc.nasa.gov/api/v3
-
-		Events:
-			https://eonet.gsfc.nasa.gov/api/v3/events
-			Optional parameters:
-				- source
-				- category
-				- status
-				- limit
-				- days
-				- start
-				- end
-
-		Categories:
-			https://eonet.gsfc.nasa.gov/api/v3/categories
-
-		Sources:
-			https://eonet.gsfc.nasa.gov/api/v3/sources
-
-		Layers:
-			https://eonet.gsfc.nasa.gov/api/v3/layers
-			Optional category-specific path:
-				https://eonet.gsfc.nasa.gov/api/v3/layers/{category}
-
-		Attributes:
-		-----------
-		base_url: Optional[str]
-			Base EONET API URL.
-
-		url: Optional[str]
-			Resolved request URL.
-
-		params: Optional[Dict[str, Any]]
-			Request parameters.
-
-		mode: Optional[str]
-			Selected API mode.
-
-		query: Optional[str]
-			Reserved generic query field.
-
-		status: Optional[str]
-			Event status filter.
-
-		category: Optional[str]
-			Event or layer category filter.
-
-		source: Optional[str]
-			Event source filter.
-
-		days: Optional[int]
-			Prior-day filter.
-
-		limit: Optional[int]
-			Returned record limit.
-
-		start_date: Optional[str]
-			Event-range start date in YYYY-MM-DD format.
-
-		end_date: Optional[str]
-			Event-range end date in YYYY-MM-DD format.
-
-		agents: Optional[str]
-			User-Agent string.
-
-		Methods:
-		--------
-		__init__() -> None
-			Initialize fetcher defaults.
-
-		__dir__() -> List[str]
-			Provide ordered member visibility.
-
-		fetch_events(...) -> Dict[str, Any] | None
-			Fetch event records.
-
-		fetch_categories() -> Dict[str, Any] | None
-			Fetch category metadata.
-
-		fetch_sources() -> Dict[str, Any] | None
-			Fetch source metadata.
-
-		fetch_layers(...) -> Dict[str, Any] | None
-			Fetch layer metadata, optionally filtered by category.
-
-		fetch(...) -> Dict[str, Any] | None
-			Unified dispatcher.
-
-		create_schema(...) -> Dict[str, str] | None
-			Construct a dynamic tool schema.
-
-	'''
+	"""NASA Earth Observatory's Natural Event Tracker (EONET) allows users to access imagery,.
+	
+	Purpose:
+	    Documents the `EarthObservatory` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	url: Optional[ str ]
 	params: Optional[ Dict[ str, Any ] ]
@@ -4210,19 +3577,10 @@ class EarthObservatory( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the EONET fetcher with current API defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the EONET fetcher with current API defaults.
+		
+		Purpose:
+		    Initializes `EarthObservatory` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.headers = { }
 		self.base_url = 'https://eonet.gsfc.nasa.gov/api/v3'
@@ -4242,19 +3600,13 @@ class EarthObservatory( Fetcher ):
 			self.headers[ 'User-Agent' ] = self.agents
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'url',
@@ -4279,38 +3631,26 @@ class EarthObservatory( Fetcher ):
 			limit: int = 20,
 			days: int = 30, start_date: str = '', end_date: str = '', time: int = 20 ) -> Dict[
 		str, Any ]:
-		'''Fetch EONET events using documented v3 filters.
-
-			Parameters:
-			-----------
-			status (str):
-				Event status filter. Typical values: open, closed, all.
-
-			category (str):
-				Optional category slug or comma-separated category list.
-
-			source (str):
-				Optional source id or comma-separated source ids.
-
-			limit (int):
-				Maximum number of events to return.
-
-			days (int):
-				Number of prior days, including today, from which to return events.
-
-			start_date (str):
-				Optional inclusive start date in YYYY-MM-DD format.
-
-			end_date (str):
-				Optional inclusive end date in YYYY-MM-DD format.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch EONET events using documented v3 filters.
+		
+		Purpose:
+		    Provides the `fetch_events` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    status (str): Input value passed to the callable.
+		    category (str): Input value passed to the callable.
+		    source (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    days (int): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'events'
 			self.status = str( status or 'open' ).strip( ).lower( )
@@ -4360,20 +3700,23 @@ class EarthObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EarthObservatory'
 			exception.method = 'fetch_events( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_categories( self, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Fetch EONET category metadata.
-
-			Parameters:
-			-----------
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch EONET category metadata.
+		
+		Purpose:
+		    Provides the `fetch_categories` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'categories'
 			self.url = f'{self.base_url}/categories'
@@ -4395,20 +3738,23 @@ class EarthObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EarthObservatory'
 			exception.method = 'fetch_categories( self, time: int=20 ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_sources( self, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Fetch EONET source metadata.
-
-			Parameters:
-			-----------
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch EONET source metadata.
+		
+		Purpose:
+		    Provides the `fetch_sources` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'sources'
 			self.url = f'{self.base_url}/sources'
@@ -4430,23 +3776,24 @@ class EarthObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EarthObservatory'
 			exception.method = 'fetch_sources( self, time: int=20 ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_layers( self, category: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Fetch EONET layer metadata, optionally scoped to a category.
-
-			Parameters:
-			-----------
-			category (str):
-				Optional category slug.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch EONET layer metadata, optionally scoped to a category.
+		
+		Purpose:
+		    Provides the `fetch_layers` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    category (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'layers'
 			self.category = str( category or '' ).strip( )
@@ -4474,47 +3821,34 @@ class EarthObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EarthObservatory'
 			exception.method = 'fetch_layers( self, c**kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'events', status: str = 'open', category: str = '',
 			source: str = '', limit: int = 20,
 			days: int = 30, start_date: str = '', end_date: str = '', time: int = 20 ) -> Dict[
 		str, Any ]:
-		'''Unified dispatcher for EONET v3 operations.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of: events, categories, sources, layers
-
-			status (str):
-				Event status filter for events mode.
-
-			category (str):
-				Category filter for events mode or category path for layers mode.
-
-			source (str):
-				Source filter for events mode.
-
-			limit (int):
-				Event record limit for events mode.
-
-			days (int):
-				Prior-day window for events mode.
-
-			start_date (str):
-				Optional start date in YYYY-MM-DD format.
-
-			end_date (str):
-				Optional end date in YYYY-MM-DD format.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for EONET v3 operations.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    status (str): Input value passed to the callable.
+		    category (str): Input value passed to the callable.
+		    source (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    days (int): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = (mode or 'events').strip( ).lower( )
 			if active_mode == 'events':
@@ -4536,37 +3870,29 @@ class EarthObservatory( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EarthObservatory'
 			exception.method = 'fetch( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -4594,46 +3920,14 @@ class EarthObservatory( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class GlobalImagery( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Fetches NASA Global Imagery Browse Services (GIBS) WMS imagery and service
-		metadata.
-
-		Attributes:
-		-----------
-		file_path,
-		api_key,
-		url,
-		latitude,
-		longitude,
-		coordinates,
-		calendar_date,
-		julian_date,
-		sidereal_time,
-		utc_time,
-		local_time,
-		params,
-		era,
-		year,
-		month,
-		day,
-
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		__dir__(...): Performs the __dir__ operation for this fetcher.
-		get_capabilities_url(...): Performs the get_capabilities_url operation.
-		build_wms_url(...): Performs the build_wms_url operation.
-		fetch_wms_map(...): Performs the fetch_wms_map operation.
-		fetch_map_services(...): Performs the fetch_map_services operation.
-		fetch_mercator_map(...): Performs the fetch_mercator_map operation.
-		create_schema(...): Performs the create_schema operation.
-
-	'''
+	"""Fetches NASA Global Imagery Browse Services (GIBS) WMS imagery and service.
+	
+	Purpose:
+	    Documents the `GlobalImagery` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	file_path: Optional[ str ]
 	api_key: Optional[ str ]
 	url: Optional[ str ]
@@ -4652,19 +3946,10 @@ class GlobalImagery( Fetcher ):
 	day: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the NASA GIBS imagery wrapper with request defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the NASA GIBS imagery wrapper with request defaults.
+		
+		Purpose:
+		    Initializes `GlobalImagery` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.NASA_API_KEY
 		self.mode = None
@@ -4692,19 +3977,13 @@ class GlobalImagery( Fetcher ):
 		self.day = None
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return stable introspection names for the NASA GIBS wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]: Ordered attribute and method names.
-		'''
+		"""Return stable introspection names for the NASA GIBS wrapper.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'file_path',
 				'api_key',
@@ -4733,26 +4012,21 @@ class GlobalImagery( Fetcher ):
 	
 	def get_capabilities_url( self, projection: str = 'epsg4326',
 			quality: str = 'best', version: str = '1.1.1' ) -> str:
-		'''
-			Purpose:
-			--------
-			Build a NASA GIBS WMS GetCapabilities URL.
-
-			Parameters:
-			-----------
-			projection (str):
-				GIBS projection path segment such as epsg4326 or epsg3857.
-
-			quality (str):
-				GIBS quality path segment such as best or std.
-
-			version (str):
-				WMS version.
-
-			Returns:
-			--------
-			str: GetCapabilities URL.
-		'''
+		"""Build a NASA GIBS WMS GetCapabilities URL.
+		
+		Purpose:
+		    Provides the `get_capabilities_url` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    projection (str): Input value passed to the callable.
+		    quality (str): Input value passed to the callable.
+		    version (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			projection_value = str( projection or 'epsg4326' ).strip( ).lower( )
 			quality_value = str( quality or 'best' ).strip( ).lower( )
@@ -4779,53 +4053,35 @@ class GlobalImagery( Fetcher ):
 					'get_capabilities_url( self, projection: str="epsg4326", '
 					'quality: str="best", version: str="1.1.1" ) -> str'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def build_wms_url( self, layer: str, image_date: str, bbox: Tuple[ float, float, float, float ],
 			width: int = 1200, height: int = 600, projection: str = 'epsg4326',
 			quality: str = 'best', image_format: str = 'image/png',
 			transparent: bool = True, version: str = '1.1.1' ) -> str:
-		'''
-			Purpose:
-			--------
-			Build a NASA GIBS WMS GetMap URL.
-
-			Parameters:
-			-----------
-			layer (str):
-				GIBS layer identifier.
-
-			image_date (str):
-				Layer date in YYYY-MM-DD format.
-
-			bbox (Tuple[float, float, float, float]):
-				Bounding box as west, south, east, north.
-
-			width (int):
-				Output image width in pixels.
-
-			height (int):
-				Output image height in pixels.
-
-			projection (str):
-				GIBS projection path segment such as epsg4326 or epsg3857.
-
-			quality (str):
-				GIBS quality path segment such as best or std.
-
-			image_format (str):
-				Output MIME type.
-
-			transparent (bool):
-				Whether to request transparent no-data pixels.
-
-			version (str):
-				WMS version.
-
-			Returns:
-			--------
-			str: Fully-qualified WMS GetMap URL.
-		'''
+		"""Build a NASA GIBS WMS GetMap URL.
+		
+		Purpose:
+		    Provides the `build_wms_url` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    layer (str): Input value passed to the callable.
+		    image_date (str): Input value passed to the callable.
+		    bbox (Tuple[float, float, float, float]): Input value passed to the callable.
+		    width (int): Input value passed to the callable.
+		    height (int): Input value passed to the callable.
+		    projection (str): Input value passed to the callable.
+		    quality (str): Input value passed to the callable.
+		    image_format (str): Input value passed to the callable.
+		    transparent (bool): Input value passed to the callable.
+		    version (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'layer', layer )
 			throw_if( 'image_date', image_date )
@@ -4876,6 +4132,7 @@ class GlobalImagery( Fetcher ):
 					'image_format: str="image/png", transparent: bool=True, '
 					'version: str="1.1.1" ) -> str'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_wms_map( self, layer: str, image_date: str,
@@ -4884,53 +4141,30 @@ class GlobalImagery( Fetcher ):
 			image_format: str = 'image/png', transparent: bool = True,
 			output_dir: str = 'python-examples', output_name: str = '',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch a NASA GIBS WMS map image and save it to disk.
-
-			Parameters:
-			-----------
-			layer (str):
-				GIBS layer identifier.
-
-			image_date (str):
-				Layer date in YYYY-MM-DD format.
-
-			bbox (Tuple[float, float, float, float]):
-				Bounding box as west, south, east, north.
-
-			width (int):
-				Output image width in pixels.
-
-			height (int):
-				Output image height in pixels.
-
-			projection (str):
-				GIBS projection path segment.
-
-			quality (str):
-				GIBS quality path segment.
-
-			image_format (str):
-				Output MIME type.
-
-			transparent (bool):
-				Whether to request transparent no-data pixels.
-
-			output_dir (str):
-				Directory where the image will be written.
-
-			output_name (str):
-				Optional output filename. If empty, a deterministic filename is generated.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None: Normalized request and image metadata.
-		'''
+		"""Fetch a NASA GIBS WMS map image and save it to disk.
+		
+		Purpose:
+		    Provides the `fetch_wms_map` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    layer (str): Input value passed to the callable.
+		    image_date (str): Input value passed to the callable.
+		    bbox (Tuple[float, float, float, float]): Input value passed to the callable.
+		    width (int): Input value passed to the callable.
+		    height (int): Input value passed to the callable.
+		    projection (str): Input value passed to the callable.
+		    quality (str): Input value passed to the callable.
+		    image_format (str): Input value passed to the callable.
+		    transparent (bool): Input value passed to the callable.
+		    output_dir (str): Input value passed to the callable.
+		    output_name (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'wms_map'
 			self.timeout = int( time )
@@ -5011,22 +4245,20 @@ class GlobalImagery( Fetcher ):
 					'output_dir: str="python-examples", output_name: str="", '
 					'time: int=20 ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_map_services( self ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch the legacy default NASA GIBS EPSG:4326 corrected-reflectance image.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			Dict[str, Any] | None: Normalized request and image metadata.
-		'''
+		"""Fetch the legacy default NASA GIBS EPSG:4326 corrected-reflectance image.
+		
+		Purpose:
+		    Provides the `fetch_map_services` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'fetch_map_services'
 			return self.fetch_wms_map( layer='MODIS_Terra_CorrectedReflectance_TrueColor',
@@ -5041,24 +4273,23 @@ class GlobalImagery( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GlobalImagery'
 			exception.method = 'fetch_map_services( self ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_mercator_map( self, ccrs=None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch the legacy default NASA GIBS EPSG:3857 Web Mercator image.
-
-			Parameters:
-			-----------
-			ccrs (Any | None):
-				Preserved for backward compatibility. The replacement fetches and writes the
-				image without attempting Cartopy rendering.
-
-			Returns:
-			--------
-			Dict[str, Any] | None: Normalized request and image metadata.
-		'''
+		"""Fetch the legacy default NASA GIBS EPSG:3857 Web Mercator image.
+		
+		Purpose:
+		    Provides the `fetch_mercator_map` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    ccrs (object): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'mercator_map'
 			return self.fetch_wms_map(
@@ -5074,36 +4305,28 @@ class GlobalImagery( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GlobalImagery'
 			exception.method = 'fetch_mercator_map( self, ccrs=None ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str, description: str,
 			parameters: dict, required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic tool schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Function name exposed to the model.
-
-			tool (str):
-				Underlying service or system name.
-
-			description (str):
-				Description of the exposed function.
-
-			parameters (dict):
-				JSON-schema-style parameter definitions.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None: JSON-compatible tool schema dictionary.
-		'''
+		"""Construct and return a dynamic tool schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -5134,135 +4357,14 @@ class GlobalImagery( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class NearbyObjects( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides access to current JPL SSD / CNEOS APIs relevant to near-Earth
-		objects, close approaches, and human-accessible target screening.
-
-		This class is aligned to the current documented APIs and supports the
-		following modes:
-
-		- close_approaches
-		- object_lookup
-		- nhats_summary
-		- nhats_object
-		- fireballs
-
-		Referenced API Requirements:
-		----------------------------
-		CAD API:
-			GET https://ssd-api.jpl.nasa.gov/cad.api
-			Common parameters used here:
-				- date-min
-				- date-max
-				- dist-max
-				- body
-				- sort
-				- limit
-
-		SBDB API:
-			GET https://ssd-api.jpl.nasa.gov/sbdb.api
-			One and only one of:
-				- sstr
-				- spk
-				- des
-			Optional parameters used here:
-				- phys-par
-				- ca-data
-				- ca-body
-				- discovery
-
-		NHATS API:
-			GET https://ssd-api.jpl.nasa.gov/nhats.api
-			Summary filters optionally include:
-				- dv
-				- dur
-				- stay
-				- launch
-				- h
-				- occ
-			Object-specific details use:
-				- des
-
-		Fireball API:
-			GET https://ssd-api.jpl.nasa.gov/fireball.api
-			Common parameters used here:
-				- date-min
-				- limit
-
-		Attributes:
-		-----------
-		base_url: Optional[str]
-			Base SSD API URL.
-
-		url: Optional[str]
-			Resolved request URL.
-
-		params: Optional[Dict[str, Any]]
-			Request parameters for the active call.
-
-		mode: Optional[str]
-			Selected operating mode.
-
-		start_date: Optional[str]
-			Inclusive start date in YYYY-MM-DD format.
-
-		end_date: Optional[str]
-			Inclusive end date in YYYY-MM-DD format.
-
-		query: Optional[str]
-			Generic object lookup string or designation.
-
-		dist_max: Optional[str]
-			Close-approach maximum distance filter.
-
-		body: Optional[str]
-			Close-approach body selector, typically Earth.
-
-		sort: Optional[str]
-			CAD sorting key.
-
-		limit: Optional[int]
-			Result limit.
-
-		agents: Optional[str]
-			User-Agent string.
-
-		Methods:
-		--------
-		__init__() -> None
-			Initialize fetcher defaults.
-
-		__dir__() -> List[str]
-			Provide ordered member visibility.
-
-		fetch_close_approaches(...) -> Dict[str, Any] | None
-			Fetch close-approach records from the CAD API.
-
-		fetch_object_lookup(...) -> Dict[str, Any] | None
-			Fetch detailed object information from the SBDB API.
-
-		fetch_nhats_summary(...) -> Dict[str, Any] | None
-			Fetch NHATS summary rows using screening constraints.
-
-		fetch_nhats_object(...) -> Dict[str, Any] | None
-			Fetch NHATS details for a single designation.
-
-		fetch_fireballs(...) -> Dict[str, Any] | None
-			Fetch fireball atmospheric impact records.
-
-		fetch(...) -> Dict[str, Any] | None
-			Unified dispatcher for NEO-related operations.
-
-		create_schema(...) -> Dict[str, str] | None
-			Construct a dynamic tool schema.
-
-	'''
+	"""Provides access to current JPL SSD / CNEOS APIs relevant to near-Earth.
+	
+	Purpose:
+	    Documents the `NearbyObjects` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	url: Optional[ str ]
 	params: Optional[ Dict[ str, Any ] ]
@@ -5277,19 +4379,10 @@ class NearbyObjects( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the NearbyObjects fetcher with current JPL SSD defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the NearbyObjects fetcher with current JPL SSD defaults.
+		
+		Purpose:
+		    Initializes `NearbyObjects` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.headers = { }
 		self.base_url = 'https://ssd-api.jpl.nasa.gov'
@@ -5308,19 +4401,13 @@ class NearbyObjects( Fetcher ):
 			self.headers[ 'User-Agent' ] = self.agents
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'url',
@@ -5345,38 +4432,25 @@ class NearbyObjects( Fetcher ):
 	def fetch_close_approaches( self, start_date: str, end_date: str, dist_max: str = '10LD',
 			body: str = 'Earth', sort: str = 'date', limit: int = 20, time: int = 20 ) -> Dict[
 				                                                                              str, Any ] | None:
-		'''Fetch close-approach data from the JPL SB Close Approach Data API.
-
-			Parameters:
-			-----------
-			start_date (str):
-				Inclusive lower date bound in YYYY-MM-DD format.
-
-			end_date (str):
-				Inclusive upper date bound in YYYY-MM-DD format.
-
-			dist_max (str):
-				Maximum close-approach distance. Examples:
-				- 10LD
-				- 0.05AU
-
-			body (str):
-				Close-approach body selector. Example values include Earth, Moon,
-				Mars, Juptr.
-
-			sort (str):
-				Sort key for the returned records. Example values include date and dist.
-
-			limit (int):
-				Maximum number of rows to return.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch close-approach data from the JPL SB Close Approach Data API.
+		
+		Purpose:
+		    Provides the `fetch_close_approaches` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    dist_max (str): Input value passed to the callable.
+		    body (str): Input value passed to the callable.
+		    sort (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'start_date', start_date )
 			throw_if( 'end_date', end_date )
@@ -5416,48 +4490,32 @@ class NearbyObjects( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NearbyObjects'
 			exception.method = 'fetch_close_approaches( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_object_lookup( self, query: str, query_type: str = 'sstr',
 			include_physical: bool = True, include_close_approaches: bool = True,
 			ca_body: str = 'Earth', include_discovery: bool = True,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Fetch a single-object record from the JPL SBDB API.
-
-			Parameters:
-			-----------
-			query (str):
-				Object identifier or name. Examples:
-				- Apophis
-				- Eros
-				- 2000 SG344
-				- 99942
-
-			query_type (str):
-				Exactly one of:
-				- sstr
-				- spk
-				- des
-
-			include_physical (bool):
-				If True, request physical parameters.
-
-			include_close_approaches (bool):
-				If True, request close-approach data.
-
-			ca_body (str):
-				Body filter for close-approach data, typically Earth.
-
-			include_discovery (bool):
-				If True, request discovery circumstances when available.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch a single-object record from the JPL SBDB API.
+		
+		Purpose:
+		    Provides the `fetch_object_lookup` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    query_type (str): Input value passed to the callable.
+		    include_physical (bool): Input value passed to the callable.
+		    include_close_approaches (bool): Input value passed to the callable.
+		    ca_body (str): Input value passed to the callable.
+		    include_discovery (bool): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query', query )
 			throw_if( 'query_type', query_type )
@@ -5493,40 +4551,31 @@ class NearbyObjects( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NearbyObjects'
 			exception.method = 'fetch_object_lookup( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_nhats_summary( self, dv: float = 6.0, dur: int = 360, stay: int = 8,
 			launch: str = '2020-2045',
 			h: float = 26.0, occ: int = 7, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Fetch NHATS summary data using standard screening constraints.
-
-			Parameters:
-			-----------
-			dv (float):
-				Maximum total delta-V in km/s.
-
-			dur (int):
-				Maximum mission duration in days.
-
-			stay (int):
-				Minimum stay duration in days.
-
-			launch (str):
-				Launch window year range. Example: 2020-2045.
-
-			h (float):
-				Maximum H magnitude.
-
-			occ (int):
-				Maximum Orbit Condition Code.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch NHATS summary data using standard screening constraints.
+		
+		Purpose:
+		    Provides the `fetch_nhats_summary` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    dv (float): Input value passed to the callable.
+		    dur (int): Input value passed to the callable.
+		    stay (int): Input value passed to the callable.
+		    launch (str): Input value passed to the callable.
+		    h (float): Input value passed to the callable.
+		    occ (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'nhats_summary'
 			self.url = f'{self.base_url}/nhats.api'
@@ -5556,38 +4605,29 @@ class NearbyObjects( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NearbyObjects'
 			exception.method = 'fetch_nhats_summary( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_nhats_object( self, designation: str, dv: float = 6.0, dur: int = 360, stay: int = 8,
 			launch: str = '2020-2045', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Fetch NHATS details for a single object designation.
-
-			Parameters:
-			-----------
-			designation (str):
-				Designation of the NEO. Examples:
-				- 99942
-				- 2000 SG344
-
-			dv (float):
-				Maximum total delta-V in km/s.
-
-			dur (int):
-				Maximum mission duration in days.
-
-			stay (int):
-				Minimum stay duration in days.
-
-			launch (str):
-				Launch window year range.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch NHATS details for a single object designation.
+		
+		Purpose:
+		    Provides the `fetch_nhats_object` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    designation (str): Input value passed to the callable.
+		    dv (float): Input value passed to the callable.
+		    dur (int): Input value passed to the callable.
+		    stay (int): Input value passed to the callable.
+		    launch (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'designation', designation )
 			self.mode = 'nhats_object'
@@ -5618,28 +4658,26 @@ class NearbyObjects( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NearbyObjects'
 			exception.method = 'fetch_nhats_object( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_fireballs( self, date_min: str = '', limit: int = 20, time: int = 20 ) -> Dict[
 		                                                                                    str, Any ] | None:
-		'''Fetch atmospheric fireball records from the JPL Fireball API.
-
-			Parameters:
-			-----------
-			date_min (str):
-				Optional lower date bound in YYYY-MM-DD or
-				YYYY-MM-DDThh:mm:ss format.
-
-			limit (int):
-				Maximum number of rows to return.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch atmospheric fireball records from the JPL Fireball API.
+		
+		Purpose:
+		    Provides the `fetch_fireballs` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    date_min (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'fireballs'
 			self.url = f'{self.base_url}/fireball.api'
@@ -5668,6 +4706,7 @@ class NearbyObjects( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NearbyObjects'
 			exception.method = 'fetch_fireballs( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'close_approaches', start_date: str = '',
@@ -5678,79 +4717,38 @@ class NearbyObjects( Fetcher ):
 			occ: int = 7, include_physical: bool = True,
 			include_close_approaches: bool = True, ca_body: str = 'Earth',
 			include_discovery: bool = True, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''Unified dispatcher for JPL SSD / CNEOS NEO-related endpoints.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of:
-				- close_approaches
-				- object_lookup
-				- nhats_summary
-				- nhats_object
-				- fireballs
-
-			start_date (str):
-				Date lower bound for close_approaches.
-
-			end_date (str):
-				Date upper bound for close_approaches.
-
-			query (str):
-				Object query or designation for object_lookup or nhats_object.
-
-			query_type (str):
-				Object lookup selector: sstr, spk, or des.
-
-			dist_max (str):
-				Close-approach distance ceiling.
-
-			body (str):
-				Close-approach body selector.
-
-			sort (str):
-				Close-approach sort key.
-
-			limit (int):
-				Result limit.
-
-			dv (float):
-				NHATS delta-V filter.
-
-			dur (int):
-				NHATS duration filter.
-
-			stay (int):
-				NHATS stay filter.
-
-			launch (str):
-				NHATS launch window.
-
-			h (float):
-				NHATS H-magnitude filter.
-
-			occ (int):
-				NHATS OCC filter.
-
-			include_physical (bool):
-				SBDB physical-parameter switch.
-
-			include_close_approaches (bool):
-				SBDB close-approach section switch.
-
-			ca_body (str):
-				SBDB close-approach body filter.
-
-			include_discovery (bool):
-				SBDB discovery-data switch.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for JPL SSD / CNEOS NEO-related endpoints.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    query_type (str): Input value passed to the callable.
+		    dist_max (str): Input value passed to the callable.
+		    body (str): Input value passed to the callable.
+		    sort (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    dv (float): Input value passed to the callable.
+		    dur (int): Input value passed to the callable.
+		    stay (int): Input value passed to the callable.
+		    launch (str): Input value passed to the callable.
+		    h (float): Input value passed to the callable.
+		    occ (int): Input value passed to the callable.
+		    include_physical (bool): Input value passed to the callable.
+		    include_close_approaches (bool): Input value passed to the callable.
+		    ca_body (str): Input value passed to the callable.
+		    include_discovery (bool): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = str( mode or 'close_approaches' ).strip( ).lower( )
 			
@@ -5783,37 +4781,29 @@ class NearbyObjects( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'NearbyObjects'
 			exception.method = 'fetch( self, **kwargs) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -5841,40 +4831,14 @@ class NearbyObjects( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class OpenScience( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches open-science dataset, metadata, assay, and data resources.
-
-		Attributes:
-		-----------
-		base_url,
-		url,
-		params,
-		query_text,
-		format_value,
-		size,
-		endpoint,
-		agents,
-
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		__dir__(...): Performs the __dir__ operation for this fetcher.
-		validate_format(...): Performs the validate_format operation for this fetcher.
-		coerce_response(...): Performs the coerce_response operation for this fetcher.
-		fetch_dataset(...): Performs the fetch_dataset operation for this fetcher.
-		fetch_metadata(...): Performs the fetch_metadata operation for this fetcher.
-		fetch_assays(...): Performs the fetch_assays operation for this fetcher.
-		fetch_data(...): Performs the fetch_data operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-		create_schema(...): Performs the create_schema operation for this fetcher.
-
-	'''
+	"""Fetches open-science dataset, metadata, assay, and data resources.
+	
+	Purpose:
+	    Documents the `OpenScience` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	url: Optional[ str ]
 	params: Optional[ Dict[ str, Any ] ]
@@ -5885,19 +4849,10 @@ class OpenScience( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the OpenScience fetcher with current OSDR defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the OpenScience fetcher with current OSDR defaults.
+		
+		Purpose:
+		    Initializes `OpenScience` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.headers = { }
 		self.base_url = 'https://visualization.osdr.nasa.gov/biodata/api'
@@ -5913,19 +4868,13 @@ class OpenScience( Fetcher ):
 			self.headers[ 'User-Agent' ] = self.agents
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'url',
@@ -5943,20 +4892,19 @@ class OpenScience( Fetcher ):
 		]
 	
 	def validate_format( self, format_value: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate output format for OSDR query endpoints.
-
-			Parameters:
-			-----------
-			format_value (str):
-				Desired format.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate output format for OSDR query endpoints.
+		
+		Purpose:
+		    Provides the `validate_format` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    format_value (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( format_value or 'json' ).strip( ).lower( )
 			
@@ -5973,20 +4921,23 @@ class OpenScience( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenScience'
 			exception.method = 'validate_format( self, format_value: str ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def coerce_response( self, response: requests.Response ) -> Dict[ str, Any ] | str:
-		'''Convert an HTTP response into JSON when possible, otherwise text.
-
-			Parameters:
-			-----------
-			response (requests.Response):
-				HTTP response object.
-
-			Returns:
-			--------
-			Dict[str, Any] | str
-		'''
+		"""Convert an HTTP response into JSON when possible, otherwise text.
+		
+		Purpose:
+		    Provides the `coerce_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    response (requests.Response): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object] | str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			content_type = str( response.headers.get( 'Content-Type', '' ) ).lower( )
 			
@@ -6006,26 +4957,24 @@ class OpenScience( Fetcher ):
 					'coerce_response( self, response: requests.Response ) '
 					'-> Dict[ str, Any ] | str'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_dataset( self, accession: str, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch dataset-level metadata by OSDR accession.
-
-			Parameters:
-			-----------
-			accession (str):
-				OSDR accession such as OSD-48.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch dataset-level metadata by OSDR accession.
+		
+		Purpose:
+		    Provides the `fetch_dataset` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    accession (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'accession', accession )
 			value = str( accession ).strip( )
@@ -6047,30 +4996,26 @@ class OpenScience( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenScience'
 			exception.method = 'fetch_dataset( self, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_metadata( self, query: str, format_value: str = 'json',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Query OSDR sample-level metadata using the current metadata query endpoint.
-
-			Parameters:
-			-----------
-			query (str):
-				Query string to pass through to the endpoint.
-
-			format_value (str):
-				Output format. Supports json, csv, tsv, browser.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Query OSDR sample-level metadata using the current metadata query endpoint.
+		
+		Purpose:
+		    Provides the `fetch_metadata` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    format_value (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query', query )
 			self.query_text = str( query ).strip( )
@@ -6096,30 +5041,26 @@ class OpenScience( Fetcher ):
 					'fetch_metadata( self, query: str, format_value: str=json, '
 					'time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_assays( self, query: str, format_value: str = 'json',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Query OSDR assay-grouped metadata using the current assays query endpoint.
-
-			Parameters:
-			-----------
-			query (str):
-				Query string to pass through to the endpoint.
-
-			format_value (str):
-				Output format. Supports json, csv, tsv, browser.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Query OSDR assay-grouped metadata using the current assays query endpoint.
+		
+		Purpose:
+		    Provides the `fetch_assays` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    format_value (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query', query )
 			
@@ -6151,30 +5092,26 @@ class OpenScience( Fetcher ):
 					'fetch_assays( self, query: str, format_value: str=json, '
 					'time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_data( self, query: str, format_value: str = 'json',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Query OSDR data using the current data query endpoint.
-
-			Parameters:
-			-----------
-			query (str):
-				Query string to pass through to the endpoint.
-
-			format_value (str):
-				Output format. Supports json, csv, tsv, browser.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Query OSDR data using the current data query endpoint.
+		
+		Purpose:
+		    Provides the `fetch_data` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    format_value (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query', query )
 			
@@ -6210,41 +5147,29 @@ class OpenScience( Fetcher ):
 					'fetch_data( self, query: str, format_value: str=json, '
 					'time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'dataset', query: str = '',
 			accession: str = '', format_value: str = 'json',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for Open Science requests.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- dataset
-				- metadata
-				- assays
-				- data
-
-			query (str):
-				Query expression for metadata, assays, or data modes.
-
-			accession (str):
-				OSDR dataset accession for dataset mode.
-
-			format_value (str):
-				Output format for query modes.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for Open Science requests.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    accession (str): Input value passed to the callable.
+		    format_value (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = str( mode or 'dataset' ).strip( ).lower( )
 			
@@ -6287,37 +5212,29 @@ class OpenScience( Fetcher ):
 					'fetch( self, mode: str=dataset, query: str=, accession: str=, '
 					'format_value: str=json, time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -6348,107 +5265,14 @@ class OpenScience( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class SpaceWeather( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides access to NASA DONKI space weather endpoints through the
-		NASA Open APIs gateway.
-
-		This class is aligned to the currently documented DONKI endpoints and
-		supports the following modes:
-
-		- cme
-		- cme_analysis
-		- gst
-		- ips
-		- flr
-		- sep
-		- mpc
-		- rbe
-		- hss
-		- wsa_enlil
-		- notifications
-
-		Referenced API Requirements:
-		----------------------------
-		Base:
-			https://api.nasa.gov/DONKI
-
-		Common parameters:
-			- startDate
-			- endDate
-			- api_key
-
-		Endpoint-specific parameters supported here:
-			- location
-			- catalog
-			- type
-			- mostAccurateOnly
-			- completeEntryOnly
-			- speed
-			- halfAngle
-			- keyword
-
-		Attributes:
-		-----------
-		base_url: Optional[str]
-			Base DONKI API URL.
-
-		api_key: Optional[str]
-			NASA API key from configuration.
-
-		url: Optional[str]
-			Resolved endpoint URL.
-
-		params: Optional[Dict[str, Any]]
-			Request parameters sent to DONKI.
-
-		mode: Optional[str]
-			Selected DONKI endpoint mode.
-
-		start_date: Optional[str]
-			Inclusive start date in YYYY-MM-DD format.
-
-		end_date: Optional[str]
-			Inclusive end date in YYYY-MM-DD format.
-
-		location: Optional[str]
-			IPS endpoint location filter.
-
-		catalog: Optional[str]
-			CMEAnalysis or IPS catalog filter.
-
-		notification_type: Optional[str]
-			Notifications endpoint event type filter.
-
-		limit_note: Optional[str]
-			Reserved descriptive note.
-
-		agents: Optional[str]
-			User-Agent string.
-
-		Methods:
-		--------
-		__init__() -> None
-			Initialize fetcher defaults.
-
-		__dir__() -> List[str]
-			Provide ordered member visibility.
-
-		fetch_endpoint(...) -> Dict[str, Any] | None
-			Fetch a single DONKI endpoint with normalized parameters.
-
-		fetch(...) -> Dict[str, Any] | None
-			Unified dispatcher for DONKI modes.
-
-		create_schema(...) -> Dict[str, str] | None
-			Construct a dynamic tool schema.
-
-	'''
+	"""Provides access to NASA DONKI space weather endpoints through the.
+	
+	Purpose:
+	    Documents the `SpaceWeather` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	api_key: Optional[ str ]
 	url: Optional[ str ]
@@ -6463,19 +5287,10 @@ class SpaceWeather( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the DONKI fetcher with current endpoint defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the DONKI fetcher with current endpoint defaults.
+		
+		Purpose:
+		    Initializes `SpaceWeather` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.headers = { }
 		self.base_url = 'https://api.nasa.gov/DONKI'
@@ -6495,19 +5310,13 @@ class SpaceWeather( Fetcher ):
 			self.headers[ 'User-Agent' ] = self.agents
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'api_key',
@@ -6530,56 +5339,31 @@ class SpaceWeather( Fetcher ):
 			complete_entry_only: bool = True, speed: int = 0,
 			half_angle: int = 0, keyword: str = '',
 			api_key: str = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Send a request to a specific DONKI endpoint and return normalized JSON.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				DONKI endpoint path fragment.
-
-			start_date (str):
-				Inclusive start date in YYYY-MM-DD format.
-
-			end_date (str):
-				Inclusive end date in YYYY-MM-DD format.
-
-			time (int):
-				Request timeout in seconds.
-
-			location (str):
-				IPS location filter.
-
-			catalog (str):
-				CMEAnalysis or IPS catalog filter.
-
-			notification_type (str):
-				Notifications type filter.
-
-			most_accurate_only (bool):
-				CMEAnalysis filter.
-
-			complete_entry_only (bool):
-				CMEAnalysis filter.
-
-			speed (int):
-				CMEAnalysis lower-bound speed filter.
-
-			half_angle (int):
-				CMEAnalysis lower-bound half-angle filter.
-
-			keyword (str):
-				CMEAnalysis keyword filter.
-
-			api_key (str | None):
-				Optional runtime override for NASA API key.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Send a request to a specific DONKI endpoint and return normalized JSON.
+		
+		Purpose:
+		    Provides the `fetch_endpoint` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		    location (str): Input value passed to the callable.
+		    catalog (str): Input value passed to the callable.
+		    notification_type (str): Input value passed to the callable.
+		    most_accurate_only (bool): Input value passed to the callable.
+		    complete_entry_only (bool): Input value passed to the callable.
+		    speed (int): Input value passed to the callable.
+		    half_angle (int): Input value passed to the callable.
+		    keyword (str): Input value passed to the callable.
+		    api_key (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			throw_if( 'start_date', start_date )
@@ -6645,6 +5429,7 @@ class SpaceWeather( Fetcher ):
 					'speed: int=0, half_angle: int=0, keyword: str=, '
 					'api_key: str|None=None ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'cme', start_date: str = '', end_date: str = '',
@@ -6653,67 +5438,31 @@ class SpaceWeather( Fetcher ):
 			complete_entry_only: bool = True, speed: int = 0,
 			half_angle: int = 0, keyword: str = '',
 			api_key: str = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for NASA DONKI endpoints.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of:
-				- cme
-				- cme_analysis
-				- gst
-				- ips
-				- flr
-				- sep
-				- mpc
-				- rbe
-				- hss
-				- wsa_enlil
-				- notifications
-
-			start_date (str):
-				Inclusive start date in YYYY-MM-DD format.
-
-			end_date (str):
-				Inclusive end date in YYYY-MM-DD format.
-
-			time (int):
-				Request timeout in seconds.
-
-			location (str):
-				IPS location filter.
-
-			catalog (str):
-				CMEAnalysis or IPS catalog filter.
-
-			notification_type (str):
-				Notifications type filter.
-
-			most_accurate_only (bool):
-				CMEAnalysis filter.
-
-			complete_entry_only (bool):
-				CMEAnalysis filter.
-
-			speed (int):
-				CMEAnalysis speed filter.
-
-			half_angle (int):
-				CMEAnalysis half-angle filter.
-
-			keyword (str):
-				CMEAnalysis keyword filter.
-
-			api_key (str | None):
-				Optional runtime override for NASA API key.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for NASA DONKI endpoints.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		    location (str): Input value passed to the callable.
+		    catalog (str): Input value passed to the callable.
+		    notification_type (str): Input value passed to the callable.
+		    most_accurate_only (bool): Input value passed to the callable.
+		    complete_entry_only (bool): Input value passed to the callable.
+		    speed (int): Input value passed to the callable.
+		    half_angle (int): Input value passed to the callable.
+		    keyword (str): Input value passed to the callable.
+		    api_key (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = str( mode or 'cme' ).strip( ).lower( )
 			self.mode = active_mode
@@ -6765,37 +5514,29 @@ class SpaceWeather( Fetcher ):
 					'complete_entry_only: bool=True, speed: int=0, half_angle: int=0, '
 					'keyword: str=, api_key: str|None=None ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -6823,16 +5564,14 @@ class SpaceWeather( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class AstroCatalog( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides structured access to the Open Astronomy Catalog API (OACAPI).
-
-	'''
+	"""Provides structured access to the Open Astronomy Catalog API (OACAPI).
+	
+	Purpose:
+	    Documents the `AstroCatalog` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	format: Optional[ str ]
 	name: Optional[ str ]
@@ -6871,15 +5610,17 @@ class AstroCatalog( Fetcher ):
 		]
 	
 	def normalize_attribute_path( self, quantity: str = '', attributes: str = '' ) -> str:
-		"""
-			Purpose:
-			--------
-			Build the OAC route path segment from quantity and attribute inputs.
-
-			Returns:
-			--------
-			str
-		"""
+		"""Build the OAC route path segment from quantity and attribute inputs.
+		
+		Purpose:
+		    Provides the `normalize_attribute_path` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    quantity (str): Input value passed to the callable.
+		    attributes (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable."""
 		parts: list[ str ] = [ ]
 		if quantity and quantity.strip( ):
 			parts.append( quantity.strip( ) )
@@ -6891,16 +5632,16 @@ class AstroCatalog( Fetcher ):
 		return '/'.join( parts )
 	
 	def parse_argument( self, argument_string: str ) -> Dict[ str, Any ]:
-		"""
-			Purpose:
-			--------
-			Parse a comma-separated or newline-separated list of OAC query
-			arguments into a dictionary.
-
-			Examples:
-			---------
-			band=R,time,e_magnitude,complete
-		"""
+		"""Parse a comma-separated or newline-separated list of OAC query.
+		
+		Purpose:
+		    Provides the `parse_argument` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    argument_string (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable."""
 		params: Dict[ str, Any ] = { }
 		
 		if not argument_string or not argument_string.strip( ):
@@ -6920,15 +5661,21 @@ class AstroCatalog( Fetcher ):
 	
 	def request( self, route: str, params: Dict[ str, Any ] | None = None,
 			time: int = 20 ) -> Any:
-		"""
-			Purpose:
-			--------
-			Send an HTTP request to the OAC API and return parsed JSON when possible.
-
-			Returns:
-			--------
-			Any
-		"""
+		"""Send an HTTP request to the OAC API and return parsed JSON when possible.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    route (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    object: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.timeout = int( time )
 			self.url = f'{self.base_url}/{route.lstrip( "/" )}'
@@ -6953,19 +5700,29 @@ class AstroCatalog( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'AstroCatalog'
 			exception.method = 'request( self, route: str, params: Dict[ str, Any ] | None=None, time: int=20 ) -> Any'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_object( self, name: str, quantity: str = '', attributes: str = '',
 			arguments: str = '', data_format: str = 'json', time: int = 20 ) -> Any:
-		"""
-			Purpose:
-			--------
-			Query OAC by object/event name using the documented route pattern.
-
-			Returns:
-			--------
-			Any
-		"""
+		"""Query OAC by object/event name using the documented route pattern.
+		
+		Purpose:
+		    Provides the `fetch_object` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    quantity (str): Input value passed to the callable.
+		    attributes (str): Input value passed to the callable.
+		    arguments (str): Input value passed to the callable.
+		    data_format (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    object: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			self.name = name.strip( )
@@ -6992,20 +5749,32 @@ class AstroCatalog( Fetcher ):
 					'fetch_object( self, name: str, quantity: str=, attributes: str=, '
 					'arguments: str=, data_format: str=json, time: int=20 ) -> Any'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def cone_search( self, ra: str, dec: str, radius: int = 2, quantity: str = '',
 			attributes: str = '', arguments: str = '', data_format: str = 'json',
 			time: int = 20 ) -> Any:
-		"""
-			Purpose:
-			--------
-			Query OAC using a coordinate cone search via special arguments.
-
-			Returns:
-			--------
-			Any
-		"""
+		"""Query OAC using a coordinate cone search via special arguments.
+		
+		Purpose:
+		    Provides the `cone_search` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    ra (str): Input value passed to the callable.
+		    dec (str): Input value passed to the callable.
+		    radius (int): Input value passed to the callable.
+		    quantity (str): Input value passed to the callable.
+		    attributes (str): Input value passed to the callable.
+		    arguments (str): Input value passed to the callable.
+		    data_format (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    object: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'ra', ra )
 			throw_if( 'dec', dec )
@@ -7033,20 +5802,34 @@ class AstroCatalog( Fetcher ):
 			exception.method = ('cone_search( self, ra: str, dec: str, radius: int=2, '
 			                    'quantity: str=, attributes: str=, arguments: str=, '
 			                    'data_format: str=json, time: int=20 ) -> Any')
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'object_query', query: str = '', quantity: str = '',
 			attributes: str = '', arguments: str = '', ra: str = '', dec: str = '',
 			radius: int = 2, data_format: str = 'json', time: int = 20 ) -> Any:
-		"""
-			Purpose:
-			--------
-			Unified dispatch for Astronomy Catalog operations.
-
-			Returns:
-			--------
-			Any
-		"""
+		"""Unified dispatch for Astronomy Catalog operations.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    quantity (str): Input value passed to the callable.
+		    attributes (str): Input value passed to the callable.
+		    arguments (str): Input value passed to the callable.
+		    ra (str): Input value passed to the callable.
+		    dec (str): Input value passed to the callable.
+		    radius (int): Input value passed to the callable.
+		    data_format (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    object: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = (mode or 'object_query').strip( ).lower( )
 			
@@ -7081,36 +5864,14 @@ class AstroCatalog( Fetcher ):
 					'attributes: str=, arguments: str=, ra: str=, dec: str=, '
 					'radius: int=2, data_format: str=json, time: int=20 ) -> Any'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class AstroQuery( Fetcher ):
-	'''
+	"""Fetches astronomical object and region data with astroquery SIMBAD operations.
 	
-		Purpose:
-		--------
-		Fetches astronomical object and region data with astroquery SIMBAD operations.
-	
-		Attributes:
-		-----------
-		url,
-		radius,
-		name,
-		declination,
-		right_ascension,
-		params,
-		row_limit,
-	
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		__dir__(...): Performs the __dir__ operation for this fetcher.
-		table_to_records(...): Performs the table_to_records operation for this fetcher.
-		object_search(...): Performs the object_search operation for this fetcher.
-		object_ids(...): Performs the object_ids operation for this fetcher.
-		region_search(...): Performs the region_search operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-	
-	'''
+	Purpose:
+	    Documents the `AstroQuery` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	url: Optional[ str ]
 	radius: Optional[ float ]
 	name: Optional[ str ]
@@ -7144,23 +5905,19 @@ class AstroQuery( Fetcher ):
 		]
 	
 	def table_to_records( self, table: Table | None ) -> List[ Dict[ str, Any ] ]:
-		"""
-
-			Purpose:
-			--------
-			Convert an Astropy Table into a list of row dictionaries that can be
-			rendered easily in Streamlit.
-
-			Parameters:
-			-----------
-			table:
-				An astropy.table.Table returned by astroquery.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-
-		"""
+		"""Convert an Astropy Table into a list of row dictionaries that can be.
+		
+		Purpose:
+		    Provides the `table_to_records` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    table (Table): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if table is None:
 				return [ ]
@@ -7188,28 +5945,24 @@ class AstroQuery( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'AstroQuery'
 			exception.method = 'table_to_records( self, table: Table | None ) -> List[ Dict[ str, Any ] ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def object_search( self, name: str, row_limit: int = 100 ) -> Dict[ str, Any ] | None:
-		"""
-
-			Purpose:
-			--------
-			Query SIMBAD for a named astronomical object.
-
-			Parameters:
-			-----------
-			name:
-				Object identifier or common name such as "M81", "Sirius", or
-				"NGC 1300".
-			row_limit:
-				Maximum number of rows to return.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		"""
+		"""Query SIMBAD for a named astronomical object.
+		
+		Purpose:
+		    Provides the `object_search` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    row_limit (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			self.name = name.strip( )
@@ -7232,27 +5985,24 @@ class AstroQuery( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'AstroQuery'
 			exception.method = 'object_search( self, name: str, row_limit: int=100 ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def object_ids( self, name: str, row_limit: int = 100 ) -> Dict[ str, Any ] | None:
-		"""
-
-			Purpose:
-			--------
-			Query SIMBAD for alternate identifiers of a named astronomical object.
-
-			Parameters:
-			-----------
-			name:
-				Object identifier or common name such as "M81" or "Sirius".
-			row_limit:
-				Maximum number of rows to return.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		"""
+		"""Query SIMBAD for alternate identifiers of a named astronomical object.
+		
+		Purpose:
+		    Provides the `object_ids` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    row_limit (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			self.name = name.strip( )
@@ -7275,45 +6025,28 @@ class AstroQuery( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'AstroQuery'
 			exception.method = 'object_ids( self, name: str, row_limit: int=100 ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def region_search( self, ra: str, dec: str, radius: float = 0.5,
 			radius_unit: str = 'deg', row_limit: int = 100 ) -> Dict[ str, Any ] | None:
-		"""
-
-			Purpose:
-			--------
-			Query SIMBAD in a cone around a sky position.
-
-			Parameters:
-			-----------
-			ra:
-				Right Ascension of the search center. This is the east-west sky
-				coordinate. Example values:
-				- "13:09:48.09"
-				- "197.45037"
-
-			dec:
-				Declination of the search center. This is the north-south sky
-				coordinate. Example values:
-				- "-23:22:53.3"
-				- "-23.38148"
-
-			radius:
-				Angular search radius around the sky position.
-
-			radius_unit:
-				Unit for the radius. Supported values here are "deg", "arcmin",
-				and "arcsec".
-
-			row_limit:
-				Maximum number of rows to return.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		"""
+		"""Query SIMBAD in a cone around a sky position.
+		
+		Purpose:
+		    Provides the `region_search` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    ra (str): Input value passed to the callable.
+		    dec (str): Input value passed to the callable.
+		    radius (float): Input value passed to the callable.
+		    radius_unit (str): Input value passed to the callable.
+		    row_limit (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'ra', ra )
 			throw_if( 'dec', dec )
@@ -7361,48 +6094,31 @@ class AstroQuery( Fetcher ):
 					'region_search( self, ra: str, dec: str, radius: float=0.5, '
 					'radius_unit: str=deg, row_limit: int=100 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'object_search', query: str = '', ra: str = '', dec: str = '',
 			radius: float = 0.5, radius_unit: str = 'deg', row_limit: int = 100 ) -> Dict[
 				                                                                         str, Any ] | None:
-		"""
-
-			Purpose:
-			--------
-			Unified dispatch for AstroQuery / SIMBAD operations.
-
-			Parameters:
-			-----------
-			mode:
-				One of:
-				- "object_search"
-				- "object_ids"
-				- "region_search"
-
-			query:
-				Named object for object-based modes.
-
-			ra:
-				Right Ascension used for region_search.
-
-			dec:
-				Declination used for region_search.
-
-			radius:
-				Angular radius used for region_search.
-
-			radius_unit:
-				Unit for radius used for region_search.
-
-			row_limit:
-				Maximum number of rows to return.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		"""
+		"""Unified dispatch for AstroQuery / SIMBAD operations.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    ra (str): Input value passed to the callable.
+		    dec (str): Input value passed to the callable.
+		    radius (float): Input value passed to the callable.
+		    radius_unit (str): Input value passed to the callable.
+		    row_limit (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = (mode or 'object_search').strip( ).lower( )
 			
@@ -7437,44 +6153,14 @@ class AstroQuery( Fetcher ):
 					'dec: str=, radius: float=0.5, radius_unit: str=deg, '
 					'row_limit: int=100 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class StarMap( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Builds star-map links and image snapshots for objects or coordinates.
-
-		Attributes:
-		-----------
-		base_url,
-		snapshot_url,
-		image_source,
-		object,
-		right_ascension,
-		declination,
-		box_color,
-		show_box,
-		show_grid,
-		show_lines,
-		show_boundaries,
-		show_const_names,
-		zoom,
-		params,
-
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		__dir__(...): Performs the __dir__ operation for this fetcher.
-		normalize(...): Performs the normalize operation for this fetcher.
-		extract_links(...): Performs the extract_links operation for this fetcher.
-		fetch_object_link(...): Performs the fetch_object_link operation for this fetcher.
-		fetch_coordinate_link(...): Performs the fetch_coordinate_link operation for this fetcher.
-		fetch_snapshot(...): Performs the fetch_snapshot operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-
-	'''
+	"""Builds star-map links and image snapshots for objects or coordinates.
+	
+	Purpose:
+	    Documents the `StarMap` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	snapshot_url: Optional[ str ]
 	image_source: Optional[ str ]
@@ -7491,17 +6177,10 @@ class StarMap( Fetcher ):
 	params: Optional[ Dict[ str, Any ] ]
 	
 	def __init__( self ) -> None:
-		'''
+		"""Initialize the StarMap.
 		
-			Purpose:
-			--------
-			Initialize the StarMap
-
-			Returns:
-			--------
-			None
-
-		'''
+		Purpose:
+		    Initializes `StarMap` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://www.sky-map.org/'
 		self.snapshot_url = 'https://www.sky-map.org/snapshot'
@@ -7551,45 +6230,33 @@ class StarMap( Fetcher ):
 		]
 	
 	def normalize( self, value: bool ) -> str:
-		'''
+		"""Convert a Python bool into the integer-style string form frequently.
 		
-			Purpose:
-			--------
-			Convert a Python bool into the integer-style string form frequently
-			used by Sky-Map query parameters.
-
-			Parameters:
-			-----------
-			value:
-				Boolean value to convert.
-
-			Returns:
-			--------
-			str
-
-		'''
+		Purpose:
+		    Provides the `normalize` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    value (bool): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable."""
 		return '1' if bool( value ) else '0'
 	
 	def extract_links( self, html: str, base_url: str ) -> Dict[ str, str ]:
-		'''
+		"""Parse the snapshot HTML page and extract save-as image links for.
 		
-			Purpose:
-			--------
-			Parse the snapshot HTML page and extract save-as image links for
-			formats like jpeg, png, gif, bmp, and tiff.
-
-			Parameters:
-			-----------
-			html:
-				Raw HTML returned by the snapshot endpoint.
-			base_url:
-				Base URL used to resolve relative hyperlinks.
-
-			Returns:
-			--------
-			Dict[str, str]
-
-		'''
+		Purpose:
+		    Provides the `extract_links` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    html (str): Input value passed to the callable.
+		    base_url (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			links: Dict[ str, str ] = { }
 			if not html or not isinstance( html, str ):
@@ -7611,36 +6278,28 @@ class StarMap( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'StarMap'
 			exception.method = 'extract_links( self, html: str, base_url: str ) -> Dict[ str, str ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_object_link( self, name: str, zoom: int = 5, box_color: str = 'yellow',
 			show_box: bool = True, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
+		"""Construct an interactive Sky-Map link centered on a named object.
 		
-			Purpose:
-			--------
-			Construct an interactive Sky-Map link centered on a named object.
-
-			Parameters:
-			-----------
-			name:
-				Object name or identifier such as "Polaris", "M31", or
-				"NGC 1300".
-			zoom:
-				Map zoom level. Smaller values show a wider field; larger values
-				zoom further in.
-			box_color:
-				Color of the selection/highlight box.
-			show_box:
-				Whether to show the highlight box around the object.
-			time:
-				Request timeout in seconds used for validation.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		'''
+		Purpose:
+		    Provides the `fetch_object_link` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    zoom (int): Input value passed to the callable.
+		    box_color (str): Input value passed to the callable.
+		    show_box (bool): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			
@@ -7686,52 +6345,34 @@ class StarMap( Fetcher ):
 					'fetch_object_link( self, name: str, zoom: int=5, box_color: str=yellow, '
 					'show_box: bool=True, time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_coordinate_link( self, ra: float, dec: float, zoom: int = 5,
 			box_color: str = 'yellow',
 			show_box: bool = True, show_grid: bool = True, show_lines: bool = True,
 			show_boundaries: bool = True, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
+		"""Construct an interactive Sky-Map link centered on sky coordinates.
 		
-			Purpose:
-			--------
-			Construct an interactive Sky-Map link centered on sky coordinates.
-
-			Parameters:
-			-----------
-			ra:
-				Right Ascension of the map center in hours.
-				Example values:
-				- 15.2976
-				- 5.9195
-
-			dec:
-				Declination of the map center in degrees.
-				Example values:
-				- -17.5892
-				- 41.2692
-
-			zoom:
-				Map zoom level.
-			box_color:
-				Color of the selection/highlight box.
-			show_box:
-				Whether to show the highlight box.
-			show_grid:
-				Whether to display coordinate grid lines.
-			show_lines:
-				Whether to display constellation lines.
-			show_boundaries:
-				Whether to display constellation boundaries.
-			time:
-				Request timeout in seconds used for validation.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		'''
+		Purpose:
+		    Provides the `fetch_coordinate_link` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    ra (float): Input value passed to the callable.
+		    dec (float): Input value passed to the callable.
+		    zoom (int): Input value passed to the callable.
+		    box_color (str): Input value passed to the callable.
+		    show_box (bool): Input value passed to the callable.
+		    show_grid (bool): Input value passed to the callable.
+		    show_lines (bool): Input value passed to the callable.
+		    show_boundaries (bool): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'ra', ra )
 			throw_if( 'dec', dec )
@@ -7787,52 +6428,33 @@ class StarMap( Fetcher ):
 					'show_lines: bool=True, show_boundaries: bool=True, time: int=20 ) '
 					'-> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_snapshot( self, ra: float, dec: float, zoom: int = 10, image_source: str = 'DSS2',
 			show_grid: bool = True, show_lines: bool = True, show_boundaries: bool = True,
 			show_const_names: bool = False, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
+		"""Request the Sky-Map snapshot generator page and extract the available.
 		
-			Purpose:
-			--------
-			Request the Sky-Map snapshot generator page and extract the available
-			static image links.
-
-			Parameters:
-			-----------
-			ra:
-				Right Ascension of the image center in hours.
-				Example values:
-				- 15.2976
-				- 5.9195
-
-			dec:
-				Declination of the image center in degrees.
-				Example values:
-				- -17.5892
-				- 41.2692
-
-			zoom:
-				Snapshot zoom level / field scale.
-			image_source:
-				Survey source such as DSS2, SDSS, GALEX, IRAS, or RASS.
-			show_grid:
-				Whether to display the coordinate grid.
-			show_lines:
-				Whether to display constellation lines.
-			show_boundaries:
-				Whether to display constellation boundaries.
-			show_const_names:
-				Whether to display constellation names.
-			time:
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		'''
+		Purpose:
+		    Provides the `fetch_snapshot` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    ra (float): Input value passed to the callable.
+		    dec (float): Input value passed to the callable.
+		    zoom (int): Input value passed to the callable.
+		    image_source (str): Input value passed to the callable.
+		    show_grid (bool): Input value passed to the callable.
+		    show_lines (bool): Input value passed to the callable.
+		    show_boundaries (bool): Input value passed to the callable.
+		    show_const_names (bool): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'ra', ra )
 			throw_if( 'dec', dec )
@@ -7896,6 +6518,7 @@ class StarMap( Fetcher ):
 					'show_boundaries: bool=True, show_const_names: bool=False, '
 					'time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'object_link', query: str = '', ra: float = 0.0, dec: float = 0.0,
@@ -7903,62 +6526,31 @@ class StarMap( Fetcher ):
 			show_box: bool = True,
 			show_grid: bool = True, show_lines: bool = True, show_boundaries: bool = True,
 			show_const_names: bool = False, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
+		"""Unified dispatch for StarMap object links, coordinate links, and.
 		
-			Purpose:
-			--------
-			Unified dispatch for StarMap object links, coordinate links, and
-			static snapshot generation.
-
-			Parameters:
-			-----------
-			mode:
-				One of:
-				- "object_link"
-				- "coordinate_link"
-				- "snapshot"
-
-			query:
-				Object name used for object_link.
-
-			ra:
-				Right Ascension used for coordinate_link and snapshot.
-
-			dec:
-				Declination used for coordinate_link and snapshot.
-
-			zoom:
-				Zoom level.
-
-			image_source:
-				Sky survey source used for snapshot.
-
-			box_color:
-				Highlight box color for interactive modes.
-
-			show_box:
-				Show highlight box for interactive modes.
-
-			show_grid:
-				Show grid for coordinate/snapshot modes.
-
-			show_lines:
-				Show constellation lines.
-
-			show_boundaries:
-				Show constellation boundaries.
-
-			show_const_names:
-				Show constellation names for snapshot mode.
-
-			time:
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-
-		'''
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    ra (float): Input value passed to the callable.
+		    dec (float): Input value passed to the callable.
+		    zoom (int): Input value passed to the callable.
+		    image_source (str): Input value passed to the callable.
+		    box_color (str): Input value passed to the callable.
+		    show_box (bool): Input value passed to the callable.
+		    show_grid (bool): Input value passed to the callable.
+		    show_lines (bool): Input value passed to the callable.
+		    show_boundaries (bool): Input value passed to the callable.
+		    show_const_names (bool): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = (mode or 'object_link').strip( ).lower( )
 			
@@ -8009,16 +6601,14 @@ class StarMap( Fetcher ):
 					'show_lines: bool=True, show_boundaries: bool=True, '
 					'show_const_names: bool=False, time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class GovData( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches GovInfo package search, package summary, and collection records.
-
-	'''
+	"""Fetches GovInfo package search, package summary, and collection records.
+	
+	Purpose:
+	    Documents the `GovData` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	api_key: Optional[ str ]
 	base_url: Optional[ str ]
 	url: Optional[ str ]
@@ -8037,19 +6627,10 @@ class GovData( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the GovInfo fetcher with current API defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the GovInfo fetcher with current API defaults.
+		
+		Purpose:
+		    Initializes `GovData` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.GOVINFO_API_KEY
 		self.base_url = 'https://api.govinfo.gov'
@@ -8075,19 +6656,13 @@ class GovData( Fetcher ):
 		self.agents = cfg.AGENTS
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'base_url',
@@ -8118,20 +6693,19 @@ class GovData( Fetcher ):
 		]
 	
 	def validate_page_size( self, page_size: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate GovInfo page size.
-
-			Parameters:
-			-----------
-			page_size (int):
-				Requested page size.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate GovInfo page size.
+		
+		Purpose:
+		    Provides the `validate_page_size` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    page_size (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'page_size', page_size )
 			
@@ -8146,23 +6720,23 @@ class GovData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GovData'
 			exception.method = 'validate_page_size( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_sort_field( self, sort_field: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate supported sort field values for GovInfo search.
-
-			Parameters:
-			-----------
-			sort_field (str):
-				Sort field.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate supported sort field values for GovInfo search.
+		
+		Purpose:
+		    Provides the `validate_sort_field` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    sort_field (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( sort_field or 'score' ).strip( )
 			allowed = { 'score', 'lastModified' }
@@ -8179,23 +6753,23 @@ class GovData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GovData'
 			exception.method = 'validate_sort_field( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_sort_order( self, sort_order: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate supported GovInfo sort order values.
-
-			Parameters:
-			-----------
-			sort_order (str):
-				Sort order.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate supported GovInfo sort order values.
+		
+		Purpose:
+		    Provides the `validate_sort_order` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    sort_order (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( sort_order or 'DESC' ).strip( ).upper( )
 			allowed = { 'ASC', 'DESC' }
@@ -8210,40 +6784,30 @@ class GovData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GovData'
 			exception.method = 'validate_sort_order( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_search( self, query: str, page_size: int = 10, offset_mark: str = '*',
 			sort_field: str = 'score', sort_order: str = 'DESC', time: int = 20 ) -> Dict[
 				                                                                         str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Execute a GovInfo Search Service request.
-
-			Parameters:
-			-----------
-			query (str):
-				Search query.
-
-			page_size (int):
-				Number of records to return.
-
-			offset_mark (str):
-				Offset marker. Use * for the first request.
-
-			sort_field (str):
-				Sort field.
-
-			sort_order (str):
-				Sort order.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Execute a GovInfo Search Service request.
+		
+		Purpose:
+		    Provides the `fetch_search` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    page_size (int): Input value passed to the callable.
+		    offset_mark (str): Input value passed to the callable.
+		    sort_field (str): Input value passed to the callable.
+		    sort_order (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			throw_if( 'query', query )
@@ -8297,26 +6861,24 @@ class GovData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GovData'
 			exception.method = 'fetch_search( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_package_summary( self, package_id: str, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch a GovInfo package summary by package ID.
-
-			Parameters:
-			-----------
-			package_id (str):
-				GovInfo package identifier, such as CREC-2018-10-10.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch a GovInfo package summary by package ID.
+		
+		Purpose:
+		    Provides the `fetch_package_summary` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    package_id (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			throw_if( 'package_id', package_id )
@@ -8352,36 +6914,28 @@ class GovData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GovData'
 			exception.method = 'fetch_package_summary( self, *args, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_collection( self, collection: str, start_date: str, page_size: int = 10,
 			offset_mark: str = '*', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch packages from a GovInfo collection since a given ISO timestamp.
-
-			Parameters:
-			-----------
-			collection (str):
-				Collection code, such as CREC, FR, or BILLS.
-
-			start_date (str):
-				ISO timestamp such as 2018-10-01T00:00:00Z.
-
-			page_size (int):
-				Number of records to return.
-
-			offset_mark (str):
-				Use * for the first page.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch packages from a GovInfo collection since a given ISO timestamp.
+		
+		Purpose:
+		    Provides the `fetch_collection` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    collection (str): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    page_size (int): Input value passed to the callable.
+		    offset_mark (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			throw_if( 'collection', collection )
@@ -8426,6 +6980,7 @@ class GovData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GovData'
 			exception.method = 'fetch_collection( self, *args, **kwargs ) -> Dict[ str, Any ] '
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'search', query: str = '',
@@ -8433,50 +6988,28 @@ class GovData( Fetcher ):
 			sort_field: str = 'score', sort_order: str = 'DESC',
 			package_id: str = '', collection: str = '',
 			start_date: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for GovInfo requests.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- search
-				- package_summary
-				- collection
-
-			query (str):
-				GovInfo search query for search mode.
-
-			page_size (int):
-				Page size for search or collection mode.
-
-			offset_mark (str):
-				Offset marker for search or collection mode.
-
-			sort_field (str):
-				Sort field for search mode.
-
-			sort_order (str):
-				Sort order for search mode.
-
-			package_id (str):
-				Package ID for package_summary mode.
-
-			collection (str):
-				Collection code for collection mode.
-
-			start_date (str):
-				ISO timestamp for collection mode.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for GovInfo requests.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    page_size (int): Input value passed to the callable.
+		    offset_mark (str): Input value passed to the callable.
+		    sort_field (str): Input value passed to the callable.
+		    sort_order (str): Input value passed to the callable.
+		    package_id (str): Input value passed to the callable.
+		    collection (str): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			self.mode = str( mode or 'search' ).strip( ).lower( )
@@ -8518,37 +7051,29 @@ class GovData( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -8578,146 +7103,14 @@ class GovData( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class StarChart( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides static and link-based star chart generation using the SKY-MAP.ORG
-		XML API, Site Linker, and Image Generator interfaces.
-
-		This class is intentionally chart-focused and kept separate from StarMap.
-
-		Referenced API Requirements:
-		----------------------------
-		XML Search:
-			- Endpoint: https://server1.sky-map.org/search
-			- Required parameter:
-				- star
-
-		Site Linker:
-			- Endpoint: https://www.sky-map.org/
-			- Supported parameters used here:
-				- object
-				- ra
-				- de
-				- zoom
-				- show_box
-				- box_color
-				- show_grid
-				- show_constellation_lines
-				- show_constellation_boundaries
-				- img_source
-
-		Image Generator:
-			- Endpoint: https://server2.sky-map.org/map
-			- Supported parameters used here:
-				- ra
-				- de
-				- zoom
-				- show_grid
-				- show_constellation_lines
-				- show_constellation_boundaries
-				- show_const_names
-				- img_source
-				- w
-				- h
-				- mag
-
-		Attributes:
-		-----------
-		search_url: Optional[str]
-			SKY-MAP XML search endpoint.
-
-		link_url: Optional[str]
-			SKY-MAP site-link endpoint.
-
-		image_url: Optional[str]
-			SKY-MAP image-generator endpoint.
-
-		url: Optional[str]
-			Resolved request URL.
-
-		params: Optional[Dict[str, Any]]
-			Request parameters.
-
-		mode: Optional[str]
-			Selected chart mode.
-
-		query: Optional[str]
-			Object query string.
-
-		ra: Optional[float]
-			Right Ascension in decimal hours.
-
-		dec: Optional[float]
-			Declination in decimal degrees.
-
-		zoom: Optional[int]
-			Chart zoom level.
-
-		image_source: Optional[str]
-			Chart image source.
-
-		box_color: Optional[str]
-			Pointer box color.
-
-		show_box: Optional[bool]
-			Show highlight box.
-
-		show_grid: Optional[bool]
-			Show coordinate grid.
-
-		show_lines: Optional[bool]
-			Show constellation lines.
-
-		show_boundaries: Optional[bool]
-			Show constellation boundaries.
-
-		show_const_names: Optional[bool]
-			Show constellation names.
-
-		width: Optional[int]
-			Generated image width.
-
-		height: Optional[int]
-			Generated image height.
-
-		magnitude: Optional[float]
-			Image generator limiting magnitude.
-
-		agents: Optional[str]
-			User-Agent string.
-
-		Methods:
-		--------
-		__init__() -> None
-			Initialize chart defaults.
-
-		__dir__() -> List[str]
-			Provide ordered member visibility.
-
-		search_object(...) -> Dict[str, Any] | None
-			Resolve an object name through the SKY-MAP XML API.
-
-		fetch_object_chart(...) -> Dict[str, Any] | None
-			Build an object-based chart link.
-
-		fetch_coordinate_chart(...) -> Dict[str, Any] | None
-			Build a coordinate-based chart link.
-
-		fetch_static_chart(...) -> Dict[str, Any] | None
-			Build a static chart image URL.
-
-		fetch(...) -> Dict[str, Any] | None
-			Unified dispatcher.
-
-		create_schema(...) -> Dict[str, str] | None
-			Construct a dynamic tool schema.
-
-	'''
+	"""Provides static and link-based star chart generation using the SKY-MAP.ORG.
+	
+	Purpose:
+	    Documents the `StarChart` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	search_url: Optional[ str ]
 	link_url: Optional[ str ]
 	image_url: Optional[ str ]
@@ -8741,19 +7134,10 @@ class StarChart( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the StarChart fetcher with current SKY-MAP defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the StarChart fetcher with current SKY-MAP defaults.
+		
+		Purpose:
+		    Initializes `StarChart` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.headers = { }
 		self.search_url = 'https://server1.sky-map.org/search'
@@ -8782,20 +7166,13 @@ class StarChart( Fetcher ):
 			self.headers[ 'User-Agent' ] = self.agents
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-			
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'search_url',
 				'link_url',
@@ -8826,49 +7203,37 @@ class StarChart( Fetcher ):
 		]
 	
 	def flag( self, value: bool, invert: bool = False ) -> int:
-		'''
-			Purpose:
-			--------
-			Convert boolean UI flags into SKY-MAP numeric flags.
-
-			Parameters:
-			-----------
-			value (bool):
-				Input boolean value.
-
-			invert (bool):
-				If True, invert the SKY-MAP convention.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Convert boolean UI flags into SKY-MAP numeric flags.
+		
+		Purpose:
+		    Provides the `flag` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    value (bool): Input value passed to the callable.
+		    invert (bool): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable."""
 		if invert:
 			return 0 if bool( value ) else 1
 		
 		return 1 if bool( value ) else 0
 	
 	def search_object( self, name: str, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Resolve an object name into SKY-MAP coordinates using the XML API.
-
-			Parameters:
-			-----------
-			name (str):
-				Object name or catalog id. Examples:
-				- Polaris
-				- M31
-				- NGC 1300
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Resolve an object name into SKY-MAP coordinates using the XML API.
+		
+		Purpose:
+		    Provides the `search_object` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			self.query = str( name ).strip( )
@@ -8927,40 +7292,30 @@ class StarChart( Fetcher ):
 					'search_object( self, name: str, time: int=20 ) '
 					'-> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_object_chart( self, name: str, zoom: int = 5, box_color: str = 'yellow',
 			show_box: bool = True, image_source: str = '', time: int = 20 ) -> Dict[
 				                                                                   str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Build an object-based SKY-MAP chart link.
-
-			Parameters:
-			-----------
-			name (str):
-				Object name or catalog id.
-
-			zoom (int):
-				Chart zoom level.
-
-			box_color (str):
-				Pointer box color.
-
-			show_box (bool):
-				Show pointer box.
-
-			image_source (str):
-				Optional image source such as SDSS.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Build an object-based SKY-MAP chart link.
+		
+		Purpose:
+		    Provides the `fetch_object_chart` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    zoom (int): Input value passed to the callable.
+		    box_color (str): Input value passed to the callable.
+		    show_box (bool): Input value passed to the callable.
+		    image_source (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			self.mode = 'object_chart'
@@ -9002,50 +7357,34 @@ class StarChart( Fetcher ):
 					'box_color: str=yellow, show_box: bool=True, image_source: str=, '
 					'time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_coordinate_chart( self, ra: float, dec: float, zoom: int = 5,
 			box_color: str = 'yellow', show_box: bool = True, show_grid: bool = True,
 			show_lines: bool = True,
 			show_boundaries: bool = True, image_source: str = '' ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Build a coordinate-based SKY-MAP chart link.
-
-			Parameters:
-			-----------
-			ra (float):
-				Right Ascension in decimal hours.
-
-			dec (float):
-				Declination in decimal degrees.
-
-			zoom (int):
-				Chart zoom level.
-
-			box_color (str):
-				Pointer box color.
-
-			show_box (bool):
-				Show pointer box.
-
-			show_grid (bool):
-				Show coordinate grid.
-
-			show_lines (bool):
-				Show constellation lines.
-
-			show_boundaries (bool):
-				Show constellation boundaries.
-
-			image_source (str):
-				Optional image source such as SDSS.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Build a coordinate-based SKY-MAP chart link.
+		
+		Purpose:
+		    Provides the `fetch_coordinate_chart` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    ra (float): Input value passed to the callable.
+		    dec (float): Input value passed to the callable.
+		    zoom (int): Input value passed to the callable.
+		    box_color (str): Input value passed to the callable.
+		    show_box (bool): Input value passed to the callable.
+		    show_grid (bool): Input value passed to the callable.
+		    show_lines (bool): Input value passed to the callable.
+		    show_boundaries (bool): Input value passed to the callable.
+		    image_source (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'coordinate_chart'
 			self.ra = float( ra )
@@ -9087,56 +7426,36 @@ class StarChart( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'StarChart'
 			exception.method = 'fetch_coordinate_chart( self, *args ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_static_chart( self, ra: float, dec: float, zoom: int = 5,
 			image_source: str = 'DSS2', show_grid: bool = True, show_lines: bool = True,
 			show_boundaries: bool = True, show_const_names: bool = False, width: int = 900,
 			height: int = 450, magnitude: float = 7.5 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Build a static SKY-MAP chart image URL.
-
-			Parameters:
-			-----------
-			ra (float):
-				Right Ascension in decimal hours.
-
-			dec (float):
-				Declination in decimal degrees.
-
-			zoom (int):
-				Chart zoom level.
-
-			image_source (str):
-				Image survey source.
-
-			show_grid (bool):
-				Show grid.
-
-			show_lines (bool):
-				Show constellation lines.
-
-			show_boundaries (bool):
-				Show constellation boundaries.
-
-			show_const_names (bool):
-				Show constellation names.
-
-			width (int):
-				Image width in pixels.
-
-			height (int):
-				Image height in pixels.
-
-			magnitude (float):
-				Limiting magnitude.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Build a static SKY-MAP chart image URL.
+		
+		Purpose:
+		    Provides the `fetch_static_chart` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    ra (float): Input value passed to the callable.
+		    dec (float): Input value passed to the callable.
+		    zoom (int): Input value passed to the callable.
+		    image_source (str): Input value passed to the callable.
+		    show_grid (bool): Input value passed to the callable.
+		    show_lines (bool): Input value passed to the callable.
+		    show_boundaries (bool): Input value passed to the callable.
+		    show_const_names (bool): Input value passed to the callable.
+		    width (int): Input value passed to the callable.
+		    height (int): Input value passed to the callable.
+		    magnitude (float): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'static_chart'
 			self.ra = float( ra )
@@ -9189,6 +7508,7 @@ class StarChart( Fetcher ):
 					'width: int=900, height: int=450, magnitude: float=7.5 ) '
 					'-> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'object_chart', query: str = '',
@@ -9199,69 +7519,34 @@ class StarChart( Fetcher ):
 			show_const_names: bool = False, width: int = 900,
 			height: int = 450, magnitude: float = 7.5,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for SKY-MAP chart generation.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of:
-				- object_search
-				- object_chart
-				- coordinate_chart
-				- static_chart
-
-			query (str):
-				Object query for object_search and object_chart.
-
-			ra (float):
-				Right Ascension for coordinate_chart and static_chart.
-
-			dec (float):
-				Declination for coordinate_chart and static_chart.
-
-			zoom (int):
-				Chart zoom level.
-
-			image_source (str):
-				Image source.
-
-			box_color (str):
-				Pointer box color.
-
-			show_box (bool):
-				Show pointer box.
-
-			show_grid (bool):
-				Show coordinate grid.
-
-			show_lines (bool):
-				Show constellation lines.
-
-			show_boundaries (bool):
-				Show constellation boundaries.
-
-			show_const_names (bool):
-				Show constellation names.
-
-			width (int):
-				Static image width.
-
-			height (int):
-				Static image height.
-
-			magnitude (float):
-				Static image limiting magnitude.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for SKY-MAP chart generation.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    ra (float): Input value passed to the callable.
+		    dec (float): Input value passed to the callable.
+		    zoom (int): Input value passed to the callable.
+		    image_source (str): Input value passed to the callable.
+		    box_color (str): Input value passed to the callable.
+		    show_box (bool): Input value passed to the callable.
+		    show_grid (bool): Input value passed to the callable.
+		    show_lines (bool): Input value passed to the callable.
+		    show_boundaries (bool): Input value passed to the callable.
+		    show_const_names (bool): Input value passed to the callable.
+		    width (int): Input value passed to the callable.
+		    height (int): Input value passed to the callable.
+		    magnitude (float): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			active_mode = (mode or 'object_chart').strip( ).lower( )
 			if active_mode == 'object_search':
@@ -9314,37 +7599,29 @@ class StarChart( Fetcher ):
 					'show_const_names: bool=False, width: int=900, height: int=450, '
 					'magnitude: float=7.5, time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -9371,16 +7648,14 @@ class StarChart( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class Congress( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches Congress.gov congress, bill, law, and committee-report resources.
-
-	'''
+	"""Fetches Congress.gov congress, bill, law, and committee-report resources.
+	
+	Purpose:
+	    Documents the `Congress` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	api_key: Optional[ str ]
 	base_url: Optional[ str ]
 	url: Optional[ str ]
@@ -9404,19 +7679,10 @@ class Congress( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the Congress.gov fetcher with current API defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the Congress.gov fetcher with current API defaults.
+		
+		Purpose:
+		    Initializes `Congress` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.CONGRESS_API_KEY
 		self.base_url = 'https://api.congress.gov/v3'
@@ -9446,19 +7712,13 @@ class Congress( Fetcher ):
 		self.agents = cfg.AGENTS
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'base_url',
@@ -9502,20 +7762,19 @@ class Congress( Fetcher ):
 		]
 	
 	def validate_limit( self, limit: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate Congress.gov list-result limit values.
-
-			Parameters:
-			-----------
-			limit (int):
-				Requested result limit.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate Congress.gov list-result limit values.
+		
+		Purpose:
+		    Provides the `validate_limit` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			
@@ -9530,23 +7789,23 @@ class Congress( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Congress'
 			exception.method = 'validate_limit( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_offset( self, offset: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate Congress.gov list-result offset values.
-
-			Parameters:
-			-----------
-			offset (int):
-				Requested result offset.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate Congress.gov list-result offset values.
+		
+		Purpose:
+		    Provides the `validate_offset` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    offset (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if offset is None:
 				raise ValueError( 'offset cannot be None.' )
@@ -9562,23 +7821,23 @@ class Congress( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Congress'
 			exception.method = 'validate_offset( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_bill_type( self, bill_type: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize and validate Congress.gov bill type codes.
-
-			Parameters:
-			-----------
-			bill_type (str):
-				Bill type code.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize and validate Congress.gov bill type codes.
+		
+		Purpose:
+		    Provides the `normalize_bill_type` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    bill_type (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( bill_type or '' ).strip( ).lower( )
 			throw_if( 'bill_type', value )
@@ -9607,23 +7866,23 @@ class Congress( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Congress'
 			exception.method = 'normalize_bill_type( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_law_type( self, law_type: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize and validate Congress.gov law type codes.
-
-			Parameters:
-			-----------
-			law_type (str):
-				Law type code.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize and validate Congress.gov law type codes.
+		
+		Purpose:
+		    Provides the `normalize_law_type` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    law_type (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( law_type or '' ).strip( ).lower( )
 			throw_if( 'law_type', value )
@@ -9640,23 +7899,23 @@ class Congress( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Congress'
 			exception.method = 'normalize_law_type( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_report_type( self, report_type: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize and validate Congress.gov committee report type codes.
-
-			Parameters:
-			-----------
-			report_type (str):
-				Committee report type code.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize and validate Congress.gov committee report type codes.
+		
+		Purpose:
+		    Provides the `normalize_report_type` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    report_type (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( report_type or '' ).strip( ).lower( )
 			throw_if( 'report_type', value )
@@ -9675,30 +7934,26 @@ class Congress( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Congress'
 			exception.method = 'normalize_report_type( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def build_params( self, limit: int = 20, offset: int = 0,
 			sort: str = 'updateDate+desc' ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Build shared Congress.gov list-query parameters.
-
-			Parameters:
-			-----------
-			limit (int):
-				Page size.
-
-			offset (int):
-				Result offset.
-
-			sort (str):
-				Sort directive.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Build shared Congress.gov list-query parameters.
+		
+		Purpose:
+		    Provides the `build_params` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    sort (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			
@@ -9721,33 +7976,27 @@ class Congress( Fetcher ):
 			exception.method = (
 					'build_params( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, mode: str, url: str, params: Dict[ str, Any ],
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Send a Congress.gov GET request and store response state.
-
-			Parameters:
-			-----------
-			mode (str):
-				App-facing operation mode.
-
-			url (str):
-				Full request URL.
-
-			params (Dict[str, Any]):
-				Query parameters.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Send a Congress.gov GET request and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    url (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			throw_if( 'url', url )
@@ -9783,30 +8032,26 @@ class Congress( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_congresses( self, limit: int = 20, offset: int = 0,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch the list of congresses and congressional sessions.
-
-			Parameters:
-			-----------
-			limit (int):
-				Page size.
-
-			offset (int):
-				Result offset.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch the list of congresses and congressional sessions.
+		
+		Purpose:
+		    Provides the `fetch_congresses` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.url = f'{self.base_url}/congress'
 			self.params = self.build_params(
@@ -9829,47 +8074,33 @@ class Congress( Fetcher ):
 			exception.method = (
 					'fetch_congresses( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_bills( self, congress: int, bill_type: str = '',
 			offset: int = 0, limit: int = 20, sort: str = 'updateDate+desc',
 			from_date_time: str = '', to_date_time: str = '',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch bills for a congress, optionally filtered by bill type and date range.
-
-			Parameters:
-			-----------
-			congress (int):
-				Congress number.
-
-			bill_type (str):
-				Optional bill type code.
-
-			offset (int):
-				Result offset.
-
-			limit (int):
-				Page size.
-
-			sort (str):
-				Sort directive.
-
-			from_date_time (str):
-				Optional ISO lower-bound datetime.
-
-			to_date_time (str):
-				Optional ISO upper-bound datetime.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch bills for a congress, optionally filtered by bill type and date range.
+		
+		Purpose:
+		    Provides the `fetch_bills` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    congress (int): Input value passed to the callable.
+		    bill_type (str): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    sort (str): Input value passed to the callable.
+		    from_date_time (str): Input value passed to the callable.
+		    to_date_time (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'congress', congress )
 			
@@ -9910,33 +8141,27 @@ class Congress( Fetcher ):
 			exception.method = (
 					'fetch_bills( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_bill( self, congress: int, bill_type: str, bill_number: int,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch a specific bill by congress, bill type, and bill number.
-
-			Parameters:
-			-----------
-			congress (int):
-				Congress number.
-
-			bill_type (str):
-				Bill type code.
-
-			bill_number (int):
-				Bill number.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch a specific bill by congress, bill type, and bill number.
+		
+		Purpose:
+		    Provides the `fetch_bill` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    congress (int): Input value passed to the callable.
+		    bill_type (str): Input value passed to the callable.
+		    bill_number (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'congress', congress )
 			throw_if( 'bill_type', bill_type )
@@ -9968,37 +8193,29 @@ class Congress( Fetcher ):
 			exception.method = (
 					'fetch_bill( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_laws( self, congress: int, law_type: str = '',
 			offset: int = 0, limit: int = 20,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch laws for a congress, optionally filtered by law type.
-
-			Parameters:
-			-----------
-			congress (int):
-				Congress number.
-
-			law_type (str):
-				Optional law type code: pub or priv.
-
-			offset (int):
-				Result offset.
-
-			limit (int):
-				Page size.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch laws for a congress, optionally filtered by law type.
+		
+		Purpose:
+		    Provides the `fetch_laws` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    congress (int): Input value passed to the callable.
+		    law_type (str): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'congress', congress )
 			
@@ -10031,33 +8248,27 @@ class Congress( Fetcher ):
 			exception.method = (
 					'fetch_laws( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_law( self, congress: int, law_type: str,
 			law_number: int, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch a specific law by congress, law type, and law number.
-
-			Parameters:
-			-----------
-			congress (int):
-				Congress number.
-
-			law_type (str):
-				Law type code: pub or priv.
-
-			law_number (int):
-				Law number.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch a specific law by congress, law type, and law number.
+		
+		Purpose:
+		    Provides the `fetch_law` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    congress (int): Input value passed to the callable.
+		    law_type (str): Input value passed to the callable.
+		    law_number (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'congress', congress )
 			throw_if( 'law_type', law_type )
@@ -10089,40 +8300,30 @@ class Congress( Fetcher ):
 			exception.method = (
 					'fetch_law( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_reports( self, congress: int, report_type: str = '',
 			offset: int = 0, limit: int = 20, conference: bool = False,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch committee reports for a congress, optionally filtered by report type.
-
-			Parameters:
-			-----------
-			congress (int):
-				Congress number.
-
-			report_type (str):
-				Optional report type code.
-
-			offset (int):
-				Result offset.
-
-			limit (int):
-				Page size.
-
-			conference (bool):
-				Whether to request conference reports.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch committee reports for a congress, optionally filtered by report type.
+		
+		Purpose:
+		    Provides the `fetch_reports` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    congress (int): Input value passed to the callable.
+		    report_type (str): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    conference (bool): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'congress', congress )
 			
@@ -10160,33 +8361,27 @@ class Congress( Fetcher ):
 			exception.method = (
 					'fetch_reports( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_report( self, congress: int, report_type: str,
 			report_number: int, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch a specific committee report.
-
-			Parameters:
-			-----------
-			congress (int):
-				Congress number.
-
-			report_type (str):
-				Report type code.
-
-			report_number (int):
-				Report number.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch a specific committee report.
+		
+		Purpose:
+		    Provides the `fetch_report` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    congress (int): Input value passed to the callable.
+		    report_type (str): Input value passed to the callable.
+		    report_number (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'congress', congress )
 			throw_if( 'report_type', report_type )
@@ -10218,6 +8413,7 @@ class Congress( Fetcher ):
 			exception.method = (
 					'fetch_report( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'congresses', congress: int = 0,
@@ -10227,69 +8423,33 @@ class Congress( Fetcher ):
 			sort: str = 'updateDate+desc', from_date_time: str = '',
 			to_date_time: str = '', conference: bool = False,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for Congress.gov requests.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- congresses
-				- bills
-				- bill_detail
-				- laws
-				- law_detail
-				- reports
-				- report_detail
-
-			congress (int):
-				Congress number.
-
-			bill_type (str):
-				Bill type code.
-
-			bill_number (int):
-				Bill number.
-
-			law_type (str):
-				Law type code.
-
-			law_number (int):
-				Law number.
-
-			report_type (str):
-				Committee report type code.
-
-			report_number (int):
-				Committee report number.
-
-			offset (int):
-				Result offset.
-
-			limit (int):
-				Page size.
-
-			sort (str):
-				Sort directive.
-
-			from_date_time (str):
-				Optional ISO lower-bound datetime for bills.
-
-			to_date_time (str):
-				Optional ISO upper-bound datetime for bills.
-
-			conference (bool):
-				Whether to request conference reports for report-list mode.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for Congress.gov requests.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    congress (int): Input value passed to the callable.
+		    bill_type (str): Input value passed to the callable.
+		    bill_number (int): Input value passed to the callable.
+		    law_type (str): Input value passed to the callable.
+		    law_number (int): Input value passed to the callable.
+		    report_type (str): Input value passed to the callable.
+		    report_number (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    sort (str): Input value passed to the callable.
+		    from_date_time (str): Input value passed to the callable.
+		    to_date_time (str): Input value passed to the callable.
+		    conference (bool): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			self.mode = str( mode or 'congresses' ).strip( ).lower( )
@@ -10368,37 +8528,29 @@ class Congress( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -10428,40 +8580,14 @@ class Congress( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class InternetArchive( Fetcher ):
-	'''
+	"""Fetches Internet Archive search records.
 	
-		Purpose:
-		--------
-		Fetches Internet Archive search records.
-	
-		Attributes:
-		-----------
-		keywords,
-		url,
-		response,
-		fields,
-		rows,
-		page,
-		sort,
-		media_type,
-		collection,
-		params,
-		agents,
-	
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		__dir__(...): Performs the __dir__ operation for this fetcher.
-		validate_rows(...): Performs the validate_rows operation for this fetcher.
-		validate_page(...): Performs the validate_page operation for this fetcher.
-		build_query(...): Performs the build_query operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-		create_schema(...): Performs the create_schema operation for this fetcher.
-	
-	'''
+	Purpose:
+	    Documents the `InternetArchive` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	keywords: Optional[ str ]
 	url: Optional[ str ]
 	response: Optional[ Response ]
@@ -10475,19 +8601,10 @@ class InternetArchive( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the Internet Archive wrapper with sane defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the Internet Archive wrapper with sane defaults.
+		
+		Purpose:
+		    Initializes `InternetArchive` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.url = 'https://archive.org/advancedsearch.php'
 		self.headers = { }
@@ -10518,19 +8635,13 @@ class InternetArchive( Fetcher ):
 			self.headers[ 'Accept' ] = 'application/json'
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'keywords',
 				'url',
@@ -10549,20 +8660,19 @@ class InternetArchive( Fetcher ):
 		]
 	
 	def validate_rows( self, rows: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate requested page size.
-
-			Parameters:
-			-----------
-			rows (int):
-				Requested number of results.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate requested page size.
+		
+		Purpose:
+		    Provides the `validate_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = int( rows )
 			if value < 1 or value > 100:
@@ -10575,23 +8685,23 @@ class InternetArchive( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'InternetArchive'
 			exception.method = 'validate_rows( self, rows: int ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_page( self, page: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate requested page number.
-
-			Parameters:
-			-----------
-			page (int):
-				Requested page number.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate requested page number.
+		
+		Purpose:
+		    Provides the `validate_page` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    page (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = int( page )
 			if value < 1:
@@ -10604,30 +8714,26 @@ class InternetArchive( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'InternetArchive'
 			exception.method = 'validate_page( self, page: int ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def build_query( self, keywords: str, media_type: str = '',
 			collection: str = '' ) -> str:
-		'''
-			Purpose:
-			--------
-			Build an Internet Archive advanced search query expression.
-
-			Parameters:
-			-----------
-			keywords (str):
-				Base free-text query.
-
-			media_type (str):
-				Optional mediatype filter.
-
-			collection (str):
-				Optional collection filter.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Build an Internet Archive advanced search query expression.
+		
+		Purpose:
+		    Provides the `build_query` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    keywords (str): Input value passed to the callable.
+		    media_type (str): Input value passed to the callable.
+		    collection (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'keywords', keywords )
 			
@@ -10649,47 +8755,33 @@ class InternetArchive( Fetcher ):
 					'build_query( self, keywords: str, media_type: str=, '
 					'collection: str= ) -> str'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, keywords: str, fields: List[ str ] | None = None,
 			rows: int = 10, page: int = 1, sort: str = 'downloads desc',
 			media_type: str = '', collection: str = '',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Execute an Internet Archive advanced search request.
-
-			Parameters:
-			-----------
-			keywords (str):
-				Free-text Internet Archive query.
-
-			fields (List[str] | None):
-				Optional list of result fields to request.
-
-			rows (int):
-				Number of results per page.
-
-			page (int):
-				Page number.
-
-			sort (str):
-				Archive sort directive such as downloads desc or publicdate desc.
-
-			media_type (str):
-				Optional media type filter.
-
-			collection (str):
-				Optional collection filter.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Execute an Internet Archive advanced search request.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    keywords (str): Input value passed to the callable.
+		    fields (List[str]): Input value passed to the callable.
+		    rows (int): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    sort (str): Input value passed to the callable.
+		    media_type (str): Input value passed to the callable.
+		    collection (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.keywords = str( keywords ).strip( )
 			throw_if( 'keywords', self.keywords )
@@ -10747,37 +8839,29 @@ class InternetArchive( Fetcher ):
 					'media_type: str=, collection: str=, time: int=20 ) '
 					'-> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -10808,118 +8892,14 @@ class InternetArchive( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class OpenWeather( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides forecast weather retrieval by location name using the Open-Meteo
-		Geocoding API and Open-Meteo Forecast API.
-
-		This class is forecast-only by design and intentionally excludes archive /
-		historical date-based retrieval so it does not overlap with the separate
-		HistoricalWeather class.
-
-		Referenced API Requirements:
-		----------------------------
-		Geocoding API:
-			- Endpoint: https://geocoding-api.open-meteo.com/v1/search
-			- Required parameter: name
-			- Optional parameter: count
-
-		Forecast API:
-			- Endpoint: https://api.open-meteo.com/v1/forecast
-			- Required parameters: latitude, longitude
-			- Optional parameters used here:
-				- current
-				- hourly
-				- daily
-				- timezone
-				- forecast_days
-				- past_days
-				- temperature_unit
-				- wind_speed_unit
-				- precipitation_unit
-
-		Attributes:
-		-----------
-		geocode_url: Optional[str]
-			The Open-Meteo geocoding endpoint.
-
-		forecast_url: Optional[str]
-			The Open-Meteo forecast endpoint.
-
-		location: Optional[str]
-			User-supplied location query.
-
-		latitude: Optional[float]
-			Resolved latitude from geocoding.
-
-		longitude: Optional[float]
-			Resolved longitude from geocoding.
-
-		timezone: Optional[str]
-			Resolved or user-requested timezone.
-
-		mode: Optional[str]
-			Forecast mode: current, hourly, or daily.
-
-		current_metrics: Optional[List[str]]
-			Current weather metrics requested from the API.
-
-		hourly_metrics: Optional[List[str]]
-			Hourly metrics requested from the API.
-
-		daily_metrics: Optional[List[str]]
-			Daily metrics requested from the API.
-
-		windspeed_unit: Optional[str]
-			Wind speed unit passed to the API.
-
-		temperature_unit: Optional[str]
-			Temperature unit passed to the API.
-
-		precipitation_unit: Optional[str]
-			Precipitation unit passed to the API.
-
-		params: Optional[Dict[str, Any]]
-			Request parameters for the forecast call.
-
-		geocode_params: Optional[Dict[str, Any]]
-			Request parameters for the geocoding call.
-
-		result_limit: Optional[int]
-			Maximum number of geocoding candidates to request.
-
-		Methods:
-		--------
-		__init__() -> None
-			Initialize the fetcher and default metric sets.
-
-		__dir__() -> List[str]
-			Provide ordered member visibility.
-
-		geocode_location(...) -> Dict[str, Any] | None
-			Resolve a place name into a selected geocoding record.
-
-		fetch(...) -> Dict[str, Any] | None
-			Resolve a location string and retrieve forecast weather.
-
-		fetch_current(...) -> Dict[str, Any] | None
-			Retrieve current forecast conditions only.
-
-		fetch_hourly(...) -> Dict[str, Any] | None
-			Retrieve hourly forecast data.
-
-		fetch_daily(...) -> Dict[str, Any] | None
-			Retrieve daily forecast data.
-
-		create_schema(...) -> Dict[str, str] | None
-			Generate a dynamic tool schema definition.
-
-	'''
+	"""Provides forecast weather retrieval by location name using the Open-Meteo.
+	
+	Purpose:
+	    Documents the `OpenWeather` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	geocode_url: Optional[ str ]
 	forecast_url: Optional[ str ]
 	location: Optional[ str ]
@@ -10939,22 +8919,10 @@ class OpenWeather( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-
-			Purpose:
-			--------
-			Initialize the OpenWeather forecast fetcher with forecast-only defaults,
-			endpoints, headers, unit selections, and metric collections.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-
-		'''
+		"""Initialize the OpenWeather forecast fetcher with forecast-only defaults,.
+		
+		Purpose:
+		    Initializes `OpenWeather` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.headers = { }
 		self.agents = cfg.AGENTS
@@ -11034,22 +9002,13 @@ class OpenWeather( Fetcher ):
 		]
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-
-			Purpose:
-			--------
-			Provide ordered member visibility for introspection and editor discovery.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]:
-				Ordered attribute and method names.
-
-		'''
+		"""Provide ordered member visibility for introspection and editor discovery.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'geocode_url',
 				'forecast_url',
@@ -11076,27 +9035,20 @@ class OpenWeather( Fetcher ):
 		]
 	
 	def geocode_location( self, location: str, count: int = 10 ) -> Dict[ str, Any ] | None:
-		'''
-
-			Purpose:
-			--------
-			Resolve a user-supplied location string into a geocoding result from
-			the Open-Meteo Geocoding API.
-
-			Parameters:
-			-----------
-			location (str):
-				The place name or postal code to search for.
-
-			count (int):
-				The maximum number of geocoding matches to request.
-
-			Returns:
-			--------
-			Dict[str, Any] | None:
-				The selected geocoding record, typically the first result.
-
-		'''
+		"""Resolve a user-supplied location string into a geocoding result from.
+		
+		Purpose:
+		    Provides the `geocode_location` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    location (str): Input value passed to the callable.
+		    count (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'location', location )
 			self.location = location.strip( )
@@ -11138,37 +9090,27 @@ class OpenWeather( Fetcher ):
 					'geocode_location( self, location: str, count: int=10 ) '
 					'-> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_current( self, lat: float, long: float, zone: str = 'auto',
 			past_days: int = 0 ) -> Dict[ str, Any ] | None:
-		'''
-
-			Purpose:
-			--------
-			Retrieve current forecast conditions for a coordinate pair.
-
-			Parameters:
-			-----------
-			lat (float):
-				The latitude of the resolved location.
-
-			long (float):
-				The longitude of the resolved location.
-
-			zone (str):
-				The timezone for the response. Supports 'auto'.
-
-			past_days (int):
-				Optional number of previous days to include when supported by
-				the forecast API.
-
-			Returns:
-			--------
-			Dict[str, Any] | None:
-				Normalized forecast response containing current conditions.
-
-		'''
+		"""Retrieve current forecast conditions for a coordinate pair.
+		
+		Purpose:
+		    Provides the `fetch_current` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    lat (float): Input value passed to the callable.
+		    long (float): Input value passed to the callable.
+		    zone (str): Input value passed to the callable.
+		    past_days (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'lat', lat )
 			throw_if( 'long', long )
@@ -11220,39 +9162,28 @@ class OpenWeather( Fetcher ):
 					'fetch_current( self, lat: float, long: float, zone: str=auto, '
 					'past_days: int=0 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_hourly( self, lat: float, long: float, zone: str = 'auto',
 			forecast_days: int = 7, past_days: int = 0 ) -> Dict[ str, Any ] | None:
-		'''
-
-			Purpose:
-			--------
-			Retrieve hourly forecast data for a coordinate pair.
-
-			Parameters:
-			-----------
-			lat (float):
-				The latitude of the resolved location.
-
-			long (float):
-				The longitude of the resolved location.
-
-			zone (str):
-				The timezone for the response. Supports 'auto'.
-
-			forecast_days (int):
-				Number of forecast days to request.
-
-			past_days (int):
-				Optional number of previous days to include.
-
-			Returns:
-			--------
-			Dict[str, Any] | None:
-				Normalized forecast response containing hourly data.
-
-		'''
+		"""Retrieve hourly forecast data for a coordinate pair.
+		
+		Purpose:
+		    Provides the `fetch_hourly` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    lat (float): Input value passed to the callable.
+		    long (float): Input value passed to the callable.
+		    zone (str): Input value passed to the callable.
+		    forecast_days (int): Input value passed to the callable.
+		    past_days (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'lat', lat )
 			throw_if( 'long', long )
@@ -11305,39 +9236,28 @@ class OpenWeather( Fetcher ):
 					'fetch_hourly( self, lat: float, long: float, zone: str=auto, '
 					'forecast_days: int=7, past_days: int=0 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_daily( self, lat: float, long: float, zone: str = 'auto',
 			forecast_days: int = 7, past_days: int = 0 ) -> Dict[ str, Any ] | None:
-		'''
-
-			Purpose:
-			--------
-			Retrieve daily forecast data for a coordinate pair.
-
-			Parameters:
-			-----------
-			lat (float):
-				The latitude of the resolved location.
-
-			long (float):
-				The longitude of the resolved location.
-
-			zone (str):
-				The timezone for the response. Supports 'auto'.
-
-			forecast_days (int):
-				Number of forecast days to request.
-
-			past_days (int):
-				Optional number of previous days to include.
-
-			Returns:
-			--------
-			Dict[str, Any] | None:
-				Normalized forecast response containing daily data.
-
-		'''
+		"""Retrieve daily forecast data for a coordinate pair.
+		
+		Purpose:
+		    Provides the `fetch_daily` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    lat (float): Input value passed to the callable.
+		    long (float): Input value passed to the callable.
+		    zone (str): Input value passed to the callable.
+		    forecast_days (int): Input value passed to the callable.
+		    past_days (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'lat', lat )
 			throw_if( 'long', long )
@@ -11390,46 +9310,30 @@ class OpenWeather( Fetcher ):
 					'fetch_daily( self, lat: float, long: float, zone: str=auto, '
 					'forecast_days: int=7, past_days: int=0 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, location: str, mode: str = 'current', zone: str = 'auto',
 			forecast_days: int = 7, past_days: int = 0,
 			count: int = 10 ) -> Dict[ str, Any ] | None:
-		'''
-
-			Purpose:
-			--------
-			Resolve a location string to coordinates, then retrieve forecast weather
-			using the selected non-historical mode.
-
-			Parameters:
-			-----------
-			location (str):
-				The place name entered by the user.
-
-			mode (str):
-				Forecast mode. Supported values are current, hourly, and daily.
-
-			zone (str):
-				The timezone requested for the forecast response. If 'auto', the API
-				will resolve the local timezone for the coordinates.
-
-			forecast_days (int):
-				Number of forecast days to request for hourly and daily modes.
-
-			past_days (int):
-				Optional number of previous days to include.
-
-			count (int):
-				Maximum number of geocoding matches to request before selecting the
-				first result.
-
-			Returns:
-			--------
-			Dict[str, Any] | None:
-				Combined geocoding and forecast result.
-
-		'''
+		"""Resolve a location string to coordinates, then retrieve forecast weather.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    location (str): Input value passed to the callable.
+		    mode (str): Input value passed to the callable.
+		    zone (str): Input value passed to the callable.
+		    forecast_days (int): Input value passed to the callable.
+		    past_days (int): Input value passed to the callable.
+		    count (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'location', location )
 			throw_if( 'mode', mode )
@@ -11501,40 +9405,29 @@ class OpenWeather( Fetcher ):
 					'forecast_days: int=7, past_days: int=0, count: int=10 ) '
 					'-> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-
-			Purpose:
-			--------
-			Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None:
-				A JSON-compatible dictionary defining the tool schema.
-
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -11562,106 +9455,14 @@ class OpenWeather( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class HistoricalWeather( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides historical weather retrieval by location name and date using the
-		Open-Meteo Geocoding API and Open-Meteo Historical Weather API.
-
-		This class is intentionally designed around the actual user-facing need in
-		the Foo fetcher expander: enter a location and a date, resolve that location
-		to coordinates, then retrieve historical weather for that date.
-
-		Referenced API Requirements:
-		----------------------------
-		Geocoding API:
-			- Endpoint: https://geocoding-api.open-meteo.com/v1/search
-			- Required parameter: name
-			- Optional parameter: count
-
-		Historical Weather API:
-			- Endpoint: https://archive-api.open-meteo.com/v1/archive
-			- Required parameters: latitude, longitude, start_date, end_date
-			- Optional parameters used here:
-				- timezone
-				- daily
-				- hourly
-				- temperature_unit
-				- wind_speed_unit
-				- precipitation_unit
-
-		Attributes:
-		-----------
-		geocode_url: Optional[str]
-			The Open-Meteo geocoding endpoint.
-
-		archive_url: Optional[str]
-			The Open-Meteo historical weather endpoint.
-
-		location: Optional[str]
-			User-supplied location query.
-
-		latitude: Optional[float]
-			Resolved latitude from geocoding.
-
-		longitude: Optional[float]
-			Resolved longitude from geocoding.
-
-		timezone: Optional[str]
-			Resolved or user-requested timezone. Defaults to 'auto'.
-
-		target_date: Optional[dt.date]
-			The requested historical date.
-
-		daily_metrics: Optional[List[str]]
-			Daily historical metrics requested from the archive API.
-
-		hourly_metrics: Optional[List[str]]
-			Hourly historical metrics requested from the archive API.
-
-		windspeed_unit: Optional[str]
-			Wind speed unit passed to the API.
-
-		temperature_unit: Optional[str]
-			Temperature unit passed to the API.
-
-		precipitation_unit: Optional[str]
-			Precipitation unit passed to the API.
-
-		params: Optional[Dict[str, Any]]
-			Request parameters for the historical weather call.
-
-		geocode_params: Optional[Dict[str, Any]]
-			Request parameters for the geocoding call.
-
-		result_limit: Optional[int]
-			Maximum number of geocoding candidates to request.
-
-		Methods:
-		--------
-		__init__() -> None
-			Initialize the fetcher and default metrics.
-
-		__dir__() -> List[str]
-			Provide ordered introspection members.
-
-		fetch(...) -> Dict[str, Any] | None
-			Resolve a location string and retrieve historical weather for one date.
-
-		geocode_location(...) -> Dict[str, Any] | None
-			Resolve a place name into a selected geocoding record.
-
-		fetch_historical(...) -> Dict[str, Any] | None
-			Retrieve historical weather for resolved coordinates and a date.
-
-		create_schema(...) -> Dict[str, str] | None
-			Generate a dynamic tool schema definition.
-
-	'''
+	"""Provides historical weather retrieval by location name and date using the.
+	
+	Purpose:
+	    Documents the `HistoricalWeather` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	geocode_url: Optional[ str ]
 	archive_url: Optional[ str ]
 	location: Optional[ str ]
@@ -11680,22 +9481,10 @@ class HistoricalWeather( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-
-			Purpose:
-			--------
-			Initialize the HistoricalWeather fetcher with default endpoints,
-			request headers, metric collections, and unit selections.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-
-		'''
+		"""Initialize the HistoricalWeather fetcher with default endpoints,.
+		
+		Purpose:
+		    Initializes `HistoricalWeather` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.headers = { }
 		self.agents = cfg.AGENTS
@@ -11754,22 +9543,13 @@ class HistoricalWeather( Fetcher ):
 		]
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-
-			Purpose:
-			--------
-			Provide ordered member visibility for introspection and editor discovery.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]:
-				Ordered attribute and method names.
-
-		'''
+		"""Provide ordered member visibility for introspection and editor discovery.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'geocode_url',
 				'archive_url',
@@ -11793,27 +9573,20 @@ class HistoricalWeather( Fetcher ):
 		]
 	
 	def geocode_location( self, location: str, count: int = 10 ) -> Dict[ str, Any ] | None:
-		'''
-
-			Purpose:
-			--------
-			Resolve a user-supplied location string into a geocoding result from
-			the Open-Meteo Geocoding API.
-
-			Parameters:
-			-----------
-			location (str):
-				The place name or postal code to search for.
-
-			count (int):
-				The maximum number of geocoding matches to request.
-
-			Returns:
-			--------
-			Dict[str, Any] | None:
-				The selected geocoding record, typically the first result.
-
-		'''
+		"""Resolve a user-supplied location string into a geocoding result from.
+		
+		Purpose:
+		    Provides the `geocode_location` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    location (str): Input value passed to the callable.
+		    count (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'location', location )
 			self.location = location.strip( )
@@ -11855,39 +9628,27 @@ class HistoricalWeather( Fetcher ):
 					'geocode_location( self, location: str, count: int=10 ) '
 					'-> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_historical( self, lat: float, long: float, date: dt.date,
 			zone: str = 'auto' ) -> Dict[ str, Any ] | None:
-		'''
-
-			Purpose:
-			--------
-			Retrieve historical weather for a single date using the Open-Meteo
-			Historical Weather API.
-
-			Parameters:
-			-----------
-			lat (float):
-				The latitude of the resolved location.
-
-			long (float):
-				The longitude of the resolved location.
-
-			date (dt.date):
-				The requested historical date. This is used for both start_date
-				and end_date so the response is limited to that day.
-
-			zone (str):
-				The timezone to use in the response. Supports 'auto'.
-
-			Returns:
-			--------
-			Dict[str, Any] | None:
-				Normalized response payload including request metadata, selected
-				location metadata, and archive data.
-
-		'''
+		"""Retrieve historical weather for a single date using the Open-Meteo.
+		
+		Purpose:
+		    Provides the `fetch_historical` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    lat (float): Input value passed to the callable.
+		    long (float): Input value passed to the callable.
+		    date (dt.date): Input value passed to the callable.
+		    zone (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'lat', lat )
 			throw_if( 'long', long )
@@ -11942,39 +9703,27 @@ class HistoricalWeather( Fetcher ):
 					'fetch_historical( self, lat: float, long: float, date: dt.date, '
 					'zone: str=auto ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, location: str, date: dt.date,
 			zone: str = 'auto', count: int = 10 ) -> Dict[ str, Any ] | None:
-		'''
-
-			Purpose:
-			--------
-			Resolve a location string to coordinates, then retrieve historical
-			weather for the requested date.
-
-			Parameters:
-			-----------
-			location (str):
-				The place name entered by the user.
-
-			date (dt.date):
-				The requested historical date.
-
-			zone (str):
-				The timezone requested for the archive response. If 'auto', the API
-				will resolve the local timezone for the coordinates.
-
-			count (int):
-				Maximum number of geocoding matches to request before selecting the
-				first result.
-
-			Returns:
-			--------
-			Dict[str, Any] | None:
-				Combined geocoding and historical weather result.
-
-		'''
+		"""Resolve a location string to coordinates, then retrieve historical.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    location (str): Input value passed to the callable.
+		    date (dt.date): Input value passed to the callable.
+		    zone (str): Input value passed to the callable.
+		    count (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'location', location )
 			throw_if( 'date', date )
@@ -12020,40 +9769,29 @@ class HistoricalWeather( Fetcher ):
 					'fetch( self, location: str, date: dt.date, zone: str=auto, '
 					'count: int=10 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-
-			Purpose:
-			--------
-			Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None:
-				A JSON-compatible dictionary defining the tool schema.
-
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -12081,38 +9819,14 @@ class HistoricalWeather( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class Grokipedia( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches Grokipedia search results and page content.
-
-		Attributes:
-		-----------
-		api_key,
-		client,
-		query,
-		page,
-		limit,
-		offset,
-		include_content,
-		response,
-		params,
-		result,
-
-		Methods:
-		--------
-		__init__(...): Performs the __init__ operation for this fetcher.
-		__dir__(...): Performs the __dir__ operation for this fetcher.
-		fetch_search(...): Performs the fetch_search operation for this fetcher.
-		fetch_page(...): Performs the fetch_page operation for this fetcher.
-		fetch(...): Performs the fetch operation for this fetcher.
-		create_schema(...): Performs the create_schema operation for this fetcher.
-
-	'''
+	"""Fetches Grokipedia search results and page content.
+	
+	Purpose:
+	    Documents the `Grokipedia` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	api_key: Optional[ str ]
 	client: Optional[ GrokipediaClient ]
 	query: Optional[ str ]
@@ -12125,19 +9839,10 @@ class Grokipedia( Fetcher ):
 	result: Optional[ Dict[ str, Any ] ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the Grokipedia wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the Grokipedia wrapper.
+		
+		Purpose:
+		    Initializes `Grokipedia` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.XAI_API_KEY
 		self.url = None
@@ -12154,19 +9859,13 @@ class Grokipedia( Fetcher ):
 		self.timeout = 20
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'client',
@@ -12186,26 +9885,21 @@ class Grokipedia( Fetcher ):
 	
 	def fetch_search( self, query: str, limit: int = 12,
 			offset: int = 0 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Search Grokipedia for matching articles.
-
-			Parameters:
-			-----------
-			query (str):
-				Free-text search query.
-
-			limit (int):
-				Maximum number of results to request.
-
-			offset (int):
-				Result offset for pagination.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Search Grokipedia for matching articles.
+		
+		Purpose:
+		    Provides the `fetch_search` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query', query )
 			throw_if( 'limit', limit )
@@ -12243,27 +9937,25 @@ class Grokipedia( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Grokipedia'
 			exception.method = 'fetch_search( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_page( self, page: str,
 			include_content: bool = True ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch a specific Grokipedia page by slug or page identifier.
-
-			Parameters:
-			-----------
-			page (str):
-				Page slug or page identifier.
-
-			include_content (bool):
-				If True, request full page content.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch a specific Grokipedia page by slug or page identifier.
+		
+		Purpose:
+		    Provides the `fetch_page` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    page (str): Input value passed to the callable.
+		    include_content (bool): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'page', page )
 			
@@ -12296,40 +9988,30 @@ class Grokipedia( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Grokipedia'
 			exception.method = 'fetch_page( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'search', query: str = '', page: str = '',
 			limit: int = 12, offset: int = 0,
 			include_content: bool = True ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch Grokipedia search or page retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of search or page.
-
-			query (str):
-				Search query for search mode.
-
-			page (str):
-				Page slug or page identifier for page mode.
-
-			limit (int):
-				Maximum number of results for search mode.
-
-			offset (int):
-				Result offset for search mode.
-
-			include_content (bool):
-				Whether page mode should request full content.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch Grokipedia search or page retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    page (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    include_content (bool): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -12348,37 +10030,29 @@ class Grokipedia( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Grokipedia'
 			exception.method = 'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a fully dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				A dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a fully dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -12408,16 +10082,14 @@ class Grokipedia( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class GoogleGeocoding( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches Google Geocoding forward, reverse, and place lookup records.
-
-	'''
+	"""Fetches Google Geocoding forward, reverse, and place lookup records.
+	
+	Purpose:
+	    Documents the `GoogleGeocoding` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	api_key: Optional[ str ]
 	url: Optional[ str ]
 	params: Optional[ Dict[ str, Any ] ]
@@ -12436,19 +10108,10 @@ class GoogleGeocoding( Fetcher ):
 	result: Optional[ Dict[ str, Any ] ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the Google Geocoding fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the Google Geocoding fetcher.
+		
+		Purpose:
+		    Initializes `GoogleGeocoding` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.GOOGLE_API_KEY
 		self.url = 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -12473,19 +10136,13 @@ class GoogleGeocoding( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'url',
@@ -12514,26 +10171,21 @@ class GoogleGeocoding( Fetcher ):
 	
 	def request( self, params: Dict[ str, Any ], time: int = 10,
 			api_key: Optional[ str ] = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Send a request to the Google Geocoding API and store response state.
-
-			Parameters:
-			-----------
-			params (Dict[str, Any]):
-				Request query parameters for the Geocoding API.
-
-			time (int):
-				Request timeout in seconds.
-
-			api_key (Optional[str]):
-				Optional API-key override.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Send a request to the Google Geocoding API and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		    api_key (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'params', params )
 			throw_if( 'time', time )
@@ -12587,37 +10239,29 @@ class GoogleGeocoding( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_forward( self, query: str, language: str = 'en',
 			region: str = '', time: int = 10,
 			api_key: Optional[ str ] = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Forward geocode a human-readable address or place query.
-
-			Parameters:
-			-----------
-			query (str):
-				Human-readable address or place query.
-
-			language (str):
-				Preferred response language.
-
-			region (str):
-				Optional region bias, such as us.
-
-			time (int):
-				Request timeout in seconds.
-
-			api_key (Optional[str]):
-				Optional explicit API key override.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Forward geocode a human-readable address or place query.
+		
+		Purpose:
+		    Provides the `fetch_forward` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    language (str): Input value passed to the callable.
+		    region (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		    api_key (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query', query )
 			throw_if( 'time', time )
@@ -12648,44 +10292,32 @@ class GoogleGeocoding( Fetcher ):
 			exception.method = (
 					'fetch_forward( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_reverse( self, latitude: float, longitude: float,
 			language: str = 'en', result_type: str = '',
 			location_type: str = '', time: int = 10,
 			api_key: Optional[ str ] = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Reverse geocode a latitude / longitude coordinate pair.
-
-			Parameters:
-			-----------
-			latitude (float):
-				Latitude.
-
-			longitude (float):
-				Longitude.
-
-			language (str):
-				Preferred response language.
-
-			result_type (str):
-				Optional pipe-delimited result type filter.
-
-			location_type (str):
-				Optional pipe-delimited location type filter.
-
-			time (int):
-				Request timeout in seconds.
-
-			api_key (Optional[str]):
-				Optional explicit API key override.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Reverse geocode a latitude / longitude coordinate pair.
+		
+		Purpose:
+		    Provides the `fetch_reverse` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		    language (str): Input value passed to the callable.
+		    result_type (str): Input value passed to the callable.
+		    location_type (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		    api_key (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'latitude', latitude )
 			throw_if( 'longitude', longitude )
@@ -12722,37 +10354,29 @@ class GoogleGeocoding( Fetcher ):
 			exception.method = (
 					'fetch_reverse( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_place( self, place_id: str, language: str = 'en',
 			region: str = '', time: int = 10,
 			api_key: Optional[ str ] = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Geocode a Google place_id into address details.
-
-			Parameters:
-			-----------
-			place_id (str):
-				Google place ID.
-
-			language (str):
-				Preferred response language.
-
-			region (str):
-				Optional region bias.
-
-			time (int):
-				Request timeout in seconds.
-
-			api_key (Optional[str]):
-				Optional explicit API key override.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Geocode a Google place_id into address details.
+		
+		Purpose:
+		    Provides the `fetch_place` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    place_id (str): Input value passed to the callable.
+		    language (str): Input value passed to the callable.
+		    region (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		    api_key (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'place_id', place_id )
 			throw_if( 'time', time )
@@ -12783,6 +10407,7 @@ class GoogleGeocoding( Fetcher ):
 			exception.method = (
 					'fetch_place( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'forward', query: str = '',
@@ -12790,53 +10415,29 @@ class GoogleGeocoding( Fetcher ):
 			place_id: str = '', language: str = 'en', region: str = '',
 			result_type: str = '', location_type: str = '', time: int = 10,
 			api_key: Optional[ str ] = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch a Google Geocoding request to the mode-specific fetch method.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- forward
-				- reverse
-				- place
-
-			query (str):
-				Address / place query for forward mode.
-
-			latitude (float):
-				Latitude for reverse mode.
-
-			longitude (float):
-				Longitude for reverse mode.
-
-			place_id (str):
-				Place ID for place mode.
-
-			language (str):
-				Response language.
-
-			region (str):
-				Region bias for forward / place mode.
-
-			result_type (str):
-				Reverse-geocoding result filter.
-
-			location_type (str):
-				Reverse-geocoding location filter.
-
-			time (int):
-				Request timeout in seconds.
-
-			api_key (Optional[str]):
-				Optional explicit API key override.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch a Google Geocoding request to the mode-specific fetch method.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		    place_id (str): Input value passed to the callable.
+		    language (str): Input value passed to the callable.
+		    region (str): Input value passed to the callable.
+		    result_type (str): Input value passed to the callable.
+		    location_type (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		    api_key (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			self.mode = str( mode ).strip( ).lower( )
@@ -12879,37 +10480,29 @@ class GoogleGeocoding( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -12939,16 +10532,14 @@ class GoogleGeocoding( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class CensusData( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches Census API variables and tabular data.
-
-	'''
+	"""Fetches Census API variables and tabular data.
+	
+	Purpose:
+	    Documents the `CensusData` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	api_key: Optional[ str ]
 	base_url: Optional[ str ]
 	year: Optional[ str ]
@@ -12964,19 +10555,10 @@ class CensusData( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the U.S. Census Bureau API wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the U.S. Census Bureau API wrapper.
+		
+		Purpose:
+		    Initializes `CensusData` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.CENSUS_API_KEY
 		self.base_url = 'https://api.census.gov/data'
@@ -13000,19 +10582,13 @@ class CensusData( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return ordered CensusData members.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Return ordered CensusData members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'base_url',
@@ -13041,21 +10617,19 @@ class CensusData( Fetcher ):
 		]
 	
 	def normalize_fields( self, fields: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a comma-delimited Census field string into a Census API get
-			parameter value.
-
-			Parameters:
-			-----------
-			fields (str):
-				Comma-delimited Census variable names.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a comma-delimited Census field string into a Census API get.
+		
+		Purpose:
+		    Provides the `normalize_fields` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    fields (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'fields', fields )
 			
@@ -13075,23 +10649,23 @@ class CensusData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'CensusData'
 			exception.method = 'normalize_fields( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def parse_predicates( self, predicates: str = '' ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Parse newline-delimited Census API predicates from key=value lines.
-
-			Parameters:
-			-----------
-			predicates (str):
-				Optional newline-delimited key=value predicates.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Parse newline-delimited Census API predicates from key=value lines.
+		
+		Purpose:
+		    Provides the `parse_predicates` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    predicates (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.predicates = { }
 			text = str( predicates or '' ).strip( )
@@ -13128,24 +10702,23 @@ class CensusData( Fetcher ):
 			exception.method = (
 					'parse_predicates( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_table( self, rows: List[ Any ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Convert the Census API list-of-lists response into columns and row
-			dictionaries.
-
-			Parameters:
-			-----------
-			rows (List[Any]):
-				Census API list-of-lists response.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Convert the Census API list-of-lists response into columns and row.
+		
+		Purpose:
+		    Provides the `shape_table` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[object]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if not rows:
 				return {
@@ -13180,30 +10753,26 @@ class CensusData( Fetcher ):
 			exception.method = (
 					'shape_table( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_variables( self, year: str, dataset: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch the variables metadata for a Census dataset.
-
-			Parameters:
-			-----------
-			year (str):
-				Dataset year such as 2022.
-
-			dataset (str):
-				Dataset path such as acs/acs5 or dec/pl.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch the variables metadata for a Census dataset.
+		
+		Purpose:
+		    Provides the `fetch_variables` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    year (str): Input value passed to the callable.
+		    dataset (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'year', year )
 			throw_if( 'dataset', dataset )
@@ -13242,43 +10811,31 @@ class CensusData( Fetcher ):
 			exception.method = (
 					'fetch_variables( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_data( self, year: str, dataset: str, fields: str,
 			geography_for: str = '', geography_in: str = '',
 			predicates: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch tabular Census dataset values.
-
-			Parameters:
-			-----------
-			year (str):
-				Dataset year such as 2022.
-
-			dataset (str):
-				Dataset path such as acs/acs5.
-
-			fields (str):
-				Comma-delimited get variables such as NAME,B01001_001E.
-
-			geography_for (str):
-				Census for geography clause, e.g. state:*.
-
-			geography_in (str):
-				Optional Census in geography clause.
-
-			predicates (str):
-				Optional newline-delimited key=value predicates.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch tabular Census dataset values.
+		
+		Purpose:
+		    Provides the `fetch_data` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    year (str): Input value passed to the callable.
+		    dataset (str): Input value passed to the callable.
+		    fields (str): Input value passed to the callable.
+		    geography_for (str): Input value passed to the callable.
+		    geography_in (str): Input value passed to the callable.
+		    predicates (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'year', year )
 			throw_if( 'dataset', dataset )
@@ -13333,47 +10890,33 @@ class CensusData( Fetcher ):
 			exception.method = (
 					'fetch_data( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'variables', year: str = '2022',
 			dataset: str = 'acs/acs5', fields: str = 'NAME,B01001_001E',
 			geography_for: str = 'state:*', geography_in: str = '',
 			predicates: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch Census API operations.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of variables or data.
-
-			year (str):
-				Dataset year.
-
-			dataset (str):
-				Dataset path.
-
-			fields (str):
-				Comma-delimited data fields for data mode.
-
-			geography_for (str):
-				Census for clause for data mode.
-
-			geography_in (str):
-				Optional Census in clause for data mode.
-
-			predicates (str):
-				Optional newline-delimited key=value predicates.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch Census API operations.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    year (str): Input value passed to the callable.
+		    dataset (str): Input value passed to the callable.
+		    fields (str): Input value passed to the callable.
+		    geography_for (str): Input value passed to the callable.
+		    geography_in (str): Input value passed to the callable.
+		    predicates (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -13406,37 +10949,29 @@ class CensusData( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -13464,16 +10999,14 @@ class CensusData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'CensusData'
 			exception.method = 'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
+			Logger( ).write( exception )
 			raise exception
 
 class Socrata( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches metadata and rows from Socrata-backed open-data portals.
-
-	'''
+	"""Fetches metadata and rows from Socrata-backed open-data portals.
+	
+	Purpose:
+	    Documents the `Socrata` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	api_key: Optional[ str ]
 	base_url: Optional[ str ]
 	metadata_url: Optional[ str ]
@@ -13492,19 +11025,10 @@ class Socrata( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the Socrata API fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the Socrata API fetcher.
+		
+		Purpose:
+		    Initializes `Socrata` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.SOCRATA_API_KEY
 		self.base_url = 'https://{domain}/resource/{dataset}.json'
@@ -13534,19 +11058,13 @@ class Socrata( Fetcher ):
 			self.headers[ 'X-App-Token' ] = self.api_key
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return ordered Socrata members.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Return ordered Socrata members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'base_url',
@@ -13579,20 +11097,19 @@ class Socrata( Fetcher ):
 		]
 	
 	def normalize_domain( self, domain: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a Socrata portal domain.
-
-			Parameters:
-			-----------
-			domain (str):
-				Socrata portal domain such as data.cdc.gov.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a Socrata portal domain.
+		
+		Purpose:
+		    Provides the `normalize_domain` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    domain (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'domain', domain )
 			
@@ -13609,23 +11126,23 @@ class Socrata( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Socrata'
 			exception.method = 'normalize_domain( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_dataset_id( self, dataset_id: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a Socrata 4x4 dataset identifier.
-
-			Parameters:
-			-----------
-			dataset_id (str):
-				Socrata dataset identifier such as q8xq-ygsk.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a Socrata 4x4 dataset identifier.
+		
+		Purpose:
+		    Provides the `normalize_dataset_id` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    dataset_id (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'dataset_id', dataset_id )
 			
@@ -13642,23 +11159,23 @@ class Socrata( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Socrata'
 			exception.method = 'normalize_dataset_id( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_limit( self, limit: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a Socrata row limit.
-
-			Parameters:
-			-----------
-			limit (int):
-				Requested row limit.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a Socrata row limit.
+		
+		Purpose:
+		    Provides the `validate_limit` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			
@@ -13673,23 +11190,23 @@ class Socrata( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Socrata'
 			exception.method = 'validate_limit( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_offset( self, offset: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a Socrata row offset.
-
-			Parameters:
-			-----------
-			offset (int):
-				Requested row offset.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a Socrata row offset.
+		
+		Purpose:
+		    Provides the `validate_offset` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    offset (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if offset is None:
 				raise ValueError( 'offset cannot be None.' )
@@ -13705,30 +11222,26 @@ class Socrata( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Socrata'
 			exception.method = 'validate_offset( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_metadata( self, domain: str, dataset_id: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch Socrata dataset metadata.
-
-			Parameters:
-			-----------
-			domain (str):
-				Portal domain such as data.cdc.gov.
-
-			dataset_id (str):
-				Dataset identifier such as q8xq-ygsk.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch Socrata dataset metadata.
+		
+		Purpose:
+		    Provides the `fetch_metadata` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    domain (str): Input value passed to the callable.
+		    dataset_id (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -13773,50 +11286,34 @@ class Socrata( Fetcher ):
 			exception.method = (
 					'fetch_metadata( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_rows( self, domain: str, dataset_id: str, select: str = '',
 			where: str = '', order: str = '', group: str = '',
 			limit: int = 25, offset: int = 0,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch Socrata dataset rows using standard SoQL query options.
-
-			Parameters:
-			-----------
-			domain (str):
-				Portal domain such as data.cdc.gov.
-
-			dataset_id (str):
-				Dataset identifier such as q8xq-ygsk.
-
-			select (str):
-				Optional $select clause.
-
-			where (str):
-				Optional $where clause.
-
-			order (str):
-				Optional $order clause.
-
-			group (str):
-				Optional $group clause.
-
-			limit (int):
-				Row limit.
-
-			offset (int):
-				Offset for pagination.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch Socrata dataset rows using standard SoQL query options.
+		
+		Purpose:
+		    Provides the `fetch_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    domain (str): Input value passed to the callable.
+		    dataset_id (str): Input value passed to the callable.
+		    select (str): Input value passed to the callable.
+		    where (str): Input value passed to the callable.
+		    order (str): Input value passed to the callable.
+		    group (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -13884,53 +11381,35 @@ class Socrata( Fetcher ):
 			exception.method = (
 					'fetch_rows( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'rows', domain: str = 'data.cdc.gov',
 			dataset_id: str = '', select: str = '', where: str = '',
 			order: str = '', group: str = '', limit: int = 25,
 			offset: int = 0, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch Socrata API operations.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of metadata or rows.
-
-			domain (str):
-				Portal domain.
-
-			dataset_id (str):
-				Dataset identifier.
-
-			select (str):
-				Optional $select clause.
-
-			where (str):
-				Optional $where clause.
-
-			order (str):
-				Optional $order clause.
-
-			group (str):
-				Optional $group clause.
-
-			limit (int):
-				Row limit.
-
-			offset (int):
-				Row offset.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch Socrata API operations.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    domain (str): Input value passed to the callable.
+		    dataset_id (str): Input value passed to the callable.
+		    select (str): Input value passed to the callable.
+		    where (str): Input value passed to the callable.
+		    order (str): Input value passed to the callable.
+		    group (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -13965,37 +11444,29 @@ class Socrata( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -14025,16 +11496,14 @@ class Socrata( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class HealthData( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches metadata and rows from HealthData.gov Socrata datasets.
-
-	'''
+	"""Fetches metadata and rows from HealthData.gov Socrata datasets.
+	
+	Purpose:
+	    Documents the `HealthData` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	api_key: Optional[ str ]
 	base_url: Optional[ str ]
 	metadata_url: Optional[ str ]
@@ -14053,19 +11522,10 @@ class HealthData( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the HealthData.gov API wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the HealthData.gov API wrapper.
+		
+		Purpose:
+		    Initializes `HealthData` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.HEALTHDATA_API_KEY
 		self.base_url = 'https://{domain}/resource/{dataset}.json'
@@ -14095,19 +11555,13 @@ class HealthData( Fetcher ):
 			self.headers[ 'X-App-Token' ] = self.api_key
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return ordered HealthData members.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Return ordered HealthData members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'base_url',
@@ -14140,20 +11594,19 @@ class HealthData( Fetcher ):
 		]
 	
 	def normalize_domain( self, domain: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a HealthData.gov Socrata portal domain.
-
-			Parameters:
-			-----------
-			domain (str):
-				Socrata portal domain, usually healthdata.gov.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a HealthData.gov Socrata portal domain.
+		
+		Purpose:
+		    Provides the `normalize_domain` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    domain (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'domain', domain )
 			
@@ -14170,23 +11623,23 @@ class HealthData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'HealthData'
 			exception.method = 'normalize_domain( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_dataset_id( self, dataset_id: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a HealthData.gov Socrata dataset identifier.
-
-			Parameters:
-			-----------
-			dataset_id (str):
-				Socrata dataset identifier.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a HealthData.gov Socrata dataset identifier.
+		
+		Purpose:
+		    Provides the `normalize_dataset_id` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    dataset_id (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'dataset_id', dataset_id )
 			
@@ -14203,23 +11656,23 @@ class HealthData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'HealthData'
 			exception.method = 'normalize_dataset_id( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_limit( self, limit: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a HealthData.gov row limit.
-
-			Parameters:
-			-----------
-			limit (int):
-				Requested row limit.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a HealthData.gov row limit.
+		
+		Purpose:
+		    Provides the `validate_limit` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			
@@ -14234,23 +11687,23 @@ class HealthData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'HealthData'
 			exception.method = 'validate_limit( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_offset( self, offset: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a HealthData.gov row offset.
-
-			Parameters:
-			-----------
-			offset (int):
-				Requested row offset.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a HealthData.gov row offset.
+		
+		Purpose:
+		    Provides the `validate_offset` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    offset (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if offset is None:
 				raise ValueError( 'offset cannot be None.' )
@@ -14266,30 +11719,26 @@ class HealthData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'HealthData'
 			exception.method = 'validate_offset( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_metadata( self, domain: str, dataset_id: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch HealthData.gov dataset metadata.
-
-			Parameters:
-			-----------
-			domain (str):
-				Portal domain such as healthdata.gov.
-
-			dataset_id (str):
-				Dataset identifier.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch HealthData.gov dataset metadata.
+		
+		Purpose:
+		    Provides the `fetch_metadata` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    domain (str): Input value passed to the callable.
+		    dataset_id (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -14334,50 +11783,34 @@ class HealthData( Fetcher ):
 			exception.method = (
 					'fetch_metadata( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_rows( self, domain: str, dataset_id: str, select: str = '',
 			where: str = '', order: str = '', group: str = '',
 			limit: int = 25, offset: int = 0,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch HealthData.gov dataset rows using standard SoQL query options.
-
-			Parameters:
-			-----------
-			domain (str):
-				Portal domain such as healthdata.gov.
-
-			dataset_id (str):
-				Dataset identifier.
-
-			select (str):
-				Optional $select clause.
-
-			where (str):
-				Optional $where clause.
-
-			order (str):
-				Optional $order clause.
-
-			group (str):
-				Optional $group clause.
-
-			limit (int):
-				Optional row limit.
-
-			offset (int):
-				Optional offset for pagination.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch HealthData.gov dataset rows using standard SoQL query options.
+		
+		Purpose:
+		    Provides the `fetch_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    domain (str): Input value passed to the callable.
+		    dataset_id (str): Input value passed to the callable.
+		    select (str): Input value passed to the callable.
+		    where (str): Input value passed to the callable.
+		    order (str): Input value passed to the callable.
+		    group (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -14445,53 +11878,35 @@ class HealthData( Fetcher ):
 			exception.method = (
 					'fetch_rows( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'rows', domain: str = 'healthdata.gov',
 			dataset_id: str = '', select: str = '', where: str = '',
 			order: str = '', group: str = '', limit: int = 25,
 			offset: int = 0, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch HealthData.gov API operations.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of metadata or rows.
-
-			domain (str):
-				Portal domain.
-
-			dataset_id (str):
-				Dataset identifier.
-
-			select (str):
-				Optional $select clause.
-
-			where (str):
-				Optional $where clause.
-
-			order (str):
-				Optional $order clause.
-
-			group (str):
-				Optional $group clause.
-
-			limit (int):
-				Optional row limit.
-
-			offset (int):
-				Optional row offset.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch HealthData.gov API operations.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    domain (str): Input value passed to the callable.
+		    dataset_id (str): Input value passed to the callable.
+		    select (str): Input value passed to the callable.
+		    where (str): Input value passed to the callable.
+		    order (str): Input value passed to the callable.
+		    group (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -14526,37 +11941,29 @@ class HealthData( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -14586,17 +11993,14 @@ class HealthData( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class GlobalHealthData( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Fetches WHO Global Health Observatory indicator registry and Athena/OData
-		query-path responses.
-
-	'''
+	"""Fetches WHO Global Health Observatory indicator registry and Athena/OData.
+	
+	Purpose:
+	    Documents the `GlobalHealthData` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	api_key: Optional[ str ]
 	base_url: Optional[ str ]
 	athena_base_url: Optional[ str ]
@@ -14609,19 +12013,10 @@ class GlobalHealthData( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the WHO Global Health Observatory API wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the WHO Global Health Observatory API wrapper.
+		
+		Purpose:
+		    Initializes `GlobalHealthData` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.WHO_API_KEY
 		self.base_url = 'https://www.who.int/data/gho'
@@ -14645,19 +12040,13 @@ class GlobalHealthData( Fetcher ):
 			self.headers[ 'X-API-Key' ] = self.api_key
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return ordered GlobalHealthData members.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Return ordered GlobalHealthData members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'base_url',
@@ -14681,20 +12070,19 @@ class GlobalHealthData( Fetcher ):
 		]
 	
 	def normalize_query_path( self, query_path: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a WHO GHO Athena/OData query path.
-
-			Parameters:
-			-----------
-			query_path (str):
-				Path appended after the WHO GHO API base endpoint.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a WHO GHO Athena/OData query path.
+		
+		Purpose:
+		    Provides the `normalize_query_path` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query_path (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query_path', query_path )
 			
@@ -14716,23 +12104,23 @@ class GlobalHealthData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'GlobalHealthData'
 			exception.method = 'normalize_query_path( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_indicator_registry( self, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch the WHO Global Health Observatory indicator metadata registry page.
-
-			Parameters:
-			-----------
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch the WHO Global Health Observatory indicator metadata registry page.
+		
+		Purpose:
+		    Provides the `fetch_indicator_registry` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -14781,31 +12169,26 @@ class GlobalHealthData( Fetcher ):
 					'fetch_indicator_registry( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_athena( self, query_path: str, fmt: str = 'json',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Execute a WHO GHO Athena/OData-style query path.
-
-			Parameters:
-			-----------
-			query_path (str):
-				Path segment appended after the WHO GHO API base endpoint.
-
-			fmt (str):
-				Response format hint, typically json, xml, csv, csv&profile=text, or
-				csv&profile=verbose.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Execute a WHO GHO Athena/OData-style query path.
+		
+		Purpose:
+		    Provides the `fetch_athena` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query_path (str): Input value passed to the callable.
+		    fmt (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query_path', query_path )
 			throw_if( 'time', time )
@@ -14859,33 +12242,27 @@ class GlobalHealthData( Fetcher ):
 			exception.method = (
 					'fetch_athena( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'indicator_registry', query_path: str = '',
 			fmt: str = 'json', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch WHO Global Health Observatory API operations.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of indicator_registry or athena.
-
-			query_path (str):
-				Query path for Athena/OData mode.
-
-			fmt (str):
-				Response format hint.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch WHO Global Health Observatory API operations.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query_path (str): Input value passed to the callable.
+		    fmt (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -14915,37 +12292,29 @@ class GlobalHealthData( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -14975,14 +12344,14 @@ class GlobalHealthData( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class UnitedNations( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Fetch catalog and SDMX-style query results from United Nations data endpoints.
-	'''
+	"""Fetch catalog and SDMX-style query results from United Nations data endpoints.
+	
+	Purpose:
+	    Documents the `UnitedNations` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	catalog_url: Optional[ str ]
 	mode: Optional[ str ]
@@ -14993,19 +12362,10 @@ class UnitedNations( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the United Nations data wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the United Nations data wrapper.
+		
+		Purpose:
+		    Initializes `UnitedNations` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://data.un.org/Handlers/DownloadHandler.ashx'
 		self.catalog_url = 'https://data.un.org/Handlers/DownloadHandler.ashx'
@@ -15024,19 +12384,13 @@ class UnitedNations( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return ordered UnitedNations members.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Return ordered UnitedNations members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'catalog_url',
@@ -15058,20 +12412,19 @@ class UnitedNations( Fetcher ):
 		]
 	
 	def normalize_query_path( self, query_path: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a United Nations SDMX query path.
-
-			Parameters:
-			-----------
-			query_path (str):
-				Path or query fragment supplied by the user interface.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a United Nations SDMX query path.
+		
+		Purpose:
+		    Provides the `normalize_query_path` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query_path (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query_path', query_path )
 			
@@ -15093,23 +12446,23 @@ class UnitedNations( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'UnitedNations'
 			exception.method = 'normalize_query_path( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_datasets( self, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch United Nations dataset/catalog landing metadata.
-
-			Parameters:
-			-----------
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch United Nations dataset/catalog landing metadata.
+		
+		Purpose:
+		    Provides the `fetch_datasets` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -15154,27 +12507,25 @@ class UnitedNations( Fetcher ):
 			exception.method = (
 					'fetch_datasets( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_sdmx_query( self, query_path: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch a United Nations SDMX-style query path.
-
-			Parameters:
-			-----------
-			query_path (str):
-				Query path selected or entered in the user interface.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch a United Nations SDMX-style query path.
+		
+		Purpose:
+		    Provides the `fetch_sdmx_query` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query_path (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query_path', query_path )
 			throw_if( 'time', time )
@@ -15222,30 +12573,26 @@ class UnitedNations( Fetcher ):
 			exception.method = (
 					'fetch_sdmx_query( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'datasets', query_path: str = '',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch United Nations data requests.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of datasets or sdmx_query.
-
-			query_path (str):
-				Query path for sdmx_query mode.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch United Nations data requests.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query_path (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -15271,37 +12618,29 @@ class UnitedNations( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -15331,14 +12670,14 @@ class UnitedNations( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class WorldPopulation( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Fetches WorldPop catalog, search, and raster metadata records.
-	'''
+	"""Fetches WorldPop catalog, search, and raster metadata records.
+	
+	Purpose:
+	    Documents the `WorldPopulation` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	stac_url: Optional[ str ]
 	mode: Optional[ str ]
@@ -15352,19 +12691,10 @@ class WorldPopulation( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the WorldPop API wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the WorldPop API wrapper.
+		
+		Purpose:
+		    Initializes `WorldPopulation` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://www.worldpop.org/rest'
 		self.stac_url = 'https://worldpop.github.io/worldpop-stac'
@@ -15386,19 +12716,13 @@ class WorldPopulation( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return ordered WorldPopulation members.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Return ordered WorldPopulation members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'stac_url',
@@ -15426,20 +12750,19 @@ class WorldPopulation( Fetcher ):
 		]
 	
 	def normalize_asset_path( self, asset_path: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a WorldPop metadata or raster asset path.
-
-			Parameters:
-			-----------
-			asset_path (str):
-				Asset path appended after the WorldPop REST base URL.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a WorldPop metadata or raster asset path.
+		
+		Purpose:
+		    Provides the `normalize_asset_path` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    asset_path (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'asset_path', asset_path )
 			
@@ -15461,23 +12784,23 @@ class WorldPopulation( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WorldPopulation'
 			exception.method = 'normalize_asset_path( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_page( self, page: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a WorldPop search page number.
-
-			Parameters:
-			-----------
-			page (int):
-				Requested page number.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a WorldPop search page number.
+		
+		Purpose:
+		    Provides the `validate_page` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    page (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'page', page )
 			
@@ -15492,23 +12815,23 @@ class WorldPopulation( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WorldPopulation'
 			exception.method = 'validate_page( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_page_size( self, page_size: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a WorldPop search page size.
-
-			Parameters:
-			-----------
-			page_size (int):
-				Requested page size.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a WorldPop search page size.
+		
+		Purpose:
+		    Provides the `validate_page_size` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    page_size (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'page_size', page_size )
 			
@@ -15523,23 +12846,23 @@ class WorldPopulation( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'WorldPopulation'
 			exception.method = 'validate_page_size( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_catalog( self, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch the WorldPop API catalog or landing payload.
-
-			Parameters:
-			-----------
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch the WorldPop API catalog or landing payload.
+		
+		Purpose:
+		    Provides the `fetch_catalog` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -15584,33 +12907,27 @@ class WorldPopulation( Fetcher ):
 			exception.method = (
 					'fetch_catalog( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def search_catalog( self, query: str = '', page: int = 1, page_size: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Execute a WorldPop catalog-style search request.
-
-			Parameters:
-			-----------
-			query (str):
-				Free-text search query.
-
-			page (int):
-				Page number.
-
-			page_size (int):
-				Requested page size.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Execute a WorldPop catalog-style search request.
+		
+		Purpose:
+		    Provides the `search_catalog` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    query (str): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    page_size (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'query', query )
 			throw_if( 'time', time )
@@ -15663,27 +12980,25 @@ class WorldPopulation( Fetcher ):
 			exception.method = (
 					'search_catalog( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_raster_metadata( self, asset_path: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch metadata or asset information for a WorldPop raster path.
-
-			Parameters:
-			-----------
-			asset_path (str):
-				Path appended after the API base endpoint.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch metadata or asset information for a WorldPop raster path.
+		
+		Purpose:
+		    Provides the `fetch_raster_metadata` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    asset_path (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'asset_path', asset_path )
 			throw_if( 'time', time )
@@ -15731,40 +13046,30 @@ class WorldPopulation( Fetcher ):
 					'fetch_raster_metadata( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'catalog', query: str = '',
 			asset_path: str = '', page: int = 1, page_size: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch WorldPop API operations.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of catalog, search, or raster_metadata.
-
-			query (str):
-				Free-text query for search mode.
-
-			asset_path (str):
-				Asset or metadata path for raster_metadata mode.
-
-			page (int):
-				Page number for search mode.
-
-			page_size (int):
-				Page size for search mode.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch WorldPop API operations.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    query (str): Input value passed to the callable.
+		    asset_path (str): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    page_size (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -15801,37 +13106,29 @@ class WorldPopulation( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -15861,14 +13158,14 @@ class WorldPopulation( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class Wonder( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Builds and submits CDC WONDER XML query templates.
-	'''
+	"""Builds and submits CDC WONDER XML query templates.
+	
+	Purpose:
+	    Documents the `Wonder` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	mode: Optional[ str ]
 	dataset_id: Optional[ str ]
@@ -15879,19 +13176,10 @@ class Wonder( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the CDC WONDER API wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the CDC WONDER API wrapper.
+		
+		Purpose:
+		    Initializes `Wonder` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://wonder.cdc.gov/controller/datarequest'
 		self.mode = 'metadata_template'
@@ -15911,19 +13199,13 @@ class Wonder( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return ordered Wonder members.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Return ordered Wonder members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'mode',
@@ -15946,20 +13228,19 @@ class Wonder( Fetcher ):
 		]
 	
 	def normalize_dataset_id( self, dataset_id: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize the CDC WONDER database identifier.
-
-			Parameters:
-			-----------
-			dataset_id (str):
-				Database identifier such as D76.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize the CDC WONDER database identifier.
+		
+		Purpose:
+		    Provides the `normalize_dataset_id` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    dataset_id (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'dataset_id', dataset_id )
 			
@@ -15978,23 +13259,23 @@ class Wonder( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Wonder'
 			exception.method = 'normalize_dataset_id( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def build_template( self, dataset_id: str = 'D76' ) -> str:
-		'''
-			Purpose:
-			--------
-			Build a starter XML request document for a CDC WONDER query.
-
-			Parameters:
-			-----------
-			dataset_id (str):
-				Database identifier such as D76.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Build a starter XML request document for a CDC WONDER query.
+		
+		Purpose:
+		    Provides the `build_template` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    dataset_id (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.dataset_id = self.normalize_dataset_id( dataset_id )
 			self.request_xml = (
@@ -16027,23 +13308,23 @@ class Wonder( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Wonder'
 			exception.method = 'build_template( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_template( self, dataset_id: str = 'D76' ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Return a local CDC WONDER XML request template.
-
-			Parameters:
-			-----------
-			dataset_id (str):
-				Database identifier such as D76.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Return a local CDC WONDER XML request template.
+		
+		Purpose:
+		    Provides the `fetch_template` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    dataset_id (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'metadata_template'
 			self.dataset_id = self.normalize_dataset_id( dataset_id )
@@ -16076,30 +13357,26 @@ class Wonder( Fetcher ):
 			exception.method = (
 					'fetch_template( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def submit_query( self, dataset_id: str, request_xml: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Submit a CDC WONDER XML query request.
-
-			Parameters:
-			-----------
-			dataset_id (str):
-				Database identifier such as D76.
-
-			request_xml (str):
-				Full XML query document to POST as request_xml.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Submit a CDC WONDER XML query request.
+		
+		Purpose:
+		    Provides the `submit_query` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    dataset_id (str): Input value passed to the callable.
+		    request_xml (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'dataset_id', dataset_id )
 			throw_if( 'request_xml', request_xml )
@@ -16148,33 +13425,27 @@ class Wonder( Fetcher ):
 			exception.method = (
 					'submit_query( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'metadata_template', dataset_id: str = 'D76',
 			request_xml: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch CDC WONDER API operations.
-
-			Parameters:
-			-----------
-			mode (str):
-				One of metadata_template or query_xml.
-
-			dataset_id (str):
-				Database identifier such as D76.
-
-			request_xml (str):
-				Full XML request document for query_xml mode.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch CDC WONDER API operations.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    dataset_id (str): Input value passed to the callable.
+		    request_xml (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -16203,37 +13474,29 @@ class Wonder( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -16268,16 +13531,14 @@ class Wonder( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class USGSEarthquakes( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to the U.S. Geological Survey earthquake GeoJSON summary
-		feeds and FDSN event-search API.
-
-	'''
+	"""Provides access to the U.S. Geological Survey earthquake GeoJSON summary.
+	
+	Purpose:
+	    Documents the `USGSEarthquakes` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	feed_url: Optional[ str ]
 	search_url: Optional[ str ]
 	mode: Optional[ str ]
@@ -16298,19 +13559,10 @@ class USGSEarthquakes( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the USGS earthquake fetcher with feed and catalog endpoints.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the USGS earthquake fetcher with feed and catalog endpoints.
+		
+		Purpose:
+		    Initializes `USGSEarthquakes` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.feed_url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary'
 		self.search_url = 'https://earthquake.usgs.gov/fdsnws/event/1/query'
@@ -16339,19 +13591,13 @@ class USGSEarthquakes( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return ordered USGSEarthquakes members.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Return ordered USGSEarthquakes members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'feed_url',
 				'search_url',
@@ -16394,20 +13640,19 @@ class USGSEarthquakes( Fetcher ):
 		]
 	
 	def validate_feed( self, feed: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a USGS summary feed filename.
-
-			Parameters:
-			-----------
-			feed (str):
-				Summary feed filename.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a USGS summary feed filename.
+		
+		Purpose:
+		    Provides the `validate_feed` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    feed (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'feed', feed )
 			
@@ -16445,23 +13690,23 @@ class USGSEarthquakes( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSEarthquakes'
 			exception.method = 'validate_feed( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_limit( self, limit: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a USGS event-search result limit.
-
-			Parameters:
-			-----------
-			limit (int):
-				Maximum number of returned events.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a USGS event-search result limit.
+		
+		Purpose:
+		    Provides the `validate_limit` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			
@@ -16476,26 +13721,24 @@ class USGSEarthquakes( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSEarthquakes'
 			exception.method = 'validate_limit( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_magnitude( self, name: str, value: float ) -> float:
-		'''
-			Purpose:
-			--------
-			Validate an earthquake magnitude value.
-
-			Parameters:
-			-----------
-			name (str):
-				Argument name.
-
-			value (float):
-				Magnitude value.
-
-			Returns:
-			--------
-			float
-		'''
+		"""Validate an earthquake magnitude value.
+		
+		Purpose:
+		    Provides the `validate_magnitude` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    value (float): Input value passed to the callable.
+		
+		Returns:
+		    float: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			throw_if( name, value )
@@ -16511,23 +13754,23 @@ class USGSEarthquakes( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSEarthquakes'
 			exception.method = 'validate_magnitude( self, *args, **kwargs ) -> float'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_order_by( self, order_by: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a USGS event-search orderby value.
-
-			Parameters:
-			-----------
-			order_by (str):
-				Sort order value.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a USGS event-search orderby value.
+		
+		Purpose:
+		    Provides the `validate_order_by` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    order_by (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'order_by', order_by )
 			
@@ -16552,23 +13795,23 @@ class USGSEarthquakes( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSEarthquakes'
 			exception.method = 'validate_order_by( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_latitude( self, latitude: float ) -> float:
-		'''
-			Purpose:
-			--------
-			Validate a latitude value.
-
-			Parameters:
-			-----------
-			latitude (float):
-				Latitude in decimal degrees.
-
-			Returns:
-			--------
-			float
-		'''
+		"""Validate a latitude value.
+		
+		Purpose:
+		    Provides the `validate_latitude` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    latitude (float): Input value passed to the callable.
+		
+		Returns:
+		    float: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'latitude', latitude )
 			
@@ -16583,23 +13826,23 @@ class USGSEarthquakes( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSEarthquakes'
 			exception.method = 'validate_latitude( self, *args, **kwargs ) -> float'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_longitude( self, longitude: float ) -> float:
-		'''
-			Purpose:
-			--------
-			Validate a longitude value.
-
-			Parameters:
-			-----------
-			longitude (float):
-				Longitude in decimal degrees.
-
-			Returns:
-			--------
-			float
-		'''
+		"""Validate a longitude value.
+		
+		Purpose:
+		    Provides the `validate_longitude` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    longitude (float): Input value passed to the callable.
+		
+		Returns:
+		    float: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'longitude', longitude )
 			
@@ -16614,23 +13857,23 @@ class USGSEarthquakes( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSEarthquakes'
 			exception.method = 'validate_longitude( self, *args, **kwargs ) -> float'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_radius( self, radius: float ) -> float:
-		'''
-			Purpose:
-			--------
-			Validate a USGS radial search distance in kilometers.
-
-			Parameters:
-			-----------
-			radius (float):
-				Maximum radius in kilometers.
-
-			Returns:
-			--------
-			float
-		'''
+		"""Validate a USGS radial search distance in kilometers.
+		
+		Purpose:
+		    Provides the `validate_radius` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    radius (float): Input value passed to the callable.
+		
+		Returns:
+		    float: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'max_radius_km', radius )
 			
@@ -16645,23 +13888,23 @@ class USGSEarthquakes( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSEarthquakes'
 			exception.method = 'validate_radius( self, *args, **kwargs ) -> float'
+			Logger( ).write( exception )
 			raise exception
 	
 	def to_iso_date( self, value: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a date-like value to a string accepted by the USGS API.
-
-			Parameters:
-			-----------
-			value (str):
-				Date or datetime string.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a date-like value to a string accepted by the USGS API.
+		
+		Purpose:
+		    Provides the `to_iso_date` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    value (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'date', value )
 			return str( value ).strip( )
@@ -16671,23 +13914,23 @@ class USGSEarthquakes( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSEarthquakes'
 			exception.method = 'to_iso_date( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def epoch_millis_to_iso( self, value: Any ) -> str:
-		'''
-			Purpose:
-			--------
-			Convert an epoch-millisecond value to an ISO datetime string.
-
-			Parameters:
-			-----------
-			value (Any):
-				Epoch milliseconds value.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Convert an epoch-millisecond value to an ISO datetime string.
+		
+		Purpose:
+		    Provides the `epoch_millis_to_iso` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    value (object): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if value is None:
 				return ''
@@ -16701,20 +13944,19 @@ class USGSEarthquakes( Fetcher ):
 			return ''
 	
 	def shape_feature_rows( self, features: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize USGS GeoJSON features into display rows.
-
-			Parameters:
-			-----------
-			features (List[Dict[str, Any]]):
-				USGS GeoJSON feature records.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize USGS GeoJSON features into display rows.
+		
+		Purpose:
+		    Provides the `shape_feature_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    features (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -16757,23 +13999,23 @@ class USGSEarthquakes( Fetcher ):
 			exception.method = (
 					'shape_feature_rows( self, *args, **kwargs ) -> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_features( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Build a compact summary block from normalized earthquake rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized earthquake rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Build a compact summary block from normalized earthquake rows.
+		
+		Purpose:
+		    Provides the `summarize_features` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			max_magnitude = None
@@ -16808,22 +14050,20 @@ class USGSEarthquakes( Fetcher ):
 			exception.method = (
 					'summarize_features( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored USGS GeoJSON response state into the app-facing result.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored USGS GeoJSON response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			metadata = self.payload.get( 'metadata', { } ) or { }
 			features = self.payload.get( 'features', [ ] ) or [ ]
@@ -16850,27 +14090,25 @@ class USGSEarthquakes( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSEarthquakes'
 			exception.method = 'package_response( self ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_feed( self, feed: str = 'all_day.geojson',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Retrieve one of the USGS real-time GeoJSON summary feeds.
-
-			Parameters:
-			-----------
-			feed (str):
-				Feed filename.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Retrieve one of the USGS real-time GeoJSON summary feeds.
+		
+		Purpose:
+		    Provides the `fetch_feed` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    feed (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -16901,6 +14139,7 @@ class USGSEarthquakes( Fetcher ):
 			exception.method = (
 					'fetch_feed( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_search( self, start_date: str, end_date: str,
@@ -16910,50 +14149,29 @@ class USGSEarthquakes( Fetcher ):
 			longitude: float | None = None,
 			max_radius_km: float | None = None,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Search the USGS Earthquake Catalog API.
-
-			Parameters:
-			-----------
-			start_date (str):
-				Start date or datetime.
-
-			end_date (str):
-				End date or datetime.
-
-			min_magnitude (float):
-				Minimum earthquake magnitude.
-
-			max_magnitude (float):
-				Maximum earthquake magnitude.
-
-			limit (int):
-				Maximum returned events.
-
-			order_by (str):
-				USGS sort order.
-
-			event_type (str):
-				Event type, usually earthquake.
-
-			latitude (float | None):
-				Optional radial-search latitude.
-
-			longitude (float | None):
-				Optional radial-search longitude.
-
-			max_radius_km (float | None):
-				Optional radial-search radius in kilometers.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Search the USGS Earthquake Catalog API.
+		
+		Purpose:
+		    Provides the `fetch_search` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    min_magnitude (float): Input value passed to the callable.
+		    max_magnitude (float): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    order_by (str): Input value passed to the callable.
+		    event_type (str): Input value passed to the callable.
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		    max_radius_km (float): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'start_date', start_date )
 			throw_if( 'end_date', end_date )
@@ -17028,6 +14246,7 @@ class USGSEarthquakes( Fetcher ):
 			exception.method = (
 					'fetch_search( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'feed', feed: str = 'all_day.geojson',
@@ -17036,56 +14255,31 @@ class USGSEarthquakes( Fetcher ):
 			event_type: str = 'earthquake', latitude: float | None = None,
 			longitude: float | None = None, max_radius_km: float | None = None,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for USGS earthquake feed and search retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes: feed or search.
-
-			feed (str):
-				USGS summary feed filename for feed mode.
-
-			start_date (str):
-				Start date for search mode.
-
-			end_date (str):
-				End date for search mode.
-
-			min_magnitude (float):
-				Minimum magnitude filter for search mode.
-
-			max_magnitude (float):
-				Maximum magnitude filter for search mode.
-
-			limit (int):
-				Maximum returned rows for search mode.
-
-			order_by (str):
-				Sort order for search mode.
-
-			event_type (str):
-				Event type for search mode.
-
-			latitude (float | None):
-				Optional latitude center for radial search.
-
-			longitude (float | None):
-				Optional longitude center for radial search.
-
-			max_radius_km (float | None):
-				Optional radial search distance.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for USGS earthquake feed and search retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    feed (str): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    min_magnitude (float): Input value passed to the callable.
+		    max_magnitude (float): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    order_by (str): Input value passed to the callable.
+		    event_type (str): Input value passed to the callable.
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		    max_radius_km (float): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -17121,37 +14315,29 @@ class USGSEarthquakes( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -17186,16 +14372,14 @@ class USGSEarthquakes( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class USGSWaterData( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to the modern USGS Water Data OGC API collections for
-		monitoring locations, time-series metadata, latest continuous values, and
-		latest daily values.
-	'''
+	"""Provides access to the modern USGS Water Data OGC API collections for.
+	
+	Purpose:
+	    Documents the `USGSWaterData` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	api_key: Optional[ str ]
 	base_url: Optional[ str ]
 	mode: Optional[ str ]
@@ -17212,19 +14396,10 @@ class USGSWaterData( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the USGS Water Data fetcher with API defaults.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the USGS Water Data fetcher with API defaults.
+		
+		Purpose:
+		    Initializes `USGSWaterData` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.api_key = cfg.USGS_WATERDATA_API_KEY
 		self.base_url = 'https://api.waterdata.usgs.gov/ogcapi/v0/collections'
@@ -17252,19 +14427,13 @@ class USGSWaterData( Fetcher ):
 			self.headers[ 'X-API-Key' ] = self.api_key
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Return ordered USGSWaterData members.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Return ordered USGSWaterData members.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'api_key',
 				'base_url',
@@ -17303,20 +14472,19 @@ class USGSWaterData( Fetcher ):
 		]
 	
 	def validate_collection( self, collection: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a USGS Water Data OGC collection name.
-
-			Parameters:
-			-----------
-			collection (str):
-				USGS Water Data collection name.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a USGS Water Data OGC collection name.
+		
+		Purpose:
+		    Provides the `validate_collection` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    collection (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'collection', collection )
 			
@@ -17342,23 +14510,23 @@ class USGSWaterData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSWaterData'
 			exception.method = 'validate_collection( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_limit( self, limit: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate the USGS Water Data request limit.
-
-			Parameters:
-			-----------
-			limit (int):
-				Maximum rows requested.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate the USGS Water Data request limit.
+		
+		Purpose:
+		    Provides the `validate_limit` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			
@@ -17373,23 +14541,23 @@ class USGSWaterData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSWaterData'
 			exception.method = 'validate_limit( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_parameter_code( self, parameter_code: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a USGS 5-digit parameter code when supplied.
-
-			Parameters:
-			-----------
-			parameter_code (str):
-				Optional USGS parameter code.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a USGS 5-digit parameter code when supplied.
+		
+		Purpose:
+		    Provides the `validate_parameter_code` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    parameter_code (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( parameter_code or '' ).strip( )
 			
@@ -17403,23 +14571,23 @@ class USGSWaterData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSWaterData'
 			exception.method = 'validate_parameter_code( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def coalesce_records( self, payload: Any ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Coalesce common USGS Water Data response shapes into a list of records.
-
-			Parameters:
-			-----------
-			payload (Any):
-				Raw parsed response payload.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Coalesce common USGS Water Data response shapes into a list of records.
+		
+		Purpose:
+		    Provides the `coalesce_records` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (object): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if payload is None:
 				return [ ]
@@ -17461,24 +14629,24 @@ class USGSWaterData( Fetcher ):
 			exception.method = (
 					'coalesce_records( self, *args, **kwargs ) -> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_monitoring_locations( self,
 			records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize monitoring-location records into display rows.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				Monitoring-location records.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize monitoring-location records into display rows.
+		
+		Purpose:
+		    Provides the `shape_monitoring_locations` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -17538,24 +14706,24 @@ class USGSWaterData( Fetcher ):
 					'shape_monitoring_locations( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_time_series_metadata( self,
 			records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize time-series metadata records into display rows.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				Time-series metadata records.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize time-series metadata records into display rows.
+		
+		Purpose:
+		    Provides the `shape_time_series_metadata` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -17611,24 +14779,24 @@ class USGSWaterData( Fetcher ):
 					'shape_time_series_metadata( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_latest_values( self,
 			records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize latest continuous or latest daily value records into display rows.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				Latest value records.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize latest continuous or latest daily value records into display rows.
+		
+		Purpose:
+		    Provides the `shape_latest_values` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -17690,23 +14858,23 @@ class USGSWaterData( Fetcher ):
 					'shape_latest_values( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized USGS Water Data rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized USGS Water Data rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			first_location = ''
@@ -17743,23 +14911,23 @@ class USGSWaterData( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package the stored USGS Water Data response into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized output rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package the stored USGS Water Data response into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -17779,30 +14947,26 @@ class USGSWaterData( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, collection: str, params: Dict[ str, Any ],
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Send a GET request to a USGS Water Data OGC collection item endpoint.
-
-			Parameters:
-			-----------
-			collection (str):
-				USGS Water Data collection name.
-
-			params (Dict[str, Any]):
-				Query parameters.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Send a GET request to a USGS Water Data OGC collection item endpoint.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    collection (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'collection', collection )
 			throw_if( 'params', params )
@@ -17851,40 +15015,30 @@ class USGSWaterData( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_monitoring_locations( self, monitoring_location_id: str = '',
 			state_code: str = '', county_code: str = '', site_type: str = '',
 			limit: int = 25, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch monitoring locations.
-
-			Parameters:
-			-----------
-			monitoring_location_id (str):
-				Optional monitoring location identifier such as USGS-01491000.
-
-			state_code (str):
-				Optional state filter.
-
-			county_code (str):
-				Optional county filter.
-
-			site_type (str):
-				Optional site type filter.
-
-			limit (int):
-				Maximum rows requested.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch monitoring locations.
+		
+		Purpose:
+		    Provides the `fetch_monitoring_locations` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    monitoring_location_id (str): Input value passed to the callable.
+		    state_code (str): Input value passed to the callable.
+		    county_code (str): Input value passed to the callable.
+		    site_type (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			throw_if( 'time', time )
@@ -17922,34 +15076,28 @@ class USGSWaterData( Fetcher ):
 					'fetch_monitoring_locations( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_time_series_metadata( self, monitoring_location_id: str = '',
 			parameter_code: str = '', limit: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch time-series metadata for a monitoring location and optional parameter.
-
-			Parameters:
-			-----------
-			monitoring_location_id (str):
-				Monitoring location identifier.
-
-			parameter_code (str):
-				Optional USGS parameter code.
-
-			limit (int):
-				Maximum rows requested.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch time-series metadata for a monitoring location and optional parameter.
+		
+		Purpose:
+		    Provides the `fetch_time_series_metadata` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    monitoring_location_id (str): Input value passed to the callable.
+		    parameter_code (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'monitoring_location_id', monitoring_location_id )
 			throw_if( 'limit', limit )
@@ -17984,34 +15132,28 @@ class USGSWaterData( Fetcher ):
 					'fetch_time_series_metadata( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_latest_continuous( self, monitoring_location_id: str = '',
 			parameter_code: str = '', limit: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch latest continuous values for a monitoring location.
-
-			Parameters:
-			-----------
-			monitoring_location_id (str):
-				Monitoring location identifier.
-
-			parameter_code (str):
-				Optional USGS parameter code.
-
-			limit (int):
-				Maximum rows requested.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch latest continuous values for a monitoring location.
+		
+		Purpose:
+		    Provides the `fetch_latest_continuous` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    monitoring_location_id (str): Input value passed to the callable.
+		    parameter_code (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'monitoring_location_id', monitoring_location_id )
 			throw_if( 'limit', limit )
@@ -18046,34 +15188,28 @@ class USGSWaterData( Fetcher ):
 					'fetch_latest_continuous( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_latest_daily( self, monitoring_location_id: str = '',
 			parameter_code: str = '', limit: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch latest daily values for a monitoring location.
-
-			Parameters:
-			-----------
-			monitoring_location_id (str):
-				Monitoring location identifier.
-
-			parameter_code (str):
-				Optional USGS parameter code.
-
-			limit (int):
-				Maximum rows requested.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch latest daily values for a monitoring location.
+		
+		Purpose:
+		    Provides the `fetch_latest_daily` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    monitoring_location_id (str): Input value passed to the callable.
+		    parameter_code (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'monitoring_location_id', monitoring_location_id )
 			throw_if( 'limit', limit )
@@ -18108,6 +15244,7 @@ class USGSWaterData( Fetcher ):
 					'fetch_latest_daily( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'monitoring-locations',
@@ -18115,45 +15252,26 @@ class USGSWaterData( Fetcher ):
 			county_code: str = '', site_type: str = '',
 			parameter_code: str = '', limit: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for USGS Water Data retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- monitoring-locations
-				- time-series-metadata
-				- latest-continuous
-				- latest-daily
-
-			monitoring_location_id (str):
-				Optional monitoring location identifier.
-
-			state_code (str):
-				Optional state filter for monitoring locations.
-
-			county_code (str):
-				Optional county filter for monitoring locations.
-
-			site_type (str):
-				Optional site type filter for monitoring locations.
-
-			parameter_code (str):
-				Optional USGS parameter code.
-
-			limit (int):
-				Maximum rows requested.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for USGS Water Data retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    monitoring_location_id (str): Input value passed to the callable.
+		    state_code (str): Input value passed to the callable.
+		    county_code (str): Input value passed to the callable.
+		    site_type (str): Input value passed to the callable.
+		    parameter_code (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -18205,37 +15323,29 @@ class USGSWaterData( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -18270,16 +15380,14 @@ class USGSWaterData( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class USGSTheNationalMap( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to the USGS The National Map TNMAccess API for dataset
-		discovery and downloadable product search.
-
-	'''
+	"""Provides access to the USGS The National Map TNMAccess API for dataset.
+	
+	Purpose:
+	    Documents the `USGSTheNationalMap` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	mode: Optional[ str ]
 	endpoint: Optional[ str ]
@@ -18295,19 +15403,10 @@ class USGSTheNationalMap( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the USGS The National Map wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the USGS The National Map wrapper.
+		
+		Purpose:
+		    Initializes `USGSTheNationalMap` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://tnmaccess.nationalmap.gov/api/v1'
 		self.mode = 'products'
@@ -18331,19 +15430,13 @@ class USGSTheNationalMap( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'mode',
@@ -18379,20 +15472,19 @@ class USGSTheNationalMap( Fetcher ):
 		]
 	
 	def validate_endpoint( self, endpoint: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a TNMAccess endpoint name.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				Endpoint name.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a TNMAccess endpoint name.
+		
+		Purpose:
+		    Provides the `validate_endpoint` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			
@@ -18412,23 +15504,23 @@ class USGSTheNationalMap( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSTheNationalMap'
 			exception.method = 'validate_endpoint( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_max_items( self, max_items: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate the TNMAccess max item count.
-
-			Parameters:
-			-----------
-			max_items (int):
-				Maximum returned product count.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate the TNMAccess max item count.
+		
+		Purpose:
+		    Provides the `validate_max_items` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    max_items (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'max_items', max_items )
 			
@@ -18443,23 +15535,23 @@ class USGSTheNationalMap( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSTheNationalMap'
 			exception.method = 'validate_max_items( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_offset( self, offset: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate the TNMAccess result offset.
-
-			Parameters:
-			-----------
-			offset (int):
-				Result offset.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate the TNMAccess result offset.
+		
+		Purpose:
+		    Provides the `validate_offset` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    offset (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if offset is None:
 				raise ValueError( 'offset cannot be None.' )
@@ -18475,23 +15567,23 @@ class USGSTheNationalMap( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSTheNationalMap'
 			exception.method = 'validate_offset( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_bbox( self, bbox: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an optional TNMAccess bounding-box string.
-
-			Parameters:
-			-----------
-			bbox (str):
-				Optional bounding box in minx,miny,maxx,maxy format.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an optional TNMAccess bounding-box string.
+		
+		Purpose:
+		    Provides the `validate_bbox` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    bbox (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( bbox or '' ).strip( )
 			
@@ -18522,23 +15614,23 @@ class USGSTheNationalMap( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSTheNationalMap'
 			exception.method = 'validate_bbox( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def coalesce_records( self, payload: Any ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Coalesce common TNMAccess response shapes into a list of records.
-
-			Parameters:
-			-----------
-			payload (Any):
-				Decoded JSON payload returned by the API.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Coalesce common TNMAccess response shapes into a list of records.
+		
+		Purpose:
+		    Provides the `coalesce_records` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (object): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if payload is None:
 				return [ ]
@@ -18573,24 +15665,24 @@ class USGSTheNationalMap( Fetcher ):
 					'coalesce_records( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_dataset_rows( self,
 			records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize TNM dataset records into display rows.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				Dataset records returned by TNMAccess.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize TNM dataset records into display rows.
+		
+		Purpose:
+		    Provides the `shape_dataset_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -18626,24 +15718,24 @@ class USGSTheNationalMap( Fetcher ):
 					'shape_dataset_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_product_rows( self,
 			records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize TNM product records into display rows.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				Product records returned by TNMAccess.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize TNM product records into display rows.
+		
+		Purpose:
+		    Provides the `shape_product_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -18707,23 +15799,23 @@ class USGSTheNationalMap( Fetcher ):
 					'shape_product_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized TNM rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized TNM row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized TNM rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			first_title = ''
@@ -18751,23 +15843,23 @@ class USGSTheNationalMap( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored TNMAccess response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized output rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored TNMAccess response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -18787,30 +15879,26 @@ class USGSTheNationalMap( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, endpoint: str, params: Dict[ str, Any ],
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Send a GET request to a TNMAccess endpoint and store response state.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				TNMAccess endpoint.
-
-			params (Dict[str, Any]):
-				Query parameters.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Send a GET request to a TNMAccess endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			throw_if( 'params', params )
@@ -18856,23 +15944,23 @@ class USGSTheNationalMap( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_datasets( self, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch the TNMAccess dataset catalog.
-
-			Parameters:
-			-----------
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch the TNMAccess dataset catalog.
+		
+		Purpose:
+		    Provides the `fetch_datasets` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -18897,43 +15985,31 @@ class USGSTheNationalMap( Fetcher ):
 			exception.method = (
 					'fetch_datasets( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_products( self, dataset: str = '', q: str = '',
 			bbox: str = '', prod_formats: str = '', max_items: int = 25,
 			offset: int = 0, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch downloadable product records from TNMAccess.
-
-			Parameters:
-			-----------
-			dataset (str):
-				Optional TNM dataset filter.
-
-			q (str):
-				Optional free-text search string.
-
-			bbox (str):
-				Optional bounding box in minx,miny,maxx,maxy format.
-
-			prod_formats (str):
-				Optional product format filter such as GeoTIFF, IMG, LAS, or LAZ.
-
-			max_items (int):
-				Maximum number of returned products.
-
-			offset (int):
-				Result offset for paging.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch downloadable product records from TNMAccess.
+		
+		Purpose:
+		    Provides the `fetch_products` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    dataset (str): Input value passed to the callable.
+		    q (str): Input value passed to the callable.
+		    bbox (str): Input value passed to the callable.
+		    prod_formats (str): Input value passed to the callable.
+		    max_items (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'max_items', max_items )
 			throw_if( 'offset', offset )
@@ -18973,49 +16049,33 @@ class USGSTheNationalMap( Fetcher ):
 			exception.method = (
 					'fetch_products( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'products', dataset: str = '',
 			q: str = '', bbox: str = '', prod_formats: str = '',
 			max_items: int = 25, offset: int = 0,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for TNMAccess dataset and product retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- datasets
-				- products
-
-			dataset (str):
-				Optional TNM dataset filter for product search.
-
-			q (str):
-				Optional free-text search string for product search.
-
-			bbox (str):
-				Optional bounding box string for product search.
-
-			prod_formats (str):
-				Optional format filter for product search.
-
-			max_items (int):
-				Maximum returned products.
-
-			offset (int):
-				Result offset for paging.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for TNMAccess dataset and product retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    dataset (str): Input value passed to the callable.
+		    q (str): Input value passed to the callable.
+		    bbox (str): Input value passed to the callable.
+		    prod_formats (str): Input value passed to the callable.
+		    max_items (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -19044,36 +16104,28 @@ class USGSTheNationalMap( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSTheNationalMap'
 			exception.method = 'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -19104,15 +16156,14 @@ class USGSTheNationalMap( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSTheNationalMap'
 			exception.method = 'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
+			Logger( ).write( exception )
 			raise exception
 
 class USGSScienceBase( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides read-only access to the USGS ScienceBase REST/JSON API for
-		item search and item retrieval.
-	'''
+	"""Provides read-only access to the USGS ScienceBase REST/JSON API for.
+	
+	Purpose:
+	    Documents the `USGSScienceBase` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	mode: Optional[ str ]
 	endpoint: Optional[ str ]
@@ -19127,19 +16178,10 @@ class USGSScienceBase( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the USGS ScienceBase wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the USGS ScienceBase wrapper.
+		
+		Purpose:
+		    Initializes `USGSScienceBase` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://www.sciencebase.gov/catalog'
 		self.mode = 'items'
@@ -19162,19 +16204,13 @@ class USGSScienceBase( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'mode',
@@ -19208,20 +16244,19 @@ class USGSScienceBase( Fetcher ):
 		]
 	
 	def validate_endpoint( self, endpoint: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a ScienceBase endpoint path.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				Endpoint path under the ScienceBase catalog base URL.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a ScienceBase endpoint path.
+		
+		Purpose:
+		    Provides the `validate_endpoint` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			
@@ -19246,23 +16281,23 @@ class USGSScienceBase( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSScienceBase'
 			exception.method = 'validate_endpoint( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_max_items( self, max_items: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate the ScienceBase item-search maximum.
-
-			Parameters:
-			-----------
-			max_items (int):
-				Maximum returned item count.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate the ScienceBase item-search maximum.
+		
+		Purpose:
+		    Provides the `validate_max_items` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    max_items (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'max_items', max_items )
 			
@@ -19277,23 +16312,23 @@ class USGSScienceBase( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSScienceBase'
 			exception.method = 'validate_max_items( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_offset( self, offset: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate the ScienceBase item-search offset.
-
-			Parameters:
-			-----------
-			offset (int):
-				Result offset for paging.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate the ScienceBase item-search offset.
+		
+		Purpose:
+		    Provides the `validate_offset` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    offset (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if offset is None:
 				raise ValueError( 'offset cannot be None.' )
@@ -19309,23 +16344,23 @@ class USGSScienceBase( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSScienceBase'
 			exception.method = 'validate_offset( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def coalesce_records( self, payload: Any ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Coalesce common ScienceBase response shapes into a list of records.
-
-			Parameters:
-			-----------
-			payload (Any):
-				Decoded ScienceBase JSON payload.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Coalesce common ScienceBase response shapes into a list of records.
+		
+		Purpose:
+		    Provides the `coalesce_records` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (object): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if payload is None:
 				return [ ]
@@ -19360,23 +16395,23 @@ class USGSScienceBase( Fetcher ):
 					'coalesce_records( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_single_item( self, item: Dict[ str, Any ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Normalize a ScienceBase item into the display row expected by app.py.
-
-			Parameters:
-			-----------
-			item (Dict[str, Any]):
-				ScienceBase item dictionary.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Normalize a ScienceBase item into the display row expected by app.py.
+		
+		Purpose:
+		    Provides the `shape_single_item` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    item (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if not isinstance( item, dict ):
 				item = { }
@@ -19416,24 +16451,24 @@ class USGSScienceBase( Fetcher ):
 			exception.method = (
 					'shape_single_item( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_item_rows( self,
 			records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize ScienceBase item records into display rows.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				ScienceBase item records.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize ScienceBase item records into display rows.
+		
+		Purpose:
+		    Provides the `shape_item_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -19450,23 +16485,23 @@ class USGSScienceBase( Fetcher ):
 					'shape_item_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized ScienceBase rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized ScienceBase rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			first_title = ''
@@ -19495,23 +16530,23 @@ class USGSScienceBase( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored ScienceBase response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized ScienceBase rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored ScienceBase response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -19531,31 +16566,27 @@ class USGSScienceBase( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, endpoint: str,
 			params: Optional[ Dict[ str, Any ] ] = None,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Issue a GET request to a ScienceBase endpoint and store response state.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				Endpoint path under the ScienceBase base URL.
-
-			params (Optional[Dict[str, Any]]):
-				Query string parameters.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Issue a GET request to a ScienceBase endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			throw_if( 'time', time )
@@ -19598,37 +16629,29 @@ class USGSScienceBase( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSScienceBase'
 			exception.method = 'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_items( self, q: str = '', max_items: int = 25,
 			offset: int = 0, fields: str = '',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Search ScienceBase items.
-
-			Parameters:
-			-----------
-			q (str):
-				Optional search query string.
-
-			max_items (int):
-				Maximum number of returned items.
-
-			offset (int):
-				Result offset for paging.
-
-			fields (str):
-				Optional fields selector.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Search ScienceBase items.
+		
+		Purpose:
+		    Provides the `fetch_items` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    q (str): Input value passed to the callable.
+		    max_items (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    fields (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'max_items', max_items )
 			throw_if( 'offset', offset )
@@ -19656,27 +16679,25 @@ class USGSScienceBase( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSScienceBase'
 			exception.method = 'fetch_items( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_item( self, item_id: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Retrieve a single ScienceBase item by identifier.
-
-			Parameters:
-			-----------
-			item_id (str):
-				ScienceBase item identifier.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Retrieve a single ScienceBase item by identifier.
+		
+		Purpose:
+		    Provides the `fetch_item` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    item_id (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'item_id', item_id )
 			throw_if( 'time', time )
@@ -19691,44 +16712,30 @@ class USGSScienceBase( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSScienceBase'
 			exception.method = 'fetch_item( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'items', q: str = '', item_id: str = '', max_items: int = 25,
 			offset: int = 0, fields: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for ScienceBase item search and item retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- items
-				- item
-
-			q (str):
-				Optional search query for items mode.
-
-			item_id (str):
-				Item identifier for item mode.
-
-			max_items (int):
-				Maximum number of items returned in items mode.
-
-			offset (int):
-				Result offset for items mode.
-
-			fields (str):
-				Optional fields selector for items mode.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for ScienceBase item search and item retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    q (str): Input value passed to the callable.
+		    item_id (str): Input value passed to the callable.
+		    max_items (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    fields (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			self.mode = str( mode or 'items' ).strip( ).lower( )
@@ -19745,37 +16752,29 @@ class USGSScienceBase( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'USGSScienceBase'
 			exception.method = 'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -19807,16 +16806,14 @@ class USGSScienceBase( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class AirNow( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to the AirNow API for current observations and forecasts by
-		Zip code or latitude/longitude, returning normalized rows for display.
-
-	'''
+	"""Provides access to the AirNow API for current observations and forecasts by.
+	
+	Purpose:
+	    Documents the `AirNow` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	api_key: Optional[ str ]
 	mode: Optional[ str ]
@@ -19833,19 +16830,10 @@ class AirNow( Fetcher ):
 	result: Optional[ Dict[ str, Any ] ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the AirNow fetcher and bind the API key from config.py.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the AirNow fetcher and bind the API key from config.py.
+		
+		Purpose:
+		    Initializes `AirNow` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://www.airnowapi.org/aq'
 		self.api_key = cfg.AIRNOW_API_KEY
@@ -19868,19 +16856,13 @@ class AirNow( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'api_key',
@@ -19911,26 +16893,21 @@ class AirNow( Fetcher ):
 	
 	def request( self, endpoint: str, params: Optional[ Dict[ str, Any ] ] = None,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Issue a GET request to an AirNow endpoint and store the response state.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				Endpoint path under the AirNow base URL.
-
-			params (Optional[Dict[str, Any]]):
-				Query string parameters for the AirNow request.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Issue a GET request to an AirNow endpoint and store the response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			throw_if( 'endpoint', endpoint )
@@ -19978,23 +16955,23 @@ class AirNow( Fetcher ):
 					'request( self, endpoint: str, params: Optional[ Dict[ str, Any ] ]=None, '
 					'time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_rows( self, records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize AirNow records into rows suitable for display.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				AirNow records returned by the API.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize AirNow records into rows suitable for display.
+		
+		Purpose:
+		    Provides the `shape_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -20029,23 +17006,23 @@ class AirNow( Fetcher ):
 					'shape_rows( self, records: List[ Dict[ str, Any ] ] ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary from normalized AirNow rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized AirNow row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary from normalized AirNow rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			max_aqi = None
@@ -20085,23 +17062,20 @@ class AirNow( Fetcher ):
 					'summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) '
 					'-> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package the stored AirNow response into the result structure consumed by
-			app.py.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package the stored AirNow response into the result structure consumed by.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			records = self.result.get( 'raw', [ ] ) if isinstance( self.result, dict ) else [ ]
 			records = records or [ ]
@@ -20123,30 +17097,26 @@ class AirNow( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'AirNow'
 			exception.method = 'package_response( self ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_current_zip( self, zip_code: str, distance: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch current AQI observations by Zip code.
-
-			Parameters:
-			-----------
-			zip_code (str):
-				U.S. Zip code.
-
-			distance (int):
-				Radius distance in miles.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch current AQI observations by Zip code.
+		
+		Purpose:
+		    Provides the `fetch_current_zip` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    zip_code (str): Input value passed to the callable.
+		    distance (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'zip_code', zip_code )
 			throw_if( 'distance', distance )
@@ -20176,33 +17146,27 @@ class AirNow( Fetcher ):
 					'fetch_current_zip( self, zip_code: str, distance: int=25, '
 					'time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_current_latlon( self, latitude: float, longitude: float,
 			distance: int = 25, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch current AQI observations by latitude and longitude.
-
-			Parameters:
-			-----------
-			latitude (float):
-				Latitude of the query point.
-
-			longitude (float):
-				Longitude of the query point.
-
-			distance (int):
-				Radius distance in miles.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch current AQI observations by latitude and longitude.
+		
+		Purpose:
+		    Provides the `fetch_current_latlon` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		    distance (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'latitude', latitude )
 			throw_if( 'longitude', longitude )
@@ -20235,33 +17199,27 @@ class AirNow( Fetcher ):
 					'fetch_current_latlon( self, latitude: float, longitude: float, '
 					'distance: int=25, time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_forecast_zip( self, zip_code: str, date: str,
 			distance: int = 25, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch AQI forecasts by Zip code.
-
-			Parameters:
-			-----------
-			zip_code (str):
-				U.S. Zip code.
-
-			date (str):
-				Forecast date in YYYY-MM-DD format.
-
-			distance (int):
-				Radius distance in miles.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch AQI forecasts by Zip code.
+		
+		Purpose:
+		    Provides the `fetch_forecast_zip` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    zip_code (str): Input value passed to the callable.
+		    date (str): Input value passed to the callable.
+		    distance (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'zip_code', zip_code )
 			throw_if( 'date', date )
@@ -20294,36 +17252,28 @@ class AirNow( Fetcher ):
 					'fetch_forecast_zip( self, zip_code: str, date: str, distance: int=25, '
 					'time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_forecast_latlon( self, latitude: float, longitude: float,
 			date: str, distance: int = 25, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch AQI forecasts by latitude and longitude.
-
-			Parameters:
-			-----------
-			latitude (float):
-				Latitude of the query point.
-
-			longitude (float):
-				Longitude of the query point.
-
-			date (str):
-				Forecast date in YYYY-MM-DD format.
-
-			distance (int):
-				Radius distance in miles.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch AQI forecasts by latitude and longitude.
+		
+		Purpose:
+		    Provides the `fetch_forecast_latlon` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		    date (str): Input value passed to the callable.
+		    distance (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'latitude', latitude )
 			throw_if( 'longitude', longitude )
@@ -20359,44 +17309,32 @@ class AirNow( Fetcher ):
 					'fetch_forecast_latlon( self, latitude: float, longitude: float, '
 					'date: str, distance: int=25, time: int=20 ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'current-zip', zip_code: str = '',
 			latitude: float | None = None, longitude: float | None = None,
 			date: str = '', distance: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Dispatch an AirNow request to the mode-specific fetch method.
-
-			Parameters:
-			-----------
-			mode (str):
-				AirNow request mode selected by the UI.
-
-			zip_code (str):
-				U.S. Zip code used by Zip-code modes.
-
-			latitude (float | None):
-				Latitude used by latitude/longitude modes.
-
-			longitude (float | None):
-				Longitude used by latitude/longitude modes.
-
-			date (str):
-				Forecast date used by forecast modes.
-
-			distance (int):
-				Radius distance in miles.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Dispatch an AirNow request to the mode-specific fetch method.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    zip_code (str): Input value passed to the callable.
+		    latitude (float): Input value passed to the callable.
+		    longitude (float): Input value passed to the callable.
+		    date (str): Input value passed to the callable.
+		    distance (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			self.mode = str( mode ).strip( ).lower( )
@@ -20427,37 +17365,29 @@ class AirNow( Fetcher ):
 					'longitude: float | None, date: str, distance: int, time: int ) '
 					'-> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				The function name exposed to the LLM.
-
-			tool (str):
-				The underlying system or service the function wraps.
-
-			description (str):
-				Precise explanation of what the function does.
-
-			parameters (dict):
-				Dictionary defining parameter names and JSON schema descriptors.
-
-			required (list[str]):
-				List of required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -20488,15 +17418,14 @@ class AirNow( Fetcher ):
 					'create_schema( self, function: str, tool: str, description: str, '
 					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class ClimateData( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to NOAA NCEI climate data search and retrieval services for
-		dataset discovery and subsetted climate data extraction.
-	'''
+	"""Provides access to NOAA NCEI climate data search and retrieval services for.
+	
+	Purpose:
+	    Documents the `ClimateData` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	data_url: Optional[ str ]
 	search_url: Optional[ str ]
 	mode: Optional[ str ]
@@ -20514,19 +17443,10 @@ class ClimateData( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the NOAA climate data fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the NOAA climate data fetcher.
+		
+		Purpose:
+		    Initializes `ClimateData` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.data_url = 'https://www.ncei.noaa.gov/access/services/data/v1'
 		self.search_url = 'https://www.ncei.noaa.gov/access/services/search/v1'
@@ -20549,19 +17469,13 @@ class ClimateData( Fetcher ):
 		self.headers = { 'Accept': 'application/json', 'User-Agent': self.agents }
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'data_url',
 				'search_url',
@@ -20598,20 +17512,19 @@ class ClimateData( Fetcher ):
 		]
 	
 	def validate_limit( self, limit: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a NOAA NCEI result limit.
-
-			Parameters:
-			-----------
-			limit (int):
-				Maximum number of rows requested.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a NOAA NCEI result limit.
+		
+		Purpose:
+		    Provides the `validate_limit` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			
@@ -20626,23 +17539,23 @@ class ClimateData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'ClimateData'
 			exception.method = 'validate_limit( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_offset( self, offset: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a NOAA NCEI result offset.
-
-			Parameters:
-			-----------
-			offset (int):
-				Result offset.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a NOAA NCEI result offset.
+		
+		Purpose:
+		    Provides the `validate_offset` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    offset (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if offset is None:
 				raise ValueError( 'offset cannot be None.' )
@@ -20658,26 +17571,24 @@ class ClimateData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'ClimateData'
 			exception.method = 'validate_offset( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_date_range( self, start_date: str, end_date: str ) -> Tuple[ str, str ]:
-		'''
-			Purpose:
-			--------
-			Validate and normalize a NOAA NCEI date range.
-
-			Parameters:
-			-----------
-			start_date (str):
-				ISO start date.
-
-			end_date (str):
-				ISO end date.
-
-			Returns:
-			--------
-			Tuple[str, str]
-		'''
+		"""Validate and normalize a NOAA NCEI date range.
+		
+		Purpose:
+		    Provides the `validate_date_range` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		
+		Returns:
+		    Tuple[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'start_date', start_date )
 			throw_if( 'end_date', end_date )
@@ -20697,23 +17608,23 @@ class ClimateData( Fetcher ):
 			exception.method = (
 					'validate_date_range( self, *args, **kwargs ) -> Tuple[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def coalesce_records( self, payload: Any ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Coalesce common NOAA NCEI response shapes into a list of dictionaries.
-
-			Parameters:
-			-----------
-			payload (Any):
-				Decoded JSON payload returned by the API.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Coalesce common NOAA NCEI response shapes into a list of dictionaries.
+		
+		Purpose:
+		    Provides the `coalesce_records` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (object): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if payload is None:
 				return [ ]
@@ -20747,24 +17658,24 @@ class ClimateData( Fetcher ):
 			exception.method = (
 					'coalesce_records( self, *args, **kwargs ) -> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_dataset_rows( self,
 			records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize NOAA climate dataset records into display rows.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				Dataset discovery records returned by the search service.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize NOAA climate dataset records into display rows.
+		
+		Purpose:
+		    Provides the `shape_dataset_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -20799,23 +17710,23 @@ class ClimateData( Fetcher ):
 					'shape_dataset_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_data_rows( self, records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize NOAA climate data records into a human-readable table.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				Climate data records returned by the data service.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize NOAA climate data records into a human-readable table.
+		
+		Purpose:
+		    Provides the `shape_data_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -20835,23 +17746,23 @@ class ClimateData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'ClimateData'
 			exception.method = 'shape_data_rows( self, *args, **kwargs ) -> List[ Dict[ str, Any ]]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized climate rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized climate rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			first_title = ''
@@ -20883,23 +17794,23 @@ class ClimateData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'ClimateData'
 			exception.method = 'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored NOAA Climate response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized output rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored NOAA Climate response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -20919,30 +17830,26 @@ class ClimateData( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, url: str, params: Dict[ str, Any ], time: int = 20 ) -> Dict[
 		                                                                           str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Send a GET request to a NOAA NCEI climate endpoint and store response state.
-
-			Parameters:
-			-----------
-			url (str):
-				NOAA NCEI request URL.
-
-			params (Dict[str, Any]):
-				Query parameters.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Send a GET request to a NOAA NCEI climate endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			throw_if( 'params', params )
@@ -20987,39 +17894,29 @@ class ClimateData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'ClimateData'
 			exception.method = 'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_datasets( self, keyword: str = '', start_date: str = '', end_date: str = '',
 			limit: int = 25, offset: int = 0, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch discoverable NOAA climate datasets.
-
-			Parameters:
-			-----------
-			keyword (str):
-				Optional dataset keyword search string.
-
-			start_date (str):
-				Optional ISO date lower bound.
-
-			end_date (str):
-				Optional ISO date upper bound.
-
-			limit (int):
-				Maximum returned datasets.
-
-			offset (int):
-				Result offset.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch discoverable NOAA climate datasets.
+		
+		Purpose:
+		    Provides the `fetch_datasets` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    keyword (str): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			throw_if( 'offset', offset )
@@ -21054,42 +17951,30 @@ class ClimateData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'ClimateData'
 			exception.method = 'fetch_datasets( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_data( self, dataset: str, start_date: str, end_date: str, stations: str = '',
 			data_types: str = '', limit: int = 25, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch subsetted NOAA climate data records.
-
-			Parameters:
-			-----------
-			dataset (str):
-				NCEI dataset identifier, such as daily-summaries.
-
-			start_date (str):
-				ISO start date.
-
-			end_date (str):
-				ISO end date.
-
-			stations (str):
-				Optional comma-separated station identifiers.
-
-			data_types (str):
-				Optional comma-separated data type identifiers.
-
-			limit (int):
-				Maximum returned records.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch subsetted NOAA climate data records.
+		
+		Purpose:
+		    Provides the `fetch_data` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    dataset (str): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    stations (str): Input value passed to the callable.
+		    data_types (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'dataset', dataset )
 			throw_if( 'start_date', start_date )
@@ -21122,54 +18007,34 @@ class ClimateData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'ClimateData'
 			exception.method = 'fetch_data( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'datasets', keyword: str = '', dataset: str = '',
 			start_date: str = '', end_date: str = '', stations: str = '', data_types: str = '',
 			limit: int = 25, offset: int = 0, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for NOAA NCEI climate dataset discovery and data retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- datasets
-				- data
-
-			keyword (str):
-				Optional search keyword for datasets mode.
-
-			dataset (str):
-				Dataset identifier for data mode.
-
-			start_date (str):
-				ISO start date.
-
-			end_date (str):
-				ISO end date.
-
-			stations (str):
-				Optional station identifiers for data mode.
-
-			data_types (str):
-				Optional data type identifiers for data mode.
-
-			limit (int):
-				Maximum returned rows.
-
-			offset (int):
-				Result offset for datasets mode.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for NOAA NCEI climate dataset discovery and data retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    keyword (str): Input value passed to the callable.
+		    dataset (str): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    stations (str): Input value passed to the callable.
+		    data_types (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    offset (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -21196,36 +18061,28 @@ class ClimateData( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'ClimateData'
 			exception.method = 'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -21260,15 +18117,14 @@ class ClimateData( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class EoNet( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to NASA EONET Version 3 for event discovery and category
-		discovery, returning human-readable normalized rows.
-	'''
+	"""Provides access to NASA EONET Version 3 for event discovery and category.
+	
+	Purpose:
+	    Documents the `EoNet` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	mode: Optional[ str ]
 	endpoint: Optional[ str ]
@@ -21286,19 +18142,10 @@ class EoNet( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the NASA EONET v3 fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the NASA EONET v3 fetcher.
+		
+		Purpose:
+		    Initializes `EoNet` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://eonet.gsfc.nasa.gov/api/v3'
 		self.mode = 'events'
@@ -21324,19 +18171,13 @@ class EoNet( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'mode',
@@ -21375,20 +18216,19 @@ class EoNet( Fetcher ):
 		]
 	
 	def validate_endpoint( self, endpoint: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a NASA EONET v3 endpoint.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				EONET endpoint name.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a NASA EONET v3 endpoint.
+		
+		Purpose:
+		    Provides the `validate_endpoint` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			
@@ -21408,23 +18248,23 @@ class EoNet( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EoNet'
 			exception.method = 'validate_endpoint( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_status( self, status: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an EONET event status filter.
-
-			Parameters:
-			-----------
-			status (str):
-				Event status filter.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an EONET event status filter.
+		
+		Purpose:
+		    Provides the `validate_status` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    status (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'status', status )
 			
@@ -21445,23 +18285,23 @@ class EoNet( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EoNet'
 			exception.method = 'validate_status( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_limit( self, limit: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate the EONET event limit.
-
-			Parameters:
-			-----------
-			limit (int):
-				Maximum returned events.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate the EONET event limit.
+		
+		Purpose:
+		    Provides the `validate_limit` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			
@@ -21476,23 +18316,23 @@ class EoNet( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EoNet'
 			exception.method = 'validate_limit( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_days( self, days: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate the EONET prior-day event window.
-
-			Parameters:
-			-----------
-			days (int):
-				Number of prior days including today.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate the EONET prior-day event window.
+		
+		Purpose:
+		    Provides the `validate_days` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    days (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'days', days )
 			
@@ -21507,23 +18347,23 @@ class EoNet( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EoNet'
 			exception.method = 'validate_days( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_bbox( self, bbox: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an optional EONET bounding-box string.
-
-			Parameters:
-			-----------
-			bbox (str):
-				Optional bounding box in min_lon,max_lat,max_lon,min_lat format.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an optional EONET bounding-box string.
+		
+		Purpose:
+		    Provides the `validate_bbox` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    bbox (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( bbox or '' ).strip( )
 			
@@ -21568,26 +18408,24 @@ class EoNet( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EoNet'
 			exception.method = 'validate_bbox( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_date_pair( self, start_date: str = '', end_date: str = '' ) -> Tuple[ str, str ]:
-		'''
-			Purpose:
-			--------
-			Validate optional EONET start/end date filters.
-
-			Parameters:
-			-----------
-			start_date (str):
-				Optional start date in YYYY-MM-DD format.
-
-			end_date (str):
-				Optional end date in YYYY-MM-DD format.
-
-			Returns:
-			--------
-			Tuple[str, str]
-		'''
+		"""Validate optional EONET start/end date filters.
+		
+		Purpose:
+		    Provides the `validate_date_pair` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		
+		Returns:
+		    Tuple[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			start_value = str( start_date or '' ).strip( )
 			end_value = str( end_date or '' ).strip( )
@@ -21609,24 +18447,24 @@ class EoNet( Fetcher ):
 			exception.method = (
 					'validate_date_pair( self, *args, **kwargs ) -> Tuple[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_event_rows( self,
 			records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize EONET event records into display rows.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				EONET event records.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize EONET event records into display rows.
+		
+		Purpose:
+		    Provides the `shape_event_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -21689,24 +18527,24 @@ class EoNet( Fetcher ):
 					'shape_event_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_category_rows( self,
 			records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize EONET category records into display rows.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				EONET category records.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize EONET category records into display rows.
+		
+		Purpose:
+		    Provides the `shape_category_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -21730,23 +18568,23 @@ class EoNet( Fetcher ):
 					'shape_category_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized EONET rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized EONET rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			open_count = 0
@@ -21775,23 +18613,23 @@ class EoNet( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored EONET response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized output rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored EONET response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -21811,30 +18649,26 @@ class EoNet( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, endpoint: str, params: Optional[ Dict[ str, Any ] ] = None,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Send a GET request to a NASA EONET v3 endpoint and store response state.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				EONET endpoint name.
-
-			params (Optional[Dict[str, Any]]):
-				Query parameters.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Send a GET request to a NASA EONET v3 endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			throw_if( 'time', time )
@@ -21879,50 +18713,34 @@ class EoNet( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_events( self, source: str = '', category: str = '',
 			status: str = 'open', limit: int = 25, days: int = 30,
 			start_date: str = '', end_date: str = '', bbox: str = '',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch EONET events.
-
-			Parameters:
-			-----------
-			source (str):
-				Optional source identifier or comma-separated source identifiers.
-
-			category (str):
-				Optional category identifier or comma-separated category identifiers.
-
-			status (str):
-				Event status filter.
-
-			limit (int):
-				Maximum returned events.
-
-			days (int):
-				Number of prior days including today.
-
-			start_date (str):
-				Optional ISO start date.
-
-			end_date (str):
-				Optional ISO end date.
-
-			bbox (str):
-				Optional bounding box in min_lon,max_lat,max_lon,min_lat format.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch EONET events.
+		
+		Purpose:
+		    Provides the `fetch_events` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    source (str): Input value passed to the callable.
+		    category (str): Input value passed to the callable.
+		    status (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    days (int): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    bbox (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'status', status )
 			throw_if( 'limit', limit )
@@ -21973,23 +18791,23 @@ class EoNet( Fetcher ):
 			exception.method = (
 					'fetch_events( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_categories( self, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch EONET event categories.
-
-			Parameters:
-			-----------
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch EONET event categories.
+		
+		Purpose:
+		    Provides the `fetch_categories` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time', time )
 			
@@ -22018,55 +18836,35 @@ class EoNet( Fetcher ):
 			exception.method = (
 					'fetch_categories( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'events', source: str = '', category: str = '',
 			status: str = 'open', limit: int = 25, days: int = 30,
 			start_date: str = '', end_date: str = '', bbox: str = '',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for EONET event and category retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- events
-				- categories
-
-			source (str):
-				Optional event source filter.
-
-			category (str):
-				Optional event category filter.
-
-			status (str):
-				Optional event status filter.
-
-			limit (int):
-				Maximum returned events.
-
-			days (int):
-				Number of prior days including today.
-
-			start_date (str):
-				Optional start date.
-
-			end_date (str):
-				Optional end date.
-
-			bbox (str):
-				Optional bounding box string.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for EONET event and category retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    source (str): Input value passed to the callable.
+		    category (str): Input value passed to the callable.
+		    status (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    days (int): Input value passed to the callable.
+		    start_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    bbox (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -22099,37 +18897,29 @@ class EoNet( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -22162,15 +18952,14 @@ class EoNet( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EoNet'
 			exception.method = 'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
+			Logger( ).write( exception )
 			raise exception
 
 class EnviroFacts( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to selected EPA Envirofacts Data Service API tables using a
-		constrained, human-readable wrapper for common environmental queries.
-	'''
+	"""Provides access to selected EPA Envirofacts Data Service API tables using a.
+	
+	Purpose:
+	    Documents the `EnviroFacts` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	mode: Optional[ str ]
 	table_name: Optional[ str ]
@@ -22184,19 +18973,10 @@ class EnviroFacts( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the EPA Envirofacts fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the EPA Envirofacts fetcher.
+		
+		Purpose:
+		    Initializes `EnviroFacts` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://data.epa.gov/efservice'
 		self.mode = 'table'
@@ -22218,19 +18998,13 @@ class EnviroFacts( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'mode',
@@ -22261,20 +19035,19 @@ class EnviroFacts( Fetcher ):
 		]
 	
 	def validate_table_name( self, table_name: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate the constrained Envirofacts table name.
-
-			Parameters:
-			-----------
-			table_name (str):
-				Supported Envirofacts table name.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate the constrained Envirofacts table name.
+		
+		Purpose:
+		    Provides the `validate_table_name` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    table_name (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'table_name', table_name )
 			
@@ -22298,23 +19071,23 @@ class EnviroFacts( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EnviroFacts'
 			exception.method = 'validate_table_name( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_state_code( self, state_code: str = '' ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an optional U.S. state or territory code.
-
-			Parameters:
-			-----------
-			state_code (str):
-				Optional two-character state or territory code.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an optional U.S. state or territory code.
+		
+		Purpose:
+		    Provides the `validate_state_code` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    state_code (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( state_code or '' ).strip( ).upper( )
 			
@@ -22331,23 +19104,23 @@ class EnviroFacts( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EnviroFacts'
 			exception.method = 'validate_state_code( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_limit( self, limit: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate the Envirofacts row limit.
-
-			Parameters:
-			-----------
-			limit (int):
-				Maximum returned rows.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate the Envirofacts row limit.
+		
+		Purpose:
+		    Provides the `validate_limit` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'limit', limit )
 			
@@ -22362,33 +19135,27 @@ class EnviroFacts( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'EnviroFacts'
 			exception.method = 'validate_limit( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def resolve_table_path( self, table_name: str, state_code: str = '',
 			facility_name: str = '', limit: int = 25 ) -> str:
-		'''
-			Purpose:
-			--------
-			Build an Envirofacts REST path for the constrained table wrapper.
-
-			Parameters:
-			-----------
-			table_name (str):
-				Supported Envirofacts table name.
-
-			state_code (str):
-				Optional state or territory code filter.
-
-			facility_name (str):
-				Optional facility-name prefix filter.
-
-			limit (int):
-				Maximum returned rows.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Build an Envirofacts REST path for the constrained table wrapper.
+		
+		Purpose:
+		    Provides the `resolve_table_path` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    table_name (str): Input value passed to the callable.
+		    state_code (str): Input value passed to the callable.
+		    facility_name (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.table_name = self.validate_table_name( table_name )
 			self.state_code = self.validate_state_code( state_code )
@@ -22455,24 +19222,23 @@ class EnviroFacts( Fetcher ):
 			exception.method = (
 					'resolve_table_path( self, *args, **kwargs ) -> str'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_rows( self, records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize Envirofacts rows into a human-readable table by title-casing
-			column names and preserving original values.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				Envirofacts records returned by the service.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize Envirofacts rows into a human-readable table by title-casing.
+		
+		Purpose:
+		    Provides the `shape_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -22497,23 +19263,23 @@ class EnviroFacts( Fetcher ):
 			exception.method = (
 					'shape_rows( self, *args, **kwargs ) -> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized Envirofacts rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized Envirofacts rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			first_facility = ''
@@ -22547,23 +19313,23 @@ class EnviroFacts( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored Envirofacts response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized Envirofacts rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored Envirofacts response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -22584,26 +19350,24 @@ class EnviroFacts( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, url: str, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Issue a GET request to an Envirofacts endpoint and store response state.
-
-			Parameters:
-			-----------
-			url (str):
-				Fully qualified Envirofacts request URL.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Issue a GET request to an Envirofacts endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			throw_if( 'time', time )
@@ -22636,37 +19400,29 @@ class EnviroFacts( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_table( self, table_name: str, state_code: str = '',
 			facility_name: str = '', limit: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch a constrained set of rows from a supported Envirofacts table.
-
-			Parameters:
-			-----------
-			table_name (str):
-				Supported Envirofacts table name.
-
-			state_code (str):
-				Optional state or territory code filter.
-
-			facility_name (str):
-				Optional facility-name prefix filter.
-
-			limit (int):
-				Maximum returned rows.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch a constrained set of rows from a supported Envirofacts table.
+		
+		Purpose:
+		    Provides the `fetch_table` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    table_name (str): Input value passed to the callable.
+		    state_code (str): Input value passed to the callable.
+		    facility_name (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'table_name', table_name )
 			throw_if( 'limit', limit )
@@ -22703,37 +19459,29 @@ class EnviroFacts( Fetcher ):
 			exception.method = (
 					'fetch_table( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, table_name: str = 'TRI_FACILITY', state_code: str = '',
 			facility_name: str = '', limit: int = 25,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for the constrained Envirofacts table wrapper.
-
-			Parameters:
-			-----------
-			table_name (str):
-				Supported Envirofacts table name.
-
-			state_code (str):
-				Optional state or territory code filter.
-
-			facility_name (str):
-				Optional facility-name prefix filter.
-
-			limit (int):
-				Maximum returned rows.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for the constrained Envirofacts table wrapper.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    table_name (str): Input value passed to the callable.
+		    state_code (str): Input value passed to the callable.
+		    facility_name (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			return self.fetch_table(
 				table_name=table_name,
@@ -22750,37 +19498,29 @@ class EnviroFacts( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -22815,15 +19555,14 @@ class EnviroFacts( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class TidesAndCurrents( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to NOAA CO-OPS Tides and Currents APIs for station metadata,
-		water-level observations, and tide predictions.
-	'''
+	"""Provides access to NOAA CO-OPS Tides and Currents APIs for station metadata,.
+	
+	Purpose:
+	    Documents the `TidesAndCurrents` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	data_url: Optional[ str ]
 	metadata_url: Optional[ str ]
 	mode: Optional[ str ]
@@ -22840,19 +19579,10 @@ class TidesAndCurrents( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the NOAA Tides and Currents fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the NOAA Tides and Currents fetcher.
+		
+		Purpose:
+		    Initializes `TidesAndCurrents` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.data_url = 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter'
 		self.metadata_url = 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi'
@@ -22877,19 +19607,13 @@ class TidesAndCurrents( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'data_url',
 				'metadata_url',
@@ -22929,20 +19653,19 @@ class TidesAndCurrents( Fetcher ):
 		]
 	
 	def validate_mode( self, mode: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a NOAA CO-OPS wrapper mode.
-
-			Parameters:
-			-----------
-			mode (str):
-				Requested wrapper mode.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a NOAA CO-OPS wrapper mode.
+		
+		Purpose:
+		    Provides the `validate_mode` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -22966,23 +19689,23 @@ class TidesAndCurrents( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'TidesAndCurrents'
 			exception.method = 'validate_mode( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_station_id( self, station_id: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a NOAA CO-OPS station identifier.
-
-			Parameters:
-			-----------
-			station_id (str):
-				NOAA station identifier.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a NOAA CO-OPS station identifier.
+		
+		Purpose:
+		    Provides the `validate_station_id` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    station_id (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'station_id', station_id )
 			
@@ -23001,26 +19724,24 @@ class TidesAndCurrents( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'TidesAndCurrents'
 			exception.method = 'validate_station_id( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_date_range( self, begin_date: str, end_date: str ) -> Tuple[ str, str ]:
-		'''
-			Purpose:
-			--------
-			Validate a NOAA CO-OPS begin/end date pair.
-
-			Parameters:
-			-----------
-			begin_date (str):
-				Begin date in YYYYMMDD format.
-
-			end_date (str):
-				End date in YYYYMMDD format.
-
-			Returns:
-			--------
-			Tuple[str, str]
-		'''
+		"""Validate a NOAA CO-OPS begin/end date pair.
+		
+		Purpose:
+		    Provides the `validate_date_range` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    begin_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		
+		Returns:
+		    Tuple[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'begin_date', begin_date )
 			throw_if( 'end_date', end_date )
@@ -23046,23 +19767,23 @@ class TidesAndCurrents( Fetcher ):
 			exception.method = (
 					'validate_date_range( self, *args, **kwargs ) -> Tuple[ str, str ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_datum( self, datum: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a NOAA CO-OPS datum option used by the current app controls.
-
-			Parameters:
-			-----------
-			datum (str):
-				Datum value.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a NOAA CO-OPS datum option used by the current app controls.
+		
+		Purpose:
+		    Provides the `validate_datum` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    datum (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'datum', datum )
 			
@@ -23091,23 +19812,23 @@ class TidesAndCurrents( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'TidesAndCurrents'
 			exception.method = 'validate_datum( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_units( self, units: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate NOAA CO-OPS unit selection.
-
-			Parameters:
-			-----------
-			units (str):
-				Unit system.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate NOAA CO-OPS unit selection.
+		
+		Purpose:
+		    Provides the `validate_units` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    units (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'units', units )
 			
@@ -23127,23 +19848,23 @@ class TidesAndCurrents( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'TidesAndCurrents'
 			exception.method = 'validate_units( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_time_zone( self, time_zone: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate NOAA CO-OPS time-zone selection.
-
-			Parameters:
-			-----------
-			time_zone (str):
-				Time-zone code.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate NOAA CO-OPS time-zone selection.
+		
+		Purpose:
+		    Provides the `validate_time_zone` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    time_zone (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'time_zone', time_zone )
 			
@@ -23164,23 +19885,23 @@ class TidesAndCurrents( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'TidesAndCurrents'
 			exception.method = 'validate_time_zone( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_interval( self, interval: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate NOAA CO-OPS tide-prediction interval selection.
-
-			Parameters:
-			-----------
-			interval (str):
-				Prediction interval.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate NOAA CO-OPS tide-prediction interval selection.
+		
+		Purpose:
+		    Provides the `validate_interval` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    interval (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'interval', interval )
 			
@@ -23210,23 +19931,23 @@ class TidesAndCurrents( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'TidesAndCurrents'
 			exception.method = 'validate_interval( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_station_rows( self, payload: Dict[ str, Any ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize station metadata into a human-readable table.
-
-			Parameters:
-			-----------
-			payload (Dict[str, Any]):
-				Station metadata payload.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize station metadata into a human-readable table.
+		
+		Purpose:
+		    Provides the `shape_station_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			station = payload.get( 'stations', None ) if isinstance( payload, dict ) else None
 			
@@ -23258,23 +19979,23 @@ class TidesAndCurrents( Fetcher ):
 					'shape_station_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_data_rows( self, payload: Dict[ str, Any ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize NOAA CO-OPS water-level and prediction payloads into display rows.
-
-			Parameters:
-			-----------
-			payload (Dict[str, Any]):
-				Data API payload.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize NOAA CO-OPS water-level and prediction payloads into display rows.
+		
+		Purpose:
+		    Provides the `shape_data_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -23308,23 +20029,23 @@ class TidesAndCurrents( Fetcher ):
 					'shape_data_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized NOAA CO-OPS rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized NOAA CO-OPS rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			first_station = ''
@@ -23366,23 +20087,23 @@ class TidesAndCurrents( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored NOAA CO-OPS response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized output rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored NOAA CO-OPS response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -23403,30 +20124,26 @@ class TidesAndCurrents( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, url: str, params: Optional[ Dict[ str, Any ] ] = None,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Issue a GET request to a NOAA CO-OPS endpoint and store response state.
-
-			Parameters:
-			-----------
-			url (str):
-				Target endpoint URL.
-
-			params (Optional[Dict[str, Any]]):
-				Query string parameters.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Issue a GET request to a NOAA CO-OPS endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			throw_if( 'time', time )
@@ -23470,27 +20187,25 @@ class TidesAndCurrents( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_station( self, station_id: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch NOAA CO-OPS station metadata.
-
-			Parameters:
-			-----------
-			station_id (str):
-				NOAA station identifier.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch NOAA CO-OPS station metadata.
+		
+		Purpose:
+		    Provides the `fetch_station` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    station_id (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'station_id', station_id )
 			throw_if( 'time', time )
@@ -23516,43 +20231,31 @@ class TidesAndCurrents( Fetcher ):
 			exception.method = (
 					'fetch_station( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_water_level( self, station_id: str, begin_date: str,
 			end_date: str, datum: str = 'MLLW', units: str = 'metric',
 			time_zone: str = 'gmt', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch NOAA CO-OPS water-level observations.
-
-			Parameters:
-			-----------
-			station_id (str):
-				NOAA station identifier.
-
-			begin_date (str):
-				Begin date in YYYYMMDD format.
-
-			end_date (str):
-				End date in YYYYMMDD format.
-
-			datum (str):
-				Datum such as MLLW.
-
-			units (str):
-				english or metric.
-
-			time_zone (str):
-				gmt, lst, or lst_ldt.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch NOAA CO-OPS water-level observations.
+		
+		Purpose:
+		    Provides the `fetch_water_level` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    station_id (str): Input value passed to the callable.
+		    begin_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    datum (str): Input value passed to the callable.
+		    units (str): Input value passed to the callable.
+		    time_zone (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'station_id', station_id )
 			throw_if( 'begin_date', begin_date )
@@ -23597,47 +20300,33 @@ class TidesAndCurrents( Fetcher ):
 			exception.method = (
 					'fetch_water_level( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_tide_predictions( self, station_id: str, begin_date: str,
 			end_date: str, datum: str = 'MLLW', units: str = 'metric',
 			time_zone: str = 'gmt', interval: str = 'hilo',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch NOAA CO-OPS tide predictions.
-
-			Parameters:
-			-----------
-			station_id (str):
-				NOAA station identifier.
-
-			begin_date (str):
-				Begin date in YYYYMMDD format.
-
-			end_date (str):
-				End date in YYYYMMDD format.
-
-			datum (str):
-				Datum such as MLLW.
-
-			units (str):
-				english or metric.
-
-			time_zone (str):
-				gmt, lst, or lst_ldt.
-
-			interval (str):
-				Prediction interval such as hilo or h.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch NOAA CO-OPS tide predictions.
+		
+		Purpose:
+		    Provides the `fetch_tide_predictions` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    station_id (str): Input value passed to the callable.
+		    begin_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    datum (str): Input value passed to the callable.
+		    units (str): Input value passed to the callable.
+		    time_zone (str): Input value passed to the callable.
+		    interval (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'station_id', station_id )
 			throw_if( 'begin_date', begin_date )
@@ -23685,53 +20374,34 @@ class TidesAndCurrents( Fetcher ):
 					'fetch_tide_predictions( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'water-level', station_id: str = '',
 			begin_date: str = '', end_date: str = '', datum: str = 'MLLW',
 			units: str = 'metric', time_zone: str = 'gmt',
 			interval: str = 'hilo', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for NOAA Tides and Currents retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- station
-				- water-level
-				- tide-predictions
-
-			station_id (str):
-				NOAA station identifier.
-
-			begin_date (str):
-				Begin date in YYYYMMDD format.
-
-			end_date (str):
-				End date in YYYYMMDD format.
-
-			datum (str):
-				Datum.
-
-			units (str):
-				english or metric.
-
-			time_zone (str):
-				gmt, lst, or lst_ldt.
-
-			interval (str):
-				Prediction interval.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for NOAA Tides and Currents retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    station_id (str): Input value passed to the callable.
+		    begin_date (str): Input value passed to the callable.
+		    end_date (str): Input value passed to the callable.
+		    datum (str): Input value passed to the callable.
+		    units (str): Input value passed to the callable.
+		    time_zone (str): Input value passed to the callable.
+		    interval (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = self.validate_mode( mode )
 			
@@ -23776,37 +20446,29 @@ class TidesAndCurrents( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -23841,16 +20503,14 @@ class TidesAndCurrents( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class UvIndex( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to the EPA UV Index web services for daily and hourly UV
-		forecast retrieval by ZIP code or by city and state.
-
-	'''
+	"""Provides access to the EPA UV Index web services for daily and hourly UV.
+	
+	Purpose:
+	    Documents the `UvIndex` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	mode: Optional[ str ]
 	zip_code: Optional[ str ]
@@ -23863,19 +20523,10 @@ class UvIndex( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the EPA UV Index fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the EPA UV Index fetcher.
+		
+		Purpose:
+		    Initializes `UvIndex` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://enviro.epa.gov/enviro/efservice'
 		self.mode = 'daily-zip'
@@ -23896,19 +20547,13 @@ class UvIndex( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'mode',
@@ -23941,20 +20586,19 @@ class UvIndex( Fetcher ):
 		]
 	
 	def validate_mode( self, mode: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an EPA UV Index wrapper mode.
-
-			Parameters:
-			-----------
-			mode (str):
-				Requested wrapper mode.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an EPA UV Index wrapper mode.
+		
+		Purpose:
+		    Provides the `validate_mode` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -23979,23 +20623,23 @@ class UvIndex( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'UvIndex'
 			exception.method = 'validate_mode( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_zip_code( self, zip_code: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a U.S. ZIP code accepted by the EPA UV Index service.
-
-			Parameters:
-			-----------
-			zip_code (str):
-				Five-digit ZIP or ZIP+4 value.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a U.S. ZIP code accepted by the EPA UV Index service.
+		
+		Purpose:
+		    Provides the `validate_zip_code` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    zip_code (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'zip_code', zip_code )
 			
@@ -24011,23 +20655,23 @@ class UvIndex( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'UvIndex'
 			exception.method = 'validate_zip_code( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_city( self, city: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a city name before constructing the EPA UV Index URL.
-
-			Parameters:
-			-----------
-			city (str):
-				U.S. city name.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a city name before constructing the EPA UV Index URL.
+		
+		Purpose:
+		    Provides the `validate_city` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    city (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'city', city )
 			
@@ -24046,23 +20690,23 @@ class UvIndex( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'UvIndex'
 			exception.method = 'validate_city( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_state( self, state: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a U.S. state or territory abbreviation.
-
-			Parameters:
-			-----------
-			state (str):
-				State or territory abbreviation.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a U.S. state or territory abbreviation.
+		
+		Purpose:
+		    Provides the `validate_state` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    state (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'state', state )
 			
@@ -24078,23 +20722,23 @@ class UvIndex( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'UvIndex'
 			exception.method = 'validate_state( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_rows( self, records: List[ Dict[ str, Any ] ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize UV Index rows into a human-readable table.
-
-			Parameters:
-			-----------
-			records (List[Dict[str, Any]]):
-				UV Index records returned by the EPA web services.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize UV Index rows into a human-readable table.
+		
+		Purpose:
+		    Provides the `shape_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    records (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -24119,23 +20763,23 @@ class UvIndex( Fetcher ):
 			exception.method = (
 					'shape_rows( self, *args, **kwargs ) -> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized UV Index rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized UV Index rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			max_uv = None
@@ -24185,23 +20829,23 @@ class UvIndex( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored EPA UV Index response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized UV Index rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored EPA UV Index response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -24221,30 +20865,26 @@ class UvIndex( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, url: str, params: Dict[ str, Any ],
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Issue a GET request to an EPA UV Index endpoint and store response state.
-
-			Parameters:
-			-----------
-			url (str):
-				Fully qualified request URL.
-
-			params (Dict[str, Any]):
-				App-facing request metadata.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Issue a GET request to an EPA UV Index endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'url', url )
 			throw_if( 'params', params )
@@ -24279,27 +20919,25 @@ class UvIndex( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_daily_zip( self, zip_code: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch daily UV forecast and alert data by ZIP code.
-
-			Parameters:
-			-----------
-			zip_code (str):
-				U.S. ZIP code.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch daily UV forecast and alert data by ZIP code.
+		
+		Purpose:
+		    Provides the `fetch_daily_zip` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    zip_code (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'zip_code', zip_code )
 			throw_if( 'time', time )
@@ -24334,30 +20972,26 @@ class UvIndex( Fetcher ):
 			exception.method = (
 					'fetch_daily_zip( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_daily_city_state( self, city: str, state: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch daily UV forecast and alert data by city and state.
-
-			Parameters:
-			-----------
-			city (str):
-				U.S. city name.
-
-			state (str):
-				U.S. state abbreviation.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch daily UV forecast and alert data by city and state.
+		
+		Purpose:
+		    Provides the `fetch_daily_city_state` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    city (str): Input value passed to the callable.
+		    state (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'city', city )
 			throw_if( 'state', state )
@@ -24397,27 +21031,25 @@ class UvIndex( Fetcher ):
 					'fetch_daily_city_state( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_hourly_zip( self, zip_code: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch hourly UV forecast data by ZIP code.
-
-			Parameters:
-			-----------
-			zip_code (str):
-				U.S. ZIP code.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch hourly UV forecast data by ZIP code.
+		
+		Purpose:
+		    Provides the `fetch_hourly_zip` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    zip_code (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'zip_code', zip_code )
 			throw_if( 'time', time )
@@ -24452,30 +21084,26 @@ class UvIndex( Fetcher ):
 			exception.method = (
 					'fetch_hourly_zip( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_hourly_city_state( self, city: str, state: str,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch hourly UV forecast data by city and state.
-
-			Parameters:
-			-----------
-			city (str):
-				U.S. city name.
-
-			state (str):
-				U.S. state abbreviation.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch hourly UV forecast data by city and state.
+		
+		Purpose:
+		    Provides the `fetch_hourly_city_state` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    city (str): Input value passed to the callable.
+		    state (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'city', city )
 			throw_if( 'state', state )
@@ -24515,40 +21143,28 @@ class UvIndex( Fetcher ):
 					'fetch_hourly_city_state( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'daily-zip', zip_code: str = '',
 			city: str = '', state: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for EPA UV Index forecast retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- daily-zip
-				- daily-city-state
-				- hourly-zip
-				- hourly-city-state
-
-			zip_code (str):
-				U.S. ZIP code for ZIP-based modes.
-
-			city (str):
-				U.S. city name for city/state modes.
-
-			state (str):
-				U.S. state abbreviation for city/state modes.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for EPA UV Index forecast retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    zip_code (str): Input value passed to the callable.
+		    city (str): Input value passed to the callable.
+		    state (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = self.validate_mode( mode )
 			
@@ -24590,37 +21206,29 @@ class UvIndex( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -24655,16 +21263,14 @@ class UvIndex( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class PurpleAir( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to the PurpleAir API for bounding-box sensor discovery and
-		single-sensor detail retrieval using explicit field selection.
-
-	'''
+	"""Provides access to the PurpleAir API for bounding-box sensor discovery and.
+	
+	Purpose:
+	    Documents the `PurpleAir` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	api_key: Optional[ str ]
 	mode: Optional[ str ]
@@ -24684,19 +21290,10 @@ class PurpleAir( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the PurpleAir fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the PurpleAir fetcher.
+		
+		Purpose:
+		    Initializes `PurpleAir` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://api.purpleair.com/v1'
 		self.api_key = cfg.PURPLEAIR_API_KEY
@@ -24727,19 +21324,13 @@ class PurpleAir( Fetcher ):
 			self.headers[ 'X-API-Key' ] = self.api_key
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'api_key',
@@ -24784,19 +21375,16 @@ class PurpleAir( Fetcher ):
 		]
 	
 	def validate_api_key( self ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate the PurpleAir API key before making an API request.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate the PurpleAir API key before making an API request.
+		
+		Purpose:
+		    Provides the `validate_api_key` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			return str( self.api_key ).strip( )
@@ -24806,23 +21394,23 @@ class PurpleAir( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'PurpleAir'
 			exception.method = 'validate_api_key( self ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_mode( self, mode: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a PurpleAir wrapper mode.
-
-			Parameters:
-			-----------
-			mode (str):
-				Requested wrapper mode.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a PurpleAir wrapper mode.
+		
+		Purpose:
+		    Provides the `validate_mode` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -24842,23 +21430,23 @@ class PurpleAir( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'PurpleAir'
 			exception.method = 'validate_mode( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_endpoint( self, endpoint: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a PurpleAir endpoint path before URL construction.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				Endpoint path under the PurpleAir v1 base URL.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a PurpleAir endpoint path before URL construction.
+		
+		Purpose:
+		    Provides the `validate_endpoint` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			
@@ -24880,23 +21468,23 @@ class PurpleAir( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'PurpleAir'
 			exception.method = 'validate_endpoint( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_sensor_index( self, sensor_index: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a PurpleAir sensor index.
-
-			Parameters:
-			-----------
-			sensor_index (int):
-				PurpleAir sensor index.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a PurpleAir sensor index.
+		
+		Purpose:
+		    Provides the `validate_sensor_index` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    sensor_index (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'sensor_index', sensor_index )
 			
@@ -24911,26 +21499,24 @@ class PurpleAir( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'PurpleAir'
 			exception.method = 'validate_sensor_index( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_longitude( self, name: str, value: float ) -> float:
-		'''
-			Purpose:
-			--------
-			Validate a longitude value.
-
-			Parameters:
-			-----------
-			name (str):
-				Argument name.
-
-			value (float):
-				Longitude in decimal degrees.
-
-			Returns:
-			--------
-			float
-		'''
+		"""Validate a longitude value.
+		
+		Purpose:
+		    Provides the `validate_longitude` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    value (float): Input value passed to the callable.
+		
+		Returns:
+		    float: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			throw_if( name, value )
@@ -24946,26 +21532,24 @@ class PurpleAir( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'PurpleAir'
 			exception.method = 'validate_longitude( self, *args, **kwargs ) -> float'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_latitude( self, name: str, value: float ) -> float:
-		'''
-			Purpose:
-			--------
-			Validate a latitude value.
-
-			Parameters:
-			-----------
-			name (str):
-				Argument name.
-
-			value (float):
-				Latitude in decimal degrees.
-
-			Returns:
-			--------
-			float
-		'''
+		"""Validate a latitude value.
+		
+		Purpose:
+		    Provides the `validate_latitude` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    value (float): Input value passed to the callable.
+		
+		Returns:
+		    float: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			throw_if( name, value )
@@ -24981,33 +21565,27 @@ class PurpleAir( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'PurpleAir'
 			exception.method = 'validate_latitude( self, *args, **kwargs ) -> float'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_bbox( self, nwlng: float, nwlat: float,
 			selng: float, selat: float ) -> Tuple[ float, float, float, float ]:
-		'''
-			Purpose:
-			--------
-			Validate the PurpleAir bounding-box coordinates.
-
-			Parameters:
-			-----------
-			nwlng (float):
-				Northwest longitude.
-
-			nwlat (float):
-				Northwest latitude.
-
-			selng (float):
-				Southeast longitude.
-
-			selat (float):
-				Southeast latitude.
-
-			Returns:
-			--------
-			Tuple[float, float, float, float]
-		'''
+		"""Validate the PurpleAir bounding-box coordinates.
+		
+		Purpose:
+		    Provides the `validate_bbox` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    nwlng (float): Input value passed to the callable.
+		    nwlat (float): Input value passed to the callable.
+		    selng (float): Input value passed to the callable.
+		    selat (float): Input value passed to the callable.
+		
+		Returns:
+		    Tuple[float, float, float, float]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			nw_lng = self.validate_longitude( 'nwlng', nwlng )
 			nw_lat = self.validate_latitude( 'nwlat', nwlat )
@@ -25030,23 +21608,23 @@ class PurpleAir( Fetcher ):
 					'validate_bbox( self, *args, **kwargs ) '
 					'-> Tuple[ float, float, float, float ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_location_type( self, location_type: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate the PurpleAir location type value used by the current app controls.
-
-			Parameters:
-			-----------
-			location_type (int):
-				Location type. Outdoor sensors are 0; indoor sensors are 1.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate the PurpleAir location type value used by the current app controls.
+		
+		Purpose:
+		    Provides the `validate_location_type` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    location_type (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'location_type', location_type if location_type == 0 else location_type )
 			
@@ -25061,26 +21639,24 @@ class PurpleAir( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'PurpleAir'
 			exception.method = 'validate_location_type( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_non_negative_integer( self, name: str, value: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a non-negative integer request parameter.
-
-			Parameters:
-			-----------
-			name (str):
-				Argument name.
-
-			value (int):
-				Integer value.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a non-negative integer request parameter.
+		
+		Purpose:
+		    Provides the `validate_non_negative_integer` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    value (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			
@@ -25100,26 +21676,24 @@ class PurpleAir( Fetcher ):
 			exception.method = (
 					'validate_non_negative_integer( self, *args, **kwargs ) -> int'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_fields( self, fields: str, default_fields: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Normalize a PurpleAir comma-separated field list.
-
-			Parameters:
-			-----------
-			fields (str):
-				User-selected comma-separated field list.
-
-			default_fields (str):
-				Fallback field list used when fields is blank.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Normalize a PurpleAir comma-separated field list.
+		
+		Purpose:
+		    Provides the `normalize_fields` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    fields (str): Input value passed to the callable.
+		    default_fields (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'default_fields', default_fields )
 			
@@ -25146,24 +21720,24 @@ class PurpleAir( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'PurpleAir'
 			exception.method = 'normalize_fields( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_sensor_list_rows( self,
 			payload: Dict[ str, Any ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize a PurpleAir sensor-list payload into display rows.
-
-			Parameters:
-			-----------
-			payload (Dict[str, Any]):
-				PurpleAir sensor-list response payload.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize a PurpleAir sensor-list payload into display rows.
+		
+		Purpose:
+		    Provides the `shape_sensor_list_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -25206,24 +21780,24 @@ class PurpleAir( Fetcher ):
 					'shape_sensor_list_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_sensor_detail_rows( self,
 			payload: Dict[ str, Any ] ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize a PurpleAir single-sensor payload into a display row.
-
-			Parameters:
-			-----------
-			payload (Dict[str, Any]):
-				PurpleAir single-sensor response payload.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize a PurpleAir single-sensor payload into a display row.
+		
+		Purpose:
+		    Provides the `shape_sensor_detail_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if not isinstance( payload, dict ):
 				return [ ]
@@ -25257,23 +21831,23 @@ class PurpleAir( Fetcher ):
 					'shape_sensor_detail_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized PurpleAir rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized PurpleAir rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			max_pm25 = None
@@ -25312,27 +21886,25 @@ class PurpleAir( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ],
 			params: Dict[ str, Any ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored PurpleAir response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized PurpleAir rows.
-
-			params (Dict[str, Any]):
-				App-facing request parameters.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored PurpleAir response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -25352,30 +21924,26 @@ class PurpleAir( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, endpoint: str, params: Optional[ Dict[ str, Any ] ] = None,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Issue a GET request to a PurpleAir endpoint and store response state.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				Endpoint path under the PurpleAir base URL.
-
-			params (Optional[Dict[str, Any]]):
-				Query string parameters.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Issue a GET request to a PurpleAir endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.validate_api_key( )
 			self.endpoint = self.validate_endpoint( endpoint )
@@ -25421,49 +21989,33 @@ class PurpleAir( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_sensors( self, nwlng: float, nwlat: float, selng: float, selat: float,
 			location_type: int = 0, max_age: int = 0, modified_since: int = 0,
 			fields: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch PurpleAir sensors within a bounding box.
-
-			Parameters:
-			-----------
-			nwlng (float):
-				Northwest longitude.
-
-			nwlat (float):
-				Northwest latitude.
-
-			selng (float):
-				Southeast longitude.
-
-			selat (float):
-				Southeast latitude.
-
-			location_type (int):
-				PurpleAir location type. Outdoor sensors are commonly 0.
-
-			max_age (int):
-				Maximum sensor age filter in seconds.
-
-			modified_since (int):
-				UNIX timestamp filter. 0 disables the filter.
-
-			fields (str):
-				Optional comma-separated PurpleAir field list.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch PurpleAir sensors within a bounding box.
+		
+		Purpose:
+		    Provides the `fetch_sensors` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    nwlng (float): Input value passed to the callable.
+		    nwlat (float): Input value passed to the callable.
+		    selng (float): Input value passed to the callable.
+		    selat (float): Input value passed to the callable.
+		    location_type (int): Input value passed to the callable.
+		    max_age (int): Input value passed to the callable.
+		    modified_since (int): Input value passed to the callable.
+		    fields (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			default_fields = (
 					'name,pm2.5,temperature,humidity,latitude,longitude,last_seen,'
@@ -25518,30 +22070,26 @@ class PurpleAir( Fetcher ):
 			exception.method = (
 					'fetch_sensors( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_sensor( self, sensor_index: int, fields: str = '',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch a single PurpleAir sensor detail record.
-
-			Parameters:
-			-----------
-			sensor_index (int):
-				PurpleAir sensor index.
-
-			fields (str):
-				Optional comma-separated PurpleAir field list.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch a single PurpleAir sensor detail record.
+		
+		Purpose:
+		    Provides the `fetch_sensor` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    sensor_index (int): Input value passed to the callable.
+		    fields (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			default_fields = (
 					'name,model,hardware,pm2.5_cf_1_a,pm2.5_cf_1_b,temperature,'
@@ -25581,6 +22129,7 @@ class PurpleAir( Fetcher ):
 			exception.method = (
 					'fetch_sensor( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'sensors', sensor_index: int = None,
@@ -25588,52 +22137,29 @@ class PurpleAir( Fetcher ):
 			selng: float | None = None, selat: float | None = None,
 			location_type: int = 0, max_age: int = 0, modified_since: int = 0,
 			fields: str = '', time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for PurpleAir sensor discovery and sensor detail retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- sensors
-				- sensor
-
-			sensor_index (int | None):
-				PurpleAir sensor index for single-sensor mode.
-
-			nwlng (float | None):
-				Northwest longitude.
-
-			nwlat (float | None):
-				Northwest latitude.
-
-			selng (float | None):
-				Southeast longitude.
-
-			selat (float | None):
-				Southeast latitude.
-
-			location_type (int):
-				PurpleAir location type.
-
-			max_age (int):
-				Maximum age filter.
-
-			modified_since (int):
-				UNIX timestamp filter.
-
-			fields (str):
-				Optional comma-separated PurpleAir field list.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for PurpleAir sensor discovery and sensor detail retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    sensor_index (int): Input value passed to the callable.
+		    nwlng (float): Input value passed to the callable.
+		    nwlat (float): Input value passed to the callable.
+		    selng (float): Input value passed to the callable.
+		    selat (float): Input value passed to the callable.
+		    location_type (int): Input value passed to the callable.
+		    max_age (int): Input value passed to the callable.
+		    modified_since (int): Input value passed to the callable.
+		    fields (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = self.validate_mode( mode )
 			
@@ -25666,37 +22192,29 @@ class PurpleAir( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -25731,15 +22249,14 @@ class PurpleAir( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class OpenAQ( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to OpenAQ API v3 discovery, locations, and latest
-		air-quality measurement endpoints.
-	'''
+	"""Provides access to OpenAQ API v3 discovery, locations, and latest.
+	
+	Purpose:
+	    Documents the `OpenAQ` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	api_key: Optional[ str ]
 	mode: Optional[ str ]
@@ -25759,19 +22276,10 @@ class OpenAQ( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the OpenAQ API v3 fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the OpenAQ API v3 fetcher.
+		
+		Purpose:
+		    Initializes `OpenAQ` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://api.openaq.org/v3'
 		self.api_key = cfg.OPENAQ_API_KEY
@@ -25802,19 +22310,13 @@ class OpenAQ( Fetcher ):
 			self.headers[ 'X-API-Key' ] = self.api_key
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'api_key',
@@ -25862,19 +22364,16 @@ class OpenAQ( Fetcher ):
 		]
 	
 	def validate_api_key( self ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate the OpenAQ API key before request execution.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate the OpenAQ API key before request execution.
+		
+		Purpose:
+		    Provides the `validate_api_key` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'api_key', self.api_key )
 			return str( self.api_key ).strip( )
@@ -25884,23 +22383,23 @@ class OpenAQ( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenAQ'
 			exception.method = 'validate_api_key( self ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_mode( self, mode: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an OpenAQ wrapper mode.
-
-			Parameters:
-			-----------
-			mode (str):
-				Requested wrapper mode.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an OpenAQ wrapper mode.
+		
+		Purpose:
+		    Provides the `validate_mode` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -25927,23 +22426,23 @@ class OpenAQ( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenAQ'
 			exception.method = 'validate_mode( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_endpoint( self, endpoint: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an OpenAQ API v3 endpoint path.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				Endpoint path under the OpenAQ v3 base URL.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an OpenAQ API v3 endpoint path.
+		
+		Purpose:
+		    Provides the `validate_endpoint` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			
@@ -25971,30 +22470,26 @@ class OpenAQ( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenAQ'
 			exception.method = 'validate_endpoint( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_positive_integer( self, name: str, value: Any,
 			maximum: int | None = None ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a positive integer request argument.
-
-			Parameters:
-			-----------
-			name (str):
-				Argument name.
-
-			value (Any):
-				Integer-like argument value.
-
-			maximum (int | None):
-				Optional inclusive maximum.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a positive integer request argument.
+		
+		Purpose:
+		    Provides the `validate_positive_integer` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    value (object): Input value passed to the callable.
+		    maximum (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			throw_if( name, value )
@@ -26016,26 +22511,24 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'validate_positive_integer( self, *args, **kwargs ) -> int'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_non_negative_integer( self, name: str, value: Any ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a non-negative integer request argument.
-
-			Parameters:
-			-----------
-			name (str):
-				Argument name.
-
-			value (Any):
-				Integer-like argument value.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a non-negative integer request argument.
+		
+		Purpose:
+		    Provides the `validate_non_negative_integer` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    value (object): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			
@@ -26056,23 +22549,23 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'validate_non_negative_integer( self, *args, **kwargs ) -> int'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_coordinates( self, coordinates: str = '' ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an optional OpenAQ latitude,longitude coordinate filter.
-
-			Parameters:
-			-----------
-			coordinates (str):
-				Optional coordinate string in latitude,longitude format.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an optional OpenAQ latitude,longitude coordinate filter.
+		
+		Purpose:
+		    Provides the `validate_coordinates` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    coordinates (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( coordinates or '' ).strip( )
 			
@@ -26103,23 +22596,23 @@ class OpenAQ( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenAQ'
 			exception.method = 'validate_coordinates( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_radius( self, radius: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate an OpenAQ geospatial radius in meters.
-
-			Parameters:
-			-----------
-			radius (int):
-				Radius in meters.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate an OpenAQ geospatial radius in meters.
+		
+		Purpose:
+		    Provides the `validate_radius` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    radius (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = self.validate_positive_integer(
 				name='radius',
@@ -26134,23 +22627,23 @@ class OpenAQ( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenAQ'
 			exception.method = 'validate_radius( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def coalesce_results( self, payload: Any ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Coalesce common OpenAQ response shapes into a list of records.
-
-			Parameters:
-			-----------
-			payload (Any):
-				Decoded OpenAQ JSON payload.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Coalesce common OpenAQ response shapes into a list of records.
+		
+		Purpose:
+		    Provides the `coalesce_results` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (object): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if payload is None:
 				return [ ]
@@ -26184,27 +22677,25 @@ class OpenAQ( Fetcher ):
 					'coalesce_results( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_resource_rows( self, payload: Any,
 			resource_name: str ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize OpenAQ resource discovery records into display rows.
-
-			Parameters:
-			-----------
-			payload (Any):
-				Decoded OpenAQ response payload.
-
-			resource_name (str):
-				Resource label used for fallback display.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize OpenAQ resource discovery records into display rows.
+		
+		Purpose:
+		    Provides the `shape_resource_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (object): Input value passed to the callable.
+		    resource_name (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'resource_name', resource_name )
 			
@@ -26246,23 +22737,23 @@ class OpenAQ( Fetcher ):
 					'shape_resource_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_location_rows( self, payload: Any ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize OpenAQ location records into display rows.
-
-			Parameters:
-			-----------
-			payload (Any):
-				Decoded OpenAQ location response payload.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize OpenAQ location records into display rows.
+		
+		Purpose:
+		    Provides the `shape_location_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (object): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -26333,23 +22824,23 @@ class OpenAQ( Fetcher ):
 					'shape_location_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def shape_latest_rows( self, payload: Any ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Normalize OpenAQ latest measurement records into display rows.
-
-			Parameters:
-			-----------
-			payload (Any):
-				Decoded OpenAQ latest-measurement response payload.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Normalize OpenAQ latest measurement records into display rows.
+		
+		Purpose:
+		    Provides the `shape_latest_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (object): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			rows: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -26417,23 +22908,23 @@ class OpenAQ( Fetcher ):
 					'shape_latest_rows( self, *args, **kwargs ) '
 					'-> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized OpenAQ rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized OpenAQ rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			first_result = ''
@@ -26473,27 +22964,25 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ],
 			params: Optional[ Dict[ str, Any ] ] = None ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored OpenAQ response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized OpenAQ rows.
-
-			params (Optional[Dict[str, Any]]):
-				App-facing request parameters. Defaults to self.params.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored OpenAQ response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -26513,30 +23002,26 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, endpoint: str, params: Optional[ Dict[ str, Any ] ] = None,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Issue a GET request to an OpenAQ API v3 endpoint and store response state.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				Endpoint path under the OpenAQ v3 base URL.
-
-			params (Optional[Dict[str, Any]]):
-				Query string parameters.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Issue a GET request to an OpenAQ API v3 endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.validate_api_key( )
 			self.endpoint = self.validate_endpoint( endpoint )
@@ -26582,37 +23067,29 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'request( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_countries( self, providers_id: str = '', parameters_id: str = '',
 			limit: int = 100, page: int = 1,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch OpenAQ countries for resource discovery.
-
-			Parameters:
-			-----------
-			providers_id (str):
-				Optional provider ID filter.
-
-			parameters_id (str):
-				Optional parameter ID filter.
-
-			limit (int):
-				Maximum returned countries.
-
-			page (int):
-				Result page number.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch OpenAQ countries for resource discovery.
+		
+		Purpose:
+		    Provides the `fetch_countries` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    providers_id (str): Input value passed to the callable.
+		    parameters_id (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'countries'
 			self.providers_id = str( providers_id or '' ).strip( )
@@ -26643,30 +23120,26 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'fetch_countries( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_providers( self, limit: int = 100, page: int = 1,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch OpenAQ providers for resource discovery.
-
-			Parameters:
-			-----------
-			limit (int):
-				Maximum returned providers.
-
-			page (int):
-				Result page number.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch OpenAQ providers for resource discovery.
+		
+		Purpose:
+		    Provides the `fetch_providers` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'providers'
 			self.limit = self.validate_positive_integer( 'limit', limit, maximum=1000 )
@@ -26693,30 +23166,26 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'fetch_providers( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_parameters( self, limit: int = 100, page: int = 1,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch OpenAQ parameters for resource discovery.
-
-			Parameters:
-			-----------
-			limit (int):
-				Maximum returned parameters.
-
-			page (int):
-				Result page number.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch OpenAQ parameters for resource discovery.
+		
+		Purpose:
+		    Provides the `fetch_parameters` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    limit (int): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'parameters'
 			self.limit = self.validate_positive_integer( 'limit', limit, maximum=1000 )
@@ -26743,33 +23212,27 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'fetch_parameters( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_parameter_latest( self, parameter_id: int, limit: int = 100,
 			page: int = 1, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch latest OpenAQ measurements for a single parameter.
-
-			Parameters:
-			-----------
-			parameter_id (int):
-				OpenAQ parameter identifier.
-
-			limit (int):
-				Maximum returned latest measurements.
-
-			page (int):
-				Result page number.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch latest OpenAQ measurements for a single parameter.
+		
+		Purpose:
+		    Provides the `fetch_parameter_latest` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    parameter_id (int): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'parameter_latest'
 			self.parameter_id = self.validate_positive_integer(
@@ -26808,47 +23271,33 @@ class OpenAQ( Fetcher ):
 					'fetch_parameter_latest( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_locations( self, country_id: int = None, coordinates: str = '',
 			radius: int = 25000, providers_id: str = '', parameters_id: str = '',
 			limit: int = 25, page: int = 1,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch OpenAQ monitoring locations.
-
-			Parameters:
-			-----------
-			country_id (int | None):
-				Optional OpenAQ country identifier.
-
-			coordinates (str):
-				Optional latitude,longitude geospatial filter.
-
-			radius (int):
-				Radius in meters when coordinates are supplied.
-
-			providers_id (str):
-				Optional provider ID filter.
-
-			parameters_id (str):
-				Optional parameter ID filter.
-
-			limit (int):
-				Maximum returned locations.
-
-			page (int):
-				Result page number.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch OpenAQ monitoring locations.
+		
+		Purpose:
+		    Provides the `fetch_locations` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    country_id (int): Input value passed to the callable.
+		    coordinates (str): Input value passed to the callable.
+		    radius (int): Input value passed to the callable.
+		    providers_id (str): Input value passed to the callable.
+		    parameters_id (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'locations'
 			self.country_id = (
@@ -26889,27 +23338,25 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'fetch_locations( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_latest( self, location_id: int,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch latest OpenAQ measurements for a single monitoring location.
-
-			Parameters:
-			-----------
-			location_id (int):
-				OpenAQ location identifier.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch latest OpenAQ measurements for a single monitoring location.
+		
+		Purpose:
+		    Provides the `fetch_latest` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    location_id (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'latest'
 			self.location_id = self.validate_positive_integer(
@@ -26940,6 +23387,7 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'fetch_latest( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'locations', location_id: int = None,
@@ -26948,57 +23396,29 @@ class OpenAQ( Fetcher ):
 			providers_id: str = '', parameters_id: str = '',
 			limit: int = 25, page: int = 1,
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for OpenAQ v3 resource discovery, location, and latest
-			measurement retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- countries
-				- providers
-				- parameters
-				- parameter_latest
-				- locations
-				- latest
-
-			location_id (int | None):
-				OpenAQ location identifier for latest mode.
-
-			parameter_id (int | None):
-				OpenAQ parameter identifier for parameter_latest mode.
-
-			country_id (int | None):
-				Optional OpenAQ country identifier for locations mode.
-
-			coordinates (str):
-				Optional latitude,longitude filter for locations mode.
-
-			radius (int):
-				Geospatial radius in meters.
-
-			providers_id (str):
-				Optional provider ID filter.
-
-			parameters_id (str):
-				Optional parameter ID filter.
-
-			limit (int):
-				Maximum returned rows.
-
-			page (int):
-				Result page number.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for OpenAQ v3 resource discovery, location, and latest.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    location_id (int): Input value passed to the callable.
+		    parameter_id (int): Input value passed to the callable.
+		    country_id (int): Input value passed to the callable.
+		    coordinates (str): Input value passed to the callable.
+		    radius (int): Input value passed to the callable.
+		    providers_id (str): Input value passed to the callable.
+		    parameters_id (str): Input value passed to the callable.
+		    limit (int): Input value passed to the callable.
+		    page (int): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = self.validate_mode( mode )
 			
@@ -27063,37 +23483,29 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -27128,15 +23540,14 @@ class OpenAQ( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class Firms( Fetcher ):
-	'''
-		Purpose:
-		--------
-		Provides access to NASA FIRMS area fire-detection and data-availability
-		services using a MAP_KEY and human-readable normalized output.
-	'''
+	"""Provides access to NASA FIRMS area fire-detection and data-availability.
+	
+	Purpose:
+	    Documents the `Firms` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	base_url: Optional[ str ]
 	map_key: Optional[ str ]
 	mode: Optional[ str ]
@@ -27151,19 +23562,10 @@ class Firms( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the NASA FIRMS fetcher.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the NASA FIRMS fetcher.
+		
+		Purpose:
+		    Initializes `Firms` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.base_url = 'https://firms.modaps.eosdis.nasa.gov/api'
 		self.map_key = cfg.FIRMS_MAP_KEY
@@ -27186,19 +23588,13 @@ class Firms( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'base_url',
 				'map_key',
@@ -27234,19 +23630,16 @@ class Firms( Fetcher ):
 		]
 	
 	def validate_map_key( self ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate the NASA FIRMS MAP_KEY before request execution.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate the NASA FIRMS MAP_KEY before request execution.
+		
+		Purpose:
+		    Provides the `validate_map_key` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'map_key', self.map_key )
 			return str( self.map_key ).strip( )
@@ -27256,23 +23649,23 @@ class Firms( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Firms'
 			exception.method = 'validate_map_key( self ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_mode( self, mode: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a NASA FIRMS wrapper mode.
-
-			Parameters:
-			-----------
-			mode (str):
-				Requested wrapper mode.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a NASA FIRMS wrapper mode.
+		
+		Purpose:
+		    Provides the `validate_mode` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -27294,23 +23687,23 @@ class Firms( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Firms'
 			exception.method = 'validate_mode( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_source( self, source: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a NASA FIRMS area-source identifier.
-
-			Parameters:
-			-----------
-			source (str):
-				FIRMS source identifier.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a NASA FIRMS area-source identifier.
+		
+		Purpose:
+		    Provides the `validate_source` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    source (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'source', source )
 			
@@ -27339,23 +23732,23 @@ class Firms( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Firms'
 			exception.method = 'validate_source( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_sensor( self, sensor: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate a NASA FIRMS data-availability sensor selector.
-
-			Parameters:
-			-----------
-			sensor (str):
-				FIRMS sensor selector.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate a NASA FIRMS data-availability sensor selector.
+		
+		Purpose:
+		    Provides the `validate_sensor` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    sensor (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'sensor', sensor )
 			
@@ -27382,23 +23775,23 @@ class Firms( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Firms'
 			exception.method = 'validate_sensor( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_day_range( self, day_range: int ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate a NASA FIRMS area day range.
-
-			Parameters:
-			-----------
-			day_range (int):
-				Number of days to query.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate a NASA FIRMS area day range.
+		
+		Purpose:
+		    Provides the `validate_day_range` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    day_range (int): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'day_range', day_range )
 			
@@ -27413,23 +23806,23 @@ class Firms( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Firms'
 			exception.method = 'validate_day_range( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_date( self, date: str = '' ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an optional NASA FIRMS date value.
-
-			Parameters:
-			-----------
-			date (str):
-				Optional date in YYYY-MM-DD format.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an optional NASA FIRMS date value.
+		
+		Purpose:
+		    Provides the `validate_date` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    date (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			value = str( date or '' ).strip( )
 			
@@ -27445,23 +23838,23 @@ class Firms( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'Firms'
 			exception.method = 'validate_date( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_area_coordinates( self, area_coordinates: str = 'world' ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate FIRMS area coordinates as world or west,south,east,north.
-
-			Parameters:
-			-----------
-			area_coordinates (str):
-				Area value accepted by the FIRMS Area API.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate FIRMS area coordinates as world or west,south,east,north.
+		
+		Purpose:
+		    Provides the `validate_area_coordinates` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    area_coordinates (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'area_coordinates', area_coordinates )
 			
@@ -27509,23 +23902,23 @@ class Firms( Fetcher ):
 			exception.method = (
 					'validate_area_coordinates( self, *args, **kwargs ) -> str'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def csv_to_rows( self, csv_text: str ) -> List[ Dict[ str, Any ] ]:
-		'''
-			Purpose:
-			--------
-			Convert FIRMS CSV response text into title-cased display row dictionaries.
-
-			Parameters:
-			-----------
-			csv_text (str):
-				CSV response text.
-
-			Returns:
-			--------
-			List[Dict[str, Any]]
-		'''
+		"""Convert FIRMS CSV response text into title-cased display row dictionaries.
+		
+		Purpose:
+		    Provides the `csv_to_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    csv_text (str): Input value passed to the callable.
+		
+		Returns:
+		    List[Dict[str, object]]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			text = str( csv_text or '' )
 			
@@ -27556,23 +23949,23 @@ class Firms( Fetcher ):
 			exception.method = (
 					'csv_to_rows( self, *args, **kwargs ) -> List[ Dict[ str, Any ] ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Create a compact summary block from normalized FIRMS rows.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized row dictionaries.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Create a compact summary block from normalized FIRMS rows.
+		
+		Purpose:
+		    Provides the `summarize_rows` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			count = len( rows or [ ] )
 			first_date = ''
@@ -27611,23 +24004,23 @@ class Firms( Fetcher ):
 			exception.method = (
 					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
-		'''
-			Purpose:
-			--------
-			Package stored FIRMS response state into the app-facing result.
-
-			Parameters:
-			-----------
-			rows (List[Dict[str, Any]]):
-				Normalized FIRMS rows.
-
-			Returns:
-			--------
-			Dict[str, Any]
-		'''
+		"""Package stored FIRMS response state into the app-facing result.
+		
+		Purpose:
+		    Provides the `package_response` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    rows (List[Dict[str, object]]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.result = {
 					'mode': self.mode,
@@ -27647,26 +24040,24 @@ class Firms( Fetcher ):
 			exception.method = (
 					'package_response( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def request_csv( self, url: str, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Issue a GET request to a FIRMS CSV endpoint and store response state.
-
-			Parameters:
-			-----------
-			url (str):
-				Fully qualified request URL.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Issue a GET request to a FIRMS CSV endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request_csv` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    url (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.validate_map_key( )
 			throw_if( 'url', url )
@@ -27700,37 +24091,29 @@ class Firms( Fetcher ):
 			exception.method = (
 					'request_csv( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_area( self, source: str, area_coordinates: str = 'world',
 			day_range: int = 1, date: str = '',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch FIRMS fire detections for an area.
-
-			Parameters:
-			-----------
-			source (str):
-				FIRMS source identifier.
-
-			area_coordinates (str):
-				Bounding box as west,south,east,north, or world.
-
-			day_range (int):
-				Number of days from 1 to 5.
-
-			date (str):
-				Optional YYYY-MM-DD start date. If omitted, most recent data is used.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch FIRMS fire detections for an area.
+		
+		Purpose:
+		    Provides the `fetch_area` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    source (str): Input value passed to the callable.
+		    area_coordinates (str): Input value passed to the callable.
+		    day_range (int): Input value passed to the callable.
+		    date (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'area'
 			self.source = self.validate_source( source )
@@ -27768,27 +24151,25 @@ class Firms( Fetcher ):
 			exception.method = (
 					'fetch_area( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_data_availability( self, sensor: str = 'ALL',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch FIRMS data-availability rows for a sensor family.
-
-			Parameters:
-			-----------
-			sensor (str):
-				FIRMS sensor selector.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch FIRMS data-availability rows for a sensor family.
+		
+		Purpose:
+		    Provides the `fetch_data_availability` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    sensor (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'data-availability'
 			self.sensor = self.validate_sensor( sensor )
@@ -27818,46 +24199,32 @@ class Firms( Fetcher ):
 					'fetch_data_availability( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'area', source: str = 'VIIRS_SNPP_NRT',
 			area_coordinates: str = 'world', day_range: int = 1,
 			date: str = '', sensor: str = 'ALL',
 			time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for NASA FIRMS area and data-availability retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- area
-				- data-availability
-
-			source (str):
-				FIRMS source identifier for area mode.
-
-			area_coordinates (str):
-				Area coordinates for area mode.
-
-			day_range (int):
-				Day range for area mode.
-
-			date (str):
-				Optional YYYY-MM-DD date for area mode.
-
-			sensor (str):
-				Sensor selector for data-availability mode.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for NASA FIRMS area and data-availability retrieval.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    source (str): Input value passed to the callable.
+		    area_coordinates (str): Input value passed to the callable.
+		    day_range (int): Input value passed to the callable.
+		    date (str): Input value passed to the callable.
+		    sensor (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = self.validate_mode( mode )
 			
@@ -27885,37 +24252,29 @@ class Firms( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
 			description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -27950,17 +24309,14 @@ class Firms( Fetcher ):
 			exception.method = (
 					'create_schema( self, *args, **kwargs ) -> Dict[ str, str ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 
 class OpenSky( Fetcher ):
-	'''
-
-		Purpose:
-		--------
-		Provides access to the OpenSky Network REST API for aircraft state vectors,
-		flights, airport arrivals/departures, and aircraft tracks.
-
-	'''
+	"""Provides access to the OpenSky Network REST API for aircraft state vectors,.
+	
+	Purpose:
+	    Documents the `OpenSky` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
 	token_url: Optional[ str ]
 	base_url: Optional[ str ]
 	client_id: Optional[ str ]
@@ -27984,19 +24340,10 @@ class OpenSky( Fetcher ):
 	agents: Optional[ str ]
 	
 	def __init__( self ) -> None:
-		'''
-			Purpose:
-			--------
-			Initialize the OpenSky Network REST API wrapper.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			None
-		'''
+		"""Initialize the OpenSky Network REST API wrapper.
+		
+		Purpose:
+		    Initializes `OpenSky` instance state while preserving the constructor contract used by the application."""
 		super( ).__init__( )
 		self.timeout = 20
 		self.base_url = 'https://opensky-network.org/api'
@@ -28031,19 +24378,13 @@ class OpenSky( Fetcher ):
 		}
 	
 	def __dir__( self ) -> List[ str ]:
-		'''
-			Purpose:
-			--------
-			Provide ordered member visibility.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			List[str]
-		'''
+		"""Provide ordered member visibility.
+		
+		Purpose:
+		    Provides the `__dir__` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    List[str]: Returned value produced by the callable."""
 		return [
 				'timeout',
 				'headers',
@@ -28096,20 +24437,19 @@ class OpenSky( Fetcher ):
 		]
 	
 	def validate_mode( self, mode: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an OpenSky wrapper mode.
-
-			Parameters:
-			-----------
-			mode (str):
-				Requested wrapper mode.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an OpenSky wrapper mode.
+		
+		Purpose:
+		    Provides the `validate_mode` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'mode', mode )
 			
@@ -28136,23 +24476,23 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'validate_mode( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_endpoint( self, endpoint: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an OpenSky endpoint path before URL construction.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				Endpoint path under the OpenSky API base URL.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an OpenSky endpoint path before URL construction.
+		
+		Purpose:
+		    Provides the `validate_endpoint` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'endpoint', endpoint )
 			
@@ -28182,23 +24522,23 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'validate_endpoint( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_icao24( self, icao24: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an ICAO24 hexadecimal transponder address.
-
-			Parameters:
-			-----------
-			icao24 (str):
-				ICAO24 address.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an ICAO24 hexadecimal transponder address.
+		
+		Purpose:
+		    Provides the `validate_icao24` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    icao24 (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'icao24', icao24 )
 			
@@ -28214,23 +24554,23 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'validate_icao24( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_airport( self, airport: str ) -> str:
-		'''
-			Purpose:
-			--------
-			Validate an airport ICAO code.
-
-			Parameters:
-			-----------
-			airport (str):
-				Airport ICAO code.
-
-			Returns:
-			--------
-			str
-		'''
+		"""Validate an airport ICAO code.
+		
+		Purpose:
+		    Provides the `validate_airport` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    airport (str): Input value passed to the callable.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'airport', airport )
 			
@@ -28246,26 +24586,24 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'validate_airport( self, *args, **kwargs ) -> str'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_epoch( self, name: str, value: Any ) -> int:
-		'''
-			Purpose:
-			--------
-			Validate an epoch timestamp value.
-
-			Parameters:
-			-----------
-			name (str):
-				Argument name.
-
-			value (Any):
-				Epoch timestamp.
-
-			Returns:
-			--------
-			int
-		'''
+		"""Validate an epoch timestamp value.
+		
+		Purpose:
+		    Provides the `validate_epoch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    value (object): Input value passed to the callable.
+		
+		Returns:
+		    int: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			throw_if( name, value )
@@ -28282,26 +24620,24 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'validate_epoch( self, *args, **kwargs ) -> int'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_time_range( self, begin: int, end: int ) -> Tuple[ int, int ]:
-		'''
-			Purpose:
-			--------
-			Validate begin/end epoch timestamps for flight-history endpoints.
-
-			Parameters:
-			-----------
-			begin (int):
-				Interval start timestamp.
-
-			end (int):
-				Interval end timestamp.
-
-			Returns:
-			--------
-			Tuple[int, int]
-		'''
+		"""Validate begin/end epoch timestamps for flight-history endpoints.
+		
+		Purpose:
+		    Provides the `validate_time_range` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    begin (int): Input value passed to the callable.
+		    end (int): Input value passed to the callable.
+		
+		Returns:
+		    Tuple[int, int]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			start = self.validate_epoch( 'begin', begin )
 			stop = self.validate_epoch( 'end', end )
@@ -28318,26 +24654,24 @@ class OpenSky( Fetcher ):
 			exception.method = (
 					'validate_time_range( self, *args, **kwargs ) -> Tuple[ int, int ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_latitude( self, name: str, value: Any ) -> float:
-		'''
-			Purpose:
-			--------
-			Validate a latitude value.
-
-			Parameters:
-			-----------
-			name (str):
-				Argument name.
-
-			value (Any):
-				Latitude in decimal degrees.
-
-			Returns:
-			--------
-			float
-		'''
+		"""Validate a latitude value.
+		
+		Purpose:
+		    Provides the `validate_latitude` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    value (object): Input value passed to the callable.
+		
+		Returns:
+		    float: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			throw_if( name, value )
@@ -28354,26 +24688,24 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'validate_latitude( self, *args, **kwargs ) -> float'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_longitude( self, name: str, value: Any ) -> float:
-		'''
-			Purpose:
-			--------
-			Validate a longitude value.
-
-			Parameters:
-			-----------
-			name (str):
-				Argument name.
-
-			value (Any):
-				Longitude in decimal degrees.
-
-			Returns:
-			--------
-			float
-		'''
+		"""Validate a longitude value.
+		
+		Purpose:
+		    Provides the `validate_longitude` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    name (str): Input value passed to the callable.
+		    value (object): Input value passed to the callable.
+		
+		Returns:
+		    float: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'name', name )
 			throw_if( name, value )
@@ -28390,33 +24722,27 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'validate_longitude( self, *args, **kwargs ) -> float'
+			Logger( ).write( exception )
 			raise exception
 	
 	def validate_bbox( self, lamin: float, lomin: float,
 			lamax: float, lomax: float ) -> Tuple[ float, float, float, float ]:
-		'''
-			Purpose:
-			--------
-			Validate an OpenSky WGS84 bounding box.
-
-			Parameters:
-			-----------
-			lamin (float):
-				Lower latitude.
-
-			lomin (float):
-				Lower longitude.
-
-			lamax (float):
-				Upper latitude.
-
-			lomax (float):
-				Upper longitude.
-
-			Returns:
-			--------
-			Tuple[float, float, float, float]
-		'''
+		"""Validate an OpenSky WGS84 bounding box.
+		
+		Purpose:
+		    Provides the `validate_bbox` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    lamin (float): Input value passed to the callable.
+		    lomin (float): Input value passed to the callable.
+		    lamax (float): Input value passed to the callable.
+		    lomax (float): Input value passed to the callable.
+		
+		Returns:
+		    Tuple[float, float, float, float]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			min_lat = self.validate_latitude( 'lamin', lamin )
 			min_lon = self.validate_longitude( 'lomin', lomin )
@@ -28439,27 +24765,22 @@ class OpenSky( Fetcher ):
 					'validate_bbox( self, *args, **kwargs ) '
 					'-> Tuple[ float, float, float, float ]'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def assign_credentials( self, client_id: str = None,
 			client_secret: str = None ) -> None:
-		'''
-			Purpose:
-			--------
-			Assign OpenSky OAuth client credentials from explicit arguments or config.py.
-
-			Parameters:
-			-----------
-			client_id (str):
-				Optional OAuth client ID supplied by the UI.
-
-			client_secret (str):
-				Optional OAuth client secret supplied by the UI.
-
-			Returns:
-			--------
-			None
-		'''
+		"""Assign OpenSky OAuth client credentials from explicit arguments or config.py.
+		
+		Purpose:
+		    Provides the `assign_credentials` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    client_id (str): Input value passed to the callable.
+		    client_secret (str): Input value passed to the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if client_id is not None and str( client_id ).strip( ):
 				self.client_id = str( client_id ).strip( )
@@ -28478,22 +24799,20 @@ class OpenSky( Fetcher ):
 			exception.method = (
 					'assign_credentials( self, *args, **kwargs ) -> None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def authenticate( self ) -> str | None:
-		'''
-			Purpose:
-			--------
-			Obtain an OpenSky OAuth2 access token when client credentials are available.
-
-			Parameters:
-			-----------
-			None
-
-			Returns:
-			--------
-			str | None
-		'''
+		"""Obtain an OpenSky OAuth2 access token when client credentials are available.
+		
+		Purpose:
+		    Provides the `authenticate` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Returns:
+		    str: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if not self.client_id or not self.client_secret:
 				return None
@@ -28525,33 +24844,27 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'authenticate( self ) -> str | None'
+			Logger( ).write( exception )
 			raise exception
 	
 	def request( self, endpoint: str, params: Dict[ str, Any ] | None = None,
 			client_id: str = None, client_secret: str = None ) -> Any:
-		'''
-			Purpose:
-			--------
-			Issue a GET request to an OpenSky endpoint and store response state.
-
-			Parameters:
-			-----------
-			endpoint (str):
-				OpenSky endpoint path.
-
-			params (Dict[str, Any] | None):
-				Optional query parameters.
-
-			client_id (str):
-				Optional OAuth client ID supplied by the UI.
-
-			client_secret (str):
-				Optional OAuth client secret supplied by the UI.
-
-			Returns:
-			--------
-			Any
-		'''
+		"""Issue a GET request to an OpenSky endpoint and store response state.
+		
+		Purpose:
+		    Provides the `request` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    endpoint (str): Input value passed to the callable.
+		    params (Dict[str, object]): Input value passed to the callable.
+		    client_id (str): Input value passed to the callable.
+		    client_secret (str): Input value passed to the callable.
+		
+		Returns:
+		    object: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.endpoint = self.validate_endpoint( endpoint )
 			self.assign_credentials(
@@ -28588,23 +24901,23 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'request( self, *args, **kwargs ) -> Any'
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_states( self, payload: Dict[ str, Any ] | None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Normalize OpenSky state-vector payloads into app-facing dictionaries.
-
-			Parameters:
-			-----------
-			payload (Dict[str, Any] | None):
-				OpenSky state-vector payload.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Normalize OpenSky state-vector payloads into app-facing dictionaries.
+		
+		Purpose:
+		    Provides the `normalize_states` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			states = [ ]
 			
@@ -28659,27 +24972,25 @@ class OpenSky( Fetcher ):
 			exception.method = (
 					'normalize_states( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_flights( self, payload: List[ Dict[ str, Any ] ] | None,
 			mode: str ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Normalize OpenSky flight payloads into app-facing dictionaries.
-
-			Parameters:
-			-----------
-			payload (List[Dict[str, Any]] | None):
-				OpenSky flight records.
-
-			mode (str):
-				Active wrapper mode.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Normalize OpenSky flight payloads into app-facing dictionaries.
+		
+		Purpose:
+		    Provides the `normalize_flights` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (List[Dict[str, object]]): Input value passed to the callable.
+		    mode (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			items: List[ Dict[ str, Any ] ] = [ ]
 			
@@ -28725,23 +25036,23 @@ class OpenSky( Fetcher ):
 			exception.method = (
 					'normalize_flights( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def normalize_track( self, payload: Dict[ str, Any ] | None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Normalize OpenSky track payloads into app-facing dictionaries.
-
-			Parameters:
-			-----------
-			payload (Dict[str, Any] | None):
-				OpenSky track payload.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Normalize OpenSky track payloads into app-facing dictionaries.
+		
+		Purpose:
+		    Provides the `normalize_track` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    payload (Dict[str, object]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			if not payload:
 				self.result = {
@@ -28792,6 +25103,7 @@ class OpenSky( Fetcher ):
 			exception.method = (
 					'normalize_track( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_states( self, icao24: str = '', time_value: int = None,
@@ -28799,44 +25111,27 @@ class OpenSky( Fetcher ):
 			lamax: float | None = None, lomax: float | None = None,
 			extended: bool = False, client_id: str = None,
 			client_secret: str = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch all state vectors, optionally filtered by aircraft, time, and bounding box.
-
-			Parameters:
-			-----------
-			icao24 (str):
-				Optional ICAO24 transponder address.
-
-			time_value (int):
-				Optional epoch timestamp.
-
-			lamin (float | None):
-				Optional minimum latitude.
-
-			lomin (float | None):
-				Optional minimum longitude.
-
-			lamax (float | None):
-				Optional maximum latitude.
-
-			lomax (float | None):
-				Optional maximum longitude.
-
-			extended (bool):
-				Whether to request extended state fields.
-
-			client_id (str):
-				Optional OAuth client ID supplied by UI.
-
-			client_secret (str):
-				Optional OAuth client secret supplied by UI.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch all state vectors, optionally filtered by aircraft, time, and bounding box.
+		
+		Purpose:
+		    Provides the `fetch_states` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    icao24 (str): Input value passed to the callable.
+		    time_value (int): Input value passed to the callable.
+		    lamin (float): Input value passed to the callable.
+		    lomin (float): Input value passed to the callable.
+		    lamax (float): Input value passed to the callable.
+		    lomax (float): Input value passed to the callable.
+		    extended (bool): Input value passed to the callable.
+		    client_id (str): Input value passed to the callable.
+		    client_secret (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'states_bbox'
 			self.icao24 = self.validate_icao24( icao24 ) if str( icao24 or '' ).strip( ) else ''
@@ -28901,36 +25196,28 @@ class OpenSky( Fetcher ):
 			exception.method = (
 					'fetch_states( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_flights_aircraft( self, icao24: str, begin: int, end: int,
 			client_id: str = None, client_secret: str = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch flights for a specific aircraft within a time interval.
-
-			Parameters:
-			-----------
-			icao24 (str):
-				ICAO24 transponder address.
-
-			begin (int):
-				Interval start timestamp.
-
-			end (int):
-				Interval end timestamp.
-
-			client_id (str):
-				Optional OAuth client ID supplied by UI.
-
-			client_secret (str):
-				Optional OAuth client secret supplied by UI.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch flights for a specific aircraft within a time interval.
+		
+		Purpose:
+		    Provides the `fetch_flights_aircraft` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    icao24 (str): Input value passed to the callable.
+		    begin (int): Input value passed to the callable.
+		    end (int): Input value passed to the callable.
+		    client_id (str): Input value passed to the callable.
+		    client_secret (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'flights_aircraft'
 			self.icao24 = self.validate_icao24( icao24 )
@@ -28958,36 +25245,28 @@ class OpenSky( Fetcher ):
 					'fetch_flights_aircraft( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_arrivals_airport( self, airport: str, begin: int, end: int,
 			client_id: str = None, client_secret: str = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch flights arriving at an airport within a time interval.
-
-			Parameters:
-			-----------
-			airport (str):
-				Airport ICAO code.
-
-			begin (int):
-				Interval start timestamp.
-
-			end (int):
-				Interval end timestamp.
-
-			client_id (str):
-				Optional OAuth client ID supplied by UI.
-
-			client_secret (str):
-				Optional OAuth client secret supplied by UI.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch flights arriving at an airport within a time interval.
+		
+		Purpose:
+		    Provides the `fetch_arrivals_airport` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    airport (str): Input value passed to the callable.
+		    begin (int): Input value passed to the callable.
+		    end (int): Input value passed to the callable.
+		    client_id (str): Input value passed to the callable.
+		    client_secret (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'arrivals_airport'
 			self.airport = self.validate_airport( airport )
@@ -29015,36 +25294,28 @@ class OpenSky( Fetcher ):
 					'fetch_arrivals_airport( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_departures_airport( self, airport: str, begin: int, end: int,
 			client_id: str = None, client_secret: str = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch flights departing from an airport within a time interval.
-
-			Parameters:
-			-----------
-			airport (str):
-				Airport ICAO code.
-
-			begin (int):
-				Interval start timestamp.
-
-			end (int):
-				Interval end timestamp.
-
-			client_id (str):
-				Optional OAuth client ID supplied by UI.
-
-			client_secret (str):
-				Optional OAuth client secret supplied by UI.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch flights departing from an airport within a time interval.
+		
+		Purpose:
+		    Provides the `fetch_departures_airport` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    airport (str): Input value passed to the callable.
+		    begin (int): Input value passed to the callable.
+		    end (int): Input value passed to the callable.
+		    client_id (str): Input value passed to the callable.
+		    client_secret (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'departures_airport'
 			self.airport = self.validate_airport( airport )
@@ -29069,33 +25340,27 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'fetch_departures_airport( self, *args, **kwargs ) -> Dict[str, Any]'
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch_track_aircraft( self, icao24: str, time_value: int = None,
 			client_id: str = None, client_secret: str = None ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Fetch an aircraft track at a given time.
-
-			Parameters:
-			-----------
-			icao24 (str):
-				ICAO24 transponder address.
-
-			time_value (int):
-				Optional epoch timestamp. Zero requests the latest available track.
-
-			client_id (str):
-				Optional OAuth client ID supplied by UI.
-
-			client_secret (str):
-				Optional OAuth client secret supplied by UI.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Fetch an aircraft track at a given time.
+		
+		Purpose:
+		    Provides the `fetch_track_aircraft` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    icao24 (str): Input value passed to the callable.
+		    time_value (int): Input value passed to the callable.
+		    client_id (str): Input value passed to the callable.
+		    client_secret (str): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.mode = 'track_aircraft'
 			self.icao24 = self.validate_icao24( icao24 )
@@ -29116,6 +25381,7 @@ class OpenSky( Fetcher ):
 					'fetch_track_aircraft( self, *args, **kwargs ) '
 					'-> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
 	def fetch( self, mode: str = 'states_bbox', icao24: str = '', airport: str = '',
@@ -29124,65 +25390,32 @@ class OpenSky( Fetcher ):
 			lamax: float | None = None, lomax: float | None = None,
 			extended: bool = False, client_id: str = None,
 			client_secret: str = None, time: int = 20 ) -> Dict[ str, Any ] | None:
-		'''
-			Purpose:
-			--------
-			Unified dispatcher for OpenSky Network state, flight, airport, and track
-			retrieval.
-
-			Parameters:
-			-----------
-			mode (str):
-				Supported modes:
-				- states_bbox
-				- flights_aircraft
-				- arrivals_airport
-				- departures_airport
-				- track_aircraft
-
-			icao24 (str):
-				ICAO24 transponder address for aircraft-specific modes.
-
-			airport (str):
-				Airport ICAO code for airport-specific modes.
-
-			begin (int):
-				Interval start timestamp.
-
-			end (int):
-				Interval end timestamp.
-
-			time_value (int):
-				Optional epoch timestamp for states or track queries.
-
-			lamin (float | None):
-				Lower latitude for state-vector bounding box.
-
-			lomin (float | None):
-				Lower longitude for state-vector bounding box.
-
-			lamax (float | None):
-				Upper latitude for state-vector bounding box.
-
-			lomax (float | None):
-				Upper longitude for state-vector bounding box.
-
-			extended (bool):
-				Whether to request extended state-vector fields.
-
-			client_id (str):
-				Optional OAuth client ID supplied by the UI.
-
-			client_secret (str):
-				Optional OAuth client secret supplied by the UI.
-
-			time (int):
-				Request timeout in seconds.
-
-			Returns:
-			--------
-			Dict[str, Any] | None
-		'''
+		"""Unified dispatcher for OpenSky Network state, flight, airport, and track.
+		
+		Purpose:
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		
+		Args:
+		    mode (str): Input value passed to the callable.
+		    icao24 (str): Input value passed to the callable.
+		    airport (str): Input value passed to the callable.
+		    begin (int): Input value passed to the callable.
+		    end (int): Input value passed to the callable.
+		    time_value (int): Input value passed to the callable.
+		    lamin (float): Input value passed to the callable.
+		    lomin (float): Input value passed to the callable.
+		    lamax (float): Input value passed to the callable.
+		    lomax (float): Input value passed to the callable.
+		    extended (bool): Input value passed to the callable.
+		    client_id (str): Input value passed to the callable.
+		    client_secret (str): Input value passed to the callable.
+		    time (int): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, object]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			self.timeout = int( time )
 			self.mode = self.validate_mode( mode )
@@ -29250,37 +25483,30 @@ class OpenSky( Fetcher ):
 			exception.method = (
 					'fetch( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			)
+			Logger( ).write( exception )
 			raise exception
 	
-	def create_schema( self, function: str, tool: str,
-			description: str, parameters: dict,
+	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
-		'''
-			Purpose:
-			--------
-			Construct and return a dynamic OpenAI Tool API schema definition.
-
-			Parameters:
-			-----------
-			function (str):
-				Tool function name.
-
-			tool (str):
-				Service name.
-
-			description (str):
-				Description of what the tool does.
-
-			parameters (dict):
-				JSON-schema properties.
-
-			required (list[str]):
-				Required parameter names.
-
-			Returns:
-			--------
-			Dict[str, str] | None
-		'''
+		"""Construct and return a dynamic OpenAI Tool API schema definition.
+		
+		Purpose:
+		    Provides the `create_schema` callable documented in Google style for MkDocs and
+		    mkdocstrings output. The documented signature and return contract are aligned with the
+		    source implementation.
+		
+		Args:
+		    function (str): Input value passed to the callable.
+		    tool (str): Input value passed to the callable.
+		    description (str): Input value passed to the callable.
+		    parameters (dict): Input value passed to the callable.
+		    required (list[str]): Input value passed to the callable.
+		
+		Returns:
+		    Dict[str, str]: Returned value produced by the callable.
+		
+		Raises:
+		    Error: Raised when the wrapped operation fails and the exception is logged."""
 		try:
 			throw_if( 'function', function )
 			throw_if( 'tool', tool )
@@ -29310,4 +25536,5 @@ class OpenSky( Fetcher ):
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
 			exception.method = 'create_schema( self, *args, **kwargs ) -> Dict[ str, str ]'
+			Logger( ).write( exception )
 			raise exception

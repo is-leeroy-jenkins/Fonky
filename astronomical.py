@@ -37,7 +37,15 @@
 
   </copyright>
   <summary>
-    astronomical.py
+    Exposes astronomy, space-science, and satellite-data fetchers.
+
+    Purpose:
+        Provides a focused public import surface for Fonky classes that retrieve or organize
+        astronomical catalogs, astropy queries, U.S. Naval Observatory data, near-earth object
+        information, NASA open-science resources, OpenSky aircraft and sensor data, satellite
+        center data, space-weather notifications, and star-chart outputs. This module lets
+        callers import astronomy-oriented capabilities without importing the full fetcher
+        module directly.
   </summary>
   ******************************************************************************************
 '''

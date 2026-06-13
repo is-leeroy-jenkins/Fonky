@@ -37,7 +37,14 @@
 
   </copyright>
   <summary>
-    config.py
+    Provides centralized runtime configuration for Fonky.
+
+    Purpose:
+        Defines application paths, exception logging settings, environment-driven API keys,
+        service descriptions, loader descriptions, and request defaults used by the Fonky
+        fetcher, loader, scraper, processor, and tool layers. The module keeps configuration
+        import-safe by reading optional environment variables with deterministic fallbacks and
+        by avoiding runtime service calls during import.
   </summary>
   ******************************************************************************************
 '''
@@ -48,19 +55,16 @@ from pathlib import Path
 # -------------- APP-LEVEL UTILITIES -------------
 
 def throw_if( name: str, value: object ) -> None:
-	"""Raise ``ValueError`` when a required value is empty.
+	"""Raise a ``ValueError`` when a required value is empty.
 
 	Purpose:
-		Provide a small, consistent guard for required arguments and configuration values. The
+		Provides a small, consistent guard for required arguments and configuration values. The
 		function treats falsy values as invalid and raises a ``ValueError`` containing the
 		caller-supplied argument or setting name.
 
 	Args:
 		name (str): Name of the argument or configuration value being validated.
 		value (object): Value to validate.
-
-	Returns:
-		None.
 
 	Raises:
 		ValueError: Raised when ``value`` is falsy.
@@ -69,19 +73,20 @@ def throw_if( name: str, value: object ) -> None:
 		raise ValueError( f'Argument "{name}" cannot be empty!' )
 
 def get_bool( name: str, default: bool = False ) -> bool:
-	"""Read a Boolean environment variable using Fiddy's true-value convention.
+	"""Read a Boolean environment variable.
 
 	Purpose:
-		Convert environment-variable text into a deterministic Boolean value. Missing variables
-		return the caller-provided default. Values of ``1``, ``true``, ``yes``, ``y``, and
-		``on`` are treated as ``True``; all other defined values are treated as ``False``.
+		Converts environment-variable text into a deterministic Boolean value. Missing
+		variables return the caller-provided default. Values of ``1``, ``true``, ``yes``,
+		``y``, and ``on`` are treated as ``True``; all other defined values are treated as
+		``False``.
 
 	Args:
 		name (str): Environment variable name.
 		default (bool): Default value used when the environment variable is not defined.
 
 	Returns:
-		bool: Parsed Boolean value. If parsing fails, the original ``default`` value is returned.
+		Parsed Boolean value, or the original default value when parsing fails.
 	"""
 	try:
 		throw_if( 'name', name )
@@ -97,18 +102,19 @@ def get_bool( name: str, default: bool = False ) -> bool:
 		return default
 
 def get_int( name: str, default: int ) -> int:
-	"""Read an integer environment variable with a deterministic fallback.
+	"""Read an integer environment variable.
 
 	Purpose:
-		Parse an optional environment variable as an integer while preserving a safe default when
-		the variable is missing, empty, or invalid.
+		Parses an optional environment variable as an integer while preserving a safe
+		default when the variable is missing, empty, or invalid. This keeps module import
+		safe even when deployment configuration is incomplete.
 
 	Args:
 		name (str): Environment variable name.
 		default (int): Default integer value used when parsing is not possible.
 
 	Returns:
-		int: Parsed integer value or the supplied default value.
+		Parsed integer value or the supplied default value.
 	"""
 	try:
 		throw_if( 'name', name )
@@ -118,18 +124,19 @@ def get_int( name: str, default: int ) -> int:
 		return default
 
 def get_float( name: str, default: float ) -> float:
-	"""Read a floating-point environment variable with a deterministic fallback.
+	"""Read a floating-point environment variable.
 
 	Purpose:
-		Parse an optional environment variable as a float while preserving a safe default when the
-		variable is missing, empty, or invalid.
+		Parses an optional environment variable as a float while preserving a safe default
+		when the variable is missing, empty, or invalid. This helper supports numeric
+		configuration without making module import dependent on perfect environment state.
 
 	Args:
 		name (str): Environment variable name.
 		default (float): Default floating-point value used when parsing is not possible.
 
 	Returns:
-		float: Parsed floating-point value or the supplied default value.
+		Parsed floating-point value or the supplied default value.
 	"""
 	try:
 		throw_if( 'name', name )
@@ -139,19 +146,19 @@ def get_float( name: str, default: float ) -> float:
 		return default
 
 def get_path( name: str, default: Path ) -> Path:
-	"""Read a path environment variable and return a resolved ``Path``.
+	"""Read a path environment variable.
 
 	Purpose:
-		Resolve optional filesystem configuration from the environment. Missing variables return
-		the resolved default path. Invalid values return the resolved default path rather than
-		interrupting module import.
+		Resolves optional filesystem configuration from the environment. Missing variables
+		return the resolved default path, and invalid values fall back to the resolved
+		default path rather than interrupting module import.
 
 	Args:
 		name (str): Environment variable name.
 		default (Path): Default path used when the environment variable is not defined.
 
 	Returns:
-		Path: Resolved path value or resolved default path.
+		Resolved path value or the resolved default path.
 	"""
 	try:
 		throw_if( 'name', name )
@@ -162,18 +169,19 @@ def get_path( name: str, default: Path ) -> Path:
 		return default.resolve( )
 
 def get_text( name: str, default: str ) -> str:
-	"""Read a text environment variable with a deterministic fallback.
+	"""Read a text environment variable.
 
 	Purpose:
-		Return an environment variable as text while preserving the supplied default when the
-		variable is missing or empty.
+		Returns an environment variable as text while preserving the supplied default when
+		the variable is missing or empty. This keeps optional configuration centralized and
+		stable for callers that import the module early in application startup.
 
 	Args:
 		name (str): Environment variable name.
 		default (str): Default text value.
 
 	Returns:
-		str: Environment value or supplied default.
+		Environment value or supplied default.
 	"""
 	try:
 		throw_if( 'name', name )
@@ -675,4 +683,3 @@ CSV_LOADER = r'''The LangChain CSVLoader is a standard utility within the langch
 		This process is the foundational step for integrating tabular data into LLM-powered workflows,
 		such as Retrieval Augmented Generation (RAG).
 '''
-
