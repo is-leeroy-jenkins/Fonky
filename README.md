@@ -2,7 +2,7 @@
 
 ![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky_project.png)
 
-
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-024FA3?style=for-the-badge&logo=githubpages&logoColor=white)](https://is-leeroy-jenkins.github.io/Fonky/)
 
 A reusable Python framework for data retrieval, document ingestion, and agent-ready tool
 orchestration. Fonky provides a stable service layer for fetchers, scrapers, loaders, and processing, plus a completed
