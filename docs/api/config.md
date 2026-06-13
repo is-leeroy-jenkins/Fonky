@@ -1,3 +1,4 @@
-﻿## âš™ï¸ Configuration API
+﻿## Configuration API
 
 ::: config
+

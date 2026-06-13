@@ -1,3 +1,4 @@
-﻿## ðŸ”Œ Fetchers API
+﻿## Fetchers API
 
 ::: fetchers
+

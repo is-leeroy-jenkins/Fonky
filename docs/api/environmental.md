@@ -1,3 +1,4 @@
-﻿## ðŸŒ± Environmental API
+﻿## Environmental API
 
 ::: environmental
+

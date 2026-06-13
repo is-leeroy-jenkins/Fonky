@@ -1,3 +1,4 @@
-﻿## ðŸ—ºï¸ Geospatial API
+﻿## Geospatial API
 
 ::: geospatial
+

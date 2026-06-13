@@ -1,3 +1,4 @@
-﻿## â˜ï¸ Cloud API
+﻿## Cloud API
 
 ::: cloud
+

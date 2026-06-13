@@ -1,3 +1,4 @@
-﻿## ðŸªµ Logging API
+﻿## Logging API
 
 ::: boogr
+

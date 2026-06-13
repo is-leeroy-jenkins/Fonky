@@ -1,3 +1,4 @@
-﻿## ðŸ“š Archives API
+﻿## Archives API
 
 ::: archives
+

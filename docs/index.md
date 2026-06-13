@@ -1,766 +1,272 @@
-﻿![](./images/fonky_project.png)
+# Fonky Documentation
 
-A reusable Python framework for data retrieval, document ingestion, and agent-ready tool
-orchestration. Fonky provides a stable service layer for fetchers, scrapers, loaders, and
-processing, plus a completed
-`fonky.tools` package that exposes selected class methods as structured tools for ad-hoc
-LangChain-style
-agents, notebooks, web applications, FastAPI services, and other agentic workflows.
+Fonky is a Python framework for document loading, API fetching, web extraction, text processing,
+structured tool generation, and MkDocs-based API documentation.
 
-#### ðŸŽ¯ Purpose
-
-Fonky provides a reusable library for:
-
-| Capability | Description |
-| | - |
-| ðŸŒ Web Fetching | Retrieve web pages, scrape links, extract tables, headings, articles, paragraphs,
-and image references |
-| ðŸ”Ž Search | Query Google Custom Search, Wikipedia, ArXiv, news APIs, and public research sources |
-| ðŸ“„ Document Loading | Load and split text, PDF, CSV, Excel, Word, Markdown, HTML, PowerPoint, JSON,
-XML, and web content |
-| ðŸ—ºï¸ Geospatial Tools | Geocode locations, reverse-geocode coordinates, validate addresses, retrieve
-directions, and fetch weather |
-| ðŸ›°ï¸ Space / Science APIs | Access astronomy, satellite, NASA, USGS, EONET, and near-earth-object
-data sources |
-| ðŸ§  Agent Tools | Convert selected fetcher and loader methods into structured agent-callable tools |
-| ðŸ§¾ Schema Export | Expose tool definitions for LangChain and provider-neutral tool-calling
-workflows |
-| ðŸ” Serialization | Normalize outputs into JSON-safe tool results |
-
-#### ðŸ§± Architecture
-
-Funky is divided into two layers.
-
-#### ðŸ§© Service Layer
-
-The service layer contains ordinary Python classes.
+It provides a common pattern for working with files, web sources, public APIs, cloud sources, and
+AI-callable tools:
 
 ```text
-    fonky.fetchers
-    fonky.loaders
-    fonky.core
-    fonky.models
-    fonky.config
+Load or fetch source content
+    -> Normalize the result
+    -> Process or split the content
+    -> Expose functionality as callable tools
+    -> Document the source with MkDocs and mkdocstrings
 ```
 
-#### ðŸ§° Project Structure
+## Project Purpose
+
+Fonky is designed to make heterogeneous information sources easier to use from Python applications,
+notebooks, retrieval workflows, and AI tool-calling systems.
+
+The project supports these core use cases:
+
+| Use case          | Description                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Document loading  | Load local, web, office, PDF, notebook, cloud, and repository content into document objects.                                    |
+| API fetching      | Retrieve structured data from government, scientific, environmental, health, demographic, geospatial, and public-data services. |
+| Web extraction    | Extract text, links, metadata, headings, images, and tables from web content.                                                   |
+| Text processing   | Clean, normalize, tokenize, chunk, vectorize, and prepare text for downstream workflows.                                        |
+| AI tooling        | Convert Python functions and class methods into structured tool definitions for model tool-calling.                             |
+| Error logging     | Wrap handled exceptions and write failure metadata to a SQLite database.                                                        |
+| API documentation | Render Google-style Python docstrings into a navigable MkDocs site.                                                             |
+
+## Core Modules
+
+Fonky is organized as a flat Python module project.
+
+| Module             | Responsibility                                                                                                  |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `config.py`        | Environment variables, API keys, path constants, logging paths, and configuration helpers.                      |
+| `boogr.py`         | Project exception wrapper and SQLite-backed exception logger.                                                   |
+| `core.py`          | Shared base classes and core project abstractions.                                                              |
+| `loaders.py`       | Document loaders for local files, web content, cloud sources, office files, and external document repositories. |
+| `fetchers.py`      | API clients and public-data fetchers.                                                                           |
+| `scrapers.py`      | Web scraping and HTML extraction utilities.                                                                     |
+| `processors.py`    | Text cleaning, tokenization, chunking, NLP, and vectorization helpers.                                          |
+| `models.py`        | Structured models and AI tool definitions.                                                                      |
+| `archives.py`      | Archive and knowledge-source access helpers.                                                                    |
+| `documents.py`     | Document-loader export module.                                                                                  |
+| `web.py`           | Web-extraction export module.                                                                                   |
+| `cloud.py`         | Cloud-loader export module.                                                                                     |
+| `astronomical.py`  | Astronomy and space-data export module.                                                                         |
+| `demographic.py`   | Demographic-data export module.                                                                                 |
+| `environmental.py` | Environmental-data export module.                                                                               |
+| `geospatial.py`    | Geospatial-data export module.                                                                                  |
+| `health.py`        | Health-data export module.                                                                                      |
+
+## Documentation Sections
+
+Use the documentation sections below to move from setup to usage, development, and deployment.
+
+<div class="grid cards" markdown>
+
+* **Getting Started**
+
+  Set up the virtual environment, install dependencies, validate imports, load a first document, and
+  build the documentation site.
+
+  [Open Getting Started](getting-started.md)
+
+* **Configuration**
+
+  Review environment variables, logging paths, API keys, provider settings, and MkDocs configuration
+  requirements.
+
+  [Open Configuration](configuration.md)
+
+* **Architecture**
+
+  Understand how loaders, fetchers, scrapers, processors, models, logging, configuration, and
+  documentation fit together.
+
+  [Open Architecture](architecture.md)
+
+* **Logging**
+
+  Review the `Error` and `Logger` pattern, SQLite exception logging, validation commands, and safe
+  logging rules.
+
+  [Open Logging](logging.md)
+
+* **Usage**
+
+  Learn practical Fonky examples, including AI tooling with `ToolDef`, schema export, and
+  provider-neutral tool dispatch.
+
+  [Open Usage](usage.md)
+
+* **User Guide**
+
+  Work through longer end-to-end workflows across document loading, processing, web extraction,
+  fetching, and tool orchestration.
+
+  [Open User Guide](user-guide.md)
+
+* **Development**
+
+  Follow source regeneration rules, Google-style docstring standards, logging standards, validation
+  checks, and MkDocs build practices.
+
+  [Open Development](development.md)
+
+* **GitHub Pages**
+
+  Build and publish the MkDocs site using GitHub Pages.
+
+  [Open GitHub Pages](github-pages.md)
+
+</div>
+
+## API Reference
+
+The API reference is generated from Python source docstrings through mkdocstrings.
+
+API pages are located under:
 
 ```text
-Fonky/
-    README.md
-    requirements.txt
-
-    notebook/
-        fonkytown.ipynb
-
-    fonky/
-        __init__.py
-        config.py
-        core.py
-        fetchers.py
-        loaders.py
-        models.py
-        processors.py
-        scrapers.py
-
-        tools/
-            __init__.py
-            schemas.py
-            serializers.py
-            adapters.py
-            registry.py
-            fetcher_tools.py
-            loader_tools.py
-        
-        notebook/
-           funkytown.ipynb 
+docs/api/
 ```
 
-Examples:
+Only API pages should contain live mkdocstrings directives such as:
 
-```python
-    from fonky.fetchers import WebFetcher, GoogleSearch, Wikipedia, ArXiv
-from fonky.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
+```markdown
+::: loaders
 ```
 
-#### ðŸ› ï¸ Tool Layer
+Manual documentation pages should describe directives as examples only and should not contain live
+directives.
 
-The tool layer adapts service-layer methods into agent-ready tools.
+Primary API sections:
+
+| API page                              | Module             |
+| ------------------------------------- | ------------------ |
+| [Archives](api/archives.md)           | `archives.py`      |
+| [Astronomical](api/astronomical.md)   | `astronomical.py`  |
+| [Boogr](api/boogr.md)                 | `boogr.py`         |
+| [Cloud](api/cloud.md)                 | `cloud.py`         |
+| [Configuration](api/config.md)        | `config.py`        |
+| [Core](api/core.md)                   | `core.py`          |
+| [Demographic](api/demographic.md)     | `demographic.py`   |
+| [Documents](api/documents.md)         | `documents.py`     |
+| [Environmental](api/environmental.md) | `environmental.py` |
+| [Fetchers](api/fetchers.md)           | `fetchers.py`      |
+| [Geospatial](api/geospatial.md)       | `geospatial.py`    |
+| [Health](api/health.md)               | `health.py`        |
+| [Loaders](api/loaders.md)             | `loaders.py`       |
+| [Models](api/models.md)               | `models.py`        |
+| [Processors](api/processors.md)       | `processors.py`    |
+| [Scrapers](api/scrapers.md)           | `scrapers.py`      |
+| [Web](api/web.md)                     | `web.py`           |
+
+## Standard Workflow
+
+The expected local workflow is:
 
 ```text
-    fonky.tools.schemas
-    fonky.tools.serializers
-    fonky.tools.adapters
-    fonky.tools.registry
-    fonky.tools.fetcher_tools
-    fonky.tools.loader_tools
+Create and activate a virtual environment
+    -> Install requirements
+    -> Compile Python source
+    -> Validate imports
+    -> Build MkDocs
+    -> Serve documentation locally
+    -> Deploy to GitHub Pages when clean
 ```
 
-Examples:
-
-```python
-    from fonky.tools.registry import get_all_tools, get_tools_by_group, get_tool_by_name
-```
-
-#### âš™ï¸ Installation
-
-From the project root:
+Basic validation commands:
 
 ```powershell
-    cd Funky
-    python -m venv .venv
-    .\.venv\Scripts\Activate.ps1
-    python -m pip install --upgrade pip
-    python -m pip install -r requirements.txt
+python -m compileall .
+Select-String -Path .\docs\*.md -Pattern "^:::\s+[A-Za-z_]"
+Select-String -Path .\docs\api\*.md -Pattern "^:::\s+[A-Za-z_]"
+mkdocs build
 ```
 
-- Install Playwright browser support:
-
-```powershell
-    python -m playwright install chromium
-```
-
-#### ðŸ” Environment Configuration
-
-- Funky reads credentials from environment variables through `fonky.config`.
-
-- Common variables:
+Expected directive behavior:
 
 ```text
-    OPENAI_API_KEY
-    GOOGLE_API_KEY
-    GOOGLE_CSE_ID
-    GOOGLE_WEATHER_API_KEY
-    GOOGLE_ACCOUNT_CREDENTIALS
-    GOOGLE_DRIVE_TOKEN_PATH
-    GOOGLE_DRIVE_FOLDER_ID
-    GEMINI_API_KEY
-    NASA_API_KEY
-    NASA_EARTHDATA_TOKEN
-    THENEWSAPI_API_KEY
-    MISTRAL_API_KEY
-    PINECONE_API_KEY
-    XAI_API_KEY
-    USER_AGENTS 
+docs/*.md          -> no live mkdocstrings directives
+docs/api/*.md      -> live mkdocstrings directives are required
 ```
 
-- Example PowerShell setup:
+## AI Tooling Overview
 
-```powershell
-    $env:GOOGLE_API_KEY = "your-google-api-key"
-    $env:GOOGLE_CSE_ID = "your-google-custom-search-engine-id"
-    $env:GOOGLE_WEATHER_API_KEY = "your-google-weather-api-key"
-    $env:NASA_API_KEY = "your-nasa-api-key"
-    $env:THENEWSAPI_API_KEY = "your-thenewsapi-key"
-```
+Fonky's AI tooling layer is centered on `ToolDef` in `models.py`.
 
-- Credentials should remain in environment variables, configuration, or controlled dependency
-  injection.
-
-#### ðŸ““ Jupyter Notebook
-
-- The included notebook is located at:
-
-```text
-    notebook/fonkytown.ipynb
-```
-
-- Launch it from the project root:
-
-```powershell
-    cd Funky
-    python -m jupyter lab notebook/fonkytown.ipynb
-```
-
-- Or with classic Notebook:
-
-```powershell
-    python -m notebook notebook/fonkytown.ipynb
-```
-
-- If the notebook cannot find the local package, add the project root to `sys.path`:
+A normal Python function or object method can be wrapped as a structured tool:
 
 ```python
-    from pathlib import Path
-import sys
+from models import ToolDef
 
-project_root = Path.cwd( ).parent if Path.cwd( ).name == "notebook" else Path.cwd( )
 
-if str( project_root ) not in sys.path:
-	sys.path.insert( 0, str( project_root ) )
-```
+def count_words(text: str) -> int:
+    return len(text.split())
 
-## Ad Hoc AI Tool Examples
-
-### Create an OpenAI-compatible tool from `TextLoader.load`
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=TextLoader( ),
-	method='load',
-	name='load_text_file',
-	category='documents'
-)
-
-schema = tool.to_openai( )
-
-print( schema )
-```
-
-- Expected schema shape:
-
-```python
-{
-		'type': 'function',
-		'function': {
-				'name': 'load_text_file',
-				'description': '...',
-				'parameters': {
-						'type': 'object',
-						'properties': {
-								'path': {
-										'type': 'string'
-								},
-								'encoding': {
-										'type': 'string',
-										'default': None
-								}
-						},
-						'required': [
-								'path'
-						]
-				},
-				'strict': True
-		}
-}
-```
-
-### Execute an ad hoc text-loader tool
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=TextLoader( ),
-	method='load',
-	name='load_text_file',
-	category='documents'
-)
-
-result = tool.call(
-	{
-			'path': 'sample.txt',
-			'encoding': 'utf-8'
-	}
-)
-
-print( result[ 'ok' ] )
-print( result[ 'name' ] )
-print( result[ 'data' ][ 0 ][ 'page_content' ] )
-```
-
-- Expected result shape:
-
-```python
-{
-		'ok': True,
-		'name': 'load_text_file',
-		'data': [
-				{
-						'page_content': '...',
-						'metadata': {
-								'source': 'sample.txt'
-						}
-				}
-		],
-		'error': None,
-		'metadata': {
-				'category': 'documents',
-				'source_module': 'fonky.loaders',
-				'source_class': 'TextLoader',
-				'method': 'load',
-				'callable_name': 'load'
-		}
-}
-```
-
-### Create an AI tool from `PdfLoader.load`
-
-```python
-from fonky.documents import PdfLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=PdfLoader( ),
-	method='load',
-	name='load_pdf_file',
-	category='documents'
-)
-
-print( tool.parameters )
-print( tool.to_openai( ) )
-```
-
-- Example call:
-
-```python
-from fonky.documents import PdfLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=PdfLoader( ),
-	method='load',
-	name='load_pdf_file',
-	category='documents'
-)
-
-result = tool.call(
-	{
-			'path': 'sample.pdf',
-			'mode': 'single',
-			'extract': 'plain',
-			'include': False,
-			'format': 'markdown-img'
-	}
-)
-
-if result[ 'ok' ]:
-	print( result[ 'data' ][ 0 ][ 'page_content' ][ :1000 ] )
-else:
-	print( result[ 'error' ] )
-```
-
-### Create an AI tool from `CsvLoader.load`
-
-```python
-from fonky.documents import CsvLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=CsvLoader( ),
-	method='load',
-	name='load_csv_file',
-	category='documents'
-)
-
-print( tool.parameters )
-```
-
-- Example call:
-
-```python
-from fonky.documents import CsvLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=CsvLoader( ),
-	method='load',
-	name='load_csv_file',
-	category='documents'
-)
-
-result = tool.call(
-	{
-			'path': 'sample.csv',
-			'encoding': 'utf-8',
-			'source_column': None,
-			'delimiter': ',',
-			'quotechar': '"'
-	}
-)
-
-if result[ 'ok' ]:
-	print( result[ 'data' ][ 0 ][ 'page_content' ] )
-else:
-	print( result[ 'error' ] )
-```
-
-### Create an AI tool from `WebExtractor.html_to_text`
-
-```python
-from fonky.web import WebExtractor
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=WebExtractor( ),
-	method='html_to_text',
-	name='extract_html_text',
-	category='web'
-)
-
-print( tool.parameters )
-print( tool.to_openai( ) )
-```
-
-- Example call:
-
-```python
-from fonky.web import WebExtractor
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=WebExtractor( ),
-	method='html_to_text',
-	name='extract_html_text',
-	category='web'
-)
-
-result = tool.call(
-	{
-			'html': '<html><body><p>Hello Fonky</p></body></html>'
-	}
-)
-
-print( result )
-```
-
-- Expected result shape:
-
-```python
-{
-		'ok': True,
-		'name': 'extract_html_text',
-		'data': 'Hello Fonky',
-		'error': None,
-		'metadata': {
-				'category': 'web',
-				'source_module': 'fonky.scrapers',
-				'source_class': 'WebExtractor',
-				'method': 'html_to_text',
-				'callable_name': 'html_to_text'
-		}
-}
-```
-
-### Create an AI tool from `ArXiv.fetch`
-
-```python
-from fonky.collections import ArXiv
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=ArXiv( max_documents=2 ),
-	method='fetch',
-	name='search_arxiv',
-	category='collections'
-)
-
-print( tool.parameters )
-print( tool.to_openai( ) )
-```
-
-- Example parameter schema:
-
-```python
-{
-		'type': 'object',
-		'properties': {
-				'question': {
-						'type': 'string'
-				},
-				'max_documents': {
-						'type': 'integer',
-						'default': None
-				},
-				'full_documents': {
-						'type': 'boolean',
-						'default': None
-				},
-				'include_metadata': {
-						'type': 'boolean',
-						'default': None
-				}
-		},
-		'required': [
-				'question'
-		]
-}
-```
-
-- Example call:
-
-```python
-from fonky.collections import ArXiv
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=ArXiv( max_documents=2 ),
-	method='fetch',
-	name='search_arxiv',
-	category='collections'
-)
-
-result = tool.call(
-	{
-			'question': 'large language model tool use',
-			'max_documents': 2,
-			'full_documents': False,
-			'include_metadata': True
-	}
-)
-
-if result[ 'ok' ]:
-	for document in result[ 'data' ]:
-		print( document[ 'metadata' ] )
-		print( document[ 'page_content' ][ :500 ] )
-		print( '-' * 100 )
-else:
-	print( result[ 'error' ] )
-```
-
-### Create an AI tool from `Wikipedia.fetch`
-
-```python
-from fonky.collections import Wikipedia
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=Wikipedia( language='en', max_documents=2 ),
-	method='fetch',
-	name='search_wikipedia',
-	category='collections'
-)
-
-print( tool.parameters )
-print( tool.to_openai( ) )
-```
-
-- Example call:
-
-```python
-from fonky.collections import Wikipedia
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=Wikipedia( language='en', max_documents=2 ),
-	method='fetch',
-	name='search_wikipedia',
-	category='collections'
-)
-
-result = tool.call(
-	{
-			'question': 'retrieval augmented generation',
-			'language': 'en',
-			'max_documents': 2,
-			'include_metadata': True
-	}
-)
-
-if result[ 'ok' ]:
-	for document in result[ 'data' ]:
-		print( document[ 'metadata' ] )
-		print( document[ 'page_content' ][ :500 ] )
-		print( '-' * 100 )
-else:
-	print( result[ 'error' ] )
-```
-
-### Export a tool to provider formats
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=TextLoader( ),
-	method='load',
-	name='load_text_file',
-	category='documents'
-)
-
-openai_tool = tool.to_openai( )
-gemini_tool = tool.to_gemini( )
-grok_tool = tool.to_grok( )
-
-print( openai_tool )
-print( gemini_tool )
-print( grok_tool )
-```
-
-### Create an AI tool from a plain Python function
-
-`ToolDef` can also wrap ordinary Python functions.
-
-```python
-from fonky.models import ToolDef
-
-def add_numbers( left: int, right: int ) -> int:
-	'''
-
-		Purpose:
-		--
-		Add two integers.
-
-		Parameters:
-		--
-		left (int): Left integer.
-		right (int): Right integer.
-
-		Returns:
-		--
-		int: Sum of left and right.
-
-	'''
-	return left + right
 
 tool = ToolDef.from_callable(
-	function=add_numbers,
-	name='add_numbers',
-	category='utility'
+    function=count_words,
+    name="count_words",
+    description="Count words in a text value.",
+    category="text"
 )
 
-print( tool.parameters )
-
+schema = tool.to_openai()
 result = tool.call(
-	{
-			'left': 2,
-			'right': 3
-	}
+    {
+        "text": "Fonky exposes Python functions as AI-callable tools."
+    }
 )
 
-print( result )
+print(schema)
+print(result)
 ```
 
-- Expected result shape:
+This allows existing Fonky loaders, fetchers, scrapers, and processors to be exposed to model
+tool-calling systems without rewriting the underlying implementation.
+
+## Logging Overview
+
+Handled exceptions use the explicit project logging pattern:
 
 ```python
-{
-		'ok': True,
-		'name': 'add_numbers',
-		'data': 5,
-		'error': None,
-		'metadata': {
-				'category': 'utility',
-				'source_module': '__main__',
-				'source_class': None,
-				'method': None,
-				'callable_name': 'add_numbers'
-		}
-}
+except Exception as e:
+    exception = Error(e)
+    exception.module = "loaders"
+    exception.cause = "TextLoader"
+    exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
+    Logger().write(exception)
+    raise exception
 ```
 
-### Handle tool-call failures
+The logger writes exception metadata to:
 
-- When the underlying callable fails, `ToolDef.call(...)` returns a structured failure envelope.
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method( target=TextLoader( ),
-	method='load',
-	name='load_text_file',
-	category='documents'
-)
-
-result = tool.call(
-	{
-			'path': 'missing-file.txt'
-	}
-)
-
-print( result[ 'ok' ] )
-print( result[ 'error' ] )
+```text
+logging/Exceptions.db
 ```
 
-Expected shape:
+with the default table:
 
-```python
-{
-		'ok': False,
-		'name': 'load_text_file',
-		'data': None,
-		'error': {
-				'type': 'Error',
-				'message': '...'
-		},
-		'metadata': {
-				'category': 'documents',
-				'source_module': 'fonky.loaders',
-				'source_class': 'TextLoader',
-				'method': 'load',
-				'callable_name': 'load'
-		}
-}
+```text
+Exceptions
 ```
 
-#### ðŸ§¾ Requirements
+The logging system is designed to preserve traceability while still raising failures to the caller.
 
-| Package | Purpose | Notes |
-| - | | -- |
-| `pydantic`                   | Defines structured models and tool input schemas | Required for
-`models.py` and `tools/schemas.py`             |
-| `typing_extensions`          | Backports newer typing features | Useful for compatibility across
-Python versions |
-| `requests`                   | HTTP client for API fetchers | Required by most fetchers |
-| `pandas`                     | DataFrame handling and tabular data processing | Used for
-structured data and loader outputs |
-| `numpy`                      | Numeric processing | Common dependency for data workflows |
-| `python-dateutil`            | Date parsing and date utilities | Useful for API date parameters
-and notebooks |
-| `langchain`                  | Main LangChain framework | Required for agent/tool workflows |
-| `langchain-core`             | Core LangChain abstractions | Required for `Document`, tools, and
-retrievers |
-| `langchain-community`        | Community loaders and retrievers | Required by many loader/fetcher
-wrappers |
-| `langchain-text-splitters`   | Document chunking | Required for recursive text splitting |
-| `langchain-google-community` | Google community integrations | Used by Google loaders |
-| `langchain-googledrive`      | Google Drive retriever support | Used by Google Drive tools |
-| `pypdf`                      | PDF parsing | Required by PDF loaders |
-| `docx2txt`                   | Word document extraction | Required by DOCX loaders |
-| `openpyxl`                   | Excel `.xlsx` support | Required for Excel workflows |
-| `xlrd`                       | Legacy Excel `.xls` support | Optional but useful |
-| `python-pptx`                | PowerPoint document support | Used by PowerPoint loaders |
-| `unstructured`               | Parses Office, HTML, Markdown, and mixed document formats | Heavy
-dependency; useful for full document support |
-| `lxml`                       | XML/HTML parsing | Required by XML and HTML workflows |
-| `beautifulsoup4`             | HTML parsing and scraping | Required by web scraping methods |
-| `html5lib`                   | HTML parser backend | Useful with BeautifulSoup and document
-loaders |
-| `markdown`                   | Markdown parsing | Useful for Markdown loader workflows |
-| `nbformat`                   | Jupyter notebook parsing | Required for notebook loader support |
-| `pillow`                     | Image handling | Required by image and OCR-related loaders |
-| `rapidocr-onnxruntime`       | OCR fallback for PDFs/images | Useful for image-heavy PDFs |
-| `playwright`                 | Browser automation/rendering | Requires browser installation |
-| `crawl4ai`                   | Web crawling/rendering support | Useful for dynamic pages |
-| `arxiv`                      | ArXiv API support | Required by ArXiv retrieval |
-| `wikipedia`                  | Wikipedia API support | Required by Wikipedia retrieval |
-| `xmltodict`                  | XML-to-dictionary conversion | Useful for API and XML workflows |
-| `google-genai`               | Gemini / Google GenAI SDK | Required for Gemini-oriented
-workflows |
-| `google-api-python-client`   | Google API client support | Useful for Google Drive and other
-Google APIs |
-| `google-auth`                | Google authentication | Required for Google API access |
-| `google-auth-oauthlib`       | OAuth support for Google services | Required for user-authenticated
-Google workflows |
-| `google-cloud-storage`       | Google Cloud Storage support | Required by GCS loaders |
-| `google-cloud-speech`        | Google Speech-to-Text support | Required by speech loaders |
-| `boto3`                      | AWS SDK | Required by S3 file/directory loaders |
-| `botocore`                   | Low-level AWS dependency | Installed with `boto3`, but can be
-pinned explicitly |
-| `astropy`                    | Astronomy coordinate and data tools | Required by astronomy
-fetchers |
-| `astroquery`                 | Astronomy data queries | Required by SIMBAD / astronomy workflows |
-| `sscws`                      | NASA SSC Web Services client | Required by satellite center tools |
-| `OWSLib`                     | Web Map Service support | Required by WMS/global imagery
-workflows |
-| `cartopy`                    | Geospatial mapping/projections | Heavy dependency; needed for map
-rendering |
-| `matplotlib`                 | Plotting and map rendering | Required by imagery/geospatial
-rendering |
-| `grokipedia-api`             | Grokipedia client support | Required only when Grokipedia tools are
-enabled |
-| `boogr`                      | Custom error wrapper used by service classes | Keep as local
-package/module or replace with `fonky.errors` |
+## Build Requirement
 
-#### ðŸ“ License
+Before publishing documentation, the local build should pass:
 
-- Fonky is published under
-- ![License: Public Domain](https://img.shields.io/badge/license-public%20domain-brightgreen.svg)
-  the [MIT General Public License v3](https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE).
+```powershell
+mkdocs build
+```
 
+A clean documentation state means:
+
+```text
+- Python source compiles.
+- API pages contain the only live mkdocstrings directives.
+- Manual pages do not accidentally render source modules.
+- Google-style docstrings render without Griffe warnings.
+- Markdown examples do not trigger autorefs warnings.
+- The site renders locally with mkdocs serve.
+```

@@ -1,1320 +1,233 @@
-﻿# ðŸ“˜ User Guide
+# User Guide
 
-Fonky provides a reusable Python layer for retrieving external data, loading documents, scraping web
-content, processing text, and exposing callable tools for agent-style workflows. This guide focuses
-on practical examples that can be copied into scripts, notebooks, applications, and API services.
+This guide provides practical workflows for using Fonky across document loading, text processing,
+web extraction, API fetching, and AI tool orchestration.
 
+The examples assume a flat source layout where modules such as `loaders.py`, `processors.py`,
+`scrapers.py`, `fetchers.py`, and `models.py` are located at the repository root.
 
----
+## Guide Scope
 
-## ðŸ§­ Overview
-
-Fonky is organized around five primary workflows:
-
-| Workflow                | Primary Modules            | Purpose                                                                                                          |
-| ----------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Document loading        | `documents`, `loaders`     | Load files, cloud documents, notebooks, email, web pages, and structured data into LangChain `Document` objects. |
-| Web extraction          | `web`, `scrapers`          | Fetch pages, parse HTML, extract links, tables, images, headings, paragraphs, and readable text.                 |
-| Text processing         | `processors`               | Clean, normalize, tokenize, chunk, vectorize, and prepare text for retrieval or analysis.                        |
-| External data retrieval | `fetchers`, export modules | Retrieve public, scientific, environmental, demographic, geospatial, astronomical, health, and web data.         |
-| Tool orchestration      | `models`                   | Convert class methods or Python callables into structured provider-ready tool definitions.                       |
-
-The common workflow is:
+Fonky is designed around a common workflow:
 
 ```text
-Load or fetch data
-    â†“
-Normalize or clean content
-    â†“
-Chunk or transform documents
-    â†“
-Expose as structured tools or pass into downstream analysis
+Source content
+    -> loader, fetcher, or scraper
+    -> normalized output
+    -> processor or tool wrapper
+    -> downstream application, analysis workflow, or AI tool call
 ```
 
----
+The most common user paths are:
 
-## âš™ï¸ Environment Setup
+| Workflow                 | Modules used            |
+| ------------------------ | ----------------------- |
+| Load local files         | `loaders.py`            |
+| Split documents          | `loaders.py`            |
+| Clean text               | `processors.py`         |
+| Extract web content      | `scrapers.py`           |
+| Fetch public API data    | `fetchers.py`           |
+| Create AI-callable tools | `models.py`             |
+| Log handled exceptions   | `boogr.py`, `config.py` |
 
-Activate the project environment:
+## Basic Import Pattern
 
-```powershell
-cd Fonky
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-Install browser support when using browser-backed scraping:
-
-```powershell
-python -m playwright install chromium
-```
-
-Validate the package:
-
-```powershell
-python -m compileall .\fonky
-```
-
----
-
-## ðŸ” Environment Variables
-
-Fonky reads configuration from `config.py`. Set only the variables needed for the services you use.
-
-Example PowerShell configuration:
-
-```powershell
-$env:OPENAI_API_KEY = "your-openai-api-key"
-$env:GOOGLE_API_KEY = "your-google-api-key"
-$env:GOOGLE_CSE_ID = "your-google-custom-search-engine-id"
-$env:GOOGLE_WEATHER_API_KEY = "your-google-weather-api-key"
-$env:NASA_API_KEY = "your-nasa-api-key"
-$env:GOVINFO_API_KEY = "your-govinfo-api-key"
-$env:CONGRESS_API_KEY = "your-congress-api-key"
-$env:THENEWSAPI_API_KEY = "your-thenewsapi-key"
-```
-
-Exception logging defaults to:
-
-```text
-logging/Exceptions.db
-```
-
-The logging table defaults to:
-
-```text
-Exceptions
-```
-
-Override logging paths when needed:
-
-```powershell
-$env:LOG_DIR = "C:\Users\terry\source\repos\Fonky\logging"
-$env:LOG_PATH = "C:\Users\terry\source\repos\Fonky\logging\Exceptions.db"
-$env:LOG_FILE = "Exceptions"
-```
-
----
-
-## ðŸ“„ Loading Text Files
-
-Use `TextLoader` for plain-text files.
+Use root-level imports for the current project layout:
 
 ```python
-from fonky.documents import TextLoader
+from loaders import TextLoader
+from models import ToolDef
+from processors import TextParser
+```
+
+Do not use package imports such as `from fonky.loaders import TextLoader` unless the source files
+are later moved into a real package directory named `fonky`.
+
+## Create Sample Data
+
+Create a small sample text file:
+
+```powershell
+New-Item -ItemType Directory -Force .\data | Out-Null
+"Fonky loads documents, processes text, and exposes callable tools." | Set-Content .\data\sample.txt -Encoding UTF8
+```
+
+Confirm the file exists:
+
+```powershell
+Test-Path .\data\sample.txt
+```
+
+Expected output:
+
+```text
+True
+```
+
+## Load a Text File
+
+Use `TextLoader` to load a local text file.
+
+```python
+from loaders import TextLoader
 
 loader = TextLoader()
 
 documents = loader.load(
-	path="data/sample.txt",
-	encoding="utf-8"
+    path="data/sample.txt",
+    encoding="utf-8"
 )
 
 print("Document count:", len(documents))
 
-for document_number, document in enumerate(documents, start=1):
-	print("Document:", document_number)
-	print("Metadata:", document.metadata)
-	print("Content:", document.page_content)
-	break
+for document in documents:
+    print("Metadata:", document.metadata)
+    print("Content:", document.page_content)
+    break
 ```
 
-Split loaded text into retrieval-friendly chunks:
+PowerShell inline version:
+
+```powershell
+python -c "from loaders import TextLoader; loader = TextLoader(); docs = loader.load(path='data/sample.txt', encoding='utf-8'); print(len(docs)); print(next(iter(docs)).page_content)"
+```
+
+## Split Loaded Documents
+
+After a loader has loaded documents, call the loader split method.
 
 ```python
-from fonky.documents import TextLoader
+from loaders import TextLoader
 
 loader = TextLoader()
 
-documents = loader.load(
-	path="data/sample.txt",
-	encoding="utf-8"
+loader.load(
+    path="data/sample.txt",
+    encoding="utf-8"
 )
 
 chunks = loader.split(
-	chunk=1000,
-	overlap=200
-)
-
-print("Chunk count:", len(chunks))
-
-for chunk_number, chunk in enumerate(chunks, start=1):
-	print("Chunk:", chunk_number)
-	print(chunk.page_content)
-	break
-```
-
----
-
-## ðŸ“Š Loading CSV Files
-
-Use `CsvLoader` for structured CSV data.
-
-```python
-from fonky.documents import CsvLoader
-
-loader = CsvLoader()
-
-documents = loader.load(
-	path="data/records.csv",
-	encoding="utf-8",
-	source_column=None,
-	delimiter=",",
-	quotechar='"'
-)
-
-print("Document count:", len(documents))
-
-for document_number, document in enumerate(documents, start=1):
-	print("Document:", document_number)
-	print(document.page_content)
-	break
-```
-
-Use a source column when the CSV contains a field that identifies each record:
-
-```python
-from fonky.documents import CsvLoader
-
-loader = CsvLoader()
-
-documents = loader.load(
-	path="data/records.csv",
-	encoding="utf-8",
-	source_column="RecordId",
-	delimiter=",",
-	quotechar='"'
-)
-
-for document_number, document in enumerate(documents, start=1):
-	if document_number > 3:
-		break
-	
-	print("Document:", document_number)
-	print("Metadata:", document.metadata)
-	print("Content:", document.page_content)
-```
-
-Split CSV records:
-
-```python
-from fonky.documents import CsvLoader
-
-loader = CsvLoader()
-
-documents = loader.load(
-	path="data/records.csv",
-	encoding="utf-8",
-	source_column=None
-)
-
-chunks = loader.split(
-	chunk=1200,
-	overlap=150
-)
-
-print("Chunk count:", len(chunks))
-```
-
----
-
-## ðŸ“• Loading PDF Files
-
-Use `PdfLoader` for PDF documents.
-
-```python
-from fonky.documents import PdfLoader
-
-loader = PdfLoader(
-	size=1000,
-	overlap=150,
-	has_tables=True,
-	include=True
-)
-
-documents = loader.load(
-	path="data/report.pdf",
-	mode="single",
-	extract="plain",
-	include=False,
-	format="markdown-img"
-)
-
-print("Document count:", len(documents))
-
-for document_number, document in enumerate(documents, start=1):
-	print("Document:", document_number)
-	print("Metadata:", document.metadata)
-	print("Content:", document.page_content)
-	break
-```
-
-Use page mode when page-level metadata is important:
-
-```python
-from fonky.documents import PdfLoader
-
-loader = PdfLoader()
-
-documents = loader.load(
-	path="data/report.pdf",
-	mode="page",
-	extract="plain",
-	include=False,
-	format="markdown-img"
-)
-
-for page_number, document in enumerate(documents, start=1):
-	if page_number > 3:
-		break
-	
-	print("Page:", page_number)
-	print("Metadata:", document.metadata)
-	print("Content:", document.page_content)
-```
-
-Use layout extraction for PDFs where spacing and layout matter:
-
-```python
-from fonky.documents import PdfLoader
-
-loader = PdfLoader()
-
-documents = loader.load(
-	path="data/report.pdf",
-	mode="page",
-	extract="layout",
-	include=False,
-	format="markdown-img"
-)
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
----
-
-## ðŸ“— Loading Word Documents
-
-Use `WordLoader` for `.docx` files.
-
-```python
-from fonky.documents import WordLoader
-
-loader = WordLoader()
-
-documents = loader.load(
-	path="data/memo.docx"
-)
-
-print("Document count:", len(documents))
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
-Split the document:
-
-```python
-from fonky.documents import WordLoader
-
-loader = WordLoader()
-
-documents = loader.load(
-	path="data/memo.docx"
-)
-
-chunks = loader.split(
-	chunk=1000,
-	overlap=200
-)
-
-print("Chunk count:", len(chunks))
-```
-
----
-
-## ðŸ“™ Loading Markdown Files
-
-Use `MarkdownLoader` for Markdown documentation.
-
-```python
-from fonky.documents import MarkdownLoader
-
-loader = MarkdownLoader()
-
-documents = loader.load(
-	path="README.md"
-)
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
-Split Markdown into chunks:
-
-```python
-from fonky.documents import MarkdownLoader
-
-loader = MarkdownLoader()
-
-documents = loader.load(
-	path="README.md"
-)
-
-chunks = loader.split(
-	chunk=1500,
-	overlap=250
-)
-
-for chunk_number, chunk in enumerate(chunks, start=1):
-	if chunk_number > 3:
-		break
-	
-	print("Chunk:", chunk_number)
-	print(chunk.page_content)
-```
-
----
-
-## ðŸŒ Loading Web Pages
-
-Use `WebLoader` for static web pages.
-
-```python
-from fonky.documents import WebLoader
-
-loader = WebLoader(
-	recursive=False,
-	max_depth=2,
-	prevent_outside=True,
-	timeout=10,
-	ignore=True,
-	progress=True
-)
-
-documents = loader.load(
-	urls="https://example.com"
-)
-
-print("Document count:", len(documents))
-
-for document in documents:
-	print("Metadata:", document.metadata)
-	print("Content:", document.page_content)
-	break
-```
-
-Load multiple pages:
-
-```python
-from fonky.documents import WebLoader
-
-loader = WebLoader(
-	recursive=False,
-	progress=True
-)
-
-urls = (
-	"https://example.com",
-	"https://www.iana.org/domains/reserved"
-)
-
-documents = loader.load(
-	urls=list(urls)
-)
-
-for document_number, document in enumerate(documents, start=1):
-	print("Document:", document_number)
-	print("Metadata:", document.metadata)
-	print("Content:", document.page_content)
-```
-
-Recursively crawl a site:
-
-```python
-from fonky.documents import WebLoader
-
-loader = WebLoader(
-	recursive=True,
-	max_depth=2,
-	prevent_outside=True,
-	timeout=10,
-	ignore=True
-)
-
-documents = loader.load(
-	urls="https://example.com"
-)
-
-print("Document count:", len(documents))
-```
-
-Split loaded web content:
-
-```python
-from fonky.documents import WebLoader
-
-loader = WebLoader(
-	recursive=False
-)
-
-documents = loader.load(
-	urls="https://example.com"
-)
-
-chunks = loader.split(
-	chunk=1000,
-	overlap=200
-)
-
-print("Chunk count:", len(chunks))
-```
-
----
-
-## ðŸ§¾ Loading JSON Files
-
-Use `JsonLoader` for JSON and JSON Lines files.
-
-```python
-from fonky.documents import JsonLoader
-
-loader = JsonLoader()
-
-documents = loader.load(
-	filepath="data/sample.json",
-	is_text=True,
-	is_lines=False
-)
-
-print("Document count:", len(documents))
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
-Load JSON Lines:
-
-```python
-from fonky.documents import JsonLoader
-
-loader = JsonLoader()
-
-documents = loader.load(
-	filepath="data/sample.jsonl",
-	is_text=True,
-	is_lines=True
-)
-
-print("Document count:", len(documents))
-```
-
----
-
-## ðŸ§® Loading Excel Files
-
-Use `ExcelLoader` for spreadsheet ingestion.
-
-```python
-from fonky.documents import ExcelLoader
-
-loader = ExcelLoader()
-
-documents = loader.load(
-	path="data/workbook.xlsx",
-	mode="elements",
-	has_headers=True
-)
-
-print("Document count:", len(documents))
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
-Split spreadsheet content:
-
-```python
-from fonky.documents import ExcelLoader
-
-loader = ExcelLoader()
-
-documents = loader.load(
-	path="data/workbook.xlsx",
-	mode="elements",
-	has_headers=True
-)
-
-chunks = loader.split(
-	chunk=1000,
-	overlap=200
-)
-
-print("Chunk count:", len(chunks))
-```
-
----
-
-## ðŸ“½ï¸ Loading PowerPoint Files
-
-Use `PowerPointLoader` for `.ppt` or `.pptx` files.
-
-```python
-from fonky.documents import PowerPointLoader
-
-loader = PowerPointLoader()
-
-documents = loader.load(
-	path="data/presentation.pptx",
-	mode="single"
-)
-
-print("Document count:", len(documents))
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
-Split slide content:
-
-```python
-from fonky.documents import PowerPointLoader
-
-loader = PowerPointLoader()
-
-documents = loader.load(
-	path="data/presentation.pptx",
-	mode="single"
-)
-
-chunks = loader.split(
-	chunk=1000,
-	overlap=200
-)
-
-print("Chunk count:", len(chunks))
-```
-
----
-
-## ðŸ“§ Loading Email and Outlook Files
-
-Use `EmailLoader` for email documents:
-
-```python
-from fonky.documents import EmailLoader
-
-loader = EmailLoader()
-
-documents = loader.load(
-	path="data/message.eml",
-	mode="single",
-	attachments=True
-)
-
-print("Document count:", len(documents))
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
-Use `OutlookLoader` for Outlook message files:
-
-```python
-from fonky.documents import OutlookLoader
-
-loader = OutlookLoader()
-
-documents = loader.load(
-	path="data/message.msg"
-)
-
-print("Document count:", len(documents))
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
----
-
-## ðŸ§¬ Loading XML Files
-
-Use `XmlLoader` for XML document loading and XPath operations.
-
-```python
-from fonky.documents import XmlLoader
-
-loader = XmlLoader()
-
-documents = loader.load(
-	filepath="data/sample.xml"
-)
-
-print("Document count:", len(documents))
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
-Parse an XML tree:
-
-```python
-from fonky.documents import XmlLoader
-
-loader = XmlLoader()
-
-tree = loader.load_tree(
-	filepath="data/sample.xml"
-)
-
-elements = loader.get_elements(
-	xpath="//record"
-)
-
-print("Element count:", len(elements))
-
-for element_number, element in enumerate(elements, start=1):
-	if element_number > 3:
-		break
-	
-	print("Element:", element_number)
-	print(element.tag)
-```
-
----
-
-## ðŸ““ Loading Jupyter Notebooks
-
-Use `JupyterNotebookLoader` for `.ipynb` files.
-
-```python
-from fonky.documents import JupyterNotebookLoader
-
-loader = JupyterNotebookLoader()
-
-documents = loader.load(
-	path="notebook/fonkytown.ipynb",
-	include_outputs=False,
-	max_output_length=10,
-	remove_newline=False,
-	traceback=False
-)
-
-print("Document count:", len(documents))
-
-for document in documents:
-	print(document.page_content)
-	break
-```
-
----
-
-## â˜ï¸ Loading Cloud Documents
-
-### Google Cloud Storage file
-
-```python
-from fonky.cloud import GoogleCloudFileLoader
-
-loader = GoogleCloudFileLoader()
-
-documents = loader.load(
-	project_name="your-project-id",
-	bucket="your-bucket-name",
-	blob="path/to/file.txt"
-)
-
-print("Document count:", len(documents))
-```
-
-### Google Cloud Storage bucket
-
-```python
-from fonky.cloud import GoogleBucketLoader
-
-loader = GoogleBucketLoader()
-
-documents = loader.load(
-	project_name="your-project-id",
-	bucket="your-bucket-name",
-	prefix="documents/",
-	continue_on_failure=True
-)
-
-print("Document count:", len(documents))
-```
-
-### AWS S3 file
-
-```python
-from fonky.cloud import AwsFileLoader
-
-loader = AwsFileLoader()
-
-documents = loader.load(
-	bucket="your-bucket-name",
-	key="documents/sample.txt",
-	region_name="us-east-1"
-)
-
-print("Document count:", len(documents))
-```
-
-### AWS S3 bucket
-
-```python
-from fonky.cloud import AwsBucketLoader
-
-loader = AwsBucketLoader()
-
-documents = loader.load(
-	bucket="your-bucket-name",
-	prefix="documents/",
-	region_name="us-east-1"
-)
-
-print("Document count:", len(documents))
-```
-
----
-
-## ðŸ”Ž Loading Research and Knowledge Sources
-
-### ArXiv
-
-```python
-from fonky.archives import ArXiv
-
-archive = ArXiv(
-	max_documents=3,
-	max_characters=4000,
-	include_metadata=True
-)
-
-documents = archive.fetch(
-	question="retrieval augmented generation",
-	max_documents=3,
-	full_documents=False,
-	include_metadata=True
-)
-
-for document_number, document in enumerate(documents, start=1):
-	print("Document:", document_number)
-	print("Metadata:", document.metadata)
-	print("Content:", document.page_content)
-```
-
-### Wikipedia
-
-```python
-from fonky.archives import Wikipedia
-
-wiki = Wikipedia(
-	language="en",
-	max_documents=3,
-	max_characters=4000,
-	include_metadata=True
-)
-
-documents = wiki.fetch(
-	question="retrieval augmented generation",
-	language="en",
-	max_documents=3,
-	include_metadata=True
-)
-
-for document_number, document in enumerate(documents, start=1):
-	print("Document:", document_number)
-	print("Metadata:", document.metadata)
-	print("Content:", document.page_content)
-```
-
-### PubMed
-
-```python
-from fonky.documents import PubMedSearchLoader
-
-loader = PubMedSearchLoader()
-
-documents = loader.load(
-	query="machine learning clinical decision support",
-	max_docs=5
-)
-
-for document_number, document in enumerate(documents, start=1):
-	print("Document:", document_number)
-	print("Metadata:", document.metadata)
-	print("Content:", document.page_content)
-```
-
----
-
-## ðŸ§¹ Cleaning Text
-
-Use `TextParser` for text cleanup.
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-raw_text = """
-<html>
-	<body>
-		<h1>Example Document</h1>
-		<p>This is sample text with numbers 12345, symbols @#$%, and extra spacing.</p>
-	</body>
-</html>
-"""
-
-cleaned = parser.remove_html(raw_text)
-cleaned = parser.remove_numbers(cleaned)
-cleaned = parser.remove_symbols(cleaned)
-cleaned = parser.compress_whitespace(cleaned)
-
-print(cleaned)
-```
-
-Remove Markdown:
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-text = """
-# Heading
-
-This is bold text with a link to https://example.com.
-"""
-
-cleaned = parser.remove_markdown(text)
-
-print(cleaned)
-```
-
-Remove stop words:
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-text = "This is a sample sentence that contains common stop words."
-
-tokens = parser.remove_stopwords(text)
-
-for token in tokens:
-	print(token)
-```
-
-Normalize text:
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-text = "  This   Text   Has MIXED Case and Extra Spaces.  "
-
-normalized = parser.normalize_text(text)
-
-print(normalized)
-```
-
----
-
-## âœ‚ï¸ Splitting and Chunking Text
-
-Split text into sentences:
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-text = "This is the first sentence. This is the second sentence. This is the third sentence."
-
-sentences = parser.split_sentences(text)
-
-for sentence in sentences:
-	print(sentence)
-```
-
-Split text into paragraphs:
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-text = """
-First paragraph.
-
-Second paragraph.
-
-Third paragraph.
-"""
-
-paragraphs = parser.split_paragraphs(text)
-
-for paragraph in paragraphs:
-	print(paragraph)
-```
-
-Chunk raw text:
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-text = "This is a long text value. " * 500
-
-chunks = parser.chunk_text(
-	text=text,
-	chunk_size=1000,
-	overlap=100
+    chunk=500,
+    overlap=50
 )
 
 print("Chunk count:", len(chunks))
 
 for chunk in chunks:
-	print(chunk)
-	break
+    print(chunk.page_content)
+    break
 ```
 
----
+Use this when preparing documents for retrieval, indexing, summarization, or embedding workflows.
 
-## ðŸ“ˆ Frequency and Vector Representations
+## Load and Process Text
 
-Create a frequency distribution:
+A common workflow is to load text first, then pass the page content into a processor.
 
 ```python
-from fonky.processors import TextParser
+from loaders import TextLoader
+from processors import TextParser
 
+loader = TextLoader()
 parser = TextParser()
 
-text = "data data model model model retrieval retrieval augmented generation"
-
-frequency = parser.create_frequency_distribution(text)
-
-print(frequency)
-```
-
-Create a vocabulary:
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-text = "data model retrieval augmented generation model data"
-
-vocabulary = parser.create_vocabulary(text)
-
-print(vocabulary)
-```
-
-Create bag-of-words output:
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-text = "data model retrieval augmented generation model data"
-
-wordbag = parser.create_wordbag(text)
-
-print(wordbag)
-```
-
-Create TF-IDF vectors:
-
-```python
-from fonky.processors import TextParser
-
-parser = TextParser()
-
-texts = (
-	"data retrieval and model evaluation",
-	"retrieval augmented generation with documents",
-	"model evaluation with structured data"
+documents = loader.load(
+    path="data/sample.txt",
+    encoding="utf-8"
 )
 
-tfidf = parser.create_tfidf(
-	texts=list(texts)
+for document in documents:
+    text = document.page_content
+    break
+
+cleaned = parser.clean_text(
+    text=text
 )
 
-print(tfidf)
+print(cleaned)
 ```
 
----
+If the active `TextParser` class uses a different method name, use the exact method listed in the
+API reference.
 
-## ðŸ§  NLP With NLTK
+## Build a Reusable Load Function
 
-Use `NltkParser` for tokenization, stemming, lemmatization, part-of-speech tagging, named entity
-recognition, and chunking.
-
-```python
-from fonky.processors import NltkParser
-
-parser = NltkParser()
-
-tokens = parser.word_tokenizer(
-	text="Fonky loads documents and prepares data for analysis."
-)
-
-for token in tokens:
-	print(token)
-```
-
-Sentence tokenization:
+Wrap a common loader pattern in a normal Python function.
 
 ```python
-from fonky.processors import NltkParser
+from loaders import TextLoader
 
-parser = NltkParser()
 
-sentences = parser.sentence_tokenizer(
-	text="Fonky loads documents. It also processes text."
+def load_first_text(path: str, encoding: str = "utf-8") -> str:
+    """Load the first document text from a local text file.
+
+    Purpose:
+        Provides a small helper that loads a local text file and returns the first
+        available document text value.
+
+    Args:
+        path (str): Local text file path.
+        encoding (str): File encoding.
+
+    Returns:
+        str: First document text or an empty string.
+    """
+    loader = TextLoader()
+
+    documents = loader.load(
+        path=path,
+        encoding=encoding
+    )
+
+    for document in documents:
+        return document.page_content
+
+    return ""
+
+
+text = load_first_text(
+    path="data/sample.txt"
 )
-
-for sentence in sentences:
-	print(sentence)
-```
-
-Stemming:
-
-```python
-from fonky.processors import NltkParser
-
-parser = NltkParser()
-
-words = (
-	"running",
-	"runner",
-	"runs",
-	"processed",
-	"processing"
-)
-
-stems = parser.word_stemmer(
-	words=list(words)
-)
-
-for stem in stems:
-	print(stem)
-```
-
-Lemmatization:
-
-```python
-from fonky.processors import NltkParser
-
-parser = NltkParser()
-
-words = (
-	"running",
-	"documents",
-	"models",
-	"analyses"
-)
-
-lemmas = parser.word_lemmatizer(
-	words=list(words)
-)
-
-for lemma in lemmas:
-	print(lemma)
-```
-
-Part-of-speech tagging:
-
-```python
-from fonky.processors import NltkParser
-
-parser = NltkParser()
-
-tags = parser.pos_tagger(
-	text="Fonky processes documents for retrieval workflows."
-)
-
-for tag in tags:
-	print(tag)
-```
-
-Named entity recognition:
-
-```python
-from fonky.processors import NltkParser
-
-parser = NltkParser()
-
-entities = parser.named_entity_recognition(
-	text="NASA and EPA published environmental data in Washington."
-)
-
-print(entities)
-```
-
----
-
-## ðŸŒ Web Extraction
-
-Use `WebExtractor` for HTML parsing.
-
-```python
-from fonky.web import WebExtractor
-
-extractor = WebExtractor()
-
-html = """
-<html>
-	<body>
-		<h1>Example Page</h1>
-		<p>This is an example paragraph.</p>
-		<a href="https://example.com/data">Data</a>
-	</body>
-</html>
-"""
-
-text = extractor.html_to_text(html)
 
 print(text)
 ```
 
-Extract links:
+This kind of helper can also be exposed as an AI tool through `ToolDef`.
+
+## Create a Tool from a Function
+
+Fonky can convert plain Python functions into structured tools.
 
 ```python
-from fonky.web import WebExtractor
+from models import ToolDef
 
-extractor = WebExtractor()
 
-html = """
-<html>
-	<body>
-		<a href="https://example.com/data">Data</a>
-		<a href="/about">About</a>
-	</body>
-</html>
-"""
+def count_words(text: str) -> int:
+    """Count words in a text value.
 
-links = extractor.extract_links(
-	html=html,
-	base_url="https://example.com"
-)
+    Purpose:
+        Counts whitespace-separated words in a text value.
 
-for link in links:
-	print(link)
-```
+    Args:
+        text (str): Text to count.
 
-Extract headings:
+    Returns:
+        int: Number of words.
+    """
+    return len(text.split())
 
-```python
-from fonky.web import WebExtractor
-
-extractor = WebExtractor()
-
-html = """
-<html>
-	<body>
-		<h1>Main Title</h1>
-		<h2>Section</h2>
-	</body>
-</html>
-"""
-
-headings = extractor.extract_headings(html)
-
-for heading in headings:
-	print(heading)
-```
-
-Extract tables:
-
-```python
-from fonky.web import WebExtractor
-
-extractor = WebExtractor()
-
-html = """
-<table>
-	<tr>
-		<th>Name</th>
-		<th>Value</th>
-	</tr>
-	<tr>
-		<td>Alpha</td>
-		<td>100</td>
-	</tr>
-</table>
-"""
-
-tables = extractor.extract_tables(html)
-
-for table in tables:
-	print(table)
-```
-
----
-
-## ðŸ› ï¸ Structured Tool Creation
-
-Fonky can convert functions and methods into structured tool definitions.
-
-### Create a tool from a plain function
-
-```python
-from fonky.models import ToolDef
-
-def add_numbers(left: int, right: int) -> int:
-	"""Add two integers.
-
-	Purpose:
-		Adds two integer values and returns their sum.
-
-	Args:
-		left (int): Left integer.
-		right (int): Right integer.
-
-	Returns:
-		Sum of the two input values.
-	"""
-	return left + right
 
 tool = ToolDef.from_callable(
-	function=add_numbers,
-	name="add_numbers",
-	category="utility"
+    function=count_words,
+    name="count_words",
+    description="Count words in a text value.",
+    category="text"
 )
 
-schema = tool.to_openai()
-
-print(schema)
-```
-
-Execute the tool:
-
-```python
 result = tool.call(
-	{
-		"left": 10,
-		"right": 15
-	}
+    {
+        "text": "Fonky exposes Python functions as AI-callable tools."
+    }
 )
 
 print(result)
@@ -1322,354 +235,543 @@ print(result)
 
 Expected result shape:
 
-```python
+```text
 {
-	"ok": True,
-	"name": "add_numbers",
-	"data": 25,
-	"error": None,
-	"metadata": {
-		"category": "utility",
-		"source_module": "__main__",
-		"source_class": None,
-		"method": None,
-		"callable_name": "add_numbers"
-	}
+    "ok": true,
+    "name": "count_words",
+    "data": 7,
+    "error": null,
+    "metadata": {
+        "category": "text"
+    }
 }
 ```
 
----
+The exact metadata fields depend on the active `ToolDef` implementation.
 
-## ðŸ§° Tool From a Loader Method
+## Create a Tool from a Loader Method
 
-Create a structured tool from `TextLoader.load`:
+Expose `TextLoader.load` as an AI-callable tool.
 
 ```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
+from loaders import TextLoader
+from models import ToolDef
 
 loader = TextLoader()
 
-tool = ToolDef.from_method(
-	target=loader,
-	method="load",
-	name="load_text_file",
-	category="documents"
+load_tool = ToolDef.from_method(
+    target=loader,
+    method="load",
+    name="load_text_file",
+    description="Load a local text file into document objects.",
+    category="documents"
 )
 
-schema = tool.to_openai()
+result = load_tool.call(
+    {
+        "path": "data/sample.txt",
+        "encoding": "utf-8"
+    }
+)
+
+print("Succeeded:", result.get("ok"))
+
+if result.get("ok"):
+    data = result.get("data") or []
+
+    for item in data:
+        print(item.get("page_content"))
+        break
+else:
+    print(result.get("error"))
+```
+
+This pattern allows an AI model to select a file-loading tool while Fonky executes the underlying
+Python method.
+
+## Export Tool Schemas
+
+Export tool schemas before passing them to a model provider.
+
+```python
+from models import ToolDef
+
+
+def uppercase_text(text: str) -> str:
+    """Convert text to uppercase.
+
+    Purpose:
+        Provides a deterministic text transformation tool.
+
+    Args:
+        text (str): Text to transform.
+
+    Returns:
+        str: Uppercase text.
+    """
+    return text.upper()
+
+
+tool = ToolDef.from_callable(
+    function=uppercase_text,
+    name="uppercase_text",
+    description="Convert text to uppercase.",
+    category="text"
+)
+
+print("Provider neutral:")
+print(tool.to_dict())
+
+print("OpenAI:")
+print(tool.to_openai())
+
+print("Gemini:")
+print(tool.to_gemini())
+
+print("Grok:")
+print(tool.to_grok())
+```
+
+## Build a Tool Registry
+
+A registry maps tool names to `ToolDef` objects.
+
+```python
+from models import ToolDef
+
+
+def count_words(text: str) -> int:
+    """Count words in text.
+
+    Purpose:
+        Provides a deterministic word-count tool.
+
+    Args:
+        text (str): Text to count.
+
+    Returns:
+        int: Number of words.
+    """
+    return len(text.split())
+
+
+def reverse_text(text: str) -> str:
+    """Reverse text.
+
+    Purpose:
+        Provides a deterministic text reversal tool.
+
+    Args:
+        text (str): Text to reverse.
+
+    Returns:
+        str: Reversed text.
+    """
+    return text[::-1]
+
+
+tools = [
+    ToolDef.from_callable(
+        function=count_words,
+        name="count_words",
+        description="Count words in text.",
+        category="text"
+    ),
+    ToolDef.from_callable(
+        function=reverse_text,
+        name="reverse_text",
+        description="Reverse a text value.",
+        category="text"
+    )
+]
+
+registry = {
+    tool.name: tool
+    for tool in tools
+}
+
+for tool_name in registry:
+    print(tool_name)
+```
+
+## Dispatch a Model-Selected Tool Call
+
+Most model providers return a tool name and argument dictionary when a tool is selected.
+
+This example uses a provider-neutral payload.
+
+```python
+model_selected_call = {
+    "name": "count_words",
+    "arguments": {
+        "text": "Fonky can dispatch AI-selected tool calls."
+    }
+}
+
+tool_name = model_selected_call.get("name")
+arguments = model_selected_call.get("arguments") or {}
+
+selected_tool = registry.get(tool_name)
+
+if selected_tool is None:
+    result = {
+        "ok": False,
+        "name": tool_name,
+        "data": None,
+        "error": {
+            "type": "ToolNotFound",
+            "message": f"No registered tool named {tool_name}."
+        },
+        "metadata": {}
+    }
+else:
+    result = selected_tool.call(arguments)
+
+print(result)
+```
+
+This is the basic bridge between a model provider's tool-calling response and Fonky's Python
+execution layer.
+
+## Chain Loader and Tool Calls
+
+You can chain a file-loading tool with a text-processing tool.
+
+```python
+from loaders import TextLoader
+from models import ToolDef
+
+
+def first_document_text(documents: list[dict]) -> str:
+    """Extract the first document text value.
+
+    Purpose:
+        Reads serialized document dictionaries and returns the first available
+        page content value.
+
+    Args:
+        documents (list[dict]): Serialized document dictionaries.
+
+    Returns:
+        str: First page content value or an empty string.
+    """
+    for document in documents:
+        value = document.get("page_content")
+
+        if value:
+            return value
+
+    return ""
+
+
+def count_words(text: str) -> int:
+    """Count words in text.
+
+    Purpose:
+        Counts whitespace-separated words in a text value.
+
+    Args:
+        text (str): Text to count.
+
+    Returns:
+        int: Number of words.
+    """
+    return len(text.split())
+
+
+loader = TextLoader()
+
+tools = [
+    ToolDef.from_method(
+        target=loader,
+        method="load",
+        name="load_text_file",
+        description="Load a local text file.",
+        category="documents"
+    ),
+    ToolDef.from_callable(
+        function=first_document_text,
+        name="first_document_text",
+        description="Extract the first text value from serialized document output.",
+        category="documents"
+    ),
+    ToolDef.from_callable(
+        function=count_words,
+        name="count_words",
+        description="Count words in text.",
+        category="text"
+    )
+]
+
+registry = {
+    tool.name: tool
+    for tool in tools
+}
+
+load_result = registry.get("load_text_file").call(
+    {
+        "path": "data/sample.txt",
+        "encoding": "utf-8"
+    }
+)
+
+if not load_result.get("ok"):
+    print(load_result.get("error"))
+    raise SystemExit(1)
+
+text_result = registry.get("first_document_text").call(
+    {
+        "documents": load_result.get("data") or []
+    }
+)
+
+if not text_result.get("ok"):
+    print(text_result.get("error"))
+    raise SystemExit(1)
+
+count_result = registry.get("count_words").call(
+    {
+        "text": text_result.get("data") or ""
+    }
+)
+
+print(count_result)
+```
+
+## Use a Fetcher as a Tool
+
+Fetcher methods can be wrapped in the same way as loader methods.
+
+Use the exact class and method names from the API reference.
+
+```python
+from models import ToolDef
+from fetchers import SomeFetcherClass
+
+fetcher = SomeFetcherClass()
+
+fetch_tool = ToolDef.from_method(
+    target=fetcher,
+    method="some_fetch_method",
+    name="fetch_external_data",
+    description="Fetch external data using a Fonky fetcher method.",
+    category="fetchers"
+)
+
+schema = fetch_tool.to_openai()
 
 print(schema)
 ```
 
-Call it:
+Call the tool with the method's actual arguments:
 
 ```python
-result = tool.call(
-	{
-		"path": "data/sample.txt",
-		"encoding": "utf-8"
-	}
-)
-
-if result.get("ok"):
-	data = result.get("data")
-	for item in data:
-		content = item.get("page_content")
-		print(content)
-		break
-else:
-	print(result.get("error"))
-```
-
----
-
-## ðŸ“• Tool From a PDF Loader
-
-```python
-from fonky.documents import PdfLoader
-from fonky.models import ToolDef
-
-loader = PdfLoader()
-
-tool = ToolDef.from_method(
-	target=loader,
-	method="load",
-	name="load_pdf_file",
-	category="documents"
-)
-
-result = tool.call(
-	{
-		"path": "data/report.pdf",
-		"mode": "single",
-		"extract": "plain",
-		"include": False,
-		"format": "markdown-img"
-	}
-)
-
-if result.get("ok"):
-	data = result.get("data")
-	for item in data:
-		content = item.get("page_content")
-		print(content)
-		break
-else:
-	print(result.get("error"))
-```
-
----
-
-## ðŸŒ Tool From a Web Loader
-
-```python
-from fonky.documents import WebLoader
-from fonky.models import ToolDef
-
-loader = WebLoader(
-	recursive=False
-)
-
-tool = ToolDef.from_method(
-	target=loader,
-	method="load",
-	name="load_web_page",
-	category="documents"
-)
-
-result = tool.call(
-	{
-		"urls": "https://example.com"
-	}
-)
-
-if result.get("ok"):
-	data = result.get("data")
-	for item in data:
-		content = item.get("page_content")
-		print(content)
-		break
-else:
-	print(result.get("error"))
-```
-
----
-
-## ðŸ” Export Tool Schemas
-
-Export a single tool into multiple provider formats:
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=TextLoader(),
-	method="load",
-	name="load_text_file",
-	category="documents"
-)
-
-openai_schema = tool.to_openai()
-gemini_schema = tool.to_gemini()
-grok_schema = tool.to_grok()
-
-print(openai_schema)
-print(gemini_schema)
-print(grok_schema)
-```
-
----
-
-## ðŸ§ª Handling Tool Errors
-
-When tool execution fails, `ToolDef.call()` returns a structured error envelope instead of throwing
-the exception directly.
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=TextLoader(),
-	method="load",
-	name="load_text_file",
-	category="documents"
-)
-
-result = tool.call(
-	{
-		"path": "data/missing-file.txt",
-		"encoding": "utf-8"
-	}
+result = fetch_tool.call(
+    {
+        "query": "example",
+        "limit": 10
+    }
 )
 
 print("Succeeded:", result.get("ok"))
-print("Error:", result.get("error"))
+
+if result.get("ok"):
+    print(result.get("data"))
+else:
+    print(result.get("error"))
 ```
 
-Expected result shape:
+Replace `SomeFetcherClass`, `some_fetch_method`, and the arguments with real names from the active
+`fetchers.py` API reference.
+
+## Use a Scraper as a Tool
+
+Scraper methods can be exposed as tools.
 
 ```python
-{
-	"ok": False,
-	"name": "load_text_file",
-	"data": None,
-	"error": {
-		"type": "Error",
-		"message": "..."
-	},
-	"metadata": {
-		"category": "documents",
-		"source_module": "fonky.loaders",
-		"source_class": "TextLoader",
-		"method": "load",
-		"callable_name": "load"
-	}
-}
+from models import ToolDef
+from scrapers import WebExtractor
+
+extractor = WebExtractor()
+
+extract_tool = ToolDef.from_method(
+    target=extractor,
+    method="extract_text",
+    name="extract_web_text",
+    description="Extract readable text from web content.",
+    category="web"
+)
+
+print(extract_tool.to_openai())
 ```
 
----
-
-## ðŸªµ Exception Logging
-
-Handled runtime exceptions use the explicit project logging pattern.
+Call the tool with arguments matching the method signature:
 
 ```python
-except Exception as e:
-	exception = Error(e)
-	exception.module = "loaders"
-	exception.cause = "TextLoader"
-	exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
-	Logger().write(exception)
-	raise exception
+result = extract_tool.call(
+    {
+        "url": "https://example.com"
+    }
+)
+
+print("Succeeded:", result.get("ok"))
+
+if result.get("ok"):
+    print(result.get("data"))
+else:
+    print(result.get("error"))
 ```
 
-This writes the wrapped exception to the configured SQLite database.
+If your scraper method expects HTML instead of a URL, pass the correct argument name from the API
+reference.
 
-Default database:
+## Validate Tool Results
+
+Successful tools should return a structured result envelope.
 
 ```text
-logging/Exceptions.db
+ok = true
+data = serialized result payload
+error = null
 ```
 
-Default table:
+Failed tools should return:
 
 ```text
-Exceptions
+ok = false
+data = null
+error = error details
 ```
 
----
+Example failure:
 
-## ðŸ§ª Validation Workflow
+```python
+from models import ToolDef
 
-After regenerating source files, run:
 
-```powershell
-python -m py_compile .\fonky\boogr.py
-python -m py_compile .\fonky\config.py
-python -m py_compile .\fonky\core.py
-python -m py_compile .\fonky\archives.py
-python -m py_compile .\fonky\models.py
-python -m py_compile .\fonky\processors.py
-python -m py_compile .\fonky\loaders.py
-python -m py_compile .\fonky\scrapers.py
-python -m py_compile .\fonky\fetchers.py
+def divide_numbers(numerator: float, denominator: float) -> float:
+    """Divide two numbers.
+
+    Purpose:
+        Demonstrates structured tool failure handling.
+
+    Args:
+        numerator (float): Numerator value.
+        denominator (float): Denominator value.
+
+    Returns:
+        float: Division result.
+    """
+    return numerator / denominator
+
+
+divide_tool = ToolDef.from_callable(
+    function=divide_numbers,
+    name="divide_numbers",
+    description="Divide one number by another.",
+    category="math"
+)
+
+result = divide_tool.call(
+    {
+        "numerator": 10,
+        "denominator": 0
+    }
+)
+
+print(result)
 ```
 
-Or compile the full package:
+## Work with Serialized Documents
 
-```powershell
-python -m compileall .\fonky
+When tool calls return document-like objects, Fonky should serialize them into dictionaries.
+
+Common serialized document fields:
+
+```text
+page_content
+metadata
 ```
 
----
+Example:
 
-## ðŸ“š Building Documentation
+```python
+result = load_tool.call(
+    {
+        "path": "data/sample.txt",
+        "encoding": "utf-8"
+    }
+)
 
-Install MkDocs dependencies:
+if result.get("ok"):
+    documents = result.get("data") or []
 
-```powershell
-python -m pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python pymdown-extensions
+    for document in documents:
+        print(document.get("page_content"))
+        print(document.get("metadata"))
+        break
 ```
 
-Build the site:
+## Validate Documentation Directives
+
+Manual docs should not contain live mkdocstrings directives.
+
+Run:
 
 ```powershell
+Select-String -Path .\docs\*.md -Pattern "^:::\s+[A-Za-z_]"
+```
+
+Expected output:
+
+```text
+No output.
+```
+
+API docs should contain live directives.
+
+Run:
+
+```powershell
+Select-String -Path .\docs\api\*.md -Pattern "^:::\s+[A-Za-z_]"
+```
+
+Expected output includes entries such as:
+
+```text
+docs\api\loaders.md:3:::: loaders
+docs\api\models.md:3:::: models
+docs\api\processors.md:3:::: processors
+```
+
+## Validate the Site
+
+Run these commands before deployment:
+
+```powershell
+python -m compileall .
 mkdocs build
-```
-
-Serve locally:
-
-```powershell
 mkdocs serve
 ```
 
-Then open:
+Review the local site at:
 
 ```text
 http://127.0.0.1:8000/
 ```
 
----
+## User Guide Checklist
 
-## ðŸš€ Deploying to GitHub Pages
-
-Deploy with:
-
-```powershell
-mkdocs gh-deploy --force
-```
-
-Then configure GitHub Pages to serve the `gh-pages` branch.
-
-Expected documentation URL:
-
-```text
-https://is-leeroy-jenkins.github.io/Fonky/
-```
-
----
-
-## âœ… Recommended Development Pattern
-
-For new modules and methods:
-
-1. Add a robust Google-style docstring.
-2. Include a `Purpose:` section.
-3. Use `Args:` for parameters.
-4. Use `Returns:` only when a value is returned.
-5. Avoid `Returns: None`.
-6. Avoid `Returns: Any`.
-7. Avoid underline-style section headings.
-8. Preserve explicit exception logging.
-9. Run `python -m py_compile`.
-10. Run `mkdocs build`.
-
-Recommended exception block:
-
-```python
-except Exception as e:
-	exception = Error(e)
-	exception.module = "module_name"
-	exception.cause = "ClassName"
-	exception.method = "method_name(self, arg: type) -> return_type"
-	Logger().write(exception)
-	raise exception
-```
-
----
-
-## ðŸ§­ Next Steps
-
-After replacing this page:
-
-1. Run `mkdocs build`.
-2. Confirm the `mkdocs_autorefs` warnings for `0` and `:1000` are gone.
-3. Fix any remaining missing imports or mkdocstrings warnings.
-4. Run `mkdocs serve`.
-5. Review the rendered guide and API pages.
-6. Deploy with `mkdocs gh-deploy --force`.
+| Check                                  | Command or action                                                 |
+| -------------------------------------- | ----------------------------------------------------------------- |
+| Source compiles                        | `python -m compileall .`                                          |
+| Core imports work                      | `python -c "import loaders; import models; print('ok')"`          |
+| ToolDef imports                        | `python -c "from models import ToolDef; print('ok')"`             |
+| Sample text loads                      | Run the `TextLoader` example.                                     |
+| Tool executes                          | Run a `ToolDef.call(...)` example.                                |
+| Provider schema exports                | Run `to_openai`, `to_gemini`, or `to_grok`.                       |
+| Manual docs contain no live directives | `Select-String -Path .\docs\*.md -Pattern "^:::\s+[A-Za-z_]"`     |
+| API docs contain live directives       | `Select-String -Path .\docs\api\*.md -Pattern "^:::\s+[A-Za-z_]"` |
+| Docs build                             | `mkdocs build`                                                    |
 
 

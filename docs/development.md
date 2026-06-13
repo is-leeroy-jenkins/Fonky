@@ -1,144 +1,133 @@
-﻿# ðŸ› ï¸ Development
+# Development
 
 This page defines the development standards for Fonky source files, documentation comments,
-exception logging, validation, MkDocs integration, and release workflow.
+exception logging, validation, MkDocs integration, and GitHub Pages deployment.
 
-Fonky relies on two linked development practices:
+Fonky development has two linked requirements:
 
 1. Python source files must remain executable, importable, and behavior-preserving.
-2. Python docstrings must be valid Google-style documentation that can be rendered by MkDocs and
+2. Python docstrings must be valid Google-style documentation that renders through MkDocs and
    mkdocstrings without Griffe warnings.
 
+## Development Goals
 
-
-## ðŸŽ¯ Development Goals
-
-Fonky development should preserve a stable framework for:
+Fonky development should preserve a stable framework for document loading, data fetching, web
+extraction, text processing, AI tool generation, and source-generated documentation.
 
 | Goal                     | Description                                                                                                                                              |
-|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Runtime stability        | Source files should compile, import, and preserve existing behavior.                                                                                     |
 | Documentation quality    | Module, class, function, and method docstrings should render correctly in MkDocs.                                                                        |
 | Logging consistency      | Handled exceptions should use the explicit `Error` and `Logger` pattern.                                                                                 |
 | API reference generation | `docs/api/*.md` pages should render source docstrings through mkdocstrings.                                                                              |
-| User-facing clarity      | Top-level documentation should explain setup, configuration, usage, logging, and deployment.                                                             |
+| User-facing clarity      | Manual documentation should explain setup, configuration, usage, logging, and deployment.                                                                |
 | Minimal surprise         | Regenerated files should preserve names, signatures, imports, return contracts, and fallback behavior unless a functional change is explicitly required. |
 
-
-
-## ðŸ“ Source Layout
+## Source Layout
 
 Fonky currently uses a flat source-module layout at the repository root.
 
-Expected source files:
-
-```text id="source_layout"
+```text
 Fonky/
-â”œâ”€â”€ __init__.py
-â”œâ”€â”€ archives.py
-â”œâ”€â”€ astronomical.py
-â”œâ”€â”€ boogr.py
-â”œâ”€â”€ cloud.py
-â”œâ”€â”€ config.py
-â”œâ”€â”€ core.py
-â”œâ”€â”€ demographic.py
-â”œâ”€â”€ documents.py
-â”œâ”€â”€ environmental.py
-â”œâ”€â”€ fetchers.py
-â”œâ”€â”€ geospatial.py
-â”œâ”€â”€ health.py
-â”œâ”€â”€ loaders.py
-â”œâ”€â”€ models.py
-â”œâ”€â”€ processors.py
-â”œâ”€â”€ scrapers.py
-â””â”€â”€ web.py
+|-- __init__.py
+|-- archives.py
+|-- astronomical.py
+|-- boogr.py
+|-- cloud.py
+|-- config.py
+|-- core.py
+|-- demographic.py
+|-- documents.py
+|-- environmental.py
+|-- fetchers.py
+|-- geospatial.py
+|-- health.py
+|-- loaders.py
+|-- models.py
+|-- processors.py
+|-- scrapers.py
++-- web.py
 ```
 
-If the project is later moved into a package folder named `fonky`, update imports and mkdocstrings
-directives accordingly.
+For this layout, imports should use root-level module names:
 
-Flat layout directive:
-
-```markdown id="flat_layout_directive"
-`::: loaders`
+```python
+from loaders import TextLoader
+from models import ToolDef
+from processors import TextParser
 ```
 
-Package layout directive:
+Do not use package imports such as this unless the project is later moved into a real package
+directory named `fonky`:
 
-```markdown id="package_layout_directive"
-`::: loaders`
+```python
+from fonky.loaders import TextLoader
 ```
 
-
-
-## ðŸ“š Documentation Layout
+## Documentation Layout
 
 Expected documentation files:
 
-```text id="docs_layout"
+```text
 docs/
-â”œâ”€â”€ index.md
-â”œâ”€â”€ getting-started.md
-â”œâ”€â”€ configuration.md
-â”œâ”€â”€ architecture.md
-â”œâ”€â”€ logging.md
-â”œâ”€â”€ usage.md
-â”œâ”€â”€ user-guide.md
-â”œâ”€â”€ development.md
-â”œâ”€â”€ github-pages.md
-â”œâ”€â”€ api/
-â”‚   â”œâ”€â”€ index.md
-â”‚   â”œâ”€â”€ archives.md
-â”‚   â”œâ”€â”€ astronomical.md
-â”‚   â”œâ”€â”€ boogr.md
-â”‚   â”œâ”€â”€ cloud.md
-â”‚   â”œâ”€â”€ config.md
-â”‚   â”œâ”€â”€ core.md
-â”‚   â”œâ”€â”€ demographic.md
-â”‚   â”œâ”€â”€ documents.md
-â”‚   â”œâ”€â”€ environmental.md
-â”‚   â”œâ”€â”€ fetchers.md
-â”‚   â”œâ”€â”€ geospatial.md
-â”‚   â”œâ”€â”€ health.md
-â”‚   â”œâ”€â”€ loaders.md
-â”‚   â”œâ”€â”€ models.md
-â”‚   â”œâ”€â”€ processors.md
-â”‚   â”œâ”€â”€ scrapers.md
-â”‚   â””â”€â”€ web.md
-â””â”€â”€ stylesheets/
-    â””â”€â”€ extra.css
+|-- index.md
+|-- getting-started.md
+|-- configuration.md
+|-- architecture.md
+|-- logging.md
+|-- usage.md
+|-- user-guide.md
+|-- development.md
+|-- github-pages.md
+|-- api/
+|   |-- index.md
+|   |-- archives.md
+|   |-- astronomical.md
+|   |-- boogr.md
+|   |-- cloud.md
+|   |-- config.md
+|   |-- core.md
+|   |-- demographic.md
+|   |-- documents.md
+|   |-- environmental.md
+|   |-- fetchers.md
+|   |-- geospatial.md
+|   |-- health.md
+|   |-- loaders.md
+|   |-- models.md
+|   |-- processors.md
+|   |-- scrapers.md
+|   +-- web.md
+|-- stylesheets/
+|   +-- extra.css
++-- javascripts/
+    +-- extra.js
 ```
 
-Top-level documentation pages explain the project. API pages render docstrings from Python source
-files.
+Manual pages explain the project. API pages render source docstrings.
 
+## Source Regeneration Rules
 
-
-## ðŸ§¾ Source Regeneration Rules
-
-When regenerating a Python source file, preserve the uploaded or current source file as
-authoritative.
-
-Do not change behavior unless a functional change is explicitly requested.
+When regenerating a Python source file, treat the current source file as authoritative.
 
 Preserve:
 
-| Item              | Requirement                                                                                                      |
-|-------------------|------------------------------------------------------------------------------------------------------------------|
-| Imports           | Preserve required imports and add only necessary imports.                                                        |
-| Class names       | Do not rename classes.                                                                                           |
-| Function names    | Do not rename functions or methods.                                                                              |
-| Signatures        | Preserve parameters, defaults, annotations, and return annotations unless correcting a documentation/type issue. |
-| Return contracts  | Preserve existing return behavior.                                                                               |
-| Fallback behavior | Preserve existing fallback messages, empty values, and error envelopes.                                          |
-| Public API        | Preserve callable public methods.                                                                                |
-| State fields      | Preserve existing instance attributes and class attributes.                                                      |
-| Provider calls    | Preserve external API call structure unless explicitly corrected.                                                |
-| Logging pattern   | Use the explicit project pattern in each handled exception block.                                                |
+| Item              | Requirement                                                                                                            |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Imports           | Preserve required imports and add only necessary imports.                                                              |
+| Class names       | Do not rename classes.                                                                                                 |
+| Function names    | Do not rename functions or methods.                                                                                    |
+| Signatures        | Preserve parameters, defaults, annotations, and return annotations unless correcting a documentation or typing defect. |
+| Return contracts  | Preserve existing return behavior.                                                                                     |
+| Fallback behavior | Preserve existing fallback messages, empty values, and error envelopes.                                                |
+| Public API        | Preserve callable public methods.                                                                                      |
+| State fields      | Preserve existing instance attributes and class attributes.                                                            |
+| Provider calls    | Preserve external API call structure unless explicitly corrected.                                                      |
+| Logging pattern   | Use the explicit project pattern in each handled exception block.                                                      |
 
 Avoid:
 
-```text id="avoid_regeneration"
+```text
 - Shortened reconstructions
 - Helper abstractions that replace required logging blocks
 - Partial files unless explicitly requested
@@ -148,16 +137,14 @@ Avoid:
 - Unsupported claims in docs or comments
 ```
 
-
-
-## ðŸ§  Google-Style Docstring Standard
+## Google-Style Docstring Standard
 
 Fonky source comments should use Google-style docstrings that render cleanly with mkdocstrings and
 Griffe.
 
 Preferred sections:
 
-```text id="docstring_sections"
+```text
 Purpose:
 Args:
 Attributes:
@@ -171,9 +158,9 @@ Use `Args:` for parameters.
 
 Do not use:
 
-```text id="bad_docstring_sections"
+```text
 Parameters:
--
+----------
 Returns:
     None: ...
 Returns:
@@ -186,210 +173,197 @@ Attributes:
     Request parameters.
 ```
 
-
-
-## âœ… Required `Purpose:` Section
+## Required Purpose Section
 
 Every module, class, method, and function docstring should include a meaningful `Purpose:` section
-unless the function is extremely small and already self-evident.
+unless the object is extremely small and self-evident.
 
 Good:
 
-```python id="purpose_good"
+```python
 def normalize_text(self, text: str) -> str:
-	"""Normalize text for downstream processing.
+    """Normalize text for downstream processing.
 
-	Purpose:
-		Converts text into a consistent representation by trimming whitespace, normalizing
-		case, and collapsing repeated spacing before tokenization or vectorization.
+    Purpose:
+        Converts text into a consistent representation by trimming whitespace,
+        normalizing case, and collapsing repeated spacing before tokenization
+        or vectorization.
 
-	Args:
-		text (str): Text value to normalize.
+    Args:
+        text (str): Text value to normalize.
 
-	Returns:
-		str: Normalized text.
-	"""
+    Returns:
+        str: Normalized text.
+    """
 ```
 
 Bad:
 
-```python id="purpose_bad"
+```python
 def normalize_text(self, text: str) -> str:
-	"""Normalize text."""
+    """Normalize text."""
 ```
 
-
-
-## ðŸ§© `Args:` Format
+## Args Format
 
 Each argument must use a valid `name (type): description` pair.
 
 Good:
 
-```python id="args_good"
+```text
 Args:
-	path (str): Path to the file that should be loaded.
-	encoding (Optional[str]): Optional file encoding.
+    path (str): Path to the file that should be loaded.
+    encoding (Optional[str]): Optional file encoding.
 ```
 
 Bad:
 
-```python id="args_bad"
+```text
 Args:
-	Request parameters.
+    Request parameters.
 ```
 
 Bad:
 
-```python id="args_bad_untyped"
+```text
 Args:
-	path: Path to the file.
+    path: Path to the file.
 ```
 
 Bad:
 
-```python id="args_bad_missing_description"
+```text
 Args:
-	path (str):
+    path (str):
 ```
 
-
-
-## ðŸ“¤ `Returns:` Format
+## Returns Format
 
 Return sections must include a type and a description.
 
 Good:
 
-```python id="returns_good"
+```text
 Returns:
-	list[str]: Supported option values.
+    list[str]: Supported option values.
 ```
 
 Good:
 
-```python id="returns_good_document"
+```text
 Returns:
-	List[Document]: Loaded LangChain document objects.
+    List[Document]: Loaded document objects.
 ```
 
 Bad:
 
-```python id="returns_bad_untyped"
+```text
 Returns:
-	Supported option values.
+    Supported option values.
 ```
 
 Bad:
 
-```python id="returns_bad_none"
+```text
 Returns:
-	None: This method does not return a value.
+    None: This method does not return a value.
 ```
 
 Bad:
 
-```python id="returns_bad_any"
+```text
 Returns:
-	Any: Result value.
+    Any: Result value.
 ```
 
 For no-return procedures, omit the `Returns:` section entirely.
 
+## Attributes Format
 
-
-## ðŸ§± `Attributes:` Format
-
-Class attributes must also use valid `name (type): description` pairs.
+Class attributes must use valid `name (type): description` pairs.
 
 Good:
 
-```python id="attributes_good"
+```text
 Attributes:
-	documents (Optional[List[Document]]): Documents loaded or split by the wrapper.
-	file_path (Optional[str]): Active local file path.
-	loader (Optional[BaseLoader]): Underlying LangChain loader instance.
+    documents (Optional[List[Document]]): Documents loaded or split by the wrapper.
+    file_path (Optional[str]): Active local file path.
+    loader (Optional[BaseLoader]): Underlying loader instance.
 ```
 
 Bad:
 
-```python id="attributes_bad"
+```text
 Attributes:
-	Request parameters.
+    Request parameters.
 ```
 
 Bad:
 
-```python id="attributes_bad_description_only"
+```text
 Attributes:
-	Configuration used by the active request.
+    Configuration used by the active request.
 ```
 
 If a class has no useful public attributes to document, omit `Attributes:`.
 
-
-
-## ðŸš« `__init__` Docstring Rules
+## Init Docstring Rules
 
 Do not include `Returns:` in `__init__`.
 
 Good:
 
-```python id="init_good"
+```python
 def __init__(self) -> None:
-	"""Initialize the loader.
+    """Initialize the loader.
 
-	Purpose:
-		Initializes local state used by the loader. No external files or network resources
-		are loaded during construction.
-	"""
+    Purpose:
+        Initializes local state used by the loader. No external files or
+        network resources are loaded during construction.
+    """
 ```
 
 Bad:
 
-```python id="init_bad"
+```python
 def __init__(self) -> None:
-	"""Initialize the loader.
+    """Initialize the loader.
 
-	Returns:
-		None: No value is returned.
-	"""
+    Returns:
+        None: No value is returned.
+    """
 ```
 
-
-
-## ðŸªµ Exception Logging Standard
+## Exception Logging Standard
 
 Handled exceptions must use the explicit Fonky logging pattern.
 
 Required pattern:
 
-```python id="required_logging_pattern"
+```python
 except Exception as e:
-	exception = Error(e)
-	exception.module = "module_name"
-	exception.cause = "ClassName"
-	exception.method = "method_name(self, arg: type) -> return_type"
-	Logger().write(exception)
-	raise exception
+    exception = Error(e)
+    exception.module = "module_name"
+    exception.cause = "ClassName"
+    exception.method = "method_name(self, arg: type) -> return_type"
+    Logger().write(exception)
+    raise exception
 ```
 
 For this project, do not replace the pattern with a helper such as:
 
-```python id="bad_logging_helper"
+```python
 _log_and_raise(e, "ClassName", "method_name(...)")
 ```
 
 The logging block must remain visible inside each handled exception block.
 
-
-
-## ðŸ“Œ Logging Fields
+## Logging Fields
 
 Each wrapped exception should set the following fields:
 
 | Field                       | Meaning                                                          |
-|  | - |
+| --------------------------- | ---------------------------------------------------------------- |
 | `exception.module`          | Source module name such as `loaders`, `fetchers`, or `scrapers`. |
 | `exception.cause`           | Class or operation name where the failure occurred.              |
 | `exception.method`          | Stable method signature string.                                  |
@@ -397,31 +371,58 @@ Each wrapped exception should set the following fields:
 
 Example:
 
-```python id="logging_example"
+```python
 except Exception as e:
-	exception = Error(e)
-	exception.module = "loaders"
-	exception.cause = "TextLoader"
-	exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
-	Logger().write(exception)
-	raise exception
+    exception = Error(e)
+    exception.module = "loaders"
+    exception.cause = "TextLoader"
+    exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
+    Logger().write(exception)
+    raise exception
 ```
 
+## Sensitive Data Rule
 
+Do not place live argument values into `exception.method`.
 
-## ðŸ§ª Python Validation
+Good:
+
+```python
+exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
+```
+
+Bad:
+
+```python
+exception.method = f"load(self, path={path}, encoding={encoding})"
+```
+
+Do not log:
+
+```text
+- API keys
+- Access tokens
+- Passwords
+- Full local paths containing private user folders
+- Full document text
+- OCR text
+- Full request payloads
+- Full provider responses
+```
+
+## Python Validation
 
 Run syntax validation after source changes.
 
 Compile the full project:
 
-```powershell id="compileall_project"
+```powershell
 python -m compileall .
 ```
 
 Compile targeted files:
 
-```powershell id="py_compile_targeted"
+```powershell
 python -m py_compile .\boogr.py
 python -m py_compile .\config.py
 python -m py_compile .\core.py
@@ -433,36 +434,28 @@ python -m py_compile .\processors.py
 python -m py_compile .\scrapers.py
 ```
 
-A successful compile check confirms syntax validity. It does not guarantee all optional provider
-dependencies or credentials are available.
+A successful compile check confirms syntax validity. It does not guarantee every optional provider
+dependency or credential is available.
 
-
-
-## ðŸ”Ž Import Validation
+## Import Validation
 
 Run basic import checks from the repository root:
 
-```powershell id="import_validation_flat"
+```powershell
 python -c "import config; import boogr; import core; import loaders; import models; print('imports passed')"
 ```
 
-If source files are later moved under `fonky/`, use:
+If imports fail, resolve the source error or missing dependency before building the documentation.
 
-```powershell id="import_validation_package"
-python -c "import fonky.config; import fonky.boogr; import fonky.core; import fonky.loaders; import fonky.models; print('package imports passed')"
-```
-
-
-
-## ðŸ“š MkDocs Validation
+## MkDocs Validation
 
 MkDocs requires:
 
-| Requirement             | File or Package                       |
-| -- | - |
+| Requirement             | File or package                       |
+| ----------------------- | ------------------------------------- |
 | Configuration file      | `mkdocs.yml`                          |
 | Documentation directory | `docs/`                               |
-| Markdown pages          | `docs/*.md`                           |
+| Manual pages            | `docs/*.md`                           |
 | API reference pages     | `docs/api/*.md`                       |
 | MkDocs package          | `mkdocs`                              |
 | Material theme          | `mkdocs-material`                     |
@@ -471,61 +464,383 @@ MkDocs requires:
 
 Install documentation dependencies:
 
-```powershell id="install_mkdocs_deps"
+```powershell
 python -m pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python pymdown-extensions
 ```
 
 Build the documentation:
 
-```powershell id="mkdocs_build"
+```powershell
 mkdocs build
 ```
 
 Serve locally:
 
-```powershell id="mkdocs_serve"
+```powershell
 mkdocs serve
 ```
 
 Open:
 
-```text id="local_mkdocs_url"
+```text
 http://127.0.0.1:8000/
 ```
 
+## API Page Requirements
 
+Each API page must contain a live mkdocstrings directive.
 
-## ðŸ”Œ API Page Requirements
+Correct for this flat source layout:
 
-Each API page must contain a mkdocstrings directive.
-
-Flat source layout:
-
-```markdown id="api_directive_flat"
+```text
 # Loaders API
 
-`::: loaders`
+::: loaders
 ```
 
-Package source layout:
+Incorrect for this project:
 
-```markdown id="api_directive_package"
+```text
 # Loaders API
 
-`::: loaders`
+::: fonky.loaders
 ```
 
-If a page contains only normal Markdown prose, the source comments will not render.
+The project currently does not have an importable `fonky` package folder.
 
-Check a page:
+## API Reference Pages
 
-```powershell id="check_api_page"
-Get-Content .\docs\api\loaders.md
+Expected API pages:
+
+```text
+docs/api/index.md
+docs/api/archives.md
+docs/api/astronomical.md
+docs/api/boogr.md
+docs/api/cloud.md
+docs/api/config.md
+docs/api/core.md
+docs/api/demographic.md
+docs/api/documents.md
+docs/api/environmental.md
+docs/api/fetchers.md
+docs/api/geospatial.md
+docs/api/health.md
+docs/api/loaders.md
+docs/api/models.md
+docs/api/processors.md
+docs/api/scrapers.md
+docs/api/web.md
 ```
 
-The page should contain a line beginning with:
+For the flat source layout, the API pages should use:
 
-```text id="directive_marker"
+```text
+::: archives
+::: astronomical
+::: boogr
+::: cloud
+::: config
+::: core
+::: demographic
+::: documents
+::: environmental
+::: fetchers
+::: geospatial
+::: health
+::: loaders
+::: models
+::: processors
+::: scrapers
+::: web
 ```
 
+## Manual Page Rule
+
+Manual pages must not contain live mkdocstrings directives.
+
+Correct manual page behavior:
+
+```text
+Manual documentation describes `::: loaders` inside prose or code blocks.
+```
+
+Incorrect manual page behavior:
+
+```text
+A top-level page contains a live line starting with ::: loaders.
+```
+
+Only `docs/api/*.md` should contain live directives.
+
+## Directive Validation
+
+Confirm API pages contain live directives:
+
+```powershell
+Select-String -Path .\docs\api\*.md -Pattern "^:::\s+[A-Za-z_]"
+```
+
+Expected output includes entries such as:
+
+```text
+docs\api\loaders.md:3:::: loaders
+docs\api\fetchers.md:3:::: fetchers
+docs\api\models.md:3:::: models
+```
+
+Confirm manual pages do not contain live directives:
+
+```powershell
+Select-String -Path .\docs\*.md -Pattern "^:::\s+[A-Za-z_]"
+```
+
+Expected output:
+
+```text
+No output.
+```
+
+## MkDocs Configuration Requirements
+
+The `mkdocs.yml` plugin block must include mkdocstrings:
+
+```yaml
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - .
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_signature: true
+            show_signature_annotations: true
+            separate_signature: true
+            merge_init_into_class: false
+            members_order: source
+            filters:
+              - "!^_"
+            heading_level: 2
+```
+
+Do not include this unless an actual override directory exists:
+
+```yaml
+custom_dir: null
+```
+
+Correct:
+
+```yaml
+theme:
+  name: material
+  language: en
+```
+
+## Common Griffe Warnings
+
+### No type or annotation for returned value
+
+Cause:
+
+```text
+Returns:
+    Supported values.
+```
+
+Fix:
+
+```text
+Returns:
+    list[str]: Supported values.
+```
+
+### Failed to get name: description pair
+
+Cause:
+
+```text
+Args:
+    Request parameters.
+```
+
+or:
+
+```text
+Attributes:
+    Request parameters for the active call.
+```
+
+Fix:
+
+```text
+Args:
+    params (dict[str, object]): Request parameters for the active call.
+```
+
+or omit the section when there is no specific argument or attribute.
+
+### Returns None
+
+Cause:
+
+```text
+Returns:
+    None: No value is returned.
+```
+
+Fix:
+
+```text
+Omit the Returns section for procedures that do not return a value.
+```
+
+## Common MkDocs Warnings
+
+### API page is blank
+
+Confirm the page contains a directive:
+
+```text
+::: loaders
+```
+
+### mkdocstrings cannot import module
+
+Confirm:
+
+```text
+- The directive matches the flat source layout.
+- The command is run from the repository root.
+- A dependency required at import time is installed.
+- The source file has no syntax errors.
+```
+
+### Duplicate API targets
+
+Cause:
+
+```text
+Manual pages contain live mkdocstrings directives.
+```
+
+Fix:
+
+```text
+Remove live ::: module directives from docs/*.md.
+Keep them only in docs/api/*.md.
+```
+
+### Autorefs cannot find target 0 or :1000
+
+Avoid Python bracket indexing and slicing in Markdown examples.
+
+Bad:
+
+```python
+print(documents[0].page_content[:1000])
+```
+
+Good:
+
+```python
+for document in documents:
+    print(document.page_content)
+    break
+```
+
+## Pre-Build Checklist
+
+Before running `mkdocs build`, run:
+
+```powershell
+python -m compileall .
+```
+
+Then check API directives:
+
+```powershell
+Select-String -Path .\docs\api\*.md -Pattern "^:::\s+[A-Za-z_]"
+```
+
+Then check manual pages:
+
+```powershell
+Select-String -Path .\docs\*.md -Pattern "^:::\s+[A-Za-z_]"
+```
+
+The manual page check should return no output.
+
+Then build:
+
+```powershell
+mkdocs build
+```
+
+## Release Checklist
+
+Before pushing documentation changes:
+
+| Check                              | Command                                                           |
+| ---------------------------------- | ----------------------------------------------------------------- |
+| Source compiles                    | `python -m compileall .`                                          |
+| API pages contain directives       | `Select-String -Path .\docs\api\*.md -Pattern "^:::\s+[A-Za-z_]"` |
+| Manual pages contain no directives | `Select-String -Path .\docs\*.md -Pattern "^:::\s+[A-Za-z_]"`     |
+| Docs build                         | `mkdocs build`                                                    |
+| Docs serve locally                 | `mkdocs serve`                                                    |
+| Git status reviewed                | `git status`                                                      |
+| Changes committed                  | `git add .; git commit -m "Update Fonky documentation"`           |
+| GitHub Pages deployed              | `mkdocs gh-deploy --force`                                        |
+
+## Safe Development Workflow
+
+Recommended workflow for source changes:
+
+```text
+1. Edit one source file.
+2. Preserve signatures and behavior.
+3. Update Google-style docstrings.
+4. Preserve explicit exception logging.
+5. Run python -m py_compile on the edited file.
+6. Run python -m compileall .
+7. Run mkdocs build.
+8. Fix Griffe or import warnings.
+9. Review rendered API page.
+10. Commit only after source and docs build cleanly.
+```
+
+Recommended workflow for documentation changes:
+
+```text
+1. Edit one Markdown page.
+2. Use ASCII-only Markdown.
+3. Avoid emoji headers.
+4. Avoid Unicode tree characters.
+5. Avoid code fence attributes.
+6. Avoid live mkdocstrings directives outside docs/api.
+7. Confirm all links point to existing files.
+8. Run mkdocs build.
+9. Run mkdocs serve.
+10. Review the rendered page.
+```
+
+## Development Baseline
+
+A healthy development baseline is:
+
+```text
+- Python source compiles.
+- Core modules import from the repository root.
+- boogr.Logger writes to the configured SQLite database.
+- API pages contain mkdocstrings directives.
+- Manual pages contain no live mkdocstrings directives.
+- MkDocs builds without Griffe warnings.
+- User-facing docs explain setup, configuration, architecture, logging, usage, and deployment.
+- GitHub Pages deploys only after the local site builds cleanly.
+```
 

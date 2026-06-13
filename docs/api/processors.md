@@ -1,3 +1,4 @@
-﻿## ðŸ§¹ Processors API
+﻿## Processors API
 
 ::: processors
+

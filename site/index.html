@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Documentation for Fonky, a Python framework for data retrieval, document loading, scraping, processing, and agent-ready tool orchestration.">
+        <meta name="description" content="Documentation for the Fonky Python framework.">
       
       
         <meta name="author" content="Terry D. Eppler">
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ad-hoc-ai-tool-examples" class="md-skip">
+        <a href="#fonky-documentation" class="md-skip">
           Skip to content
         </a>
       
@@ -94,9 +94,7 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="Fonky Documentation" class="md-header__button md-logo" aria-label="Fonky Documentation" data-md-component="logo">
       
@@ -131,21 +129,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
-      </label>
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
     
   
 </form>
@@ -175,16 +159,13 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
-        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -206,7 +187,7 @@
         <a href="https://github.com/is-leeroy-jenkins/Fonky" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     is-leeroy-jenkins/Fonky
@@ -216,8 +197,14 @@
     
   </nav>
   
+</header>
     
+    <div class="md-container" data-md-component="container">
       
+      
+        
+          
+            
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-grid">
     <ul class="md-tabs__list">
@@ -235,8 +222,6 @@
         <a href="." class="md-tabs__link">
           
   
-  
-    
   
   Home
 
@@ -257,8 +242,6 @@
         <a href="api/" class="md-tabs__link">
           
   
-  
-    
   
   API Reference
 
@@ -309,13 +292,7 @@
     </ul>
   </div>
 </nav>
-    
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -332,9 +309,7 @@
   
 
 
-  
-
-<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="." title="Fonky Documentation" class="md-nav__button md-logo" aria-label="Fonky Documentation" data-md-component="logo">
       
@@ -349,7 +324,7 @@
       <a href="https://github.com/is-leeroy-jenkins/Fonky" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     is-leeroy-jenkins/Fonky
@@ -369,24 +344,6 @@
   
     
     
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
     
     
       
@@ -405,9 +362,8 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="." class="md-nav__link md-nav__link--active">
-              
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
   
   
   <span class="md-ellipsis">
@@ -421,14 +377,8 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link md-nav__link--active" for="__nav_1" id="__nav_1_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
@@ -441,6 +391,167 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#project-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Sections
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standard-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-tooling-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI Tooling Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-requirement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Requirement
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
               
             
               
@@ -626,46 +737,6 @@
   
     
     
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
     
     
       
@@ -683,9 +754,8 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="api/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -699,14 +769,8 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
@@ -719,6 +783,32 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1265,1023 +1355,484 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#project-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Sections
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standard-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-tooling-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI Tooling Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-requirement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Requirement
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           
             <div class="md-content" data-md-component="content">
-              
-                
-
-
-
-
               
               <article class="md-content__inner md-typeset">
                 
                   
 
 
+  
+  
 
-  <h1>Overview</h1>
 
-<p><img alt="" src="images/fonky_project.png" /></p>
-<p>A reusable Python framework for data retrieval, document ingestion, and agent-ready tool
-orchestration. Fonky provides a stable service layer for fetchers, scrapers, loaders, and
-processing, plus a completed
-<code>fonky.tools</code> package that exposes selected class methods as structured tools for ad-hoc
-LangChain-style
-agents, notebooks, web applications, FastAPI services, and other agentic workflows.</p>
-<h4 id="yz-purpose">ðŸŽ¯ Purpose<a class="headerlink" href="#yz-purpose" title="Permanent link">&para;</a></h4>
-<p>Fonky provides a reusable library for:</p>
+<h1 id="fonky-documentation">Fonky Documentation<a class="headerlink" href="#fonky-documentation" title="Permanent link">&para;</a></h1>
+<p>Fonky is a Python framework for document loading, API fetching, web extraction, text processing,
+structured tool generation, and MkDocs-based API documentation.</p>
+<p>It provides a common pattern for working with files, web sources, public APIs, cloud sources, and
+AI-callable tools:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Load or fetch source content
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    -&gt; Normalize the result
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    -&gt; Process or split the content
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    -&gt; Expose functionality as callable tools
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    -&gt; Document the source with MkDocs and mkdocstrings
+</span></code></pre></div>
+<h2 id="project-purpose">Project Purpose<a class="headerlink" href="#project-purpose" title="Permanent link">&para;</a></h2>
+<p>Fonky is designed to make heterogeneous information sources easier to use from Python applications,
+notebooks, retrieval workflows, and AI tool-calling systems.</p>
+<p>The project supports these core use cases:</p>
 <table>
 <thead>
 <tr>
-<th>Capability</th>
+<th>Use case</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ðŸŒ Web Fetching</td>
-<td>Retrieve web pages, scrape links, extract tables, headings, articles, paragraphs,</td>
+<td>Document loading</td>
+<td>Load local, web, office, PDF, notebook, cloud, and repository content into document objects.</td>
 </tr>
 <tr>
-<td>and image references</td>
-<td></td>
+<td>API fetching</td>
+<td>Retrieve structured data from government, scientific, environmental, health, demographic, geospatial, and public-data services.</td>
 </tr>
 <tr>
-<td>ðŸ”Ž Search</td>
-<td>Query Google Custom Search, Wikipedia, ArXiv, news APIs, and public research sources</td>
+<td>Web extraction</td>
+<td>Extract text, links, metadata, headings, images, and tables from web content.</td>
 </tr>
 <tr>
-<td>ðŸ“„ Document Loading</td>
-<td>Load and split text, PDF, CSV, Excel, Word, Markdown, HTML, PowerPoint, JSON,</td>
+<td>Text processing</td>
+<td>Clean, normalize, tokenize, chunk, vectorize, and prepare text for downstream workflows.</td>
 </tr>
 <tr>
-<td>XML, and web content</td>
-<td></td>
+<td>AI tooling</td>
+<td>Convert Python functions and class methods into structured tool definitions for model tool-calling.</td>
 </tr>
 <tr>
-<td>ðŸ—ºï¸ Geospatial Tools</td>
-<td>Geocode locations, reverse-geocode coordinates, validate addresses, retrieve</td>
+<td>Error logging</td>
+<td>Wrap handled exceptions and write failure metadata to a SQLite database.</td>
 </tr>
 <tr>
-<td>directions, and fetch weather</td>
-<td></td>
-</tr>
-<tr>
-<td>ðŸ›°ï¸ Space / Science APIs</td>
-<td>Access astronomy, satellite, NASA, USGS, EONET, and near-earth-object</td>
-</tr>
-<tr>
-<td>data sources</td>
-<td></td>
-</tr>
-<tr>
-<td>ðŸ§  Agent Tools</td>
-<td>Convert selected fetcher and loader methods into structured agent-callable tools</td>
-</tr>
-<tr>
-<td>ðŸ§¾ Schema Export</td>
-<td>Expose tool definitions for LangChain and provider-neutral tool-calling</td>
-</tr>
-<tr>
-<td>workflows</td>
-<td></td>
-</tr>
-<tr>
-<td>ðŸ” Serialization</td>
-<td>Normalize outputs into JSON-safe tool results</td>
+<td>API documentation</td>
+<td>Render Google-style Python docstrings into a navigable MkDocs site.</td>
 </tr>
 </tbody>
 </table>
-<h4 id="y-architecture">ðŸ§± Architecture<a class="headerlink" href="#y-architecture" title="Permanent link">&para;</a></h4>
-<p>Funky is divided into two layers.</p>
-<h4 id="y-service-layer">ðŸ§© Service Layer<a class="headerlink" href="#y-service-layer" title="Permanent link">&para;</a></h4>
-<p>The service layer contains ordinary Python classes.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>    fonky.fetchers
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    fonky.loaders
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    fonky.core
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    fonky.models
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    fonky.config
-</span></code></pre></div>
-<h4 id="y-project-structure">ðŸ§° Project Structure<a class="headerlink" href="#y-project-structure" title="Permanent link">&para;</a></h4>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Fonky/
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    README.md
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    requirements.txt
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    notebook/
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        fonkytown.ipynb
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    fonky/
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        __init__.py
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        config.py
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        core.py
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        fetchers.py
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        loaders.py
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        models.py
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        processors.py
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        scrapers.py
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>        tools/
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>            __init__.py
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>            schemas.py
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>            serializers.py
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>            adapters.py
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>            registry.py
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>            fetcher_tools.py
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>            loader_tools.py
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>        notebook/
-</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>           funkytown.ipynb 
-</span></code></pre></div>
-<p>Examples:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">fonky.fetchers</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebFetcher</span><span class="p">,</span> <span class="n">GoogleSearch</span><span class="p">,</span> <span class="n">Wikipedia</span><span class="p">,</span> <span class="n">ArXiv</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span><span class="p">,</span> <span class="n">PdfLoader</span><span class="p">,</span> <span class="n">CsvLoader</span><span class="p">,</span> <span class="n">WebLoader</span>
-</span></code></pre></div>
-<h4 id="y-i-tool-layer">ðŸ› ï¸ Tool Layer<a class="headerlink" href="#y-i-tool-layer" title="Permanent link">&para;</a></h4>
-<p>The tool layer adapts service-layer methods into agent-ready tools.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>    fonky.tools.schemas
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    fonky.tools.serializers
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    fonky.tools.adapters
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    fonky.tools.registry
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    fonky.tools.fetcher_tools
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    fonky.tools.loader_tools
-</span></code></pre></div>
-<p>Examples:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">fonky.tools.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_all_tools</span><span class="p">,</span> <span class="n">get_tools_by_group</span><span class="p">,</span> <span class="n">get_tool_by_name</span>
-</span></code></pre></div>
-<h4 id="astmi-installation">âš™ï¸ Installation<a class="headerlink" href="#astmi-installation" title="Permanent link">&para;</a></h4>
-<p>From the project root:</p>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>    <span class="nb">cd </span><span class="n">Funky</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="p">.</span><span class="n">venv</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">Activate</span><span class="p">.</span><span class="n">ps1</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">-</span><span class="n">-upgrade</span> <span class="n">pip</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>
-</span></code></pre></div>
-<ul>
-<li>Install Playwright browser support:</li>
-</ul>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>    <span class="n">python</span> <span class="n">-m</span> <span class="n">playwright</span> <span class="n">install</span> <span class="n">chromium</span>
-</span></code></pre></div>
-<h4 id="y-environment-configuration">ðŸ” Environment Configuration<a class="headerlink" href="#y-environment-configuration" title="Permanent link">&para;</a></h4>
-<ul>
-<li>
-<p>Funky reads credentials from environment variables through <code>fonky.config</code>.</p>
-</li>
-<li>
-<p>Common variables:</p>
-</li>
-</ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>    OPENAI_API_KEY
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    GOOGLE_API_KEY
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    GOOGLE_CSE_ID
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    GOOGLE_WEATHER_API_KEY
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    GOOGLE_ACCOUNT_CREDENTIALS
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    GOOGLE_DRIVE_TOKEN_PATH
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    GOOGLE_DRIVE_FOLDER_ID
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    GEMINI_API_KEY
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    NASA_API_KEY
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    NASA_EARTHDATA_TOKEN
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    THENEWSAPI_API_KEY
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    MISTRAL_API_KEY
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>    PINECONE_API_KEY
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>    XAI_API_KEY
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>    USER_AGENTS 
-</span></code></pre></div>
-<ul>
-<li>Example PowerShell setup:</li>
-</ul>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>    <span class="nv">$env:GOOGLE_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;your-google-api-key&quot;</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="nv">$env:GOOGLE_CSE_ID</span> <span class="p">=</span> <span class="s2">&quot;your-google-custom-search-engine-id&quot;</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="nv">$env:GOOGLE_WEATHER_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;your-google-weather-api-key&quot;</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="nv">$env:NASA_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;your-nasa-api-key&quot;</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="nv">$env:THENEWSAPI_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;your-thenewsapi-key&quot;</span>
-</span></code></pre></div>
-<ul>
-<li>Credentials should remain in environment variables, configuration, or controlled dependency
-  injection.</li>
-</ul>
-<h4 id="y-jupyter-notebook">ðŸ““ Jupyter Notebook<a class="headerlink" href="#y-jupyter-notebook" title="Permanent link">&para;</a></h4>
-<ul>
-<li>The included notebook is located at:</li>
-</ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>    notebook/fonkytown.ipynb
-</span></code></pre></div>
-<ul>
-<li>Launch it from the project root:</li>
-</ul>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>    <span class="nb">cd </span><span class="n">Funky</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">python</span> <span class="n">-m</span> <span class="n">jupyter</span> <span class="n">lab</span> <span class="n">notebook</span><span class="p">/</span><span class="n">fonkytown</span><span class="p">.</span><span class="n">ipynb</span>
-</span></code></pre></div>
-<ul>
-<li>Or with classic Notebook:</li>
-</ul>
-<div class="language-powershell highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>    <span class="n">python</span> <span class="n">-m</span> <span class="n">notebook</span> <span class="n">notebook</span><span class="p">/</span><span class="n">fonkytown</span><span class="p">.</span><span class="n">ipynb</span>
-</span></code></pre></div>
-<ul>
-<li>If the notebook cannot find the local package, add the project root to <code>sys.path</code>:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">project_root</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">(</span> <span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="k">if</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">(</span> <span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;notebook&quot;</span> <span class="k">else</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">(</span> <span class="p">)</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="k">if</span> <span class="nb">str</span><span class="p">(</span> <span class="n">project_root</span> <span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span> <span class="n">project_root</span> <span class="p">)</span> <span class="p">)</span>
-</span></code></pre></div>
-<h2 id="ad-hoc-ai-tool-examples">Ad Hoc AI Tool Examples<a class="headerlink" href="#ad-hoc-ai-tool-examples" title="Permanent link">&para;</a></h2>
-<h3 id="create-an-openai-compatible-tool-from-textloaderload">Create an OpenAI-compatible tool from <code>TextLoader.load</code><a class="headerlink" href="#create-an-openai-compatible-tool-from-textloaderload" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">TextLoader</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;load_text_file&#39;</span><span class="p">,</span>
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;documents&#39;</span>
-</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="p">)</span>
-</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
-</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="n">schema</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">to_openai</span><span class="p">(</span> <span class="p">)</span>
-</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
-</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="nb">print</span><span class="p">(</span> <span class="n">schema</span> <span class="p">)</span>
-</span></code></pre></div>
-<ul>
-<li>Expected schema shape:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">{</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;function&#39;</span><span class="p">,</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>        <span class="s1">&#39;function&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;load_text_file&#39;</span><span class="p">,</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>                <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>                        <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>                                <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>                                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
-</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>                                <span class="p">},</span>
-</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>                                <span class="s1">&#39;encoding&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>                                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
-</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>                                        <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="kc">None</span>
-</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>                                <span class="p">}</span>
-</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>                        <span class="p">},</span>
-</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>                        <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>                                <span class="s1">&#39;path&#39;</span>
-</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>                        <span class="p">]</span>
-</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>                <span class="p">},</span>
-</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>                <span class="s1">&#39;strict&#39;</span><span class="p">:</span> <span class="kc">True</span>
-</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>        <span class="p">}</span>
-</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="p">}</span>
-</span></code></pre></div>
-<h3 id="execute-an-ad-hoc-text-loader-tool">Execute an ad hoc text-loader tool<a class="headerlink" href="#execute-an-ad-hoc-text-loader-tool" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">TextLoader</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;load_text_file&#39;</span><span class="p">,</span>
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;documents&#39;</span>
-</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="p">)</span>
-</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
-</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>    <span class="p">{</span>
-</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>            <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="s1">&#39;sample.txt&#39;</span><span class="p">,</span>
-</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>            <span class="s1">&#39;encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;utf-8&#39;</span>
-</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>    <span class="p">}</span>
-</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="p">)</span>
-</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>
-</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;ok&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;name&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;data&#39;</span> <span class="p">][</span> <span class="mi">0</span> <span class="p">][</span> <span class="s1">&#39;page_content&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span></code></pre></div>
-<ul>
-<li>Expected result shape:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>        <span class="s1">&#39;ok&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;load_text_file&#39;</span><span class="p">,</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>        <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>                <span class="p">{</span>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>                        <span class="s1">&#39;page_content&#39;</span><span class="p">:</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>                        <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>                                <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;sample.txt&#39;</span>
-</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>                        <span class="p">}</span>
-</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>                <span class="p">}</span>
-</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>        <span class="p">],</span>
-</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>        <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>                <span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="s1">&#39;documents&#39;</span><span class="p">,</span>
-</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>                <span class="s1">&#39;source_module&#39;</span><span class="p">:</span> <span class="s1">&#39;fonky.loaders&#39;</span><span class="p">,</span>
-</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>                <span class="s1">&#39;source_class&#39;</span><span class="p">:</span> <span class="s1">&#39;TextLoader&#39;</span><span class="p">,</span>
-</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>                <span class="s1">&#39;callable_name&#39;</span><span class="p">:</span> <span class="s1">&#39;load&#39;</span>
-</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>        <span class="p">}</span>
-</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="p">}</span>
-</span></code></pre></div>
-<h3 id="create-an-ai-tool-from-pdfloaderload">Create an AI tool from <code>PdfLoader.load</code><a class="headerlink" href="#create-an-ai-tool-from-pdfloaderload" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">PdfLoader</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">PdfLoader</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;load_pdf_file&#39;</span><span class="p">,</span>
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;documents&#39;</span>
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="p">)</span>
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">parameters</span> <span class="p">)</span>
-</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">to_openai</span><span class="p">(</span> <span class="p">)</span> <span class="p">)</span>
-</span></code></pre></div>
-<ul>
-<li>Example call:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">PdfLoader</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">PdfLoader</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;load_pdf_file&#39;</span><span class="p">,</span>
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;documents&#39;</span>
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="p">)</span>
-</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
-</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>    <span class="p">{</span>
-</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>            <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="s1">&#39;sample.pdf&#39;</span><span class="p">,</span>
-</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>            <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;single&#39;</span><span class="p">,</span>
-</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>            <span class="s1">&#39;extract&#39;</span><span class="p">:</span> <span class="s1">&#39;plain&#39;</span><span class="p">,</span>
-</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>            <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="s1">&#39;markdown-img&#39;</span>
-</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>    <span class="p">}</span>
-</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="p">)</span>
-</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>
-</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="k">if</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;ok&#39;</span> <span class="p">]:</span>
-</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>    <span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;data&#39;</span> <span class="p">][</span> <span class="mi">0</span> <span class="p">][</span> <span class="s1">&#39;page_content&#39;</span> <span class="p">][</span> <span class="p">:</span><span class="mi">1000</span> <span class="p">]</span> <span class="p">)</span>
-</span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="k">else</span><span class="p">:</span>
-</span><span id="__span-18-24"><a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a>    <span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;error&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span></code></pre></div>
-<h3 id="create-an-ai-tool-from-csvloaderload">Create an AI tool from <code>CsvLoader.load</code><a class="headerlink" href="#create-an-ai-tool-from-csvloaderload" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsvLoader</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">CsvLoader</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;load_csv_file&#39;</span><span class="p">,</span>
-</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;documents&#39;</span>
-</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="p">)</span>
-</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
-</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">parameters</span> <span class="p">)</span>
-</span></code></pre></div>
-<ul>
-<li>Example call:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">CsvLoader</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">CsvLoader</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;load_csv_file&#39;</span><span class="p">,</span>
-</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;documents&#39;</span>
-</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="p">)</span>
-</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
-</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>    <span class="p">{</span>
-</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>            <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="s1">&#39;sample.csv&#39;</span><span class="p">,</span>
-</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>            <span class="s1">&#39;encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span>
-</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>            <span class="s1">&#39;source_column&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>            <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span>
-</span><span id="__span-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>            <span class="s1">&#39;quotechar&#39;</span><span class="p">:</span> <span class="s1">&#39;&quot;&#39;</span>
-</span><span id="__span-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>    <span class="p">}</span>
-</span><span id="__span-20-19"><a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="p">)</span>
-</span><span id="__span-20-20"><a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>
-</span><span id="__span-20-21"><a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a><span class="k">if</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;ok&#39;</span> <span class="p">]:</span>
-</span><span id="__span-20-22"><a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>    <span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;data&#39;</span> <span class="p">][</span> <span class="mi">0</span> <span class="p">][</span> <span class="s1">&#39;page_content&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span><span id="__span-20-23"><a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a><span class="k">else</span><span class="p">:</span>
-</span><span id="__span-20-24"><a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a>    <span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;error&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span></code></pre></div>
-<h3 id="create-an-ai-tool-from-webextractorhtml_to_text">Create an AI tool from <code>WebExtractor.html_to_text</code><a class="headerlink" href="#create-an-ai-tool-from-webextractorhtml_to_text" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.web</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebExtractor</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">WebExtractor</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;html_to_text&#39;</span><span class="p">,</span>
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;extract_html_text&#39;</span><span class="p">,</span>
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;web&#39;</span>
-</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="p">)</span>
-</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
-</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">parameters</span> <span class="p">)</span>
-</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">to_openai</span><span class="p">(</span> <span class="p">)</span> <span class="p">)</span>
-</span></code></pre></div>
-<ul>
-<li>Example call:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.web</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebExtractor</span>
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">WebExtractor</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;html_to_text&#39;</span><span class="p">,</span>
-</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;extract_html_text&#39;</span><span class="p">,</span>
-</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;web&#39;</span>
-</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="p">)</span>
-</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>
-</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>    <span class="p">{</span>
-</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>            <span class="s1">&#39;html&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;html&gt;&lt;body&gt;&lt;p&gt;Hello Fonky&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span>
-</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>    <span class="p">}</span>
-</span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a><span class="p">)</span>
-</span><span id="__span-22-16"><a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>
-</span><span id="__span-22-17"><a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="nb">print</span><span class="p">(</span> <span class="n">result</span> <span class="p">)</span>
-</span></code></pre></div>
-<ul>
-<li>Expected result shape:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="p">{</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>        <span class="s1">&#39;ok&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;extract_html_text&#39;</span><span class="p">,</span>
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>        <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="s1">&#39;Hello Fonky&#39;</span><span class="p">,</span>
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>        <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>                <span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span>
-</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>                <span class="s1">&#39;source_module&#39;</span><span class="p">:</span> <span class="s1">&#39;fonky.scrapers&#39;</span><span class="p">,</span>
-</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>                <span class="s1">&#39;source_class&#39;</span><span class="p">:</span> <span class="s1">&#39;WebExtractor&#39;</span><span class="p">,</span>
-</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;html_to_text&#39;</span><span class="p">,</span>
-</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>                <span class="s1">&#39;callable_name&#39;</span><span class="p">:</span> <span class="s1">&#39;html_to_text&#39;</span>
-</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>        <span class="p">}</span>
-</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="p">}</span>
-</span></code></pre></div>
-<h3 id="create-an-ai-tool-from-arxivfetch">Create an AI tool from <code>ArXiv.fetch</code><a class="headerlink" href="#create-an-ai-tool-from-arxivfetch" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArXiv</span>
-</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
-</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">ArXiv</span><span class="p">(</span> <span class="n">max_documents</span><span class="o">=</span><span class="mi">2</span> <span class="p">),</span>
-</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fetch&#39;</span><span class="p">,</span>
-</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;search_arxiv&#39;</span><span class="p">,</span>
-</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;collections&#39;</span>
-</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="p">)</span>
-</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>
-</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">parameters</span> <span class="p">)</span>
-</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">to_openai</span><span class="p">(</span> <span class="p">)</span> <span class="p">)</span>
-</span></code></pre></div>
-<ul>
-<li>Example parameter schema:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="p">{</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>        <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>                <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
-</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>                <span class="p">},</span>
-</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>                <span class="s1">&#39;max_documents&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span>
-</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>                        <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="kc">None</span>
-</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>                <span class="p">},</span>
-</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>                <span class="s1">&#39;full_documents&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
-</span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>                        <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="kc">None</span>
-</span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a>                <span class="p">},</span>
-</span><span id="__span-25-15"><a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>                <span class="s1">&#39;include_metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-25-16"><a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a>                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;boolean&#39;</span><span class="p">,</span>
-</span><span id="__span-25-17"><a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a>                        <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="kc">None</span>
-</span><span id="__span-25-18"><a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a>                <span class="p">}</span>
-</span><span id="__span-25-19"><a id="__codelineno-25-19" name="__codelineno-25-19" href="#__codelineno-25-19"></a>        <span class="p">},</span>
-</span><span id="__span-25-20"><a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a>        <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="__span-25-21"><a id="__codelineno-25-21" name="__codelineno-25-21" href="#__codelineno-25-21"></a>                <span class="s1">&#39;question&#39;</span>
-</span><span id="__span-25-22"><a id="__codelineno-25-22" name="__codelineno-25-22" href="#__codelineno-25-22"></a>        <span class="p">]</span>
-</span><span id="__span-25-23"><a id="__codelineno-25-23" name="__codelineno-25-23" href="#__codelineno-25-23"></a><span class="p">}</span>
-</span></code></pre></div>
-<ul>
-<li>Example call:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArXiv</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
-</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">ArXiv</span><span class="p">(</span> <span class="n">max_documents</span><span class="o">=</span><span class="mi">2</span> <span class="p">),</span>
-</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fetch&#39;</span><span class="p">,</span>
-</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;search_arxiv&#39;</span><span class="p">,</span>
-</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;collections&#39;</span>
-</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="p">)</span>
-</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
-</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>    <span class="p">{</span>
-</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>            <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;large language model tool use&#39;</span><span class="p">,</span>
-</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>            <span class="s1">&#39;max_documents&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-26-15"><a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a>            <span class="s1">&#39;full_documents&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-26-16"><a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a>            <span class="s1">&#39;include_metadata&#39;</span><span class="p">:</span> <span class="kc">True</span>
-</span><span id="__span-26-17"><a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a>    <span class="p">}</span>
-</span><span id="__span-26-18"><a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a><span class="p">)</span>
-</span><span id="__span-26-19"><a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a>
-</span><span id="__span-26-20"><a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a><span class="k">if</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;ok&#39;</span> <span class="p">]:</span>
-</span><span id="__span-26-21"><a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a>    <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;data&#39;</span> <span class="p">]:</span>
-</span><span id="__span-26-22"><a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a>        <span class="nb">print</span><span class="p">(</span> <span class="n">document</span><span class="p">[</span> <span class="s1">&#39;metadata&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span><span id="__span-26-23"><a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a>        <span class="nb">print</span><span class="p">(</span> <span class="n">document</span><span class="p">[</span> <span class="s1">&#39;page_content&#39;</span> <span class="p">][</span> <span class="p">:</span><span class="mi">500</span> <span class="p">]</span> <span class="p">)</span>
-</span><span id="__span-26-24"><a id="__codelineno-26-24" name="__codelineno-26-24" href="#__codelineno-26-24"></a>        <span class="nb">print</span><span class="p">(</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">100</span> <span class="p">)</span>
-</span><span id="__span-26-25"><a id="__codelineno-26-25" name="__codelineno-26-25" href="#__codelineno-26-25"></a><span class="k">else</span><span class="p">:</span>
-</span><span id="__span-26-26"><a id="__codelineno-26-26" name="__codelineno-26-26" href="#__codelineno-26-26"></a>    <span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;error&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span></code></pre></div>
-<h3 id="create-an-ai-tool-from-wikipediafetch">Create an AI tool from <code>Wikipedia.fetch</code><a class="headerlink" href="#create-an-ai-tool-from-wikipediafetch" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Wikipedia</span>
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
-</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">Wikipedia</span><span class="p">(</span> <span class="n">language</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="n">max_documents</span><span class="o">=</span><span class="mi">2</span> <span class="p">),</span>
-</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fetch&#39;</span><span class="p">,</span>
-</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;search_wikipedia&#39;</span><span class="p">,</span>
-</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;collections&#39;</span>
-</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="p">)</span>
-</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>
-</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">parameters</span> <span class="p">)</span>
-</span><span id="__span-27-12"><a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">to_openai</span><span class="p">(</span> <span class="p">)</span> <span class="p">)</span>
-</span></code></pre></div>
-<ul>
-<li>Example call:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Wikipedia</span>
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
-</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">Wikipedia</span><span class="p">(</span> <span class="n">language</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="n">max_documents</span><span class="o">=</span><span class="mi">2</span> <span class="p">),</span>
-</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;fetch&#39;</span><span class="p">,</span>
-</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;search_wikipedia&#39;</span><span class="p">,</span>
-</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;collections&#39;</span>
-</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="p">)</span>
-</span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>
-</span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-</span><span id="__span-28-12"><a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>    <span class="p">{</span>
-</span><span id="__span-28-13"><a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>            <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;retrieval augmented generation&#39;</span><span class="p">,</span>
-</span><span id="__span-28-14"><a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>            <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="s1">&#39;en&#39;</span><span class="p">,</span>
-</span><span id="__span-28-15"><a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a>            <span class="s1">&#39;max_documents&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-28-16"><a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a>            <span class="s1">&#39;include_metadata&#39;</span><span class="p">:</span> <span class="kc">True</span>
-</span><span id="__span-28-17"><a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a>    <span class="p">}</span>
-</span><span id="__span-28-18"><a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a><span class="p">)</span>
-</span><span id="__span-28-19"><a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a>
-</span><span id="__span-28-20"><a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a><span class="k">if</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;ok&#39;</span> <span class="p">]:</span>
-</span><span id="__span-28-21"><a id="__codelineno-28-21" name="__codelineno-28-21" href="#__codelineno-28-21"></a>    <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;data&#39;</span> <span class="p">]:</span>
-</span><span id="__span-28-22"><a id="__codelineno-28-22" name="__codelineno-28-22" href="#__codelineno-28-22"></a>        <span class="nb">print</span><span class="p">(</span> <span class="n">document</span><span class="p">[</span> <span class="s1">&#39;metadata&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span><span id="__span-28-23"><a id="__codelineno-28-23" name="__codelineno-28-23" href="#__codelineno-28-23"></a>        <span class="nb">print</span><span class="p">(</span> <span class="n">document</span><span class="p">[</span> <span class="s1">&#39;page_content&#39;</span> <span class="p">][</span> <span class="p">:</span><span class="mi">500</span> <span class="p">]</span> <span class="p">)</span>
-</span><span id="__span-28-24"><a id="__codelineno-28-24" name="__codelineno-28-24" href="#__codelineno-28-24"></a>        <span class="nb">print</span><span class="p">(</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">100</span> <span class="p">)</span>
-</span><span id="__span-28-25"><a id="__codelineno-28-25" name="__codelineno-28-25" href="#__codelineno-28-25"></a><span class="k">else</span><span class="p">:</span>
-</span><span id="__span-28-26"><a id="__codelineno-28-26" name="__codelineno-28-26" href="#__codelineno-28-26"></a>    <span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;error&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span></code></pre></div>
-<h3 id="export-a-tool-to-provider-formats">Export a tool to provider formats<a class="headerlink" href="#export-a-tool-to-provider-formats" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span>
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
-</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span>
-</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>    <span class="n">target</span><span class="o">=</span><span class="n">TextLoader</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;load_text_file&#39;</span><span class="p">,</span>
-</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;documents&#39;</span>
-</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="p">)</span>
-</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>
-</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="n">openai_tool</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">to_openai</span><span class="p">(</span> <span class="p">)</span>
-</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a><span class="n">gemini_tool</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">to_gemini</span><span class="p">(</span> <span class="p">)</span>
-</span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="n">grok_tool</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">to_grok</span><span class="p">(</span> <span class="p">)</span>
-</span><span id="__span-29-14"><a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>
-</span><span id="__span-29-15"><a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a><span class="nb">print</span><span class="p">(</span> <span class="n">openai_tool</span> <span class="p">)</span>
-</span><span id="__span-29-16"><a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a><span class="nb">print</span><span class="p">(</span> <span class="n">gemini_tool</span> <span class="p">)</span>
-</span><span id="__span-29-17"><a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a><span class="nb">print</span><span class="p">(</span> <span class="n">grok_tool</span> <span class="p">)</span>
-</span></code></pre></div>
-<h3 id="create-an-ai-tool-from-a-plain-python-function">Create an AI tool from a plain Python function<a class="headerlink" href="#create-an-ai-tool-from-a-plain-python-function" title="Permanent link">&para;</a></h3>
-<p><code>ToolDef</code> can also wrap ordinary Python functions.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>
-</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_numbers</span><span class="p">(</span> <span class="n">left</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="nb">int</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>
-</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="sd">        Purpose:</span>
-</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="sd">        --</span>
-</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="sd">        Add two integers.</span>
-</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>
-</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="sd">        Parameters:</span>
-</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="sd">        --</span>
-</span><span id="__span-30-12"><a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a><span class="sd">        left (int): Left integer.</span>
-</span><span id="__span-30-13"><a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="sd">        right (int): Right integer.</span>
-</span><span id="__span-30-14"><a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a>
-</span><span id="__span-30-15"><a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a><span class="sd">        Returns:</span>
-</span><span id="__span-30-16"><a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a><span class="sd">        --</span>
-</span><span id="__span-30-17"><a id="__codelineno-30-17" name="__codelineno-30-17" href="#__codelineno-30-17"></a><span class="sd">        int: Sum of left and right.</span>
-</span><span id="__span-30-18"><a id="__codelineno-30-18" name="__codelineno-30-18" href="#__codelineno-30-18"></a>
-</span><span id="__span-30-19"><a id="__codelineno-30-19" name="__codelineno-30-19" href="#__codelineno-30-19"></a><span class="sd">    &#39;&#39;&#39;</span>
-</span><span id="__span-30-20"><a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a>    <span class="k">return</span> <span class="n">left</span> <span class="o">+</span> <span class="n">right</span>
-</span><span id="__span-30-21"><a id="__codelineno-30-21" name="__codelineno-30-21" href="#__codelineno-30-21"></a>
-</span><span id="__span-30-22"><a id="__codelineno-30-22" name="__codelineno-30-22" href="#__codelineno-30-22"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_callable</span><span class="p">(</span>
-</span><span id="__span-30-23"><a id="__codelineno-30-23" name="__codelineno-30-23" href="#__codelineno-30-23"></a>    <span class="n">function</span><span class="o">=</span><span class="n">add_numbers</span><span class="p">,</span>
-</span><span id="__span-30-24"><a id="__codelineno-30-24" name="__codelineno-30-24" href="#__codelineno-30-24"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;add_numbers&#39;</span><span class="p">,</span>
-</span><span id="__span-30-25"><a id="__codelineno-30-25" name="__codelineno-30-25" href="#__codelineno-30-25"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;utility&#39;</span>
-</span><span id="__span-30-26"><a id="__codelineno-30-26" name="__codelineno-30-26" href="#__codelineno-30-26"></a><span class="p">)</span>
-</span><span id="__span-30-27"><a id="__codelineno-30-27" name="__codelineno-30-27" href="#__codelineno-30-27"></a>
-</span><span id="__span-30-28"><a id="__codelineno-30-28" name="__codelineno-30-28" href="#__codelineno-30-28"></a><span class="nb">print</span><span class="p">(</span> <span class="n">tool</span><span class="o">.</span><span class="n">parameters</span> <span class="p">)</span>
-</span><span id="__span-30-29"><a id="__codelineno-30-29" name="__codelineno-30-29" href="#__codelineno-30-29"></a>
-</span><span id="__span-30-30"><a id="__codelineno-30-30" name="__codelineno-30-30" href="#__codelineno-30-30"></a><span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-</span><span id="__span-30-31"><a id="__codelineno-30-31" name="__codelineno-30-31" href="#__codelineno-30-31"></a>    <span class="p">{</span>
-</span><span id="__span-30-32"><a id="__codelineno-30-32" name="__codelineno-30-32" href="#__codelineno-30-32"></a>            <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-30-33"><a id="__codelineno-30-33" name="__codelineno-30-33" href="#__codelineno-30-33"></a>            <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="mi">3</span>
-</span><span id="__span-30-34"><a id="__codelineno-30-34" name="__codelineno-30-34" href="#__codelineno-30-34"></a>    <span class="p">}</span>
-</span><span id="__span-30-35"><a id="__codelineno-30-35" name="__codelineno-30-35" href="#__codelineno-30-35"></a><span class="p">)</span>
-</span><span id="__span-30-36"><a id="__codelineno-30-36" name="__codelineno-30-36" href="#__codelineno-30-36"></a>
-</span><span id="__span-30-37"><a id="__codelineno-30-37" name="__codelineno-30-37" href="#__codelineno-30-37"></a><span class="nb">print</span><span class="p">(</span> <span class="n">result</span> <span class="p">)</span>
-</span></code></pre></div>
-<ul>
-<li>Expected result shape:</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="p">{</span>
-</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>        <span class="s1">&#39;ok&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;add_numbers&#39;</span><span class="p">,</span>
-</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>        <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>        <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>                <span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="s1">&#39;utility&#39;</span><span class="p">,</span>
-</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>                <span class="s1">&#39;source_module&#39;</span><span class="p">:</span> <span class="s1">&#39;__main__&#39;</span><span class="p">,</span>
-</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>                <span class="s1">&#39;source_class&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-31-11"><a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>                <span class="s1">&#39;callable_name&#39;</span><span class="p">:</span> <span class="s1">&#39;add_numbers&#39;</span>
-</span><span id="__span-31-12"><a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a>        <span class="p">}</span>
-</span><span id="__span-31-13"><a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a><span class="p">}</span>
-</span></code></pre></div>
-<h3 id="handle-tool-call-failures">Handle tool-call failures<a class="headerlink" href="#handle-tool-call-failures" title="Permanent link">&para;</a></h3>
-<ul>
-<li>When the underlying callable fails, <code>ToolDef.call(...)</code> returns a structured failure envelope.</li>
-</ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span>
-</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
-</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
-</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_method</span><span class="p">(</span> <span class="n">target</span><span class="o">=</span><span class="n">TextLoader</span><span class="p">(</span> <span class="p">),</span>
-</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;load_text_file&#39;</span><span class="p">,</span>
-</span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>    <span class="n">category</span><span class="o">=</span><span class="s1">&#39;documents&#39;</span>
-</span><span id="__span-32-8"><a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="p">)</span>
-</span><span id="__span-32-9"><a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
-</span><span id="__span-32-10"><a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
-</span><span id="__span-32-11"><a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>    <span class="p">{</span>
-</span><span id="__span-32-12"><a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>            <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="s1">&#39;missing-file.txt&#39;</span>
-</span><span id="__span-32-13"><a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a>    <span class="p">}</span>
-</span><span id="__span-32-14"><a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a><span class="p">)</span>
-</span><span id="__span-32-15"><a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a>
-</span><span id="__span-32-16"><a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a><span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;ok&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span><span id="__span-32-17"><a id="__codelineno-32-17" name="__codelineno-32-17" href="#__codelineno-32-17"></a><span class="nb">print</span><span class="p">(</span> <span class="n">result</span><span class="p">[</span> <span class="s1">&#39;error&#39;</span> <span class="p">]</span> <span class="p">)</span>
-</span></code></pre></div>
-<p>Expected shape:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="p">{</span>
-</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>        <span class="s1">&#39;ok&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;load_text_file&#39;</span><span class="p">,</span>
-</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>        <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;Error&#39;</span><span class="p">,</span>
-</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>                <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;...&#39;</span>
-</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>        <span class="p">},</span>
-</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>        <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>                <span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="s1">&#39;documents&#39;</span><span class="p">,</span>
-</span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>                <span class="s1">&#39;source_module&#39;</span><span class="p">:</span> <span class="s1">&#39;fonky.loaders&#39;</span><span class="p">,</span>
-</span><span id="__span-33-12"><a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>                <span class="s1">&#39;source_class&#39;</span><span class="p">:</span> <span class="s1">&#39;TextLoader&#39;</span><span class="p">,</span>
-</span><span id="__span-33-13"><a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;load&#39;</span><span class="p">,</span>
-</span><span id="__span-33-14"><a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a>                <span class="s1">&#39;callable_name&#39;</span><span class="p">:</span> <span class="s1">&#39;load&#39;</span>
-</span><span id="__span-33-15"><a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a>        <span class="p">}</span>
-</span><span id="__span-33-16"><a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a><span class="p">}</span>
-</span></code></pre></div>
-<h4 id="y34-requirements">ðŸ§¾ Requirements<a class="headerlink" href="#y34-requirements" title="Permanent link">&para;</a></h4>
+<h2 id="core-modules">Core Modules<a class="headerlink" href="#core-modules" title="Permanent link">&para;</a></h2>
+<p>Fonky is organized as a flat Python module project.</p>
 <table>
 <thead>
 <tr>
-<th>Package</th>
-<th>Purpose</th>
-<th>Notes</th>
+<th>Module</th>
+<th>Responsibility</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>pydantic</code></td>
-<td>Defines structured models and tool input schemas</td>
-<td>Required for</td>
+<td><code>config.py</code></td>
+<td>Environment variables, API keys, path constants, logging paths, and configuration helpers.</td>
 </tr>
 <tr>
-<td><code>models.py</code> and <code>tools/schemas.py</code></td>
-<td></td>
-<td></td>
+<td><code>boogr.py</code></td>
+<td>Project exception wrapper and SQLite-backed exception logger.</td>
 </tr>
 <tr>
-<td><code>typing_extensions</code></td>
-<td>Backports newer typing features</td>
-<td>Useful for compatibility across</td>
+<td><code>core.py</code></td>
+<td>Shared base classes and core project abstractions.</td>
 </tr>
 <tr>
-<td>Python versions</td>
-<td></td>
-<td></td>
+<td><code>loaders.py</code></td>
+<td>Document loaders for local files, web content, cloud sources, office files, and external document repositories.</td>
 </tr>
 <tr>
-<td><code>requests</code></td>
-<td>HTTP client for API fetchers</td>
-<td>Required by most fetchers</td>
+<td><code>fetchers.py</code></td>
+<td>API clients and public-data fetchers.</td>
 </tr>
 <tr>
-<td><code>pandas</code></td>
-<td>DataFrame handling and tabular data processing</td>
-<td>Used for</td>
+<td><code>scrapers.py</code></td>
+<td>Web scraping and HTML extraction utilities.</td>
 </tr>
 <tr>
-<td>structured data and loader outputs</td>
-<td></td>
-<td></td>
+<td><code>processors.py</code></td>
+<td>Text cleaning, tokenization, chunking, NLP, and vectorization helpers.</td>
 </tr>
 <tr>
-<td><code>numpy</code></td>
-<td>Numeric processing</td>
-<td>Common dependency for data workflows</td>
+<td><code>models.py</code></td>
+<td>Structured models and AI tool definitions.</td>
 </tr>
 <tr>
-<td><code>python-dateutil</code></td>
-<td>Date parsing and date utilities</td>
-<td>Useful for API date parameters</td>
+<td><code>archives.py</code></td>
+<td>Archive and knowledge-source access helpers.</td>
 </tr>
 <tr>
-<td>and notebooks</td>
-<td></td>
-<td></td>
+<td><code>documents.py</code></td>
+<td>Document-loader export module.</td>
 </tr>
 <tr>
-<td><code>langchain</code></td>
-<td>Main LangChain framework</td>
-<td>Required for agent/tool workflows</td>
+<td><code>web.py</code></td>
+<td>Web-extraction export module.</td>
 </tr>
 <tr>
-<td><code>langchain-core</code></td>
-<td>Core LangChain abstractions</td>
-<td>Required for <code>Document</code>, tools, and</td>
+<td><code>cloud.py</code></td>
+<td>Cloud-loader export module.</td>
 </tr>
 <tr>
-<td>retrievers</td>
-<td></td>
-<td></td>
+<td><code>astronomical.py</code></td>
+<td>Astronomy and space-data export module.</td>
 </tr>
 <tr>
-<td><code>langchain-community</code></td>
-<td>Community loaders and retrievers</td>
-<td>Required by many loader/fetcher</td>
+<td><code>demographic.py</code></td>
+<td>Demographic-data export module.</td>
 </tr>
 <tr>
-<td>wrappers</td>
-<td></td>
-<td></td>
+<td><code>environmental.py</code></td>
+<td>Environmental-data export module.</td>
 </tr>
 <tr>
-<td><code>langchain-text-splitters</code></td>
-<td>Document chunking</td>
-<td>Required for recursive text splitting</td>
+<td><code>geospatial.py</code></td>
+<td>Geospatial-data export module.</td>
 </tr>
 <tr>
-<td><code>langchain-google-community</code></td>
-<td>Google community integrations</td>
-<td>Used by Google loaders</td>
-</tr>
-<tr>
-<td><code>langchain-googledrive</code></td>
-<td>Google Drive retriever support</td>
-<td>Used by Google Drive tools</td>
-</tr>
-<tr>
-<td><code>pypdf</code></td>
-<td>PDF parsing</td>
-<td>Required by PDF loaders</td>
-</tr>
-<tr>
-<td><code>docx2txt</code></td>
-<td>Word document extraction</td>
-<td>Required by DOCX loaders</td>
-</tr>
-<tr>
-<td><code>openpyxl</code></td>
-<td>Excel <code>.xlsx</code> support</td>
-<td>Required for Excel workflows</td>
-</tr>
-<tr>
-<td><code>xlrd</code></td>
-<td>Legacy Excel <code>.xls</code> support</td>
-<td>Optional but useful</td>
-</tr>
-<tr>
-<td><code>python-pptx</code></td>
-<td>PowerPoint document support</td>
-<td>Used by PowerPoint loaders</td>
-</tr>
-<tr>
-<td><code>unstructured</code></td>
-<td>Parses Office, HTML, Markdown, and mixed document formats</td>
-<td>Heavy</td>
-</tr>
-<tr>
-<td>dependency; useful for full document support</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>lxml</code></td>
-<td>XML/HTML parsing</td>
-<td>Required by XML and HTML workflows</td>
-</tr>
-<tr>
-<td><code>beautifulsoup4</code></td>
-<td>HTML parsing and scraping</td>
-<td>Required by web scraping methods</td>
-</tr>
-<tr>
-<td><code>html5lib</code></td>
-<td>HTML parser backend</td>
-<td>Useful with BeautifulSoup and document</td>
-</tr>
-<tr>
-<td>loaders</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>markdown</code></td>
-<td>Markdown parsing</td>
-<td>Useful for Markdown loader workflows</td>
-</tr>
-<tr>
-<td><code>nbformat</code></td>
-<td>Jupyter notebook parsing</td>
-<td>Required for notebook loader support</td>
-</tr>
-<tr>
-<td><code>pillow</code></td>
-<td>Image handling</td>
-<td>Required by image and OCR-related loaders</td>
-</tr>
-<tr>
-<td><code>rapidocr-onnxruntime</code></td>
-<td>OCR fallback for PDFs/images</td>
-<td>Useful for image-heavy PDFs</td>
-</tr>
-<tr>
-<td><code>playwright</code></td>
-<td>Browser automation/rendering</td>
-<td>Requires browser installation</td>
-</tr>
-<tr>
-<td><code>crawl4ai</code></td>
-<td>Web crawling/rendering support</td>
-<td>Useful for dynamic pages</td>
-</tr>
-<tr>
-<td><code>arxiv</code></td>
-<td>ArXiv API support</td>
-<td>Required by ArXiv retrieval</td>
-</tr>
-<tr>
-<td><code>wikipedia</code></td>
-<td>Wikipedia API support</td>
-<td>Required by Wikipedia retrieval</td>
-</tr>
-<tr>
-<td><code>xmltodict</code></td>
-<td>XML-to-dictionary conversion</td>
-<td>Useful for API and XML workflows</td>
-</tr>
-<tr>
-<td><code>google-genai</code></td>
-<td>Gemini / Google GenAI SDK</td>
-<td>Required for Gemini-oriented</td>
-</tr>
-<tr>
-<td>workflows</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>google-api-python-client</code></td>
-<td>Google API client support</td>
-<td>Useful for Google Drive and other</td>
-</tr>
-<tr>
-<td>Google APIs</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>google-auth</code></td>
-<td>Google authentication</td>
-<td>Required for Google API access</td>
-</tr>
-<tr>
-<td><code>google-auth-oauthlib</code></td>
-<td>OAuth support for Google services</td>
-<td>Required for user-authenticated</td>
-</tr>
-<tr>
-<td>Google workflows</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>google-cloud-storage</code></td>
-<td>Google Cloud Storage support</td>
-<td>Required by GCS loaders</td>
-</tr>
-<tr>
-<td><code>google-cloud-speech</code></td>
-<td>Google Speech-to-Text support</td>
-<td>Required by speech loaders</td>
-</tr>
-<tr>
-<td><code>boto3</code></td>
-<td>AWS SDK</td>
-<td>Required by S3 file/directory loaders</td>
-</tr>
-<tr>
-<td><code>botocore</code></td>
-<td>Low-level AWS dependency</td>
-<td>Installed with <code>boto3</code>, but can be</td>
-</tr>
-<tr>
-<td>pinned explicitly</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>astropy</code></td>
-<td>Astronomy coordinate and data tools</td>
-<td>Required by astronomy</td>
-</tr>
-<tr>
-<td>fetchers</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>astroquery</code></td>
-<td>Astronomy data queries</td>
-<td>Required by SIMBAD / astronomy workflows</td>
-</tr>
-<tr>
-<td><code>sscws</code></td>
-<td>NASA SSC Web Services client</td>
-<td>Required by satellite center tools</td>
-</tr>
-<tr>
-<td><code>OWSLib</code></td>
-<td>Web Map Service support</td>
-<td>Required by WMS/global imagery</td>
-</tr>
-<tr>
-<td>workflows</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>cartopy</code></td>
-<td>Geospatial mapping/projections</td>
-<td>Heavy dependency; needed for map</td>
-</tr>
-<tr>
-<td>rendering</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>matplotlib</code></td>
-<td>Plotting and map rendering</td>
-<td>Required by imagery/geospatial</td>
-</tr>
-<tr>
-<td>rendering</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>grokipedia-api</code></td>
-<td>Grokipedia client support</td>
-<td>Required only when Grokipedia tools are</td>
-</tr>
-<tr>
-<td>enabled</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>boogr</code></td>
-<td>Custom error wrapper used by service classes</td>
-<td>Keep as local</td>
-</tr>
-<tr>
-<td>package/module or replace with <code>fonky.errors</code></td>
-<td></td>
-<td></td>
+<td><code>health.py</code></td>
+<td>Health-data export module.</td>
 </tr>
 </tbody>
 </table>
-<h4 id="y-license">ðŸ“ License<a class="headerlink" href="#y-license" title="Permanent link">&para;</a></h4>
+<h2 id="documentation-sections">Documentation Sections<a class="headerlink" href="#documentation-sections" title="Permanent link">&para;</a></h2>
+<p>Use the documentation sections below to move from setup to usage, development, and deployment.</p>
+<div class="grid cards">
 <ul>
-<li>Fonky is published under</li>
-<li><img alt="License: Public Domain" src="https://img.shields.io/badge/license-public%20domain-brightgreen.svg" />
-  the <a href="https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE">MIT General Public License v3</a>.</li>
+<li><strong>Getting Started</strong></li>
 </ul>
+<p>Set up the virtual environment, install dependencies, validate imports, load a first document, and
+  build the documentation site.</p>
+<p><a href="getting-started/">Open Getting Started</a></p>
+<ul>
+<li><strong>Configuration</strong></li>
+</ul>
+<p>Review environment variables, logging paths, API keys, provider settings, and MkDocs configuration
+  requirements.</p>
+<p><a href="configuration/">Open Configuration</a></p>
+<ul>
+<li><strong>Architecture</strong></li>
+</ul>
+<p>Understand how loaders, fetchers, scrapers, processors, models, logging, configuration, and
+  documentation fit together.</p>
+<p><a href="architecture/">Open Architecture</a></p>
+<ul>
+<li><strong>Logging</strong></li>
+</ul>
+<p>Review the <code>Error</code> and <code>Logger</code> pattern, SQLite exception logging, validation commands, and safe
+  logging rules.</p>
+<p><a href="logging/">Open Logging</a></p>
+<ul>
+<li><strong>Usage</strong></li>
+</ul>
+<p>Learn practical Fonky examples, including AI tooling with <code>ToolDef</code>, schema export, and
+  provider-neutral tool dispatch.</p>
+<p><a href="usage/">Open Usage</a></p>
+<ul>
+<li><strong>User Guide</strong></li>
+</ul>
+<p>Work through longer end-to-end workflows across document loading, processing, web extraction,
+  fetching, and tool orchestration.</p>
+<p><a href="user-guide/">Open User Guide</a></p>
+<ul>
+<li><strong>Development</strong></li>
+</ul>
+<p>Follow source regeneration rules, Google-style docstring standards, logging standards, validation
+  checks, and MkDocs build practices.</p>
+<p><a href="development/">Open Development</a></p>
+<ul>
+<li><strong>GitHub Pages</strong></li>
+</ul>
+<p>Build and publish the MkDocs site using GitHub Pages.</p>
+<p><a href="github-pages/">Open GitHub Pages</a></p>
+</div>
+<h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
+<p>The API reference is generated from Python source docstrings through mkdocstrings.</p>
+<p>API pages are located under:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docs/api/
+</span></code></pre></div>
+<p>Only API pages should contain live mkdocstrings directives such as:</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>::: loaders
+</span></code></pre></div>
+<p>Manual documentation pages should describe directives as examples only and should not contain live
+directives.</p>
+<p>Primary API sections:</p>
+<table>
+<thead>
+<tr>
+<th>API page</th>
+<th>Module</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="api/archives/">Archives</a></td>
+<td><code>archives.py</code></td>
+</tr>
+<tr>
+<td><a href="api/astronomical/">Astronomical</a></td>
+<td><code>astronomical.py</code></td>
+</tr>
+<tr>
+<td><a href="api/boogr/">Boogr</a></td>
+<td><code>boogr.py</code></td>
+</tr>
+<tr>
+<td><a href="api/cloud/">Cloud</a></td>
+<td><code>cloud.py</code></td>
+</tr>
+<tr>
+<td><a href="api/config/">Configuration</a></td>
+<td><code>config.py</code></td>
+</tr>
+<tr>
+<td><a href="api/core/">Core</a></td>
+<td><code>core.py</code></td>
+</tr>
+<tr>
+<td><a href="api/demographic/">Demographic</a></td>
+<td><code>demographic.py</code></td>
+</tr>
+<tr>
+<td><a href="api/documents/">Documents</a></td>
+<td><code>documents.py</code></td>
+</tr>
+<tr>
+<td><a href="api/environmental/">Environmental</a></td>
+<td><code>environmental.py</code></td>
+</tr>
+<tr>
+<td><a href="api/fetchers/">Fetchers</a></td>
+<td><code>fetchers.py</code></td>
+</tr>
+<tr>
+<td><a href="api/geospatial/">Geospatial</a></td>
+<td><code>geospatial.py</code></td>
+</tr>
+<tr>
+<td><a href="api/health/">Health</a></td>
+<td><code>health.py</code></td>
+</tr>
+<tr>
+<td><a href="api/loaders/">Loaders</a></td>
+<td><code>loaders.py</code></td>
+</tr>
+<tr>
+<td><a href="api/models/">Models</a></td>
+<td><code>models.py</code></td>
+</tr>
+<tr>
+<td><a href="api/processors/">Processors</a></td>
+<td><code>processors.py</code></td>
+</tr>
+<tr>
+<td><a href="api/scrapers/">Scrapers</a></td>
+<td><code>scrapers.py</code></td>
+</tr>
+<tr>
+<td><a href="api/web/">Web</a></td>
+<td><code>web.py</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="standard-workflow">Standard Workflow<a class="headerlink" href="#standard-workflow" title="Permanent link">&para;</a></h2>
+<p>The expected local workflow is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Create and activate a virtual environment
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    -&gt; Install requirements
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    -&gt; Compile Python source
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    -&gt; Validate imports
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    -&gt; Build MkDocs
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    -&gt; Serve documentation locally
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    -&gt; Deploy to GitHub Pages when clean
+</span></code></pre></div>
+<p>Basic validation commands:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">compileall</span> <span class="p">.</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">Select-String</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">docs</span><span class="p">\*.</span><span class="nb">md </span><span class="n">-Pattern</span> <span class="s2">&quot;^:::\s+[A-Za-z_]&quot;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">Select-String</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">docs</span><span class="p">\</span><span class="n">api</span><span class="p">\*.</span><span class="nb">md </span><span class="n">-Pattern</span> <span class="s2">&quot;^:::\s+[A-Za-z_]&quot;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">mkdocs</span> <span class="n">build</span>
+</span></code></pre></div>
+<p>Expected directive behavior:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docs/*.md          -&gt; no live mkdocstrings directives
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>docs/api/*.md      -&gt; live mkdocstrings directives are required
+</span></code></pre></div>
+<h2 id="ai-tooling-overview">AI Tooling Overview<a class="headerlink" href="#ai-tooling-overview" title="Permanent link">&para;</a></h2>
+<p>Fonky's AI tooling layer is centered on <code>ToolDef</code> in <code>models.py</code>.</p>
+<p>A normal Python function or object method can be wrapped as a structured tool:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">count_words</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">tool</span> <span class="o">=</span> <span class="n">ToolDef</span><span class="o">.</span><span class="n">from_callable</span><span class="p">(</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">function</span><span class="o">=</span><span class="n">count_words</span><span class="p">,</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;count_words&quot;</span><span class="p">,</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Count words in a text value.&quot;</span><span class="p">,</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">category</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="p">)</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="n">schema</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">to_openai</span><span class="p">()</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="n">result</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="p">{</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>        <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Fonky exposes Python functions as AI-callable tools.&quot;</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>    <span class="p">}</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="p">)</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="nb">print</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This allows existing Fonky loaders, fetchers, scrapers, and processors to be exposed to model
+tool-calling systems without rewriting the underlying implementation.</p>
+<h2 id="logging-overview">Logging Overview<a class="headerlink" href="#logging-overview" title="Permanent link">&para;</a></h2>
+<p>Handled exceptions use the explicit project logging pattern:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s2">&quot;loaders&quot;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s2">&quot;TextLoader&quot;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]&quot;</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">Logger</span><span class="p">()</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="k">raise</span> <span class="n">exception</span>
+</span></code></pre></div>
+<p>The logger writes exception metadata to:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>logging/Exceptions.db
+</span></code></pre></div>
+<p>with the default table:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Exceptions
+</span></code></pre></div>
+<p>The logging system is designed to preserve traceability while still raising failures to the caller.</p>
+<h2 id="build-requirement">Build Requirement<a class="headerlink" href="#build-requirement" title="Permanent link">&para;</a></h2>
+<p>Before publishing documentation, the local build should pass:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">mkdocs</span> <span class="n">build</span>
+</span></code></pre></div>
+<p>A clean documentation state means:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>- Python source compiles.
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>- API pages contain the only live mkdocstrings directives.
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>- Manual pages do not accidentally render source modules.
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>- Google-style docstrings render without Griffe warnings.
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>- Markdown examples do not trigger autorefs warnings.
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>- The site renders locally with mkdocs serve.
+</span></code></pre></div>
 
 
 
@@ -2299,8 +1850,6 @@ agents, notebooks, web applications, FastAPI services, and other agentic workflo
             </div>
           
           
-  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
-
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -2314,6 +1863,30 @@ agents, notebooks, web applications, FastAPI services, and other agentic workflo
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+        
+          
+          <a href="getting-started/" class="md-footer__link md-footer__link--next" aria-label="Next: Getting Started">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Getting Started
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
@@ -2322,22 +1895,6 @@ agents, notebooks, web applications, FastAPI services, and other agentic workflo
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
-    </a>
-  
-</div>
-      
-        
-<div class="md-social">
-  
-    
-    
-    
-    
-      
-      
-    
-    <a href="https://github.com/is-leeroy-jenkins/Fonky" target="_blank" rel="noopener" title="github.com" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
 </div>
@@ -2355,10 +1912,12 @@ agents, notebooks, web applications, FastAPI services, and other agentic workflo
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "toc.integrate", "search.highlight", "search.share", "content.code.copy", "content.code.select", "content.tabs.link"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="javascripts/extra.js"></script>
       
     
   </body>

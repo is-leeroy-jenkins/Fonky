@@ -1,3 +1,4 @@
-﻿## ðŸ“„ Loaders API
+﻿## Loaders API
 
 ::: loaders
+

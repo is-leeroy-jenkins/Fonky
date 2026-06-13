@@ -1,3 +1,4 @@
-﻿## ðŸ¥ Health API
+﻿## Health API
 
 ::: health
+

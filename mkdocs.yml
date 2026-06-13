@@ -1,48 +1,29 @@
 site_name: Fonky Documentation
-site_description: Documentation for Fonky, a Python framework for data retrieval, document loading, scraping, processing, and agent-ready tool orchestration.
+site_description: Documentation for the Fonky Python framework.
 site_author: Terry D. Eppler
 site_url: https://is-leeroy-jenkins.github.io/Fonky/
 
 repo_url: https://github.com/is-leeroy-jenkins/Fonky
 repo_name: is-leeroy-jenkins/Fonky
-edit_uri: ""
+
 
 theme:
   name: material
   language: en
-  features:
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.sections
-    - navigation.expand
-    - navigation.path
-    - navigation.indexes
-    - navigation.top
-    - toc.follow
-    - toc.integrate
-    - search.highlight
-    - search.share
-    - content.code.copy
-    - content.code.select
-    - content.tabs.link
   palette:
     - scheme: slate
       primary: blue
       accent: blue
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
-    - scheme: default
-      primary: blue
-      accent: blue
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-  font:
-    text: Roboto
-    code: Roboto Mono
-  icon:
-    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.highlight
+    - search.suggest
+    - content.code.copy
 
 plugins:
   - search
@@ -116,10 +97,8 @@ nav:
   - Development: development.md
   - GitHub Pages: github-pages.md
 
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/is-leeroy-jenkins/Fonky
-
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js

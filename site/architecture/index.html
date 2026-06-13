@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Documentation for Fonky, a Python framework for data retrieval, document loading, scraping, processing, and agent-ready tool orchestration.">
+        <meta name="description" content="Documentation for the Fonky Python framework.">
       
       
         <meta name="author" content="Terry D. Eppler">
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#y-architecture" class="md-skip">
+        <a href="#architecture" class="md-skip">
           Skip to content
         </a>
       
@@ -96,9 +96,7 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Fonky Documentation" class="md-header__button md-logo" aria-label="Fonky Documentation" data-md-component="logo">
       
@@ -133,21 +131,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
-    
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
-      </label>
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
     
   
 </form>
@@ -177,16 +161,13 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
-        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -208,7 +189,7 @@
         <a href="https://github.com/is-leeroy-jenkins/Fonky" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     is-leeroy-jenkins/Fonky
@@ -218,8 +199,14 @@
     
   </nav>
   
+</header>
     
+    <div class="md-container" data-md-component="container">
       
+      
+        
+          
+            
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-grid">
     <ul class="md-tabs__list">
@@ -237,8 +224,6 @@
         <a href=".." class="md-tabs__link">
           
   
-  
-    
   
   Home
 
@@ -259,8 +244,6 @@
         <a href="../api/" class="md-tabs__link">
           
   
-  
-    
   
   API Reference
 
@@ -311,13 +294,7 @@
     </ul>
   </div>
 </nav>
-    
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -334,9 +311,7 @@
   
 
 
-  
-
-<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Fonky Documentation" class="md-nav__button md-logo" aria-label="Fonky Documentation" data-md-component="logo">
       
@@ -351,7 +326,7 @@
       <a href="https://github.com/is-leeroy-jenkins/Fonky" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
   </div>
   <div class="md-source__repository">
     is-leeroy-jenkins/Fonky
@@ -371,24 +346,6 @@
   
     
     
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
     
     
       
@@ -407,9 +364,8 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href=".." class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
   
   
   <span class="md-ellipsis">
@@ -423,14 +379,8 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_1">
@@ -443,6 +393,32 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -568,10 +544,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#yz-architectural-purpose" class="md-nav__link">
+  <a href="#architectural-purpose" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸŽ¯ Architectural Purpose
+        Architectural Purpose
       
     </span>
   </a>
@@ -579,10 +555,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#y-repository-level-structure" class="md-nav__link">
+  <a href="#repository-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸ“ Repository-Level Structure
+        Repository Structure
       
     </span>
   </a>
@@ -590,10 +566,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#astmi-configuration-layer" class="md-nav__link">
+  <a href="#high-level-runtime-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        âš™ï¸ Configuration Layer
+        High-Level Runtime Flow
       
     </span>
   </a>
@@ -601,10 +577,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ya-logging-layer" class="md-nav__link">
+  <a href="#architectural-layers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸªµ Logging Layer
+        Architectural Layers
       
     </span>
   </a>
@@ -612,10 +588,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#y-loader-layer" class="md-nav__link">
+  <a href="#configuration-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸ“„ Loader Layer
+        Configuration Layer
       
     </span>
   </a>
@@ -623,10 +599,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#y-fetcher-layer" class="md-nav__link">
+  <a href="#logging-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸ”Œ Fetcher Layer
+        Logging Layer
       
     </span>
   </a>
@@ -634,10 +610,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#y-i-scraper-layer" class="md-nav__link">
+  <a href="#loader-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸ•¸ï¸ Scraper Layer
+        Loader Layer
       
     </span>
   </a>
@@ -645,10 +621,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#y1-processor-layer" class="md-nav__link">
+  <a href="#fetcher-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸ§¹ Processor Layer
+        Fetcher Layer
       
     </span>
   </a>
@@ -656,10 +632,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#y-model-and-tool-layer" class="md-nav__link">
+  <a href="#scraper-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸ§© Model and Tool Layer
+        Scraper Layer
       
     </span>
   </a>
@@ -667,10 +643,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ys-archive-layer" class="md-nav__link">
+  <a href="#processor-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸ“š Archive Layer
+        Processor Layer
       
     </span>
   </a>
@@ -678,10 +654,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#y-export-modules" class="md-nav__link">
+  <a href="#model-and-tool-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸ“¦ Export Modules
+        Model and Tool Layer
       
     </span>
   </a>
@@ -689,10 +665,126 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#y34-documentation-architecture" class="md-nav__link">
+  <a href="#archive-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ðŸ§¾ Documentation Architecture
+        Archive Layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export Modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-documentation-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Documentation Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-architecture-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Architecture Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Architecture Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flat-source-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flat source layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-source-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Package source layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-modules_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Baseline
       
     </span>
   </a>
@@ -807,46 +899,6 @@
   
     
     
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
     
     
       
@@ -864,9 +916,8 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../api/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -880,14 +931,8 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
@@ -900,6 +945,32 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1446,42 +1517,309 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-runtime-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Runtime Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Layers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logging Layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loader-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loader Layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fetcher-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fetcher Layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scraper-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scraper Layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processor-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processor Layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-and-tool-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model and Tool Layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#archive-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archive Layer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export Modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-documentation-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Documentation Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-architecture-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Architecture Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Architecture Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flat-source-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flat source layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-source-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Package source layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-modules_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Baseline
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           
             <div class="md-content" data-md-component="content">
-              
-                
-
-
-
-
               
               <article class="md-content__inner md-typeset">
                 
                   
 
 
+  
+  
 
-<h1 id="y-architecture">ðŸ§± Architecture<a class="headerlink" href="#y-architecture" title="Permanent link">&para;</a></h1>
+
+<h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
 <p>Fonky is organized as a flat Python module framework for data retrieval, document loading, web
-extraction, text processing, exception logging, and agent-ready tool orchestration.</p>
-<p>The architecture is intentionally modular. Each major source file owns a specific responsibility,
-while export modules provide cleaner import paths for related service groups.</p>
-<h2 id="yz-architectural-purpose">ðŸŽ¯ Architectural Purpose<a class="headerlink" href="#yz-architectural-purpose" title="Permanent link">&para;</a></h2>
+extraction, text processing, exception logging, AI tool generation, and MkDocs-based API
+documentation.</p>
+<p>The architecture is intentionally modular. Each source file owns a clear responsibility, while
+export modules provide cleaner import paths for related service groups.</p>
+<h2 id="architectural-purpose">Architectural Purpose<a class="headerlink" href="#architectural-purpose" title="Permanent link">&para;</a></h2>
 <p>Fonky is designed to solve a common integration problem:</p>
-<p>```text id="architecture_problem"
-External data and documents are scattered across files, APIs, websites, cloud stores, repositories, and public data services.
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Fonky provides a common runtime pattern:
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>```text id=&quot;architecture_solution&quot;
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Retrieve or load source content
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    â†“
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Normalize the result
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    â†“
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Represent content as documents, dictionaries, models, or tool results
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    â†“
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>Process, split, serialize, or expose the result to downstream workflows
-</span></code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>External data and documents are scattered across local files, APIs, websites, cloud stores, repositories, public data services, and archive systems.
+</span></code></pre></div>
+<p>Fonky provides a common runtime pattern:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Retrieve or load source content
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    -&gt; Normalize the result
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    -&gt; Represent content as documents, dictionaries, models, text, or tool results
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    -&gt; Process, split, serialize, or expose the result to downstream workflows
+</span></code></pre></div>
 <p>The framework supports:</p>
 <table>
 <thead>
@@ -1493,7 +1831,7 @@ External data and documents are scattered across files, APIs, websites, cloud st
 <tbody>
 <tr>
 <td>Document loading</td>
-<td>Converts local, cloud, repository, web, and office sources into LangChain <code>Document</code> objects.</td>
+<td>Converts local, web, office, PDF, notebook, cloud, and repository sources into document objects.</td>
 </tr>
 <tr>
 <td>API fetching</td>
@@ -1501,149 +1839,135 @@ External data and documents are scattered across files, APIs, websites, cloud st
 </tr>
 <tr>
 <td>Web extraction</td>
-<td>Parses HTML and extracts text, links, images, headings, tables, metadata, and browser-rendered content.</td>
+<td>Parses HTML and extracts text, links, images, headings, tables, and metadata.</td>
 </tr>
 <tr>
 <td>Text processing</td>
-<td>Cleans, tokenizes, chunks, vectorizes, and prepares text for search, retrieval, or analysis.</td>
+<td>Cleans, normalizes, tokenizes, chunks, vectorizes, and prepares text for analysis or retrieval.</td>
 </tr>
 <tr>
-<td>Tool orchestration</td>
-<td>Converts Python callables and class methods into structured tool definitions.</td>
+<td>AI tool generation</td>
+<td>Converts Python functions and object methods into structured tool definitions.</td>
 </tr>
 <tr>
 <td>Exception logging</td>
-<td>Wraps handled exceptions and writes them to a SQLite database.</td>
+<td>Wraps handled exceptions and writes failure metadata to a SQLite database.</td>
 </tr>
 <tr>
 <td>Documentation generation</td>
-<td>Renders Google-style docstrings through MkDocs and mkdocstrings.</td>
+<td>Renders Google-style source docstrings through MkDocs and mkdocstrings.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="y-repository-level-structure">ðŸ“ Repository-Level Structure<a class="headerlink" href="#y-repository-level-structure" title="Permanent link">&para;</a></h2>
+<h2 id="repository-structure">Repository Structure<a class="headerlink" href="#repository-structure" title="Permanent link">&para;</a></h2>
 <p>Fonky currently uses a flat source layout at the repository root.</p>
-<p>```text id="architecture_project_layout"
-Fonky/
-â”œâ”€â”€ mkdocs.yml
-â”œâ”€â”€ README.md
-â”œâ”€â”€ requirements.txt
-â”œâ”€â”€ docs/
-â”‚   â”œâ”€â”€ index.md
-â”‚   â”œâ”€â”€ getting-started.md
-â”‚   â”œâ”€â”€ configuration.md
-â”‚   â”œâ”€â”€ architecture.md
-â”‚   â”œâ”€â”€ logging.md
-â”‚   â”œâ”€â”€ usage.md
-â”‚   â”œâ”€â”€ user-guide.md
-â”‚   â”œâ”€â”€ development.md
-â”‚   â”œâ”€â”€ github-pages.md
-â”‚   â”œâ”€â”€ api/
-â”‚   â”‚   â”œâ”€â”€ index.md
-â”‚   â”‚   â”œâ”€â”€ archives.md
-â”‚   â”‚   â”œâ”€â”€ astronomical.md
-â”‚   â”‚   â”œâ”€â”€ boogr.md
-â”‚   â”‚   â”œâ”€â”€ cloud.md
-â”‚   â”‚   â”œâ”€â”€ config.md
-â”‚   â”‚   â”œâ”€â”€ core.md
-â”‚   â”‚   â”œâ”€â”€ demographic.md
-â”‚   â”‚   â”œâ”€â”€ documents.md
-â”‚   â”‚   â”œâ”€â”€ environmental.md
-â”‚   â”‚   â”œâ”€â”€ fetchers.md
-â”‚   â”‚   â”œâ”€â”€ geospatial.md
-â”‚   â”‚   â”œâ”€â”€ health.md
-â”‚   â”‚   â”œâ”€â”€ loaders.md
-â”‚   â”‚   â”œâ”€â”€ models.md
-â”‚   â”‚   â”œâ”€â”€ processors.md
-â”‚   â”‚   â”œâ”€â”€ scrapers.md
-â”‚   â”‚   â””â”€â”€ web.md
-â”‚   â””â”€â”€ stylesheets/
-â”‚       â””â”€â”€ extra.css
-â”œâ”€â”€ <strong>init</strong>.py
-â”œâ”€â”€ archives.py
-â”œâ”€â”€ astronomical.py
-â”œâ”€â”€ boogr.py
-â”œâ”€â”€ cloud.py
-â”œâ”€â”€ config.py
-â”œâ”€â”€ core.py
-â”œâ”€â”€ demographic.py
-â”œâ”€â”€ documents.py
-â”œâ”€â”€ environmental.py
-â”œâ”€â”€ fetchers.py
-â”œâ”€â”€ geospatial.py
-â”œâ”€â”€ health.py
-â”œâ”€â”€ loaders.py
-â”œâ”€â”€ models.py
-â”œâ”€â”€ processors.py
-â”œâ”€â”€ scrapers.py
-â””â”€â”€ web.py
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>!!! note
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>If the source is later moved into a package directory named `fonky/`, update API reference
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>directives from `::: loaders` to `::: loaders`, and update examples from
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>`from loaders import TextLoader` to `from fonky.loaders import TextLoader`.
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>## ðŸ” High-Level Runtime Flow
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>The core runtime flow is:
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>```text id=&quot;runtime_flow&quot;
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>External source
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    â†“
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>Fetcher, scraper, or loader
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    â†“
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>Document object, structured dictionary, list, text, or model
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    â†“
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>Processor, serializer, or ToolDef
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    â†“
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>Notebook, application, API service, retrieval workflow, or AI tool call
-</span></code></pre></div></p>
-<p>Examples:</p>
-<p>```text id="runtime_flow_pdf"
-PDF file
-    â†“
-PdfLoader
-    â†“
-LangChain Document objects
-    â†“
-split documents
-    â†“
-retrieval or analysis workflow
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>```text id=&quot;runtime_flow_web&quot;
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Web page
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    â†“
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>WebLoader or WebExtractor
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    â†“
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>clean text, links, tables, metadata
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    â†“
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>structured application output
-</span></code></pre></div></p>
-<p>```text id="runtime_flow_tool"
-Python method
-    â†“
-ToolDef.from_method(...)
-    â†“
-OpenAI / Gemini / Grok-compatible schema
-    â†“
-tool-calling workflow
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>## ðŸ§© Architectural Layers
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Fonky can be understood as six layers:
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>```text id=&quot;architecture_layers&quot;
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>Configuration layer
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    â†“
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>Core and logging layer
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    â†“
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>Source access layer
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    â†“
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>Processing layer
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    â†“
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>Model and tool layer
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    â†“
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>Documentation layer
-</span></code></pre></div></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Fonky/
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>|-- mkdocs.yml
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>|-- README.md
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>|-- requirements.txt
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>|-- docs/
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>|   |-- index.md
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>|   |-- getting-started.md
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>|   |-- configuration.md
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>|   |-- architecture.md
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>|   |-- logging.md
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>|   |-- usage.md
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>|   |-- user-guide.md
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>|   |-- development.md
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>|   |-- github-pages.md
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>|   |-- api/
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>|   |   |-- index.md
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>|   |   |-- archives.md
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>|   |   |-- astronomical.md
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>|   |   |-- boogr.md
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>|   |   |-- cloud.md
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>|   |   |-- config.md
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>|   |   |-- core.md
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>|   |   |-- demographic.md
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>|   |   |-- documents.md
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>|   |   |-- environmental.md
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>|   |   |-- fetchers.md
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>|   |   |-- geospatial.md
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>|   |   |-- health.md
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>|   |   |-- loaders.md
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>|   |   |-- models.md
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>|   |   |-- processors.md
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>|   |   |-- scrapers.md
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>|   |   +-- web.md
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>|   |-- stylesheets/
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>|   |   +-- extra.css
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>|   +-- javascripts/
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>|       +-- extra.js
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>|-- __init__.py
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>|-- archives.py
+</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>|-- astronomical.py
+</span><span id="__span-2-41"><a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>|-- boogr.py
+</span><span id="__span-2-42"><a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>|-- cloud.py
+</span><span id="__span-2-43"><a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>|-- config.py
+</span><span id="__span-2-44"><a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>|-- core.py
+</span><span id="__span-2-45"><a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a>|-- demographic.py
+</span><span id="__span-2-46"><a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a>|-- documents.py
+</span><span id="__span-2-47"><a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a>|-- environmental.py
+</span><span id="__span-2-48"><a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a>|-- fetchers.py
+</span><span id="__span-2-49"><a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a>|-- geospatial.py
+</span><span id="__span-2-50"><a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a>|-- health.py
+</span><span id="__span-2-51"><a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a>|-- loaders.py
+</span><span id="__span-2-52"><a id="__codelineno-2-52" name="__codelineno-2-52" href="#__codelineno-2-52"></a>|-- models.py
+</span><span id="__span-2-53"><a id="__codelineno-2-53" name="__codelineno-2-53" href="#__codelineno-2-53"></a>|-- processors.py
+</span><span id="__span-2-54"><a id="__codelineno-2-54" name="__codelineno-2-54" href="#__codelineno-2-54"></a>|-- scrapers.py
+</span><span id="__span-2-55"><a id="__codelineno-2-55" name="__codelineno-2-55" href="#__codelineno-2-55"></a>+-- web.py
+</span></code></pre></div>
+<p>The current flat layout means imports should use root-level module names:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">loaders</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolDef</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">processors</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextParser</span>
+</span></code></pre></div>
+<p>The API reference should also use flat module directives inside <code>docs/api/*.md</code> files:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>::: loaders
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>::: models
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>::: processors
+</span></code></pre></div>
+<p>Do not use <code>fonky.loaders</code> unless the project is later moved into an importable package folder named
+<code>fonky</code>.</p>
+<h2 id="high-level-runtime-flow">High-Level Runtime Flow<a class="headerlink" href="#high-level-runtime-flow" title="Permanent link">&para;</a></h2>
+<p>Fonky's runtime flow is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>External source
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    -&gt; Loader, fetcher, or scraper
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    -&gt; Document object, dictionary, list, text, or model
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    -&gt; Processor, serializer, or ToolDef
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    -&gt; Notebook, application, retrieval workflow, API service, or AI tool call
+</span></code></pre></div>
+<p>Example document flow:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>PDF, text file, Word file, CSV file, cloud object, or web page
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    -&gt; Loader class
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    -&gt; Document objects
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    -&gt; Split or process documents
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    -&gt; Retrieval, search, summarization, or analysis workflow
+</span></code></pre></div>
+<p>Example API flow:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Method arguments
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    -&gt; Fetcher class
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    -&gt; Request parameters
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    -&gt; External API or public data service
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    -&gt; Normalized structured response
+</span></code></pre></div>
+<p>Example AI tooling flow:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Python function or class method
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    -&gt; ToolDef
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    -&gt; Provider-compatible schema
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    -&gt; Model-selected tool call
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    -&gt; Fonky callable execution
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    -&gt; JSON-safe result envelope
+</span></code></pre></div>
+<h2 id="architectural-layers">Architectural Layers<a class="headerlink" href="#architectural-layers" title="Permanent link">&para;</a></h2>
+<p>Fonky can be understood as six layers:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Configuration layer
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    -&gt; Core and logging layer
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    -&gt; Source access layer
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    -&gt; Processing layer
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    -&gt; Model and tool layer
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    -&gt; Documentation layer
+</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1656,17 +1980,17 @@ tool-calling workflow
 <tr>
 <td>Configuration layer</td>
 <td><code>config.py</code></td>
-<td>Environment variables, API keys, path constants, logging paths, service descriptions.</td>
+<td>Environment variables, API keys, path constants, logging paths, service descriptions, and helper functions.</td>
 </tr>
 <tr>
 <td>Core and logging layer</td>
 <td><code>core.py</code>, <code>boogr.py</code></td>
-<td>Base abstractions, exception wrapper, SQLite-backed logging.</td>
+<td>Base abstractions, exception wrapper, and SQLite-backed exception logging.</td>
 </tr>
 <tr>
 <td>Source access layer</td>
-<td><code>fetchers.py</code>, <code>loaders.py</code>, <code>scrapers.py</code>, <code>archives.py</code></td>
-<td>Retrieve external data, load documents, scrape web content, query archives.</td>
+<td><code>loaders.py</code>, <code>fetchers.py</code>, <code>scrapers.py</code>, <code>archives.py</code></td>
+<td>Load documents, retrieve API data, scrape web content, and access archive sources.</td>
 </tr>
 <tr>
 <td>Processing layer</td>
@@ -1676,242 +2000,327 @@ tool-calling workflow
 <tr>
 <td>Model and tool layer</td>
 <td><code>models.py</code></td>
-<td>Serialize results and expose methods as provider-compatible tools.</td>
+<td>Serialize results and expose callables as AI-compatible tools.</td>
 </tr>
 <tr>
 <td>Documentation layer</td>
 <td><code>docs/</code>, <code>mkdocs.yml</code></td>
-<td>Render Markdown pages and source docstrings into a documentation site.</td>
+<td>Render manual documentation and source-generated API reference pages.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="astmi-configuration-layer">âš™ï¸ Configuration Layer<a class="headerlink" href="#astmi-configuration-layer" title="Permanent link">&para;</a></h2>
-<p>The configuration layer is centralized in:</p>
-<p>```text id="configuration_layer_file"
-config.py
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>It defines:
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>| Configuration type   | Examples                                                                                  |
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>| -------------------- | ----------------------------------------------------------------------------------------- |
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>| Path constants       | `BASE_DIR`, `ROOT_DIR`, `LOG_DIR`, `LOG_PATH`, `LOG_FILE`                                 |
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>| API keys             | `NASA_API_KEY`, `GOOGLE_API_KEY`, `OPENAI_API_KEY`, `GOVINFO_API_KEY`, `CONGRESS_API_KEY` |
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>| Cloud settings       | Google Cloud, Google Drive, Microsoft, AWS-related variables                              |
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>| Service descriptions | API and loader descriptions used by documentation and UI layers                           |
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>| Helper functions     | `get_bool`, `get_int`, `get_float`, `get_path`, `get_text`, `throw_if`                    |
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>Configuration is read at import time through environment variables.
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>Example flow:
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>```text id=&quot;configuration_flow&quot;
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>PowerShell environment variable
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    â†“
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>os.getenv(...)
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    â†“
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>config.py constant
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    â†“
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>fetcher, loader, scraper, logger, or model
-</span></code></pre></div></p>
-<h2 id="ya-logging-layer">ðŸªµ Logging Layer<a class="headerlink" href="#ya-logging-layer" title="Permanent link">&para;</a></h2>
-<p>The logging layer is centralized in:</p>
-<p>```text id="logging_layer_files"
-boogr.py
-config.py
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>`boogr.py` provides:
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>| Class    | Role                                                    |
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>| -------- | ------------------------------------------------------- |
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>| `Error`  | Wraps source exceptions with project-specific metadata. |
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>| `Logger` | Writes exception records to a SQLite database.          |
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>The logger uses configuration values from `config.py`:
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>```text id=&quot;logging_config_values&quot;
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>LOG_DIR
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>LOG_PATH
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>LOG_FILE
-</span></code></pre></div></p>
-<p>Required exception pattern:</p>
-<p>```python id="architecture_exception_pattern"
-except Exception as e:
-    exception = Error(e)
-    exception.module = "loaders"
-    exception.cause = "TextLoader"
-    exception.method = "load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]"
-    Logger().write(exception)
-    raise exception
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Architectural purpose:
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>```text id=&quot;logging_architecture_purpose&quot;
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Handled exception
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    â†“
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>Error wrapper
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    â†“
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>module, cause, method metadata
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    â†“
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>Logger.write(...)
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    â†“
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>SQLite Exceptions table
-</span></code></pre></div></p>
-<h2 id="y-loader-layer">ðŸ“„ Loader Layer<a class="headerlink" href="#y-loader-layer" title="Permanent link">&para;</a></h2>
-<p>The loader layer is centralized in:</p>
-<p>```text id="loader_layer_file"
-loaders.py
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>It wraps LangChain and community document loaders to load different source types into `Document`
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>objects.
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Representative loaders:
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>| Loader                  | Source type                         |
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>| ----------------------- | ----------------------------------- |
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>| `TextLoader`            | Plain-text files                    |
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>| `CsvLoader`             | CSV files                           |
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>| `PdfLoader`             | PDF files                           |
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>| `PdfReader`             | PDF reading wrapper                 |
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>| `ExcelLoader`           | Excel workbooks                     |
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>| `WordLoader`            | Word documents                      |
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>| `MarkdownLoader`        | Markdown files                      |
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>| `HtmlLoader`            | HTML files                          |
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>| `WebLoader`             | Web pages and recursive URL loading |
-</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>| `JsonLoader`            | JSON and JSON Lines files           |
-</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>| `XmlLoader`             | XML files and XPath access          |
-</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>| `EmailLoader`           | Email files                         |
-</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>| `OutlookLoader`         | Outlook message files               |
-</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>| `PowerPointLoader`      | PowerPoint files                    |
-</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>| `JupyterNotebookLoader` | Jupyter notebooks                   |
-</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>| `GoogleDriveLoader`     | Google Drive files and folders      |
-</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>| `GoogleCloudFileLoader` | Google Cloud Storage files          |
-</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>| `GoogleBucketLoader`    | Google Cloud Storage buckets        |
-</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>| `AwsFileLoader`         | AWS S3 files                        |
-</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>| `AwsBucketLoader`       | AWS S3 buckets                      |
-</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>| `OneDriveDocLoader`     | Microsoft OneDrive documents        |
-</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>| `SpfxLoader`            | SharePoint document libraries       |
-</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>| `ArXivLoader`           | ArXiv document search               |
-</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>| `WikiLoader`            | Wikipedia document search           |
-</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>| `PubMedSearchLoader`    | PubMed document search              |
-</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>
-</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>Typical loader flow:
-</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>
-</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>```text id=&quot;loader_flow&quot;
-</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>Path, URL, cloud object, or query
-</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>    â†“
-</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>Loader class
-</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a>    â†“
-</span><span id="__span-7-41"><a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a>LangChain loader instance
-</span><span id="__span-7-42"><a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a>    â†“
-</span><span id="__span-7-43"><a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a>List[Document]
-</span><span id="__span-7-44"><a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a>    â†“
-</span><span id="__span-7-45"><a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a>split_documents(...)
-</span></code></pre></div></p>
-<h2 id="y-fetcher-layer">ðŸ”Œ Fetcher Layer<a class="headerlink" href="#y-fetcher-layer" title="Permanent link">&para;</a></h2>
-<p>The fetcher layer is centralized in:</p>
-<p>```text id="fetcher_layer_file"
-fetchers.py
-<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Fetchers retrieve structured data from external APIs and public services.
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Fetcher responsibilities include:
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>| Responsibility           | Description                                                                        |
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>| ------------------------ | ---------------------------------------------------------------------------------- |
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>| Validate request inputs  | Required parameters are checked before making a request.                           |
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>| Build request parameters | Parameters are assembled from method arguments and configuration constants.        |
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>| Execute external calls   | Requests are sent to public or credential-backed services.                         |
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>| Normalize responses      | JSON, XML, CSV, text, or document-like payloads are normalized for downstream use. |
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>| Log handled failures     | Exceptions are wrapped and written through `Logger`.                               |
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>Representative service areas:
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>| Service area        | Examples                                                  |
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>| ------------------- | --------------------------------------------------------- |
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>| Government data     | GovInfo, Congress, Data.gov, Census                       |
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>| Environmental data  | EPA, AirNow, OpenAQ, PurpleAir, NASA FIRMS                |
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>| Geospatial data     | NOAA, USGS, tides, water data, national map, geocoding    |
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>| Astronomy and space | NASA, DONKI, near-earth objects, satellite data, sky maps |
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>| Health data         | WHO, CDC WONDER, health data services                     |
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>| News and web data   | News APIs, search APIs, public web sources                |
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>| Cloud and storage   | Google, Microsoft, AWS-related integrations               |
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>Typical fetcher flow:
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>```text id=&quot;fetcher_flow&quot;
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>Method arguments
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>    â†“
-</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>Configuration constants and API keys
-</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>    â†“
-</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>Request parameter dictionary
-</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>    â†“
-</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>HTTP request or client call
-</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>    â†“
-</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>Normalized response
-</span></code></pre></div></p>
-<h2 id="y-i-scraper-layer">ðŸ•¸ï¸ Scraper Layer<a class="headerlink" href="#y-i-scraper-layer" title="Permanent link">&para;</a></h2>
-<p>The scraper layer is centralized in:</p>
-<p>```text id="scraper_layer_file"
-scrapers.py
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>It handles web extraction and parsing.
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Typical scraper capabilities include:
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>| Capability               | Description                                                              |
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>| ------------------------ | ------------------------------------------------------------------------ |
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>| HTML-to-text conversion  | Extract readable text from HTML.                                         |
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>| Link extraction          | Extract absolute or resolved links.                                      |
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>| Heading extraction       | Extract heading structure.                                               |
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>| Table extraction         | Extract HTML table data.                                                 |
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>| Image extraction         | Extract image references and metadata.                                   |
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>| Browser-backed retrieval | Use browser automation for dynamic pages when needed.                    |
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>| Normalization            | Return structured dictionaries or text values for downstream processing. |
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>Typical scraper flow:
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>```text id=&quot;scraper_flow&quot;
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>URL or HTML
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    â†“
-</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>Fetcher or browser renderer
-</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>    â†“
-</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>HTML parser
-</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>    â†“
-</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>Text, links, tables, headings, images, or metadata
-</span></code></pre></div></p>
-<h2 id="y1-processor-layer">ðŸ§¹ Processor Layer<a class="headerlink" href="#y1-processor-layer" title="Permanent link">&para;</a></h2>
-<p>The processor layer is centralized in:</p>
-<p>```text id="processor_layer_file"
-processors.py
-<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>It prepares raw text and loaded documents for analysis, retrieval, embedding, or tool output.
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>Processor responsibilities include:
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>| Responsibility          | Examples                                                                                |
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>| ----------------------- | --------------------------------------------------------------------------------------- |
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>| Text cleaning           | Remove HTML, XML, Markdown, numbers, symbols, encodings, headers, fragments, stopwords. |
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>| Normalization           | Normalize spacing, casing, punctuation, and formatting.                                 |
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>| Tokenization            | Split text into words, sentences, paragraphs, pages, and chunks.                        |
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>| NLP operations          | Stemming, lemmatization, POS tagging, named entity recognition.                         |
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>| Vector preparation      | Vocabulary, bag-of-words, TF-IDF, Word2Vec-style utilities.                             |
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>| Semantic search support | Encode sentences and search semantically where dependencies are available.              |
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>Typical processor flow:
-</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
-</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>```text id=&quot;processor_flow&quot;
-</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>Raw text or loaded documents
-</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>    â†“
-</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>TextParser or NltkParser
-</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>    â†“
-</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>cleaning, tokenization, chunking, vectorization
-</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>    â†“
-</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>analysis-ready text or structures
-</span></code></pre></div></p>
-<h2 id="y-model-and-tool-layer">ðŸ§© Model and Tool Layer<a class="headerlink" href="#y-model-and-tool-layer" title="Permanent link">&para;</a></h2>
-<p>The model and tool layer is centralized in:</p>
-<p>```text id="model_layer_file"
-models.py
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>It provides structured models and tool definitions.
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Primary responsibility:
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>```text id=&quot;model_layer_responsibility&quot;
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>Convert Python functions and methods into structured tool definitions that can be called directly or exported to provider-specific tool schemas.
-</span></code></pre></div></p>
+<h2 id="configuration-layer">Configuration Layer<a class="headerlink" href="#configuration-layer" title="Permanent link">&para;</a></h2>
+<p>The configuration layer is centralized in <code>config.py</code>.</p>
+<p>It defines:</p>
+<table>
+<thead>
+<tr>
+<th>Configuration type</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path constants</td>
+<td><code>BASE_DIR</code>, <code>ROOT_DIR</code>, <code>LOG_DIR</code>, <code>LOG_PATH</code>, <code>LOG_FILE</code></td>
+</tr>
+<tr>
+<td>API keys</td>
+<td><code>NASA_API_KEY</code>, <code>GOOGLE_API_KEY</code>, <code>OPENAI_API_KEY</code>, <code>GOVINFO_API_KEY</code>, <code>CONGRESS_API_KEY</code></td>
+</tr>
+<tr>
+<td>Cloud settings</td>
+<td>Google Cloud, Google Drive, Microsoft, AWS, and storage-related settings</td>
+</tr>
+<tr>
+<td>Service descriptions</td>
+<td>Provider and loader descriptions used by modules and documentation</td>
+</tr>
+<tr>
+<td>Helper functions</td>
+<td><code>get_bool</code>, <code>get_int</code>, <code>get_float</code>, <code>get_path</code>, <code>get_text</code>, <code>throw_if</code></td>
+</tr>
+</tbody>
+</table>
+<p>Configuration values flow from environment variables into module-level constants:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>PowerShell environment variable
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    -&gt; os.getenv(...)
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    -&gt; config.py constant
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    -&gt; loader, fetcher, scraper, processor, model, or logger
+</span></code></pre></div>
+<h2 id="logging-layer">Logging Layer<a class="headerlink" href="#logging-layer" title="Permanent link">&para;</a></h2>
+<p>The logging layer is centralized in <code>boogr.py</code> and configured by <code>config.py</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Error</code></td>
+<td>Wraps source exceptions with normalized project metadata.</td>
+</tr>
+<tr>
+<td><code>Logger</code></td>
+<td>Writes exception records to a SQLite database.</td>
+</tr>
+</tbody>
+</table>
+<p>The logger uses:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>LOG_DIR
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>LOG_PATH
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>LOG_FILE
+</span></code></pre></div>
+<p>Required exception flow:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Handled exception
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    -&gt; Error wrapper
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    -&gt; module, cause, method, message, info, trace
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    -&gt; Logger.write(...)
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    -&gt; SQLite Exceptions table
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    -&gt; Wrapped exception raised to caller
+</span></code></pre></div>
+<p>Required source pattern:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s2">&quot;loaders&quot;</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s2">&quot;TextLoader&quot;</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]&quot;</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">Logger</span><span class="p">()</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="k">raise</span> <span class="n">exception</span>
+</span></code></pre></div>
+<h2 id="loader-layer">Loader Layer<a class="headerlink" href="#loader-layer" title="Permanent link">&para;</a></h2>
+<p>The loader layer is centralized in <code>loaders.py</code>.</p>
+<p>It wraps document-loading functionality for local files, web content, cloud stores, office
+documents, notebooks, repositories, archives, and provider-backed sources.</p>
+<p>Representative loader groups:</p>
+<table>
+<thead>
+<tr>
+<th>Loader group</th>
+<th>Source type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Text loaders</td>
+<td>Plain text and Markdown files</td>
+</tr>
+<tr>
+<td>Structured file loaders</td>
+<td>CSV, JSON, XML, and Excel files</td>
+</tr>
+<tr>
+<td>Office loaders</td>
+<td>Word, PowerPoint, Outlook, and email files</td>
+</tr>
+<tr>
+<td>PDF loaders</td>
+<td>PDF text and page extraction</td>
+</tr>
+<tr>
+<td>Web loaders</td>
+<td>Web pages, sitemap content, and recursive URL loading</td>
+</tr>
+<tr>
+<td>Notebook loaders</td>
+<td>Jupyter notebooks</td>
+</tr>
+<tr>
+<td>Cloud loaders</td>
+<td>Google Drive, Google Cloud Storage, AWS S3, OneDrive, and SharePoint sources</td>
+</tr>
+<tr>
+<td>Archive loaders</td>
+<td>ArXiv, Wikipedia, PubMed, and other archive-backed sources</td>
+</tr>
+</tbody>
+</table>
+<p>Typical loader flow:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Path, URL, cloud object, or query
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    -&gt; Loader class
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    -&gt; Underlying provider or LangChain loader
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    -&gt; List of document objects
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    -&gt; Optional split operation
+</span></code></pre></div>
+<h2 id="fetcher-layer">Fetcher Layer<a class="headerlink" href="#fetcher-layer" title="Permanent link">&para;</a></h2>
+<p>The fetcher layer is centralized in <code>fetchers.py</code>.</p>
+<p>Fetchers retrieve structured data from external APIs and public services.</p>
+<p>Fetcher responsibilities include:</p>
+<table>
+<thead>
+<tr>
+<th>Responsibility</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Validate inputs</td>
+<td>Required method arguments are checked before a request.</td>
+</tr>
+<tr>
+<td>Build parameters</td>
+<td>Request parameters are assembled from arguments and configuration constants.</td>
+</tr>
+<tr>
+<td>Execute calls</td>
+<td>HTTP requests or provider client calls are performed.</td>
+</tr>
+<tr>
+<td>Normalize responses</td>
+<td>JSON, XML, CSV, text, or document-like payloads are normalized.</td>
+</tr>
+<tr>
+<td>Log handled failures</td>
+<td>Exceptions are wrapped with <code>Error</code> and written with <code>Logger</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Representative service areas:</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Government data</td>
+<td>GovInfo, Congress, Data.gov, Census</td>
+</tr>
+<tr>
+<td>Environmental data</td>
+<td>EPA, AirNow, OpenAQ, PurpleAir, NASA FIRMS</td>
+</tr>
+<tr>
+<td>Geospatial data</td>
+<td>NOAA, USGS, tides, water data, national map, geocoding</td>
+</tr>
+<tr>
+<td>Astronomy and space</td>
+<td>NASA, DONKI, near-earth objects, satellite data, sky maps</td>
+</tr>
+<tr>
+<td>Health data</td>
+<td>WHO, CDC WONDER, health data services</td>
+</tr>
+<tr>
+<td>News and web data</td>
+<td>News APIs, search APIs, and public web sources</td>
+</tr>
+<tr>
+<td>Cloud and storage</td>
+<td>Google, Microsoft, AWS, and related integrations</td>
+</tr>
+</tbody>
+</table>
+<p>Typical fetcher flow:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Method arguments
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    -&gt; Configuration constants and API keys
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    -&gt; Request parameter dictionary
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    -&gt; HTTP request or client call
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    -&gt; Normalized response
+</span></code></pre></div>
+<h2 id="scraper-layer">Scraper Layer<a class="headerlink" href="#scraper-layer" title="Permanent link">&para;</a></h2>
+<p>The scraper layer is centralized in <code>scrapers.py</code>.</p>
+<p>It handles web extraction and parsing.</p>
+<p>Typical scraper capabilities include:</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTML-to-text conversion</td>
+<td>Extract readable text from HTML.</td>
+</tr>
+<tr>
+<td>Link extraction</td>
+<td>Extract links from web content.</td>
+</tr>
+<tr>
+<td>Heading extraction</td>
+<td>Extract page heading structure.</td>
+</tr>
+<tr>
+<td>Table extraction</td>
+<td>Extract HTML table data.</td>
+</tr>
+<tr>
+<td>Image extraction</td>
+<td>Extract image references and metadata.</td>
+</tr>
+<tr>
+<td>Browser-backed retrieval</td>
+<td>Use browser automation for dynamic pages when required.</td>
+</tr>
+<tr>
+<td>Normalization</td>
+<td>Return structured dictionaries or text values for downstream processing.</td>
+</tr>
+</tbody>
+</table>
+<p>Typical scraper flow:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>URL or HTML
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    -&gt; HTTP fetcher or browser renderer
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    -&gt; HTML parser
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    -&gt; Text, links, tables, headings, images, or metadata
+</span></code></pre></div>
+<h2 id="processor-layer">Processor Layer<a class="headerlink" href="#processor-layer" title="Permanent link">&para;</a></h2>
+<p>The processor layer is centralized in <code>processors.py</code>.</p>
+<p>It prepares raw text and loaded documents for analysis, retrieval, embedding, search, or AI tool
+output.</p>
+<p>Processor responsibilities include:</p>
+<table>
+<thead>
+<tr>
+<th>Responsibility</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Text cleaning</td>
+<td>Remove HTML, XML, Markdown, numbers, symbols, fragments, stopwords, and formatting.</td>
+</tr>
+<tr>
+<td>Normalization</td>
+<td>Normalize spacing, casing, punctuation, and encoding.</td>
+</tr>
+<tr>
+<td>Tokenization</td>
+<td>Split text into words, sentences, paragraphs, pages, and chunks.</td>
+</tr>
+<tr>
+<td>NLP operations</td>
+<td>Stemming, lemmatization, POS tagging, and named entity extraction where supported.</td>
+</tr>
+<tr>
+<td>Vector preparation</td>
+<td>Vocabulary generation, bag-of-words, TF-IDF, and Word2Vec-style utilities.</td>
+</tr>
+<tr>
+<td>Semantic search support</td>
+<td>Encode sentences and search semantically where dependencies are available.</td>
+</tr>
+</tbody>
+</table>
+<p>Typical processor flow:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Raw text or loaded documents
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>    -&gt; Text parser or NLP parser
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    -&gt; Cleaning, tokenization, chunking, or vectorization
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    -&gt; Analysis-ready text or structures
+</span></code></pre></div>
+<h2 id="model-and-tool-layer">Model and Tool Layer<a class="headerlink" href="#model-and-tool-layer" title="Permanent link">&para;</a></h2>
+<p>The model and tool layer is centralized in <code>models.py</code>.</p>
+<p>Its primary role is to convert Python functions and object methods into structured AI-callable
+tools.</p>
 <p>Representative concepts:</p>
 <table>
 <thead>
@@ -1952,55 +2361,62 @@ models.py
 </tbody>
 </table>
 <p>Typical tool flow:</p>
-<p>```text id="tool_flow"
-Python function or class method
-    â†“
-ToolDef.from_callable(...) or ToolDef.from_method(...)
-    â†“
-JSON-schema-like parameter model
-    â†“
-provider-compatible schema
-    â†“
-structured call result
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Tool call result shape:
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>```text id=&quot;tool_result_shape&quot;
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>{
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    &quot;ok&quot;: true or false,
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    &quot;name&quot;: &quot;tool_name&quot;,
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    &quot;data&quot;: result payload or null,
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    &quot;error&quot;: error payload or null,
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    &quot;metadata&quot;: tool metadata
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>}
-</span></code></pre></div></p>
-<h2 id="ys-archive-layer">ðŸ“š Archive Layer<a class="headerlink" href="#ys-archive-layer" title="Permanent link">&para;</a></h2>
-<p>The archive layer is centralized in:</p>
-<p>```text id="archive_layer_file"
-archives.py
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>It groups public research and knowledge-source access.
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>Typical archive services include:
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>| Service          | Purpose                                           |
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>| ---------------- | ------------------------------------------------- |
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>| ArXiv            | Scholarly article search and retrieval.           |
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>| Wikipedia        | Encyclopedia search and page retrieval.           |
-</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>| PubMed           | Biomedical literature search.                     |
-</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>| GovInfo          | Government publication access.                    |
-</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>| Internet Archive | Archive and collection retrieval where supported. |
-</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
-</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>Typical archive flow:
-</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>
-</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>```text id=&quot;archive_flow&quot;
-</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>Question or search term
-</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>    â†“
-</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>Archive wrapper
-</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>    â†“
-</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>External source query
-</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>    â†“
-</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>Document-like result set
-</span></code></pre></div></p>
-<h2 id="y-export-modules">ðŸ“¦ Export Modules<a class="headerlink" href="#y-export-modules" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Python function or class method
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    -&gt; ToolDef.from_callable(...) or ToolDef.from_method(...)
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    -&gt; JSON-schema-like parameter model
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    -&gt; Provider-compatible schema
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    -&gt; Structured call result
+</span></code></pre></div>
+<p>Tool call result shape:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>{
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>    &quot;ok&quot;: true or false,
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    &quot;name&quot;: &quot;tool_name&quot;,
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    &quot;data&quot;: result payload or null,
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    &quot;error&quot;: error payload or null,
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    &quot;metadata&quot;: tool metadata
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>}
+</span></code></pre></div>
+<h2 id="archive-layer">Archive Layer<a class="headerlink" href="#archive-layer" title="Permanent link">&para;</a></h2>
+<p>The archive layer is centralized in <code>archives.py</code>.</p>
+<p>It groups public research, publication, and knowledge-source access.</p>
+<p>Typical archive services include:</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ArXiv</td>
+<td>Scholarly article search and retrieval.</td>
+</tr>
+<tr>
+<td>Wikipedia</td>
+<td>Encyclopedia search and page retrieval.</td>
+</tr>
+<tr>
+<td>PubMed</td>
+<td>Biomedical literature search.</td>
+</tr>
+<tr>
+<td>GovInfo</td>
+<td>Government publication access.</td>
+</tr>
+<tr>
+<td>Internet Archive</td>
+<td>Archive and collection retrieval where supported.</td>
+</tr>
+</tbody>
+</table>
+<p>Typical archive flow:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>Search term or lookup value
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>    -&gt; Archive wrapper
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>    -&gt; External archive source
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>    -&gt; Document-like result set
+</span></code></pre></div>
+<h2 id="export-modules">Export Modules<a class="headerlink" href="#export-modules" title="Permanent link">&para;</a></h2>
 <p>Fonky includes small export modules that group related classes for cleaner imports.</p>
 <table>
 <thead>
@@ -2044,20 +2460,15 @@ archives.py
 </tr>
 </tbody>
 </table>
-<p>Example import pattern:</p>
-<p>```python id="export_import_pattern"
-from documents import TextLoader, PdfLoader
-from web import WebExtractor
-from cloud import AwsBucketLoader, GoogleBucketLoader
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>If the project is moved into a package folder:
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>```python id=&quot;package_export_import_pattern&quot;
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>from fonky.documents import TextLoader, PdfLoader
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>from fonky.web import WebExtractor
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>from fonky.cloud import AwsBucketLoader, GoogleBucketLoader
-</span></code></pre></div></p>
-<h2 id="y34-documentation-architecture">ðŸ§¾ Documentation Architecture<a class="headerlink" href="#y34-documentation-architecture" title="Permanent link">&para;</a></h2>
-<p>The documentation system has two types of pages:</p>
+<p>Example imports:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span><span class="p">,</span> <span class="n">PdfLoader</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">web</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebExtractor</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">AwsBucketLoader</span><span class="p">,</span> <span class="n">GoogleBucketLoader</span>
+</span></code></pre></div>
+<p>Export modules should remain thin. They should not duplicate implementation logic from the main
+modules.</p>
+<h2 id="documentation-architecture">Documentation Architecture<a class="headerlink" href="#documentation-architecture" title="Permanent link">&para;</a></h2>
+<p>The documentation system has two page types.</p>
 <table>
 <thead>
 <tr>
@@ -2070,7 +2481,7 @@ from cloud import AwsBucketLoader, GoogleBucketLoader
 <tr>
 <td>Manual pages</td>
 <td><code>docs/*.md</code></td>
-<td>Explain usage, setup, architecture, configuration, logging, development, and deployment.</td>
+<td>Explain setup, configuration, architecture, logging, usage, development, and deployment.</td>
 </tr>
 <tr>
 <td>API pages</td>
@@ -2079,203 +2490,150 @@ from cloud import AwsBucketLoader, GoogleBucketLoader
 </tr>
 </tbody>
 </table>
-<p>Manual pages include:</p>
-<p>```text id="manual_pages"
-docs/index.md
-docs/getting-started.md
-docs/configuration.md
-docs/architecture.md
-docs/logging.md
-docs/usage.md
-docs/user-guide.md
-docs/development.md
-docs/github-pages.md
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>API pages include:
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>```text id=&quot;api_pages_architecture&quot;
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>docs/api/archives.md
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>docs/api/astronomical.md
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>docs/api/boogr.md
-</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>docs/api/cloud.md
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>docs/api/config.md
-</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>docs/api/core.md
-</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>docs/api/demographic.md
-</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>docs/api/documents.md
-</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>docs/api/environmental.md
-</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>docs/api/fetchers.md
-</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>docs/api/geospatial.md
-</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>docs/api/health.md
-</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>docs/api/loaders.md
-</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>docs/api/models.md
-</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>docs/api/processors.md
-</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>docs/api/scrapers.md
-</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>docs/api/web.md
-</span></code></pre></div></p>
-<p>Each API page must contain a mkdocstrings directive.</p>
-<p>Flat layout example:</p>
-<p>```markdown id="api_directive_flat_architecture"</p>
-<h1 id="loaders-api">Loaders API<a class="headerlink" href="#loaders-api" title="Permanent link">&para;</a></h1>
-<p><code>loaders</code>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Package layout example:
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>```markdown id=&quot;api_directive_package_architecture&quot;
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a># Loaders API
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
-</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>`::: loaders`
-</span></code></pre></div></p>
-<h2 id="y-documentation-generation-flow">ðŸ” Documentation Generation Flow<a class="headerlink" href="#y-documentation-generation-flow" title="Permanent link">&para;</a></h2>
+<p>Manual pages should not contain live mkdocstrings directives.</p>
+<p>Correct manual-page behavior:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>docs/architecture.md describes the directive as an example inside a code block.
+</span></code></pre></div>
+<p>Incorrect manual-page behavior:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>docs/architecture.md contains a live line beginning with ::: loaders.
+</span></code></pre></div>
+<p>Only API pages should contain live directives.</p>
+<p>Correct API-page behavior:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>docs/api/loaders.md contains a live directive for loaders.
+</span></code></pre></div>
+<h2 id="api-documentation-flow">API Documentation Flow<a class="headerlink" href="#api-documentation-flow" title="Permanent link">&para;</a></h2>
 <p>The API documentation flow is:</p>
-<p>```text id="api_documentation_flow"
-Python source file
-    â†“
-Google-style docstrings
-    â†“
-docs/api/module.md with mkdocstrings directive
-    â†“
-mkdocs build
-    â†“
-Rendered API reference page
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>A valid source method docstring:
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>```python id=&quot;valid_source_docstring_architecture&quot;
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>def load(self, path: str, encoding: Optional[str] = None) -&gt; List[Document]:
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    &quot;&quot;&quot;Load a plain-text file.
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    Purpose:
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>        Loads a local plain-text file into LangChain Document objects.
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>    Args:
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>        path (str): Path to the text file.
-</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>        encoding (Optional[str]): Optional file encoding.
-</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>
-</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>    Returns:
-</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>        List[Document]: Loaded LangChain Document objects.
-</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>    &quot;&quot;&quot;
-</span></code></pre></div></p>
-<p>A valid API page:</p>
-<p>```markdown id="valid_api_page_architecture"</p>
-<h1 id="loaders-api_1">Loaders API<a class="headerlink" href="#loaders-api_1" title="Permanent link">&para;</a></h1>
-<p><code>loaders</code>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>A valid `mkdocs.yml` plugin configuration:
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>```yaml id=&quot;valid_mkdocstrings_architecture&quot;
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>plugins:
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>  - search
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>  - mkdocstrings:
-</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>      handlers:
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>        python:
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>          paths:
-</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>            - .
-</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>          options:
-</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>            docstring_style: google
-</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>            show_source: true
-</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>            show_root_heading: true
-</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>            show_root_full_path: false
-</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>            show_signature: true
-</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>            show_signature_annotations: true
-</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>            separate_signature: true
-</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>            merge_init_into_class: false
-</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>            members_order: source
-</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a>            filters:
-</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>              - &quot;!^_&quot;
-</span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a>            heading_level: 2
-</span></code></pre></div></p>
-<h2 id="yi-error-handling-architecture">ðŸ›¡ï¸ Error Handling Architecture<a class="headerlink" href="#yi-error-handling-architecture" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Python source file
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>    -&gt; Google-style docstrings
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>    -&gt; docs/api/module.md with mkdocstrings directive
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>    -&gt; mkdocs build
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>    -&gt; Rendered API reference page
+</span></code></pre></div>
+<p>A valid source method docstring uses Google-style sections:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Document</span><span class="p">]:</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a plain-text file.</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="sd">    Purpose:</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="sd">        Loads a local plain-text file into document objects.</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="sd">    Args:</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="sd">        path (str): Path to the text file.</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="sd">        encoding (Optional[str]): Optional file encoding.</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="sd">    Returns:</span>
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="sd">        List[Document]: Loaded document objects.</span>
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span></code></pre></div>
+<p>A valid API page contains a live directive:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a># Loaders API
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>::: loaders
+</span></code></pre></div>
+<p>That directive belongs in <code>docs/api/loaders.md</code>, not in top-level manual pages.</p>
+<h2 id="error-handling-architecture">Error Handling Architecture<a class="headerlink" href="#error-handling-architecture" title="Permanent link">&para;</a></h2>
 <p>Fonky uses explicit exception wrapping and logging instead of silent failure.</p>
 <p>Required pattern:</p>
-<p>```python id="error_architecture_pattern"
-except Exception as e:
-    exception = Error(e)
-    exception.module = "fetchers"
-    exception.cause = "ClassName"
-    exception.method = "method_name(self, arg: type) -&gt; return_type"
-    Logger().write(exception)
-    raise exception
-<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>This design provides:
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>| Benefit                   | Description                                                                   |
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>| ------------------------- | ----------------------------------------------------------------------------- |
-</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>| Consistent metadata       | Every handled failure records module, cause, method, message, and trace data. |
-</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>| Persistent audit trail    | Exceptions are written to SQLite for later inspection.                        |
-</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>| Debuggable failure path   | Exceptions are still raised after logging.                                    |
-</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>| Documentation consistency | Logging behavior is visible in source and API reference.                      |
-</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>
-</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
-</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>
-</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>## ðŸ§ª Validation Architecture
-</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>
-</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>Every source or documentation change should be validated in this order:
-</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>
-</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>```text id=&quot;validation_architecture_order&quot;
-</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>1. Compile Python source.
-</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>2. Validate imports.
-</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>3. Confirm API pages contain mkdocstrings directives.
-</span><span id="__span-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>4. Build MkDocs.
-</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>5. Fix Griffe, import, autorefs, and broken-link warnings.
-</span><span id="__span-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a>6. Serve locally.
-</span><span id="__span-19-23"><a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>7. Review rendered pages.
-</span><span id="__span-19-24"><a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>8. Deploy to GitHub Pages.
-</span></code></pre></div></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>    <span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>    <span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s2">&quot;fetchers&quot;</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>    <span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s2">&quot;ClassName&quot;</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>    <span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;method_name(self, arg: type) -&gt; return_type&quot;</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>    <span class="n">Logger</span><span class="p">()</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>    <span class="k">raise</span> <span class="n">exception</span>
+</span></code></pre></div>
+<p>This design provides:</p>
+<table>
+<thead>
+<tr>
+<th>Benefit</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistent metadata</td>
+<td>Each handled failure records module, cause, method, message, and traceback data.</td>
+</tr>
+<tr>
+<td>Persistent audit trail</td>
+<td>Exceptions are written to SQLite for later inspection.</td>
+</tr>
+<tr>
+<td>Debuggable failure path</td>
+<td>Exceptions are still raised after logging.</td>
+</tr>
+<tr>
+<td>Source visibility</td>
+<td>Logging behavior remains visible in each handler.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validation-architecture">Validation Architecture<a class="headerlink" href="#validation-architecture" title="Permanent link">&para;</a></h2>
+<p>Every source or documentation change should be validated in this order:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>1. Compile Python source.
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>2. Validate imports.
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>3. Confirm API pages contain mkdocstrings directives.
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>4. Confirm manual pages do not contain live directives.
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>5. Build MkDocs.
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>6. Fix Griffe, import, autorefs, and broken-link warnings.
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>7. Serve locally.
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>8. Review rendered pages.
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>9. Deploy to GitHub Pages.
+</span></code></pre></div>
 <p>Command set:</p>
-<p>```powershell id="architecture_validation_commands"
-python -m compileall .
-Select-String -Path .\docs\api*.md -Pattern "^:::"
-mkdocs build
-mkdocs serve
-<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>## ðŸ§­ Common Architecture Decisions
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>### Flat source layout
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>Current layout:
-</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
-</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>```text id=&quot;flat_source_decision&quot;
-</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>loaders.py
-</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>fetchers.py
-</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>processors.py
-</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>models.py
-</span></code></pre></div></p>
-<p>Use API directives like:</p>
-<p><code>``markdown id="flat_source_api"</code>::: loaders`
-<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>### Package source layout
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>Future package layout:
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>```text id=&quot;package_source_decision&quot;
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>fonky/
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    loaders.py
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>    fetchers.py
-</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>    processors.py
-</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>    models.py
-</span></code></pre></div></p>
-<p>Use API directives like:</p>
-<p><code>``markdown id="package_source_api"</code>::: loaders`
-<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>### Export modules
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>Export modules are used to provide convenient imports and group related functionality:
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>```python id=&quot;export_module_architecture_example&quot;
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>from documents import TextLoader
-</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>from web import WebExtractor
-</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>from cloud import AwsBucketLoader
-</span></code></pre></div></p>
-<p>They should remain thin and should not duplicate implementation logic from the core modules.</p>
-<h2 id="a-architectural-baseline">âœ… Architectural Baseline<a class="headerlink" href="#a-architectural-baseline" title="Permanent link">&para;</a></h2>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">compileall</span> <span class="p">.</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="nb">Select-String</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">docs</span><span class="p">\</span><span class="n">api</span><span class="p">\*.</span><span class="nb">md </span><span class="n">-Pattern</span> <span class="s2">&quot;^:::\s+[A-Za-z_]&quot;</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="nb">Select-String</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">docs</span><span class="p">\*.</span><span class="nb">md </span><span class="n">-Pattern</span> <span class="s2">&quot;^:::\s+[A-Za-z_]&quot;</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="n">mkdocs</span> <span class="n">build</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="n">mkdocs</span> <span class="n">serve</span>
+</span></code></pre></div>
+<p>Expected directive behavior:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>docs/api/*.md -&gt; contains live mkdocstrings directives
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>docs/*.md     -&gt; contains no live mkdocstrings directives
+</span></code></pre></div>
+<h2 id="common-architecture-decisions">Common Architecture Decisions<a class="headerlink" href="#common-architecture-decisions" title="Permanent link">&para;</a></h2>
+<h3 id="flat-source-layout">Flat source layout<a class="headerlink" href="#flat-source-layout" title="Permanent link">&para;</a></h3>
+<p>Current layout:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>loaders.py
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>fetchers.py
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>processors.py
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>models.py
+</span></code></pre></div>
+<p>Use API directives like this inside <code>docs/api/*.md</code>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>::: loaders
+</span></code></pre></div>
+<h3 id="package-source-layout">Package source layout<a class="headerlink" href="#package-source-layout" title="Permanent link">&para;</a></h3>
+<p>A future package layout might be:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>fonky/
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>|-- loaders.py
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>|-- fetchers.py
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>|-- processors.py
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>+-- models.py
+</span></code></pre></div>
+<p>Only after that change should directives use package paths:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>::: fonky.loaders
+</span></code></pre></div>
+<h3 id="export-modules_1">Export modules<a class="headerlink" href="#export-modules_1" title="Permanent link">&para;</a></h3>
+<p>Export modules provide convenient import groupings:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">documents</span><span class="w"> </span><span class="kn">import</span> <span class="n">TextLoader</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">web</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebExtractor</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">cloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">AwsBucketLoader</span>
+</span></code></pre></div>
+<p>They should not contain independent business logic.</p>
+<h2 id="architectural-baseline">Architectural Baseline<a class="headerlink" href="#architectural-baseline" title="Permanent link">&para;</a></h2>
 <p>A healthy Fonky architecture has the following properties:</p>
-<p><code>text id="architecture_baseline"
-- Source modules compile.
-- Configuration imports without external service calls.
-- Logging writes handled exceptions to SQLite.
-- Loaders return LangChain Document objects.
-- Fetchers return normalized structured payloads.
-- Scrapers return parsed web content structures.
-- Processors return cleaned, tokenized, chunked, or vector-ready text.
-- Models expose callables as provider-compatible tools.
-- Export modules provide clean import paths.
-- API docs render source docstrings through mkdocstrings.
-- Manual docs explain setup, configuration, architecture, logging, usage, development, and deployment.</code></p>
-<h2 id="azi-next-step">âž¡ï¸ Next Step<a class="headerlink" href="#azi-next-step" title="Permanent link">&para;</a></h2>
-<p>Continue to <a href="../logging/">Logging</a> for the detailed exception model, database logging behavior, and
-required handler pattern.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>- Source modules compile.
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>- Configuration imports without making external service calls.
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>- Logging writes handled exceptions to SQLite.
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>- Loaders return document objects.
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>- Fetchers return normalized structured payloads.
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>- Scrapers return parsed web content structures.
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>- Processors return cleaned, tokenized, chunked, or vector-ready text.
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>- Models expose callables as provider-compatible tools.
+</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>- Export modules provide clean import paths.
+</span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a>- API docs render source docstrings through mkdocstrings.
+</span><span id="__span-37-11"><a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a>- Manual docs explain setup, configuration, architecture, logging, usage, development, and deployment.
+</span></code></pre></div>
 
 
 
@@ -2293,8 +2651,6 @@ required handler pattern.</p>
             </div>
           
           
-  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
-
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -2308,6 +2664,46 @@ required handler pattern.</p>
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../configuration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuration">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Configuration
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../logging/" class="md-footer__link md-footer__link--next" aria-label="Next: Logging">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Logging
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
@@ -2316,22 +2712,6 @@ required handler pattern.</p>
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
-    </a>
-  
-</div>
-      
-        
-<div class="md-social">
-  
-    
-    
-    
-    
-      
-      
-    
-    <a href="https://github.com/is-leeroy-jenkins/Fonky" target="_blank" rel="noopener" title="github.com" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
 </div>
@@ -2349,10 +2729,12 @@ required handler pattern.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "navigation.top", "toc.follow", "toc.integrate", "search.highlight", "search.share", "content.code.copy", "content.code.select", "content.tabs.link"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "toc.follow", "search.highlight", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/extra.js"></script>
       
     
   </body>

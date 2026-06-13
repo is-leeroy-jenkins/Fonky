@@ -1,3 +1,4 @@
-﻿## ðŸŒ Web API
+﻿## Web API
 
 ::: web
+

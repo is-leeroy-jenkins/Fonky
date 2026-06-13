@@ -1,3 +1,4 @@
-﻿## ðŸ‘¥ Demographic API
+﻿## Demographic API
 
 ::: demographic
+

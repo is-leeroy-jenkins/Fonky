@@ -1,3 +1,4 @@
-﻿## ðŸ§± Core API
+﻿## Core API
 
 ::: core
+

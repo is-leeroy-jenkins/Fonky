@@ -1,3 +1,4 @@
-﻿## ðŸ§© Models API
+﻿## Models API
 
 ::: models
+

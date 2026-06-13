@@ -1,3 +1,4 @@
-﻿## ðŸ•¸ï¸ Scrapers API
+﻿## Scrapers API
 
 ::: scrapers
+

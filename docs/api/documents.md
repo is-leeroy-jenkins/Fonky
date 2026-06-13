@@ -1,3 +1,4 @@
-﻿## ðŸ“„ Documents API
+﻿## Documents API
 
 ::: documents
+

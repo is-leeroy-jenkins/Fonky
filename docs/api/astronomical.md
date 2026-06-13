@@ -1,3 +1,4 @@
-﻿## ðŸŒŒ Astronomical API
+﻿## Astronomical API
 
 ::: astronomical
+

@@ -1,85 +1,62 @@
-﻿# 🪵 Logging
+# Logging
 
 Fonky uses a project-specific exception wrapper and SQLite-backed logger to preserve useful failure
-details during loader, fetcher, scraper, processor, and model execution.
+details during loader, fetcher, scraper, processor, and tool execution.
 
 The logging system is implemented in:
 
-```text id="logging_source_files"
+```text
 boogr.py
 config.py
 ```
 
 The logging database is configured through:
 
-```text id="logging_config_values"
+```text
 LOG_DIR
 LOG_PATH
 LOG_FILE
 ```
 
+## Logging Purpose
 
-
-## 🎯 Logging Purpose
-
-Fonky interacts with local files, APIs, websites, cloud storage, document parsers, browser tooling,
-and AI tool wrappers. Those operations can fail for many reasons:
-
-```text id="logging_failure_sources"
-- Missing local files
-- Invalid paths
-- Missing API keys
-- Expired credentials
-- Network failures
-- Provider rate limits
-- Invalid response payloads
-- Document parsing failures
-- Browser rendering failures
-- Dependency import failures
-- Tool execution failures
-```
+Fonky works with local files, cloud storage, websites, APIs, public datasets, document parsers,
+browser tooling, and AI tool wrappers. These workflows can fail because of missing files, invalid
+paths, network errors, expired credentials, rate limits, malformed provider responses, missing
+dependencies, and parsing errors.
 
 The logging layer gives handled exceptions a consistent structure before they are raised again.
 
 The purpose is not to hide failures. The purpose is to make failures traceable.
 
-
-
-## 🧱 Logging Architecture
+## Logging Architecture
 
 The logging flow is:
 
-```text id="logging_flow"
+```text
 Handled exception
-    ↓
-boogr.Error
-    ↓
-module, cause, method, message, info, trace
-    ↓
-boogr.Logger
-    ↓
-SQLite database
-    ↓
-Exception re-raised to caller
+    -> boogr.Error
+    -> module, cause, method, message, info, trace
+    -> boogr.Logger
+    -> SQLite database
+    -> wrapped exception raised to caller
 ```
 
-The source modules keep the logging block visible inside each `except` block.
+The source modules keep the logging operation visible inside each `except` block.
 
 Required pattern:
 
-```python id="required_logging_pattern"
+```python
 except Exception as e:
-	exception = Error(e)
-	exception.module = "loaders"
-	exception.cause = "TextLoader"
-	exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
-	Logger().write(exception)
-	raise exception
+    exception = Error(e)
+    exception.module = "loaders"
+    exception.cause = "TextLoader"
+    exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
+    Logger().write(exception)
+    raise exception
 ```
 
-
-
-## 📦 Logging Components
+## Logging Components
 
 | Component  | Source      | Responsibility                                                     |
 | ---------- | ----------- | ------------------------------------------------------------------ |
@@ -89,95 +66,87 @@ except Exception as e:
 | `LOG_PATH` | `config.py` | Full SQLite database path.                                         |
 | `LOG_FILE` | `config.py` | SQLite table name.                                                 |
 
-
-
-## ⚙️ Configuration Values
+## Configuration Values
 
 The logging configuration should exist in `config.py`.
 
 Expected constants:
 
-```python id="logging_constants_expected"
+```python
 LOG_DIR
 LOG_PATH
 LOG_FILE
 ```
 
-Recommended defaults:
+Recommended local defaults:
 
-```text id="logging_default_values"
+```text
 LOG_DIR  = logging
 LOG_PATH = logging/Exceptions.db
 LOG_FILE = Exceptions
 ```
 
-On Windows, the resolved database path usually becomes:
+On Windows, the resolved database path commonly becomes:
 
-```text id="windows_logging_database"
+```text
 C:\Users\terry\source\repos\Fonky\logging\Exceptions.db
 ```
 
-
-
-## 🪟 PowerShell Logging Overrides
+## PowerShell Logging Overrides
 
 Set a custom logging directory:
 
-```powershell id="set_log_dir"
+```powershell
 $env:LOG_DIR = "C:\Users\terry\source\repos\Fonky\logging"
 ```
 
 Set a custom database path:
 
-```powershell id="set_log_path"
+```powershell
 $env:LOG_PATH = "C:\Users\terry\source\repos\Fonky\logging\Exceptions.db"
 ```
 
 Set a custom table name:
 
-```powershell id="set_log_file"
+```powershell
 $env:LOG_FILE = "Exceptions"
 ```
 
 These variables apply to the current PowerShell session.
 
-
-
-## 🧾 Error Metadata
+## Error Metadata
 
 `Error` stores metadata that makes an exception easier to diagnose.
 
-| Field     | Meaning                                                                |
-| --------- | ---------------------------------------------------------------------- |
-| `cause`   | Class, operation, or component where the exception occurred.           |
-| `module`  | Source module, such as `loaders`, `fetchers`, `scrapers`, or `models`. |
-| `method`  | Stable method signature string or operation name.                      |
-| `message` | Exception message.                                                     |
-| `info`    | Additional contextual information when available.                      |
-| `trace`   | Exception traceback.                                                   |
+| Field     | Meaning                                                                             |
+| --------- | ----------------------------------------------------------------------------------- |
+| `cause`   | Class, operation, or component where the exception occurred.                        |
+| `module`  | Source module such as `loaders`, `fetchers`, `scrapers`, `processors`, or `models`. |
+| `method`  | Stable method signature string or operation name.                                   |
+| `message` | Exception message.                                                                  |
+| `info`    | Additional contextual information when available.                                   |
+| `trace`   | Exception traceback.                                                                |
 
 The most important fields to set manually are:
 
-```python id="manual_error_fields"
+```python
 exception.module = "module_name"
 exception.cause = "ClassName"
 exception.method = "method_signature"
 ```
 
-
-
-## 🧱 Required Exception Pattern
+## Required Exception Pattern
 
 Every handled exception block in regenerated Fonky source should use this explicit pattern:
 
-```python id="standard_exception_pattern"
+```python
 except Exception as e:
-	exception = Error(e)
-	exception.module = "module_name"
-	exception.cause = "ClassName"
-	exception.method = "method_name(self, arg: type) -> return_type"
-	Logger().write(exception)
-	raise exception
+    exception = Error(e)
+    exception.module = "module_name"
+    exception.cause = "ClassName"
+    exception.method = "method_name(self, arg: type) -> return_type"
+    Logger().write(exception)
+    raise exception
 ```
 
 This pattern has four required behaviors:
@@ -189,41 +158,35 @@ This pattern has four required behaviors:
 | Persist  | Call `Logger().write(exception)`.               |
 | Raise    | Re-raise the wrapped exception.                 |
 
-
-
-## 🚫 Logging Pattern to Avoid
+## Pattern to Avoid
 
 Do not hide the logging operation behind a helper function.
 
-Avoid:
+Avoid this:
 
-```python id="bad_helper_pattern"
+```python
 except Exception as e:
-	_log_and_raise(e, "TextLoader", "load(...)")
+    _log_and_raise(e, "TextLoader", "load(...)")
 ```
 
-Avoid:
+Avoid this:
 
-```python id="bad_logger_helper_pattern"
+```python
 except Exception as e:
-	raise log_exception(e)
+    raise log_exception(e)
 ```
 
-For Fonky, the required logging operation should remain visible in the handler:
+The logging operation should remain visible in the handler:
 
-```python id="visible_logger_pattern"
+```python
 Logger().write(exception)
 ```
 
-This makes the logging behavior obvious in the source and visible in the API reference.
+This makes the behavior obvious in the source and visible in the API reference.
 
+## Module Naming Standard
 
-
-## 📌 Module Naming Standard
-
-Use stable, lower-case module names.
-
-Examples:
+Use stable, lowercase module names.
 
 | Source file     | `exception.module` |
 | --------------- | ------------------ |
@@ -235,13 +198,9 @@ Examples:
 | `config.py`     | `"config"`         |
 | `boogr.py`      | `"boogr"`          |
 
-
-
-## 📌 Cause Naming Standard
+## Cause Naming Standard
 
 Use the class name or operation name where the exception occurred.
-
-Examples:
 
 | Context                  | `exception.cause`           |
 | ------------------------ | --------------------------- |
@@ -252,138 +211,126 @@ Examples:
 | Tool execution           | `"ToolDef"`                 |
 | Configuration validation | `"ConfigurationValidation"` |
 
-
-
-## 📌 Method String Standard
+## Method String Standard
 
 Use a stable method signature string. Do not include live argument values, file contents, user data,
 API keys, tokens, OCR text, or full payloads.
 
 Good:
 
-```python id="good_method_string"
+```python
 exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
 ```
 
 Good:
 
-```python id="good_fetch_method_string"
+```python
 exception.method = "fetch(self, query: str, limit: int=10) -> dict"
 ```
 
 Bad:
 
-```python id="bad_method_string_with_value"
+```python
 exception.method = "load(self, path='C:\\Users\\terry\\private\\file.txt')"
 ```
 
 Bad:
 
-```python id="bad_method_string_with_secret"
+```python
 exception.method = "fetch(self, api_key='actual-secret-key')"
 ```
 
 Bad:
 
-```python id="bad_method_string_with_payload"
+```python
 exception.method = "parse(self, text='full document text goes here')"
 ```
 
-
-
-## 🧪 Validate Logger Write
+## Validate Logger Write
 
 Run this from the repository root:
 
-```powershell id="validate_logger_write"
+```powershell
 python -c "from boogr import Error, Logger; import config as cfg; error = Error(Exception('logging validation')); error.module = 'logging'; error.cause = 'ManualValidation'; error.method = 'manual logger validation'; Logger().write(error); print(cfg.LOG_PATH)"
 ```
 
 Confirm the database exists:
 
-```powershell id="confirm_logger_database"
+```powershell
 Test-Path .\logging\Exceptions.db
 ```
 
 Expected output:
 
-```text id="expected_logger_database_output"
+```text
 True
 ```
 
-
-
-## 🧪 Validate Database with Python
+## Validate Database Records
 
 Use this command to confirm the exception table exists and contains records:
 
-```powershell id="validate_sqlite_records"
+```powershell
 python -c "import sqlite3, config as cfg; conn = sqlite3.connect(cfg.LOG_PATH); cur = conn.cursor(); cur.execute('SELECT COUNT(*) FROM ' + cfg.LOG_FILE); print(cur.fetchone()); conn.close()"
 ```
 
 Expected output shape:
 
-```text id="expected_sqlite_count_shape"
+```text
 (number_of_records,)
 ```
 
 If the table does not exist, run the logger validation command first.
 
-
-
-## 🧪 Intentional Loader Failure Test
+## Intentional Failure Test
 
 Create the logging directory:
 
-```powershell id="create_logging_directory"
+```powershell
 New-Item -ItemType Directory -Force .\logging | Out-Null
 ```
 
-Trigger a handled loader failure:
+Trigger a controlled loader failure:
 
-```powershell id="trigger_loader_failure"
+```powershell
 python -c "from loaders import TextLoader; TextLoader().load(path='data/missing-file.txt', encoding='utf-8')"
 ```
 
 Expected behavior:
 
-```text id="expected_loader_failure"
+```text
 - The command raises an exception.
-- The exception is wrapped by boogr.Error.
-- Logger writes a row to logging/Exceptions.db when the loader handler uses the required pattern.
+- The exception is wrapped by boogr.Error when the loader handler uses the required pattern.
+- Logger writes a row to logging/Exceptions.db before the wrapped exception is raised.
 ```
 
 Then inspect the record count:
 
-```powershell id="inspect_record_count_after_failure"
+```powershell
 python -c "import sqlite3, config as cfg; conn = sqlite3.connect(cfg.LOG_PATH); cur = conn.cursor(); cur.execute('SELECT COUNT(*) FROM ' + cfg.LOG_FILE); print(cur.fetchone()); conn.close()"
 ```
 
-
-
-## 🧾 Inspect Recent Log Records
+## Inspect Recent Log Records
 
 Use this PowerShell command to print recent exception records:
 
-```powershell id="inspect_recent_records"
+```powershell
 python -c "import sqlite3, config as cfg; conn = sqlite3.connect(cfg.LOG_PATH); cur = conn.cursor(); cur.execute('SELECT cause, module, method, message FROM ' + cfg.LOG_FILE + ' ORDER BY rowid DESC LIMIT 5'); rows = cur.fetchall(); conn.close(); [print(row) for row in rows]"
 ```
 
 Expected output shape:
 
-```text id="recent_records_shape"
+```text
 ('TextLoader', 'loaders', 'load(self, path: str, encoding: Optional[str]=None) -> List[Document]', '...')
 ```
 
-
-
-## 🔐 Sensitive Data Rule
+## Sensitive Data Rule
 
 Do not log sensitive values in `exception.method`, `exception.cause`, or `exception.module`.
 
 Do not include:
 
-```text id="do_not_log_values"
+```text
 - API keys
 - Access tokens
 - Passwords
@@ -399,101 +346,99 @@ Use stable signatures instead.
 
 Good:
 
-```python id="safe_method_signature"
+```python
 exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
 ```
 
 Bad:
 
-```python id="unsafe_method_signature"
+```python
 exception.method = f"load(self, path={path}, encoding={encoding})"
 ```
 
-
-
-## 🧩 Logging in Loader Classes
+## Logging in Loader Classes
 
 Loader methods should log handled failures before re-raising.
 
 Example:
 
-```python id="loader_logging_example"
+```python
+from typing import Optional, List
 from boogr import Error, Logger
 
 
 class TextLoader:
-	def load(self, path: str, encoding: Optional[str] = None) -> List[Document]:
-		"""Load a plain-text file.
+    def load(self, path: str, encoding: Optional[str] = None) -> List[object]:
+        """Load a plain-text file.
 
-		Purpose:
-			Loads a local plain-text file into LangChain Document objects.
+        Purpose:
+            Loads a local plain-text file into document objects.
 
-		Args:
-			path (str): Path to the text file.
-			encoding (Optional[str]): Optional file encoding.
+        Args:
+            path (str): Path to the text file.
+            encoding (Optional[str]): Optional file encoding.
 
-		Returns:
-			List[Document]: Loaded document objects.
-		"""
-		try:
-			# Loader implementation.
-			pass
-		except Exception as e:
-			exception = Error(e)
-			exception.module = "loaders"
-			exception.cause = "TextLoader"
-			exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
-			Logger().write(exception)
-			raise exception
+        Returns:
+            List[object]: Loaded document objects.
+        """
+        try:
+            # Loader implementation.
+            return []
+        except Exception as e:
+            exception = Error(e)
+            exception.module = "loaders"
+            exception.cause = "TextLoader"
+            exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
+            Logger().write(exception)
+            raise exception
 ```
 
-
-
-## 🔌 Logging in Fetcher Classes
+## Logging in Fetcher Classes
 
 Fetcher methods should log request or provider failures without storing sensitive request payloads.
 
 Example:
 
-```python id="fetcher_logging_example"
+```python
 from boogr import Error, Logger
 
 
 class ExampleFetcher:
-	def fetch(self, query: str, limit: int = 10) -> dict:
-		"""Fetch example data.
+    def fetch(self, query: str, limit: int = 10) -> dict:
+        """Fetch example data.
 
-		Purpose:
-			Demonstrates the required logging pattern for fetcher methods.
+        Purpose:
+            Demonstrates the required logging pattern for fetcher methods.
 
-		Args:
-			query (str): Search query or lookup value.
-			limit (int): Maximum number of records.
+        Args:
+            query (str): Search query or lookup value.
+            limit (int): Maximum number of records.
 
-		Returns:
-			dict: Normalized provider response.
-		"""
-		try:
-			# Fetcher implementation.
-			return { "query": query, "limit": limit, "items": [] }
-		except Exception as e:
-			exception = Error(e)
-			exception.module = "fetchers"
-			exception.cause = "ExampleFetcher"
-			exception.method = "fetch(self, query: str, limit: int=10) -> dict"
-			Logger().write(exception)
-			raise exception
+        Returns:
+            dict: Normalized provider response.
+        """
+        try:
+            return {
+                "query": query,
+                "limit": limit,
+                "items": []
+            }
+        except Exception as e:
+            exception = Error(e)
+            exception.module = "fetchers"
+            exception.cause = "ExampleFetcher"
+            exception.method = "fetch(self, query: str, limit: int=10) -> dict"
+            Logger().write(exception)
+            raise exception
 ```
 
-
-
-## 🧰 Logging in Tool Execution
+## Logging in Tool Execution
 
 `ToolDef.call()` should return structured failures for tool execution errors.
 
 A tool result failure should preserve this shape:
 
-```text id="tool_failure_shape"
+```text
 {
     "ok": false,
     "name": "tool_name",
@@ -511,15 +456,13 @@ A tool result failure should preserve this shape:
 }
 ```
 
-This allows an AI tool loop to continue handling errors without losing the failure details.
+This allows an AI tool loop to handle errors without losing failure details.
 
-
-
-## 🔁 Logging Validation Workflow
+## Validation Workflow
 
 Use this workflow after regenerating source files:
 
-```text id="logging_validation_workflow"
+```text
 1. Confirm source imports include Error and Logger where handled exceptions are logged.
 2. Confirm each handled exception creates exception = Error(e).
 3. Confirm exception.module is set.
@@ -532,51 +475,44 @@ Use this workflow after regenerating source files:
 10. Confirm logging/Exceptions.db exists and contains a record.
 ```
 
+## Search for Missing Logger Writes
 
+Find handlers that wrap errors:
 
-## 🔎 Search for Missing Logger Writes
-
-Use this command to find handlers that wrap errors:
-
-```powershell id="find_error_wrappers"
+```powershell
 Select-String -Path .\*.py -Pattern "exception = Error\(e\)"
 ```
 
-Use this command to find logger writes:
+Find logger writes:
 
-```powershell id="find_logger_writes"
+```powershell
 Select-String -Path .\*.py -Pattern "Logger\(\)\.write\(exception\)"
 ```
 
 The number of logger writes should match the number of handled wrappers that raise the wrapped
 exception, unless a method intentionally returns a structured error envelope instead of raising.
 
+## Search for Helper Abstractions
 
+Find helper-style logging abstractions that should not replace the explicit pattern:
 
-## 🔎 Search for Helper Abstractions
-
-Use this command to find helper-style logging abstractions that should not replace the explicit
-pattern:
-
-```powershell id="find_logging_helpers"
+```powershell
 Select-String -Path .\*.py -Pattern "_log_and_raise|log_exception|raise_logged"
 ```
 
 Expected result:
 
-```text id="expected_no_logging_helpers"
+```text
 No output.
 ```
 
-
-
-## 🧯 Common Logging Problems
+## Common Logging Problems
 
 ### Database file is not created
 
 Likely causes:
 
-```text id="database_not_created_causes"
+```text
 - No handled exception has triggered Logger().write(exception).
 - LOG_PATH points to a non-writable location.
 - LOG_DIR was not created.
@@ -585,19 +521,17 @@ Likely causes:
 
 Fix:
 
-```powershell id="database_not_created_fix"
+```powershell
 New-Item -ItemType Directory -Force .\logging | Out-Null
 python -c "from boogr import Error, Logger; e = Error(Exception('test')); e.module = 'logging'; e.cause = 'ManualValidation'; e.method = 'manual'; Logger().write(e)"
 Test-Path .\logging\Exceptions.db
 ```
 
-
-
 ### Exception is raised but no row appears
 
 Likely causes:
 
-```text id="exception_no_row_causes"
+```text
 - The exception occurred before the handled try-except block.
 - The handler raises without Logger().write(exception).
 - A different database path is configured through LOG_PATH.
@@ -606,52 +540,46 @@ Likely causes:
 
 Check the active values:
 
-```powershell id="check_active_logging_values"
+```powershell
 python -c "import config as cfg; print(cfg.LOG_PATH); print(cfg.LOG_FILE)"
 ```
-
-
 
 ### Method field contains live data
 
 Bad:
 
-```python id="bad_live_data_method"
+```python
 exception.method = f"load(self, path={path})"
 ```
 
 Fix:
 
-```python id="fixed_stable_method"
+```python
 exception.method = "load(self, path: str) -> List[Document]"
 ```
-
-
 
 ### Logger helper hides required behavior
 
 Bad:
 
-```python id="bad_hidden_logger"
+```python
 except Exception as e:
-	_raise_logged(e)
+    _raise_logged(e)
 ```
 
 Fix:
 
-```python id="fixed_explicit_logger"
+```python
 except Exception as e:
-	exception = Error(e)
-	exception.module = "loaders"
-	exception.cause = "TextLoader"
-	exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
-	Logger().write(exception)
-	raise exception
+    exception = Error(e)
+    exception.module = "loaders"
+    exception.cause = "TextLoader"
+    exception.method = "load(self, path: str, encoding: Optional[str]=None) -> List[Document]"
+    Logger().write(exception)
+    raise exception
 ```
 
-
-
-## ✅ Logging Checklist
+## Logging Checklist
 
 | Check                    | Command or inspection                                                        |               |                |
 | ------------------------ | ---------------------------------------------------------------------------- | ------------- | -------------- |
@@ -666,8 +594,3 @@ except Exception as e:
 | Docs build               | `mkdocs build`                                                               |               |                |
 
 
-
-## ➡️ Next Step
-
-Continue to [Usage](usage.md) for practical examples showing how Fonky loaders, processors, and AI
-tooling work together.

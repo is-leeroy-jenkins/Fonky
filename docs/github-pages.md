@@ -1,156 +1,128 @@
-﻿# ðŸš€ GitHub Pages
+# GitHub Pages
 
-This page explains how to publish the Fonky MkDocs site to GitHub Pages after the documentation
-builds cleanly on the local machine.
+This page explains how to publish the Fonky MkDocs site to GitHub Pages after the local
+documentation build is clean.
 
-Do not deploy until `mkdocs build` succeeds without unresolved page, import, mkdocstrings, Griffe,
-or broken-link warnings that affect the rendered site.
+The expected deployment path is:
 
-
-
-## ðŸŽ¯ Deployment Goal
-
-The goal is to publish the MkDocs-generated documentation site so users can access Fonky
-documentation from the repositoryâ€™s GitHub Pages URL.
-
-Expected documentation URL:
-
-```text id="github_pages_url"
-https://is-leeroy-jenkins.github.io/Fonky/
+```text
+Local source files
+    -> MkDocs build
+    -> Git commit
+    -> mkdocs gh-deploy
+    -> GitHub Pages
 ```
 
-The exact URL depends on the GitHub username or organization and repository name.
+## Purpose
 
+GitHub Pages allows the generated Fonky documentation site to be hosted directly from the GitHub
+repository.
 
+Use this workflow only after the local documentation site builds successfully.
 
-## âœ… Prerequisites
+Required local validation:
 
-Before deploying, confirm:
-
-| Requirement                                           | Why it matters                                       |
-| ----------------------------------------------------- | ---------------------------------------------------- |
-| Git repository exists on GitHub                       | GitHub Pages deploys from the remote repository.     |
-| Local repository is clean enough to deploy            | Avoid deploying stale or broken documentation.       |
-| `mkdocs.yml` exists at repo root                      | MkDocs needs the site configuration.                 |
-| `docs/` exists                                        | MkDocs needs Markdown source pages.                  |
-| `docs/api/*.md` pages contain mkdocstrings directives | API docstrings render only through `:::` directives. |
-| MkDocs dependencies are installed                     | `mkdocs gh-deploy` must be available.                |
-| Local `mkdocs build` passes                           | Deploy only a known-good build.                      |
-
-
-
-## ðŸ“¦ Install Documentation Dependencies
-
-Install the documentation toolchain in the active virtual environment:
-
-```powershell id="install_docs_dependencies"
-python -m pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python pymdown-extensions
-```
-
-Recommended `requirements.txt` section:
-
-```text id="requirements_docs_section"
-# Documentation
-mkdocs
-mkdocs-material
-mkdocstrings
-mkdocstrings-python
-pymdown-extensions
-```
-
-Install from `requirements.txt` when the dependencies are recorded there:
-
-```powershell id="install_requirements"
-python -m pip install -r requirements.txt
-```
-
-
-
-## ðŸ§ª Validate Source Before Building Docs
-
-Run a Python compile check from the repository root:
-
-```powershell id="compile_source"
+```powershell
 python -m compileall .
+mkdocs build
 ```
 
-For targeted checks:
+Do not deploy until source compilation and documentation generation are clean.
 
-```powershell id="targeted_compile"
-python -m py_compile .\boogr.py
-python -m py_compile .\config.py
-python -m py_compile .\core.py
-python -m py_compile .\archives.py
-python -m py_compile .\fetchers.py
-python -m py_compile .\loaders.py
-python -m py_compile .\models.py
-python -m py_compile .\processors.py
-python -m py_compile .\scrapers.py
+## Prerequisites
+
+Confirm the following are available:
+
+| Requirement                | Purpose                                                    |
+| -------------------------- | ---------------------------------------------------------- |
+| GitHub repository          | Hosts the Fonky source and documentation.                  |
+| Git                        | Pushes source commits and deployment branch changes.       |
+| Python virtual environment | Runs the MkDocs toolchain.                                 |
+| MkDocs                     | Builds the static documentation site.                      |
+| Material for MkDocs        | Provides the documentation theme.                          |
+| mkdocstrings               | Renders Python API documentation from source docstrings.   |
+| Clean local build          | Confirms documentation can be generated before deployment. |
+
+## Repository Settings
+
+The repository should contain:
+
+```text
+Fonky/
+|-- mkdocs.yml
+|-- README.md
+|-- requirements.txt
+|-- docs/
+|   |-- index.md
+|   |-- getting-started.md
+|   |-- configuration.md
+|   |-- architecture.md
+|   |-- logging.md
+|   |-- usage.md
+|   |-- user-guide.md
+|   |-- development.md
+|   |-- github-pages.md
+|   |-- api/
+|   |-- stylesheets/
+|   +-- javascripts/
+|-- loaders.py
+|-- fetchers.py
+|-- processors.py
+|-- models.py
++-- ...
 ```
 
-A clean compile confirms syntax validity. It does not confirm every optional API provider or
-credential is configured.
+The `site/` directory is generated output. It does not need to be committed when deploying with
+`mkdocs gh-deploy`.
 
+## MkDocs Site Configuration
 
+The top of `mkdocs.yml` should identify the project and repository.
 
-## ðŸ”Œ Confirm API Pages Render Source Docstrings
+Example:
 
-The API pages must contain mkdocstrings directives.
+```yaml
+site_name: Fonky Documentation
+site_description: Documentation for the Fonky Python framework.
+site_author: Terry D. Eppler
+site_url: https://YOUR-GITHUB-USERNAME.github.io/Fonky/
 
-Check all API pages:
-
-```powershell id="check_api_directives"
-Select-String -Path .\docs\api\*.md -Pattern "^:::"
+repo_url: https://github.com/YOUR-GITHUB-USERNAME/Fonky
+repo_name: YOUR-GITHUB-USERNAME/Fonky
 ```
 
-Expected output should include entries similar to:
+Replace `YOUR-GITHUB-USERNAME` with the actual GitHub account or organization name.
 
-```text id="api_directive_expected_output"
-docs\api\loaders.md:3:::: loaders
-docs\api\fetchers.md:3:::: fetchers
-docs\api\processors.md:3:::: processors
-docs\api\models.md:3:::: models
+The `site_url` value should match the GitHub Pages URL.
+
+## Required Theme Assets
+
+If the project uses custom styling and JavaScript, `mkdocs.yml` should include:
+
+```yaml
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
 ```
 
-If no directives are found, the API pages will not render Python docstrings.
+Expected files:
 
-For flat source layout, API pages should use:
-
-```markdown id="flat_api_directive"
-`::: loaders`
+```text
+docs/stylesheets/extra.css
+docs/javascripts/extra.js
 ```
 
-For package layout, API pages should use:
+If either file is referenced in `mkdocs.yml`, the file must exist.
 
-```markdown id="package_api_directive"
-`::: loaders`
-```
+## Required Plugin Configuration
 
+The documentation build must include mkdocstrings.
 
+For the current flat source layout, the handler path should include the repository root:
 
-## âš™ï¸ Confirm `mkdocs.yml`
-
-The repository root should contain:
-
-```text id="mkdocs_file"
-mkdocs.yml
-```
-
-Confirm it exists:
-
-```powershell id="confirm_mkdocs_yml"
-Test-Path .\mkdocs.yml
-```
-
-The file should include:
-
-```yaml id="site_url_example"
-site_url: https://is-leeroy-jenkins.github.io/Fonky/
-```
-
-It should also include the mkdocstrings plugin:
-
-```yaml id="mkdocstrings_plugin_required"
+```yaml
 plugins:
   - search
   - mkdocstrings:
@@ -173,399 +145,395 @@ plugins:
             heading_level: 2
 ```
 
-Do not include:
+This allows API pages such as `docs/api/loaders.md` to render:
 
-```yaml id="invalid_custom_dir"
-custom_dir: null
+```text
+::: loaders
 ```
 
-Use `custom_dir` only when there is an actual theme override directory.
+Because the current source layout is flat, do not use:
 
+```text
+::: fonky.loaders
+```
 
+unless the project is moved into a real package directory named `fonky`.
 
-## ðŸ—ï¸ Build the Site Locally
+## Navigation Configuration
 
-Build the documentation site:
+The `nav` section should include all manual and API pages you expect users to see.
 
-```powershell id="mkdocs_build"
+Example:
+
+```yaml
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Configuration: configuration.md
+  - Architecture: architecture.md
+  - Logging: logging.md
+  - Usage: usage.md
+  - User Guide: user-guide.md
+  - Development: development.md
+  - GitHub Pages: github-pages.md
+  - API Reference:
+      - Overview: api/index.md
+      - Archives: api/archives.md
+      - Astronomical: api/astronomical.md
+      - Boogr: api/boogr.md
+      - Cloud: api/cloud.md
+      - Configuration: api/config.md
+      - Core: api/core.md
+      - Demographic: api/demographic.md
+      - Documents: api/documents.md
+      - Environmental: api/environmental.md
+      - Fetchers: api/fetchers.md
+      - Geospatial: api/geospatial.md
+      - Health: api/health.md
+      - Loaders: api/loaders.md
+      - Models: api/models.md
+      - Processors: api/processors.md
+      - Scrapers: api/scrapers.md
+      - Web: api/web.md
+```
+
+If MkDocs warns that pages exist but are not included in `nav`, either add them to `nav` or remove
+the unused files.
+
+## Local Validation Before Deployment
+
+Run these commands from the repository root.
+
+Compile Python source:
+
+```powershell
+python -m compileall .
+```
+
+Confirm API pages contain live mkdocstrings directives:
+
+```powershell
+Select-String -Path .\docs\api\*.md -Pattern "^:::\s+[A-Za-z_]"
+```
+
+Confirm manual pages do not contain live mkdocstrings directives:
+
+```powershell
+Select-String -Path .\docs\*.md -Pattern "^:::\s+[A-Za-z_]"
+```
+
+Expected result for manual pages:
+
+```text
+No output.
+```
+
+Build the site:
+
+```powershell
 mkdocs build
 ```
 
-A successful build creates:
+Serve locally:
 
-```text id="site_directory"
-site/
-```
-
-The `site/` folder is generated output. It should not usually be committed when using
-`mkdocs gh-deploy`.
-
-
-
-## ðŸ‘€ Serve and Review Locally
-
-Start a local documentation server:
-
-```powershell id="mkdocs_serve"
+```powershell
 mkdocs serve
 ```
 
-Open:
+Open the local site:
 
-```text id="local_site_url"
+```text
 http://127.0.0.1:8000/
 ```
 
-Review at least:
+Review the rendered site before deployment.
 
-| Page            | What to confirm                                                             |
-| --------------- | --------------------------------------------------------------------------- |
-| Home            | Landing page renders and links work.                                        |
-| Getting Started | Setup steps are clear and command blocks render correctly.                  |
-| Configuration   | Environment variables and logging paths are clear.                          |
-| Architecture    | Module flow and responsibilities are understandable.                        |
-| Logging         | Exception pattern and SQLite logging details are correct.                   |
-| User Guide      | Examples render without autorefs warnings.                                  |
-| API Reference   | mkdocstrings renders modules, classes, methods, signatures, and docstrings. |
-| GitHub Pages    | Deployment instructions match the repository.                               |
+## Clean Generated Output
 
-Stop the server with:
+MkDocs generates the local static site in:
 
-```text id="stop_server"
-Ctrl+C
+```text
+site/
 ```
 
+It is safe to remove and rebuild:
 
-
-## ðŸ§¯ Resolve Common Build Problems Before Deployment
-
-### `custom_dir` `NoneType` error
-
-Problem:
-
-```text id="custom_dir_error"
-TypeError: expected str, bytes or os.PathLike object, not NoneType
+```powershell
+Remove-Item -Recurse -Force .\site -ErrorAction SilentlyContinue
+mkdocs build
 ```
 
-Cause:
+The `site/` directory should normally stay out of normal source commits when using
+`mkdocs gh-deploy`.
 
-```yaml id="bad_custom_dir_config"
-custom_dir: null
-```
+## Commit Source Changes
 
-Fix: remove the line.
+Before deployment, review changes:
 
-Correct:
-
-```yaml id="correct_theme_config"
-theme:
-  name: material
-  language: en
-```
-
-
-
-### API pages are blank
-
-Cause: API page lacks mkdocstrings directive.
-
-Bad:
-
-```markdown id="blank_api_page_bad"
-# Loaders API
-
-This page describes loaders.
-```
-
-Good:
-
-```markdown id="api_page_good"
-# Loaders API
-
-`::: loaders`
-```
-
-or, for package layout:
-
-```markdown id="api_page_package_good"
-# Loaders API
-
-`::: loaders`
-```
-
-
-
-### mkdocstrings cannot import a module
-
-Possible causes:
-
-```text id="import_causes"
-- The directive path does not match the source layout.
-- The build is not being run from the repository root.
-- A dependency required at import time is missing.
-- A source file has syntax errors.
-```
-
-Check imports:
-
-```powershell id="check_imports"
-python -c "import loaders; import fetchers; import processors; import models; print('imports passed')"
-```
-
-For package layout:
-
-```powershell id="check_package_imports"
-python -c "import fonky.loaders; import fonky.fetchers; import fonky.processors; import fonky.models; print('package imports passed')"
-```
-
-
-
-### Griffe warning: no type for returned value
-
-Bad:
-
-```text id="bad_return_docstring"
-Returns:
-	Supported option values.
-```
-
-Good:
-
-```text id="good_return_docstring"
-Returns:
-	list[str]: Supported option values.
-```
-
-For functions that do not return a value, omit `Returns:`.
-
-
-
-### Griffe warning: failed to get `name: description` pair
-
-Bad:
-
-```text id="bad_args_docstring"
-Args:
-	Request parameters.
-```
-
-Good:
-
-```text id="good_args_docstring"
-Args:
-	params (dict[str, object]): Request parameters for the active call.
-```
-
-If there is no specific argument or attribute to document, omit the section.
-
-
-
-### Autorefs warning for `0` or `:1000`
-
-Cause: Markdown interprets Python bracket syntax as reference links in some contexts.
-
-Avoid:
-
-```python id="autorefs_bad"
-print(documents[0].page_content[:1000])
-```
-
-Use:
-
-```python id="autorefs_good"
-for document in documents:
-	print(document.page_content)
-	break
-```
-
-
-
-## ðŸš¢ Deploy to GitHub Pages
-
-After local build and review pass, deploy:
-
-```powershell id="gh_deploy"
-mkdocs gh-deploy --force
-```
-
-This command builds the site and pushes the generated site content to the `gh-pages` branch.
-
-Expected behavior:
-
-```text id="gh_deploy_behavior"
-- MkDocs builds the documentation.
-- The generated site is committed to the gh-pages branch.
-- The gh-pages branch is pushed to GitHub.
-```
-
-
-
-## âš™ï¸ Configure GitHub Repository Settings
-
-In GitHub:
-
-1. Open the repository.
-2. Go to **Settings**.
-3. Select **Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select the branch:
-
-```text id="pages_branch"
-gh-pages
-```
-
-6. Select the folder:
-
-```text id="pages_folder"
-/
-```
-
-7. Save the settings.
-
-GitHub may take a few minutes to publish or refresh the site.
-
-
-
-## ðŸ”Ž Confirm the Published Site
-
-After deployment, open:
-
-```text id="published_site"
-https://is-leeroy-jenkins.github.io/Fonky/
-```
-
-Confirm:
-
-| Check                  | Expected result                                                             |
-| ---------------------- | --------------------------------------------------------------------------- |
-| Home page loads        | The documentation landing page appears.                                     |
-| Navigation works       | Top-level and API pages are accessible.                                     |
-| API pages render       | Source docstrings appear under classes and methods.                         |
-| Theme renders          | Material for MkDocs layout, navigation, search, and code copy buttons work. |
-| Links work             | No major broken internal links.                                             |
-| GitHub repo link works | The repository link points to the correct GitHub repository.                |
-
-
-
-## ðŸ§­ Confirm GitHub Pages Branch
-
-Check branches:
-
-```powershell id="git_branch_all"
-git branch -a
-```
-
-You should see a remote branch similar to:
-
-```text id="gh_pages_branch"
-remotes/origin/gh-pages
-```
-
-Check status:
-
-```powershell id="git_status_after_deploy"
+```powershell
 git status
 ```
 
-The working tree for your main branch should remain under your control. The generated site is
-managed on `gh-pages`.
+Stage documentation and source updates:
 
-
-
-## ðŸ§¾ Commit Source Documentation Changes
-
-`mkdocs gh-deploy` publishes the generated site, but you still need to commit source documentation
-changes to the normal branch.
-
-Check status:
-
-```powershell id="git_status"
-git status
+```powershell
+git add .
 ```
 
-Stage source documentation and configuration:
+Commit the changes:
 
-```powershell id="git_add_docs"
-git add mkdocs.yml docs requirements.txt README.md
+```powershell
+git commit -m "Update Fonky documentation"
 ```
 
-If source docstrings were changed:
+Push the source branch:
 
-```powershell id="git_add_source"
-git add *.py
-```
-
-Commit:
-
-```powershell id="git_commit_docs"
-git commit -m "Build Fonky MkDocs documentation"
-```
-
-Push the normal branch:
-
-```powershell id="git_push_main"
+```powershell
 git push
 ```
 
+This preserves the source documentation files in the repository before publishing the generated
+site.
 
+## Deploy with MkDocs
 
-## ðŸ” Standard Update Workflow
+Deploy to GitHub Pages using:
 
-Use this workflow whenever documentation changes:
-
-```text id="standard_update_workflow"
-1. Edit source docstrings or Markdown pages.
-2. Run python -m compileall .
-3. Run mkdocs build.
-4. Fix Python, Griffe, mkdocstrings, autorefs, or link warnings.
-5. Run mkdocs serve.
-6. Review locally.
-7. Commit source documentation changes.
-8. Run mkdocs gh-deploy --force.
-9. Confirm the published GitHub Pages site.
+```powershell
+mkdocs gh-deploy --force
 ```
 
+This command builds the documentation and pushes the generated static site to the `gh-pages` branch.
 
+Expected result:
 
-## ðŸ§ª Full Validation Command Set
+```text
+The gh-pages branch is created or updated.
+The generated documentation site is published from that branch.
+```
 
-From the repository root:
+## Configure GitHub Pages
 
-```powershell id="full_validation"
-python -m compileall .
-Select-String -Path .\docs\api\*.md -Pattern "^:::"
+In the GitHub repository:
+
+```text
+Settings
+    -> Pages
+    -> Build and deployment
+```
+
+Use these settings:
+
+| Setting | Value                |
+| ------- | -------------------- |
+| Source  | Deploy from a branch |
+| Branch  | `gh-pages`           |
+| Folder  | `/ (root)`           |
+
+Save the settings.
+
+GitHub may take a few minutes to publish the updated site.
+
+## Confirm the Published Site
+
+The published site should normally be available at:
+
+```text
+https://YOUR-GITHUB-USERNAME.github.io/Fonky/
+```
+
+If `site_url` is configured correctly in `mkdocs.yml`, links, canonical URLs, and repository
+metadata should align with the GitHub Pages URL.
+
+## Add a Documentation Badge
+
+A README badge can point users to the hosted documentation.
+
+Example:
+
+```markdown
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-024FA3)](https://YOUR-GITHUB-USERNAME.github.io/Fonky/)
+```
+
+Place the badge near the top of `README.md`, close to the project title and other project badges.
+
+## README Documentation Link
+
+Add a clear documentation link near the top of the README:
+
+```markdown
+[Open the Fonky Documentation](https://YOUR-GITHUB-USERNAME.github.io/Fonky/)
+```
+
+If the link routes back to the README instead of the MkDocs site, check the GitHub Pages settings
+and confirm that the Pages source is the `gh-pages` branch, not the default branch.
+
+## Common Deployment Problems
+
+### GitHub Pages opens the README instead of the MkDocs site
+
+Likely cause:
+
+```text
+GitHub Pages is set to deploy from the default branch instead of the gh-pages branch.
+```
+
+Fix:
+
+```text
+Settings
+    -> Pages
+    -> Source: Deploy from a branch
+    -> Branch: gh-pages
+    -> Folder: / (root)
+```
+
+Then redeploy:
+
+```powershell
+mkdocs gh-deploy --force
+```
+
+### CSS or JavaScript does not load
+
+Likely causes:
+
+```text
+- docs/stylesheets/extra.css does not exist.
+- docs/javascripts/extra.js does not exist.
+- mkdocs.yml references the wrong path.
+- The browser is showing cached assets.
+```
+
+Confirm the files exist:
+
+```powershell
+Test-Path .\docs\stylesheets\extra.css
+Test-Path .\docs\javascripts\extra.js
+```
+
+Expected output:
+
+```text
+True
+True
+```
+
+### API pages are blank
+
+Likely causes:
+
+```text
+- The API page lacks a live mkdocstrings directive.
+- The directive uses the wrong import path.
+- The source module cannot be imported.
+- A required dependency is missing at import time.
+```
+
+For the current flat source layout, an API page should use:
+
+```text
+::: loaders
+```
+
+not:
+
+```text
+::: fonky.loaders
+```
+
+### Duplicate API target warnings appear
+
+Likely cause:
+
+```text
+A top-level manual page contains a live mkdocstrings directive.
+```
+
+Find accidental directives:
+
+```powershell
+Select-String -Path .\docs\*.md -Pattern "^:::\s+[A-Za-z_]"
+```
+
+Manual pages should return no output.
+
+### Build fails with Griffe docstring warnings
+
+Common causes:
+
+```text
+- Untyped Returns section.
+- Returns: None included.
+- Args section contains prose instead of name-type-description entries.
+- Attributes section contains prose instead of name-type-description entries.
+```
+
+Correct return format:
+
+```text
+Returns:
+    list[str]: Supported option values.
+```
+
+Correct argument format:
+
+```text
+Args:
+    path (str): Path to the file.
+```
+
+For procedures that do not return a value, omit `Returns:`.
+
+## Deployment Checklist
+
+Before running `mkdocs gh-deploy --force`, confirm:
+
+| Check                                   | Command                                                           |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| Source compiles                         | `python -m compileall .`                                          |
+| Manual pages contain no live directives | `Select-String -Path .\docs\*.md -Pattern "^:::\s+[A-Za-z_]"`     |
+| API pages contain live directives       | `Select-String -Path .\docs\api\*.md -Pattern "^:::\s+[A-Za-z_]"` |
+| Documentation builds                    | `mkdocs build`                                                    |
+| Documentation serves locally            | `mkdocs serve`                                                    |
+| Git working tree reviewed               | `git status`                                                      |
+| Source changes committed                | `git add .; git commit -m "Update Fonky documentation"`           |
+| Source branch pushed                    | `git push`                                                        |
+| Site deployed                           | `mkdocs gh-deploy --force`                                        |
+| GitHub Pages source set                 | `gh-pages` branch, root folder                                    |
+| Published URL tested                    | Open GitHub Pages URL                                             |
+
+## Recommended Deployment Sequence
+
+Use this exact sequence:
+
+```powershell
+python -m compileall . 
 mkdocs build
 mkdocs serve
 ```
 
-Deploy only after the local build is clean:
+After reviewing the local site:
 
-```powershell id="deploy_after_clean_build"
+```powershell
+git status
+git add .
+git commit -m "Update Fonky documentation"
+git push
 mkdocs gh-deploy --force
 ```
 
+Then verify GitHub Pages settings and open the published documentation URL.
 
+## Final State
 
-## âœ… Deployment Checklist
+A successful GitHub Pages deployment means:
 
-| Check                                | Command or location                                   |
-| ------------------------------------ | ----------------------------------------------------- |
-| Virtual environment active           | Prompt begins with `(.venv)`                          |
-| Documentation dependencies installed | `python -m pip install -r requirements.txt`           |
-| Source compiles                      | `python -m compileall .`                              |
-| API pages contain directives         | `Select-String -Path .\docs\api\*.md -Pattern "^:::"` |
-| MkDocs builds                        | `mkdocs build`                                        |
-| Local site reviewed                  | `mkdocs serve`                                        |
-| GitHub Pages deployed                | `mkdocs gh-deploy --force`                            |
-| GitHub Pages branch selected         | GitHub repository Settings â†’ Pages                    |
-| Published site reviewed              | `https://is-leeroy-jenkins.github.io/Fonky/`          |
-| Source docs committed                | `git add ...; git commit ...; git push`               |
-
-
-
-## âž¡ï¸ Next Step
-
-After deployment, continue normal development by updating source docstrings and Markdown pages
-together. Rebuild locally before every GitHub Pages deployment.
-
-
+```text
+- Source files are committed on the default branch.
+- The generated static site is published on the gh-pages branch.
+- GitHub Pages is configured to serve from gh-pages.
+- The README points users to the documentation site.
+- The documentation URL opens the MkDocs site, not the README.
+- API reference pages render source docstrings through mkdocstrings.
+```
