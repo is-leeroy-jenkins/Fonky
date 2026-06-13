@@ -121,7 +121,7 @@ def __dir__( ) -> List[ str ]:
 __all__: List[ str ] = [
 		'astronomical',
 		'cloud',
-		'collections',
+		'archives.py',
 		'demographic',
 		'documents',
 		'environmental',

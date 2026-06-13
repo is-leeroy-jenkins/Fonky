@@ -51,7 +51,7 @@ from boogr import Error
 from bs4 import BeautifulSoup
 import chromadb
 from chromadb.config import Settings
-from collections import Counter
+from archives import Counter
 import html
 import glob
 from gensim.models import Word2Vec
