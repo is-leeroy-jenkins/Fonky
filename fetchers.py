@@ -25377,10 +25377,7 @@ class OpenSky( Fetcher ):
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenSky'
-			exception.method = (
-					'fetch_track_aircraft( self, *args, **kwargs ) '
-					'-> Dict[ str, Any ] | None'
-			)
+			exception.method = 'fetch_track_aircraft( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			Logger( ).write( exception )
 			raise exception
 	
