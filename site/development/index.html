@@ -83,6 +83,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#y-i-development" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -1211,6 +1216,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -1228,6 +1253,124 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#yz-development-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸŽ¯ Development Goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#y-source-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ“ Source Layout
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#y34-source-regeneration-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ§¾ Source Regeneration Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#y-attributes-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ§± Attributes: Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ya-exception-logging-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸªµ Exception Logging Standard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ya-python-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ§ª Python Validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yz-import-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ”Ž Import Validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ys-mkdocs-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ“š MkDocs Validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#y-api-page-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ”Œ API Page Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1283,9 +1426,501 @@
 
 
 
-  <h1>Development</h1>
+<h1 id="y-i-development">ðŸ› ï¸ Development<a class="headerlink" href="#y-i-development" title="Permanent link">&para;</a></h1>
+<p>This page defines the development standards for Fonky source files, documentation comments,
+exception logging, validation, MkDocs integration, and release workflow.</p>
+<p>Fonky relies on two linked development practices:</p>
+<ol>
+<li>Python source files must remain executable, importable, and behavior-preserving.</li>
+<li>Python docstrings must be valid Google-style documentation that can be rendered by MkDocs and
+   mkdocstrings without Griffe warnings.</li>
+</ol>
+<h2 id="yz-development-goals">ðŸŽ¯ Development Goals<a class="headerlink" href="#yz-development-goals" title="Permanent link">&para;</a></h2>
+<p>Fonky development should preserve a stable framework for:</p>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runtime stability</td>
+<td>Source files should compile, import, and preserve existing behavior.</td>
+</tr>
+<tr>
+<td>Documentation quality</td>
+<td>Module, class, function, and method docstrings should render correctly in MkDocs.</td>
+</tr>
+<tr>
+<td>Logging consistency</td>
+<td>Handled exceptions should use the explicit <code>Error</code> and <code>Logger</code> pattern.</td>
+</tr>
+<tr>
+<td>API reference generation</td>
+<td><code>docs/api/*.md</code> pages should render source docstrings through mkdocstrings.</td>
+</tr>
+<tr>
+<td>User-facing clarity</td>
+<td>Top-level documentation should explain setup, configuration, usage, logging, and deployment.</td>
+</tr>
+<tr>
+<td>Minimal surprise</td>
+<td>Regenerated files should preserve names, signatures, imports, return contracts, and fallback behavior unless a functional change is explicitly required.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="y-source-layout">ðŸ“ Source Layout<a class="headerlink" href="#y-source-layout" title="Permanent link">&para;</a></h2>
+<p>Fonky currently uses a flat source-module layout at the repository root.</p>
+<p>Expected source files:</p>
+<p>```text id="source_layout"
+Fonky/
+â”œâ”€â”€ <strong>init</strong>.py
+â”œâ”€â”€ archives.py
+â”œâ”€â”€ astronomical.py
+â”œâ”€â”€ boogr.py
+â”œâ”€â”€ cloud.py
+â”œâ”€â”€ config.py
+â”œâ”€â”€ core.py
+â”œâ”€â”€ demographic.py
+â”œâ”€â”€ documents.py
+â”œâ”€â”€ environmental.py
+â”œâ”€â”€ fetchers.py
+â”œâ”€â”€ geospatial.py
+â”œâ”€â”€ health.py
+â”œâ”€â”€ loaders.py
+â”œâ”€â”€ models.py
+â”œâ”€â”€ processors.py
+â”œâ”€â”€ scrapers.py
+â””â”€â”€ web.py
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>If the project is later moved into a package folder named `fonky`, update imports and mkdocstrings
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>directives accordingly.
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Flat layout directive:
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>```markdown id=&quot;flat_layout_directive&quot;
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>`::: loaders`
+</span></code></pre></div></p>
+<p>Package layout directive:</p>
+<p><code>``markdown id="package_layout_directive"</code>::: loaders`
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>## ðŸ“š Documentation Layout
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Expected documentation files:
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>```text id=&quot;docs_layout&quot;
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>docs/
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>â”œâ”€â”€ index.md
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>â”œâ”€â”€ getting-started.md
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>â”œâ”€â”€ configuration.md
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>â”œâ”€â”€ architecture.md
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>â”œâ”€â”€ logging.md
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>â”œâ”€â”€ usage.md
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>â”œâ”€â”€ user-guide.md
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>â”œâ”€â”€ development.md
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>â”œâ”€â”€ github-pages.md
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>â”œâ”€â”€ api/
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>â”‚   â”œâ”€â”€ index.md
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>â”‚   â”œâ”€â”€ archives.md
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>â”‚   â”œâ”€â”€ astronomical.md
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>â”‚   â”œâ”€â”€ boogr.md
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>â”‚   â”œâ”€â”€ cloud.md
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>â”‚   â”œâ”€â”€ config.md
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>â”‚   â”œâ”€â”€ core.md
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>â”‚   â”œâ”€â”€ demographic.md
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>â”‚   â”œâ”€â”€ documents.md
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>â”‚   â”œâ”€â”€ environmental.md
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>â”‚   â”œâ”€â”€ fetchers.md
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>â”‚   â”œâ”€â”€ geospatial.md
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>â”‚   â”œâ”€â”€ health.md
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>â”‚   â”œâ”€â”€ loaders.md
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>â”‚   â”œâ”€â”€ models.md
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>â”‚   â”œâ”€â”€ processors.md
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>â”‚   â”œâ”€â”€ scrapers.md
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>â”‚   â””â”€â”€ web.md
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>â””â”€â”€ stylesheets/
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>    â””â”€â”€ extra.css
+</span></code></pre></div></p>
+<p>Top-level documentation pages explain the project. API pages render docstrings from Python source
+files.</p>
+<h2 id="y34-source-regeneration-rules">ðŸ§¾ Source Regeneration Rules<a class="headerlink" href="#y34-source-regeneration-rules" title="Permanent link">&para;</a></h2>
+<p>When regenerating a Python source file, preserve the uploaded or current source file as
+authoritative.</p>
+<p>Do not change behavior unless a functional change is explicitly requested.</p>
+<p>Preserve:</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Imports</td>
+<td>Preserve required imports and add only necessary imports.</td>
+</tr>
+<tr>
+<td>Class names</td>
+<td>Do not rename classes.</td>
+</tr>
+<tr>
+<td>Function names</td>
+<td>Do not rename functions or methods.</td>
+</tr>
+<tr>
+<td>Signatures</td>
+<td>Preserve parameters, defaults, annotations, and return annotations unless correcting a documentation/type issue.</td>
+</tr>
+<tr>
+<td>Return contracts</td>
+<td>Preserve existing return behavior.</td>
+</tr>
+<tr>
+<td>Fallback behavior</td>
+<td>Preserve existing fallback messages, empty values, and error envelopes.</td>
+</tr>
+<tr>
+<td>Public API</td>
+<td>Preserve callable public methods.</td>
+</tr>
+<tr>
+<td>State fields</td>
+<td>Preserve existing instance attributes and class attributes.</td>
+</tr>
+<tr>
+<td>Provider calls</td>
+<td>Preserve external API call structure unless explicitly corrected.</td>
+</tr>
+<tr>
+<td>Logging pattern</td>
+<td>Use the explicit project pattern in each handled exception block.</td>
+</tr>
+</tbody>
+</table>
+<p>Avoid:</p>
+<p>```text id="avoid_regeneration"
+- Shortened reconstructions
+- Helper abstractions that replace required logging blocks
+- Partial files unless explicitly requested
+- Reordered logic that changes behavior
+- Missing methods listed in <strong>dir</strong>
+- Missing methods called through self.method_name(...)
+- Unsupported claims in docs or comments
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>## ðŸ§  Google-Style Docstring Standard
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Fonky source comments should use Google-style docstrings that render cleanly with mkdocstrings and
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Griffe.
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>Preferred sections:
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>```text id=&quot;docstring_sections&quot;
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>Purpose:
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>Args:
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>Attributes:
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>Returns:
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>Raises:
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>Notes:
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>Examples:
+</span></code></pre></div></p>
+<p>Use <code>Args:</code> for parameters.</p>
+<p>Do not use:</p>
+<p>```text id="bad_docstring_sections"
+Parameters:
+-
+Returns:
+    None: ...
+Returns:
+    Any: ...
+Returns:
+    Description without a type.
+Args:
+    Request parameters.
+Attributes:
+    Request parameters.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>## âœ… Required `Purpose:` Section
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Every module, class, method, and function docstring should include a meaningful `Purpose:` section
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>unless the function is extremely small and already self-evident.
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>Good:
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>```python id=&quot;purpose_good&quot;
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>def normalize_text(self, text: str) -&gt; str:
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    &quot;&quot;&quot;Normalize text for downstream processing.
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    Purpose:
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        Converts text into a consistent representation by trimming whitespace, normalizing
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        case, and collapsing repeated spacing before tokenization or vectorization.
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    Args:
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>        text (str): Text value to normalize.
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    Returns:
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>        str: Normalized text.
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>    &quot;&quot;&quot;
+</span></code></pre></div></p>
+<p>Bad:</p>
+<p>```python id="purpose_bad"
+def normalize_text(self, text: str) -&gt; str:
+    """Normalize text."""
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>## ðŸ§© `Args:` Format
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Each argument must use a valid `name (type): description` pair.
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Good:
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>```python id=&quot;args_good&quot;
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>Args:
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    path (str): Path to the file that should be loaded.
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    encoding (Optional[str]): Optional file encoding.
+</span></code></pre></div></p>
+<p>Bad:</p>
+<p>```python id="args_bad"
+Args:
+    Request parameters.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Bad:
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>```python id=&quot;args_bad_untyped&quot;
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Args:
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    path: Path to the file.
+</span></code></pre></div></p>
+<p>Bad:</p>
+<p>```python id="args_bad_missing_description"
+Args:
+    path (str):
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>## ðŸ“¤ `Returns:` Format
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Return sections must include a type and a description.
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Good:
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>```python id=&quot;returns_good&quot;
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>Returns:
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    list[str]: Supported option values.
+</span></code></pre></div></p>
+<p>Good:</p>
+<p>```python id="returns_good_document"
+Returns:
+    List[Document]: Loaded LangChain document objects.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Bad:
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>```python id=&quot;returns_bad_untyped&quot;
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Returns:
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    Supported option values.
+</span></code></pre></div></p>
+<p>Bad:</p>
+<p>```python id="returns_bad_none"
+Returns:
+    None: This method does not return a value.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Bad:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>```python id=&quot;returns_bad_any&quot;
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Returns:
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    Any: Result value.
+</span></code></pre></div></p>
+<p>For no-return procedures, omit the <code>Returns:</code> section entirely.</p>
+<h2 id="y-attributes-format">ðŸ§± <code>Attributes:</code> Format<a class="headerlink" href="#y-attributes-format" title="Permanent link">&para;</a></h2>
+<p>Class attributes must also use valid <code>name (type): description</code> pairs.</p>
+<p>Good:</p>
+<p>```python id="attributes_good"
+Attributes:
+    documents (Optional[List[Document]]): Documents loaded or split by the wrapper.
+    file_path (Optional[str]): Active local file path.
+    loader (Optional[BaseLoader]): Underlying LangChain loader instance.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Bad:
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>```python id=&quot;attributes_bad&quot;
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>Attributes:
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    Request parameters.
+</span></code></pre></div></p>
+<p>Bad:</p>
+<p>```python id="attributes_bad_description_only"
+Attributes:
+    Configuration used by the active request.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>If a class has no useful public attributes to document, omit `Attributes:`.
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>## ðŸš« `__init__` Docstring Rules
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>Do not include `Returns:` in `__init__`.
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>Good:
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>```python id=&quot;init_good&quot;
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>def __init__(self) -&gt; None:
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    &quot;&quot;&quot;Initialize the loader.
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>    Purpose:
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>        Initializes local state used by the loader. No external files or network resources
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>        are loaded during construction.
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>    &quot;&quot;&quot;
+</span></code></pre></div></p>
+<p>Bad:</p>
+<p>```python id="init_bad"
+def <strong>init</strong>(self) -&gt; None:
+    """Initialize the loader.</p>
+<div class="language-text highlight"><pre><span></span><code>Returns:
+    None: No value is returned.
+&quot;&quot;&quot;
+</code></pre></div>
+<p>```
 
 
+</p>
+<h2 id="ya-exception-logging-standard">ðŸªµ Exception Logging Standard<a class="headerlink" href="#ya-exception-logging-standard" title="Permanent link">&para;</a></h2>
+<p>Handled exceptions must use the explicit Fonky logging pattern.
+
+Required pattern:
+
+<code>python id="required_logging_pattern"
+except Exception as e:
+    exception = Error(e)
+    exception.module = "module_name"
+    exception.cause = "ClassName"
+    exception.method = "method_name(self, arg: type) -&gt; return_type"
+    Logger().write(exception)
+    raise exception</code></p>
+<p>For this project, do not replace the pattern with a helper such as:</p>
+<p>```python id="bad_logging_helper"
+_log_and_raise(e, "ClassName", "method_name(...)")
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>The logging block must remain visible inside each handled exception block.
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>## ðŸ“Œ Logging Fields
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>Each wrapped exception should set the following fields:
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>| Field                       | Meaning                                                          |
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>|  | - |
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>| `exception.module`          | Source module name such as `loaders`, `fetchers`, or `scrapers`. |
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>| `exception.cause`           | Class or operation name where the failure occurred.              |
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>| `exception.method`          | Stable method signature string.                                  |
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>| `Logger().write(exception)` | Persists the exception record to SQLite.                         |
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>Example:
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>```python id=&quot;logging_example&quot;
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>except Exception as e:
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>    exception = Error(e)
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>    exception.module = &quot;loaders&quot;
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>    exception.cause = &quot;TextLoader&quot;
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>    exception.method = &quot;load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]&quot;
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>    Logger().write(exception)
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>    raise exception
+</span></code></pre></div></p>
+<h2 id="ya-python-validation">ðŸ§ª Python Validation<a class="headerlink" href="#ya-python-validation" title="Permanent link">&para;</a></h2>
+<p>Run syntax validation after source changes.</p>
+<p>Compile the full project:</p>
+<p>```powershell id="compileall_project"
+python -m compileall .
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Compile targeted files:
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>```powershell id=&quot;py_compile_targeted&quot;
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>python -m py_compile .\boogr.py
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>python -m py_compile .\config.py
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>python -m py_compile .\core.py
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>python -m py_compile .\archives.py
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>python -m py_compile .\fetchers.py
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>python -m py_compile .\loaders.py
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>python -m py_compile .\models.py
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>python -m py_compile .\processors.py
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>python -m py_compile .\scrapers.py
+</span></code></pre></div></p>
+<p>A successful compile check confirms syntax validity. It does not guarantee all optional provider
+dependencies or credentials are available.</p>
+<h2 id="yz-import-validation">ðŸ”Ž Import Validation<a class="headerlink" href="#yz-import-validation" title="Permanent link">&para;</a></h2>
+<p>Run basic import checks from the repository root:</p>
+<p>```powershell id="import_validation_flat"
+python -c "import config; import boogr; import core; import loaders; import models; print('imports passed')"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>If source files are later moved under `fonky/`, use:
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>```powershell id=&quot;import_validation_package&quot;
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>python -c &quot;import fonky.config; import fonky.boogr; import fonky.core; import fonky.loaders; import fonky.models; print(&#39;package imports passed&#39;)&quot;
+</span></code></pre></div></p>
+<h2 id="ys-mkdocs-validation">ðŸ“š MkDocs Validation<a class="headerlink" href="#ys-mkdocs-validation" title="Permanent link">&para;</a></h2>
+<p>MkDocs requires:</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>File or Package</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Configuration file</td>
+<td><code>mkdocs.yml</code></td>
+</tr>
+<tr>
+<td>Documentation directory</td>
+<td><code>docs/</code></td>
+</tr>
+<tr>
+<td>Markdown pages</td>
+<td><code>docs/*.md</code></td>
+</tr>
+<tr>
+<td>API reference pages</td>
+<td><code>docs/api/*.md</code></td>
+</tr>
+<tr>
+<td>MkDocs package</td>
+<td><code>mkdocs</code></td>
+</tr>
+<tr>
+<td>Material theme</td>
+<td><code>mkdocs-material</code></td>
+</tr>
+<tr>
+<td>Python API renderer</td>
+<td><code>mkdocstrings</code>, <code>mkdocstrings-python</code></td>
+</tr>
+<tr>
+<td>Markdown extensions</td>
+<td><code>pymdown-extensions</code></td>
+</tr>
+</tbody>
+</table>
+<p>Install documentation dependencies:</p>
+<p>```powershell id="install_mkdocs_deps"
+python -m pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python pymdown-extensions
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Build the documentation:
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>```powershell id=&quot;mkdocs_build&quot;
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>mkdocs build
+</span></code></pre></div></p>
+<p>Serve locally:</p>
+<p>```powershell id="mkdocs_serve"
+mkdocs serve
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Open:
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>```text id=&quot;local_mkdocs_url&quot;
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>http://127.0.0.1:8000/
+</span></code></pre></div></p>
+<h2 id="y-api-page-requirements">ðŸ”Œ API Page Requirements<a class="headerlink" href="#y-api-page-requirements" title="Permanent link">&para;</a></h2>
+<p>Each API page must contain a mkdocstrings directive.</p>
+<p>Flat source layout:</p>
+<p>```markdown id="api_directive_flat"</p>
+<h1 id="loaders-api">Loaders API<a class="headerlink" href="#loaders-api" title="Permanent link">&para;</a></h1>
+<p><code>loaders</code>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Package source layout:
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>```markdown id=&quot;api_directive_package&quot;
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a># Loaders API
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>`::: loaders`
+</span></code></pre></div></p>
+<p>If a page contains only normal Markdown prose, the source comments will not render.</p>
+<p>Check a page:</p>
+<p>```powershell id="check_api_page"
+Get-Content .\docs\api\loaders.md
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>The page should contain a line beginning with:
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>```text id=&quot;directive_marker&quot;
+</span></code></pre></div></p>
 
 
 

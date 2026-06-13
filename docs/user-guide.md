@@ -1,4 +1,4 @@
-# 📘 User Guide
+﻿# ðŸ“˜ User Guide
 
 Fonky provides a reusable Python layer for retrieving external data, loading documents, scraping web
 content, processing text, and exposing callable tools for agent-style workflows. This guide focuses
@@ -7,7 +7,7 @@ on practical examples that can be copied into scripts, notebooks, applications, 
 
 ---
 
-## 🧭 Overview
+## ðŸ§­ Overview
 
 Fonky is organized around five primary workflows:
 
@@ -23,17 +23,17 @@ The common workflow is:
 
 ```text
 Load or fetch data
-    ↓
+    â†“
 Normalize or clean content
-    ↓
+    â†“
 Chunk or transform documents
-    ↓
+    â†“
 Expose as structured tools or pass into downstream analysis
 ```
 
 ---
 
-## ⚙️ Environment Setup
+## âš™ï¸ Environment Setup
 
 Activate the project environment:
 
@@ -59,7 +59,7 @@ python -m compileall .\fonky
 
 ---
 
-## 🔐 Environment Variables
+## ðŸ” Environment Variables
 
 Fonky reads configuration from `config.py`. Set only the variables needed for the services you use.
 
@@ -98,7 +98,7 @@ $env:LOG_FILE = "Exceptions"
 
 ---
 
-## 📄 Loading Text Files
+## ðŸ“„ Loading Text Files
 
 Use `TextLoader` for plain-text files.
 
@@ -148,7 +148,7 @@ for chunk_number, chunk in enumerate(chunks, start=1):
 
 ---
 
-## 📊 Loading CSV Files
+## ðŸ“Š Loading CSV Files
 
 Use `CsvLoader` for structured CSV data.
 
@@ -220,7 +220,7 @@ print("Chunk count:", len(chunks))
 
 ---
 
-## 📕 Loading PDF Files
+## ðŸ“• Loading PDF Files
 
 Use `PdfLoader` for PDF documents.
 
@@ -297,7 +297,7 @@ for document in documents:
 
 ---
 
-## 📗 Loading Word Documents
+## ðŸ“— Loading Word Documents
 
 Use `WordLoader` for `.docx` files.
 
@@ -338,7 +338,7 @@ print("Chunk count:", len(chunks))
 
 ---
 
-## 📙 Loading Markdown Files
+## ðŸ“™ Loading Markdown Files
 
 Use `MarkdownLoader` for Markdown documentation.
 
@@ -382,7 +382,7 @@ for chunk_number, chunk in enumerate(chunks, start=1):
 
 ---
 
-## 🌐 Loading Web Pages
+## ðŸŒ Loading Web Pages
 
 Use `WebLoader` for static web pages.
 
@@ -478,7 +478,7 @@ print("Chunk count:", len(chunks))
 
 ---
 
-## 🧾 Loading JSON Files
+## ðŸ§¾ Loading JSON Files
 
 Use `JsonLoader` for JSON and JSON Lines files.
 
@@ -518,7 +518,7 @@ print("Document count:", len(documents))
 
 ---
 
-## 🧮 Loading Excel Files
+## ðŸ§® Loading Excel Files
 
 Use `ExcelLoader` for spreadsheet ingestion.
 
@@ -563,7 +563,7 @@ print("Chunk count:", len(chunks))
 
 ---
 
-## 📽️ Loading PowerPoint Files
+## ðŸ“½ï¸ Loading PowerPoint Files
 
 Use `PowerPointLoader` for `.ppt` or `.pptx` files.
 
@@ -606,7 +606,7 @@ print("Chunk count:", len(chunks))
 
 ---
 
-## 📧 Loading Email and Outlook Files
+## ðŸ“§ Loading Email and Outlook Files
 
 Use `EmailLoader` for email documents:
 
@@ -648,7 +648,7 @@ for document in documents:
 
 ---
 
-## 🧬 Loading XML Files
+## ðŸ§¬ Loading XML Files
 
 Use `XmlLoader` for XML document loading and XPath operations.
 
@@ -695,7 +695,7 @@ for element_number, element in enumerate(elements, start=1):
 
 ---
 
-## 📓 Loading Jupyter Notebooks
+## ðŸ““ Loading Jupyter Notebooks
 
 Use `JupyterNotebookLoader` for `.ipynb` files.
 
@@ -721,7 +721,7 @@ for document in documents:
 
 ---
 
-## ☁️ Loading Cloud Documents
+## â˜ï¸ Loading Cloud Documents
 
 ### Google Cloud Storage file
 
@@ -790,7 +790,7 @@ print("Document count:", len(documents))
 
 ---
 
-## 🔎 Loading Research and Knowledge Sources
+## ðŸ”Ž Loading Research and Knowledge Sources
 
 ### ArXiv
 
@@ -861,7 +861,7 @@ for document_number, document in enumerate(documents, start=1):
 
 ---
 
-## 🧹 Cleaning Text
+## ðŸ§¹ Cleaning Text
 
 Use `TextParser` for text cleanup.
 
@@ -936,7 +936,7 @@ print(normalized)
 
 ---
 
-## ✂️ Splitting and Chunking Text
+## âœ‚ï¸ Splitting and Chunking Text
 
 Split text into sentences:
 
@@ -998,7 +998,7 @@ for chunk in chunks:
 
 ---
 
-## 📈 Frequency and Vector Representations
+## ðŸ“ˆ Frequency and Vector Representations
 
 Create a frequency distribution:
 
@@ -1064,7 +1064,7 @@ print(tfidf)
 
 ---
 
-## 🧠 NLP With NLTK
+## ðŸ§  NLP With NLTK
 
 Use `NltkParser` for tokenization, stemming, lemmatization, part-of-speech tagging, named entity
 recognition, and chunking.
@@ -1173,7 +1173,7 @@ print(entities)
 
 ---
 
-## 🌍 Web Extraction
+## ðŸŒ Web Extraction
 
 Use `WebExtractor` for HTML parsing.
 
@@ -1272,7 +1272,7 @@ for table in tables:
 
 ---
 
-## 🛠️ Structured Tool Creation
+## ðŸ› ï¸ Structured Tool Creation
 
 Fonky can convert functions and methods into structured tool definitions.
 
@@ -1340,7 +1340,7 @@ Expected result shape:
 
 ---
 
-## 🧰 Tool From a Loader Method
+## ðŸ§° Tool From a Loader Method
 
 Create a structured tool from `TextLoader.load`:
 
@@ -1384,7 +1384,7 @@ else:
 
 ---
 
-## 📕 Tool From a PDF Loader
+## ðŸ“• Tool From a PDF Loader
 
 ```python
 from fonky.documents import PdfLoader
@@ -1421,7 +1421,7 @@ else:
 
 ---
 
-## 🌐 Tool From a Web Loader
+## ðŸŒ Tool From a Web Loader
 
 ```python
 from fonky.documents import WebLoader
@@ -1456,7 +1456,7 @@ else:
 
 ---
 
-## 🔁 Export Tool Schemas
+## ðŸ” Export Tool Schemas
 
 Export a single tool into multiple provider formats:
 
@@ -1482,7 +1482,7 @@ print(grok_schema)
 
 ---
 
-## 🧪 Handling Tool Errors
+## ðŸ§ª Handling Tool Errors
 
 When tool execution fails, `ToolDef.call()` returns a structured error envelope instead of throwing
 the exception directly.
@@ -1532,7 +1532,7 @@ Expected result shape:
 
 ---
 
-## 🪵 Exception Logging
+## ðŸªµ Exception Logging
 
 Handled runtime exceptions use the explicit project logging pattern.
 
@@ -1562,7 +1562,7 @@ Exceptions
 
 ---
 
-## 🧪 Validation Workflow
+## ðŸ§ª Validation Workflow
 
 After regenerating source files, run:
 
@@ -1586,7 +1586,7 @@ python -m compileall .\fonky
 
 ---
 
-## 📚 Building Documentation
+## ðŸ“š Building Documentation
 
 Install MkDocs dependencies:
 
@@ -1614,7 +1614,7 @@ http://127.0.0.1:8000/
 
 ---
 
-## 🚀 Deploying to GitHub Pages
+## ðŸš€ Deploying to GitHub Pages
 
 Deploy with:
 
@@ -1632,7 +1632,7 @@ https://is-leeroy-jenkins.github.io/Fonky/
 
 ---
 
-## ✅ Recommended Development Pattern
+## âœ… Recommended Development Pattern
 
 For new modules and methods:
 
@@ -1661,7 +1661,7 @@ except Exception as e:
 
 ---
 
-## 🧭 Next Steps
+## ðŸ§­ Next Steps
 
 After replacing this page:
 
@@ -1671,3 +1671,5 @@ After replacing this page:
 4. Run `mkdocs serve`.
 5. Review the rendered guide and API pages.
 6. Deploy with `mkdocs gh-deploy --force`.
+
+

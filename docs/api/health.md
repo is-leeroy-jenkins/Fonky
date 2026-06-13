@@ -1,3 +1,3 @@
-## 🏥 Health API
+﻿## ðŸ¥ Health API
 
 ::: health

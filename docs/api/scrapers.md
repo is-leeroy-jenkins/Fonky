@@ -1,3 +1,3 @@
-## 🕸️ Scrapers API
+﻿## ðŸ•¸ï¸ Scrapers API
 
 ::: scrapers

@@ -1,3 +1,3 @@
-## 📄 Loaders API
+﻿## ðŸ“„ Loaders API
 
 ::: loaders

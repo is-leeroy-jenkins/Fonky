@@ -83,6 +83,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#astmi-configuration" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -481,6 +486,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -498,6 +523,152 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#y-configuration-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ§­ Configuration Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#y-api-key-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ” API Key Strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#y-common-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ”‘ Common Environment Variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ðŸ”‘ Common Environment Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai-and-model-provider-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI and model provider keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public-data-and-government-service-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public data and government service keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#microsoft-and-cloud-service-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Microsoft and cloud service keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yay-powershell-configuration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸªŸ PowerShell Configuration Examples
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ya-validate-logging-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ§ª Validate Logging Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yi-configuration-for-scientific-and-public-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ›°ï¸ Configuration for Scientific and Public APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#y-configuration-helper-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸ§° Configuration Helper Functions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#azi-next-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        âž¡ï¸ Next Step
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1286,9 +1457,598 @@
 
 
 
-  <h1>Configuration</h1>
-
-
+<h1 id="astmi-configuration">âš™ï¸ Configuration<a class="headerlink" href="#astmi-configuration" title="Permanent link">&para;</a></h1>
+<p>Fonky centralizes runtime settings in <code>config.py</code>. The configuration layer provides
+environment-variable loading, path helpers, exception logging locations, API keys, service
+descriptions, and loader descriptions used by the rest of the project.</p>
+<p>This page explains how Fonky configuration works, which settings are required for different
+workflows, and how to validate configuration before running loaders, fetchers, scrapers, processors,
+or documentation builds.</p>
+<h2 id="y-configuration-model">ðŸ§­ Configuration Model<a class="headerlink" href="#y-configuration-model" title="Permanent link">&para;</a></h2>
+<p>Fonky uses a simple configuration pattern:</p>
+<p>```text id="config_model_flow"
+Environment variables
+    â†“
+config.py helper functions
+    â†“
+module-level constants
+    â†“
+fetchers, loaders, scrapers, processors, models, and logging
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>The goal is to keep source modules import-safe while allowing service credentials and runtime paths
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>to be supplied externally.
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>The most important configuration areas are:
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>| Area                  | Purpose                                                       |
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>|-----------------------|---------------------------------------------------------------|
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>| Path configuration    | Establishes the repository root and logging database path.    |
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>| Logging configuration | Defines the SQLite database and table used by `boogr.Logger`. |
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>| API keys              | Supplies credentials for optional external services.          |
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>| Service descriptions  | Provides human-readable descriptions for APIs and loaders.    |
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>| Documentation support | Provides stable source metadata for MkDocs and mkdocstrings.  |
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>## ðŸ“ Path Constants
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>The core path constants are defined in `config.py`.
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>| Constant   | Purpose                                                 |
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>|------------|---------------------------------------------------------|
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>| `BASE_DIR` | Directory containing `config.py`.                       |
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>| `ROOT_DIR` | Project root directory used by runtime configuration.   |
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>| `LOG_DIR`  | Directory where exception logging artifacts are stored. |
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>| `LOG_PATH` | Full path to the SQLite exception database.             |
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>| `LOG_FILE` | SQLite table name used by the exception logger.         |
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>Default logging path:
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>```text id=&quot;default_log_path&quot;
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>logging/Exceptions.db
+</span></code></pre></div></p>
+<p>Default logging table:</p>
+<p>```text id="default_log_file"
+Exceptions
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>## ðŸªµ Logging Configuration
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Fonky uses `boogr.Error` and `boogr.Logger` for handled exceptions.
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>The logging constants required by `boogr.py` are:
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>```python id=&quot;required_logging_constants&quot;
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>LOG_DIR
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>LOG_PATH
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>LOG_FILE
+</span></code></pre></div></p>
+<p>Recommended defaults:</p>
+<p>```python id="recommended_logging_defaults"
+LOG_DIR = ROOT_DIR / "logging"
+LOG_PATH = "logging/Exceptions.db"
+LOG_FILE = "Exceptions"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>PowerShell override example:
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>```powershell id=&quot;override_logging_config&quot;
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>$env:LOG_DIR = &quot;C:\Users\terry\source\repos\Fonky\logging&quot;
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>$env:LOG_PATH = &quot;C:\Users\terry\source\repos\Fonky\logging\Exceptions.db&quot;
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>$env:LOG_FILE = &quot;Exceptions&quot;
+</span></code></pre></div></p>
+<p>The exception database is created or updated when <code>Logger().write(exception)</code> is called.</p>
+<h2 id="y-api-key-strategy">ðŸ” API Key Strategy<a class="headerlink" href="#y-api-key-strategy" title="Permanent link">&para;</a></h2>
+<p>Fonky does not require every API key for every workflow.</p>
+<p>Only configure the keys required for the services you plan to use.</p>
+<p>For example:</p>
+<table>
+<thead>
+<tr>
+<th>Workflow</th>
+<th>Required or likely variables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Basic document loading</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Local text processing</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Web scraping</td>
+<td>Usually none, unless a provider requires credentials</td>
+</tr>
+<tr>
+<td>Google Custom Search</td>
+<td><code>GOOGLE_API_KEY</code>, <code>GOOGLE_CSE_ID</code></td>
+</tr>
+<tr>
+<td>Google Weather</td>
+<td><code>GOOGLE_WEATHER_API_KEY</code></td>
+</tr>
+<tr>
+<td>Google Drive</td>
+<td><code>GOOGLE_ACCOUNT_CREDENTIALS</code>, <code>GOOGLE_DRIVE_TOKEN_PATH</code>, <code>GOOGLE_DRIVE_FOLDER_ID</code></td>
+</tr>
+<tr>
+<td>Google Cloud Storage</td>
+<td><code>GOOGLE_CLOUD_PROJECT_ID</code>, Google credentials</td>
+</tr>
+<tr>
+<td>Google Speech-to-Text</td>
+<td><code>GOOGLE_CLOUD_PROJECT_ID</code>, Google credentials</td>
+</tr>
+<tr>
+<td>NASA APIs</td>
+<td><code>NASA_API_KEY</code>, <code>NASA_EARTHDATA_TOKEN</code> where applicable</td>
+</tr>
+<tr>
+<td>GovInfo</td>
+<td><code>GOVINFO_API_KEY</code></td>
+</tr>
+<tr>
+<td>Congress API</td>
+<td><code>CONGRESS_API_KEY</code></td>
+</tr>
+<tr>
+<td>News APIs</td>
+<td><code>NEWSAPI_API_KEY</code>, <code>THENEWSAPI_API_KEY</code></td>
+</tr>
+<tr>
+<td>Census</td>
+<td><code>CENSUS_API_KEY</code></td>
+</tr>
+<tr>
+<td>AirNow</td>
+<td><code>AIRNOW_API_KEY</code></td>
+</tr>
+<tr>
+<td>OpenAQ</td>
+<td><code>OPENAQ_API_KEY</code></td>
+</tr>
+<tr>
+<td>PurpleAir</td>
+<td><code>PURPLEAIR_API_KEY</code></td>
+</tr>
+<tr>
+<td>OpenAI tooling</td>
+<td><code>OPENAI_API_KEY</code></td>
+</tr>
+<tr>
+<td>Gemini tooling</td>
+<td><code>GEMINI_API_KEY</code></td>
+</tr>
+<tr>
+<td>Grok or xAI tooling</td>
+<td><code>XAI_API_KEY</code></td>
+</tr>
+<tr>
+<td>Mistral tooling</td>
+<td><code>MISTRAL_API_KEY</code></td>
+</tr>
+<tr>
+<td>Claude tooling</td>
+<td><code>CLAUDE_API_KEY</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="y-common-environment-variables">ðŸ”‘ Common Environment Variables<a class="headerlink" href="#y-common-environment-variables" title="Permanent link">&para;</a></h2>
+<p>The following variables are read by <code>config.py</code>.</p>
+<h3 id="ai-and-model-provider-keys">AI and model provider keys<a class="headerlink" href="#ai-and-model-provider-keys" title="Permanent link">&para;</a></h3>
+<p>```text id="ai_provider_keys"
+OPENAI_API_KEY
+GEMINI_API_KEY
+GOOGLE_API_KEY
+CLAUDE_API_KEY
+MISTRAL_API_KEY
+XAI_API_KEY
+HUGGINGFACE_API_KEY
+PINECONE_API_KEY
+CHROMA_API_KEY
+CHROMA_TENET_ID
+LANGSMITH_API_KEY
+LLAMAINDEX_API_KEY
+LLAMACLOUD_API_KEY
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>### Google service keys and settings
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>```text id=&quot;google_service_keys&quot;
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>GOOGLE_API_KEY
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>GOOGLE_CSE_ID
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>GOOGLE_WEATHER_API_KEY
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>GOOGLE_ACCOUNT_CREDENTIALS
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>GOOGLE_DRIVE_TOKEN_PATH
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>GOOGLE_DRIVE_FOLDER_ID
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>GOOGLE_CLOUD_PROJECT_ID
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>GOOGLE_CLOUD_LOCATION
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>GOOGLE_GENAI_USE_VERTEXAI
+</span></code></pre></div></p>
+<h3 id="public-data-and-government-service-keys">Public data and government service keys<a class="headerlink" href="#public-data-and-government-service-keys" title="Permanent link">&para;</a></h3>
+<p>```text id="public_data_keys"
+NASA_API_KEY
+NASA_EARTHDATA_TOKEN
+GOVINFO_API_KEY
+CONGRESS_API_KEY
+CENSUS_API_KEY
+DATAGOV_API_KEY
+SOCRATA_API_KEY
+HEALTHDATA_API_KEY
+USGS_API_KEY
+FIRMS_MAP_KEY
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>### Environmental and geospatial service keys
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>```text id=&quot;environmental_keys&quot;
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>AIRNOW_API_KEY
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>OPENAQ_API_KEY
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>PURPLEAIR_API_KEY
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>GEOAPIFY_API_KEY
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>GEOCODING_API_KEY
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>WEATHERAPI_API_KEY
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>IPINFO_API_KEY
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>SKY_MAP_TOKEN
+</span></code></pre></div></p>
+<h3 id="microsoft-and-cloud-service-keys">Microsoft and cloud service keys<a class="headerlink" href="#microsoft-and-cloud-service-keys" title="Permanent link">&para;</a></h3>
+<p>```text id="microsoft_cloud_keys"
+O365_CLIENT_ID
+O365_CLIENT_SECRET
+OPENSKY_API_CLIENT_ID
+OPENSKY_API_CREDENTIALS
+OPENSKY_API_CLIENT_SECRET
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>### Logging variables
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>```text id=&quot;logging_keys&quot;
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>LOG_DIR
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>LOG_PATH
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>LOG_FILE
+</span></code></pre></div></p>
+<h2 id="yay-powershell-configuration-examples">ðŸªŸ PowerShell Configuration Examples<a class="headerlink" href="#yay-powershell-configuration-examples" title="Permanent link">&para;</a></h2>
+<p>Set variables for Google Custom Search:</p>
+<p>```powershell id="set_google_search_keys"
+$env:GOOGLE_API_KEY = "your-google-api-key"
+$env:GOOGLE_CSE_ID = "your-custom-search-engine-id"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Set variables for NASA services:
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>```powershell id=&quot;set_nasa_keys&quot;
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>$env:NASA_API_KEY = &quot;your-nasa-api-key&quot;
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>$env:NASA_EARTHDATA_TOKEN = &quot;your-earthdata-token&quot;
+</span></code></pre></div></p>
+<p>Set variables for GovInfo and Congress:</p>
+<p>```powershell id="set_gov_keys"
+$env:GOVINFO_API_KEY = "your-govinfo-api-key"
+$env:CONGRESS_API_KEY = "your-congress-api-key"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Set variables for environmental services:
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>```powershell id=&quot;set_environmental_keys&quot;
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>$env:AIRNOW_API_KEY = &quot;your-airnow-api-key&quot;
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>$env:OPENAQ_API_KEY = &quot;your-openaq-api-key&quot;
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>$env:PURPLEAIR_API_KEY = &quot;your-purpleair-api-key&quot;
+</span></code></pre></div></p>
+<p>Set variables for model providers:</p>
+<p>```powershell id="set_model_keys"
+$env:OPENAI_API_KEY = "your-openai-api-key"
+$env:GEMINI_API_KEY = "your-gemini-api-key"
+$env:XAI_API_KEY = "your-xai-api-key"
+$env:MISTRAL_API_KEY = "your-mistral-api-key"
+$env:CLAUDE_API_KEY = "your-claude-api-key"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>## ðŸ§ª Validate Configuration Imports
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Run this from the repository root:
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>```powershell id=&quot;validate_config_import&quot;
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>python -c &quot;import config; print(config.ROOT_DIR); print(config.LOG_PATH); print(config.LOG_FILE)&quot;
+</span></code></pre></div></p>
+<p>Expected result:</p>
+<p>```text id="config_import_expected"
+The command prints the project root path, the exception database path, and the exception table name.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>If the source files are moved into a package folder named `fonky`, use:
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>```powershell id=&quot;validate_package_config_import&quot;
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>python -c &quot;import fonky.config as config; print(config.ROOT_DIR); print(config.LOG_PATH); print(config.LOG_FILE)&quot;
+</span></code></pre></div></p>
+<h2 id="ya-validate-logging-configuration">ðŸ§ª Validate Logging Configuration<a class="headerlink" href="#ya-validate-logging-configuration" title="Permanent link">&para;</a></h2>
+<p>Run this from the repository root to confirm the logger can write an exception:</p>
+<p>```powershell id="validate_logging_config"
+python -c "from boogr import Error, Logger; import config as cfg; error = Error(Exception('configuration test')); error.module = 'config'; error.cause = 'ConfigurationValidation'; error.method = 'manual logging validation'; Logger().write(error); print(cfg.LOG_PATH)"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Confirm the database exists:
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>```powershell id=&quot;confirm_logging_database&quot;
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>Test-Path .\logging\Exceptions.db
+</span></code></pre></div></p>
+<p>Expected result:</p>
+<p>```text id="logging_database_expected"
+True
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>If the result is `False`, confirm that `LOG_DIR` and `LOG_PATH` point to writable locations.
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>## ðŸ“„ Configuration for Document Loading
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>Most local document loaders do not require API keys.
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>Examples that normally do not require credentials:
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>| Loader                  | Typical requirement                          |
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>| -- | -- |
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>| `TextLoader`            | Local text file path                         |
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>| `CsvLoader`             | Local CSV file path                          |
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>| `PdfLoader`             | Local PDF file path and parsing dependencies |
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>| `WordLoader`            | Local DOCX file path                         |
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>| `ExcelLoader`           | Local XLSX file path                         |
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>| `MarkdownLoader`        | Local Markdown file path                     |
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>| `HtmlLoader`            | Local HTML file path                         |
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>| `JsonLoader`            | Local JSON or JSONL file path                |
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>| `XmlLoader`             | Local XML file path                          |
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>| `JupyterNotebookLoader` | Local notebook file path                     |
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>Credential-backed loaders include:
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>| Loader                     | Required configuration                             |
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>| -- | -- |
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>| `GoogleDriveLoader`        | Google credentials and Drive access                |
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a>| `GoogleCloudFileLoader`    | Google Cloud credentials and project configuration |
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a>| `GoogleBucketLoader`       | Google Cloud credentials and project configuration |
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>| `GoogleSpeechToTextLoader` | Google Cloud credentials and Speech-to-Text access |
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a>| `AwsFileLoader`            | AWS credentials or environment-based AWS profile   |
+</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a>| `AwsBucketLoader`          | AWS credentials or environment-based AWS profile   |
+</span><span id="__span-11-34"><a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a>| `OneDriveDocLoader`        | Microsoft authentication and OneDrive access       |
+</span><span id="__span-11-35"><a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a>| `SpfxLoader`               | Microsoft authentication and SharePoint access     |
+</span><span id="__span-11-36"><a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a>
+</span><span id="__span-11-37"><a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a>
+</span><span id="__span-11-38"><a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a>
+</span><span id="__span-11-39"><a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a>## ðŸŒ Configuration for Web and Search Workflows
+</span><span id="__span-11-40"><a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a>
+</span><span id="__span-11-41"><a id="__codelineno-11-41" name="__codelineno-11-41" href="#__codelineno-11-41"></a>Web extraction from static HTML does not usually require API keys.
+</span><span id="__span-11-42"><a id="__codelineno-11-42" name="__codelineno-11-42" href="#__codelineno-11-42"></a>
+</span><span id="__span-11-43"><a id="__codelineno-11-43" name="__codelineno-11-43" href="#__codelineno-11-43"></a>Search-oriented workflows often do.
+</span><span id="__span-11-44"><a id="__codelineno-11-44" name="__codelineno-11-44" href="#__codelineno-11-44"></a>
+</span><span id="__span-11-45"><a id="__codelineno-11-45" name="__codelineno-11-45" href="#__codelineno-11-45"></a>| Service              | Common variables                        |
+</span><span id="__span-11-46"><a id="__codelineno-11-46" name="__codelineno-11-46" href="#__codelineno-11-46"></a>| -- |  |
+</span><span id="__span-11-47"><a id="__codelineno-11-47" name="__codelineno-11-47" href="#__codelineno-11-47"></a>| Google Custom Search | `GOOGLE_API_KEY`, `GOOGLE_CSE_ID`       |
+</span><span id="__span-11-48"><a id="__codelineno-11-48" name="__codelineno-11-48" href="#__codelineno-11-48"></a>| Wikipedia            | Usually none                            |
+</span><span id="__span-11-49"><a id="__codelineno-11-49" name="__codelineno-11-49" href="#__codelineno-11-49"></a>| ArXiv                | Usually none                            |
+</span><span id="__span-11-50"><a id="__codelineno-11-50" name="__codelineno-11-50" href="#__codelineno-11-50"></a>| PubMed               | Usually none                            |
+</span><span id="__span-11-51"><a id="__codelineno-11-51" name="__codelineno-11-51" href="#__codelineno-11-51"></a>| News APIs            | `NEWSAPI_API_KEY`, `THENEWSAPI_API_KEY` |
+</span><span id="__span-11-52"><a id="__codelineno-11-52" name="__codelineno-11-52" href="#__codelineno-11-52"></a>| GovInfo              | `GOVINFO_API_KEY`                       |
+</span><span id="__span-11-53"><a id="__codelineno-11-53" name="__codelineno-11-53" href="#__codelineno-11-53"></a>| Congress             | `CONGRESS_API_KEY`                      |
+</span><span id="__span-11-54"><a id="__codelineno-11-54" name="__codelineno-11-54" href="#__codelineno-11-54"></a>
+</span><span id="__span-11-55"><a id="__codelineno-11-55" name="__codelineno-11-55" href="#__codelineno-11-55"></a>Browser-backed scraping may require Playwright browser binaries:
+</span><span id="__span-11-56"><a id="__codelineno-11-56" name="__codelineno-11-56" href="#__codelineno-11-56"></a>
+</span><span id="__span-11-57"><a id="__codelineno-11-57" name="__codelineno-11-57" href="#__codelineno-11-57"></a>```powershell id=&quot;install_browser_for_scraping&quot;
+</span><span id="__span-11-58"><a id="__codelineno-11-58" name="__codelineno-11-58" href="#__codelineno-11-58"></a>python -m playwright install chromium
+</span></code></pre></div></p>
+<h2 id="yi-configuration-for-scientific-and-public-apis">ðŸ›°ï¸ Configuration for Scientific and Public APIs<a class="headerlink" href="#yi-configuration-for-scientific-and-public-apis" title="Permanent link">&para;</a></h2>
+<p>Fonky includes fetchers and export modules for astronomy, environment, geography, health,
+demographics, public data, and government data.</p>
+<p>Representative service groups:</p>
+<table>
+<thead>
+<tr>
+<th>Module area</th>
+<th>Example services</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>astronomical.py</code></td>
+<td>NASA, sky maps, near-earth objects, astronomy catalogs</td>
+</tr>
+<tr>
+<td><code>environmental.py</code></td>
+<td>EPA, AirNow, OpenAQ, PurpleAir, NASA FIRMS</td>
+</tr>
+<tr>
+<td><code>geospatial.py</code></td>
+<td>USGS, NOAA, geocoding, weather, tides, national map</td>
+</tr>
+<tr>
+<td><code>health.py</code></td>
+<td>WHO, CDC WONDER, health data services</td>
+</tr>
+<tr>
+<td><code>demographic.py</code></td>
+<td>Census, world population, demographic data</td>
+</tr>
+<tr>
+<td><code>archives.py</code></td>
+<td>ArXiv, Wikipedia, PubMed, Internet Archive, GovInfo</td>
+</tr>
+</tbody>
+</table>
+<p>Not every service requires a key. Check the API provider and the corresponding class docstring in
+the API reference before configuring credentials.</p>
+<h2 id="y-configuration-helper-functions">ðŸ§° Configuration Helper Functions<a class="headerlink" href="#y-configuration-helper-functions" title="Permanent link">&para;</a></h2>
+<p><code>config.py</code> includes helper functions for import-safe configuration parsing.</p>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>throw_if(name, value)</code></td>
+<td>Raises <code>ValueError</code> when a required value is empty.</td>
+</tr>
+<tr>
+<td><code>get_bool(name, default)</code></td>
+<td>Reads a Boolean environment variable.</td>
+</tr>
+<tr>
+<td><code>get_int(name, default)</code></td>
+<td>Reads an integer environment variable.</td>
+</tr>
+<tr>
+<td><code>get_float(name, default)</code></td>
+<td>Reads a floating-point environment variable.</td>
+</tr>
+<tr>
+<td><code>get_path(name, default)</code></td>
+<td>Reads and resolves a filesystem path.</td>
+</tr>
+<tr>
+<td><code>get_text(name, default)</code></td>
+<td>Reads a text environment variable.</td>
+</tr>
+</tbody>
+</table>
+<p>These helpers allow configuration values to be optional while still giving deterministic defaults.</p>
+<p>Example:</p>
+<p>```python id="config_helper_example"
+from pathlib import Path
+import config</p>
+<p>log_dir = config.get_path(
+    name="LOG_DIR",
+    default=Path("logging")
+)</p>
+<p>print(log_dir)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>## ðŸ“š MkDocs Configuration
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>MkDocs configuration is stored in:
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>```text id=&quot;mkdocs_config_file&quot;
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>mkdocs.yml
+</span></code></pre></div></p>
+<p>The key block for rendering source docstrings is the <code>mkdocstrings</code> plugin:</p>
+<p>```yaml id="mkdocstrings_config"
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - .
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_signature: true
+            show_signature_annotations: true
+            separate_signature: true
+            merge_init_into_class: false
+            members_order: source
+            filters:
+              - "!^_"
+            heading_level: 2
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>The `paths` setting must let mkdocstrings import the modules referenced in `docs/api/*.md`.
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>Root-level module example:
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>```markdown id=&quot;root_level_directive&quot;
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>`::: loaders`
+</span></code></pre></div></p>
+<p>Package-level module example:</p>
+<p><code>``markdown id="package_level_directive"</code>::: loaders`
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>## ðŸ§ª Configuration Validation Checklist
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Use this checklist after editing `config.py`, `.env` handling, or deployment settings.
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>| Check                                | Command                                                                                                                                                          |
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>|  | - |
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>| Python files compile                 | `python -m compileall .`                                                                                                                                         |
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>| Config imports                       | `python -c &quot;import config; print(config.LOG_PATH)&quot;`                                                                                                              |
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>| Logging constants exist              | `python -c &quot;import config; print(config.LOG_DIR); print(config.LOG_PATH); print(config.LOG_FILE)&quot;`                                                               |
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>| Logger writes database record        | `python -c &quot;from boogr import Error, Logger; e = Error(Exception(&#39;test&#39;)); e.module = &#39;config&#39;; e.cause = &#39;Validation&#39;; e.method = &#39;manual&#39;; Logger().write(e)&quot;` |
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>| Documentation dependencies installed | `python -m pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python pymdown-extensions`                                                               |
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>| Documentation builds                 | `mkdocs build`                                                                                                                                                   |
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>| API pages render docstrings          | Confirm `docs/api/*.md` files contain `:::` directives                                                                                                           |
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>## ðŸ§¯ Common Configuration Problems
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>### Missing API key
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>Symptom:
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>```text id=&quot;missing_api_key_symptom&quot;
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>A provider fetcher fails authorization or returns an authentication error.
+</span></code></pre></div></p>
+<p>Fix:</p>
+<p>```powershell id="missing_api_key_fix"
+$env:PROVIDER_API_KEY = "your-provider-key"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Then rerun the command in the same PowerShell session.
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>### Logging database is not created
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>Symptoms:
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>```text id=&quot;logging_database_missing&quot;
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>The expected logging/Exceptions.db file does not appear.
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>Logger write calls fail silently or raise filesystem errors.
+</span></code></pre></div></p>
+<p>Fix:</p>
+<p>```powershell id="logging_database_fix"
+New-Item -ItemType Directory -Force .\logging | Out-Null
+$env:LOG_PATH = "C:\Users\terry\source\repos\Fonky\logging\Exceptions.db"
+$env:LOG_FILE = "Exceptions"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Then rerun a logging validation command.
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>### MkDocs cannot import modules
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>Symptoms:
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>```text id=&quot;mkdocs_import_problem&quot;
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>mkdocstrings reports that it cannot import a module.
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>API pages are blank or fail to render.
+</span></code></pre></div></p>
+<p>Fix for root-level source files:</p>
+<p><code>``markdown id="mkdocs_root_fix"</code>::: loaders`
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Fix for package-folder source files:
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>```markdown id=&quot;mkdocs_package_fix&quot;
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>`::: loaders`
+</span></code></pre></div></p>
+<p>Also confirm <code>mkdocs.yml</code> includes:</p>
+<p>```yaml id="mkdocs_paths_fix"
+paths:
+  - .
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>### Griffe reports malformed Google-style sections
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>Symptoms:
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>```text id=&quot;griffe_malformed_sections&quot;
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>No type or annotation for returned value
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>Failed to get name: description pair
+</span></code></pre></div></p>
+<p>Fix:</p>
+<p>Use typed return sections:</p>
+<p>```text id="typed_returns_fix"
+Returns:
+    list[str]: Supported option values.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Use valid `Args:` or `Attributes:` entries:
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>```text id=&quot;valid_args_fix&quot;
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>Args:
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    name (str): Description of the value.
+</span></code></pre></div></p>
+<p>Avoid untyped entries:</p>
+<p>```text id="invalid_args_example"
+Args:
+    Request parameters.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>Avoid `Returns: None`. For functions that do not return values, omit the `Returns:` section.
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>## âœ… Recommended Configuration Baseline
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>For local development, keep this baseline:
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>```text id=&quot;local_configuration_baseline&quot;
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>- Use a project-local virtual environment.
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>- Keep source files importable from the repository root.
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>- Set only API keys required for the current workflow.
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>- Keep logging at logging/Exceptions.db unless deployment requires a different path.
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>- Keep docs/api pages aligned with actual module import paths.
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>- Run python -m compileall . before mkdocs build.
+</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>- Run mkdocs build before mkdocs serve or gh-deploy.
+</span></code></pre></div></p>
+<h2 id="azi-next-step">âž¡ï¸ Next Step<a class="headerlink" href="#azi-next-step" title="Permanent link">&para;</a></h2>
+<p>Continue to <a href="../architecture/">Architecture</a> to understand how configuration flows through fetchers,
+loaders, scrapers, processors, models, and the MkDocs-generated API reference.</p>
 
 
 

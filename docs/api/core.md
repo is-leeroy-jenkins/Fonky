@@ -1,3 +1,3 @@
-## 🧱 Core API
+﻿## ðŸ§± Core API
 
 ::: core

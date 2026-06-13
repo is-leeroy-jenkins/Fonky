@@ -83,6 +83,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#logging" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -537,6 +542,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -554,6 +579,190 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#logging-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Logging Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#powershell-logging-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🪟 PowerShell Logging Overrides
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#required-exception-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧱 Required Exception Pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-naming-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Module Naming Standard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cause-naming-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Cause Naming Standard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-string-standard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 Method String Standard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validate-database-with-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Validate Database with Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intentional-loader-failure-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Intentional Loader Failure Test
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspect-recent-log-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧾 Inspect Recent Log Records
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sensitive-data-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔐 Sensitive Data Rule
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-in-fetcher-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔌 Logging in Fetcher Classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-in-tool-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧰 Logging in Tool Execution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-validation-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔁 Logging Validation Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Logging Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ➡️ Next Step
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1286,9 +1495,610 @@
 
 
 
-  <h1>Logging</h1>
+<h1 id="logging">🪵 Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h1>
+<p>Fonky uses a project-specific exception wrapper and SQLite-backed logger to preserve useful failure
+details during loader, fetcher, scraper, processor, and model execution.</p>
+<p>The logging system is implemented in:</p>
+<p>```text id="logging_source_files"
+boogr.py
+config.py
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>The logging database is configured through:
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>```text id=&quot;logging_config_values&quot;
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>LOG_DIR
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>LOG_PATH
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>LOG_FILE
+</span></code></pre></div></p>
+<h2 id="logging-purpose">🎯 Logging Purpose<a class="headerlink" href="#logging-purpose" title="Permanent link">&para;</a></h2>
+<p>Fonky interacts with local files, APIs, websites, cloud storage, document parsers, browser tooling,
+and AI tool wrappers. Those operations can fail for many reasons:</p>
+<p>```text id="logging_failure_sources"
+- Missing local files
+- Invalid paths
+- Missing API keys
+- Expired credentials
+- Network failures
+- Provider rate limits
+- Invalid response payloads
+- Document parsing failures
+- Browser rendering failures
+- Dependency import failures
+- Tool execution failures
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>The logging layer gives handled exceptions a consistent structure before they are raised again.
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>The purpose is not to hide failures. The purpose is to make failures traceable.
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>## 🧱 Logging Architecture
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>The logging flow is:
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>```text id=&quot;logging_flow&quot;
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>Handled exception
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    ↓
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>boogr.Error
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    ↓
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>module, cause, method, message, info, trace
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    ↓
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>boogr.Logger
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    ↓
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>SQLite database
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    ↓
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>Exception re-raised to caller
+</span></code></pre></div></p>
+<p>The source modules keep the logging block visible inside each <code>except</code> block.</p>
+<p>Required pattern:</p>
+<p>```python id="required_logging_pattern"
+except Exception as e:
+    exception = Error(e)
+    exception.module = "loaders"
+    exception.cause = "TextLoader"
+    exception.method = "load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]"
+    Logger().write(exception)
+    raise exception
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>## 📦 Logging Components
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>| Component  | Source      | Responsibility                                                     |
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>| ---------- | ----------- | ------------------------------------------------------------------ |
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>| `Error`    | `boogr.py`  | Wraps the original exception and stores normalized metadata.       |
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>| `Logger`   | `boogr.py`  | Creates the SQLite table when needed and writes exception records. |
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>| `LOG_DIR`  | `config.py` | Directory used for logging artifacts.                              |
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>| `LOG_PATH` | `config.py` | Full SQLite database path.                                         |
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>| `LOG_FILE` | `config.py` | SQLite table name.                                                 |
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>## ⚙️ Configuration Values
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>The logging configuration should exist in `config.py`.
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>Expected constants:
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>```python id=&quot;logging_constants_expected&quot;
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>LOG_DIR
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>LOG_PATH
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>LOG_FILE
+</span></code></pre></div></p>
+<p>Recommended defaults:</p>
+<p>```text id="logging_default_values"
+LOG_DIR  = logging
+LOG_PATH = logging/Exceptions.db
+LOG_FILE = Exceptions
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>On Windows, the resolved database path usually becomes:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>```text id=&quot;windows_logging_database&quot;
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>C:\Users\terry\source\repos\Fonky\logging\Exceptions.db
+</span></code></pre></div></p>
+<h2 id="powershell-logging-overrides">🪟 PowerShell Logging Overrides<a class="headerlink" href="#powershell-logging-overrides" title="Permanent link">&para;</a></h2>
+<p>Set a custom logging directory:</p>
+<p>```powershell id="set_log_dir"
+$env:LOG_DIR = "C:\Users\terry\source\repos\Fonky\logging"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Set a custom database path:
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>```powershell id=&quot;set_log_path&quot;
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>$env:LOG_PATH = &quot;C:\Users\terry\source\repos\Fonky\logging\Exceptions.db&quot;
+</span></code></pre></div></p>
+<p>Set a custom table name:</p>
+<p>```powershell id="set_log_file"
+$env:LOG_FILE = "Exceptions"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>These variables apply to the current PowerShell session.
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>## 🧾 Error Metadata
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>`Error` stores metadata that makes an exception easier to diagnose.
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>| Field     | Meaning                                                                |
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>| --------- | ---------------------------------------------------------------------- |
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>| `cause`   | Class, operation, or component where the exception occurred.           |
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>| `module`  | Source module, such as `loaders`, `fetchers`, `scrapers`, or `models`. |
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>| `method`  | Stable method signature string or operation name.                      |
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>| `message` | Exception message.                                                     |
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>| `info`    | Additional contextual information when available.                      |
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>| `trace`   | Exception traceback.                                                   |
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>The most important fields to set manually are:
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>```python id=&quot;manual_error_fields&quot;
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>exception.module = &quot;module_name&quot;
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>exception.cause = &quot;ClassName&quot;
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>exception.method = &quot;method_signature&quot;
+</span></code></pre></div></p>
+<h2 id="required-exception-pattern">🧱 Required Exception Pattern<a class="headerlink" href="#required-exception-pattern" title="Permanent link">&para;</a></h2>
+<p>Every handled exception block in regenerated Fonky source should use this explicit pattern:</p>
+<p>```python id="standard_exception_pattern"
+except Exception as e:
+    exception = Error(e)
+    exception.module = "module_name"
+    exception.cause = "ClassName"
+    exception.method = "method_name(self, arg: type) -&gt; return_type"
+    Logger().write(exception)
+    raise exception
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>This pattern has four required behaviors:
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>| Behavior | Requirement                                     |
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>| -------- | ----------------------------------------------- |
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>| Wrap     | Convert the original exception into `Error(e)`. |
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>| Annotate | Set `module`, `cause`, and `method`.            |
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>| Persist  | Call `Logger().write(exception)`.               |
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>| Raise    | Re-raise the wrapped exception.                 |
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>## 🚫 Logging Pattern to Avoid
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>Do not hide the logging operation behind a helper function.
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>Avoid:
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>```python id=&quot;bad_helper_pattern&quot;
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>except Exception as e:
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>    _log_and_raise(e, &quot;TextLoader&quot;, &quot;load(...)&quot;)
+</span></code></pre></div></p>
+<p>Avoid:</p>
+<p>```python id="bad_logger_helper_pattern"
+except Exception as e:
+    raise log_exception(e)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>For Fonky, the required logging operation should remain visible in the handler:
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>```python id=&quot;visible_logger_pattern&quot;
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Logger().write(exception)
+</span></code></pre></div></p>
+<p>This makes the logging behavior obvious in the source and visible in the API reference.</p>
+<h2 id="module-naming-standard">📌 Module Naming Standard<a class="headerlink" href="#module-naming-standard" title="Permanent link">&para;</a></h2>
+<p>Use stable, lower-case module names.</p>
+<p>Examples:</p>
+<table>
+<thead>
+<tr>
+<th>Source file</th>
+<th><code>exception.module</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loaders.py</code></td>
+<td><code>"loaders"</code></td>
+</tr>
+<tr>
+<td><code>fetchers.py</code></td>
+<td><code>"fetchers"</code></td>
+</tr>
+<tr>
+<td><code>scrapers.py</code></td>
+<td><code>"scrapers"</code></td>
+</tr>
+<tr>
+<td><code>processors.py</code></td>
+<td><code>"processors"</code></td>
+</tr>
+<tr>
+<td><code>models.py</code></td>
+<td><code>"models"</code></td>
+</tr>
+<tr>
+<td><code>config.py</code></td>
+<td><code>"config"</code></td>
+</tr>
+<tr>
+<td><code>boogr.py</code></td>
+<td><code>"boogr"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="cause-naming-standard">📌 Cause Naming Standard<a class="headerlink" href="#cause-naming-standard" title="Permanent link">&para;</a></h2>
+<p>Use the class name or operation name where the exception occurred.</p>
+<p>Examples:</p>
+<table>
+<thead>
+<tr>
+<th>Context</th>
+<th><code>exception.cause</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TextLoader.load</code></td>
+<td><code>"TextLoader"</code></td>
+</tr>
+<tr>
+<td><code>PdfLoader.split</code></td>
+<td><code>"PdfLoader"</code></td>
+</tr>
+<tr>
+<td>API fetcher class</td>
+<td>Fetcher class name</td>
+</tr>
+<tr>
+<td>Web extraction class</td>
+<td>Extractor class name</td>
+</tr>
+<tr>
+<td>Tool execution</td>
+<td><code>"ToolDef"</code></td>
+</tr>
+<tr>
+<td>Configuration validation</td>
+<td><code>"ConfigurationValidation"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="method-string-standard">📌 Method String Standard<a class="headerlink" href="#method-string-standard" title="Permanent link">&para;</a></h2>
+<p>Use a stable method signature string. Do not include live argument values, file contents, user data,
+API keys, tokens, OCR text, or full payloads.</p>
+<p>Good:</p>
+<p>```python id="good_method_string"
+exception.method = "load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Good:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>```python id=&quot;good_fetch_method_string&quot;
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>exception.method = &quot;fetch(self, query: str, limit: int=10) -&gt; dict&quot;
+</span></code></pre></div></p>
+<p>Bad:</p>
+<p>```python id="bad_method_string_with_value"
+exception.method = "load(self, path='C:\Users\terry\private\file.txt')"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Bad:
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>```python id=&quot;bad_method_string_with_secret&quot;
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>exception.method = &quot;fetch(self, api_key=&#39;actual-secret-key&#39;)&quot;
+</span></code></pre></div></p>
+<p>Bad:</p>
+<p>```python id="bad_method_string_with_payload"
+exception.method = "parse(self, text='full document text goes here')"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>## 🧪 Validate Logger Write
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>Run this from the repository root:
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>```powershell id=&quot;validate_logger_write&quot;
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>python -c &quot;from boogr import Error, Logger; import config as cfg; error = Error(Exception(&#39;logging validation&#39;)); error.module = &#39;logging&#39;; error.cause = &#39;ManualValidation&#39;; error.method = &#39;manual logger validation&#39;; Logger().write(error); print(cfg.LOG_PATH)&quot;
+</span></code></pre></div></p>
+<p>Confirm the database exists:</p>
+<p>```powershell id="confirm_logger_database"
+Test-Path .\logging\Exceptions.db
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Expected output:
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>```text id=&quot;expected_logger_database_output&quot;
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>True
+</span></code></pre></div></p>
+<h2 id="validate-database-with-python">🧪 Validate Database with Python<a class="headerlink" href="#validate-database-with-python" title="Permanent link">&para;</a></h2>
+<p>Use this command to confirm the exception table exists and contains records:</p>
+<p>```powershell id="validate_sqlite_records"
+python -c "import sqlite3, config as cfg; conn = sqlite3.connect(cfg.LOG_PATH); cur = conn.cursor(); cur.execute('SELECT COUNT(*) FROM ' + cfg.LOG_FILE); print(cur.fetchone()); conn.close()"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Expected output shape:
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>```text id=&quot;expected_sqlite_count_shape&quot;
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>(number_of_records,)
+</span></code></pre></div></p>
+<p>If the table does not exist, run the logger validation command first.</p>
+<h2 id="intentional-loader-failure-test">🧪 Intentional Loader Failure Test<a class="headerlink" href="#intentional-loader-failure-test" title="Permanent link">&para;</a></h2>
+<p>Create the logging directory:</p>
+<p>```powershell id="create_logging_directory"
+New-Item -ItemType Directory -Force .\logging | Out-Null
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Trigger a handled loader failure:
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>```powershell id=&quot;trigger_loader_failure&quot;
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>python -c &quot;from loaders import TextLoader; TextLoader().load(path=&#39;data/missing-file.txt&#39;, encoding=&#39;utf-8&#39;)&quot;
+</span></code></pre></div></p>
+<p>Expected behavior:</p>
+<p>```text id="expected_loader_failure"
+- The command raises an exception.
+- The exception is wrapped by boogr.Error.
+- Logger writes a row to logging/Exceptions.db when the loader handler uses the required pattern.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Then inspect the record count:
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>```powershell id=&quot;inspect_record_count_after_failure&quot;
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>python -c &quot;import sqlite3, config as cfg; conn = sqlite3.connect(cfg.LOG_PATH); cur = conn.cursor(); cur.execute(&#39;SELECT COUNT(*) FROM &#39; + cfg.LOG_FILE); print(cur.fetchone()); conn.close()&quot;
+</span></code></pre></div></p>
+<h2 id="inspect-recent-log-records">🧾 Inspect Recent Log Records<a class="headerlink" href="#inspect-recent-log-records" title="Permanent link">&para;</a></h2>
+<p>Use this PowerShell command to print recent exception records:</p>
+<p>```powershell id="inspect_recent_records"
+python -c "import sqlite3, config as cfg; conn = sqlite3.connect(cfg.LOG_PATH); cur = conn.cursor(); cur.execute('SELECT cause, module, method, message FROM ' + cfg.LOG_FILE + ' ORDER BY rowid DESC LIMIT 5'); rows = cur.fetchall(); conn.close(); [print(row) for row in rows]"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Expected output shape:
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>```text id=&quot;recent_records_shape&quot;
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>(&#39;TextLoader&#39;, &#39;loaders&#39;, &#39;load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]&#39;, &#39;...&#39;)
+</span></code></pre></div></p>
+<h2 id="sensitive-data-rule">🔐 Sensitive Data Rule<a class="headerlink" href="#sensitive-data-rule" title="Permanent link">&para;</a></h2>
+<p>Do not log sensitive values in <code>exception.method</code>, <code>exception.cause</code>, or <code>exception.module</code>.</p>
+<p>Do not include:</p>
+<p>```text id="do_not_log_values"
+- API keys
+- Access tokens
+- Passwords
+- Full local file paths containing private directories
+- Full document text
+- OCR text
+- User-provided payloads
+- Provider response payloads
+- Full request bodies
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Use stable signatures instead.
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>Good:
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>```python id=&quot;safe_method_signature&quot;
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>exception.method = &quot;load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]&quot;
+</span></code></pre></div></p>
+<p>Bad:</p>
+<p>```python id="unsafe_method_signature"
+exception.method = f"load(self, path={path}, encoding={encoding})"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>## 🧩 Logging in Loader Classes
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>Loader methods should log handled failures before re-raising.
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>Example:
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>```python id=&quot;loader_logging_example&quot;
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>from boogr import Error, Logger
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>class TextLoader:
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>    def load(self, path: str, encoding: Optional[str] = None) -&gt; List[Document]:
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>        &quot;&quot;&quot;Load a plain-text file.
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>        Purpose:
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>            Loads a local plain-text file into LangChain Document objects.
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>        Args:
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>            path (str): Path to the text file.
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>            encoding (Optional[str]): Optional file encoding.
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>
+</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>        Returns:
+</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>            List[Document]: Loaded document objects.
+</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>        &quot;&quot;&quot;
+</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>        try:
+</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>            # Loader implementation.
+</span><span id="__span-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>            pass
+</span><span id="__span-17-28"><a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a>        except Exception as e:
+</span><span id="__span-17-29"><a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>            exception = Error(e)
+</span><span id="__span-17-30"><a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a>            exception.module = &quot;loaders&quot;
+</span><span id="__span-17-31"><a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a>            exception.cause = &quot;TextLoader&quot;
+</span><span id="__span-17-32"><a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a>            exception.method = &quot;load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]&quot;
+</span><span id="__span-17-33"><a id="__codelineno-17-33" name="__codelineno-17-33" href="#__codelineno-17-33"></a>            Logger().write(exception)
+</span><span id="__span-17-34"><a id="__codelineno-17-34" name="__codelineno-17-34" href="#__codelineno-17-34"></a>            raise exception
+</span></code></pre></div></p>
+<h2 id="logging-in-fetcher-classes">🔌 Logging in Fetcher Classes<a class="headerlink" href="#logging-in-fetcher-classes" title="Permanent link">&para;</a></h2>
+<p>Fetcher methods should log request or provider failures without storing sensitive request payloads.</p>
+<p>Example:</p>
+<p>```python id="fetcher_logging_example"
+from boogr import Error, Logger</p>
+<p>class ExampleFetcher:
+    def fetch(self, query: str, limit: int = 10) -&gt; dict:
+        """Fetch example data.</p>
+<div class="language-text highlight"><pre><span></span><code>    Purpose:
+        Demonstrates the required logging pattern for fetcher methods.
+
+    Args:
+        query (str): Search query or lookup value.
+        limit (int): Maximum number of records.
+
+    Returns:
+        dict: Normalized provider response.
+    &quot;&quot;&quot;
+    try:
+        # Fetcher implementation.
+        return { &quot;query&quot;: query, &quot;limit&quot;: limit, &quot;items&quot;: [] }
+    except Exception as e:
+        exception = Error(e)
+        exception.module = &quot;fetchers&quot;
+        exception.cause = &quot;ExampleFetcher&quot;
+        exception.method = &quot;fetch(self, query: str, limit: int=10) -&gt; dict&quot;
+        Logger().write(exception)
+        raise exception
+</code></pre></div>
+<p>```
 
 
+</p>
+<h2 id="logging-in-tool-execution">🧰 Logging in Tool Execution<a class="headerlink" href="#logging-in-tool-execution" title="Permanent link">&para;</a></h2>
+<p><code>ToolDef.call()</code> should return structured failures for tool execution errors.
+
+A tool result failure should preserve this shape:
+
+<code>text id="tool_failure_shape"
+{
+    "ok": false,
+    "name": "tool_name",
+    "data": null,
+    "error": {
+        "type": "ExceptionType",
+        "message": "Exception message"
+    },
+    "metadata": {
+        "category": "...",
+        "source_module": "...",
+        "source_class": "...",
+        "method": "..."
+    }
+}</code></p>
+<p>This allows an AI tool loop to continue handling errors without losing the failure details.</p>
+<h2 id="logging-validation-workflow">🔁 Logging Validation Workflow<a class="headerlink" href="#logging-validation-workflow" title="Permanent link">&para;</a></h2>
+<p>Use this workflow after regenerating source files:</p>
+<p>```text id="logging_validation_workflow"
+1. Confirm source imports include Error and Logger where handled exceptions are logged.
+2. Confirm each handled exception creates exception = Error(e).
+3. Confirm exception.module is set.
+4. Confirm exception.cause is set.
+5. Confirm exception.method is set.
+6. Confirm Logger().write(exception) appears before raise exception.
+7. Run python -m py_compile on the edited file.
+8. Run python -m compileall .
+9. Trigger one controlled failure.
+10. Confirm logging/Exceptions.db exists and contains a record.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>## 🔎 Search for Missing Logger Writes
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>Use this command to find handlers that wrap errors:
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>```powershell id=&quot;find_error_wrappers&quot;
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>Select-String -Path .\*.py -Pattern &quot;exception = Error\(e\)&quot;
+</span></code></pre></div></p>
+<p>Use this command to find logger writes:</p>
+<p>```powershell id="find_logger_writes"
+Select-String -Path .*.py -Pattern "Logger().write(exception)"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>The number of logger writes should match the number of handled wrappers that raise the wrapped
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>exception, unless a method intentionally returns a structured error envelope instead of raising.
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>## 🔎 Search for Helper Abstractions
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>Use this command to find helper-style logging abstractions that should not replace the explicit
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>pattern:
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>```powershell id=&quot;find_logging_helpers&quot;
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>Select-String -Path .\*.py -Pattern &quot;_log_and_raise|log_exception|raise_logged&quot;
+</span></code></pre></div></p>
+<p>Expected result:</p>
+<p>```text id="expected_no_logging_helpers"
+No output.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>## 🧯 Common Logging Problems
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>### Database file is not created
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>Likely causes:
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>```text id=&quot;database_not_created_causes&quot;
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>- No handled exception has triggered Logger().write(exception).
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>- LOG_PATH points to a non-writable location.
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>- LOG_DIR was not created.
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>- The active source file lacks Logger().write(exception).
+</span></code></pre></div></p>
+<p>Fix:</p>
+<p>```powershell id="database_not_created_fix"
+New-Item -ItemType Directory -Force .\logging | Out-Null
+python -c "from boogr import Error, Logger; e = Error(Exception('test')); e.module = 'logging'; e.cause = 'ManualValidation'; e.method = 'manual'; Logger().write(e)"
+Test-Path .\logging\Exceptions.db
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>### Exception is raised but no row appears
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>Likely causes:
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>```text id=&quot;exception_no_row_causes&quot;
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>- The exception occurred before the handled try-except block.
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>- The handler raises without Logger().write(exception).
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>- A different database path is configured through LOG_PATH.
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>- The query is checking the wrong table name.
+</span></code></pre></div></p>
+<p>Check the active values:</p>
+<p>```powershell id="check_active_logging_values"
+python -c "import config as cfg; print(cfg.LOG_PATH); print(cfg.LOG_FILE)"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>### Method field contains live data
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>Bad:
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>```python id=&quot;bad_live_data_method&quot;
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>exception.method = f&quot;load(self, path={path})&quot;
+</span></code></pre></div></p>
+<p>Fix:</p>
+<p>```python id="fixed_stable_method"
+exception.method = "load(self, path: str) -&gt; List[Document]"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>### Logger helper hides required behavior
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>Bad:
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>```python id=&quot;bad_hidden_logger&quot;
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>except Exception as e:
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>    _raise_logged(e)
+</span></code></pre></div></p>
+<p>Fix:</p>
+<p><code>python id="fixed_explicit_logger"
+except Exception as e:
+    exception = Error(e)
+    exception.module = "loaders"
+    exception.cause = "TextLoader"
+    exception.method = "load(self, path: str, encoding: Optional[str]=None) -&gt; List[Document]"
+    Logger().write(exception)
+    raise exception</code></p>
+<h2 id="logging-checklist">✅ Logging Checklist<a class="headerlink" href="#logging-checklist" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Command or inspection</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logging constants exist</td>
+<td><code>python -c "import config as cfg; print(cfg.LOG_PATH); print(cfg.LOG_FILE)"</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Logger imports work</td>
+<td><code>python -c "from boogr import Error, Logger; print('ok')"</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Database can be written</td>
+<td>Manual logger validation command</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Database exists</td>
+<td><code>Test-Path .\logging\Exceptions.db</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Error wrappers exist</td>
+<td><code>Select-String -Path .\*.py -Pattern "exception = Error\(e\)"</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Logger writes exist</td>
+<td><code>Select-String -Path .\*.py -Pattern "Logger\(\)\.write\(exception\)"</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>No hidden helper pattern</td>
+<td><code>Select-String -Path .*.py -Pattern "_log_and_raise                          | log_exception | raise_logged"</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Source compiles</td>
+<td><code>python -m compileall .</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Docs build</td>
+<td><code>mkdocs build</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="next-step">➡️ Next Step<a class="headerlink" href="#next-step" title="Permanent link">&para;</a></h2>
+<p>Continue to <a href="../usage/">Usage</a> for practical examples showing how Fonky loaders, processors, and AI
+tooling work together.</p>
 
 
 

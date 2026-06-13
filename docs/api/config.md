@@ -1,3 +1,3 @@
-## ⚙️ Configuration API
+﻿## âš™ï¸ Configuration API
 
 ::: config

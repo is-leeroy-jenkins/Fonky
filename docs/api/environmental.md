@@ -1,3 +1,3 @@
-## 🌱 Environmental API
+﻿## ðŸŒ± Environmental API
 
 ::: environmental

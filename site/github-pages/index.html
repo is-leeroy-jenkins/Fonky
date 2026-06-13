@@ -81,6 +81,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#ys-github-pages" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -1236,6 +1241,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitHub Pages
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -1253,6 +1278,36 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#yz-deployment-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ðŸŽ¯ Deployment Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1281,9 +1336,483 @@
 
 
 
-  <h1>GitHub Pages</h1>
-
-
+<h1 id="ys-github-pages">ðŸš€ GitHub Pages<a class="headerlink" href="#ys-github-pages" title="Permanent link">&para;</a></h1>
+<p>This page explains how to publish the Fonky MkDocs site to GitHub Pages after the documentation
+builds cleanly on the local machine.</p>
+<p>Do not deploy until <code>mkdocs build</code> succeeds without unresolved page, import, mkdocstrings, Griffe,
+or broken-link warnings that affect the rendered site.</p>
+<h2 id="yz-deployment-goal">ðŸŽ¯ Deployment Goal<a class="headerlink" href="#yz-deployment-goal" title="Permanent link">&para;</a></h2>
+<p>The goal is to publish the MkDocs-generated documentation site so users can access Fonky
+documentation from the repositoryâ€™s GitHub Pages URL.</p>
+<p>Expected documentation URL:</p>
+<p>```text id="github_pages_url"
+https://is-leeroy-jenkins.github.io/Fonky/
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>The exact URL depends on the GitHub username or organization and repository name.
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>## âœ… Prerequisites
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Before deploying, confirm:
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>| Requirement                                           | Why it matters                                       |
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>| ----------------------------------------------------- | ---------------------------------------------------- |
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>| Git repository exists on GitHub                       | GitHub Pages deploys from the remote repository.     |
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>| Local repository is clean enough to deploy            | Avoid deploying stale or broken documentation.       |
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>| `mkdocs.yml` exists at repo root                      | MkDocs needs the site configuration.                 |
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>| `docs/` exists                                        | MkDocs needs Markdown source pages.                  |
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>| `docs/api/*.md` pages contain mkdocstrings directives | API docstrings render only through `:::` directives. |
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>| MkDocs dependencies are installed                     | `mkdocs gh-deploy` must be available.                |
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>| Local `mkdocs build` passes                           | Deploy only a known-good build.                      |
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>## ðŸ“¦ Install Documentation Dependencies
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>Install the documentation toolchain in the active virtual environment:
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>```powershell id=&quot;install_docs_dependencies&quot;
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>python -m pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python pymdown-extensions
+</span></code></pre></div></p>
+<p>Recommended <code>requirements.txt</code> section:</p>
+<p>```text id="requirements_docs_section"</p>
+<h1 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h1>
+<p>mkdocs
+mkdocs-material
+mkdocstrings
+mkdocstrings-python
+pymdown-extensions
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Install from `requirements.txt` when the dependencies are recorded there:
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>```powershell id=&quot;install_requirements&quot;
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>python -m pip install -r requirements.txt
+</span></code></pre></div></p>
+<h2 id="ya-validate-source-before-building-docs">ðŸ§ª Validate Source Before Building Docs<a class="headerlink" href="#ya-validate-source-before-building-docs" title="Permanent link">&para;</a></h2>
+<p>Run a Python compile check from the repository root:</p>
+<p>```powershell id="compile_source"
+python -m compileall .
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>For targeted checks:
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>```powershell id=&quot;targeted_compile&quot;
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>python -m py_compile .\boogr.py
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python -m py_compile .\config.py
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>python -m py_compile .\core.py
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>python -m py_compile .\archives.py
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>python -m py_compile .\fetchers.py
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>python -m py_compile .\loaders.py
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>python -m py_compile .\models.py
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>python -m py_compile .\processors.py
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>python -m py_compile .\scrapers.py
+</span></code></pre></div></p>
+<p>A clean compile confirms syntax validity. It does not confirm every optional API provider or
+credential is configured.</p>
+<h2 id="y-confirm-api-pages-render-source-docstrings">ðŸ”Œ Confirm API Pages Render Source Docstrings<a class="headerlink" href="#y-confirm-api-pages-render-source-docstrings" title="Permanent link">&para;</a></h2>
+<p>The API pages must contain mkdocstrings directives.</p>
+<p>Check all API pages:</p>
+<p>```powershell id="check_api_directives"
+Select-String -Path .\docs\api*.md -Pattern "^:::"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Expected output should include entries similar to:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>```text id=&quot;api_directive_expected_output&quot;
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>docs\api\loaders.md:3:::: loaders
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>docs\api\fetchers.md:3:::: fetchers
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>docs\api\processors.md:3:::: processors
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>docs\api\models.md:3:::: models
+</span></code></pre></div></p>
+<p>If no directives are found, the API pages will not render Python docstrings.</p>
+<p>For flat source layout, API pages should use:</p>
+<p><code>``markdown id="flat_api_directive"</code>::: loaders`
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>For package layout, API pages should use:
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>```markdown id=&quot;package_api_directive&quot;
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>`::: loaders`
+</span></code></pre></div></p>
+<h2 id="astmi-confirm-mkdocsyml">âš™ï¸ Confirm <code>mkdocs.yml</code><a class="headerlink" href="#astmi-confirm-mkdocsyml" title="Permanent link">&para;</a></h2>
+<p>The repository root should contain:</p>
+<p>```text id="mkdocs_file"
+mkdocs.yml
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Confirm it exists:
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>```powershell id=&quot;confirm_mkdocs_yml&quot;
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Test-Path .\mkdocs.yml
+</span></code></pre></div></p>
+<p>The file should include:</p>
+<p>```yaml id="site_url_example"
+site_url: https://is-leeroy-jenkins.github.io/Fonky/
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>It should also include the mkdocstrings plugin:
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>```yaml id=&quot;mkdocstrings_plugin_required&quot;
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>plugins:
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  - search
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  - mkdocstrings:
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>      handlers:
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>        python:
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>          paths:
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>            - .
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>          options:
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>            docstring_style: google
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>            show_source: true
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>            show_root_heading: true
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>            show_root_full_path: false
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>            show_signature: true
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>            show_signature_annotations: true
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>            separate_signature: true
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>            merge_init_into_class: false
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>            members_order: source
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>            filters:
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>              - &quot;!^_&quot;
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>            heading_level: 2
+</span></code></pre></div></p>
+<p>Do not include:</p>
+<p>```yaml id="invalid_custom_dir"
+custom_dir: null
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Use `custom_dir` only when there is an actual theme override directory.
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>## ðŸ—ï¸ Build the Site Locally
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>Build the documentation site:
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>```powershell id=&quot;mkdocs_build&quot;
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>mkdocs build
+</span></code></pre></div></p>
+<p>A successful build creates:</p>
+<p>```text id="site_directory"
+site/
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>The `site/` folder is generated output. It should not usually be committed when using
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>`mkdocs gh-deploy`.
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>## ðŸ‘€ Serve and Review Locally
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>Start a local documentation server:
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>```powershell id=&quot;mkdocs_serve&quot;
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>mkdocs serve
+</span></code></pre></div></p>
+<p>Open:</p>
+<p>```text id="local_site_url"
+http://127.0.0.1:8000/
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Review at least:
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>| Page            | What to confirm                                                             |
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>| --------------- | --------------------------------------------------------------------------- |
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>| Home            | Landing page renders and links work.                                        |
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>| Getting Started | Setup steps are clear and command blocks render correctly.                  |
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>| Configuration   | Environment variables and logging paths are clear.                          |
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>| Architecture    | Module flow and responsibilities are understandable.                        |
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>| Logging         | Exception pattern and SQLite logging details are correct.                   |
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>| User Guide      | Examples render without autorefs warnings.                                  |
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>| API Reference   | mkdocstrings renders modules, classes, methods, signatures, and docstrings. |
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>| GitHub Pages    | Deployment instructions match the repository.                               |
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>Stop the server with:
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>```text id=&quot;stop_server&quot;
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>Ctrl+C
+</span></code></pre></div></p>
+<h2 id="y-resolve-common-build-problems-before-deployment">ðŸ§¯ Resolve Common Build Problems Before Deployment<a class="headerlink" href="#y-resolve-common-build-problems-before-deployment" title="Permanent link">&para;</a></h2>
+<h3 id="custom_dir-nonetype-error"><code>custom_dir</code> <code>NoneType</code> error<a class="headerlink" href="#custom_dir-nonetype-error" title="Permanent link">&para;</a></h3>
+<p>Problem:</p>
+<p>```text id="custom_dir_error"
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Cause:
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>```yaml id=&quot;bad_custom_dir_config&quot;
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>custom_dir: null
+</span></code></pre></div></p>
+<p>Fix: remove the line.</p>
+<p>Correct:</p>
+<p>```yaml id="correct_theme_config"
+theme:
+  name: material
+  language: en
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>### API pages are blank
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Cause: API page lacks mkdocstrings directive.
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>Bad:
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>```markdown id=&quot;blank_api_page_bad&quot;
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a># Loaders API
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>This page describes loaders.
+</span></code></pre></div></p>
+<p>Good:</p>
+<p>```markdown id="api_page_good"</p>
+<h1 id="loaders-api">Loaders API<a class="headerlink" href="#loaders-api" title="Permanent link">&para;</a></h1>
+<p><code>loaders</code>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>or, for package layout:
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>```markdown id=&quot;api_page_package_good&quot;
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a># Loaders API
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>`::: loaders`
+</span></code></pre></div></p>
+<h3 id="mkdocstrings-cannot-import-a-module">mkdocstrings cannot import a module<a class="headerlink" href="#mkdocstrings-cannot-import-a-module" title="Permanent link">&para;</a></h3>
+<p>Possible causes:</p>
+<p>```text id="import_causes"
+- The directive path does not match the source layout.
+- The build is not being run from the repository root.
+- A dependency required at import time is missing.
+- A source file has syntax errors.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Check imports:
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>```powershell id=&quot;check_imports&quot;
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>python -c &quot;import loaders; import fetchers; import processors; import models; print(&#39;imports passed&#39;)&quot;
+</span></code></pre></div></p>
+<p>For package layout:</p>
+<p>```powershell id="check_package_imports"
+python -c "import fonky.loaders; import fonky.fetchers; import fonky.processors; import fonky.models; print('package imports passed')"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>### Griffe warning: no type for returned value
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Bad:
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>```text id=&quot;bad_return_docstring&quot;
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>Returns:
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    Supported option values.
+</span></code></pre></div></p>
+<p>Good:</p>
+<p>```text id="good_return_docstring"
+Returns:
+    list[str]: Supported option values.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>For functions that do not return a value, omit `Returns:`.
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>### Griffe warning: failed to get `name: description` pair
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>Bad:
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>```text id=&quot;bad_args_docstring&quot;
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>Args:
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>    Request parameters.
+</span></code></pre></div></p>
+<p>Good:</p>
+<p>```text id="good_args_docstring"
+Args:
+    params (dict[str, object]): Request parameters for the active call.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>If there is no specific argument or attribute to document, omit the section.
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>### Autorefs warning for `0` or `:1000`
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>Cause: Markdown interprets Python bracket syntax as reference links in some contexts.
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>Avoid:
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>```python id=&quot;autorefs_bad&quot;
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>print(documents[0].page_content[:1000])
+</span></code></pre></div></p>
+<p>Use:</p>
+<p>```python id="autorefs_good"
+for document in documents:
+    print(document.page_content)
+    break
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>## ðŸš¢ Deploy to GitHub Pages
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>After local build and review pass, deploy:
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>```powershell id=&quot;gh_deploy&quot;
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>mkdocs gh-deploy --force
+</span></code></pre></div></p>
+<p>This command builds the site and pushes the generated site content to the <code>gh-pages</code> branch.</p>
+<p>Expected behavior:</p>
+<p>```text id="gh_deploy_behavior"
+- MkDocs builds the documentation.
+- The generated site is committed to the gh-pages branch.
+- The gh-pages branch is pushed to GitHub.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>## âš™ï¸ Configure GitHub Repository Settings
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>In GitHub:
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>1. Open the repository.
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>2. Go to **Settings**.
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>3. Select **Pages**.
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>4. Under **Build and deployment**, choose **Deploy from a branch**.
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>5. Select the branch:
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>```text id=&quot;pages_branch&quot;
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>gh-pages
+</span></code></pre></div></p>
+<ol>
+<li>Select the folder:</li>
+</ol>
+<p>```text id="pages_folder"
+/
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>7. Save the settings.
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>GitHub may take a few minutes to publish or refresh the site.
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>## ðŸ”Ž Confirm the Published Site
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>After deployment, open:
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>```text id=&quot;published_site&quot;
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>https://is-leeroy-jenkins.github.io/Fonky/
+</span></code></pre></div></p>
+<p>Confirm:</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Expected result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Home page loads</td>
+<td>The documentation landing page appears.</td>
+</tr>
+<tr>
+<td>Navigation works</td>
+<td>Top-level and API pages are accessible.</td>
+</tr>
+<tr>
+<td>API pages render</td>
+<td>Source docstrings appear under classes and methods.</td>
+</tr>
+<tr>
+<td>Theme renders</td>
+<td>Material for MkDocs layout, navigation, search, and code copy buttons work.</td>
+</tr>
+<tr>
+<td>Links work</td>
+<td>No major broken internal links.</td>
+</tr>
+<tr>
+<td>GitHub repo link works</td>
+<td>The repository link points to the correct GitHub repository.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="y-confirm-github-pages-branch">ðŸ§­ Confirm GitHub Pages Branch<a class="headerlink" href="#y-confirm-github-pages-branch" title="Permanent link">&para;</a></h2>
+<p>Check branches:</p>
+<p>```powershell id="git_branch_all"
+git branch -a
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>You should see a remote branch similar to:
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>```text id=&quot;gh_pages_branch&quot;
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>remotes/origin/gh-pages
+</span></code></pre></div></p>
+<p>Check status:</p>
+<p>```powershell id="git_status_after_deploy"
+git status
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>The working tree for your main branch should remain under your control. The generated site is
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>managed on `gh-pages`.
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>## ðŸ§¾ Commit Source Documentation Changes
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>`mkdocs gh-deploy` publishes the generated site, but you still need to commit source documentation
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>changes to the normal branch.
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>Check status:
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>```powershell id=&quot;git_status&quot;
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>git status
+</span></code></pre></div></p>
+<p>Stage source documentation and configuration:</p>
+<p>```powershell id="git_add_docs"
+git add mkdocs.yml docs requirements.txt README.md
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>If source docstrings were changed:
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>```powershell id=&quot;git_add_source&quot;
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>git add *.py
+</span></code></pre></div></p>
+<p>Commit:</p>
+<p>```powershell id="git_commit_docs"
+git commit -m "Build Fonky MkDocs documentation"
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>Push the normal branch:
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>```powershell id=&quot;git_push_main&quot;
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>git push
+</span></code></pre></div></p>
+<h2 id="y-standard-update-workflow">ðŸ” Standard Update Workflow<a class="headerlink" href="#y-standard-update-workflow" title="Permanent link">&para;</a></h2>
+<p>Use this workflow whenever documentation changes:</p>
+<p>```text id="standard_update_workflow"
+1. Edit source docstrings or Markdown pages.
+2. Run python -m compileall .
+3. Run mkdocs build.
+4. Fix Python, Griffe, mkdocstrings, autorefs, or link warnings.
+5. Run mkdocs serve.
+6. Review locally.
+7. Commit source documentation changes.
+8. Run mkdocs gh-deploy --force.
+9. Confirm the published GitHub Pages site.
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>## ðŸ§ª Full Validation Command Set
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>From the repository root:
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>```powershell id=&quot;full_validation&quot;
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>python -m compileall .
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>Select-String -Path .\docs\api\*.md -Pattern &quot;^:::&quot;
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>mkdocs build
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>mkdocs serve
+</span></code></pre></div></p>
+<p>Deploy only after the local build is clean:</p>
+<p><code>powershell id="deploy_after_clean_build"
+mkdocs gh-deploy --force</code></p>
+<h2 id="a-deployment-checklist">âœ… Deployment Checklist<a class="headerlink" href="#a-deployment-checklist" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Command or location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Virtual environment active</td>
+<td>Prompt begins with <code>(.venv)</code></td>
+</tr>
+<tr>
+<td>Documentation dependencies installed</td>
+<td><code>python -m pip install -r requirements.txt</code></td>
+</tr>
+<tr>
+<td>Source compiles</td>
+<td><code>python -m compileall .</code></td>
+</tr>
+<tr>
+<td>API pages contain directives</td>
+<td><code>Select-String -Path .\docs\api\*.md -Pattern "^:::"</code></td>
+</tr>
+<tr>
+<td>MkDocs builds</td>
+<td><code>mkdocs build</code></td>
+</tr>
+<tr>
+<td>Local site reviewed</td>
+<td><code>mkdocs serve</code></td>
+</tr>
+<tr>
+<td>GitHub Pages deployed</td>
+<td><code>mkdocs gh-deploy --force</code></td>
+</tr>
+<tr>
+<td>GitHub Pages branch selected</td>
+<td>GitHub repository Settings â†’ Pages</td>
+</tr>
+<tr>
+<td>Published site reviewed</td>
+<td><code>https://is-leeroy-jenkins.github.io/Fonky/</code></td>
+</tr>
+<tr>
+<td>Source docs committed</td>
+<td><code>git add ...; git commit ...; git push</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="azi-next-step">âž¡ï¸ Next Step<a class="headerlink" href="#azi-next-step" title="Permanent link">&para;</a></h2>
+<p>After deployment, continue normal development by updating source docstrings and Markdown pages
+together. Rebuild locally before every GitHub Pages deployment.</p>
 
 
 
