@@ -1,4 +1,4 @@
-# Fonky Documentation
+![](./images/fonky_project.png)
 
 Fonky is a Python framework for document loading, API fetching, web extraction, text processing,
 structured tool generation, and MkDocs-based API documentation.
