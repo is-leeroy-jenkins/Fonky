@@ -25393,7 +25393,8 @@ class OpenSky( Fetcher ):
 		"""Unified dispatcher for OpenSky Network state, flight, airport, and track.
 		
 		Purpose:
-		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		    Provides the `fetch` callable documented in Google style for MkDocs and mkdocstrings output.
+		    The documented signature and return contract are aligned with the source implementation.
 		
 		Args:
 		    mode (str): Input value passed to the callable.
