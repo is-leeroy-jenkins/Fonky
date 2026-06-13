@@ -1,5 +1,5 @@
 # Architecture
-
+![](./images/fonky-architecture.png)
 Fonky is organized as a flat Python module framework for data retrieval, document loading, web
 extraction, text processing, exception logging, AI tool generation, and MkDocs-based API
 documentation.
