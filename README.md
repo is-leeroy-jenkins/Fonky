@@ -15,7 +15,7 @@ agents, notebooks, web applications, FastAPI services, and other agentic workflo
 Fonky provides a reusable library for:
 
 | Capability               | Description                                                                                                |
-|  | - |
+|--------------------------|------------------------------------------------------------------------------------------------------------|
 | 🌐 Web Fetching          | Retrieve web pages, scrape links, extract tables, headings, articles, paragraphs, and image references     |
 | 🔎 Search                | Query Google Custom Search, Wikipedia, ArXiv, news APIs, and public research sources                       |
 | 📄 Document Loading      | Load and split text, PDF, CSV, Excel, Word, Markdown, HTML, PowerPoint, JSON, XML, and web content         |
@@ -697,7 +697,7 @@ Expected shape:
 #### 🧾 Requirements
 
 | Package                      | Purpose                                                   | Notes                                                       |
-| - |  | -- |
+|------------------------------|-----------------------------------------------------------|-------------------------------------------------------------|
 | `pydantic`                   | Defines structured models and tool input schemas          | Required for `models.py` and `tools/schemas.py`             |
 | `typing_extensions`          | Backports newer typing features                           | Useful for compatibility across Python versions             |
 | `requests`                   | HTTP client for API fetchers                              | Required by most fetchers                                   |
