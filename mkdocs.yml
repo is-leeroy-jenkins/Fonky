@@ -50,7 +50,6 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Overview: overview.md
   - Getting Started: getting-started.md
   - Configuration: configuration.md
   - Architecture: architecture.md
@@ -66,7 +65,6 @@ nav:
       - Fetchers: api/fetchers.md
       - Scrapers: api/scrapers.md
       - Processors: api/processors.md
-      - Web: api/web.md
       - Boogr: api/boogr.md
   - Development: development.md
   - GitHub Pages: github-pages.md
