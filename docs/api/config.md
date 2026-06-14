@@ -1,4 +1,0 @@
-﻿## Configuration API
-
-::: config
-

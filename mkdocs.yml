@@ -53,19 +53,15 @@ nav:
   - Getting Started: getting-started.md
   - Configuration: configuration.md
   - Architecture: architecture.md
-  - Logging: logging.md
   - Usage Examples: usage.md
   - User Guide: user-guide.md
-  - API Reference:
-      - Overview: api/index.md
-      - Config: api/config.md
-      - Core: api/core.md
-      - Models: api/models.md
-      - Loaders: api/loaders.md
-      - Fetchers: api/fetchers.md
-      - Scrapers: api/scrapers.md
-      - Processors: api/processors.md
-      - Boogr: api/boogr.md
+  - Core: api/core.md
+  - Models: api/models.md
+  - Loaders: api/loaders.md
+  - Fetchers: api/fetchers.md
+  - Scrapers: api/scrapers.md
+  - Processors: api/processors.md
+  - Boogr: api/boogr.md
   - Development: development.md
   - GitHub Pages: github-pages.md
 
