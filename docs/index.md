@@ -82,13 +82,7 @@ Use the documentation sections below to move from setup to usage, development, a
 
   [Open Architecture](architecture.md)
 
-* **Logging**
-
-  Review the `Error` and `Logger` pattern, SQLite exception logging, validation commands, and safe
-  logging rules.
-
-  [Open Logging](logging.md)
-
+*
 * **Usage**
 
   Learn practical Fonky examples, including AI tooling with `ToolDef`, schema export, and
@@ -142,7 +136,6 @@ Primary API sections:
 | API page                              | Module             |
 | ------------------------------------- | ------------------ |
 | [Boogr](api/boogr.md)                 | `boogr.py`         |
-| [Configuration](api/config.md)        | `config.py`        |
 | [Core](api/core.md)                   | `core.py`          |
 | [Fetchers](api/fetchers.md)           | `fetchers.py`      |
 | [Loaders](api/loaders.md)             | `loaders.py`       |
