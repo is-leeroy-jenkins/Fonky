@@ -62,8 +62,6 @@ nav:
   - Scrapers: api/scrapers.md
   - Processors: api/processors.md
   - Boogr: api/boogr.md
-  - Development: development.md
-  - GitHub Pages: github-pages.md
 
 theme:
   name: material

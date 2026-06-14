@@ -97,18 +97,6 @@ Use the documentation sections below to move from setup to usage, development, a
 
   [Open User Guide](user-guide.md)
 
-* **Development**
-
-  Follow source regeneration rules, Google-style docstring standards, logging standards, validation
-  checks, and MkDocs build practices.
-
-  [Open Development](development.md)
-
-* **GitHub Pages**
-
-  Build and publish the MkDocs site using GitHub Pages.
-
-  [Open GitHub Pages](github-pages.md)
 
 </div>
 
