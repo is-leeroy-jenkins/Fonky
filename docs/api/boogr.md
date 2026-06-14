@@ -1,4 +1,3 @@
-﻿## Logging API
-
+﻿
 ::: boogr
 

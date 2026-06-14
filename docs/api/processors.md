@@ -1,4 +1,3 @@
-﻿## Processors API
-
+﻿
 ::: processors
 

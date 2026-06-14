@@ -1,4 +1,3 @@
-﻿## Scrapers API
-
+﻿
 ::: scrapers
 

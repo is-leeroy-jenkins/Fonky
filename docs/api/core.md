@@ -1,4 +1,3 @@
-﻿## Core API
-
+﻿
 ::: core
 
