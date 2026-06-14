@@ -171,6 +171,36 @@
 	border-top: 1px solid var(--fonky-table-border);
 }
 
+/* Fix rounded corners for mkdocstrings/admonition collapsible blocks. */
+.md-typeset details,
+.md-typeset .admonition
+{
+	border-radius: var(--fonky-radius);
+	overflow: hidden;
+}
+
+.md-typeset details > summary,
+.md-typeset .admonition-title
+{
+	border-top-left-radius: var(--fonky-radius);
+	border-top-right-radius: var(--fonky-radius);
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	margin: 0;
+}
+
+.md-typeset details:not([open]) > summary
+{
+	border-bottom-left-radius: var(--fonky-radius);
+	border-bottom-right-radius: var(--fonky-radius);
+}
+
+.md-typeset details[open] > summary
+{
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
 /* API headings and objects */
 .md-typeset .doc-heading
 {
@@ -488,4 +518,14 @@
 {
 	background-color: rgba(0, 120, 252, 0.85);
 	color: #FFFFFF !important;
+}
+
+/* Make PowerShell/environment-variable names readable in dark code blocks. */
+[data-md-color-scheme='slate'] .highlight .nv,
+[data-md-color-scheme='slate'] .highlight .n,
+[data-md-color-scheme='slate'] .highlight .na,
+[data-md-color-scheme='slate'] .highlight .vi,
+[data-md-color-scheme='slate'] .highlight .vm
+{
+	color: #D7E9FF !important;
 }
