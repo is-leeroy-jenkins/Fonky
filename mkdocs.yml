@@ -78,7 +78,6 @@ nav:
   - API Reference:
       - API Overview: api/index.md
       - Core: api/core.md
-      - Archives: api/archives.md
       - Fetchers: api/fetchers.md
       - Loaders: api/loaders.md
       - Models: api/models.md
@@ -86,14 +85,6 @@ nav:
       - Scrapers: api/scrapers.md
       - Configuration: api/config.md
       - Logging: api/boogr.md
-      - Astronomical: api/astronomical.md
-      - Cloud: api/cloud.md
-      - Demographic: api/demographic.md
-      - Documents: api/documents.md
-      - Environmental: api/environmental.md
-      - Geospatial: api/geospatial.md
-      - Health: api/health.md
-      - Web: api/web.md
   - Development: development.md
   - GitHub Pages: github-pages.md
 
