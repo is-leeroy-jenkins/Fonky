@@ -529,3 +529,50 @@
 {
 	color: #D7E9FF !important;
 }
+
+/* Make mkdocstrings Purpose headers fill the full collapsible block width. */
+.md-typeset .doc details
+{
+	border-radius: var(--fonky-radius);
+	overflow: hidden;
+	padding: 0;
+}
+
+.md-typeset .doc details > summary
+{
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0.75rem 1rem;
+	border-radius: 0;
+	background-color: #023770;
+	color: #FFFFFF;
+}
+
+.md-typeset .doc details > summary:first-child
+{
+	border-top-left-radius: var(--fonky-radius);
+	border-top-right-radius: var(--fonky-radius);
+}
+
+.md-typeset .doc details:not([open]) > summary:first-child
+{
+	border-bottom-left-radius: var(--fonky-radius);
+	border-bottom-right-radius: var(--fonky-radius);
+}
+
+.md-typeset .doc details[open] > summary:first-child
+{
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.md-typeset .doc details > p,
+.md-typeset .doc details > div,
+.md-typeset .doc details > blockquote
+{
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
