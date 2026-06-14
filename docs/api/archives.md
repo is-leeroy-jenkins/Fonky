@@ -1,4 +1,0 @@
-﻿## Archives API
-
-::: archives
-

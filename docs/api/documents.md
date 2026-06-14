@@ -1,4 +1,0 @@
-﻿## Documents API
-
-::: documents
-

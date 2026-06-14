@@ -1,4 +1,0 @@
-﻿## Environmental API
-
-::: environmental
-

@@ -1,4 +1,0 @@
-﻿## Astronomical API
-
-::: astronomical
-

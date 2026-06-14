@@ -141,23 +141,14 @@ Primary API sections:
 
 | API page                              | Module             |
 | ------------------------------------- | ------------------ |
-| [Archives](api/archives.md)           | `archives.py`      |
-| [Astronomical](api/astronomical.md)   | `astronomical.py`  |
 | [Boogr](api/boogr.md)                 | `boogr.py`         |
-| [Cloud](api/cloud.md)                 | `cloud.py`         |
 | [Configuration](api/config.md)        | `config.py`        |
 | [Core](api/core.md)                   | `core.py`          |
-| [Demographic](api/demographic.md)     | `demographic.py`   |
-| [Documents](api/documents.md)         | `documents.py`     |
-| [Environmental](api/environmental.md) | `environmental.py` |
 | [Fetchers](api/fetchers.md)           | `fetchers.py`      |
-| [Geospatial](api/geospatial.md)       | `geospatial.py`    |
-| [Health](api/health.md)               | `health.py`        |
 | [Loaders](api/loaders.md)             | `loaders.py`       |
 | [Models](api/models.md)               | `models.py`        |
 | [Processors](api/processors.md)       | `processors.py`    |
 | [Scrapers](api/scrapers.md)           | `scrapers.py`      |
-| [Web](api/web.md)                     | `web.py`           |
 
 ## Standard Workflow
 

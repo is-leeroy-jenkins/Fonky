@@ -1,4 +1,0 @@
-﻿## Geospatial API
-
-::: geospatial
-

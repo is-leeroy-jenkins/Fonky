@@ -1,4 +1,0 @@
-﻿## Health API
-
-::: health
-
