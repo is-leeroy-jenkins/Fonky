@@ -7,24 +7,6 @@ repo_url: https://github.com/is-leeroy-jenkins/Fonky
 repo_name: is-leeroy-jenkins/Fonky
 
 
-theme:
-  name: material
-  language: en
-  palette:
-    - scheme: slate
-      primary: blue
-      accent: blue
-  features:
-    - navigation.tabs
-    - navigation.sections
-    - navigation.expand
-    - navigation.top
-    - navigation.footer
-    - toc.follow
-    - search.highlight
-    - search.suggest
-    - content.code.copy
-
 plugins:
   - search
   - mkdocstrings:
@@ -67,26 +49,37 @@ markdown_extensions:
       alternate_style: true
 
 nav:
-  - Home:
-      - Overview: index.md
-      - Getting Started: getting-started.md
-      - Configuration: configuration.md
-      - Architecture: architecture.md
-      - Logging: logging.md
-      - Usage Examples: usage.md
-      - User Guide: user-guide.md
+  - Home: index.md
+  - Overview: overview.md
+  - Getting Started: getting-started.md
+  - Configuration: configuration.md
+  - Architecture: architecture.md
+  - Logging: logging.md
+  - Usage Examples: usage.md
+  - User Guide: user-guide.md
   - API Reference:
-      - API Overview: api/index.md
+      - Overview: api/index.md
+      - Config: api/config.md
       - Core: api/core.md
-      - Fetchers: api/fetchers.md
-      - Loaders: api/loaders.md
       - Models: api/models.md
-      - Processors: api/processors.md
+      - Loaders: api/loaders.md
+      - Fetchers: api/fetchers.md
       - Scrapers: api/scrapers.md
-      - Configuration: api/config.md
-      - Logging: api/boogr.md
+      - Processors: api/processors.md
+      - Web: api/web.md
+      - Boogr: api/boogr.md
   - Development: development.md
   - GitHub Pages: github-pages.md
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
 
 extra_css:
   - stylesheets/extra.css
