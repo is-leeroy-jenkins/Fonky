@@ -37,7 +37,14 @@
 
   </copyright>
   <summary>
-    models.py
+    Defines Pydantic data models and provider-neutral tool-definition helpers for Fonky.
+
+    Purpose:
+        Provides serializable model objects for prompts, files, messages, locations,
+        forecasts, directions, search tools, computer-use tools, and callable tool
+        definitions. The module also converts Python callables and type annotations into
+        provider-ready schema objects for OpenAI, Grok, Gemini, and other tool-calling
+        workflows while preserving a neutral internal representation.
   </summary>
   ******************************************************************************************
 '''
@@ -51,17 +58,19 @@ from typing import Any, Dict, List, Optional, Union, get_args, get_origin, get_t
 from pydantic import BaseModel, ConfigDict
 
 def throw_if( name: str, value: Any ) -> None:
-	"""Validate a required argument and raise a ValueError when the supplied value is None.
+	"""Validate required argument.
 	
 	Purpose:
-	    Provides the `throw_if` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+	    Validates a required argument before downstream schema generation or tool execution uses it.
+	    The function rejects missing values and empty strings so callers fail early with a clear
+	    argument-specific error message.
 	
 	Args:
-	    name (str): Input value passed to the callable.
-	    value (object): Input value passed to the callable.
+	    name (str): Human-readable argument name used in validation error messages.
+	    value (Any): Runtime value converted into a JSON-safe representation.
 	
 	Raises:
-	    Error: Raised when the wrapped operation fails and the exception is logged."""
+	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 	if value is None:
 		raise ValueError( f'Argument "{name}" cannot be None.' )
 	
@@ -69,19 +78,21 @@ def throw_if( name: str, value: Any ) -> None:
 		raise ValueError( f'Argument "{name}" cannot be empty.' )
 
 def clean_docstring( value: Optional[ str ] ) -> str:
-	"""Clean a callable docstring for use as a tool description.
+	"""Clean callable documentation.
 	
 	Purpose:
-	    Provides the `clean_docstring` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+	    Normalizes optional callable documentation into a compact description string for generated
+	    tool schemas. The function removes indentation artifacts and returns an empty string when no
+	    documentation text is available.
 	
 	Args:
-	    value (str): Input value passed to the callable.
+	    value (Optional[str]): Runtime value converted into a JSON-safe representation.
 	
 	Returns:
-	    str: Returned value produced by the callable.
+	    Cleaned docstring text suitable for reuse as a provider-facing tool description.
 	
 	Raises:
-	    Error: Raised when the wrapped operation fails and the exception is logged."""
+	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 	try:
 		if not value:
 			return ''
@@ -95,19 +106,21 @@ def clean_docstring( value: Optional[ str ] ) -> str:
 		raise exception
 
 def python_type_to_json_schema( annotation: Any ) -> Dict[ str, Any ]:
-	"""Convert a Python type annotation into a JSON Schema fragment suitable for.
+	"""Convert Python annotation to JSON Schema.
 	
 	Purpose:
-	    Provides the `python_type_to_json_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+	    Maps Python type annotations to the JSON Schema fragments used by provider tool
+	    declarations. The function handles primitive types, containers, optional unions, and unknown
+	    annotations with conservative schema defaults.
 	
 	Args:
-	    annotation (object): Input value passed to the callable.
+	    annotation (Any): Python type annotation converted into a JSON Schema fragment.
 	
 	Returns:
-	    Dict[str, object]: Returned value produced by the callable.
+	    JSON Schema fragment that represents the supplied Python type annotation.
 	
 	Raises:
-	    Error: Raised when the wrapped operation fails and the exception is logged."""
+	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 	try:
 		if annotation is inspect.Signature.empty:
 			return { 'type': 'string' }
@@ -164,19 +177,21 @@ def python_type_to_json_schema( annotation: Any ) -> Dict[ str, Any ]:
 		raise exception
 
 def build_parameter_schema( function: Callable[ ..., Any ] ) -> Dict[ str, Any ]:
-	"""Build a provider-neutral JSON Schema parameters object from a Python callable.
+	"""Build callable parameter schema.
 	
 	Purpose:
-	    Provides the `build_parameter_schema` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+	    Inspects a Python callable signature and builds a provider-neutral JSON Schema parameters
+	    object. The function excludes instance parameters, detects required arguments, preserves
+	    default values, and uses type hints when available.
 	
 	Args:
-	    function (Callable[..., object]): Input value passed to the callable.
+	    function (Callable[..., Any]): Callable inspected, wrapped, or converted into a provider-neutral tool schema.
 	
 	Returns:
-	    Dict[str, object]: Returned value produced by the callable.
+	    Provider-neutral JSON Schema object describing the callable parameters.
 	
 	Raises:
-	    Error: Raised when the wrapped operation fails and the exception is logged."""
+	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 	try:
 		throw_if( 'function', function )
 		
@@ -226,19 +241,21 @@ def build_parameter_schema( function: Callable[ ..., Any ] ) -> Dict[ str, Any ]
 		raise exception
 
 def serialize_value( value: Any ) -> Any:
-	"""Convert common Fonky, LangChain, Pydantic, pandas, and Python values into a.
+	"""Serialize runtime value.
 	
 	Purpose:
-	    Provides the `serialize_value` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+	    Converts common runtime objects into JSON-safe values for tool execution responses. The
+	    function preserves primitive values, recursively serializes mappings and sequences, and
+	    normalizes document, model, and dataframe-like objects when possible.
 	
 	Args:
-	    value (object): Input value passed to the callable.
+	    value (Any): Runtime value converted into a JSON-safe representation.
 	
 	Returns:
-	    object: Returned value produced by the callable.
+	    JSON-safe representation of the supplied value.
 	
 	Raises:
-	    Error: Raised when the wrapped operation fails and the exception is logged."""
+	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 	try:
 		if value is None:
 			return None
@@ -279,10 +296,19 @@ def serialize_value( value: Any ) -> Any:
 		raise exception
 
 class Prompt( BaseModel ):
-	"""Represents a structured “system prompt” or instruction bundle used to steer an LLM call.
+	"""Prompt model.
 	
 	Purpose:
-	    Documents the `Prompt` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents a structured prompt bundle used to pass instructions, versioning details, output
+	    format hints, and a user question through Fonky workflows. The model provides a typed
+	    container for prompt metadata that can be serialized by Pydantic.
+	
+	Attributes:
+	    instructions (Optional[str]): Instructions value stored by the model.
+	    id (Optional[str]): Id value stored by the model.
+	    version (Optional[str]): Version value stored by the model.
+	    format (Optional[str]): Format value stored by the model.
+	    question (Optional[str]): Question value stored by the model."""
 	instructions: Optional[ str ]
 	id: Optional[ str ]
 	version: Optional[ str ]
@@ -290,10 +316,21 @@ class Prompt( BaseModel ):
 	question: Optional[ str ]
 
 class File( BaseModel ):
-	"""Represents a file-like object returned by an API (uploaded artifacts, generated files,.
+	"""File model.
 	
 	Purpose:
-	    Documents the `File` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents file metadata returned by provider APIs or managed by Fonky workflows. The model
+	    stores identity, lifecycle, size, object type, purpose, and filename fields in a consistent
+	    Pydantic structure.
+	
+	Attributes:
+	    filename (Optional[str]): Filename value stored by the model.
+	    bytes (Optional[int]): Bytes value stored by the model.
+	    created_at (Optional[int]): Created at value stored by the model.
+	    expires_at (Optional[int]): Expires at value stored by the model.
+	    id (Optional[str]): Id value stored by the model.
+	    object (Optional[str]): Object value stored by the model.
+	    purpose (Optional[str]): Purpose value stored by the model."""
 	filename: Optional[ str ]
 	bytes: Optional[ int ]
 	created_at: Optional[ int ]
@@ -303,28 +340,49 @@ class File( BaseModel ):
 	purpose: Optional[ str ]
 
 class Document( BaseModel ):
-	"""Represents a generic “document-like” structured output. Boo uses this for demos and.
+	"""Document model.
 	
 	Purpose:
-	    Documents the `Document` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents a compact document-style payload containing summary and description text. The
+	    model is useful for normalized outputs where only high-level document metadata is required.
+	
+	Attributes:
+	    summary (Optional[str]): Summary value stored by the model.
+	    description (Optional[str]): Description value stored by the model."""
 	summary: Optional[ str ]
 	description: Optional[ str ]
 
 class Message( BaseModel ):
-	"""Represents a chat message-like object used by Boo to normalize conversational state.
+	"""Message model.
 	
 	Purpose:
-	    Documents the `Message` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents a normalized chat or tool message payload. The model stores role, content,
+	    message type, and optional structured data for conversational and provider-facing workflows.
+	
+	Attributes:
+	    content (Optional[str]): Content value stored by the model.
+	    role (Optional[str]): Role value stored by the model.
+	    type (Optional[str]): Type value stored by the model.
+	    data (Optional[Dict]): Data value stored by the model."""
 	content: Optional[ str ]
 	role: Optional[ str ]
 	type: Optional[ str ]
 	data: Optional[ Dict ]
 
 class Location( BaseModel ):
-	"""Represents a high-level user location descriptor used by web search or other tools.
+	"""Location model.
 	
 	Purpose:
-	    Documents the `Location` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents a high-level location descriptor for tools that need city, region, country,
+	    timezone, or location type information. The model keeps user-location context in a provider-
+	    neutral shape.
+	
+	Attributes:
+	    type (Optional[str]): Type value stored by the model.
+	    city (Optional[str]): City value stored by the model.
+	    country (Optional[str]): Country value stored by the model.
+	    region (Optional[str]): Region value stored by the model.
+	    timezone (Optional[str]): Timezone value stored by the model."""
 	type: Optional[ str ]
 	city: Optional[ str ]
 	country: Optional[ str ]
@@ -332,92 +390,165 @@ class Location( BaseModel ):
 	timezone: Optional[ str ]
 
 class GeoCoordinates( BaseModel ):
-	"""Represents a latitude/longitude coordinate pair, optionally with a timezone. This is.
+	"""GeoCoordinates model.
 	
 	Purpose:
-	    Documents the `GeoCoordinates` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents geographic coordinates and optional timezone metadata for geospatial tools. The
+	    model stores latitude, longitude, coordinate type, and timezone in a serializable Pydantic
+	    container.
+	
+	Attributes:
+	    type (Optional[str]): Type value stored by the model.
+	    latitude (Optional[float]): Latitude value stored by the model.
+	    longitude (Optional[float]): Longitude value stored by the model.
+	    timezone (Optional[str]): Timezone value stored by the model."""
 	type: Optional[ str ]
 	latitude: Optional[ float ]
 	longitude: Optional[ float ]
 	timezone: Optional[ str ]
 
 class Forecast( BaseModel ):
-	"""Represents a simplified weather forecast payload returned by a tool or model.
+	"""Forecast model.
 	
 	Purpose:
-	    Documents the `Forecast` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents a simplified weather forecast response. The model stores forecast type,
+	    temperature, precipitation, and sky-condition values for tool outputs or normalized provider
+	    responses.
+	
+	Attributes:
+	    type (Optional[str]): Type value stored by the model.
+	    temperature (Optional[int]): Temperature value stored by the model.
+	    precipitation (Optional[int]): Precipitation value stored by the model.
+	    sky_conditions (Optional[str]): Sky conditions value stored by the model."""
 	type: Optional[ str ]
 	temperature: Optional[ int ]
 	precipitation: Optional[ int ]
 	sky_conditions: Optional[ str ]
 
 class Directions( BaseModel ):
-	"""Represents a simplified directions/route payload returned by a mapping tool.
+	"""Directions model.
 	
 	Purpose:
-	    Documents the `Directions` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents a simplified route or directions payload. The model stores route data and type
+	    metadata for mapping, navigation, or location-aware tool responses.
+	
+	Attributes:
+	    type (Optional[str]): Type value stored by the model.
+	    route (Optional[Any]): Route value stored by the model."""
 	type: Optional[ str ]
 	route: Optional[ Any ]
 
 class SkyCoordinates( BaseModel ):
-	"""Represents right ascension / declination coordinate pairs used in astronomy-oriented.
+	"""SkyCoordinates model.
 	
 	Purpose:
-	    Documents the `SkyCoordinates` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents astronomical coordinate values used by sky, catalog, and observatory workflows.
+	    The model stores declination and right ascension in a typed, serializable structure.
+	
+	Attributes:
+	    type (Optional[str]): Type value stored by the model.
+	    declination (Optional[float]): Declination value stored by the model.
+	    right_ascension (Optional[float]): Right ascension value stored by the model."""
 	type: Optional[ str ]
 	declination: Optional[ float ]
 	right_ascension: Optional[ float ]
 
 class Tool( BaseModel ):
-	"""Represents a tool/function descriptor for tool-calling. Boo uses this to keep “tool.
+	"""Tool model.
 	
 	Purpose:
-	    Documents the `Tool` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents the shared base descriptor for callable tools. The model stores a tool name,
+	    provider-facing type, and short description used by function-calling workflows.
+	
+	Attributes:
+	    name (Optional[str]): Name value stored by the model.
+	    type (Optional[str]): Type value stored by the model.
+	    description (Optional[str]): Description value stored by the model."""
 	name: Optional[ str ]
 	type: Optional[ str ]
 	description: Optional[ str ]
 
 class Function( Tool ):
-	"""Represents a tool/function descriptor for tool-calling. Boo uses this to keep “tool.
+	"""Function model.
 	
 	Purpose:
-	    Documents the `Function` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Extends the base tool descriptor with callable parameter schema and strictness metadata. The
+	    model represents a function-style tool declaration independent of any single provider.
+	
+	Attributes:
+	    parameters (Optional[Dict[str, Any]]): Parameters value stored by the model.
+	    strict (Optional[bool]): Strict value stored by the model."""
 	parameters: Optional[ Dict[ str, Any ] ]
 	strict: Optional[ bool ]
 
 class FileSearch( Tool ):
-	"""Represents configuration for a file-search tool invocation. Boo uses this to keep tool.
+	"""FileSearch model.
 	
 	Purpose:
-	    Documents the `FileSearch` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents configuration for a file-search tool. The model stores vector store identifiers,
+	    result limits, and optional filters for retrieval workflows.
+	
+	Attributes:
+	    vector_store_ids (Optional[List[str]]): Vector store ids value stored by the model.
+	    max_num_results (Optional[int]): Max num results value stored by the model.
+	    filters (Optional[Dict[str, Any]]): Filters value stored by the model."""
 	vector_store_ids: Optional[ List[ str ] ]
 	max_num_results: Optional[ int ]
 	filters: Optional[ Dict[ str, Any ] ]
 
 class WebSearch( Tool ):
-	"""Represents configuration for a web-search tool invocation.
+	"""WebSearch model.
 	
 	Purpose:
-	    Documents the `WebSearch` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents configuration for a web-search tool. The model stores search context size and
+	    optional user-location metadata used by search-capable provider workflows.
+	
+	Attributes:
+	    type (Optional[str]): Type value stored by the model.
+	    search_context_size (Optional[str]): Search context size value stored by the model.
+	    user_location (Optional[Any]): User location value stored by the model."""
 	type: Optional[ str ]
 	search_context_size: Optional[ str ]
 	user_location: Optional[ Any ]
 
 class ComputerUse( Tool ):
-	"""Represents configuration for a computer-use tool invocation (UI automation / virtual.
+	"""ComputerUse model.
 	
 	Purpose:
-	    Documents the `ComputerUse` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents configuration for a computer-use or UI-automation tool. The model stores display
+	    dimensions and execution environment metadata for provider tool declarations.
+	
+	Attributes:
+	    type (Optional[str]): Type value stored by the model.
+	    display_height (Optional[int]): Display height value stored by the model.
+	    display_width (Optional[int]): Display width value stored by the model.
+	    environment (Optional[str]): Environment value stored by the model."""
 	type: Optional[ str ]
 	display_height: Optional[ int ]
 	display_width: Optional[ int ]
 	environment: Optional[ str ]
 
 class ToolDef( Function ):
-	"""Represents a provider-neutral AI tool definition bound to an existing Fonky callable.
+	"""ToolDef model.
 	
 	Purpose:
-	    Documents the `ToolDef` class and its role in the Fonky runtime. The class docstring uses Google style so MkDocs and mkdocstrings can render it without Griffe section warnings."""
+	    Represents a provider-neutral tool definition bound to a Python callable or object method.
+	    The model stores callable metadata, generated parameter schema, provider conversion helpers,
+	    and execution behavior for unified tool dispatch.
+	
+	Attributes:
+	    name (Optional[str]): Name value stored by the model.
+	    type (Optional[str]): Type value stored by the model.
+	    description (Optional[str]): Description value stored by the model.
+	    parameters (Optional[Dict[str, Any]]): Parameters value stored by the model.
+	    strict (Optional[bool]): Strict value stored by the model.
+	    target (Optional[Any]): Target value stored by the model.
+	    method (Optional[str]): Method value stored by the model.
+	    handler (Optional[Callable[..., Any]]): Handler value stored by the model.
+	    category (Optional[str]): Category value stored by the model.
+	    source_module (Optional[str]): Source module value stored by the model.
+	    source_class (Optional[str]): Source class value stored by the model.
+	    callable_name (Optional[str]): Callable name value stored by the model."""
 	model_config = ConfigDict( arbitrary_types_allowed=True )
 	
 	name: Optional[ str ] = None
@@ -437,23 +568,25 @@ class ToolDef( Function ):
 	def from_callable( cls, function: Callable[ ..., Any ], name: Optional[ str ] = None,
 			description: Optional[ str ] = None, category: Optional[ str ] = None,
 			strict: bool = True ) -> 'ToolDef':
-		"""Create a provider-neutral tool definition from a plain Python callable.
+		"""Create tool definition from callable.
 		
 		Purpose:
-		    Provides the `from_callable` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		    Creates a provider-neutral tool definition from a standalone Python callable. The method
+		    derives the callable name, source module, description, parameter schema, strictness flag,
+		    and execution handler needed for later tool dispatch.
 		
 		Args:
-		    function (Callable[..., object]): Input value passed to the callable.
-		    name (str): Input value passed to the callable.
-		    description (str): Input value passed to the callable.
-		    category (str): Input value passed to the callable.
-		    strict (bool): Input value passed to the callable.
+		    function (Callable[..., Any]): Callable inspected, wrapped, or converted into a provider-neutral tool schema.
+		    name (Optional[str]): Human-readable argument name used in validation error messages.
+		    description (Optional[str]): Optional provider-facing description used instead of the callable docstring.
+		    category (Optional[str]): Optional grouping value retained in tool metadata.
+		    strict (bool): Flag indicating whether provider schema validation should be strict.
 		
 		Returns:
-		    'ToolDef': Returned value produced by the callable.
+		    Tool definition that wraps the supplied callable for provider-neutral use.
 		
 		Raises:
-		    Error: Raised when the wrapped operation fails and the exception is logged."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 		try:
 			throw_if( 'function', function )
 			
@@ -483,24 +616,26 @@ class ToolDef( Function ):
 	def from_method( cls, target: Any, method: str, name: Optional[ str ] = None,
 			description: Optional[ str ] = None, category: Optional[ str ] = None,
 			strict: bool = True ) -> 'ToolDef':
-		"""Create a provider-neutral tool definition from an existing object instance and.
+		"""Create tool definition from object method.
 		
 		Purpose:
-		    Provides the `from_method` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		    Creates a provider-neutral tool definition from a method on an existing object instance. The
+		    method validates that the target member exists and is callable, then stores the target,
+		    method name, source class, source module, and generated parameter schema.
 		
 		Args:
-		    target (object): Input value passed to the callable.
-		    method (str): Input value passed to the callable.
-		    name (str): Input value passed to the callable.
-		    description (str): Input value passed to the callable.
-		    category (str): Input value passed to the callable.
-		    strict (bool): Input value passed to the callable.
+		    target (Any): Object instance that owns the method being exposed as a tool.
+		    method (str): Name of the target method exposed through the tool definition.
+		    name (Optional[str]): Human-readable argument name used in validation error messages.
+		    description (Optional[str]): Optional provider-facing description used instead of the callable docstring.
+		    category (Optional[str]): Optional grouping value retained in tool metadata.
+		    strict (bool): Flag indicating whether provider schema validation should be strict.
 		
 		Returns:
-		    'ToolDef': Returned value produced by the callable.
+		    Tool definition that resolves and wraps a named method on the supplied object instance.
 		
 		Raises:
-		    Error: Raised when the wrapped operation fails and the exception is logged."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 		try:
 			throw_if( 'target', target )
 			throw_if( 'method', method )
@@ -544,16 +679,18 @@ class ToolDef( Function ):
 			raise exception
 	
 	def resolve_callable( self ) -> Callable[ ..., Any ]:
-		"""Resolve and return the Python callable bound to this tool definition.
+		"""Resolve bound callable.
 		
 		Purpose:
-		    Provides the `resolve_callable` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		    Resolves the executable Python callable represented by the tool definition. The method
+		    returns a direct handler when one is stored or retrieves the named method from the stored
+		    target object after validating the binding.
 		
 		Returns:
-		    Callable[..., object]: Returned value produced by the callable.
+		    Python callable bound to this tool definition.
 		
 		Raises:
-		    Error: Raised when the wrapped operation fails and the exception is logged."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 		try:
 			if self.handler is not None:
 				return self.handler
@@ -582,19 +719,19 @@ class ToolDef( Function ):
 			raise exception
 	
 	def call( self, arguments: Optional[ Dict[ str, Any ] ] = None ) -> Dict[ str, Any ]:
-		"""Execute the bound callable with keyword arguments and return a neutral,.
+		"""Execute bound tool callable.
 		
 		Purpose:
-		    Provides the `call` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		    Executes the bound tool callable with keyword arguments and returns a neutral response
+		    envelope. The method serializes successful results and converts failures into structured
+		    error metadata without exposing provider-specific response objects.
 		
 		Args:
-		    arguments (Dict[str, object]): Input value passed to the callable.
+		    arguments (Optional[Dict[str, Any]]): Keyword arguments passed to the resolved callable during tool execution.
 		
 		Returns:
-		    Dict[str, object]: Returned value produced by the callable.
-		
-		Raises:
-		    Error: Raised when the wrapped operation fails and the exception is logged."""
+		    Dictionary containing execution status, serialized data, error information, and tool
+		    metadata."""
 		try:
 			handler = self.resolve_callable( )
 			payload = arguments or { }
@@ -637,16 +774,18 @@ class ToolDef( Function ):
 			}
 	
 	def to_dict( self ) -> Dict[ str, Any ]:
-		"""Return a JSON-safe provider-neutral schema dictionary for this tool definition.
+		"""Export neutral tool dictionary.
 		
 		Purpose:
-		    Provides the `to_dict` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		    Exports the tool definition as a provider-neutral dictionary for inspection, persistence, or
+		    application-level routing. The method includes schema fields, source metadata, method
+		    binding details, and category information.
 		
 		Returns:
-		    Dict[str, object]: Returned value produced by the callable.
+		    Provider-neutral dictionary representation of this tool definition.
 		
 		Raises:
-		    Error: Raised when the wrapped operation fails and the exception is logged."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 		try:
 			return { 'name': self.name,
 			         'type': self.type,
@@ -666,16 +805,18 @@ class ToolDef( Function ):
 			raise exception
 	
 	def to_openai( self ) -> Dict[ str, Any ]:
-		"""Return an OpenAI-compatible function tool schema generated from the neutral.
+		"""Export OpenAI tool schema.
 		
 		Purpose:
-		    Provides the `to_openai` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		    Builds an OpenAI-compatible function tool declaration from the neutral tool definition. The
+		    method supplies a function name, description, parameters object, and strictness flag using
+		    safe defaults when optional schema fields are absent.
 		
 		Returns:
-		    Dict[str, object]: Returned value produced by the callable.
+		    OpenAI-compatible function-tool schema for this tool definition.
 		
 		Raises:
-		    Error: Raised when the wrapped operation fails and the exception is logged."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 		try:
 			return {
 					'type': 'function',
@@ -698,16 +839,18 @@ class ToolDef( Function ):
 			raise exception
 	
 	def to_grok( self ) -> Dict[ str, Any ]:
-		"""Return a Grok-compatible function tool schema generated from the neutral.
+		"""Export Grok tool schema.
 		
 		Purpose:
-		    Provides the `to_grok` callable documented in Google style for MkDocs and mkdocstrings output. The documented signature and return contract are aligned with the source implementation.
+		    Builds a Grok-compatible function tool declaration using the same schema shape used for
+		    OpenAI function tools. The method preserves the neutral tool definition while reusing the
+		    shared provider conversion path.
 		
 		Returns:
-		    Dict[str, object]: Returned value produced by the callable.
+		    Grok-compatible function-tool schema for this tool definition.
 		
 		Raises:
-		    Error: Raised when the wrapped operation fails and the exception is logged."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 		try:
 			return self.to_openai( )
 		except Exception as e:
@@ -718,17 +861,18 @@ class ToolDef( Function ):
 			raise exception
 	
 	def to_gemini( self ) -> Dict[ str, Any ]:
-		"""Return a Gemini-compatible function declaration generated from the neutral.
+		"""Export Gemini tool schema.
 		
 		Purpose:
-		    Provides the `to_gemini` callable documented in Google style for MkDocs and mkdocstrings output.
-		    The documented signature and return contract are aligned with the source implementation.
+		    Builds a Gemini-compatible function declaration from the neutral tool definition. The method
+		    returns the function name, description, and parameters object in the schema shape expected
+		    by Gemini tool configuration.
 		
 		Returns:
-		    Dict[str, object]: Returned value produced by the callable.
+		    Gemini-compatible function declaration for this tool definition.
 		
 		Raises:
-		    Error: Raised when the wrapped operation fails and the exception is logged."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
 		try:
 			return {
 					'name': self.name,
