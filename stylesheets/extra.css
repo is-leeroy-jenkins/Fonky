@@ -1,578 +1,913 @@
-:root
-{
+/*
+ * ==========================================================================================
+ *  Fonky Documentation Theme
+ *  File: docs/stylesheets/extra.css
+ *
+ *  Purpose:
+ *      Provides dark-mode Material for MkDocs styling for the Fonky documentation site.
+ *      The stylesheet improves readability, widens content, preserves a dark blue header,
+ *      styles API reference output, tables, code blocks, admonitions, and JavaScript controls.
+ * ==========================================================================================
+ */
+
+/* ==========================================================================================
+   Theme Variables
+   ========================================================================================== */
+
+:root {
 	--fonky-bg: #141414;
-	--fonky-bg-soft: #1D1D1D;
-	--fonky-bg-muted: #242424;
-	--fonky-surface: #414141;
+	--fonky-bg-alt: #1b1b1b;
+	--fonky-surface: #242424;
+	--fonky-surface-2: #303030;
+	--fonky-surface-3: #414141;
 	--fonky-border: #565557;
-	--fonky-table-border: #00254C;
+	--fonky-border-soft: rgba(86, 85, 87, 0.72);
+
+	--fonky-blue: #024fa3;
+	--fonky-blue-dark: #00254c;
+	--fonky-blue-deep: #011a33;
+	--fonky-blue-bright: #0078fc;
+	--fonky-blue-soft: #4da3ff;
 	--fonky-table-header: #023770;
-	--fonky-primary: #0078FC;
-	--fonky-primary-dark: #024FA3;
-	--fonky-text: #FFFFFF;
-	--fonky-text-soft: #E8E8E8;
-	--fonky-text-muted: #CFCFCF;
-	--fonky-code-bg: #202124;
-	--fonky-radius: 14px;
+
+	--fonky-text: #ffffff;
+	--fonky-text-soft: #e6eaf0;
+	--fonky-text-muted: #b8c2cc;
+	--fonky-text-dim: #8f9ba8;
+
+	--fonky-code-bg: #101820;
+	--fonky-code-border: #25364a;
+
+	--fonky-success: #33d17a;
+	--fonky-warning: #f5c542;
+	--fonky-danger: #ff6b6b;
+
+	--fonky-radius-sm: 6px;
+	--fonky-radius-md: 10px;
+	--fonky-radius-lg: 14px;
+	--fonky-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+	--fonky-shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.22);
+	--fonky-transition: 140ms ease-in-out;
 }
 
-/* Material palette */
-[data-md-color-scheme='slate']
-{
+/* ==========================================================================================
+   Material Theme Overrides
+   ========================================================================================== */
+
+[data-md-color-scheme="slate"] {
 	--md-default-bg-color: var(--fonky-bg);
+	--md-default-bg-color--light: var(--fonky-bg-alt);
+	--md-default-bg-color--lighter: var(--fonky-surface);
+	--md-default-bg-color--lightest: var(--fonky-surface-2);
+
 	--md-default-fg-color: var(--fonky-text-soft);
 	--md-default-fg-color--light: var(--fonky-text-muted);
-	--md-default-fg-color--lighter: #A9A9A9;
-	--md-primary-fg-color: var(--fonky-primary-dark);
-	--md-primary-fg-color--dark: var(--fonky-primary-dark);
-	--md-primary-fg-color--light: var(--fonky-primary);
-	--md-accent-fg-color: var(--fonky-primary);
-	--md-typeset-a-color: #4DA3FF;
+	--md-default-fg-color--lighter: var(--fonky-text-dim);
+
+	--md-primary-fg-color: var(--fonky-blue);
+	--md-primary-fg-color--light: var(--fonky-blue-bright);
+	--md-primary-fg-color--dark: var(--fonky-blue-dark);
+
+	--md-accent-fg-color: var(--fonky-blue-bright);
+	--md-accent-fg-color--transparent: rgba(0, 120, 252, 0.16);
+	--md-typeset-a-color: var(--fonky-blue-soft);
+
 	--md-code-bg-color: var(--fonky-code-bg);
-	--md-code-fg-color: #E8E8E8;
+	--md-code-fg-color: #eaf2ff;
+	--md-code-hl-color: rgba(0, 120, 252, 0.22);
+	--md-code-hl-number-color: #b7d9ff;
+	--md-code-hl-special-color: #ffb3d1;
+	--md-code-hl-function-color: #9cdcfe;
+	--md-code-hl-constant-color: #dcdcaa;
+	--md-code-hl-keyword-color: #c586c0;
+	--md-code-hl-string-color: #ce9178;
+	--md-code-hl-name-color: #eaf2ff;
+	--md-code-hl-operator-color: #d4d4d4;
+	--md-code-hl-punctuation-color: #d4d4d4;
+	--md-code-hl-comment-color: #6a9955;
+	--md-code-hl-variable-color: #9cdcfe;
 }
 
-/* Layout */
-.md-grid
-{
-	max-width: 1480px;
+/* ==========================================================================================
+   Global Layout
+   ========================================================================================== */
+
+html {
+	scroll-behavior: smooth;
 }
 
-.md-main__inner
-{
-	max-width: 1480px;
+body {
+	background:
+		radial-gradient(circle at 12% 0%, rgba(0, 120, 252, 0.12), transparent 30rem),
+		radial-gradient(circle at 85% 10%, rgba(2, 79, 163, 0.16), transparent 34rem),
+		var(--fonky-bg);
+	color: var(--fonky-text-soft);
 }
 
-.md-content__inner
-{
+.md-main__inner,
+.md-grid {
+	max-width: 94rem;
+}
+
+.md-content__inner {
 	max-width: none;
+	padding-bottom: 3.5rem;
 }
 
-@media screen and (min-width: 76.25em)
-{
-	.md-sidebar--primary
-	{
-		display: none;
-	}
-	
-	.md-content
-	{
-		margin-left: 0;
-	}
+.md-sidebar,
+.md-sidebar__scrollwrap {
+	scrollbar-width: thin;
+	scrollbar-color: var(--fonky-border) transparent;
 }
 
-/* Header and tabs */
-.md-header,
-.md-tabs
-{
-	background-color: var(--fonky-primary-dark);
+/* ==========================================================================================
+   Header and Navigation
+   ========================================================================================== */
+
+.md-header {
+	background:
+		linear-gradient(90deg, var(--fonky-blue-dark) 0%, var(--fonky-blue) 48%, var(--fonky-blue-dark) 100%);
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.38);
+	border-bottom: 1px solid rgba(77, 163, 255, 0.28);
 }
 
-.md-tabs__link
-{
+.md-tabs {
+	background:
+		linear-gradient(90deg, var(--fonky-blue-dark) 0%, #023770 48%, var(--fonky-blue-dark) 100%);
+	border-bottom: 1px solid rgba(77, 163, 255, 0.22);
+}
+
+.md-header__title,
+.md-header__topic,
+.md-header__button,
+.md-tabs__link--active {
+	color: #ffffff;
+}
+
+.md-header__title {
+	font-weight: 700;
+	letter-spacing: 0.01em;
+}
+
+.md-tabs__link {
+	color: rgba(255, 255, 255, 0.84);
+	font-weight: 600;
+}
+
+.md-tabs__link:hover {
+	color: #ffffff;
+}
+
+.md-search__form {
+	background-color: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: var(--fonky-radius-md);
+}
+
+.md-search__form:hover {
+	background-color: rgba(255, 255, 255, 0.18);
+}
+
+.md-search__input {
+	color: #ffffff;
+}
+
+.md-search__input::placeholder {
 	color: rgba(255, 255, 255, 0.72);
+}
+
+.md-nav__title {
+	color: #ffffff;
 	font-weight: 700;
 }
 
-.md-tabs__link--active,
-.md-tabs__link:is(:hover, :focus)
-{
-	color: #FFFFFF;
+.md-nav__item .md-nav__link--active {
+	color: var(--fonky-blue-soft);
+	font-weight: 700;
 }
 
-/* Main text */
-.md-typeset
-{
-	font-size: 0.86rem;
-	line-height: 1.65;
+.md-nav__link:hover {
+	color: #ffffff;
+}
+
+.md-nav--secondary .md-nav__link {
+	color: var(--fonky-text-muted);
+}
+
+.md-nav--secondary .md-nav__link:hover,
+.md-nav--secondary .md-nav__link.fonky-toc-active {
+	color: var(--fonky-blue-soft);
+}
+
+.fonky-toc-active {
+	font-weight: 700;
+}
+
+/* ==========================================================================================
+   Typography
+   ========================================================================================== */
+
+.md-typeset {
 	color: var(--fonky-text-soft);
+	font-size: 0.84rem;
+	line-height: 1.68;
 }
 
 .md-typeset h1,
 .md-typeset h2,
 .md-typeset h3,
-.md-typeset h4
-{
-	color: var(--fonky-text);
-	font-weight: 800;
-	letter-spacing: -0.02em;
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+	color: #ffffff;
+	font-weight: 750;
+	letter-spacing: -0.015em;
 }
 
-.md-typeset h1
-{
-	font-size: 2rem;
+.md-typeset h1 {
+	margin-bottom: 0.75rem;
+	padding-bottom: 0.55rem;
+	border-bottom: 1px solid rgba(77, 163, 255, 0.26);
+	font-size: 2.05rem;
 }
 
-.md-typeset h2
-{
-	border-bottom: 1px solid var(--fonky-border);
-	padding-bottom: 0.35rem;
+.md-typeset h2 {
+	margin-top: 2.15rem;
+	color: #f5faff;
+	font-size: 1.48rem;
 }
 
-/* Links */
-.md-typeset a
-{
-	color: #4DA3FF;
+.md-typeset h3 {
+	margin-top: 1.65rem;
+	color: #eaf4ff;
+	font-size: 1.18rem;
 }
 
-.md-typeset a:hover
-{
-	color: #86C2FF;
+.md-typeset h4 {
+	color: #d8ebff;
+	font-size: 1.02rem;
 }
 
-/* Tables */
-.md-typeset table:not([class])
-{
-	background-color: var(--fonky-bg-soft);
+.md-typeset p,
+.md-typeset li {
+	color: var(--fonky-text-soft);
+}
+
+.md-typeset strong {
+	color: #ffffff;
+	font-weight: 700;
+}
+
+.md-typeset a {
+	color: var(--fonky-blue-soft);
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.16em;
+}
+
+.md-typeset a:hover {
+	color: #8ac5ff;
+}
+
+/* ==========================================================================================
+   Tables
+   ========================================================================================== */
+
+.md-typeset table:not([class]) {
+	display: table;
+	width: 100%;
 	border: 1px solid var(--fonky-border);
-	border-radius: var(--fonky-radius);
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: var(--fonky-radius-lg);
 	overflow: hidden;
+	background-color: rgba(36, 36, 36, 0.92);
+	box-shadow: var(--fonky-shadow-soft);
 }
 
-.md-typeset table:not([class]) th
-{
-	background-color: var(--fonky-table-header);
-	color: #FFFFFF;
-	font-weight: 800;
-	border-color: var(--fonky-table-header);
+.md-typeset table:not([class]) th {
+	background:
+		linear-gradient(180deg, var(--fonky-table-header) 0%, var(--fonky-blue-dark) 100%);
+	color: #ffffff;
+	font-weight: 750;
+	border-bottom: 1px solid rgba(77, 163, 255, 0.34);
 }
 
-.md-typeset table:not([class]) td
-{
-	background-color: var(--fonky-bg-soft);
+.md-typeset table:not([class]) td {
 	color: var(--fonky-text-soft);
-	border-top: 1px solid var(--fonky-table-border);
+	border-top: 1px solid rgba(0, 37, 76, 0.86);
 }
 
-.md-typeset table:not([class]) tr:hover td
-{
-	background-color: #1F1F1F;
+.md-typeset table:not([class]) tr:nth-child(even) td {
+	background-color: rgba(255, 255, 255, 0.025);
 }
 
-/* API tables generated by mkdocstrings */
-.md-typeset .doc table
-{
-	background-color: var(--fonky-bg-soft);
-	border: 1px solid var(--fonky-border);
-	border-radius: var(--fonky-radius);
-	overflow: hidden;
+.md-typeset table:not([class]) tr:hover td {
+	background-color: rgba(0, 120, 252, 0.08);
 }
 
-.md-typeset .doc table th
-{
-	background-color: var(--fonky-table-header);
-	color: #FFFFFF;
+.md-typeset table:not([class]) code {
+	white-space: nowrap;
 }
 
-.md-typeset .doc table td
-{
-	background-color: var(--fonky-bg-soft);
-	color: var(--fonky-text-soft);
-	border-top: 1px solid var(--fonky-table-border);
+.fonky-table-tools {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	margin: 1rem 0 0.45rem;
+	padding: 0.65rem;
+	border: 1px solid var(--fonky-border-soft);
+	border-radius: var(--fonky-radius-lg);
+	background: rgba(36, 36, 36, 0.82);
+	box-shadow: var(--fonky-shadow-soft);
 }
 
-/* Fix rounded corners for mkdocstrings/admonition collapsible blocks. */
-.md-typeset details,
-.md-typeset .admonition
-{
-	border-radius: var(--fonky-radius);
-	overflow: hidden;
-}
-
-.md-typeset details > summary,
-.md-typeset .admonition-title
-{
-	border-top-left-radius: var(--fonky-radius);
-	border-top-right-radius: var(--fonky-radius);
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	margin: 0;
-}
-
-.md-typeset details:not([open]) > summary
-{
-	border-bottom-left-radius: var(--fonky-radius);
-	border-bottom-right-radius: var(--fonky-radius);
-}
-
-.md-typeset details[open] > summary
-{
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-}
-
-/* API headings and objects */
-.md-typeset .doc-heading
-{
-	color: var(--fonky-text);
-	border-left: 3px solid var(--fonky-primary);
-	padding-left: 0.8rem;
-}
-
-.md-typeset .doc-object
-{
-	border-left: 2px solid rgba(0, 120, 252, 0.55);
-	padding-left: 1rem;
-	margin-bottom: 2rem;
-}
-
-.md-typeset .doc-label
-{
-	background-color: var(--fonky-code-bg);
-	color: #9ECBFF;
-	border-radius: 0.35rem;
-	padding: 0.1rem 0.35rem;
-}
-
-/* Source-code accordion */
-.md-typeset details,
-.md-typeset .admonition
-{
-	background-color: var(--fonky-bg-soft);
-	border: 1px solid var(--fonky-border);
-	border-radius: var(--fonky-radius);
-	color: var(--fonky-text-soft);
-}
-
-.md-typeset details > summary,
-.md-typeset .admonition-title
-{
-	background-color: #002E5E;
-	color: #9ECBFF;
-	border-radius: var(--fonky-radius);
-	font-weight: 800;
-}
-
-.md-typeset details[open] > summary
-{
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-}
-
-.md-typeset details .highlight,
-.md-typeset details pre,
-.md-typeset details code
-{
-	background-color: var(--fonky-code-bg);
-	color: var(--fonky-text-soft);
-}
-
-/* Code */
-.md-typeset code
-{
-	background-color: var(--fonky-code-bg);
-	color: #D7E9FF;
-	border-radius: 0.35rem;
-	padding: 0.1rem 0.35rem;
-}
-
-.md-typeset pre > code
-{
-	background-color: var(--fonky-code-bg);
-	color: var(--fonky-text-soft);
+.fonky-table-filter {
+	width: min(24rem, 100%);
+	padding: 0.45rem 0.7rem;
+	border: 1px solid rgba(77, 163, 255, 0.34);
+	border-radius: var(--fonky-radius-md);
+	background: rgba(20, 20, 20, 0.92);
+	color: #ffffff;
 	font-size: 0.78rem;
 }
 
-.highlight
-{
-	background-color: var(--fonky-code-bg);
-	border-radius: var(--fonky-radius);
+.fonky-table-filter::placeholder {
+	color: var(--fonky-text-dim);
 }
 
-.highlight pre
-{
-	background-color: var(--fonky-code-bg);
+.fonky-table-filter:focus {
+	outline: 2px solid rgba(77, 163, 255, 0.42);
+	outline-offset: 2px;
 }
 
-/* Right table of contents */
-.md-sidebar--secondary
-{
-	background-color: var(--fonky-bg);
-}
-
-.md-nav--secondary .md-nav__title
-{
-	color: var(--fonky-text);
-	font-weight: 800;
-}
-
-.md-nav--secondary .md-nav__link
-{
+.fonky-table-count {
 	color: var(--fonky-text-muted);
+	font-size: 0.74rem;
+	white-space: nowrap;
 }
 
-.md-nav--secondary .md-nav__link--active,
-.md-nav--secondary .md-nav__link:is(:hover, :focus)
-{
-	color: var(--fonky-primary);
+/* ==========================================================================================
+   Code Blocks
+   ========================================================================================== */
+
+.md-typeset code {
+	border-radius: var(--fonky-radius-sm);
+	background-color: rgba(16, 24, 32, 0.96);
+	color: #eaf2ff;
+	font-size: 0.78rem;
 }
 
-/* Search */
-.md-search__form
-{
-	background-color: #064584;
+.md-typeset pre {
+	border: 1px solid var(--fonky-code-border);
+	border-radius: var(--fonky-radius-lg);
+	background:
+		linear-gradient(180deg, rgba(16, 24, 32, 0.98), rgba(13, 18, 24, 0.98));
+	box-shadow: var(--fonky-shadow-soft);
 }
 
-.md-search__input
-{
-	color: #FFFFFF;
+.md-typeset pre > code {
+	font-size: 0.76rem;
+	line-height: 1.62;
 }
 
-.md-search__input::placeholder
-{
-	color: rgba(255, 255, 255, 0.75);
+.fonky-code-label {
+	display: inline-flex;
+	align-items: center;
+	margin: 1rem 0 0;
+	padding: 0.25rem 0.58rem;
+	border: 1px solid rgba(77, 163, 255, 0.28);
+	border-bottom: none;
+	border-radius: var(--fonky-radius-md) var(--fonky-radius-md) 0 0;
+	background: linear-gradient(180deg, var(--fonky-blue-dark), #021f3e);
+	color: #ffffff;
+	font-size: 0.68rem;
+	font-weight: 750;
+	letter-spacing: 0.035em;
+	text-transform: uppercase;
 }
 
-/* Cards and buttons */
-.md-typeset .grid.cards > ul > li,
-.md-typeset .md-button
-{
-	border-radius: var(--fonky-radius);
+.fonky-code-label + .highlight,
+.fonky-code-label + pre {
+	margin-top: 0 !important;
 }
 
-.md-typeset .md-button
-{
-	border-color: var(--fonky-primary);
-	color: var(--fonky-primary);
-}
-
-.md-typeset .md-button:hover
-{
-	background-color: var(--fonky-primary);
-	color: #FFFFFF;
-}
-
-/* Back-to-top button */
-.md-top
-{
-	background-color: #111111;
-	color: #FFFFFF;
-	border: 1px solid var(--fonky-border);
-}
-
-/* Footer */
-.md-footer
-{
-	background-color: #101010;
-}
-
-.md-footer-meta
-{
-	background-color: #080808;
-}
-
-/* Force readable code highlighting on the dark Fonky theme. */
-[data-md-color-scheme='slate'] .highlight,
-[data-md-color-scheme='slate'] .highlight pre,
-[data-md-color-scheme='slate'] .highlight code,
-[data-md-color-scheme='slate'] .md-typeset pre,
-[data-md-color-scheme='slate'] .md-typeset pre code
-{
-	background-color: #202124 !important;
-	color: #E8E8E8 !important;
-}
-
-/* Base code text */
-[data-md-color-scheme='slate'] .highlight .w,
-[data-md-color-scheme='slate'] .highlight .n,
-[data-md-color-scheme='slate'] .highlight .p,
-[data-md-color-scheme='slate'] .highlight .o,
-[data-md-color-scheme='slate'] .highlight .x,
-[data-md-color-scheme='slate'] .highlight .err
-{
-	color: #E8E8E8 !important;
-}
-
-/* Keywords */
-[data-md-color-scheme='slate'] .highlight .k,
-[data-md-color-scheme='slate'] .highlight .kc,
-[data-md-color-scheme='slate'] .highlight .kd,
-[data-md-color-scheme='slate'] .highlight .kn,
-[data-md-color-scheme='slate'] .highlight .kp,
-[data-md-color-scheme='slate'] .highlight .kr,
-[data-md-color-scheme='slate'] .highlight .kt
-{
-	color: #7AA2FF !important;
-	font-weight: 700;
-}
-
-/* Builtins and names */
-[data-md-color-scheme='slate'] .highlight .nb,
-[data-md-color-scheme='slate'] .highlight .bp,
-[data-md-color-scheme='slate'] .highlight .fm,
-[data-md-color-scheme='slate'] .highlight .vc,
-[data-md-color-scheme='slate'] .highlight .vg,
-[data-md-color-scheme='slate'] .highlight .vi,
-[data-md-color-scheme='slate'] .highlight .vm
-{
-	color: #9CDCFE !important;
-}
-
-/* Functions, classes, and attributes */
-[data-md-color-scheme='slate'] .highlight .nf,
-[data-md-color-scheme='slate'] .highlight .nc,
-[data-md-color-scheme='slate'] .highlight .nn,
-[data-md-color-scheme='slate'] .highlight .na,
-[data-md-color-scheme='slate'] .highlight .nd
-{
-	color: #DCDCAA !important;
-}
-
-/* Strings and docstrings */
-[data-md-color-scheme='slate'] .highlight .s,
-[data-md-color-scheme='slate'] .highlight .s1,
-[data-md-color-scheme='slate'] .highlight .s2,
-[data-md-color-scheme='slate'] .highlight .sa,
-[data-md-color-scheme='slate'] .highlight .sb,
-[data-md-color-scheme='slate'] .highlight .sc,
-[data-md-color-scheme='slate'] .highlight .sd,
-[data-md-color-scheme='slate'] .highlight .se,
-[data-md-color-scheme='slate'] .highlight .sh,
-[data-md-color-scheme='slate'] .highlight .si,
-[data-md-color-scheme='slate'] .highlight .sr,
-[data-md-color-scheme='slate'] .highlight .ss,
-[data-md-color-scheme='slate'] .highlight .sx
-{
-	color: #CE9178 !important;
-}
-
-/* Numbers */
-[data-md-color-scheme='slate'] .highlight .m,
-[data-md-color-scheme='slate'] .highlight .mb,
-[data-md-color-scheme='slate'] .highlight .mf,
-[data-md-color-scheme='slate'] .highlight .mh,
-[data-md-color-scheme='slate'] .highlight .mi,
-[data-md-color-scheme='slate'] .highlight .mo,
-[data-md-color-scheme='slate'] .highlight .il
-{
-	color: #B5CEA8 !important;
-}
-
-/* Comments */
-[data-md-color-scheme='slate'] .highlight .c,
-[data-md-color-scheme='slate'] .highlight .c1,
-[data-md-color-scheme='slate'] .highlight .cm,
-[data-md-color-scheme='slate'] .highlight .cp,
-[data-md-color-scheme='slate'] .highlight .cpf,
-[data-md-color-scheme='slate'] .highlight .cs
-{
-	color: #8FBF7F !important;
-	font-style: italic;
-}
-
-/* Operators and punctuation */
-[data-md-color-scheme='slate'] .highlight .ow,
-[data-md-color-scheme='slate'] .highlight .o,
-[data-md-color-scheme='slate'] .highlight .p
-{
-	color: #D4D4D4 !important;
-}
-
-/* Generic emphasis, deleted, inserted, headings */
-[data-md-color-scheme='slate'] .highlight .ge
-{
-	color: #E8E8E8 !important;
-	font-style: italic;
-}
-
-[data-md-color-scheme='slate'] .highlight .gs
-{
-	color: #FFFFFF !important;
-	font-weight: 700;
-}
-
-[data-md-color-scheme='slate'] .highlight .gh,
-[data-md-color-scheme='slate'] .highlight .gu
-{
-	color: #4DA3FF !important;
-	font-weight: 700;
-}
-
-[data-md-color-scheme='slate'] .highlight .gd
-{
-	color: #F48771 !important;
-}
-
-[data-md-color-scheme='slate'] .highlight .gi
-{
-	color: #B5CEA8 !important;
-}
-
-/* Inline code must remain visible but not overpower block code. */
-[data-md-color-scheme='slate'] .md-typeset code:not(pre code)
-{
-	background-color: #242424 !important;
-	color: #D7E9FF !important;
-	border: 1px solid rgba(86, 85, 87, 0.55);
-}
-
-/* Copy button contrast. */
-[data-md-color-scheme='slate'] .md-clipboard
-{
-	color: #FFFFFF !important;
-	background-color: rgba(10, 10, 10, 0.18);
-	border-radius: 0.3rem;
-}
-
-[data-md-color-scheme='slate'] .md-clipboard:hover
-{
-	background-color: rgba(0, 120, 252, 0.85);
-	color: #FFFFFF !important;
-}
-
-/* Make PowerShell/environment-variable names readable in dark code blocks. */
-[data-md-color-scheme='slate'] .highlight .nv,
-[data-md-color-scheme='slate'] .highlight .n,
-[data-md-color-scheme='slate'] .highlight .na,
-[data-md-color-scheme='slate'] .highlight .vi,
-[data-md-color-scheme='slate'] .highlight .vm
-{
-	color: #D7E9FF !important;
-}
-
-/* Make mkdocstrings Purpose headers fill the full collapsible block width. */
-.md-typeset .doc details
-{
-	border-radius: var(--fonky-radius);
+.fonky-code-collapsed {
+	position: relative;
 	overflow: hidden;
-	padding: 0;
 }
 
-.md-typeset .doc details > summary
-{
+.fonky-code-collapsed::after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 5rem;
+	background: linear-gradient(180deg, transparent, rgba(16, 24, 32, 0.98));
+	content: "";
+	pointer-events: none;
+}
+
+.fonky-code-toggle {
+	display: inline-flex;
+	align-items: center;
+	margin: 0.35rem 0 1rem;
+	padding: 0.35rem 0.65rem;
+	border: 1px solid rgba(77, 163, 255, 0.32);
+	border-radius: var(--fonky-radius-md);
+	background: rgba(0, 120, 252, 0.12);
+	color: var(--fonky-blue-soft);
+	font-size: 0.72rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition:
+		background-color var(--fonky-transition),
+		color var(--fonky-transition),
+		border-color var(--fonky-transition);
+}
+
+.fonky-code-toggle:hover {
+	background: rgba(0, 120, 252, 0.22);
+	border-color: rgba(77, 163, 255, 0.6);
+	color: #ffffff;
+}
+
+/* ==========================================================================================
+   Admonitions, Details, Cards
+   ========================================================================================== */
+
+.md-typeset .admonition,
+.md-typeset details {
+	border-radius: var(--fonky-radius-lg);
+	border-color: rgba(77, 163, 255, 0.32);
+	background-color: rgba(36, 36, 36, 0.86);
+	box-shadow: var(--fonky-shadow-soft);
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+	border-radius: var(--fonky-radius-lg) var(--fonky-radius-lg) 0 0;
+	background-color: rgba(2, 55, 112, 0.72);
+	color: #ffffff;
+	font-weight: 750;
+}
+
+.md-typeset .grid.cards > ul > li {
+	border: 1px solid rgba(86, 85, 87, 0.74);
+	border-radius: var(--fonky-radius-lg);
+	background: rgba(36, 36, 36, 0.84);
+	box-shadow: var(--fonky-shadow-soft);
+	transition:
+		transform var(--fonky-transition),
+		border-color var(--fonky-transition),
+		background-color var(--fonky-transition);
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+	transform: translateY(-2px);
+	border-color: rgba(77, 163, 255, 0.45);
+	background: rgba(48, 48, 48, 0.94);
+}
+
+.md-typeset .md-button {
+	border-radius: var(--fonky-radius-md);
+	font-weight: 750;
+}
+
+.md-typeset .md-button--primary {
+	background-color: var(--fonky-blue);
+	border-color: var(--fonky-blue);
+	color: #ffffff;
+}
+
+.md-typeset .md-button--primary:hover {
+	background-color: var(--fonky-blue-bright);
+	border-color: var(--fonky-blue-bright);
+	color: #ffffff;
+}
+
+/* ==========================================================================================
+   API Reference / mkdocstrings
+   ========================================================================================== */
+
+.doc.doc-object,
+.doc-class,
+.doc-function,
+.doc-method,
+.doc-attribute,
+.doc-property {
+	position: relative;
+	margin-top: 1.1rem;
+	padding: 0.85rem 1rem;
+	border: 1px solid rgba(86, 85, 87, 0.72);
+	border-radius: var(--fonky-radius-lg);
+	background: rgba(27, 27, 27, 0.84);
+	box-shadow: var(--fonky-shadow-soft);
+}
+
+.doc-heading {
+	color: #ffffff;
+}
+
+.doc-label,
+.doc-label-class-attribute,
+.doc-label-instance-attribute {
+	border-radius: var(--fonky-radius-sm);
+	background: rgba(0, 120, 252, 0.14);
+	color: var(--fonky-blue-soft);
+}
+
+.doc-signature {
+	color: #eaf2ff;
+}
+
+.doc-contents {
+	color: var(--fonky-text-soft);
+}
+
+.fonky-api-badge {
+	display: inline-flex;
+	align-items: center;
+	margin-left: 0.5rem;
+	padding: 0.1rem 0.45rem;
+	border: 1px solid rgba(77, 163, 255, 0.32);
+	border-radius: 999px;
+	background: rgba(0, 120, 252, 0.12);
+	color: var(--fonky-blue-soft);
+	font-size: 0.62rem;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
+
+.fonky-api-tools {
+	margin: 1.25rem 0 1.75rem;
+	padding: 1rem 1.1rem;
+	border: 1px solid rgba(77, 163, 255, 0.42);
+	border-radius: var(--fonky-radius-lg);
+	background:
+		linear-gradient(180deg, rgba(2, 37, 76, 0.78), rgba(20, 28, 40, 0.92));
+	box-shadow: var(--fonky-shadow-soft);
+}
+
+.fonky-api-tools-title {
+	margin: 0 0 0.75rem !important;
+	padding-bottom: 0 !important;
+	border-bottom: none !important;
+	color: #ffffff !important;
+	font-size: 1rem !important;
+	font-weight: 800 !important;
+}
+
+.fonky-api-search-label {
+	display: block;
+	margin-bottom: 0.35rem;
+	color: var(--fonky-text-muted);
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+
+.fonky-api-search {
 	width: 100%;
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0.75rem 1rem;
-	border-radius: 0;
-	background-color: #023770;
-	color: #FFFFFF;
+	padding: 0.75rem 0.9rem;
+	border: 1px solid rgba(77, 163, 255, 0.5);
+	border-radius: var(--fonky-radius-md);
+	background-color: rgba(10, 18, 26, 0.96);
+	color: #ffffff;
+	font-size: 0.9rem;
 }
 
-.md-typeset .doc details > summary:first-child
-{
-	border-top-left-radius: var(--fonky-radius);
-	border-top-right-radius: var(--fonky-radius);
+.fonky-api-search:focus {
+	outline: 2px solid rgba(77, 163, 255, 0.48);
+	outline-offset: 2px;
+	border-color: rgba(77, 163, 255, 0.82);
 }
 
-.md-typeset .doc details:not([open]) > summary:first-child
-{
-	border-bottom-left-radius: var(--fonky-radius);
-	border-bottom-right-radius: var(--fonky-radius);
+.fonky-api-tool-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.55rem;
+	margin-top: 1rem;
 }
 
-.md-typeset .doc details[open] > summary:first-child
-{
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
+.fonky-api-tool-button {
+	padding: 0.48rem 0.82rem;
+	border: 1px solid rgba(77, 163, 255, 0.5);
+	border-radius: 999px;
+	background:
+		linear-gradient(180deg, rgba(2, 79, 163, 0.82), rgba(0, 37, 76, 0.92));
+	color: #ffffff;
+	font-size: 0.74rem;
+	font-weight: 800;
+	cursor: pointer;
 }
 
-.md-typeset .doc details > p,
-.md-typeset .doc details > div,
-.md-typeset .doc details > blockquote
-{
-	margin-left: 0;
-	margin-right: 0;
-	padding-left: 1rem;
-	padding-right: 1rem;
+.fonky-api-tool-button:hover {
+	border-color: rgba(255, 255, 255, 0.68);
+	background:
+		linear-gradient(180deg, rgba(0, 120, 252, 0.92), rgba(2, 79, 163, 0.95));
+	color: #ffffff;
+	transform: translateY(-1px);
+}
+
+.fonky-api-filter-status {
+	margin: 0.75rem 0 0;
+	color: var(--fonky-text-muted);
+	font-size: 0.72rem;
+	font-weight: 700;
+}
+
+.fonky-api-hidden {
+	display: none !important;
+}
+
+/* ==========================================================================================
+   Page Tools and Heading Links
+   ========================================================================================== */
+
+.fonky-page-tools {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.45rem;
+	margin: -0.25rem 0 1.15rem;
+}
+
+.fonky-page-tools button {
+	padding: 0.32rem 0.62rem;
+	border: 1px solid rgba(77, 163, 255, 0.34);
+	border-radius: var(--fonky-radius-md);
+	background: rgba(0, 120, 252, 0.12);
+	color: var(--fonky-blue-soft);
+	font-size: 0.72rem;
+	font-weight: 750;
+	cursor: pointer;
+}
+
+.fonky-page-tools button:hover {
+	background: rgba(0, 120, 252, 0.22);
+	border-color: rgba(77, 163, 255, 0.58);
+	color: #ffffff;
+}
+
+.fonky-heading-link {
+	margin-left: 0.45rem;
+	padding: 0.08rem 0.35rem;
+	border: 1px solid rgba(77, 163, 255, 0.28);
+	border-radius: var(--fonky-radius-sm);
+	background: rgba(0, 120, 252, 0.10);
+	color: var(--fonky-blue-soft);
+	font-size: 0.72em;
+	font-weight: 700;
+	cursor: pointer;
+	opacity: 0;
+}
+
+h2:hover .fonky-heading-link,
+h3:hover .fonky-heading-link,
+h4:hover .fonky-heading-link,
+.fonky-heading-link:focus {
+	opacity: 1;
+}
+
+.fonky-heading-link:hover {
+	background: rgba(0, 120, 252, 0.18);
+	border-color: rgba(77, 163, 255, 0.55);
+	color: #ffffff;
+}
+
+/* ==========================================================================================
+   Reading Progress and Scroll-to-Top
+   ========================================================================================== */
+
+#fonky-reading-progress {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	width: 100%;
+	height: 3px;
+	background: transparent;
+	pointer-events: none;
+}
+
+#fonky-reading-progress span {
+	display: block;
+	width: 0%;
+	height: 100%;
+	background:
+		linear-gradient(90deg, var(--fonky-blue-soft), var(--fonky-blue-bright), #80d0ff);
+	box-shadow: 0 0 12px rgba(77, 163, 255, 0.9);
+	transition: width 90ms linear;
+}
+
+.fonky-scroll-top {
+	position: fixed;
+	right: 1.05rem;
+	bottom: 1.05rem;
+	z-index: 150;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.45rem;
+	height: 2.45rem;
+	border: 1px solid rgba(77, 163, 255, 0.45);
+	border-radius: 999px;
+	background:
+		linear-gradient(180deg, var(--fonky-blue), var(--fonky-blue-dark));
+	color: #ffffff;
+	font-size: 1.15rem;
+	font-weight: 900;
+	box-shadow: var(--fonky-shadow);
+	cursor: pointer;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(0.6rem);
+	transition:
+		opacity var(--fonky-transition),
+		transform var(--fonky-transition),
+		background-color var(--fonky-transition),
+		border-color var(--fonky-transition);
+}
+
+.fonky-scroll-top.is-visible {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translateY(0);
+}
+
+.fonky-scroll-top:hover {
+	border-color: rgba(255, 255, 255, 0.72);
+	background:
+		linear-gradient(180deg, var(--fonky-blue-bright), var(--fonky-blue));
+}
+
+/* ==========================================================================================
+   Links, Images, Footer, Accessibility
+   ========================================================================================== */
+
+.fonky-external-link {
+	font-weight: 600;
+}
+
+.fonky-external-indicator {
+	color: var(--fonky-blue-soft);
+	font-size: 0.82em;
+}
+
+.md-typeset img {
+	border-radius: var(--fonky-radius-lg);
+}
+
+.md-typeset p > img,
+.md-typeset figure img {
+	display: block;
+	margin: 1.2rem auto;
+	border: 1px solid rgba(77, 163, 255, 0.22);
+	box-shadow: var(--fonky-shadow);
+}
+
+.md-footer {
+	background-color: var(--fonky-blue-deep);
+	border-top: 1px solid rgba(77, 163, 255, 0.24);
+}
+
+.md-footer-meta {
+	background-color: #010d1a;
+}
+
+.fonky-keyboard-mode a:focus,
+.fonky-keyboard-mode button:focus,
+.fonky-keyboard-mode input:focus,
+.fonky-keyboard-mode textarea:focus,
+.fonky-keyboard-mode select:focus,
+.fonky-keyboard-mode summary:focus {
+	outline: 2px solid var(--fonky-blue-soft) !important;
+	outline-offset: 3px !important;
+}
+
+/* ==========================================================================================
+   Print and Responsive Rules
+   ========================================================================================== */
+
+@media print {
+	.md-header,
+	.md-tabs,
+	.md-sidebar,
+	.md-footer,
+	.fonky-scroll-top,
+	.fonky-page-tools,
+	#fonky-reading-progress,
+	.fonky-heading-link,
+	.fonky-code-toggle,
+	.fonky-table-tools,
+	.fonky-api-tools {
+		display: none !important;
+	}
+
+	body {
+		background: #ffffff !important;
+		color: #000000 !important;
+	}
+
+	.md-typeset,
+	.md-typeset p,
+	.md-typeset li,
+	.md-typeset td,
+	.md-typeset h1,
+	.md-typeset h2,
+	.md-typeset h3,
+	.md-typeset h4 {
+		color: #000000 !important;
+	}
+
+	.md-typeset a {
+		color: #000000 !important;
+		text-decoration: underline;
+	}
+
+	.md-typeset table:not([class]) {
+		border: 1px solid #999999;
+		box-shadow: none;
+	}
+
+	.md-typeset table:not([class]) th {
+		background: #eaeaea !important;
+		color: #000000 !important;
+	}
+
+	.md-typeset pre,
+	.md-typeset code {
+		background: #f4f4f4 !important;
+		color: #000000 !important;
+		border-color: #cccccc !important;
+	}
+}
+
+@media screen and (max-width: 76.1875em) {
+	.md-main__inner,
+	.md-grid {
+		max-width: 100%;
+	}
+
+	.md-typeset {
+		font-size: 0.82rem;
+	}
+
+	.fonky-table-tools {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.fonky-table-filter {
+		width: 100%;
+	}
+
+	.fonky-table-count {
+		white-space: normal;
+	}
+}
+
+@media screen and (max-width: 44.9375em) {
+	.md-typeset h1 {
+		font-size: 1.65rem;
+	}
+
+	.md-typeset h2 {
+		font-size: 1.3rem;
+	}
+
+	.md-typeset h3 {
+		font-size: 1.08rem;
+	}
+
+	.fonky-scroll-top {
+		right: 0.75rem;
+		bottom: 0.75rem;
+		width: 2.25rem;
+		height: 2.25rem;
+	}
+
+	.fonky-page-tools button,
+	.fonky-api-tool-button {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.fonky-api-tool-buttons {
+		flex-direction: column;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.001ms !important;
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+	}
 }
