@@ -65,7 +65,9 @@ nav:
 
 theme:
   name: material
-  features:
+  language: en
+  logo: images/fonky-project.png
+  favicon: images/favicon.ico
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.top
