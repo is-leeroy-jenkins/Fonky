@@ -876,9 +876,8 @@ class WebFetcher( Fetcher ):
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
-			return self.extract_structured_data(
-				self.url, self.html or '', [ 'scrape_divisions' ] ).get( 'Divisions', [ ] )
-		
+			return self.extract_structured_data( self.url, self.html or '',
+				[ 'scrape_divisions' ] ).get( 'Divisions', [ ] )
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -905,12 +904,10 @@ class WebFetcher( Fetcher ):
 				logger."""
 		try:
 			throw_if( 'uri', uri )
-			
 			self.url = str( uri ).strip( )
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
-			return self.extract_structured_data(
-				self.url, self.html or '', [ 'scrape_sections' ] ).get( 'Sections', [ ] )
-		
+			return self.extract_structured_data( self.url, self.html or '',
+				[ 'scrape_sections' ] ).get( 'Sections', [ ] )
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
