@@ -936,9 +936,8 @@ class WebFetcher( Fetcher ):
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
-			return self.extract_structured_data(
-				self.url, self.html or '', [ 'scrape_blockquotes' ] ).get( 'Blockquotes', [ ] )
-		
+			return self.extract_structured_data( self.url, self.html or '',
+				[ 'scrape_blockquotes' ] ).get( 'Blockquotes', [ ] )
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -967,9 +966,8 @@ class WebFetcher( Fetcher ):
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
-			return self.extract_structured_data(
-				self.url, self.html or '', [ 'scrape_hyperlinks' ] ).get( 'Hyperlinks', [ ] )
-		
+			return self.extract_structured_data( self.url, self.html or '',
+				[ 'scrape_hyperlinks' ] ).get( 'Hyperlinks', [ ] )
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -998,9 +996,8 @@ class WebFetcher( Fetcher ):
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
-			return self.extract_structured_data(
-				self.url, self.html or '', [ 'scrape_images' ] ).get( 'Images', [ ] )
-		
+			return self.extract_structured_data( self.url, self.html or '',
+				[ 'scrape_images' ] ).get( 'Images', [ ] )
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -1158,9 +1155,7 @@ class WebCrawler( WebFetcher ):
 				self.html = self.raw_html or ''
 				self.soup = BeautifulSoup( self.html, 'html.parser' )
 				return None
-			
 			return super( ).fetch( url=url, time=time )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -1197,7 +1192,6 @@ class WebCrawler( WebFetcher ):
 				html = page.content( )
 				browser.close( )
 				return html
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -1231,7 +1225,6 @@ class WebCrawler( WebFetcher ):
 		page_result: Dict[ str, Any ] = { 'url': url, 'status_code': None, 'encoding': None,
 			'title': '', 'plain_text': '', 'raw_html': '', 'links_discovered': [ ], 'data': { },
 			'errors': [ ], 'content_bytes': 0, 'truncated_by_max_bytes': False, }
-		
 		try:
 			methods = selected_methods or [ ]
 			self.fetch( url=url, time=int( request_timeout ) )
