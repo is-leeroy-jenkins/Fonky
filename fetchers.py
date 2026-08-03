@@ -314,9 +314,7 @@ class WebFetcher( Fetcher ):
 			self.html = self.response.text or ''
 			self.soup = BeautifulSoup( self.html, 'html.parser' )
 			self.result = Result( self.response )
-			
 			return self.result
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -352,9 +350,7 @@ class WebFetcher( Fetcher ):
 				self.text, flags=re.IGNORECASE )
 			self.text = re.sub( self.re_tag, ' ', self.text )
 			self.text = re.sub( self.re_ws, ' ', self.text ).strip( )
-			
 			return self.text
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -516,9 +512,7 @@ class WebFetcher( Fetcher ):
 			self.right_url = str( right_url ).strip( )
 			self.left_host = urllib.parse.urlparse( self.left_url ).netloc.lower( )
 			self.right_host = urllib.parse.urlparse( self.right_url ).netloc.lower( )
-			
 			return bool( self.left_host ) and self.left_host == self.right_host
-		
 		except Exception:
 			return False
 	
@@ -548,16 +542,12 @@ class WebFetcher( Fetcher ):
 			self.soup = BeautifulSoup( self.source_html, 'html.parser' )
 			self.results = [ ]
 			self.seen = set( )
-			
 			for tag in self.soup.find_all( 'a', href=True ):
 				self.candidate = self.normalize_url( self.source_url, tag.get( 'href', '' ) )
-				
 				if self.candidate and self.candidate not in self.seen:
 					self.seen.add( self.candidate )
 					self.results.append( self.candidate )
-			
 			return self.results
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -707,9 +697,7 @@ class WebFetcher( Fetcher ):
 						self.deduped.append( self.value )
 				
 				self.results[ self.label ] = self.deduped
-			
 			return self.results
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
