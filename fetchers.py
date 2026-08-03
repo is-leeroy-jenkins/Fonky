@@ -727,8 +727,7 @@ class WebFetcher( Fetcher ):
 			self.url = str( uri ).strip( )
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
 			return self.extract_structured_data(
-				self.url, self.html or '', [ 'scrape_paragraphs' ] ).get( 'Paragraphs', [ ] )
-		
+				self.url, self.html or '', [ 'scrape_paragraphs' ] ).get( 'Paragraphs', [ ] )		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -759,7 +758,6 @@ class WebFetcher( Fetcher ):
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
 			return self.extract_structured_data(
 				self.url, self.html or '', [ 'scrape_lists' ] ).get( 'Lists', [ ] )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -788,9 +786,8 @@ class WebFetcher( Fetcher ):
 			throw_if( 'uri', uri )
 			self.url = str( uri ).strip( )
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
-			return self.extract_structured_data(
-				self.url, self.html or '', [ 'scrape_tables' ] ).get( 'Tables', [ ] )
-		
+			return self.extract_structured_data( self.url, self.html or '',
+				[ 'scrape_tables' ] ).get( 'Tables', [ ] )
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -821,7 +818,6 @@ class WebFetcher( Fetcher ):
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
 			return self.extract_structured_data(
 				self.url, self.html or '', [ 'scrape_articles' ] ).get( 'Articles', [ ] )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -848,12 +844,10 @@ class WebFetcher( Fetcher ):
 				logger."""
 		try:
 			throw_if( 'uri', uri )
-			
 			self.url = str( uri ).strip( )
 			self.fetch( self.url, time=int( self.timeout or 10 ) )
-			return self.extract_structured_data(
-				self.url, self.html or '', [ 'scrape_headings' ] ).get( 'Headings', [ ] )
-		
+			return self.extract_structured_data( self.url, self.html or '',
+				[ 'scrape_headings' ] ).get( 'Headings', [ ] )
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
