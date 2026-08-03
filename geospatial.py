@@ -63,13 +63,5 @@ from fetchers import USGSTheNationalMap
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [
-		'CensusData',
-		'GlobalImagery',
-		'GoogleGeocoding',
-		'GoogleMaps',
-		'NearbyObjects',
-		'Socrata',
-		'USGSScienceBase',
-		'USGSTheNationalMap',
-]
+__all__: list[ str ] = [ 'CensusData', 'GlobalImagery', 'GoogleGeocoding', 'GoogleMaps',
+	'NearbyObjects', 'Socrata', 'USGSScienceBase', 'USGSTheNationalMap', ]

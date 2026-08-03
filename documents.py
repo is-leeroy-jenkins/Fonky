@@ -64,21 +64,6 @@ from loaders import XmlLoader
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [
-		'CsvLoader',
-		'EmailLoader',
-		'ExcelLoader',
-		'HtmlLoader',
-		'JsonLoader',
-		'JupyterNotebookLoader',
-		'Loader',
-		'MarkdownLoader',
-		'OutlookLoader',
-		'PdfLoader',
-		'PdfReader',
-		'PowerPointLoader',
-		'SpfxLoader',
-		'TextLoader',
-		'WordLoader',
-		'XmlLoader',
-]
+__all__: list[ str ] = [ 'CsvLoader', 'EmailLoader', 'ExcelLoader', 'HtmlLoader', 'JsonLoader',
+	'JupyterNotebookLoader', 'Loader', 'MarkdownLoader', 'OutlookLoader', 'PdfLoader', 'PdfReader',
+	'PowerPointLoader', 'SpfxLoader', 'TextLoader', 'WordLoader', 'XmlLoader', ]

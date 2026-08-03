@@ -156,22 +156,29 @@ except LookupError:
 	nltk.download( 'omw-1.4' )
 	nltk.download( 'words' )
 
-def throw_if( name: str, value: object ):
-	"""Validate a required argument before processing continues.
-	
-	Purpose:
-	    Prevents later processing stages from operating on missing inputs by raising an
-	    exception as soon as a required value is absent. This guard keeps validation behavior
-	    consistent across parser and processor methods.
-	
-	Args:
-	    name (str): Argument name used in validation messages.
-	    value (object): Value that must be present before processing continues.
-	
-	Raises:
-	    Exception: Raised when the required value is missing."""
+
+def throw_if( name: str, value: object ) -> None:
+	"""Throw if.
+    
+        Purpose:
+            Provides a input guard used by the Gipity Streamlit application. The function
+            supports UI state management, provider coordination, data normalization, or display
+            behavior required by the surrounding workflow.
+    
+        Args:
+            name (str): Value supplied to the helper.
+            value (object): Value supplied to the helper.
+    
+        Raises:
+            Error: Re-raised after the exception is wrapped and written to the application logger.
+    """
 	if value is None:
-		raise Exception( f'Argument "{name}" cannot be empty!' )
+		raise ValueError( f'Argument "{name}" cannot be empty!' )
+	if isinstance( value, str ) and (not value.strip( )):
+		raise ValueError( f'Argument "{name}" cannot be empty!' )
+	if isinstance( value, (list, tuple, dict, set) ) and len( value ) == 0:
+		raise ValueError( f'Argument "{name}" cannot be empty!' )
+
 
 class Processor( ):
 	"""Provide shared processor state.
@@ -360,65 +367,20 @@ class TextParser( Processor ):
 		Returns:
 		    List[ str ] | None: List of processed text values when the operation succeeds."""
 		return [  # Attributes
-				'file_path',
-				'raw_input',
-				'raw_pages',
-				'normalized',
-				'lemmatized',
-				'tokenized',
-				'corrected',
-				'cleaned_text',
-				'words',
-				'paragraphs',
-				'words',
-				'pages',
-				'chunks',
-				'chunk_size',
-				'stop_words',
-				'removed',
-				'lowercase',
-				'encoding',
-				'vocabulary',
-				'translator',
-				'lemmatizer',
-				'stemmer',
-				'tokenizer',
-				'vectorizer',
-				'conditional_distribution',
-				# Methods
-				'split_sentences',
-				'split_pages',
-				'collapse_whitespace',
-				'compress_whitespace',
-				'remove_punctuation',
-				'remove_numbers',
-				'remove_special',
-				'remove_html',
-				'remove_markdown',
-				'remove_stopwords',
-				'remove_formatting',
-				'remove_headers',
-				'remove_encodings',
-				'tiktokenize',
-				'lemmatize_text',
-				'normalize_text',
-				'chunk_text',
-				'chunk_sentences',
-				'chunk_files',
-				'chunk_data',
-				'chunk_datasets',
-				'create_wordbag',
-				'clean_file',
-				'clean_files',
-				'convert_jsonl',
-				'speech_tagging',
-				'split_paragraphs',
-				'calculate_frequency_distribution',
-				'create_vocabulary',
-				'create_wordbag',
-				'create_vectors',
-				'encode_sentences',
-				'semantic_search' ]
+			'file_path', 'raw_input', 'raw_pages', 'normalized', 'lemmatized', 'tokenized',
+			'corrected', 'cleaned_text', 'words', 'paragraphs', 'words', 'pages', 'chunks',
+			'chunk_size', 'stop_words', 'removed', 'lowercase', 'encoding', 'vocabulary',
+			'translator', 'lemmatizer', 'stemmer', 'tokenizer', 'vectorizer',
+			'conditional_distribution',
+			# Methods
+			'split_sentences', 'split_pages', 'collapse_whitespace', 'compress_whitespace',
+			'remove_punctuation', 'remove_numbers', 'remove_special', 'remove_html',
+			'remove_markdown', 'remove_stopwords', 'remove_formatting', 'remove_headers',
+			'remove_encodings', 'tiktokenize', 'lemmatize_text', 'normalize_text', 'chunk_text',
+			'chunk_sentences', 'chunk_files', 'chunk_data', 'chunk_datasets', 'create_wordbag',
+			'clean_file', 'clean_files', 'convert_jsonl', 'speech_tagging', 'split_paragraphs',
+			'calculate_frequency_distribution', 'create_vocabulary', 'create_wordbag',
+			'create_vectors', 'encode_sentences', 'semantic_search' ]
 	
 	def load_text( self, filepath: str ) -> str | None:
 		"""Read UTF-8 text from a local file and return the raw string.

@@ -50,18 +50,13 @@
 '''
 from __future__ import annotations
 
-from fonky.fetchers import GlobalHealthData
-from fonky.fetchers import HealthData
-from fonky.fetchers import Wonder
-from fonky.loaders import PubMedSearchLoader
+from fetchers import GlobalHealthData
+from fetchers import HealthData
+from fetchers import Wonder
+from loaders import PubMedSearchLoader
 
 # ==========================================================================================
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [
-		'GlobalHealthData',
-		'HealthData',
-		'PubMedSearchLoader',
-		'Wonder',
-]
+__all__: list[ str ] = [ 'GlobalHealthData', 'HealthData', 'PubMedSearchLoader', 'Wonder', ]

@@ -95,26 +95,29 @@ from lxml import etree
 
 from boogr import Error, Logger
 
+
 def throw_if( name: str, value: object ) -> None:
-	"""Validate required argument values.
-
-	Purpose:
-		Validates a named value before a loader or helper uses it. The function rejects missing
-		values and blank strings early so caller failures identify the specific argument that needs
-		correction.
-
-	Args:
-		name (str): Name value used to configure the module.throw_if operation.
-		value (object): Value value used to configure the module.throw_if operation.
-
-	Raises:
-		ValueError: Raised when a required value is missing, blank, or outside the supported range.
-	"""
+	"""Throw if.
+    
+        Purpose:
+            Provides a input guard used by the Gipity Streamlit application. The function
+            supports UI state management, provider coordination, data normalization, or display
+            behavior required by the surrounding workflow.
+    
+        Args:
+            name (str): Value supplied to the helper.
+            value (object): Value supplied to the helper.
+    
+        Raises:
+            Error: Re-raised after the exception is wrapped and written to the application logger.
+    """
 	if value is None:
-		raise ValueError( f'Argument "{name}" cannot be None.' )
-	
-	if isinstance( value, str ) and not value.strip( ):
-		raise ValueError( f'Argument "{name}" cannot be empty.' )
+		raise ValueError( f'Argument "{name}" cannot be empty!' )
+	if isinstance( value, str ) and (not value.strip( )):
+		raise ValueError( f'Argument "{name}" cannot be empty!' )
+	if isinstance( value, (list, tuple, dict, set) ) and len( value ) == 0:
+		raise ValueError( f'Argument "{name}" cannot be empty!' )
+
 
 class Loader( ):
 	"""Loader document loader wrapper.
@@ -689,8 +692,7 @@ class WebLoader( Loader ):
 		         'recursive',
 		         'prevent_outside', ]
 	
-	def _same_domain_only( self, docs: List[ Document ], source_url: str ) -> List[
-		                                                                          Document ] | None:
+	def _same_domain_only( self, docs: List[ Document ], source_url: str ) -> List[ Document ]:
 		"""Filter documents to the source domain.
 
 		Purpose:
@@ -1300,8 +1302,7 @@ class ExcelLoader( Loader ):
 		"""
 		return [ 'single', 'page' ]
 	
-	def load( self, path: str, mode: str = 'elements', has_headers: bool = True ) -> List[
-		                                                                                 Document ] | None:
+	def load( self, path: str, mode: str='elements', has_headers: bool=True ) -> List[ Document ]:
 		"""Load source content.
 
 		Purpose:

@@ -70,20 +70,6 @@ from fetchers import UvIndex
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [
-		'AirNow',
-		'ClimateData',
-		'EarthObservatory',
-		'EnviroFacts',
-		'EoNet',
-		'Firms',
-		'GoogleWeather',
-		'HistoricalWeather',
-		'OpenAQ',
-		'OpenWeather',
-		'PurpleAir',
-		'TidesAndCurrents',
-		'USGSEarthquakes',
-		'USGSWaterData',
-		'UvIndex',
-]
+__all__: list[ str ] = [ 'AirNow', 'ClimateData', 'EarthObservatory', 'EnviroFacts', 'EoNet',
+	'Firms', 'GoogleWeather', 'HistoricalWeather', 'OpenAQ', 'OpenWeather', 'PurpleAir',
+	'TidesAndCurrents', 'USGSEarthquakes', 'USGSWaterData', 'UvIndex', ]
