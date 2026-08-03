@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="685dddad-e825-4bf0-82d8-7075e3b95217" name="Changes" comment="updates">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cloud.py" beforeDir="false" afterPath="$PROJECT_DIR$/cloud.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scrapers.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrapers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/fetchers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/fetchers/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/loaders/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/loaders/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/processors/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/processors/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/scrapers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/scrapers/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/site/search/search_index.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml.gz" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,15 +100,7 @@
       <workItem from="1781372370930" duration="11667000" />
       <workItem from="1781395941896" duration="14830000" />
       <workItem from="1781679670712" duration="2488000" />
-      <workItem from="1785715278298" duration="4276000" />
-    </task>
-    <task id="LOCAL-00002" summary="updates">
-      <option name="closed" value="true" />
-      <created>1781354700273</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1781354700273</updated>
+      <workItem from="1785715278298" duration="4355000" />
     </task>
     <task id="LOCAL-00003" summary="updates">
       <option name="closed" value="true" />
@@ -504,7 +486,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785718364961</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="updates">
+      <option name="closed" value="true" />
+      <created>1785720359487</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1785720359487</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
