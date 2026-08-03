@@ -60,10 +60,5 @@ from loaders import OneDriveDocLoader
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [
-		'AwsBucketLoader',
-		'AwsFileLoader',
-		'GoogleBucketLoader',
-		'GoogleCloudFileLoader',
-		'GoogleSpeechToTextLoader',
-		'OneDriveDocLoader', ]
+__all__: list[ str ] = [ 'AwsBucketLoader', 'AwsFileLoader', 'GoogleBucketLoader',
+	'GoogleCloudFileLoader', 'GoogleSpeechToTextLoader', 'OneDriveDocLoader', ]
