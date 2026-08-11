@@ -5,6 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="685dddad-e825-4bf0-82d8-7075e3b95217" name="Changes" comment="updates">
+      <change afterPath="$PROJECT_DIR$/resources/images/fonky-architecture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/images/fonky-astro-space.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/images/fonky-classmap-overview.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/images/fonky-classmap.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/images/fonky-enviro-geo-climate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/images/fonky-gov-demo-health.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/images/fonky-workflow.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fetchers.py" beforeDir="false" afterPath="$PROJECT_DIR$/fetchers.py" afterDir="false" />
     </list>
@@ -63,7 +70,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/terry/source/repos/Fonky/docs",
+    "last_opened_file_path": "C:/Users/terry/source/repos/Fonky/resources/images",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -75,6 +82,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\terry\source\repos\Fonky\resources\images" />
       <recent name="C:\Users\terry\source\repos\Fonky\docs" />
       <recent name="C:\Users\terry\source\repos\Fonky\docs\images" />
     </key>
@@ -102,15 +110,7 @@
       <workItem from="1781395941896" duration="14830000" />
       <workItem from="1781679670712" duration="2488000" />
       <workItem from="1785715278298" duration="4446000" />
-      <workItem from="1786463287820" duration="3112000" />
-    </task>
-    <task id="LOCAL-00005" summary="updates">
-      <option name="closed" value="true" />
-      <created>1781372717717</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1781372717717</updated>
+      <workItem from="1786463287820" duration="4869000" />
     </task>
     <task id="LOCAL-00006" summary="updates">
       <option name="closed" value="true" />
@@ -496,7 +496,15 @@
       <option name="project" value="LOCAL" />
       <updated>1786464976002</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="updates">
+      <option name="closed" value="true" />
+      <created>1786466775378</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1786466775378</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

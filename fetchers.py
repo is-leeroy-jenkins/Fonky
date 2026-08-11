@@ -3711,7 +3711,6 @@ class EarthObservatory( Fetcher ):
 			return { 'mode': self.mode, 'url': self.url, 'params': self.params,
 				'events': payload.get( 'events', [ ] ), 'title': payload.get( 'title', '' ),
 				'description': payload.get( 'description', '' ) }
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -3890,8 +3889,7 @@ class EarthObservatory( Fetcher ):
 			exception.method = 'fetch( self, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
-	def create_schema( self, function: str, tool: str,
-			description: str, parameters: dict,
+	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
 		"""Create an AI tool schema.
 		
@@ -3933,10 +3931,7 @@ class EarthObservatory( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'EarthObservatory'
-			exception.method = (
-					'create_schema( self, function: str, tool: str, description: str, '
-					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
-			)
+			exception.method = 'create_schema( self, **kwargs ) -> Dict[ str, str ]'
 			raise exception
 
 class GlobalImagery( Fetcher ):
@@ -4031,31 +4026,11 @@ class GlobalImagery( Fetcher ):
 		
 		Returns:
 			List[str]: Ordered public attribute and method names exposed by the object."""
-		return [
-				'file_path',
-				'api_key',
-				'url',
-				'latitude',
-				'longitude',
-				'coordinates',
-				'calendar_date',
-				'julian_date',
-				'sidereal_time',
-				'utc_time',
-				'local_time',
-				'params',
-				'response',
-				'result',
-				'mode',
-				'timeout',
-				'headers',
-				'get_capabilities_url',
-				'build_wms_url',
-				'fetch_wms_map',
-				'fetch_map_services',
-				'fetch_mercator_map',
-				'create_schema'
-		]
+		return [ 'file_path', 'api_key', 'url', 'latitude', 'longitude', 'coordinates',
+			'calendar_date', 'julian_date', 'sidereal_time', 'utc_time', 'local_time', 'params',
+			'response', 'result', 'mode', 'timeout', 'headers', 'get_capabilities_url',
+			'build_wms_url', 'fetch_wms_map', 'fetch_map_services', 'fetch_mercator_map',
+			'create_schema' ]
 	
 	def get_capabilities_url( self, projection: str='epsg4326',
 			quality: str='best', version: str='1.1.1' ) -> str:
@@ -4099,10 +4074,7 @@ class GlobalImagery( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'GlobalImagery'
-			exception.method = (
-					'get_capabilities_url( self, projection: str="epsg4326", '
-					'quality: str="best", version: str="1.1.1" ) -> str'
-			)
+			exception.method = 'get_capabilities_url( self, **kwargs ) -> str'
 			raise exception
 	
 	def build_wms_url( self, layer: str, image_date: str, bbox: Tuple[ float, float, float, float ],
@@ -4139,37 +4111,26 @@ class GlobalImagery( Fetcher ):
 			throw_if( 'layer', layer )
 			throw_if( 'image_date', image_date )
 			throw_if( 'bbox', bbox )
-			
 			if len( bbox ) != 4:
 				raise ValueError( 'bbox must contain west, south, east, north.' )
 			
 			projection_value = str( projection or 'epsg4326' ).strip( ).lower( )
 			quality_value = str( quality or 'best' ).strip( ).lower( )
 			version_value = str( version or '1.1.1' ).strip( )
-			
 			west, south, east, north = [ float( value ) for value in bbox ]
 			width_value = max( 1, int( width ) )
 			height_value = max( 1, int( height ) )
 			
-			base_url = (
-					f'https://gibs.earthdata.nasa.gov/wms/'
-					f'{projection_value}/{quality_value}/wms.cgi'
-			)
+			base_url = (f'https://gibs.earthdata.nasa.gov/wms/'
+					f'{projection_value}/{quality_value}/wms.cgi')
 			
-			params = {
-					'SERVICE': 'WMS',
-					'VERSION': version_value,
-					'REQUEST': 'GetMap',
-					'LAYERS': str( layer ).strip( ),
-					'STYLES': '',
-					'FORMAT': str( image_format or 'image/png' ).strip( ),
-					'TRANSPARENT': str( bool( transparent ) ).lower( ),
-					'SRS': 'EPSG:4326' if projection_value == 'epsg4326' else 'EPSG:3857',
-					'BBOX': f'{west},{south},{east},{north}',
-					'WIDTH': width_value,
-					'HEIGHT': height_value,
-					'TIME': str( image_date ).strip( )
-			}
+			params = { 'SERVICE': 'WMS', 'VERSION': version_value, 'REQUEST': 'GetMap',
+				'LAYERS': str( layer ).strip( ), 'STYLES': '',
+				'FORMAT': str( image_format or 'image/png' ).strip( ),
+				'TRANSPARENT': str( bool( transparent ) ).lower( ),
+				'SRS': 'EPSG:4326' if projection_value == 'epsg4326' else 'EPSG:3857',
+				'BBOX': f'{west},{south},{east},{north}', 'WIDTH': width_value,
+				'HEIGHT': height_value, 'TIME': str( image_date ).strip( ) }
 			
 			self.params = params
 			return f'{base_url}?{urllib.parse.urlencode( params )}'
@@ -4178,13 +4139,7 @@ class GlobalImagery( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'GlobalImagery'
-			exception.method = (
-					'build_wms_url( self, layer: str, image_date: str, '
-					'bbox: Tuple[ float, float, float, float ], width: int=1200, '
-					'height: int=600, projection: str="epsg4326", quality: str="best", '
-					'image_format: str="image/png", transparent: bool=True, '
-					'version: str="1.1.1" ) -> str'
-			)
+			exception.method = 'build_wms_url( self, **kwargs ) -> str'
 			raise exception
 	
 	def fetch_wms_map( self, layer: str, image_date: str,
@@ -4226,21 +4181,12 @@ class GlobalImagery( Fetcher ):
 		try:
 			self.mode = 'wms_map'
 			self.timeout = int( time )
-			
-			request_url = self.build_wms_url(
-				layer=layer,
-				image_date=image_date,
-				bbox=bbox,
-				width=width,
-				height=height,
-				projection=projection,
-				quality=quality,
-				image_format=image_format,
-				transparent=transparent )
+			request_url = self.build_wms_url( layer=layer, image_date=image_date, bbox=bbox,
+				width=width, height=height, projection=projection, quality=quality,
+				image_format=image_format, transparent=transparent )
 			
 			directory = Path( output_dir or 'python-examples' )
 			directory.mkdir( parents=True, exist_ok=True )
-			
 			if output_name:
 				filename = output_name
 			else:
@@ -4254,40 +4200,22 @@ class GlobalImagery( Fetcher ):
 			self.response = requests.get( request_url, headers=self.headers,
 				timeout=self.timeout )
 			self.response.raise_for_status( )
-			
 			content_type = self.response.headers.get( 'Content-Type', '' )
 			if 'image' not in content_type.lower( ):
-				message = (
-						'NASA GIBS did not return an image. '
+				message = ('NASA GIBS did not return an image. '
 						f'Content-Type: {content_type}. '
-						f'Response preview: {self.response.text[ :500 ]}'
-				)
+						f'Response preview: {self.response.text[ :500 ]}')
 				raise ValueError( message )
 			
 			Path( self.file_path ).write_bytes( self.response.content )
-			
-			self.result = {
-					'mode': self.mode,
-					'url': self.url,
-					'params': self.params,
-					'image_path': self.file_path,
-					'content_type': content_type,
-					'status_code': self.response.status_code,
-					'bytes': len( self.response.content ),
-					'layer': layer,
-					'image_date': image_date,
-					'bbox': {
-							'west': float( bbox[ 0 ] ),
-							'south': float( bbox[ 1 ] ),
-							'east': float( bbox[ 2 ] ),
-							'north': float( bbox[ 3 ] )
-					},
-					'summary': {
-							'rows': 1,
-							'columns': 8,
-							'description': 'NASA GIBS WMS image written to disk.'
-					}
-			}
+			self.result = { 'mode': self.mode, 'url': self.url, 'params': self.params,
+				'image_path': self.file_path, 'content_type': content_type,
+				'status_code': self.response.status_code, 'bytes': len( self.response.content ),
+				'layer': layer, 'image_date': image_date,
+				'bbox': { 'west': float( bbox[ 0 ] ), 'south': float( bbox[ 1 ] ),
+					'east': float( bbox[ 2 ] ), 'north': float( bbox[ 3 ] ) },
+				'summary': { 'rows': 1, 'columns': 8,
+					'description': 'NASA GIBS WMS image written to disk.' } }
 			
 			return self.result
 		
@@ -4295,14 +4223,7 @@ class GlobalImagery( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'GlobalImagery'
-			exception.method = (
-					'fetch_wms_map( self, layer: str, image_date: str, '
-					'bbox: Tuple[ float, float, float, float ], width: int=1200, '
-					'height: int=600, projection: str="epsg4326", quality: str="best", '
-					'image_format: str="image/png", transparent: bool=True, '
-					'output_dir: str="python-examples", output_name: str="", '
-					'time: int=20 ) -> Dict[ str, Any ] | None'
-			)
+			exception.method = 'fetch_wms_map( self, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def fetch_map_services( self ) -> Dict[ str, Any ] | None:
@@ -4327,9 +4248,7 @@ class GlobalImagery( Fetcher ):
 				image_date='2021-09-21', bbox=(-180.0, -90.0, 180.0, 90.0),
 				width=1200, height=600, projection='epsg4326', quality='best',
 				image_format='image/png', transparent=True, output_dir='python-examples',
-				output_name='MODIS_Terra_CorrectedReflectance_TrueColor.png',
-				time=20 )
-		
+				output_name='MODIS_Terra_CorrectedReflectance_TrueColor.png', time=20 )
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -4365,7 +4284,6 @@ class GlobalImagery( Fetcher ):
 				image_format='image/png', transparent=True, output_dir='python-examples',
 				output_name='Landsat_WELD_CorrectedReflectance_Bands157_Global_Annual.png',
 				time=20 )
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -4403,31 +4321,22 @@ class GlobalImagery( Fetcher ):
 			throw_if( 'tool', tool )
 			throw_if( 'description', description )
 			throw_if( 'parameters', parameters )
-			
 			if not isinstance( parameters, dict ):
 				raise ValueError( 'parameters must be a dict of parameter schema definitions.' )
 			
 			if required is None:
 				required = list( parameters.keys( ) )
 			
-			return {
-					'name': function.strip( ),
-					'description': f'{description.strip( )} This function uses the {tool.strip( )} service.',
-					'parameters': {
-							'type': 'object',
-							'properties': parameters,
-							'required': required
-					}
-			}
+			return { 'name': function.strip( ),
+				'description': f'{description.strip( )} This function uses the {tool.strip( )} '
+				               f'service.',
+				'parameters': { 'type': 'object', 'properties': parameters, 'required': required } }
 		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'GlobalImagery'
-			exception.method = (
-					'create_schema( self, function: str, tool: str, description: str, '
-					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ] | None'
-			)
+			exception.method = 'create_schema( self, **kwargs ) -> Dict[ str, str ]'
 			raise exception
 
 class NearbyObjects( Fetcher ):
@@ -4499,26 +4408,10 @@ class NearbyObjects( Fetcher ):
 		
 		Returns:
 			List[str]: Ordered public attribute and method names exposed by the object."""
-		return [
-				'base_url',
-				'url',
-				'params',
-				'mode',
-				'start_date',
-				'end_date',
-				'query',
-				'dist_max',
-				'body',
-				'sort',
-				'limit',
-				'fetch_close_approaches',
-				'fetch_object_lookup',
-				'fetch_nhats_summary',
-				'fetch_nhats_object',
-				'fetch_fireballs',
-				'fetch',
-				'create_schema'
-		]
+		return [ 'base_url', 'url', 'params', 'mode', 'start_date', 'end_date', 'query',
+			'dist_max', 'body', 'sort', 'limit', 'fetch_close_approaches', 'fetch_object_lookup',
+			'fetch_nhats_summary', 'fetch_nhats_object', 'fetch_fireballs', 'fetch',
+			'create_schema' ]
 	
 	def fetch_close_approaches( self, start_date: str, end_date: str, dist_max: str='10LD',
 			body: str='Earth', sort: str='date', limit: int=20, time: int=20 ) -> Dict[
@@ -4558,28 +4451,16 @@ class NearbyObjects( Fetcher ):
 			self.sort = str( sort or 'date' ).strip( )
 			self.limit = int( limit )
 			self.url = f'{self.base_url}/cad.api'
-			self.params = {
-					'date-min': self.start_date,
-					'date-max': self.end_date,
-					'dist-max': self.dist_max,
-					'body': self.body,
-					'sort': self.sort,
-					'limit': self.limit
-			}
+			self.params = { 'date-min': self.start_date, 'date-max': self.end_date,
+				'dist-max': self.dist_max, 'body': self.body, 'sort': self.sort,
+				'limit': self.limit }
 			self.response = requests.get( url=self.url, params=self.params, headers=self.headers,
 				timeout=int( time ) )
 			self.response.raise_for_status( )
 			payload = self.response.json( ) or { }
-			
-			return {
-					'mode': self.mode,
-					'url': self.url,
-					'params': self.params,
-					'count': payload.get( 'count', 0 ),
-					'fields': payload.get( 'fields', [ ] ),
-					'data': payload.get( 'data', [ ] ),
-					'signature': payload.get( 'signature', { } )
-			}
+			return { 'mode': self.mode, 'url': self.url, 'params': self.params,
+				'count': payload.get( 'count', 0 ), 'fields': payload.get( 'fields', [ ] ),
+				'data': payload.get( 'data', [ ] ), 'signature': payload.get( 'signature', { } ) }
 		
 		except Exception as e:
 			exception = Error( e )
@@ -4629,12 +4510,10 @@ class NearbyObjects( Fetcher ):
 				raise ValueError( "query_type must be 'sstr', 'spk', or 'des'." )
 			
 			self.url = f'{self.base_url}/sbdb.api'
-			self.params = {
-					active_type: self.query,
-					'phys-par': '1' if bool( include_physical ) else '0',
-					'ca-data': '1' if bool( include_close_approaches ) else '0',
-					'discovery': '1' if bool( include_discovery ) else '0'
-			}
+			self.params = { active_type: self.query,
+				'phys-par': '1' if bool( include_physical ) else '0',
+				'ca-data': '1' if bool( include_close_approaches ) else '0',
+				'discovery': '1' if bool( include_discovery ) else '0' }
 			
 			if include_close_approaches and str( ca_body or '' ).strip( ):
 				self.params[ 'ca-body' ] = str( ca_body ).strip( )
@@ -4643,12 +4522,7 @@ class NearbyObjects( Fetcher ):
 				timeout=int( time ) )
 			self.response.raise_for_status( )
 			payload = self.response.json( ) or { }
-			return {
-					'mode': self.mode,
-					'url': self.url,
-					'params': self.params,
-					'data': payload
-			}
+			return { 'mode': self.mode, 'url': self.url, 'params': self.params, 'data': payload }
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -4657,8 +4531,7 @@ class NearbyObjects( Fetcher ):
 			raise exception
 	
 	def fetch_nhats_summary( self, dv: float = 6.0, dur: int=360, stay: int=8,
-			launch: str='2020-2045',
-			h: float = 26.0, occ: int=7, time: int=20 ) -> Dict[ str, Any ] | None:
+		launch: str='2020-2045', h: float = 26.0, occ: int=7, time: int=20 ) -> Dict[ str, Any ]:
 		"""Fetch nhats summary.
 		
 		Purpose:
@@ -4686,27 +4559,14 @@ class NearbyObjects( Fetcher ):
 		try:
 			self.mode = 'nhats_summary'
 			self.url = f'{self.base_url}/nhats.api'
-			self.params = {
-					'dv': float( dv ),
-					'dur': int( dur ),
-					'stay': int( stay ),
-					'launch': str( launch ).strip( ),
-					'h': float( h ),
-					'occ': int( occ )
-			}
+			self.params = { 'dv': float( dv ), 'dur': int( dur ), 'stay': int( stay ),
+				'launch': str( launch ).strip( ), 'h': float( h ), 'occ': int( occ ) }
 			
 			self.response = requests.get( url=self.url, params=self.params, headers=self.headers,
 				timeout=int( time ) )
 			self.response.raise_for_status( )
 			payload = self.response.json( ) or { }
-			
-			return {
-					'mode': self.mode,
-					'url': self.url,
-					'params': self.params,
-					'data': payload
-			}
-		
+			return { 'mode': self.mode, 'url': self.url, 'params': self.params, 'data': payload }
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -4744,25 +4604,14 @@ class NearbyObjects( Fetcher ):
 			self.mode = 'nhats_object'
 			self.query = str( designation ).strip( )
 			self.url = f'{self.base_url}/nhats.api'
-			self.params = {
-					'des': self.query,
-					'dv': float( dv ),
-					'dur': int( dur ),
-					'stay': int( stay ),
-					'launch': str( launch ).strip( )
-			}
+			self.params = { 'des': self.query, 'dv': float( dv ), 'dur': int( dur ),
+				'stay': int( stay ), 'launch': str( launch ).strip( ) }
 			
 			self.response = requests.get( url=self.url, params=self.params,
 				headers=self.headers, timeout=int( time ) )
 			self.response.raise_for_status( )
 			payload = self.response.json( ) or { }
-			
-			return {
-					'mode': self.mode,
-					'url': self.url,
-					'params': self.params,
-					'data': payload
-			}
+			return { 'mode': self.mode, 'url': self.url, 'params': self.params, 'data': payload }
 		
 		except Exception as e:
 			exception = Error( e )
@@ -4771,8 +4620,7 @@ class NearbyObjects( Fetcher ):
 			exception.method = 'fetch_nhats_object( self, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
-	def fetch_fireballs( self, date_min: str='', limit: int=20, time: int=20 ) -> Dict[
-		                                                                                    str, Any ] | None:
+	def fetch_fireballs( self, date_min: str='', limit: int=20, time: int=20 ) -> Dict[ str, Any ]:
 		"""Fetch fireballs.
 		
 		Purpose:
@@ -4797,7 +4645,6 @@ class NearbyObjects( Fetcher ):
 			self.mode = 'fireballs'
 			self.url = f'{self.base_url}/fireball.api'
 			self.params = { 'limit': int( limit ) }
-			
 			if str( date_min or '' ).strip( ):
 				self.params[ 'date-min' ] = str( date_min ).strip( )
 			
@@ -4805,16 +4652,9 @@ class NearbyObjects( Fetcher ):
 				timeout=int( time ) )
 			self.response.raise_for_status( )
 			payload = self.response.json( ) or { }
-			
-			return {
-					'mode': self.mode,
-					'url': self.url,
-					'params': self.params,
-					'count': payload.get( 'count', 0 ),
-					'fields': payload.get( 'fields', [ ] ),
-					'data': payload.get( 'data', [ ] ),
-					'signature': payload.get( 'signature', { } )
-			}
+			return { 'mode': self.mode, 'url': self.url, 'params': self.params,
+				'count': payload.get( 'count', 0 ), 'fields': payload.get( 'fields', [ ] ),
+				'data': payload.get( 'data', [ ] ), 'signature': payload.get( 'signature', { } ) }
 		
 		except Exception as e:
 			exception = Error( e )
@@ -4904,8 +4744,7 @@ class NearbyObjects( Fetcher ):
 			exception.method = 'fetch( self, **kwargs) -> Dict[ str, Any ]'
 			raise exception
 	
-	def create_schema( self, function: str, tool: str,
-			description: str, parameters: dict,
+	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
 		"""Create an AI tool schema.
 		
@@ -4939,24 +4778,16 @@ class NearbyObjects( Fetcher ):
 			if required is None:
 				required = list( parameters.keys( ) )
 			
-			return {
-					'name': function.strip( ),
-					'description': f'{description.strip( )} This function uses the {tool.strip( )} service.',
-					'parameters': {
-							'type': 'object',
-							'properties': parameters,
-							'required': required
-					}
-			}
+			return { 'name': function.strip( ),
+				'description': f'{description.strip( )} This function uses the {tool.strip( )} '
+				               f'service.',
+				'parameters': { 'type': 'object', 'properties': parameters, 'required': required } }
 		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'NearbyObjects'
-			exception.method = (
-					'create_schema( self, function: str, tool: str, description: str, '
-					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
-			)
+			exception.method = 'create_schema( self, **kwargs ) -> Dict[ str, str ]'
 			raise exception
 
 class OpenScience( Fetcher ):
@@ -5017,21 +4848,9 @@ class OpenScience( Fetcher ):
 		
 		Returns:
 			List[str]: Ordered public attribute and method names exposed by the object."""
-		return [
-				'base_url',
-				'url',
-				'params',
-				'query_text',
-				'format_value',
-				'size',
-				'endpoint',
-				'fetch_dataset',
-				'fetch_metadata',
-				'fetch_assays',
-				'fetch_data',
-				'fetch',
-				'create_schema'
-		]
+		return [ 'base_url', 'url', 'params', 'query_text', 'format_value', 'size', 'endpoint',
+			'fetch_dataset', 'fetch_metadata', 'fetch_assays', 'fetch_data', 'fetch',
+			'create_schema' ]
 	
 	def validate_format( self, format_value: str ) -> str:
 		"""Validate format.
@@ -5056,12 +4875,9 @@ class OpenScience( Fetcher ):
 			
 			allowed = { 'json', 'csv', 'tsv', 'browser' }
 			if value not in allowed:
-				raise ValueError(
-					"Unsupported format. Use one of: json, csv, tsv, browser."
-				)
+				raise ValueError( "Unsupported format. Use one of: json, csv, tsv, browser." )
 			
 			return value
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -5088,7 +4904,6 @@ class OpenScience( Fetcher ):
 				logger."""
 		try:
 			content_type = str( response.headers.get( 'Content-Type', '' ) ).lower( )
-			
 			if 'application/json' in content_type:
 				return response.json( )
 			
@@ -5101,10 +4916,7 @@ class OpenScience( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenScience'
-			exception.method = (
-					'coerce_response( self, response: requests.Response ) '
-					'-> Dict[ str, Any ] | str'
-			)
+			exception.method = 'coerce_response( self, *args )-> Dict[ str, Any ] | str'
 			raise exception
 	
 	def fetch_dataset( self, accession: str, time: int=20 ) -> Dict[ str, Any ] | None:
@@ -5137,12 +4949,8 @@ class OpenScience( Fetcher ):
 				timeout=int( time ) )
 			self.response.raise_for_status( )
 			
-			return {
-					'mode': 'dataset',
-					'url': self.url,
-					'params': self.params,
-					'data': self.coerce_response( self.response )
-			}
+			return { 'mode': 'dataset', 'url': self.url, 'params': self.params,
+				'data': self.coerce_response( self.response ) }
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -5182,21 +4990,13 @@ class OpenScience( Fetcher ):
 			self.response = requests.get( url=self.url, params=self.params,
 				headers=self.headers, timeout=int( time ) )
 			self.response.raise_for_status( )
-			
-			return {
-					'mode': 'metadata',
-					'url': self.url,
-					'params': self.params,
-					'data': self.coerce_response( self.response )
-			}
+			return { 'mode': 'metadata', 'url': self.url, 'params': self.params,
+				'data': self.coerce_response( self.response ) }
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenScience'
-			exception.method = (
-					'fetch_metadata( self, query: str, format_value: str=json, '
-					'time: int=20 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch_metadata( self, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def fetch_assays( self, query: str, format_value: str='json',
@@ -5223,35 +5023,22 @@ class OpenScience( Fetcher ):
 				logger."""
 		try:
 			throw_if( 'query', query )
-			
 			self.query_text = str( query ).strip( )
 			self.format_value = self.validate_format( format_value )
 			self.endpoint = '/v2/query/assays/'
 			self.url = f'{self.base_url}{self.endpoint}'
-			self.params = {
-					'query': self.query_text,
-					'format': self.format_value
-			}
-			
+			self.params = { 'query': self.query_text, 'format': self.format_value }
 			self.response = requests.get( url=self.url, params=self.params, headers=self.headers,
 				timeout=int( time ) )
 			self.response.raise_for_status( )
-			
-			return {
-					'mode': 'assays',
-					'url': self.url,
-					'params': self.params,
-					'data': self.coerce_response( self.response )
-			}
+			return { 'mode': 'assays', 'url': self.url, 'params': self.params,
+				'data': self.coerce_response( self.response ) }
 		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenScience'
-			exception.method = (
-					'fetch_assays( self, query: str, format_value: str=json, '
-					'time: int=20 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch_assays( self, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def fetch_data( self, query: str, format_value: str='json',
@@ -5283,34 +5070,19 @@ class OpenScience( Fetcher ):
 			self.format_value = self.validate_format( format_value )
 			self.endpoint = '/v2/query/data/'
 			self.url = f'{self.base_url}{self.endpoint}'
-			self.params = {
-					'query': self.query_text,
-					'format': self.format_value
-			}
-			
-			self.response = requests.get(
-				url=self.url,
-				params=self.params,
-				headers=self.headers,
-				timeout=int( time )
-			)
+			self.params = { 'query': self.query_text, 'format': self.format_value }
+			self.response = requests.get( url=self.url, params=self.params, headers=self.headers,
+				timeout=int( time ) )
 			self.response.raise_for_status( )
 			
-			return {
-					'mode': 'data',
-					'url': self.url,
-					'params': self.params,
-					'data': self.coerce_response( self.response )
-			}
+			return { 'mode': 'data', 'url': self.url, 'params': self.params,
+				'data': self.coerce_response( self.response ) }
 		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenScience'
-			exception.method = (
-					'fetch_data( self, query: str, format_value: str=json, '
-					'time: int=20 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch_data( self,**kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def fetch( self, mode: str='dataset', query: str='',
@@ -5341,51 +5113,28 @@ class OpenScience( Fetcher ):
 				logger."""
 		try:
 			active_mode = str( mode or 'dataset' ).strip( ).lower( )
-			
 			if active_mode == 'dataset':
-				return self.fetch_dataset(
-					accession=accession,
-					time=time
-				)
+				return self.fetch_dataset( accession=accession, time=time )
 			
 			if active_mode == 'metadata':
-				return self.fetch_metadata(
-					query=query,
-					format_value=format_value,
-					time=time
-				)
+				return self.fetch_metadata( query=query, format_value=format_value, time=time )
 			
 			if active_mode == 'assays':
-				return self.fetch_assays(
-					query=query,
-					format_value=format_value,
-					time=time
-				)
+				return self.fetch_assays( query=query, format_value=format_value, time=time )
 			
 			if active_mode == 'data':
-				return self.fetch_data(
-					query=query,
-					format_value=format_value,
-					time=time
-				)
+				return self.fetch_data( query=query, format_value=format_value, time=time )
 			
-			raise ValueError(
-				"Unsupported mode. Use one of: dataset, metadata, assays, data."
-			)
-		
+			raise ValueError( "Unsupported mode. Use one of: dataset, metadata, assays, data." )
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenScience'
-			exception.method = (
-					'fetch( self, mode: str=dataset, query: str=, accession: str=, '
-					'format_value: str=json, time: int=20 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch( self, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
-	def create_schema( self, function: str, tool: str,
-			description: str, parameters: dict,
-			required: list[ str ] ) -> Dict[ str, str ] | None:
+	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
+		required: list[ str ] ) -> Dict[ str, str ] | None:
 		"""Create an AI tool schema.
 		
 		Purpose:
@@ -5414,7 +5163,6 @@ class OpenScience( Fetcher ):
 			throw_if( 'tool', tool )
 			throw_if( 'description', description )
 			throw_if( 'parameters', parameters )
-			
 			if required is None:
 				required = list( parameters.keys( ) )
 			
@@ -5435,10 +5183,7 @@ class OpenScience( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenScience'
-			exception.method = (
-					'create_schema( self, function: str, tool: str, description: str, '
-					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
-			)
+			exception.method = 'create_schema( self, **kwargs ) -> Dict[ str, str ]'
 			raise exception
 
 class SpaceWeather( Fetcher ):
@@ -5511,21 +5256,9 @@ class SpaceWeather( Fetcher ):
 		
 		Returns:
 			List[str]: Ordered public attribute and method names exposed by the object."""
-		return [
-				'base_url',
-				'api_key',
-				'url',
-				'params',
-				'mode',
-				'start_date',
-				'end_date',
-				'location',
-				'catalog',
-				'notification_type',
-				'fetch_endpoint',
-				'fetch',
-				'create_schema'
-		]
+		return [ 'base_url', 'api_key', 'url', 'params', 'mode', 'start_date', 'end_date',
+			'location', 'catalog', 'notification_type', 'fetch_endpoint', 'fetch',
+			'create_schema' ]
 	
 	def fetch_endpoint( self, endpoint: str, start_date: str, end_date: str,
 			time: int=20, location: str='', catalog: str='',
@@ -5569,17 +5302,13 @@ class SpaceWeather( Fetcher ):
 			throw_if( 'endpoint', endpoint )
 			throw_if( 'start_date', start_date )
 			throw_if( 'end_date', end_date )
-			
 			active_key = str( api_key or self.api_key or '' ).strip( )
 			if not active_key:
 				raise ValueError( 'NASA API key is required for DONKI requests.' )
 			
 			self.url = f'{self.base_url}/{endpoint}'
-			self.params = {
-					'startDate': str( start_date ).strip( ),
-					'endDate': str( end_date ).strip( ),
-					'api_key': active_key
-			}
+			self.params = { 'startDate': str( start_date ).strip( ),
+				'endDate': str( end_date ).strip( ), 'api_key': active_key }
 			
 			if endpoint == 'IPS' and location.strip( ):
 				self.params[ 'location' ] = location.strip( )
@@ -5592,7 +5321,6 @@ class SpaceWeather( Fetcher ):
 				self.params[ 'completeEntryOnly' ] = str( bool( complete_entry_only ) ).lower( )
 				self.params[ 'speed' ] = int( speed )
 				self.params[ 'halfAngle' ] = int( half_angle )
-				
 				if catalog.strip( ):
 					self.params[ 'catalog' ] = catalog.strip( )
 				
@@ -5602,34 +5330,19 @@ class SpaceWeather( Fetcher ):
 			if endpoint == 'notifications' and notification_type.strip( ):
 				self.params[ 'type' ] = notification_type.strip( )
 			
-			self.response = requests.get(
-				url=self.url,
-				params=self.params,
-				headers=self.headers,
-				timeout=int( time )
-			)
+			self.response = requests.get( url=self.url, params=self.params, headers=self.headers,
+				timeout=int( time ) )
 			self.response.raise_for_status( )
 			payload = self.response.json( )
 			
-			return {
-					'mode': self.mode,
-					'endpoint': endpoint,
-					'url': self.url,
-					'params': self.params,
-					'data': payload
-			}
+			return { 'mode': self.mode, 'endpoint': endpoint, 'url': self.url,
+				'params': self.params, 'data': payload }
 		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'SpaceWeather'
-			exception.method = (
-					'fetch_endpoint( self, endpoint: str, start_date: str, end_date: str, '
-					'time: int=20, location: str=, catalog: str=, notification_type: str=, '
-					'most_accurate_only: bool=True, complete_entry_only: bool=True, '
-					'speed: int=0, half_angle: int=0, keyword: str=, '
-					'api_key: str|None=None ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch_endpoint( self, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def fetch( self, mode: str='cme', start_date: str='', end_date: str='',
@@ -5671,54 +5384,29 @@ class SpaceWeather( Fetcher ):
 		try:
 			active_mode = str( mode or 'cme' ).strip( ).lower( )
 			self.mode = active_mode
-			
-			endpoint_map = {
-					'cme': 'CME',
-					'cme_analysis': 'CMEAnalysis',
-					'gst': 'GST',
-					'ips': 'IPS',
-					'flr': 'FLR',
-					'sep': 'SEP',
-					'mpc': 'MPC',
-					'rbe': 'RBE',
-					'hss': 'HSS',
-					'wsa_enlil': 'WSAEnlilSimulations',
-					'notifications': 'notifications'
-			}
+			endpoint_map = { 'cme': 'CME', 'cme_analysis': 'CMEAnalysis', 'gst': 'GST',
+				'ips': 'IPS', 'flr': 'FLR', 'sep': 'SEP', 'mpc': 'MPC', 'rbe': 'RBE', 'hss': 'HSS',
+				'wsa_enlil': 'WSAEnlilSimulations', 'notifications': 'notifications' }
 			
 			if active_mode not in endpoint_map:
-				raise ValueError(
-					"Unsupported mode. Use 'cme', 'cme_analysis', 'gst', 'ips', "
-					"'flr', 'sep', 'mpc', 'rbe', 'hss', 'wsa_enlil', or 'notifications'."
-				)
+				raise ValueError( "Unsupported mode. Use 'cme', 'cme_analysis', 'gst', 'ips', "
+					"'flr', 'sep', 'mpc', 'rbe', 'hss', 'wsa_enlil', or 'notifications'." )
 			
-			return self.fetch_endpoint(
-				endpoint=endpoint_map[ active_mode ],
-				start_date=str( start_date ).strip( ),
-				end_date=str( end_date ).strip( ),
-				time=int( time ),
-				location=str( location or 'ALL' ).strip( ),
+			return self.fetch_endpoint( endpoint=endpoint_map[ active_mode ],
+				start_date=str( start_date ).strip( ), end_date=str( end_date ).strip( ),
+				time=int( time ), location=str( location or 'ALL' ).strip( ),
 				catalog=str( catalog or 'ALL' ).strip( ),
 				notification_type=str( notification_type or 'all' ).strip( ),
 				most_accurate_only=bool( most_accurate_only ),
-				complete_entry_only=bool( complete_entry_only ),
-				speed=int( speed ),
-				half_angle=int( half_angle ),
-				keyword=str( keyword or '' ).strip( ),
-				api_key=api_key
-			)
+				complete_entry_only=bool( complete_entry_only ), speed=int( speed ),
+				half_angle=int( half_angle ), keyword=str( keyword or '' ).strip( ),
+				api_key=api_key )
 		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'SpaceWeather'
-			exception.method = (
-					'fetch( self, mode: str=cme, start_date: str=, end_date: str=, '
-					'time: int=20, location: str=ALL, catalog: str=ALL, '
-					'notification_type: str=all, most_accurate_only: bool=True, '
-					'complete_entry_only: bool=True, speed: int=0, half_angle: int=0, '
-					'keyword: str=, api_key: str|None=None ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch( self, **kwargs) -> Dict[ str, Any ]'
 			raise exception
 	
 	def create_schema( self, function: str, tool: str,
@@ -5770,10 +5458,7 @@ class SpaceWeather( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'SpaceWeather'
-			exception.method = (
-					'create_schema( self, function: str, tool: str, description: str, '
-					'parameters: dict, required: list[ str ] ) -> Dict[ str, str ]'
-			)
+			exception.method = 'create_schema( self, **kwargs ) -> Dict[ str, str ]'
 			raise exception
 
 class AstroCatalog( Fetcher ):
@@ -5838,14 +5523,7 @@ class AstroCatalog( Fetcher ):
 		
 		Returns:
 			List[str]: Ordered public attribute and method names exposed by the object."""
-		return [
-				'base_url',
-				'timeout',
-				'headers',
-				'fetch_object',
-				'cone_search',
-				'fetch',
-		]
+		return [ 'base_url', 'timeout', 'headers', 'fetch_object', 'cone_search', 'fetch', ]
 	
 	def normalize_attribute_path( self, quantity: str='', attributes: str='' ) -> str:
 		"""Normalize attribute path.
@@ -5885,13 +5563,11 @@ class AstroCatalog( Fetcher ):
 		Returns:
 			Dict[str, Any]: Result produced by the operation."""
 		params: Dict[ str, Any ] = { }
-		
 		if not argument_string or not argument_string.strip( ):
 			return params
 		
 		raw_items = re.split( r'[\n,]+', argument_string )
 		items = [ item.strip( ) for item in raw_items if item and item.strip( ) ]
-		
 		for item in items:
 			if '=' in item:
 				k, v = item.split( '=', 1 )
@@ -5901,7 +5577,7 @@ class AstroCatalog( Fetcher ):
 		
 		return params
 	
-	def request( self, route: str, params: Dict[ str, Any ] | None = None,
+	def request( self, route: str, params: Dict[ str, Any ] | None=None,
 			time: int=20 ) -> Any:
 		"""Request Open Astronomy Catalog queries.
 		
@@ -5928,15 +5604,10 @@ class AstroCatalog( Fetcher ):
 			self.timeout = int( time )
 			self.url = f'{self.base_url}/{route.lstrip( "/" )}'
 			self.params = params or { }
-			
-			self.response = requests.get(
-				url=self.url,
-				params=self.params,
-				headers=self.headers,
+			self.response = requests.get( url=self.url, params=self.params, headers=self.headers,
 				timeout=self.timeout )
 			
 			self.response.raise_for_status( )
-			
 			content_type = (self.response.headers.get( 'Content-Type', '' ) or '').lower( )
 			if 'json' in content_type:
 				return self.response.json( )
@@ -5947,7 +5618,7 @@ class AstroCatalog( Fetcher ):
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'AstroCatalog'
-			exception.method = 'request( self, route: str, params: Dict[ str, Any ] | None=None, time: int=20 ) -> Any'
+			exception.method = 'request( self, *args ) -> Any'
 			raise exception
 	
 	def fetch_object( self, name: str, quantity: str='', attributes: str='',
@@ -5979,7 +5650,6 @@ class AstroCatalog( Fetcher ):
 			throw_if( 'name', name )
 			self.name = name.strip( )
 			self.format = (data_format or 'json').strip( ).lower( )
-			
 			route_parts = [ urllib.parse.quote( self.name ) ]
 			attr_path = self.normalize_attribute_path( quantity, attributes )
 			if attr_path:
@@ -5987,20 +5657,15 @@ class AstroCatalog( Fetcher ):
 			
 			route = '/'.join( route_parts )
 			params = self.parse_argument( arguments )
-			
 			if self.format:
 				params[ 'format' ] = self.format
 			
 			return self.request( route=route, params=params, time=time )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'AstroCatalog'
-			exception.method = (
-					'fetch_object( self, name: str, quantity: str=, attributes: str=, '
-					'arguments: str=, data_format: str=json, time: int=20 ) -> Any'
-			)
+			exception.method = 'fetch_object( self, *args ) -> Any'
 			raise exception
 	
 	def cone_search( self, ra: str, dec: str, radius: int=2, quantity: str='',
@@ -6053,9 +5718,7 @@ class AstroCatalog( Fetcher ):
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'AstroCatalog'
-			exception.method = ('cone_search( self, ra: str, dec: str, radius: int=2, '
-			                    'quantity: str=, attributes: str=, arguments: str=, '
-			                    'data_format: str=json, time: int=20 ) -> Any')
+			exception.method = 'cone_search( self, *args ) -> Any'
 			raise exception
 	
 	def fetch( self, mode: str='object_query', query: str='', quantity: str='',
@@ -6117,11 +5780,7 @@ class AstroCatalog( Fetcher ):
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'AstroCatalog'
-			exception.method = (
-					'fetch( self, mode: str=object_query, query: str=, quantity: str=, '
-					'attributes: str=, arguments: str=, ra: str=, dec: str=, '
-					'radius: int=2, data_format: str=json, time: int=20 ) -> Any'
-			)
+			exception.method = 'fetch( self, *args ) -> Any'
 			raise exception
 
 class AstroQuery( Fetcher ):
@@ -6179,14 +5838,7 @@ class AstroQuery( Fetcher ):
 		
 		Returns:
 			List[str]: Ordered public attribute and method names exposed by the object."""
-		return [
-				'headers',
-				'row_limit',
-				'object_search',
-				'object_ids',
-				'region_search',
-				'fetch',
-		]
+		return [ 'headers', 'row_limit', 'object_search', 'object_ids', 'region_search', 'fetch', ]
 	
 	def table_to_records( self, table: Table | None ) -> List[ Dict[ str, Any ] ]:
 		"""Table to records.
@@ -6231,7 +5883,7 @@ class AstroQuery( Fetcher ):
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'AstroQuery'
-			exception.method = 'table_to_records( self, table: Table | None ) -> List[ Dict[ str, Any ] ]'
+			exception.method = 'table_to_records( self, *args ) -> List[ Dict[ str, Any ] ]'
 			raise exception
 	
 	def object_search( self, name: str, row_limit: int=100 ) -> Dict[ str, Any ] | None:
@@ -6256,18 +5908,13 @@ class AstroQuery( Fetcher ):
 			throw_if( 'name', name )
 			self.name = name.strip( )
 			self.row_limit = max( 1, int( row_limit ) )
-			
 			simbad = Simbad( )
 			simbad.ROW_LIMIT = self.row_limit
 			result_table = simbad.query_object( self.name )
 			
-			return {
-					'mode': 'object_search',
-					'query': self.name,
-					'row_limit': self.row_limit,
-					'columns': list( result_table.colnames ) if result_table is not None else [ ],
-					'rows': self.table_to_records( result_table ),
-			}
+			return { 'mode': 'object_search', 'query': self.name, 'row_limit': self.row_limit,
+				'columns': list( result_table.colnames ) if result_table is not None else [ ],
+				'rows': self.table_to_records( result_table ), }
 		
 		except Exception as exc:
 			exception = Error( exc )
@@ -6298,24 +5945,18 @@ class AstroQuery( Fetcher ):
 			throw_if( 'name', name )
 			self.name = name.strip( )
 			self.row_limit = max( 1, int( row_limit ) )
-			
 			simbad = Simbad( )
 			simbad.ROW_LIMIT = self.row_limit
 			result_table = simbad.query_objectids( self.name )
-			
-			return {
-					'mode': 'object_ids',
-					'query': self.name,
-					'row_limit': self.row_limit,
-					'columns': list( result_table.colnames ) if result_table is not None else [ ],
-					'rows': self.table_to_records( result_table ),
-			}
+			return { 'mode': 'object_ids', 'query': self.name, 'row_limit': self.row_limit,
+				'columns': list( result_table.colnames ) if result_table is not None else [ ],
+				'rows': self.table_to_records( result_table ), }
 		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'AstroQuery'
-			exception.method = 'object_ids( self, name: str, row_limit: int=100 ) -> Dict[ str, Any ]'
+			exception.method = 'object_ids( self, *args ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def region_search( self, ra: str, dec: str, radius: float = 0.5,
@@ -6348,50 +5989,31 @@ class AstroQuery( Fetcher ):
 			self.declination = dec.strip( )
 			self.radius = float( radius )
 			self.row_limit = max( 1, int( row_limit ) )
-			
-			unit_map = {
-					'deg': u.deg,
-					'arcmin': u.arcmin,
-					'arcsec': u.arcsec,
-			}
-			
+			unit_map = { 'deg': u.deg, 'arcmin': u.arcmin, 'arcsec': u.arcsec, }
 			active_unit = unit_map.get( (radius_unit or 'deg').strip( ).lower( ), u.deg )
-			
-			coord = SkyCoord(
-				ra=self.right_ascension,
-				dec=self.declination,
+			coord = SkyCoord( ra=self.right_ascension, dec=self.declination,
 				unit=(u.hourangle, u.deg) )
 			
 			simbad = Simbad( )
 			simbad.ROW_LIMIT = self.row_limit
-			result_table = simbad.query_region(
-				coordinates=coord,
+			result_table = simbad.query_region( coordinates=coord,
 				radius=self.radius * active_unit )
 			
-			return {
-					'mode': 'region_search',
-					'ra': self.right_ascension,
-					'dec': self.declination,
-					'radius': self.radius,
-					'radius_unit': (radius_unit or 'deg').strip( ).lower( ),
-					'row_limit': self.row_limit,
-					'columns': list( result_table.colnames ) if result_table is not None else [ ],
-					'rows': self.table_to_records( result_table ),
-			}
+			return { 'mode': 'region_search', 'ra': self.right_ascension, 'dec': self.declination,
+				'radius': self.radius, 'radius_unit': (radius_unit or 'deg').strip( ).lower( ),
+				'row_limit': self.row_limit,
+				'columns': list( result_table.colnames ) if result_table is not None else [ ],
+				'rows': self.table_to_records( result_table ), }
 		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'AstroQuery'
-			exception.method = (
-					'region_search( self, ra: str, dec: str, radius: float=0.5, '
-					'radius_unit: str=deg, row_limit: int=100 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'region_search( self, *wargs) -> Dict[ str, Any ]'
 			raise exception
 	
 	def fetch( self, mode: str='object_search', query: str='', ra: str='', dec: str='',
-			radius: float = 0.5, radius_unit: str='deg', row_limit: int=100 ) -> Dict[
-				                                                                         str, Any ] | None:
+			radius: float=0.5, radius_unit: str='deg', row_limit: int=100 ) -> Dict[ str, Any ]:
 		"""Fetch Simbad and astronomy object search operations.
 		
 		Purpose:
@@ -6419,38 +6041,22 @@ class AstroQuery( Fetcher ):
 				logger."""
 		try:
 			active_mode = (mode or 'object_search').strip( ).lower( )
-			
 			if active_mode == 'object_search':
-				return self.object_search(
-					name=query,
-					row_limit=row_limit )
+				return self.object_search( name=query, row_limit=row_limit )
 			
 			if active_mode == 'object_ids':
-				return self.object_ids(
-					name=query,
-					row_limit=row_limit )
+				return self.object_ids( name=query, row_limit=row_limit )
 			
 			if active_mode == 'region_search':
-				return self.region_search(
-					ra=ra,
-					dec=dec,
-					radius=radius,
-					radius_unit=radius_unit,
+				return self.region_search( ra=ra, dec=dec, radius=radius, radius_unit=radius_unit,
 					row_limit=row_limit )
 			
-			raise ValueError(
-				"Unsupported mode. Use 'object_search', 'object_ids', or 'region_search'."
-			)
-		
+			raise ValueError( "Unsupported. Use 'object_search', 'object_ids', or 'region_search'.")
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'AstroQuery'
-			exception.method = (
-					'fetch( self, mode: str=object_search, query: str=, ra: str=, '
-					'dec: str=, radius: float=0.5, radius_unit: str=deg, '
-					'row_limit: int=100 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch( self, *args ) -> Dict[ str, Any ]'
 			raise exception
 
 class StarMap( Fetcher ):
@@ -6537,26 +6143,11 @@ class StarMap( Fetcher ):
 		
 		Returns:
 			List[str]: Ordered public attribute and method names exposed by the object."""
-		return [
-				'base_url',
-				'snapshot_url',
-				'object',
-				'right_ascension',
-				'declination',
-				'image_source',
-				'zoom',
-				'show_box',
-				'show_grid',
-				'show_lines',
-				'show_boundaries',
-				'show_const_names',
-				'box_color',
-				'params',
-				'fetch_object_link',
-				'fetch_coordinate_link',
-				'fetch_snapshot',
-				'fetch',
-		]
+		return [ 'base_url', 'snapshot_url', 'object', 'right_ascension', 'declination',
+			'image_source', 'zoom', 'show_box', 'show_grid', 'show_lines', 'show_boundaries',
+			'show_const_names', 'box_color', 'params', 'fetch_object_link',
+			'fetch_coordinate_link',
+			'fetch_snapshot', 'fetch', ]
 	
 	def normalize( self, value: bool ) -> str:
 		"""Normalize.
@@ -6606,7 +6197,6 @@ class StarMap( Fetcher ):
 				links[ label ] = urllib.parse.urljoin( base_url, href )
 			
 			return links
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -6640,55 +6230,35 @@ class StarMap( Fetcher ):
 				logger."""
 		try:
 			throw_if( 'name', name )
-			
 			self.object = name.strip( )
 			self.zoom = max( 1, min( int( zoom ), 18 ) )
 			self.box_color = box_color or 'yellow'
 			self.show_box = bool( show_box )
 			self.timeout = int( time )
-			
-			self.params = {
-					'object': self.object,
-					'show_box': self.normalize( self.show_box ),
-					'zoom': str( self.zoom ),
-					'box_color': self.box_color,
-					'box_width': '50',
-					'box_height': '50',
-			}
+			self.params = { 'object': self.object, 'show_box': self.normalize( self.show_box ),
+				'zoom': str( self.zoom ), 'box_color': self.box_color, 'box_width': '50',
+				'box_height': '50', }
 			
 			interactive_url = f'{self.base_url}?{urllib.parse.urlencode( self.params )}'
-			
-			self.response = requests.get(
-				url=self.base_url,
-				params=self.params,
-				headers=self.headers,
-				timeout=self.timeout )
+			self.response = requests.get( url=self.base_url, params=self.params,
+				headers=self.headers, timeout=self.timeout )
 			self.response.raise_for_status( )
 			
-			return {
-					'mode': 'object_link',
-					'object': self.object,
-					'zoom': self.zoom,
-					'params': self.params,
-					'interactive_url': interactive_url,
-					'status_code': self.response.status_code,
-					'html_preview': self.response.text[ : 2000 ],
-			}
+			return { 'mode': 'object_link', 'object': self.object, 'zoom': self.zoom,
+				'params': self.params, 'interactive_url': interactive_url,
+				'status_code': self.response.status_code,
+				'html_preview': self.response.text[ : 2000 ], }
 		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'StarMap'
-			exception.method = (
-					'fetch_object_link( self, name: str, zoom: int=5, box_color: str=yellow, '
-					'show_box: bool=True, time: int=20 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch_object_link( self, *args ) -> Dict[ str, Any ]'
 			raise exception
 	
-	def fetch_coordinate_link( self, ra: float, dec: float, zoom: int=5,
-			box_color: str='yellow',
-			show_box: bool=True, show_grid: bool=True, show_lines: bool=True,
-			show_boundaries: bool=True, time: int=20 ) -> Dict[ str, Any ] | None:
+	def fetch_coordinate_link( self, ra: float, dec: float, zoom: int=5, box_color: str='yellow',
+		show_box: bool=True, show_grid: bool=True, show_lines: bool=True,
+		show_boundaries: bool=True, time: int=20 ) -> Dict[ str, Any ] | None:
 		"""Fetch coordinate link.
 		
 		Purpose:
@@ -6719,7 +6289,6 @@ class StarMap( Fetcher ):
 		try:
 			throw_if( 'ra', ra )
 			throw_if( 'dec', dec )
-			
 			self.right_ascension = float( ra )
 			self.declination = float( dec )
 			self.zoom = max( 1, min( int( zoom ), 18 ) )
@@ -6729,48 +6298,27 @@ class StarMap( Fetcher ):
 			self.show_lines = bool( show_lines )
 			self.show_boundaries = bool( show_boundaries )
 			self.timeout = int( time )
-			
-			self.params = {
-					'ra': f'{self.right_ascension}',
-					'de': f'{self.declination}',
-					'show_box': self.normalize( self.show_box ),
-					'zoom': str( self.zoom ),
-					'box_color': self.box_color,
-					'show_grid': self.normalize( self.show_grid ),
-					'show_constellation_lines': self.normalize( self.show_lines ),
-					'show_constellation_boundaries': self.normalize( self.show_boundaries ),
-			}
+			self.params = { 'ra': f'{self.right_ascension}', 'de': f'{self.declination}',
+				'show_box': self.normalize( self.show_box ), 'zoom': str( self.zoom ),
+				'box_color': self.box_color, 'show_grid': self.normalize( self.show_grid ),
+				'show_constellation_lines': self.normalize( self.show_lines ),
+				'show_constellation_boundaries': self.normalize( self.show_boundaries ), }
 			
 			interactive_url = f'{self.base_url}?{urllib.parse.urlencode( self.params )}'
-			
-			self.response = requests.get(
-				url=self.base_url,
-				params=self.params,
-				headers=self.headers,
-				timeout=self.timeout )
+			self.response = requests.get( url=self.base_url, params=self.params,
+				headers=self.headers, timeout=self.timeout )
 			self.response.raise_for_status( )
 			
-			return {
-					'mode': 'coordinate_link',
-					'ra': self.right_ascension,
-					'dec': self.declination,
-					'zoom': self.zoom,
-					'params': self.params,
-					'interactive_url': interactive_url,
-					'status_code': self.response.status_code,
-					'html_preview': self.response.text[ : 2000 ],
-			}
+			return { 'mode': 'coordinate_link', 'ra': self.right_ascension, 'dec': self.declination,
+				'zoom': self.zoom, 'params': self.params, 'interactive_url': interactive_url,
+				'status_code': self.response.status_code,
+				'html_preview': self.response.text[ : 2000 ], }
 		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'StarMap'
-			exception.method = (
-					'fetch_coordinate_link( self, ra: float, dec: float, zoom: int=5, '
-					'box_color: str=yellow, show_box: bool=True, show_grid: bool=True, '
-					'show_lines: bool=True, show_boundaries: bool=True, time: int=20 ) '
-					'-> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch_coordinate_link( self, *args ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def fetch_snapshot( self, ra: float, dec: float, zoom: int=10, image_source: str='DSS2',
@@ -6815,63 +6363,36 @@ class StarMap( Fetcher ):
 			self.show_boundaries = bool( show_boundaries )
 			self.show_const_names = bool( show_const_names )
 			self.timeout = int( time )
-			
-			self.params = {
-					'ra': f'{self.right_ascension}',
-					'de': f'{self.declination}',
-					'zoom': str( self.zoom ),
-					'img_source': self.image_source,
-					'show_grid': self.normalize( self.show_grid ),
-					'show_constellation_lines': self.normalize( self.show_lines ),
-					'show_constellation_boundaries': self.normalize( self.show_boundaries ),
-					'show_const_names': self.normalize( self.show_const_names ),
-			}
+			self.params = { 'ra': f'{self.right_ascension}', 'de': f'{self.declination}',
+				'zoom': str( self.zoom ), 'img_source': self.image_source,
+				'show_grid': self.normalize( self.show_grid ),
+				'show_constellation_lines': self.normalize( self.show_lines ),
+				'show_constellation_boundaries': self.normalize( self.show_boundaries ),
+				'show_const_names': self.normalize( self.show_const_names ), }
 			
 			page_url = f'{self.snapshot_url}?{urllib.parse.urlencode( self.params )}'
-			
-			self.response = requests.get(
-				url=self.snapshot_url,
-				params=self.params,
-				headers=self.headers,
-				timeout=self.timeout )
+			self.response = requests.get( url=self.snapshot_url, params=self.params,
+				headers=self.headers, timeout=self.timeout )
 			self.response.raise_for_status( )
-			
-			image_links = self.extract_links(
-				html=self.response.text,
-				base_url=self.snapshot_url )
-			
-			return {
-					'mode': 'snapshot',
-					'ra': self.right_ascension,
-					'dec': self.declination,
-					'zoom': self.zoom,
-					'image_source': self.image_source,
-					'params': self.params,
-					'snapshot_page_url': page_url,
-					'image_links': image_links,
-					'preferred_image_url': image_links.get( 'png' ) or image_links.get( 'jpeg',
-						'' ),
-					'status_code': self.response.status_code,
-					'html_preview': self.response.text[ : 2000 ],
-			}
+			image_links = self.extract_links( html=self.response.text, base_url=self.snapshot_url )
+			return { 'mode': 'snapshot', 'ra': self.right_ascension, 'dec': self.declination,
+				'zoom': self.zoom, 'image_source': self.image_source, 'params': self.params,
+				'snapshot_page_url': page_url, 'image_links': image_links,
+				'preferred_image_url': image_links.get( 'png' ) or image_links.get( 'jpeg', '' ),
+				'status_code': self.response.status_code,
+				'html_preview': self.response.text[ : 2000 ], }
 		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'StarMap'
-			exception.method = (
-					'fetch_snapshot( self, ra: float, dec: float, zoom: int=10, '
-					'image_source: str=DSS2, show_grid: bool=True, show_lines: bool=True, '
-					'show_boundaries: bool=True, show_const_names: bool=False, '
-					'time: int=20 ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'fetch_snapshot( self, *args ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def fetch( self, mode: str='object_link', query: str='', ra: float = 0.0, dec: float = 0.0,
-			zoom: int=5, image_source: str='DSS2', box_color: str='yellow',
-			show_box: bool=True,
-			show_grid: bool=True, show_lines: bool=True, show_boundaries: bool=True,
-			show_const_names: bool=False, time: int=20 ) -> Dict[ str, Any ] | None:
+		zoom: int=5, image_source: str='DSS2', box_color: str='yellow', show_box: bool=True,
+		show_grid: bool=True, show_lines: bool=True,  show_boundaries: bool=True,
+		show_const_names: bool=False, time: int=20 ) -> Dict[ str, Any ] | None:
 		"""Fetch astronomical object map links and imagery.
 		
 		Purpose:
@@ -6904,54 +6425,26 @@ class StarMap( Fetcher ):
 				logger."""
 		try:
 			active_mode = (mode or 'object_link').strip( ).lower( )
-			
 			if active_mode == 'object_link':
-				return self.fetch_object_link(
-					name=query,
-					zoom=zoom,
-					box_color=box_color,
-					show_box=show_box,
-					time=time )
+				return self.fetch_object_link( name=query, zoom=zoom, box_color=box_color,
+					show_box=show_box, time=time )
 			
 			if active_mode == 'coordinate_link':
-				return self.fetch_coordinate_link(
-					ra=ra,
-					dec=dec,
-					zoom=zoom,
-					box_color=box_color,
-					show_box=show_box,
-					show_grid=show_grid,
-					show_lines=show_lines,
-					show_boundaries=show_boundaries,
-					time=time )
+				return self.fetch_coordinate_link( ra=ra, dec=dec, zoom=zoom, box_color=box_color,
+					show_box=show_box, show_grid=show_grid, show_lines=show_lines,
+					show_boundaries=show_boundaries, time=time )
 			
 			if active_mode == 'snapshot':
-				return self.fetch_snapshot(
-					ra=ra,
-					dec=dec,
-					zoom=zoom,
-					image_source=image_source,
-					show_grid=show_grid,
-					show_lines=show_lines,
-					show_boundaries=show_boundaries,
-					show_const_names=show_const_names,
-					time=time )
+				return self.fetch_snapshot( ra=ra, dec=dec, zoom=zoom, image_source=image_source,
+					show_grid=show_grid, show_lines=show_lines, show_boundaries=show_boundaries,
+					show_const_names=show_const_names, time=time )
 			
-			raise ValueError(
-				"Unsupported mode. Use 'object_link', 'coordinate_link', or 'snapshot'."
-			)
-		
+			raise ValueError( "Unsupported. Use 'object_link', 'coordinate_link', or 'snapshot'." )
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'StarMap'
-			exception.method = (
-					'fetch( self, mode: str=object_link, query: str=, ra: float=0.0, '
-					'dec: float=0.0, zoom: int=5, image_source: str=DSS2, '
-					'box_color: str=yellow, show_box: bool=True, show_grid: bool=True, '
-					'show_lines: bool=True, show_boundaries: bool=True, '
-					'show_const_names: bool=False, time: int=20 ) -> Dict[ str, Any ]'
-			)
+			exception.method =  'fetch( self, **kwargs) -> Dict[ str, Any ]'
 			raise exception
 
 class GovData( Fetcher ):
@@ -7022,11 +6515,8 @@ class GovData( Fetcher ):
 		self.collection = ''
 		self.start_date = ''
 		self.response = None
-		self.headers = {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-				'User-Agent': cfg.AGENTS
-		}
+		self.headers = { 'Accept': 'application/json', 'Content-Type': 'application/json',
+			'User-Agent': cfg.AGENTS }
 		self.agents = cfg.AGENTS
 	
 	def __dir__( self ) -> List[ str ]:
@@ -7039,34 +6529,11 @@ class GovData( Fetcher ):
 		
 		Returns:
 			List[str]: Ordered public attribute and method names exposed by the object."""
-		return [
-				'api_key',
-				'base_url',
-				'url',
-				'params',
-				'payload',
-				'result',
-				'mode',
-				'query',
-				'page_size',
-				'offset_mark',
-				'sort_field',
-				'sort_order',
-				'package_id',
-				'collection',
-				'start_date',
-				'response',
-				'headers',
-				'agents',
-				'validate_page_size',
-				'validate_sort_field',
-				'validate_sort_order',
-				'fetch_search',
-				'fetch_package_summary',
-				'fetch_collection',
-				'fetch',
-				'create_schema'
-		]
+		return [ 'api_key', 'base_url', 'url', 'params', 'payload', 'result', 'mode', 'query',
+			'page_size', 'offset_mark', 'sort_field', 'sort_order', 'package_id', 'collection',
+			'start_date', 'response', 'headers', 'agents', 'validate_page_size',
+			'validate_sort_field', 'validate_sort_order', 'fetch_search', 'fetch_package_summary',
+			'fetch_collection', 'fetch', 'create_schema' ]
 	
 	def validate_page_size( self, page_size: int ) -> int:
 		"""Validate page size.
@@ -7212,37 +6679,16 @@ class GovData( Fetcher ):
 			self.sort_order = self.validate_sort_order( sort_order )
 			self.timeout = int( time )
 			self.url = f'{self.base_url}/search'
-			self.params = {
-					'api_key': self.api_key
-			}
-			self.payload = {
-					'query': self.query,
-					'pageSize': self.page_size,
-					'offsetMark': self.offset_mark,
-					'sorts': [
-							{
-									'field': self.sort_field,
-									'sortOrder': self.sort_order
-							}
-					]
-			}
+			self.params = { 'api_key': self.api_key }
+			self.payload = { 'query': self.query, 'pageSize': self.page_size,
+				'offsetMark': self.offset_mark,
+				'sorts': [ { 'field': self.sort_field, 'sortOrder': self.sort_order } ] }
 			
-			self.response = requests.post(
-				url=self.url,
-				params=self.params,
-				json=self.payload,
-				headers=self.headers,
-				timeout=self.timeout
-			)
+			self.response = requests.post( url=self.url, params=self.params, json=self.payload,
+				headers=self.headers, timeout=self.timeout )
 			self.response.raise_for_status( )
-			
-			self.result = {
-					'mode': self.mode,
-					'url': self.url,
-					'params': self.params,
-					'payload': self.payload,
-					'data': self.response.json( )
-			}
+			self.result = { 'mode': self.mode, 'url': self.url, 'params': self.params,
+				'payload': self.payload, 'data': self.response.json( ) }
 			
 			return self.result
 		
