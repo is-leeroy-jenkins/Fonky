@@ -279,7 +279,7 @@ class Loader( ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split_documents( self, docs: List[ Document ], chunk: int = 1000, overlap: int = 200 ) -> \
+	def split_documents( self, docs: List[ Document ], chunk: int=1000, overlap: int=200 ) -> \
 			List[ Document ] | None:
 		"""Split document collections.
 
@@ -413,7 +413,7 @@ class TextLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -505,8 +505,8 @@ class CsvLoader( Loader ):
 		         'split_documents', ]
 	
 	def load( self, path: str, encoding: Optional[ str ] = 'utf-8',
-			source_column: Optional[ str ] = None, delimiter: str = ',',
-			quotechar: str = '"' ) -> List[ Document ] | None:
+			source_column: Optional[ str ] = None, delimiter: str=',',
+			quotechar: str='"' ) -> List[ Document ] | None:
 		"""Load source content.
 
 		Purpose:
@@ -534,31 +534,20 @@ class CsvLoader( Loader ):
 			self.source_column = source_column
 			self.delimiter = delimiter
 			self.quotechar = quotechar
-			self.csv_args = {
-					'delimiter': self.delimiter,
-					'quotechar': self.quotechar,
-			}
-			self.loader = CSVLoader(
-				file_path=self.file_path,
-				source_column=self.source_column,
-				csv_args=self.csv_args,
-				encoding=self.encoding
-			)
+			self.csv_args = { 'delimiter': self.delimiter, 'quotechar': self.quotechar, }
+			self.loader = CSVLoader( file_path=self.file_path, source_column=self.source_column,
+				csv_args=self.csv_args, encoding=self.encoding )
 			self.documents = self.loader.load( )
 			return self.documents
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'Foo'
 			exception.cause = 'CsvLoader'
-			exception.method = (
-					'load( self, path: str, encoding: Optional[ str ]="utf-8", '
-					'source_column: Optional[ str ]=None, delimiter: str=",", '
-					'quotechar: str=\'"\' ) -> List[ Document ] | None'
-			)
+			exception.method = 'load( self, **kwargs) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -587,10 +576,7 @@ class CsvLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'Foo'
 			exception.cause = 'CsvLoader'
-			exception.method = (
-					'split( self, chunk: int=1000, overlap: int=200 ) '
-					'-> List[ Document ] | None'
-			)
+			exception.method = 'split( self, **kwargs ) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 
@@ -626,9 +612,8 @@ class WebLoader( Loader ):
 	recursive: Optional[ bool ]
 	prevent_outside: Optional[ bool ]
 	
-	def __init__( self, recursive: bool = False, max_depth: int = 2,
-			prevent_outside: bool = True, timeout: int = 10,
-			ignore: bool = True, progress: bool = True ) -> None:
+	def __init__( self, recursive: bool=False, max_depth: int=2, prevent_outside: bool=True,
+		timeout: int=10, ignore: bool=True, progress: bool=True ) -> None:
 		"""Initialize the WebLoader instance.
 
 		Purpose:
@@ -669,28 +654,10 @@ class WebLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'max_depth',
-		         'timeout',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'load_pages',
-		         'load_recursive',
-		         'split',
-		         'urls',
-		         'recursive',
-		         'prevent_outside', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'max_depth', 'timeout', 'candidates', 'resolved', 'chunk_size', 'overlap_amount',
+			'verify_exists', 'resolve_paths', 'split_documents', 'load', 'load_pages',
+			'load_recursive', 'split', 'urls', 'recursive', 'prevent_outside', ]
 	
 	def _same_domain_only( self, docs: List[ Document ], source_url: str ) -> List[ Document ]:
 		"""Filter documents to the source domain.
@@ -761,7 +728,6 @@ class WebLoader( Loader ):
 		"""
 		try:
 			throw_if( 'urls', urls )
-			
 			if self.recursive:
 				if isinstance( urls, list ):
 					if not urls:
@@ -770,12 +736,8 @@ class WebLoader( Loader ):
 				else:
 					self.url = urls
 				
-				self.documents = self.load_recursive(
-					url=self.url,
-					depth=self.max_depth,
-					max_time=self.tiemout,
-					ignore=self.ignore
-				)
+				self.documents = self.load_recursive( url=self.url, depth=self.max_depth,
+					max_time=self.tiemout, ignore=self.ignore )
 				return self.documents
 			else:
 				if isinstance( urls, str ):
@@ -783,13 +745,8 @@ class WebLoader( Loader ):
 				else:
 					self.web_paths = urls
 				
-				self.documents = self.load_pages(
-					urls=self.web_paths,
-					depth=self.max_depth,
-					timeout=self.tiemout,
-					ignore=self.ignore,
-					progress=self.with_progress
-				)
+				self.documents = self.load_pages( urls=self.web_paths, depth=self.max_depth,
+					timeout=self.tiemout, ignore=self.ignore, progress=self.with_progress )
 				return self.documents
 		except Exception as e:
 			exception = Error( e )
@@ -799,8 +756,8 @@ class WebLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def load_recursive( self, url: str, depth: int = 2, max_time: int = 10,
-			ignore: bool = True ) -> List[ Document ] | None:
+	def load_recursive( self, url: str, depth: int=2, max_time: int=10,
+			ignore: bool=True ) -> List[ Document ] | None:
 		"""Load web documents recursively.
 
 		Purpose:
@@ -826,32 +783,23 @@ class WebLoader( Loader ):
 			self.max_depth = depth
 			self.tiemout = max_time
 			self.ignore = ignore
-			self.loader = RecursiveUrlLoader(
-				self.url,
-				max_depth=self.max_depth,
-				timeout=self.tiemout,
-				continue_on_failure=self.ignore
-			)
+			self.loader = RecursiveUrlLoader( self.url, max_depth=self.max_depth,
+				timeout=self.tiemout, continue_on_failure=self.ignore )
 			self.documents = self.loader.load( )
-			
 			if self.prevent_outside:
-				self.documents = self._same_domain_only(
-					docs=self.documents,
-					source_url=self.url
-				)
+				self.documents = self._same_domain_only( docs=self.documents, source_url=self.url )
 			
 			return self.documents
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'WebLoader'
-			exception.method = ('load_recursive( self, url: str, depth: int=2, '
-			                    'max_time: int=10, ignore: bool=True ) -> List[ Document ]')
+			exception.method = 'load_recursive( self, **kwarg ) -> List[ Document ]'
 			Logger( ).write( exception )
 			raise exception
 	
-	def load_pages( self, urls: List[ str ], depth: int = 2, timeout: int = 10,
-			ignore: bool = True, progress: bool = True ) -> List[ Document ] | None:
+	def load_pages( self, urls: List[ str ], depth: int=2, timeout: int=10,
+			ignore: bool=True, progress: bool=True ) -> List[ Document ] | None:
 		"""Load static web pages.
 
 		Purpose:
@@ -878,24 +826,20 @@ class WebLoader( Loader ):
 			self.tiemout = timeout
 			self.ignore = ignore
 			self.with_progress = progress
-			self.loader = WebBaseLoader(
-				web_paths=self.web_paths,
+			self.loader = WebBaseLoader( web_paths=self.web_paths,
 				show_progress=self.with_progress,
-				continue_on_failure=self.ignore
-			)
+				continue_on_failure=self.ignore )
 			self.documents = self.loader.load( )
 			return self.documents
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'WebLoader'
-			exception.method = ('load_pages( self, urls: List[ str ], depth: int=2, '
-			                    'timeout: int=10, ignore: bool=True, '
-			                    'progress: bool=True ) -> List[ Document ]')
+			exception.method = 'load_pages( self, **kwargs ) -> List[ Document ]'
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -920,11 +864,8 @@ class WebLoader( Loader ):
 			
 			self.chunk_size = chunk
 			self.overlap_amount = overlap
-			_documents = self.split_documents(
-				docs=self.documents,
-				chunk=self.chunk_size,
-				overlap=self.overlap_amount
-			)
+			_documents = self.split_documents( docs=self.documents, chunk=self.chunk_size,
+				overlap=self.overlap_amount )
 			return _documents
 		except Exception as e:
 			exception = Error( e )
@@ -978,24 +919,11 @@ class PdfReader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'mode',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'mode', 'verify_exists',
+			'resolve_paths', 'split_documents', 'load', 'split', ]
 	
-	def load( self, path: str, mode: str = 'single' ) -> List[ Document ] | None:
+	def load( self, path: str, mode: str='single' ) -> List[ Document ] | None:
 		"""Load source content.
 
 		Purpose:
@@ -1028,7 +956,7 @@ class PdfReader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -1095,8 +1023,8 @@ class PdfLoader( PdfReader ):
 	custom_delimiter: Optional[ str ]
 	image_parser: Optional[ RapidOCRBlobParser ]
 	
-	def __init__( self, size: int = 1000, overlap: int = 150,
-			has_tables: bool = True, include: bool = True ) -> None:
+	def __init__( self, size: int=1000, overlap: int=150,
+			has_tables: bool=True, include: bool=True ) -> None:
 		"""Initialize the PdfLoader instance.
 
 		Purpose:
@@ -1162,8 +1090,8 @@ class PdfLoader( PdfReader ):
 		"""
 		return [ 'html-img', 'markdown-img', 'text-img' ]
 	
-	def load( self, path: str, mode: str = 'single', extract: str = 'plain',
-			include: bool = False, format: str = 'markdown-img' ) -> List[ Document ]:
+	def load( self, path: str, mode: str='single', extract: str='plain',
+			include: bool=False, format: str='markdown-img' ) -> List[ Document ]:
 		"""Load source content.
 
 		Purpose:
@@ -1272,21 +1200,9 @@ class ExcelLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'verify_exists',
+			'resolve_paths', 'split_documents', 'load', 'split', ]
 	
 	@property
 	def mode_options( self ) -> List[ str ]:
@@ -1319,7 +1235,7 @@ class ExcelLoader( Loader ):
 			List[Document] | None: Loaded or split LangChain Document objects.
 
 		Raises:
-			Error: Re-raised after the original exception is wrapped and written to the application logger.
+			Error: Re-raised after the original exception is wrapped & written to the logger.
 		"""
 		try:
 			throw_if( 'path', path )
@@ -1337,7 +1253,7 @@ class ExcelLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -1413,21 +1329,9 @@ class WordLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'verify_exists',
+			'resolve_paths', 'split_documents', 'load', 'split', ]
 	
 	def load( self, path: str ) -> List[ Document ] | None:
 		"""Load source content.
@@ -1459,7 +1363,7 @@ class WordLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -1535,21 +1439,9 @@ class MarkdownLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'verify_exists',
+			'resolve_paths', 'split_documents', 'load', 'split', ]
 	
 	def load( self, path: str ) -> List[ Document ] | None:
 		"""Load source content.
@@ -1581,7 +1473,7 @@ class MarkdownLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -1655,21 +1547,9 @@ class HtmlLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'verify_exists',
+			'resolve_paths', 'split_documents', 'load', 'split', ]
 	
 	def load( self, path: str ) -> List[ Document ] | None:
 		"""Load source content.
@@ -1701,7 +1581,7 @@ class HtmlLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -1788,24 +1668,10 @@ class ArXivLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'max_documents',
-		         'max_characters',
-		         'include_metadata',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'max_documents',
+			'max_characters', 'include_metadata', 'verify_exists', 'resolve_paths',
+			'split_documents', 'load', 'split', ]
 	
 	def load( self, question: str ) -> List[ Document ] | None:
 		"""Load source content.
@@ -1839,7 +1705,7 @@ class ArXivLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -1926,24 +1792,10 @@ class WikiLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'max_documents',
-		         'max_characters',
-		         'include_all',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'max_documents',
+			'max_characters', 'include_all', 'verify_exists', 'resolve_paths', 'split_documents',
+			'load', 'split', ]
 	
 	def load( self, question: str ) -> List[ Document ] | None:
 		"""Load source content.
@@ -1978,7 +1830,7 @@ class WikiLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -2066,26 +1918,10 @@ class GoogleDriveLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'query',
-		         'folder_id',
-		         'file_id',
-		         'is_recursive',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'load_folder',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'query', 'folder_id',
+			'file_id', 'is_recursive', 'verify_exists', 'resolve_paths', 'split_documents', 'load',
+			'load_folder', 'split', ]
 	
 	@property
 	def file_options( self ) -> List[ str ]:
@@ -2098,11 +1934,9 @@ class GoogleDriveLoader( Loader ):
 		Returns:
 			List[str]: Loaded or split LangChain Document objects.
 		"""
-		return [ 'document',
-		         'sheet',
-		         'pdf' ]
+		return [ 'document', 'sheet', 'pdf' ]
 	
-	def load_file( self, file_id: str, recursive: bool = False ) -> List[ Document ] | None:
+	def load_file( self, file_id: str, recursive: bool=False ) -> List[ Document ] | None:
 		"""Load a provider file.
 
 		Purpose:
@@ -2136,7 +1970,7 @@ class GoogleDriveLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def load_folder( self, folder_id: str, recursive: bool = False ) -> List[ Document ] | None:
+	def load_folder( self, folder_id: str, recursive: bool=False ) -> List[ Document ] | None:
 		"""Load provider folder content.
 
 		Purpose:
@@ -2168,7 +2002,7 @@ class GoogleDriveLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -2251,23 +2085,10 @@ class OutlookLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'max_charactes',
-		         'max_documents',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'max_charactes',
+			'max_documents', 'verify_exists', 'resolve_paths', 'split_documents', 'load',
+			'split', ]
 	
 	def load( self, path: str ) -> List[ Document ] | None:
 		"""Load source content.
@@ -2299,7 +2120,7 @@ class OutlookLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -2392,27 +2213,10 @@ class SpfxLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'folder_id',
-		         'library_id',
-		         'subsite_id',
-		         'object_id',
-		         'with_token',
-		         'is_recursive',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'folder_id', 'library_id',
+			'subsite_id', 'object_id', 'with_token', 'is_recursive', 'verify_exists',
+			'resolve_paths', 'split_documents', 'load', 'split', ]
 	
 	def load( self, library_id: str ) -> List[ Document ] | None:
 		"""Load source content.
@@ -2482,7 +2286,7 @@ class SpfxLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -2562,25 +2366,11 @@ class PowerPointLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'query',
-		         'mode',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'query', 'mode',
+			'verify_exists', 'resolve_paths', 'split_documents', 'load', 'split', ]
 	
-	def load( self, path: str, mode: str = 'single' ) -> List[ Document ] | None:
+	def load( self, path: str, mode: str='single' ) -> List[ Document ] | None:
 		"""Load source content.
 
 		Purpose:
@@ -2645,7 +2435,7 @@ class PowerPointLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -2726,23 +2516,12 @@ class OneDriveDocLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				'loader',
-				'documents',
-				'drive_id',
-				'folder_path',
-				'object_ids',
-				'auth_with_token',
-				'chunk_size',
-				'overlap_amount',
-				'load',
-				'split',
-				'split_documents',
-		]
+		return [ 'loader', 'documents', 'drive_id', 'folder_path', 'object_ids', 'auth_with_token',
+			'chunk_size', 'overlap_amount', 'load', 'split', 'split_documents', ]
 	
 	def load( self, drive_id: str, folder_path: Optional[ str ] = None,
 			object_ids: Optional[ List[ str ] ] = None,
-			auth_with_token: bool = True ) -> List[ Document ] | None:
+			auth_with_token: bool=True ) -> List[ Document ] | None:
 		"""Load source content.
 
 		Purpose:
@@ -2789,15 +2568,11 @@ class OneDriveDocLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'OneDriveDocLoader'
-			exception.method = (
-					'load( self, drive_id: str, folder_path: Optional[ str ]=None, '
-					'object_ids: Optional[ List[ str ] ]=None, auth_with_token: bool=True ) '
-					'-> List[ Document ] | None'
-			)
+			exception.method = 'load( self, **kwargs ) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -2878,25 +2653,11 @@ class EmailLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'has_attachments',
-		         'mode',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'has_attachments', 'mode',
+			'verify_exists', 'resolve_paths', 'split_documents', 'load', 'split', ]
 	
-	def load( self, path: str, mode: str = 'single', attachments: bool = True ) -> List[
+	def load( self, path: str, mode: str='single', attachments: bool=True ) -> List[
 		                                                                               Document ] | None:
 		"""Load source content.
 
@@ -2929,12 +2690,11 @@ class EmailLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'EmailLoader'
-			exception.method = ('load( self, path: str, mode: str=elements, '
-			                    'include_headers: bool=True ) -> List[ Document ]')
+			exception.method = ('load( self, **kwargs ) -> List[ Document ]')
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -3016,24 +2776,11 @@ class JsonLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'verify_exists',
+			'resolve_paths', 'split_documents', 'load', 'split', ]
 	
-	def load( self, filepath: str, is_text: bool = True, is_lines: bool = False ) -> List[
-		                                                                                 Document ] | None:
+	def load( self, filepath: str, is_text: bool=True, is_lines: bool=False ) -> List[ Document ]:
 		"""Load source content.
 
 		Purpose:
@@ -3069,7 +2816,7 @@ class JsonLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -3172,30 +2919,12 @@ class GithubLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [ 'loader',
-		         'documents',
-		         'splitter',
-		         'pattern',
-		         'file_path',
-		         'expanded',
-		         'candidates',
-		         'resolved',
-		         'chunk_size',
-		         'overlap_amount',
-		         'max_documents',
-		         'max_characters',
-		         'include_all',
-		         'repo',
-		         'branch',
-		         'file_filter',
-		         'verify_exists',
-		         'resolve_paths',
-		         'split_documents',
-		         'load',
-		         'split', ]
+		return [ 'loader', 'documents', 'splitter', 'pattern', 'file_path', 'expanded',
+			'candidates', 'resolved', 'chunk_size', 'overlap_amount', 'max_documents',
+			'max_characters', 'include_all', 'repo', 'branch', 'file_filter', 'verify_exists',
+			'resolve_paths', 'split_documents', 'load', 'split', ]
 	
-	def load( self, url: str, repo: str, branch: str, filetype: str = '.md' ) -> List[
-		                                                                             Document ] | None:
+	def load( self, url: str, repo: str, branch: str, filetype: str='.md' ) -> List[ Document ]:
 		"""Load source content.
 
 		Purpose:
@@ -3234,7 +2963,7 @@ class GithubLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -3326,27 +3055,10 @@ class XmlLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				"loader",
-				"documents",
-				"splitter",
-				"file_path",
-				"expanded",
-				"candidates",
-				"resolved",
-				"chunk_size",
-				"overlap_amount",
-				"xml_tree",
-				"xml_root",
-				"xml_namespaces",
-				"verify_exists",
-				"resolve_paths",
-				"split_documents",
-				"load",
-				"split",
-				"load_tree",
-				"get_elements",
-		]
+		return [ "loader", "documents", "splitter", "file_path", "expanded", "candidates",
+			"resolved", "chunk_size", "overlap_amount", "xml_tree", "xml_root", "xml_namespaces",
+			"verify_exists", "resolve_paths", "split_documents", "load", "split", "load_tree",
+			"get_elements", ]
 	
 	def load( self, filepath: str ) -> List[ Document ] | None:
 		"""Load source content.
@@ -3378,7 +3090,7 @@ class XmlLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, size: int = 1000, amount: int = 200 ) -> List[ Document ] | None:
+	def split( self, size: int=1000, amount: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -3521,19 +3233,10 @@ class PubMedSearchLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				'loader',
-				'documents',
-				'query',
-				'max_docs',
-				'chunk_size',
-				'overlap_amount',
-				'load',
-				'split',
-				'split_documents',
-		]
+		return [ 'loader', 'documents', 'query', 'max_docs', 'chunk_size', 'overlap_amount',
+			'load', 'split', 'split_documents', ]
 	
-	def load( self, query: str, max_docs: int = 5 ) -> List[ Document ] | None:
+	def load( self, query: str, max_docs: int=5 ) -> List[ Document ] | None:
 		"""Load source content.
 
 		Purpose:
@@ -3562,13 +3265,11 @@ class PubMedSearchLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'PubMedSearchLoader'
-			exception.method = (
-					'load( self, query: str, max_docs: int=5 ) -> List[ Document ] | None'
-			)
+			exception.method = 'load( self, **kwargs ) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -3590,19 +3291,14 @@ class PubMedSearchLoader( Loader ):
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
 			self.overlap_amount = overlap
-			self.documents = self.split_documents(
-				self.documents,
-				chunk=self.chunk_size,
-				overlap=self.overlap_amount
-			)
+			self.documents = self.split_documents( self.documents, chunk=self.chunk_size,
+				overlap=self.overlap_amount )
 			return self.documents
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'PubMedSearchLoader'
-			exception.method = (
-					'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None'
-			)
+			exception.method = 'split( self, **kwargs ) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 
@@ -3650,18 +3346,10 @@ class OpenCityLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				'loader',
-				'documents',
-				'city_id',
-				'dataset_id',
-				'limit',
-				'load',
-				'split',
-				'split_documents',
-		]
+		return [ 'loader', 'documents', 'city_id', 'dataset_id', 'limit', 'load', 'split',
+			'split_documents', ]
 	
-	def load( self, city_id: str, dataset_id: str, limit: int = 100 ) -> List[ Document ]:
+	def load( self, city_id: str, dataset_id: str, limit: int=100 ) -> List[ Document ]:
 		"""Load source content.
 
 		Purpose:
@@ -3685,18 +3373,14 @@ class OpenCityLoader( Loader ):
 			throw_if( 'city_id', city_id )
 			throw_if( 'dataset_id', dataset_id )
 			throw_if( 'limit', limit )
-			
 			if not isinstance( limit, int ) or limit < 1:
 				raise ValueError( 'limit must be an integer greater than zero.' )
 			
 			self.city_id = city_id
 			self.dataset_id = dataset_id
 			self.limit = limit
-			self.loader = OpenCityDataLoader(
-				city_id=self.city_id,
-				dataset_id=self.dataset_id,
-				limit=self.limit
-			)
+			self.loader = OpenCityDataLoader( city_id=self.city_id, dataset_id=self.dataset_id,
+				limit=self.limit )
 			
 			self.documents = self.loader.load( )
 			return self.documents
@@ -3705,14 +3389,11 @@ class OpenCityLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'OpenCityLoader'
-			exception.method = (
-					'load( self, city_id: str, dataset_id: str, limit: int=100 ) '
-					'-> List[ Document ]'
-			)
+			exception.method = 'load( self, **kwargs ) -> List[ Document ]'
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ]:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]:
 		"""Split loaded documents.
 
 		Purpose:
@@ -3735,21 +3416,15 @@ class OpenCityLoader( Loader ):
 			self.chunk_size = chunk
 			self.overlap_amount = overlap
 			self.splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-				model_name='gpt-4o',
-				chunk_size=self.chunk_size,
-				chunk_overlap=self.overlap_amount
-			)
+				model_name='gpt-4o', chunk_size=self.chunk_size, chunk_overlap=self.overlap_amount )
 			
 			self.documents = self.splitter.split_documents( documents=self.documents )
 			return self.documents
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'OpenCityLoader'
-			exception.method = (
-					'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ]'
-			)
+			exception.method = 'split( self, **kwargs ) -> List[ Document ]'
 			Logger( ).write( exception )
 			raise exception
 
@@ -3804,23 +3479,12 @@ class JupyterNotebookLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				'loader',
-				'documents',
-				'file_path',
-				'include_outputs',
-				'max_output_length',
-				'remove_newline',
-				'traceback',
-				'chunk_size',
-				'overlap_amount',
-				'load',
-				'split',
-				'split_documents',
-		]
+		return [ 'loader', 'documents', 'file_path', 'include_outputs', 'max_output_length',
+			'remove_newline', 'traceback', 'chunk_size', 'overlap_amount', 'load', 'split',
+			'split_documents', ]
 	
-	def load( self, path: str, include_outputs: bool = False, max_output_length: int = 10,
-			remove_newline: bool = False, traceback: bool = False ) -> List[ Document ] | None:
+	def load( self, path: str, include_outputs: bool=False, max_output_length: int=10,
+			remove_newline: bool=False, traceback: bool=False ) -> List[ Document ] | None:
 		"""Load source content.
 
 		Purpose:
@@ -3848,30 +3512,20 @@ class JupyterNotebookLoader( Loader ):
 			self.max_output_length = max_output_length
 			self.remove_newline = remove_newline
 			self.traceback = traceback
-			
-			self.loader = NotebookLoader(
-				self.file_path,
-				include_outputs=self.include_outputs,
-				max_output_length=self.max_output_length,
-				remove_newline=self.remove_newline,
-				traceback=self.traceback
-			)
+			self.loader = NotebookLoader( self.file_path, include_outputs=self.include_outputs,
+				max_output_length=self.max_output_length, remove_newline=self.remove_newline,
+				traceback=self.traceback )
 			self.documents = self.loader.load( )
 			return self.documents
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'JupyterNotebookLoader'
-			exception.method = (
-					'load( self, path: str, include_outputs: bool=False, '
-					'max_output_length: int=10, remove_newline: bool=False, '
-					'traceback: bool=False ) -> List[ Document ] | None'
-			)
+			exception.method = 'load( self, **kwargs) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -3893,19 +3547,14 @@ class JupyterNotebookLoader( Loader ):
 			throw_if( 'documents', self.documents )
 			self.chunk_size = chunk
 			self.overlap_amount = overlap
-			self.documents = self.split_documents(
-				self.documents,
-				chunk=self.chunk_size,
-				overlap=self.overlap_amount
-			)
+			self.documents = self.split_documents( self.documents, chunk=self.chunk_size,
+				overlap=self.overlap_amount )
 			return self.documents
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'JupyterNotebookLoader'
-			exception.method = (
-					'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None'
-			)
+			exception.method = 'split( self, **kwargs ) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 
@@ -3954,18 +3603,8 @@ class GoogleCloudFileLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				'loader',
-				'documents',
-				'project_name',
-				'bucket',
-				'blob',
-				'chunk_size',
-				'overlap_amount',
-				'load',
-				'split',
-				'split_documents',
-		]
+		return [ 'loader', 'documents', 'project_name', 'bucket', 'blob', 'chunk_size',
+			'overlap_amount', 'load', 'split', 'split_documents', ]
 	
 	def load( self, project_name: str, bucket: str, blob: str ) -> List[ Document ] | None:
 		"""Load source content.
@@ -4001,14 +3640,11 @@ class GoogleCloudFileLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'GoogleCloudStorageFileLoader'
-			exception.method = (
-					'load( self, project_name: str, bucket: str, blob: str ) '
-					'-> List[ Document ] | None'
-			)
+			exception.method = 'load( self, **kwargs ) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -4096,21 +3732,9 @@ class AwsFileLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				'loader',
-				'documents',
-				'bucket',
-				'key',
-				'aws_access_key_id',
-				'aws_secret_access_key',
-				'aws_session_token',
-				'region_name',
-				'chunk_size',
-				'overlap_amount',
-				'load',
-				'split',
-				'split_documents',
-		]
+		return [ 'loader', 'documents', 'bucket', 'key', 'aws_access_key_id',
+			'aws_secret_access_key', 'aws_session_token', 'region_name', 'chunk_size',
+			'overlap_amount', 'load', 'split', 'split_documents', ]
 	
 	def load( self, bucket: str, key: str, aws_access_key_id: Optional[ str ] = None,
 			aws_secret_access_key: Optional[ str ] = None,
@@ -4158,11 +3782,7 @@ class AwsFileLoader( Loader ):
 			if self.region_name:
 				kwargs[ 'region_name' ] = self.region_name
 			
-			self.loader = S3FileLoader(
-				self.bucket,
-				self.key,
-				**kwargs
-			)
+			self.loader = S3FileLoader( self.bucket, self.key, **kwargs )
 			self.documents = self.loader.load( )
 			return self.documents
 		
@@ -4170,18 +3790,11 @@ class AwsFileLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'AwsFileLoader'
-			exception.method = (
-					'load( self, bucket: str, key: str, '
-					'aws_access_key_id: Optional[ str ]=None, '
-					'aws_secret_access_key: Optional[ str ]=None, '
-					'aws_session_token: Optional[ str ]=None, '
-					'region_name: Optional[ str ]=None ) '
-					'-> List[ Document ] | None'
-			)
+			exception.method = 'load( self,**kwargs ) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -4210,10 +3823,7 @@ class AwsFileLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'AwsFileLoader'
-			exception.method = (
-					'split( self, chunk: int=1000, overlap: int=200 ) '
-					'-> List[ Document ] | None'
-			)
+			exception.method = 'split( self, **kwargs) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 
@@ -4262,18 +3872,8 @@ class GoogleSpeechToTextLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				'loader',
-				'documents',
-				'project_id',
-				'file_path',
-				'config',
-				'chunk_size',
-				'overlap_amount',
-				'load',
-				'split',
-				'split_documents',
-		]
+		return [ 'loader', 'documents', 'project_id', 'file_path', 'config', 'chunk_size',
+			'overlap_amount', 'load', 'split', 'split_documents', ]
 	
 	def load( self, project_id: str, file_path: str,
 			config: Optional[ Dict[ str, Any ] ] = None ) -> List[ Document ] | None:
@@ -4317,14 +3917,11 @@ class GoogleSpeechToTextLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'GoogleSpeechToTextAudioLoader'
-			exception.method = (
-					'load( self, project_id: str, file_path: str, '
-					'config: Optional[ Dict[ str, Any ] ]=None ) -> List[ Document ] | None'
-			)
+			exception.method = 'load( self, **kwargs ) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -4411,22 +4008,11 @@ class GoogleBucketLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				'loader',
-				'documents',
-				'project_name',
-				'bucket',
-				'prefix',
-				'continue_on_failure',
-				'chunk_size',
-				'overlap_amount',
-				'load',
-				'split',
-				'split_documents',
-		]
+		return [ 'loader', 'documents', 'project_name', 'bucket', 'prefix', 'continue_on_failure',
+			'chunk_size', 'overlap_amount', 'load', 'split', 'split_documents', ]
 	
 	def load( self, project_name: str, bucket: str, prefix: Optional[ str ] = None,
-			continue_on_failure: bool = False ) -> List[ Document ] | None:
+			continue_on_failure: bool=False ) -> List[ Document ] | None:
 		"""Load source content.
 
 		Purpose:
@@ -4453,11 +4039,8 @@ class GoogleBucketLoader( Loader ):
 			self.bucket = bucket
 			self.prefix = prefix
 			self.continue_on_failure = continue_on_failure
-			kwargs: Dict[ str, Any ] = {
-					'project_name': self.project_name,
-					'bucket': self.bucket,
-					'continue_on_failure': self.continue_on_failure,
-			}
+			kwargs: Dict[ str, Any ] = { 'project_name': self.project_name, 'bucket': self.bucket,
+				'continue_on_failure': self.continue_on_failure, }
 			
 			if self.prefix:
 				kwargs[ 'prefix' ] = self.prefix
@@ -4474,7 +4057,7 @@ class GoogleBucketLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -4563,22 +4146,9 @@ class AwsBucketLoader( Loader ):
 		Returns:
 			List[str]: Stable public member names exposed by the wrapper.
 		"""
-		return [
-				'loader',
-				'documents',
-				'bucket',
-				'prefix',
-				'aws_access_key_id',
-				'aws_secret_access_key',
-				'aws_session_token',
-				'region_name',
-				'endpoint_url',
-				'chunk_size',
-				'overlap_amount',
-				'load',
-				'split',
-				'split_documents',
-		]
+		return [ 'loader', 'documents', 'bucket', 'prefix', 'aws_access_key_id',
+			'aws_secret_access_key', 'aws_session_token', 'region_name', 'endpoint_url',
+			'chunk_size', 'overlap_amount', 'load', 'split', 'split_documents', ]
 	
 	def load( self, bucket: str, prefix: Optional[ str ] = None,
 			aws_access_key_id: Optional[ str ] = None,
@@ -4641,7 +4211,7 @@ class AwsBucketLoader( Loader ):
 			Logger( ).write( exception )
 			raise exception
 	
-	def split( self, chunk: int = 1000, overlap: int = 200 ) -> List[ Document ] | None:
+	def split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None:
 		"""Split loaded documents.
 
 		Purpose:
@@ -4670,6 +4240,6 @@ class AwsBucketLoader( Loader ):
 			exception = Error( e )
 			exception.module = 'loaders'
 			exception.cause = 'AmazonBucketLoader'
-			exception.method = 'split( self, chunk: int=1000, overlap: int=200 ) -> List[ Document ] | None'
+			exception.method = 'split( self, **kwargs ) -> List[ Document ] | None'
 			Logger( ).write( exception )
 			raise exception
