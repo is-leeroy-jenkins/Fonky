@@ -2103,8 +2103,7 @@ class GoogleSearch( Fetcher ):
 		Returns:
 			List[str]: Ordered public attribute and method names exposed by the object."""
 		return [ 'keywords', 'url', 'timeout', 'headers', 'fetch', 'api_key', 'response',
-			'payload',
-			'result', 'cse_id', 'params', 'agents', 'results', 'start', 'exact_terms',
+			'payload', 'result', 'cse_id', 'params', 'agents', 'results', 'start', 'exact_terms',
 			'exclude_terms', 'file_type', 'date_restrict', 'gl', 'lr', 'safe', 'search_type',
 			'site_search', 'site_search_filter', 'sort', 'img_size', 'img_type', 'img_color_type',
 			'img_dominant_color' ]
@@ -2156,7 +2155,6 @@ class GoogleSearch( Fetcher ):
 		try:
 			throw_if( 'keywords', keywords )
 			throw_if( 'time', time )
-			
 			if api_key:
 				self.api_key = str( api_key ).strip( )
 			
@@ -2438,7 +2436,6 @@ class GoogleMaps( Fetcher ):
 			self.address = str( results[ 0 ].get( 'formatted_address', '' ) )
 			self.result = self.address
 			return self.address
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -2538,13 +2535,10 @@ class GoogleMaps( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'GoogleMaps'
-			exception.method = (
-					'request_directions( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
-			)
+			exception.method = 'request_directions( self, **kwargs ) -> Dict[ str, Any ] | None'
 			raise exception
 	
-	def create_schema( self, function: str, tool: str,
-			description: str, parameters: dict,
+	def create_schema( self, function: str, tool: str, description: str, parameters: dict,
 			required: list[ str ] ) -> Dict[ str, str ] | None:
 		"""Create an AI tool schema.
 		
@@ -2667,7 +2661,6 @@ class GoogleWeather( Fetcher ):
 		self.days = None
 		self.path = None
 		self.agents = cfg.AGENTS
-		
 		if 'User-Agent' not in self.headers:
 			self.headers[ 'User-Agent' ] = self.agents
 		
@@ -2776,7 +2769,6 @@ class GoogleWeather( Fetcher ):
 				'data': self.payload }
 			
 			return self.result
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -2808,7 +2800,6 @@ class GoogleWeather( Fetcher ):
 					'params': self.params, 'data': self.payload or { } }
 			
 			return self.result
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -2855,14 +2846,11 @@ class GoogleWeather( Fetcher ):
 			
 			self.request( path='currentConditions:lookup', params=self.params, time=self.timeout )
 			return self.package_response( )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'GoogleWeather'
-			exception.method = (
-					'fetch_current( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
-			)
+			exception.method = 'fetch_current( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			raise exception
 	
 	def fetch_hourly_forecast( self, address: str, hours: int=24,
@@ -2911,18 +2899,15 @@ class GoogleWeather( Fetcher ):
 			
 			self.request( path='forecast/hours:lookup', params=self.params, time=self.timeout )
 			return self.package_response( )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'GoogleWeather'
-			exception.method = ('fetch_hourly_forecast( self, *args, **kwargs ) '
-			                    '-> Dict[ str, Any ] | None')
+			exception.method = 'fetch_hourly_forecast( self, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
-	def fetch_daily_forecast( self, address: str, days: int=5,
-			units_system: str='METRIC', language_code: str='en',
-			time: int=10 ) -> Dict[ str, Any ] | None:
+	def fetch_daily_forecast( self, address: str, days: int=5, units_system: str='METRIC',
+		language_code: str='en', time: int=10 ) -> Dict[ str, Any ] | None:
 		"""Fetch daily forecast.
 		
 		Purpose:
@@ -2965,9 +2950,7 @@ class GoogleWeather( Fetcher ):
 				'unitsSystem': self.units_system, 'languageCode': self.language_code }
 			
 			self.request( path='forecast/days:lookup', params=self.params, time=self.timeout )
-			
 			return self.package_response( )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -2975,9 +2958,8 @@ class GoogleWeather( Fetcher ):
 			exception.method = 'fetch_daily_forecast( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
-	def fetch_hourly_history( self, address: str, hours: int=24,
-			units_system: str='METRIC', language_code: str='en',
-			time: int=10 ) -> Dict[ str, Any ] | None:
+	def fetch_hourly_history( self, address: str, hours: int=24, units_system: str='METRIC',
+		language_code: str='en', time: int=10 ) -> Dict[ str, Any ] | None:
 		"""Fetch hourly history.
 		
 		Purpose:
@@ -3021,15 +3003,11 @@ class GoogleWeather( Fetcher ):
 			
 			self.request( path='history/hours:lookup', params=self.params, time=self.timeout )
 			return self.package_response( )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'GoogleWeather'
-			exception.method = (
-					'fetch_hourly_history( self, *args, **kwargs ) '
-					'-> Dict[ str, Any ] | None'
-			)
+			exception.method = 'fetch_hourly_history( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def fetch_alerts( self, address: str, language_code: str='en',
@@ -3066,16 +3044,12 @@ class GoogleWeather( Fetcher ):
 				'location.longitude': self.longitude, 'languageCode': self.language_code }
 			
 			self.request( path='publicAlerts:lookup', params=self.params, time=self.timeout )
-			
 			return self.package_response( )
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
 			exception.cause = 'GoogleWeather'
-			exception.method = (
-					'fetch_alerts( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
-			)
+			exception.method = 'fetch_alerts( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			raise exception
 
 class NavalObservatory( Fetcher ):
@@ -3202,7 +3176,6 @@ class NavalObservatory( Fetcher ):
 				raise ValueError( "Invalid time format. Use HH:MM, HH:MM:SS, or HH:MM:SS.S" )
 			
 			return value
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -3239,7 +3212,6 @@ class NavalObservatory( Fetcher ):
 				raise ValueError( 'Longitude must be between -180 and 180.' )
 			
 			return lat, lon
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -3288,7 +3260,6 @@ class NavalObservatory( Fetcher ):
 			payload = self.response.json( ) or { }
 			return { 'mode': 'celnav', 'url': self.url, 'params': self.params,
 			         'location_label': self.location_label, 'data': payload }
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -3428,7 +3399,6 @@ class SatelliteCenter( Fetcher ):
 		self.timeout = 20
 		self.headers = { }
 		self.agents = cfg.AGENTS
-		
 		if 'User-Agent' not in self.headers:
 			self.headers[ 'User-Agent' ] = self.agents
 		
