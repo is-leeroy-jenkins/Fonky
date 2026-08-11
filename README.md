@@ -696,6 +696,108 @@ Expected shape:
 }
 ```
 
+## 📤 Loaders
+
+| Loader                | Input                                                | Purpose                                                                                        |
+| --------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Text Loader**       | `.txt` files                                         | Loads plain text into document/session state.                                                  |
+| **Corpora Loader**    | NLTK corpora or local text directory                 | Loads Brown, Gutenberg, Reuters, WebText, Inaugural, State of the Union, or local text files.  |
+| **CSV Loader**        | `.csv` files                                         | Loads delimited tabular text as documents.                                                     |
+| **XML Loader**        | `.xml` files                                         | Supports semantic XML loading, document splitting, structured tree loading, and XPath queries. |
+| **PDF Loader**        | `.pdf` files                                         | Loads PDF content in single or element mode, with plain or OCR extraction options.             |
+| **Markdown Loader**   | `.md`, `.markdown` files                             | Loads Markdown content into document state.                                                    |
+| **HTML Loader**       | `.html`, `.htm` files                                | Loads local HTML files.                                                                        |
+| **JSON Loader**       | `.json` files                                        | Loads JSON or JSON Lines.                                                                      |
+| **PowerPoint Loader** | `.pptx` files                                        | Loads PowerPoint slide content.                                                                |
+| **Excel Loader**      | `.xlsx`, `.xls` files                                | Loads Excel sheets and stores sheet data in SQLite tables.                                     |
+| **ArXiv Loader**      | Query text                                           | Retrieves arXiv documents.                                                                     |
+| **Wikipedia Loader**  | Query text                                           | Retrieves Wikipedia documents.                                                                 |
+| **GitHub Loader**     | GitHub API URL, repository, branch, file-type filter | Loads repository files matching the selected filter.                                           |
+| **Web Loader**        | One or more URLs                                     | Loads web documents.                                                                           |
+| **Web Crawler**       | Start URL                                            | Recursively crawls web pages with depth/domain controls.                                       |
+
+
+## ️ Web Sources
+
+| Source                    | Purpose                                                                                                                                                     |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ArXiv**                 | Retrieve research documents by query or identifier.                                                                                                         |
+| **Google Drive**          | Retrieve documents or snippets from Google Drive.                                                                                                           |
+| **Wikipedia**             | Retrieve Wikipedia article content and metadata.                                                                                                            |
+| **Google Search**         | Use Google Custom Search with exact terms, exclusions, file type, date restriction, site search, image search, country, language, and safe-search controls. |
+| **Open Science**          | Query NASA Open Science / OSDR dataset, metadata, assays, and data endpoints.                                                                               |
+| **Gov Info**              | Search GovInfo, retrieve package summaries, or browse collections.                                                                                          |
+| **US Congress**           | Query Congress.gov congresses, bills, bill details, laws, law details, reports, and report details.                                                         |
+| **Internet Archive**      | Search archived media and text collections.                                                                                                                 |
+| **Grokipedia**            | Retrieve Grokipedia pages or search results.                                                                                                                |
+| **Jupyter Notebook**      | Load notebook content.                                                                                                                                      |
+| **Google Cloud File**     | Load a single Google Cloud file.                                                                                                                            |
+| **AWS S3 File**           | Load a single AWS S3 file.                                                                                                                                  |
+| **OneDrive**              | Load OneDrive-hosted documents.                                                                                                                             |
+| **Google Speech-to-Text** | Transcribe audio using Google Speech-to-Text.                                                                                                               |
+| **AWS S3 Bucket**         | Load records from an S3 bucket.                                                                                                                             |
+| **Google Cloud Bucket**   | Load records from a Google Cloud bucket.                                                                                                                    |
+
+## 🌎 Domain Fetchers
+
+### Geospatial
+
+| Fetcher                    | Purpose                                                                          |
+| -------------------------- | -------------------------------------------------------------------------------- |
+| **Geocoding**              | Resolve address/location text into coordinates and normalized location metadata. |
+| **Google Maps**            | Query Google Maps functionality such as place/location operations.               |
+| **Google Weather**         | Retrieve Google Weather data.                                                    |
+| **Open Weather**           | Retrieve OpenWeather/Open-Meteo style weather data.                              |
+| **Historical Weather**     | Retrieve historical weather data.                                                |
+| **USGS Earthquakes**       | Retrieve earthquake events and feature records.                                  |
+| **NASA Earth Observatory** | Retrieve NASA Earth Observatory content.                                         |
+| **The National Map**       | Retrieve USGS National Map results.                                              |
+| **USGS ScienceBase**       | Retrieve ScienceBase records.                                                    |
+| **OpenSky**                | Retrieve aviation/open-sky records.                                              |
+
+### Environmental
+
+| Fetcher                     | Purpose                                                   |
+| --------------------------- | --------------------------------------------------------- |
+| **AirNow**                  | Retrieve air-quality observations and forecasts.          |
+| **NOAA Climate Data**       | Retrieve climate data.                                    |
+| **NASA EONET**              | Retrieve natural event records.                           |
+| **EPA EnviroFacts**         | Retrieve EPA environmental facility or data records.      |
+| **NOAA Tides and Currents** | Retrieve tides, currents, stations, and water-level data. |
+| **EPA UV Index**            | Retrieve UV index information.                            |
+| **PurpleAir**               | Retrieve PurpleAir sensor data.                           |
+| **OpenAQ**                  | Retrieve open air-quality data.                           |
+| **NASA FIRMS**              | Retrieve fire/hotspot data.                               |
+| **USGS Water Data**         | Retrieve USGS water data.                                 |
+
+### Astronomical
+
+| Fetcher                  | Purpose                                                           |
+| ------------------------ | ----------------------------------------------------------------- |
+| **US Naval Observatory** | Retrieve celestial navigation/time data for observer coordinates. |
+| **Satellite Center**     | Retrieve satellite or ground station data.                        |
+| **Astro Catalog**        | Retrieve astronomical catalog data.                               |
+| **AstroQuery**           | Query astronomical services.                                      |
+| **Star Map**             | Generate or retrieve star map data.                               |
+| **SIMBAD**               | Query SIMBAD astronomical objects.                                |
+| **Space Weather**        | Retrieve space weather data.                                      |
+| **Star Chart**           | Generate or retrieve star chart information.                      |
+| **Near Earth Objects**   | Retrieve near-Earth object or related object data.                |
+
+### Demographic and Health
+
+| Fetcher                | Purpose                                                   |
+| ---------------------- | --------------------------------------------------------- |
+| **U.S. Census Bureau** | Retrieve Census records.                                  |
+| **CDC Socrata**        | Retrieve CDC Socrata datasets.                            |
+| **U.S. Health**        | Retrieve HealthData.gov or similar public health records. |
+| **WHO Global**         | Retrieve WHO Global Health Observatory data.              |
+| **United Nations**     | Retrieve United Nations data.                             |
+| **World Population**   | Retrieve world population datasets.                       |
+| **CDC WONDER**         | Retrieve CDC WONDER data.                                 |
+| **PubMed Search**      | Search PubMed records.                                    |
+| **Open City Data**     | Retrieve city/open-data records.                          |
+
 #### 🧾 Requirements
 
 | Package                      | Purpose                                                   | Notes                                                       |
