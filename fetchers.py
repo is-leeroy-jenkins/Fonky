@@ -2376,8 +2376,7 @@ class GoogleMaps( Fetcher ):
 				timeout=self.timeout )
 			self.response.raise_for_status( )
 			self.payload = self.response.json( )
-			results = self.payload.get( 'results', [ ] ) if isinstance( self.payload,
-				dict ) else [ ]
+			results = self.payload.get( 'results', [] ) if isinstance( self.payload, dict ) else []
 			
 			if not results:
 				raise ValueError( 'No geocoding results were returned for the supplied address.' )
@@ -2388,7 +2387,6 @@ class GoogleMaps( Fetcher ):
 			self.coordinates = (self.latitude, self.longitude)
 			self.result = self.coordinates
 			return self.coordinates
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -2482,7 +2480,6 @@ class GoogleMaps( Fetcher ):
 			self.response.raise_for_status( )
 			self.result = self.response.json( )
 			return self.result
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -2672,8 +2669,7 @@ class GoogleWeather( Fetcher ):
 		
 		Purpose:
 			Returns a stable list of public attributes and methods exposed by the object. The
-			method
-			supports predictable introspection, documentation rendering, debugging, and
+			method supports predictable introspection, documentation rendering, debugging, and
 			user-interface option display.
 		
 		Returns:
