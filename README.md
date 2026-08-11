@@ -52,7 +52,7 @@ The service layer contains ordinary Python classes.
     fonky.config
 ```
 
-#### 🧰 Project Structure
+## 🧰 Project Structure
 
 ```text
 Fonky/
@@ -115,7 +115,7 @@ Examples:
 
 
 
-#### ⚙️ Installation
+## ⚙️ Installation
 
 From the project root:
 
