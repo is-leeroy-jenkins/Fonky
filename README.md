@@ -83,6 +83,7 @@ Fonky/
         notebook/
            funkytown.ipynb 
 ```
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-classmap-overview.png)
 
 Examples:
 
