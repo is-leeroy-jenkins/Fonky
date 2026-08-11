@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="685dddad-e825-4bf0-82d8-7075e3b95217" name="Changes" comment="updates">
-      <change beforePath="$PROJECT_DIR$/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.md" afterDir="false" />
-    </list>
+    <list default="true" id="685dddad-e825-4bf0-82d8-7075e3b95217" name="Changes" comment="updates" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +60,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/terry/source/repos/Fonky/resources/images",
+    "last_opened_file_path": "C:/Users/terry/source/repos/Fonky/docs/images",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -74,9 +72,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\terry\source\repos\Fonky\docs\images" />
       <recent name="C:\Users\terry\source\repos\Fonky\resources\images" />
       <recent name="C:\Users\terry\source\repos\Fonky\docs" />
-      <recent name="C:\Users\terry\source\repos\Fonky\docs\images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\terry\source\repos\Fonky\docs" />
@@ -102,39 +100,7 @@
       <workItem from="1781395941896" duration="14830000" />
       <workItem from="1781679670712" duration="2488000" />
       <workItem from="1785715278298" duration="4446000" />
-      <workItem from="1786463287820" duration="10307000" />
-    </task>
-    <task id="LOCAL-00028" summary="updates">
-      <option name="closed" value="true" />
-      <created>1781430796324</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1781430796324</updated>
-    </task>
-    <task id="LOCAL-00029" summary="updates">
-      <option name="closed" value="true" />
-      <created>1781432115769</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1781432115769</updated>
-    </task>
-    <task id="LOCAL-00030" summary="updates">
-      <option name="closed" value="true" />
-      <created>1781432301622</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1781432301622</updated>
-    </task>
-    <task id="LOCAL-00031" summary="updates">
-      <option name="closed" value="true" />
-      <created>1781432379758</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1781432379758</updated>
+      <workItem from="1786463287820" duration="10692000" />
     </task>
     <task id="LOCAL-00032" summary="updates">
       <option name="closed" value="true" />
@@ -496,7 +462,39 @@
       <option name="project" value="LOCAL" />
       <updated>1786477337718</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="updates">
+      <option name="closed" value="true" />
+      <created>1786477613679</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1786477613679</updated>
+    </task>
+    <task id="LOCAL-00078" summary="updates">
+      <option name="closed" value="true" />
+      <created>1786477651461</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1786477651461</updated>
+    </task>
+    <task id="LOCAL-00079" summary="updates">
+      <option name="closed" value="true" />
+      <created>1786477661759</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1786477661759</updated>
+    </task>
+    <task id="LOCAL-00080" summary="updates">
+      <option name="closed" value="true" />
+      <created>1786477787988</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1786477787988</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
