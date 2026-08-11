@@ -11,6 +11,7 @@
   <a href="#-loaders">Loaders</a> &nbsp;|&nbsp;
   <a href="#-domain-fetchers">Fetchers</a> &nbsp;|&nbsp;
   <a href="https://is-leeroy-jenkins.github.io/Fonky/">Documentation</a>
+  <a href="#-requirements">Requirements</a> &nbsp;|&nbsp;
 </p>
 
 ___
@@ -810,7 +811,7 @@ Expected shape:
 | **PubMed Search**      | Search PubMed records.                                    |
 | **Open City Data**     | Retrieve city/open-data records.                          |
 
-#### 🧾 Requirements
+## 🧾 Requirements
 
 | Package                      | Purpose                                                   | Notes                                                       |
 |------------------------------|-----------------------------------------------------------|-------------------------------------------------------------|
