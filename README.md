@@ -36,6 +36,7 @@ Fonky provides a reusable library for:
 | 🧾 Schema Export         | Expose tool definitions for LangChain and provider-neutral tool-calling workflows                          |
 | 🔁 Serialization         | Normalize outputs into JSON-safe tool results                                                              |
 
+## 🏗️ Architecture
 
 ![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-architecture.png)
 
@@ -83,6 +84,7 @@ Fonky/
         notebook/
            funkytown.ipynb 
 ```
+
 ![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-classmap-overview.png)
 
 Examples:
