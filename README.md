@@ -5,8 +5,8 @@
 <p align="center">
   <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-architecture">Architecture</a> &nbsp;|&nbsp;
-  <a href="#-ad-hoc-ai-tool-examples">Installation</a> &nbsp;|&nbsp;
-  <a href="#%EF%B8%8F-installation">Tools</a> &nbsp;|&nbsp;
+  <a href="#%EF%B8%8F-installation">Installation</a> &nbsp;|&nbsp;
+  <a href="#-ad-hoc-ai-tool-example">Tools</a> &nbsp;|&nbsp;
   <a href="resources/user-guide.md">Usage</a> &nbsp;|&nbsp;
   <a href="#-loaders">Loaders</a> &nbsp;|&nbsp;
   <a href="#-domain-fetchers">Fetchers</a> &nbsp;|&nbsp;
