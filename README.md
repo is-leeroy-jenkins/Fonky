@@ -135,7 +135,7 @@ From the project root:
 
 
 
-#### 🔐 Environment Configuration
+## 🔐 Environment Configuration
 
 - Funky reads credentials from environment variables through `fonky.config`.
 
@@ -171,6 +171,9 @@ From the project root:
 
 - Credentials should remain in environment variables, configuration, or controlled dependency injection.
 
+## 🧰 Ad Hoc AI Tool Examples
+
+
 
 #### 📓 Jupyter Notebook
 
@@ -204,9 +207,6 @@ From the project root:
     if str(project_root) not in sys.path:
         sys.path.insert(0, str(project_root))
 ```
-
-## 🧰 Ad Hoc AI Tool Examples
-
 
 ### 🛠️ Create an OpenAI-compatible tool from `TextLoader.load`
 
