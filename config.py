@@ -199,7 +199,6 @@ LOG_PATH: str = get_text( 'LOG_PATH', str( LOG_DIR / 'Exceptions.db' ) )
 LOG_FILE: str = get_text( 'LOG_FILE', 'Exceptions' )
 
 # ------ ENVIRONMENT API KEYS  -------------------
-ACCESS_DRIVER = r'DRIVER={ Microsoft Access Driver (*.mdb, *.accdb) };DBQ='
 AIRNOW_API_KEY = os.getenv( 'AIRNOW_API_KEY' )
 CLAUDE_API_KEY = os.getenv( 'CLAUDE_API_KEY' )
 CONGRESS_API_KEY = os.getenv( 'CONGRESS_API_KEY' )

@@ -10,7 +10,7 @@
   <a href="resources/user-guide.md">Usage</a> &nbsp;|&nbsp;
   <a href="#-loaders">Loaders</a> &nbsp;|&nbsp;
   <a href="#-domain-fetchers">Fetchers</a> &nbsp;|&nbsp;
-  <a href="https://is-leeroy-jenkins.github.io/Fonky/">Documentation</a>
+  <a href="https://is-leeroy-jenkins.github.io/Fonky/">Documentation</a>&nbsp;|&nbsp;
   <a href="#-requirements">Requirements</a> &nbsp;|&nbsp;
 </p>
 
