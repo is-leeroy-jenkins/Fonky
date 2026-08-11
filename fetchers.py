@@ -2849,9 +2849,8 @@ class GoogleWeather( Fetcher ):
 			exception.method = 'fetch_current( self, *args, **kwargs ) -> Dict[ str, Any ] | None'
 			raise exception
 	
-	def fetch_hourly_forecast( self, address: str, hours: int=24,
-			units_system: str='METRIC', language_code: str='en',
-			time: int=10 ) -> Dict[ str, Any ] | None:
+	def fetch_hourly_forecast( self, address: str, hours: int=24, units_system: str='METRIC',
+		language_code: str='en', time: int=10 ) -> Dict[ str, Any ] | None:
 		"""Fetch hourly forecast.
 		
 		Purpose:
