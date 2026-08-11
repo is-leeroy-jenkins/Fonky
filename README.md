@@ -24,7 +24,7 @@ orchestration. Fonky provides a stable service layer for fetchers, scrapers, loa
 agents, notebooks, web applications, FastAPI services, and other agentic workflows.
 
 
-#### 🎯 Purpose
+## 🎯 Purpose
 
 Fonky provides a reusable library for:
 
@@ -42,6 +42,8 @@ Fonky provides a reusable library for:
 ## 🏗️ Architecture
 
 ![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-architecture.png)
+
+___
 
 #### 🧩 Service Layer
 
@@ -88,7 +90,11 @@ Fonky/
            funkytown.ipynb 
 ```
 
-![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-classmap-overview.png)
+## 🗺️ Class Map
+
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-classmap.png)
+
+___
 
 Examples:
 
