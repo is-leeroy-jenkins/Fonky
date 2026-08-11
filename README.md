@@ -4,10 +4,12 @@
 
 <p align="center">
   <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
-  <a href="#-architecture">Architecture</a> &nbsp;|&nbsp;
+  <a href="#%EF%B8%8F-architecture">Architecture</a> &nbsp;|&nbsp;
   <a href="#-ad-hoc-ai-tool-examples">Installation</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-installation">Ad-hoc Tools</a> &nbsp;|&nbsp;
   <a href="resources/user-guide.md">User Guide</a> &nbsp;|&nbsp;
+  <a href="#-loaders">Loaders</a> &nbsp;|&nbsp;
+  <a href="#-domain-fetchers">Fetchers</a> &nbsp;|&nbsp;
   <a href="https://is-leeroy-jenkins.github.io/Fonky/">Documentation</a>
 </p>
 
