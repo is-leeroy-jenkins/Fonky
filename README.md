@@ -37,9 +37,7 @@ Fonky provides a reusable library for:
 | 🔁 Serialization         | Normalize outputs into JSON-safe tool results                                                              |
 
 
-#### 🧱 Architecture
-
-Funky is divided into two layers.
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-architecture.png)
 
 #### 🧩 Service Layer
 
