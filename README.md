@@ -872,5 +872,5 @@ Expected shape:
 
 - Fonky is published under
 - ![License: Public Domain](https://img.shields.io/badge/license-public%20domain-brightgreen.svg)
-  the [MIT General Public License v3](https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE).
+  the [MIT General Public License v3](https://github.com/is-leeroy-jenkins/Fonky/blob/main/LICENSE.txt).
 
