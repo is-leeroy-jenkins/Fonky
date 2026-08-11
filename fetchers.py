@@ -83,26 +83,28 @@ import xml.etree.ElementTree as ET
 
 def throw_if( name: str, value: object ) -> None:
 	"""Throw if.
-    
-        Purpose:
-            Provides a input guard used by the Gipity Streamlit application. The function
-            supports UI state management, provider coordination, data normalization, or display
-            behavior required by the surrounding workflow.
-    
-        Args:
-            name (str): Value supplied to the helper.
-            value (object): Value supplied to the helper.
-    
-        Raises:
-            Error: Re-raised after the exception is wrapped and written to the application logger.
-    """
+
+	Purpose:
+	    Validates that a required argument contains a usable value so failures occur before provider, filesystem, or parsing work begins.
+
+	Args:
+	    name (str): Argument name included in validation error messages.
+	    value (object): Candidate value to validate or normalize.
+
+	Returns:
+	    None: This method updates instance state or validates input and does not return a value.
+
+	Raises:
+	    ValueError: Raised when the method cannot satisfy its documented value requirement.
+	"""
 	if value is None:
 		raise ValueError( f'Argument "{name}" cannot be empty!' )
+	
 	if isinstance( value, str ) and (not value.strip( )):
 		raise ValueError( f'Argument "{name}" cannot be empty!' )
+	
 	if isinstance( value, (list, tuple, dict, set) ) and len( value ) == 0:
 		raise ValueError( f'Argument "{name}" cannot be empty!' )
-
 
 def encode_image( path: str ) -> str:
 	"""Encode image.
