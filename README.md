@@ -2,6 +2,14 @@
 
 ![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky_project.png)
 
+<p align="center">
+  <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
+  <a href="#-architecture">Architecture</a> &nbsp;|&nbsp;
+  <a href="#%EF%B8%8F-installation">Installation</a> &nbsp;|&nbsp;
+  <a href="resources/user-guide.md">User Guide</a> &nbsp;|&nbsp;
+  <a href="https://is-leeroy-jenkins.github.io/Fonky/">Documentation</a>
+</p>
+
 ___
 
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/Fonky/)
@@ -195,10 +203,10 @@ From the project root:
         sys.path.insert(0, str(project_root))
 ```
 
-## Ad Hoc AI Tool Examples
+## 🧰 Ad Hoc AI Tool Examples
 
 
-### Create an OpenAI-compatible tool from `TextLoader.load`
+### 🛠️ Create an OpenAI-compatible tool from `TextLoader.load`
 
 ```python
 from fonky.documents import TextLoader
@@ -244,7 +252,7 @@ print(schema)
 }
 ```
 
-### Execute an ad hoc text-loader tool
+### ▶️ Execute an ad hoc text-loader tool
 
 ```python
 from fonky.documents import TextLoader
@@ -294,7 +302,7 @@ print(result['data'][0]['page_content'])
 }
 ```
 
-### Create an AI tool from `PdfLoader.load`
+### 📄 Create an AI tool from `PdfLoader.load`
 
 ```python
 from fonky.documents import PdfLoader
@@ -340,7 +348,7 @@ else:
 	print(result['error'])
 ```
 
-### Create an AI tool from `CsvLoader.load`
+### 📊 Create an AI tool from `CsvLoader.load`
 
 ```python
 from fonky.documents import CsvLoader
@@ -385,7 +393,7 @@ else:
 	print(result['error'])
 ```
 
-### Create an AI tool from `WebExtractor.html_to_text`
+### 🌐 Create an AI tool from `WebExtractor.html_to_text`
 
 ```python
 from fonky.web import WebExtractor
@@ -442,7 +450,7 @@ print(result)
 }
 ```
 
-### Create an AI tool from `ArXiv.fetch`
+### 🎓 Create an AI tool from `ArXiv.fetch`
 
 ```python
 from fonky.collections import ArXiv
@@ -518,7 +526,7 @@ else:
 	print(result['error'])
 ```
 
-### Create an AI tool from `Wikipedia.fetch`
+### 📚 Create an AI tool from `Wikipedia.fetch`
 
 ```python
 from fonky.collections import Wikipedia
@@ -566,7 +574,7 @@ else:
 	print(result['error'])
 ```
 
-### Export a tool to provider formats
+### 🔄 Export a tool to provider formats
 
 ```python
 from fonky.documents import TextLoader
@@ -588,7 +596,7 @@ print(gemini_tool)
 print(grok_tool)
 ```
 
-### Create an AI tool from a plain Python function
+### 🐍 Create an AI tool from a plain Python function
 
 `ToolDef` can also wrap ordinary Python functions.
 
@@ -651,7 +659,7 @@ print(result)
 }
 ```
 
-### Handle tool-call failures
+### ⚠️ Handle tool-call failures
 
 - When the underlying callable fails, `ToolDef.call(...)` returns a structured failure envelope.
 
@@ -717,7 +725,7 @@ Expected shape:
 | **Web Crawler**       | Start URL                                            | Recursively crawls web pages with depth/domain controls.                                       |
 
 
-## ️ Web Sources
+## 🌐 Web Sources
 
 | Source                    | Purpose                                                                                                                                                     |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -740,7 +748,7 @@ Expected shape:
 
 ## 🌎 Domain Fetchers
 
-### Geospatial
+### 🗺️ Geospatial
 
 | Fetcher                    | Purpose                                                                          |
 | -------------------------- | -------------------------------------------------------------------------------- |
@@ -755,7 +763,7 @@ Expected shape:
 | **USGS ScienceBase**       | Retrieve ScienceBase records.                                                    |
 | **OpenSky**                | Retrieve aviation/open-sky records.                                              |
 
-### Environmental
+### 🌿 Environmental
 
 | Fetcher                     | Purpose                                                   |
 | --------------------------- | --------------------------------------------------------- |
@@ -770,7 +778,7 @@ Expected shape:
 | **NASA FIRMS**              | Retrieve fire/hotspot data.                               |
 | **USGS Water Data**         | Retrieve USGS water data.                                 |
 
-### Astronomical
+### 🔭 Astronomical
 
 | Fetcher                  | Purpose                                                           |
 | ------------------------ | ----------------------------------------------------------------- |
@@ -784,7 +792,7 @@ Expected shape:
 | **Star Chart**           | Generate or retrieve star chart information.                      |
 | **Near Earth Objects**   | Retrieve near-Earth object or related object data.                |
 
-### Demographic and Health
+### 👥 Demographic and Health
 
 | Fetcher                | Purpose                                                   |
 | ---------------------- | --------------------------------------------------------- |

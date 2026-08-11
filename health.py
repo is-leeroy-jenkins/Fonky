@@ -54,9 +54,11 @@ from fetchers import GlobalHealthData
 from fetchers import HealthData
 from fetchers import Wonder
 from loaders import PubMedSearchLoader
+from fetchers import Socrata
 
 # ==========================================================================================
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [ 'GlobalHealthData', 'HealthData', 'PubMedSearchLoader', 'Wonder', ]
+__all__: list[ str ] = [ 'GlobalHealthData', 'HealthData', 'PubMedSearchLoader',
+	'Wonder', 'Socrata' ]
