@@ -76,9 +76,7 @@ from .fetchers import Wonder
 from .fetchers import WorldPopulation
 from .fetchers import encode_image as _encode_image
 
-# ==========================================================================================
-# LOADERS IMPORTS
-# ==========================================================================================
+# --------- LOADERS IMPORTS ---------
 
 from .loaders import ArXivLoader
 from .loaders import AwsBucketLoader
@@ -109,15 +107,11 @@ from .loaders import WikiLoader
 from .loaders import WordLoader
 from .loaders import XmlLoader
 
-# ==========================================================================================
-# SCRAPERS IMPORTS
-# ==========================================================================================
+# --------- SCRAPERS IMPORTS ---------
 
 from .scrapers import WebExtractor
 
-# ==========================================================================================
-# ARCHIVES
-# ==========================================================================================
+# --------- ARCHIVES ---------
 
 def fetch_arxiv( question: str, max_documents: int=None, full_documents: bool=None,
 		include_metadata: bool=None ) -> Any:
@@ -389,9 +383,7 @@ def load_wikipedia( question: str ) -> Any:
     _instance = WikiLoader( )
     return _instance.load( question=question )
 
-# ==========================================================================================
-# ASTRONOMICAL
-# ==========================================================================================
+#  --------- ASTRONOMICAL ---------
 
 def fetch_naval_observatory( mode: str='celnav', date_value: str='', time_value: str='',
 		latitude: float=0.0, longitude: float=0.0, location_label: str='', time: int=20 ) -> Any:
@@ -440,7 +432,9 @@ def fetch_satellite_center( mode: str='observatories', query: str='', start_time
 def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_date: str='',
 		query: str='', query_type: str='sstr', dist_max: str='10LD', body: str='Earth',
 		sort: str='date', limit: int=20, dv: float=6.0, dur: int=360, stay: int=8,
-		launch: str='2020-2045', h: float=26.0, occ: int=7, include_physical: bool=True, include_close_approaches: bool=True, ca_body: str='Earth', include_discovery: bool=True, time: int=20 ) -> Any:
+		launch: str='2020-2045', h: float=26.0, occ: int=7, include_physical: bool=True,
+		include_close_approaches: bool=True, ca_body: str='Earth',
+		include_discovery: bool=True, time: int=20 ) -> Any:
     """Fetch JPL SSD and CNEOS near-Earth object data.
 
     Purpose:
@@ -495,7 +489,9 @@ def fetch_open_science( mode: str='dataset', query: str='', accession: str='',
     return _instance.fetch( mode=mode, query=query, accession=accession, format_value=format_value, time=time )
 
 def fetch_space_weather( mode: str='cme', start_date: str='', end_date: str='', time: int=20,
-		location: str='ALL', catalog: str='ALL', notification_type: str='all', most_accurate_only: bool=True, complete_entry_only: bool=True, speed: int=0, half_angle: int=0, keyword: str='', api_key: str=None ) -> Any:
+		location: str='ALL', catalog: str='ALL', notification_type: str='all',
+		most_accurate_only: bool=True, complete_entry_only: bool=True, speed: int=0,
+		half_angle: int=0, keyword: str='', api_key: str=None ) -> Any:
     """Fetch NASA DONKI space weather endpoints.
 
     Purpose:
@@ -665,9 +661,7 @@ def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', be
     _instance = OpenSky( )
     return _instance.fetch( mode=mode, icao24=icao24, airport=airport, begin=begin, end=end, time_value=time_value, lamin=lamin, lomin=lomin, lamax=lamax, lomax=lomax, extended=extended, client_id=client_id, client_secret=client_secret, time=time )
 
-# ==========================================================================================
-# CLOUD
-# ==========================================================================================
+# --------- CLOUD ---------
 
 def load_google_drive_file( file_id: str, recursive: bool=False ) -> Any:
     """Load a provider file.
@@ -819,9 +813,7 @@ def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id:
     _instance = AwsBucketLoader( )
     return _instance.load( bucket=bucket, prefix=prefix, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token, region_name=region_name, endpoint_url=endpoint_url )
 
-# ==========================================================================================
-# DEMOGRAPHIC
-# ==========================================================================================
+# --------- DEMOGRAPHIC ---------
 
 def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='acs/acs5',
 		fields: str='NAME,B01001_001E', geography_for: str='state:*', geography_in: str='',
@@ -928,9 +920,7 @@ def load_open_city( city_id: str, dataset_id: str, limit: int=100 ) -> Any:
     _instance = OpenCityLoader( )
     return _instance.load( city_id=city_id, dataset_id=dataset_id, limit=limit )
 
-# ==========================================================================================
-# DOCUMENTS
-# ==========================================================================================
+# --------- DOCUMENTS ---------
 
 def load_text( path: str, encoding: Optional[str]=None ) -> Any:
     """Load source content.
@@ -1230,9 +1220,7 @@ def load_jupyter_notebook( path: str, include_outputs: bool=False, max_output_le
     _instance = JupyterNotebookLoader( )
     return _instance.load( path=path, include_outputs=include_outputs, max_output_length=max_output_length, remove_newline=remove_newline, traceback=traceback )
 
-# ==========================================================================================
-# ENVIRONMENTAL
-# ==========================================================================================
+# --------- ENVIRONMENTAL ---------
 
 def fetch_google_weather_current( address: str, units_system: str='METRIC', language_code: str='en',
 		time: int=10 ) -> Any:
@@ -1669,9 +1657,7 @@ def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinate
     return _instance.fetch( mode=mode, source=source, area_coordinates=area_coordinates,
 	    day_range=day_range, date=date, sensor=sensor, time=time )
 
-# ==========================================================================================
-# GEOSPATIAL
-# ==========================================================================================
+# --------- GEOSPATIAL ---------
 
 def geocode_location( address: str ) -> Any:
     """Geocode location.
@@ -1739,7 +1725,8 @@ def request_directions( origin: str, destination: str, mode: str='driving' ) -> 
 def fetch_global_imagery_wms_map( layer: str,
 		image_date: str, bbox: Tuple[float, float, float, float],
 		width: int=1200, height: int=600, projection: str='epsg4326', quality: str='best',
-		image_format: str='image/png', transparent: bool=True, output_dir: str='python-examples', output_name: str='', time: int=20 ) -> Any:
+		image_format: str='image/png', transparent: bool=True, output_dir: str='python-examples',
+		output_name: str='', time: int=20 ) -> Any:
     """Fetch wms map.
 
     Purpose:
@@ -2385,9 +2372,7 @@ def encode_image( path: str ) -> str:
     """
     return _encode_image( path=path )
 
-# ==========================================================================================
-# PUBLIC EXPORTS
-# ==========================================================================================
+# --------- PUBLIC EXPORTS ---------
 
 __all__: List[ str ] = [ 'fetch_arxiv', 'fetch_google_drive', 'fetch_wikipedia', 'fetch_news',
 		'fetch_google_search', 'fetch_gov_data', 'fetch_congress', 'fetch_internet_archive',
