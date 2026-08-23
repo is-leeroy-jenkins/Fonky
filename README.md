@@ -6,56 +6,79 @@
   <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-architecture">Architecture</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-installation">Installation</a> &nbsp;|&nbsp;
-  <a href="#-ad-hoc-ai-tool-example">Tools</a> &nbsp;|&nbsp;
+  <a href="#-functional-interface">Functional Interface</a> &nbsp;|&nbsp;
+  <a href="#-domain-api-reference">Domains</a> &nbsp;|&nbsp;
   <a href="resources/user-guide.md">Usage</a> &nbsp;|&nbsp;
-  <a href="#-loaders">Loaders</a> &nbsp;|&nbsp;
-  <a href="#-domain-fetchers">Fetchers</a> &nbsp;|&nbsp;
-  <a href="https://is-leeroy-jenkins.github.io/Fonky/">Documentation</a>&nbsp;|&nbsp;
-  <a href="#-requirements">Requirements</a> &nbsp;|&nbsp;
+  <a href="https://is-leeroy-jenkins.github.io/Fonky/">Documentation</a> &nbsp;|&nbsp;
+  <a href="#-requirements">Requirements</a>
 </p>
 
 ___
 
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/Fonky/)
 
-A reusable Python framework for data retrieval, document ingestion, and agent-ready tool
-orchestration. Fonky provides a stable service layer for fetchers, scrapers, loaders, and processing, plus a completed
-`fonky.tools` package that exposes selected class methods as structured tools for ad-hoc LangChain-style
-agents, notebooks, web applications, FastAPI services, and other agentic workflows.
+Fonky is a reusable Python framework for data retrieval, document ingestion, web scraping,
+cloud loading, and domain-oriented data access.
 
+The implementation remains object-oriented in `fetchers.py`, `loaders.py`, and `scrapers.py`.
+The new `fonky.py` module adds a simple functional interface over those implementation classes:
+each module-level function creates the appropriate implementation object, invokes its existing
+method, and returns the result.
+
+The current functional interface exposes **110 module-level operations** organized
+across **9 domains**.
 
 ## 🎯 Purpose
 
 Fonky provides a reusable library for:
 
-| Capability               | Description                                                                                                |
-|--------------------------|------------------------------------------------------------------------------------------------------------|
-| 🌐 Web Fetching          | Retrieve web pages, scrape links, extract tables, headings, articles, paragraphs, and image references     |
-| 🔎 Search                | Query Google Custom Search, Wikipedia, ArXiv, news APIs, and public research sources                       |
-| 📄 Document Loading      | Load and split text, PDF, CSV, Excel, Word, Markdown, HTML, PowerPoint, JSON, XML, and web content         |
-| 🗺️ Geospatial Tools     | Geocode locations, reverse-geocode coordinates, validate addresses, retrieve directions, and fetch weather |
-| 🛰️ Space / Science APIs | Access astronomy, satellite, NASA, USGS, EONET, and near-earth-object data sources                         |
-| 🧠 Agent Tools           | Convert selected fetcher and loader methods into structured agent-callable tools                           |
-| 🧾 Schema Export         | Expose tool definitions for LangChain and provider-neutral tool-calling workflows                          |
-| 🔁 Serialization         | Normalize outputs into JSON-safe tool results                                                              |
+| Capability | Description |
+|---|---|
+| 🌐 Web Fetching | Retrieve web pages, crawl sites, extract links and structured content, and render or scrape web sources |
+| 🔎 Search & Archives | Query ArXiv, Wikipedia, Google Search, Google Drive, Congress, government data, news, Internet Archive, and Grokipedia |
+| 📄 Document Loading | Load text, PDF, CSV, Excel, Word, Markdown, HTML, PowerPoint, JSON, XML, Outlook, email, SharePoint, and Jupyter content |
+| ☁️ Cloud Loading | Load from Google Drive, Google Cloud Storage, AWS S3, OneDrive, and Google Speech-to-Text |
+| 🌿 Environmental Data | Retrieve weather, climate, air-quality, water, earthquake, fire, UV, tide, and natural-event data |
+| 🗺️ Geospatial Data | Geocode locations, reverse-geocode coordinates, validate addresses, request directions, and retrieve imagery and mapping data |
+| 🔭 Astronomy & Space | Query astronomical catalogs, satellites, space weather, star maps, star charts, OpenSky, and near-Earth objects |
+| 👥 Demographic & Health | Retrieve Census, Socrata, United Nations, population, health, CDC WONDER, PubMed, and open-city data |
+| 🧰 Functional Tool Surface | Call implementation functionality through ordinary, explicitly typed module-level functions in `fonky.py` |
 
 ## 🏗️ Architecture
 
 ![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-architecture.png)
 
-___
-
-#### 🧩 Service Layer
-
-The service layer contains ordinary Python classes.
+Fonky now has two intentionally simple layers:
 
 ```text
-    fonky.fetchers
-    fonky.loaders
-    fonky.core
-    fonky.models
-    fonky.config
+Application / Notebook / Agent
+            |
+            v
+      fonky/fonky.py
+ module-level functions
+            |
+    +-------+-------+
+    |       |       |
+    v       v       v
+fetchers  loaders  scrapers
+    |       |       |
+    v       v       v
+ existing implementation classes
 ```
+
+`fonky.py` does not duplicate provider, loading, or scraping logic. Its functions are thin wrappers
+over the existing classes.
+
+A wrapper follows this pattern:
+
+```python
+def scrape_tables( uri: str ):
+    scraper = WebExtractor( )
+    return scraper.scrape_tables( uri=uri )
+```
+
+This keeps class lifecycle local to each invocation and avoids shared mutable implementation
+instances.
 
 ## 🧰 Project Structure
 
@@ -69,6 +92,7 @@ Fonky/
 
     fonky/
         __init__.py
+        fonky.py
         config.py
         core.py
         fetchers.py
@@ -77,751 +101,408 @@ Fonky/
         processors.py
         scrapers.py
 
-        tools/
-            __init__.py
-            schemas.py
-            serializers.py
-            adapters.py
-            registry.py
-            fetcher_tools.py
-            loader_tools.py
-        
-        notebook/
-           funkytown.ipynb 
+        archives.py
+        astronomical.py
+        cloud.py
+        demographic.py
+        documents.py
+        environmental.py
+        geospatial.py
+        health.py
+        web.py
 ```
 
 ## 🗺️ Class Map
 
 ![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-classmap.png)
 
-___
-
-Examples:
+The original class-based APIs remain available:
 
 ```python
-    from fonky.fetchers import WebFetcher, GoogleSearch, Wikipedia, ArXiv
-    from fonky.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
+from fonky.fetchers import WebFetcher, GoogleSearch, Wikipedia, ArXiv
+from fonky.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
+from fonky.scrapers import WebExtractor
 ```
 
-#### 🛠️ Tool Layer
-
-The tool layer adapts service-layer methods into agent-ready tools.
-
-```text
-    fonky.tools.schemas
-    fonky.tools.serializers
-    fonky.tools.adapters
-    fonky.tools.registry
-    fonky.tools.fetcher_tools
-    fonky.tools.loader_tools
-```
-
-Examples:
-
-```python
-    from fonky.tools.registry import get_all_tools, get_tools_by_group, get_tool_by_name
-```
-
-
+The new functional API provides a simpler entry point for application and Tool use.
 
 ## ⚙️ Installation
 
 From the project root:
 
 ```powershell
-    cd Funky
-    python -m venv .venv
-    .\.venv\Scripts\Activate.ps1
-    python -m pip install --upgrade pip
-    python -m pip install -r requirements.txt
+cd Fonky
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
-- Install Playwright browser support:
+Install Playwright browser support when using Playwright-backed web functionality:
 
 ```powershell
-    python -m playwright install chromium
+python -m playwright install chromium
 ```
-
-
 
 ## 🔐 Environment Configuration
 
-- Funky reads credentials from environment variables through `fonky.config`.
+Fonky reads credentials from environment variables through `fonky.config`.
 
-- Common variables:
-
-```text
-    OPENAI_API_KEY
-    GOOGLE_API_KEY
-    GOOGLE_CSE_ID
-    GOOGLE_WEATHER_API_KEY
-    GOOGLE_ACCOUNT_CREDENTIALS
-    GOOGLE_DRIVE_TOKEN_PATH
-    GOOGLE_DRIVE_FOLDER_ID
-    GEMINI_API_KEY
-    NASA_API_KEY
-    NASA_EARTHDATA_TOKEN
-    THENEWSAPI_API_KEY
-    MISTRAL_API_KEY
-    PINECONE_API_KEY
-    XAI_API_KEY
-    USER_AGENTS 
-```
-
-- Example PowerShell setup:
-
-```powershell
-    $env:GOOGLE_API_KEY = "your-google-api-key"
-    $env:GOOGLE_CSE_ID = "your-google-custom-search-engine-id"
-    $env:GOOGLE_WEATHER_API_KEY = "your-google-weather-api-key"
-    $env:NASA_API_KEY = "your-nasa-api-key"
-    $env:THENEWSAPI_API_KEY = "your-thenewsapi-key"
-```
-
-- Credentials should remain in environment variables, configuration, or controlled dependency injection.
-
-## 🧰 Ad Hoc AI Tool Examples
-
-
-
-#### 📓 Jupyter Notebook
-
-- The included notebook is located at:
+Common variables include:
 
 ```text
-    notebook/fonkytown.ipynb
+OPENAI_API_KEY
+GOOGLE_API_KEY
+GOOGLE_CSE_ID
+GOOGLE_WEATHER_API_KEY
+GOOGLE_ACCOUNT_CREDENTIALS
+GOOGLE_DRIVE_TOKEN_PATH
+GOOGLE_DRIVE_FOLDER_ID
+GEMINI_API_KEY
+NASA_API_KEY
+NASA_EARTHDATA_TOKEN
+THENEWSAPI_API_KEY
+MISTRAL_API_KEY
+PINECONE_API_KEY
+XAI_API_KEY
+AIRNOW_API_KEY
+CONGRESS_API_KEY
+OPENAQ_API_KEY
+PURPLEAIR_API_KEY
 ```
 
-- Launch it from the project root:
+Example PowerShell setup:
 
 ```powershell
-    cd Funky
-    python -m jupyter lab notebook/fonkytown.ipynb
+$env:GOOGLE_API_KEY = "your-google-api-key"
+$env:GOOGLE_CSE_ID = "your-google-custom-search-engine-id"
+$env:GOOGLE_WEATHER_API_KEY = "your-google-weather-api-key"
+$env:NASA_API_KEY = "your-nasa-api-key"
+$env:THENEWSAPI_API_KEY = "your-thenewsapi-key"
 ```
 
-- Or with classic Notebook:
+Credentials should remain in environment variables or controlled configuration and should not be
+embedded in source code.
+
+## 🧰 Functional Interface
+
+The new `fonky.py` module is the consolidated functional interface for the functionality implemented
+by `fetchers.py`, `loaders.py`, and `scrapers.py`.
+
+Each function:
+
+1. accepts explicit typed arguments;
+2. creates a fresh implementation-class instance;
+3. invokes the corresponding implementation method;
+4. returns the implementation result directly.
+
+No provider logic is duplicated in `fonky.py`.
+
+### Import the functional module
+
+```python
+from fonky import fonky
+```
+
+### Fetch environmental data
+
+```python
+weather = fonky.fetch_google_weather_current(
+    address='Arlington, VA',
+    units_system='METRIC',
+    language_code='en',
+    time=10
+)
+```
+
+```python
+earthquakes = fonky.fetch_usgs_earthquakes(
+    mode='feed',
+    feed='all_day.geojson',
+    min_magnitude=1.0,
+    limit=25
+)
+```
+
+### Load documents
+
+```python
+documents = fonky.load_pdf(
+    path='sample.pdf',
+    mode='single',
+    extract='plain',
+    include=False,
+    format='markdown-img',
+    size=1000,
+    overlap=150,
+    has_tables=True
+)
+```
+
+```python
+documents = fonky.load_excel(
+    path='sample.xlsx',
+    mode='elements',
+    has_headers=True
+)
+```
+
+### Scrape web content
+
+```python
+tables = fonky.scrape_tables(
+    uri='https://example.com'
+)
+```
+
+```python
+paragraphs = fonky.scrape_paragraphs(
+    uri='https://example.com'
+)
+```
+
+### Search archive and research sources
+
+```python
+documents = fonky.fetch_arxiv(
+    question='large language model tool use',
+    max_documents=5,
+    full_documents=False,
+    include_metadata=True
+)
+```
+
+### Geocode locations
+
+```python
+location = fonky.geocode_location(
+    address='1600 Pennsylvania Avenue NW, Washington, DC'
+)
+```
+
+## 🤖 Tool Usage
+
+The functions in `fonky.py` are ordinary Python callables with explicit signatures and documentation.
+They are intended to provide a clean callable surface for later Tool integration.
+
+Provider-specific registration, registry design, and Tool orchestration are intentionally outside the
+scope of this interface revision. The underlying `ToolDef` infrastructure in `models.py` remains
+available for future integration without changing these wrapper functions.
+
+## 📓 Jupyter Notebook
+
+The included notebook is located at:
+
+```text
+notebook/fonkytown.ipynb
+```
+
+Launch it from the project root:
 
 ```powershell
-    python -m notebook notebook/fonkytown.ipynb
+python -m jupyter lab notebook/fonkytown.ipynb
 ```
 
-- If the notebook cannot find the local package, add the project root to `sys.path`:
+or:
+
+```powershell
+python -m notebook notebook/fonkytown.ipynb
+```
+
+If the notebook cannot find the local package, add the project root to `sys.path`:
 
 ```python
-    from pathlib import Path
-    import sys
-    
-    project_root = Path.cwd().parent if Path.cwd().name == "notebook" else Path.cwd()
-    
-    if str(project_root) not in sys.path:
-        sys.path.insert(0, str(project_root))
+from pathlib import Path
+import sys
+
+project_root = Path.cwd().parent if Path.cwd().name == 'notebook' else Path.cwd()
+
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 ```
 
-### 🛠️ Create an OpenAI-compatible tool from `TextLoader.load`
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=TextLoader(),
-	method='load',
-	name='load_text_file',
-	category='documents'
-)
-
-schema = tool.to_openai()
-
-print(schema)
-```
-
-- Expected schema shape:
-
-```python
-{
-	'type': 'function',
-	'function': {
-		'name': 'load_text_file',
-		'description': '...',
-		'parameters': {
-			'type': 'object',
-			'properties': {
-				'path': {
-					'type': 'string'
-				},
-				'encoding': {
-					'type': 'string',
-					'default': None
-				}
-			},
-			'required': [
-				'path'
-			]
-		},
-		'strict': True
-	}
-}
-```
-
-### ▶️ Execute an ad hoc text-loader tool
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=TextLoader(),
-	method='load',
-	name='load_text_file',
-	category='documents'
-)
-
-result = tool.call(
-	{
-		'path': 'sample.txt',
-		'encoding': 'utf-8'
-	}
-)
-
-print(result['ok'])
-print(result['name'])
-print(result['data'][0]['page_content'])
-```
-
-- Expected result shape:
-
-```python
-{
-	'ok': True,
-	'name': 'load_text_file',
-	'data': [
-		{
-			'page_content': '...',
-			'metadata': {
-				'source': 'sample.txt'
-			}
-		}
-	],
-	'error': None,
-	'metadata': {
-		'category': 'documents',
-		'source_module': 'fonky.loaders',
-		'source_class': 'TextLoader',
-		'method': 'load',
-		'callable_name': 'load'
-	}
-}
-```
-
-### 📄 Create an AI tool from `PdfLoader.load`
-
-```python
-from fonky.documents import PdfLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=PdfLoader(),
-	method='load',
-	name='load_pdf_file',
-	category='documents'
-)
-
-print(tool.parameters)
-print(tool.to_openai())
-```
-
-- Example call:
-
-```python
-from fonky.documents import PdfLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=PdfLoader(),
-	method='load',
-	name='load_pdf_file',
-	category='documents'
-)
-
-result = tool.call(
-	{
-		'path': 'sample.pdf',
-		'mode': 'single',
-		'extract': 'plain',
-		'include': False,
-		'format': 'markdown-img'
-	}
-)
-
-if result['ok']:
-	print(result['data'][0]['page_content'][:1000])
-else:
-	print(result['error'])
-```
-
-### 📊 Create an AI tool from `CsvLoader.load`
-
-```python
-from fonky.documents import CsvLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=CsvLoader(),
-	method='load',
-	name='load_csv_file',
-	category='documents'
-)
-
-print(tool.parameters)
-```
-
-- Example call:
-
-```python
-from fonky.documents import CsvLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=CsvLoader(),
-	method='load',
-	name='load_csv_file',
-	category='documents'
-)
-
-result = tool.call(
-	{
-		'path': 'sample.csv',
-		'encoding': 'utf-8',
-		'source_column': None,
-		'delimiter': ',',
-		'quotechar': '"'
-	}
-)
-
-if result['ok']:
-	print(result['data'][0]['page_content'])
-else:
-	print(result['error'])
-```
-
-### 🌐 Create an AI tool from `WebExtractor.html_to_text`
-
-```python
-from fonky.web import WebExtractor
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=WebExtractor(),
-	method='html_to_text',
-	name='extract_html_text',
-	category='web'
-)
-
-print(tool.parameters)
-print(tool.to_openai())
-```
-
-- Example call:
-
-```python
-from fonky.web import WebExtractor
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=WebExtractor(),
-	method='html_to_text',
-	name='extract_html_text',
-	category='web'
-)
-
-result = tool.call(
-	{
-		'html': '<html><body><p>Hello Fonky</p></body></html>'
-	}
-)
-
-print(result)
-```
-
-- Expected result shape:
-
-```python
-{
-	'ok': True,
-	'name': 'extract_html_text',
-	'data': 'Hello Fonky',
-	'error': None,
-	'metadata': {
-		'category': 'web',
-		'source_module': 'fonky.scrapers',
-		'source_class': 'WebExtractor',
-		'method': 'html_to_text',
-		'callable_name': 'html_to_text'
-	}
-}
-```
-
-### 🎓 Create an AI tool from `ArXiv.fetch`
-
-```python
-from fonky.collections import ArXiv
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=ArXiv(max_documents=2),
-	method='fetch',
-	name='search_arxiv',
-	category='collections'
-)
-
-print(tool.parameters)
-print(tool.to_openai())
-```
-
-- Example parameter schema:
-
-```python
-{
-	'type': 'object',
-	'properties': {
-		'question': {
-			'type': 'string'
-		},
-		'max_documents': {
-			'type': 'integer',
-			'default': None
-		},
-		'full_documents': {
-			'type': 'boolean',
-			'default': None
-		},
-		'include_metadata': {
-			'type': 'boolean',
-			'default': None
-		}
-	},
-	'required': [
-		'question'
-	]
-}
-```
-
-- Example call:
-
-```python
-from fonky.collections import ArXiv
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=ArXiv(max_documents=2),
-	method='fetch',
-	name='search_arxiv',
-	category='collections'
-)
-
-result = tool.call(
-	{
-		'question': 'large language model tool use',
-		'max_documents': 2,
-		'full_documents': False,
-		'include_metadata': True
-	}
-)
-
-if result['ok']:
-	for document in result['data']:
-		print(document['metadata'])
-		print(document['page_content'][:500])
-		print('-' * 100)
-else:
-	print(result['error'])
-```
-
-### 📚 Create an AI tool from `Wikipedia.fetch`
-
-```python
-from fonky.collections import Wikipedia
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=Wikipedia(language='en', max_documents=2),
-	method='fetch',
-	name='search_wikipedia',
-	category='collections'
-)
-
-print(tool.parameters)
-print(tool.to_openai())
-```
-
-- Example call:
-
-```python
-from fonky.collections import Wikipedia
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=Wikipedia(language='en', max_documents=2),
-	method='fetch',
-	name='search_wikipedia',
-	category='collections'
-)
-
-result = tool.call(
-	{
-		'question': 'retrieval augmented generation',
-		'language': 'en',
-		'max_documents': 2,
-		'include_metadata': True
-	}
-)
-
-if result['ok']:
-	for document in result['data']:
-		print(document['metadata'])
-		print(document['page_content'][:500])
-		print('-' * 100)
-else:
-	print(result['error'])
-```
-
-### 🔄 Export a tool to provider formats
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method(
-	target=TextLoader(),
-	method='load',
-	name='load_text_file',
-	category='documents'
-)
-
-openai_tool = tool.to_openai()
-gemini_tool = tool.to_gemini()
-grok_tool = tool.to_grok()
-
-print(openai_tool)
-print(gemini_tool)
-print(grok_tool)
-```
-
-### 🐍 Create an AI tool from a plain Python function
-
-`ToolDef` can also wrap ordinary Python functions.
-
-```python
-from fonky.models import ToolDef
-
-def add_numbers( left: int, right: int ) -> int:
-	'''
-
-		Purpose:
-		--
-		Add two integers.
-
-		Parameters:
-		--
-		left (int): Left integer.
-		right (int): Right integer.
-
-		Returns:
-		--
-		int: Sum of left and right.
-
-	'''
-	return left + right
-
-
-tool = ToolDef.from_callable(
-	function=add_numbers,
-	name='add_numbers',
-	category='utility'
-)
-
-print(tool.parameters)
-
-result = tool.call(
-	{
-		'left': 2,
-		'right': 3
-	}
-)
-
-print(result)
-```
-
-- Expected result shape:
-
-```python
-{
-	'ok': True,
-	'name': 'add_numbers',
-	'data': 5,
-	'error': None,
-	'metadata': {
-		'category': 'utility',
-		'source_module': '__main__',
-		'source_class': None,
-		'method': None,
-		'callable_name': 'add_numbers'
-	}
-}
-```
-
-### ⚠️ Handle tool-call failures
-
-- When the underlying callable fails, `ToolDef.call(...)` returns a structured failure envelope.
-
-```python
-from fonky.documents import TextLoader
-from fonky.models import ToolDef
-
-tool = ToolDef.from_method( target=TextLoader(),
-	method='load',
-	name='load_text_file',
-	category='documents'
-)
-
-result = tool.call(
-	{
-		'path': 'missing-file.txt'
-	}
-)
-
-print(result['ok'])
-print(result['error'])
-```
-
-Expected shape:
-
-```python
-{
-	'ok': False,
-	'name': 'load_text_file',
-	'data': None,
-	'error': {
-		'type': 'Error',
-		'message': '...'
-	},
-	'metadata': {
-		'category': 'documents',
-		'source_module': 'fonky.loaders',
-		'source_class': 'TextLoader',
-		'method': 'load',
-		'callable_name': 'load'
-	}
-}
-```
-
-## 📤 Loaders
-
-| Loader                | Input                                                | Purpose                                                                                        |
-| --------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Text Loader**       | `.txt` files                                         | Loads plain text into document/session state.                                                  |
-| **Corpora Loader**    | NLTK corpora or local text directory                 | Loads Brown, Gutenberg, Reuters, WebText, Inaugural, State of the Union, or local text files.  |
-| **CSV Loader**        | `.csv` files                                         | Loads delimited tabular text as documents.                                                     |
-| **XML Loader**        | `.xml` files                                         | Supports semantic XML loading, document splitting, structured tree loading, and XPath queries. |
-| **PDF Loader**        | `.pdf` files                                         | Loads PDF content in single or element mode, with plain or OCR extraction options.             |
-| **Markdown Loader**   | `.md`, `.markdown` files                             | Loads Markdown content into document state.                                                    |
-| **HTML Loader**       | `.html`, `.htm` files                                | Loads local HTML files.                                                                        |
-| **JSON Loader**       | `.json` files                                        | Loads JSON or JSON Lines.                                                                      |
-| **PowerPoint Loader** | `.pptx` files                                        | Loads PowerPoint slide content.                                                                |
-| **Excel Loader**      | `.xlsx`, `.xls` files                                | Loads Excel sheets and stores sheet data in SQLite tables.                                     |
-| **ArXiv Loader**      | Query text                                           | Retrieves arXiv documents.                                                                     |
-| **Wikipedia Loader**  | Query text                                           | Retrieves Wikipedia documents.                                                                 |
-| **GitHub Loader**     | GitHub API URL, repository, branch, file-type filter | Loads repository files matching the selected filter.                                           |
-| **Web Loader**        | One or more URLs                                     | Loads web documents.                                                                           |
-| **Web Crawler**       | Start URL                                            | Recursively crawls web pages with depth/domain controls.                                       |
-
-
-## 🌐 Web Sources
-
-| Source                    | Purpose                                                                                                                                                     |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **ArXiv**                 | Retrieve research documents by query or identifier.                                                                                                         |
-| **Google Drive**          | Retrieve documents or snippets from Google Drive.                                                                                                           |
-| **Wikipedia**             | Retrieve Wikipedia article content and metadata.                                                                                                            |
-| **Google Search**         | Use Google Custom Search with exact terms, exclusions, file type, date restriction, site search, image search, country, language, and safe-search controls. |
-| **Open Science**          | Query NASA Open Science / OSDR dataset, metadata, assays, and data endpoints.                                                                               |
-| **Gov Info**              | Search GovInfo, retrieve package summaries, or browse collections.                                                                                          |
-| **US Congress**           | Query Congress.gov congresses, bills, bill details, laws, law details, reports, and report details.                                                         |
-| **Internet Archive**      | Search archived media and text collections.                                                                                                                 |
-| **Grokipedia**            | Retrieve Grokipedia pages or search results.                                                                                                                |
-| **Jupyter Notebook**      | Load notebook content.                                                                                                                                      |
-| **Google Cloud File**     | Load a single Google Cloud file.                                                                                                                            |
-| **AWS S3 File**           | Load a single AWS S3 file.                                                                                                                                  |
-| **OneDrive**              | Load OneDrive-hosted documents.                                                                                                                             |
-| **Google Speech-to-Text** | Transcribe audio using Google Speech-to-Text.                                                                                                               |
-| **AWS S3 Bucket**         | Load records from an S3 bucket.                                                                                                                             |
-| **Google Cloud Bucket**   | Load records from a Google Cloud bucket.                                                                                                                    |
-
-## 🌎 Domain Fetchers
-
-### 🗺️ Geospatial
-
-| Fetcher                    | Purpose                                                                          |
-| -------------------------- | -------------------------------------------------------------------------------- |
-| **Geocoding**              | Resolve address/location text into coordinates and normalized location metadata. |
-| **Google Maps**            | Query Google Maps functionality such as place/location operations.               |
-| **Google Weather**         | Retrieve Google Weather data.                                                    |
-| **Open Weather**           | Retrieve OpenWeather/Open-Meteo style weather data.                              |
-| **Historical Weather**     | Retrieve historical weather data.                                                |
-| **USGS Earthquakes**       | Retrieve earthquake events and feature records.                                  |
-| **NASA Earth Observatory** | Retrieve NASA Earth Observatory content.                                         |
-| **The National Map**       | Retrieve USGS National Map results.                                              |
-| **USGS ScienceBase**       | Retrieve ScienceBase records.                                                    |
-| **OpenSky**                | Retrieve aviation/open-sky records.                                              |
-
-### 🌿 Environmental
-
-| Fetcher                     | Purpose                                                   |
-| --------------------------- | --------------------------------------------------------- |
-| **AirNow**                  | Retrieve air-quality observations and forecasts.          |
-| **NOAA Climate Data**       | Retrieve climate data.                                    |
-| **NASA EONET**              | Retrieve natural event records.                           |
-| **EPA EnviroFacts**         | Retrieve EPA environmental facility or data records.      |
-| **NOAA Tides and Currents** | Retrieve tides, currents, stations, and water-level data. |
-| **EPA UV Index**            | Retrieve UV index information.                            |
-| **PurpleAir**               | Retrieve PurpleAir sensor data.                           |
-| **OpenAQ**                  | Retrieve open air-quality data.                           |
-| **NASA FIRMS**              | Retrieve fire/hotspot data.                               |
-| **USGS Water Data**         | Retrieve USGS water data.                                 |
-
-### 🔭 Astronomical
-
-| Fetcher                  | Purpose                                                           |
-| ------------------------ | ----------------------------------------------------------------- |
-| **US Naval Observatory** | Retrieve celestial navigation/time data for observer coordinates. |
-| **Satellite Center**     | Retrieve satellite or ground station data.                        |
-| **Astro Catalog**        | Retrieve astronomical catalog data.                               |
-| **AstroQuery**           | Query astronomical services.                                      |
-| **Star Map**             | Generate or retrieve star map data.                               |
-| **SIMBAD**               | Query SIMBAD astronomical objects.                                |
-| **Space Weather**        | Retrieve space weather data.                                      |
-| **Star Chart**           | Generate or retrieve star chart information.                      |
-| **Near Earth Objects**   | Retrieve near-Earth object or related object data.                |
-
-### 👥 Demographic and Health
-
-| Fetcher                | Purpose                                                   |
-| ---------------------- | --------------------------------------------------------- |
-| **U.S. Census Bureau** | Retrieve Census records.                                  |
-| **CDC Socrata**        | Retrieve CDC Socrata datasets.                            |
-| **U.S. Health**        | Retrieve HealthData.gov or similar public health records. |
-| **WHO Global**         | Retrieve WHO Global Health Observatory data.              |
-| **United Nations**     | Retrieve United Nations data.                             |
-| **World Population**   | Retrieve world population datasets.                       |
-| **CDC WONDER**         | Retrieve CDC WONDER data.                                 |
-| **PubMed Search**      | Search PubMed records.                                    |
-| **Open City Data**     | Retrieve city/open-data records.                          |
+## 🧭 Domain API Reference
+
+`fonky.py` groups its functional surface by domain while keeping all functions in one module.
+
+### Archives
+
+Archive, reference, public-data, search, and research-source retrieval.
+
+| Function | Purpose |
+|---|---|
+| `fetch_arxiv()` | Fetch ArXiv research document retrieval. |
+| `fetch_google_drive()` | Fetch Google Drive document retrieval. |
+| `fetch_wikipedia()` | Fetch Wikipedia document retrieval. |
+| `fetch_news()` | Fetch The News API article retrieval. |
+| `fetch_google_search()` | Fetch Google Custom Search retrieval. |
+| `fetch_gov_data()` | Fetch Data.gov package and collection retrieval. |
+| `fetch_congress()` | Fetch Congress.gov legislative data retrieval. |
+| `fetch_internet_archive()` | Fetch Internet Archive search and metadata retrieval. |
+| `fetch_grokipedia()` | Fetch Grokipedia search and page retrieval. |
+| `load_arxiv()` | Load source content. |
+| `load_wikipedia()` | Load source content. |
+
+### Astronomical
+
+Astronomy, satellite, space-weather, star-chart, and near-Earth-object retrieval.
+
+| Function | Purpose |
+|---|---|
+| `fetch_naval_observatory()` | Fetch U.S. Naval Observatory celestial-navigation data. |
+| `fetch_satellite_center()` | Fetch SSC satellite observatory, ground-station, and location data. |
+| `fetch_nearby_objects()` | Fetch JPL SSD and CNEOS near-Earth object data. |
+| `fetch_open_science()` | Fetch NASA Open Science Data Repository resources. |
+| `fetch_space_weather()` | Fetch NASA DONKI space weather endpoints. |
+| `fetch_astro_catalog()` | Fetch Open Astronomy Catalog queries. |
+| `fetch_astro_query()` | Fetch Simbad and astronomy object search operations. |
+| `fetch_star_map()` | Fetch astronomical object map links and imagery. |
+| `fetch_star_chart()` | Fetch static star chart and coordinate chart generation. |
+| `fetch_open_sky()` | Fetch OpenSky Network aircraft, airport, and state-vector data. |
+
+### Cloud
+
+Cloud-storage, OneDrive, Google Drive, Google Cloud, AWS, and speech-loading operations.
+
+| Function | Purpose |
+|---|---|
+| `load_google_drive_file()` | Load a provider file. |
+| `load_google_drive_folder()` | Load provider folder content. |
+| `load_onedrive()` | Load source content. |
+| `load_google_cloud_file()` | Load source content. |
+| `load_aws_file()` | Load source content. |
+| `load_google_speech_to_text()` | Load source content. |
+| `load_google_bucket()` | Load source content. |
+| `load_aws_bucket()` | Load source content. |
+
+### Demographic
+
+Census, Socrata, United Nations, population, and open-city data operations.
+
+| Function | Purpose |
+|---|---|
+| `fetch_census_data()` | Fetch U.S. Census dataset and variable retrieval. |
+| `fetch_socrata()` | Fetch Socrata dataset metadata and row retrieval. |
+| `fetch_united_nations()` | Fetch United Nations SDMX dataset and query retrieval. |
+| `fetch_world_population()` | Fetch WorldPop catalog and raster metadata retrieval. |
+| `load_open_city()` | Load source content. |
+
+### Documents
+
+Local document loading and parsing for common office, structured-data, and notebook formats.
+
+| Function | Purpose |
+|---|---|
+| `load_text()` | Load source content. |
+| `load_csv()` | Load source content. |
+| `read_pdf()` | Load source content. |
+| `load_pdf()` | Load source content. |
+| `load_excel()` | Load source content. |
+| `load_word()` | Load source content. |
+| `load_markdown()` | Load source content. |
+| `load_html()` | Load source content. |
+| `load_outlook()` | Load source content. |
+| `load_spfx()` | Load source content. |
+| `load_spfx_folder()` | Load provider folder content. |
+| `load_powerpoint()` | Load source content. |
+| `load_powerpoint_multiple()` | Load multiple presentation elements. |
+| `load_email()` | Load source content. |
+| `load_json()` | Load source content. |
+| `load_xml()` | Load source content. |
+| `load_xml_tree()` | Parse an XML element tree. |
+| `load_jupyter_notebook()` | Load source content. |
+
+### Environmental
+
+Weather, climate, air quality, natural hazards, water, fire, UV, and environmental data.
+
+| Function | Purpose |
+|---|---|
+| `fetch_google_weather_current()` | Fetch current. |
+| `fetch_google_weather_hourly_forecast()` | Fetch hourly forecast. |
+| `fetch_google_weather_daily_forecast()` | Fetch daily forecast. |
+| `fetch_google_weather_hourly_history()` | Fetch hourly history. |
+| `fetch_google_weather_alerts()` | Fetch alerts. |
+| `fetch_earth_observatory()` | Fetch NASA EONET events, categories, sources, and layers. |
+| `fetch_open_weather()` | Fetch Open-Meteo current and forecast weather retrieval. |
+| `fetch_historical_weather()` | Fetch historical weather archive retrieval. |
+| `fetch_usgs_earthquakes()` | Fetch USGS earthquake feed and query retrieval. |
+| `fetch_usgs_water_data()` | Fetch USGS water services records. |
+| `fetch_air_now()` | Fetch AirNow current and forecast air quality data. |
+| `fetch_climate_data()` | Fetch NOAA climate dataset and data records. |
+| `fetch_eonet()` | Fetch NASA EONET environmental event data. |
+| `fetch_envirofacts()` | Fetch EPA Envirofacts table and facility records. |
+| `fetch_tides_and_currents()` | Fetch NOAA tides, currents, and station data. |
+| `fetch_uv_index()` | Fetch EPA UV Index current and forecast data. |
+| `fetch_purple_air()` | Fetch PurpleAir sensor and air quality records. |
+| `fetch_open_aq()` | Fetch OpenAQ location, measurement, and air-quality records. |
+| `fetch_firms()` | Fetch NASA FIRMS active fire data. |
+
+### Geospatial
+
+Geocoding, directions, global imagery, maps, National Map, and ScienceBase operations.
+
+| Function | Purpose |
+|---|---|
+| `geocode_location()` | Geocode location. |
+| `geocode_coordinates()` | Geocode coordinates. |
+| `validate_address()` | Validate address. |
+| `request_directions()` | Request directions. |
+| `fetch_global_imagery_wms_map()` | Fetch wms map. |
+| `fetch_global_imagery_map_services()` | Fetch map services. |
+| `fetch_global_imagery_mercator_map()` | Fetch mercator map. |
+| `fetch_google_geocoding()` | Fetch Google forward, reverse, and place geocoding. |
+| `fetch_usgs_national_map()` | Fetch USGS National Map datasets and products. |
+| `fetch_usgs_sciencebase()` | Fetch USGS ScienceBase items and catalog records. |
+
+### Health
+
+HealthData.gov, global health, CDC WONDER, and PubMed operations.
+
+| Function | Purpose |
+|---|---|
+| `fetch_health_data()` | Fetch HealthData.gov Socrata metadata and rows. |
+| `fetch_global_health_data()` | Fetch WHO global health indicator and Athena data. |
+| `fetch_wonder()` | Fetch CDC WONDER template and query submission. |
+| `load_pubmed()` | Load source content. |
+
+### Web
+
+Web fetching, crawling, loading, HTML extraction, scraping, GitHub loading, and image encoding.
+
+| Function | Purpose |
+|---|---|
+| `fetch_web_page()` | Fetch HTTP web page retrieval and HTML extraction. |
+| `convert_html_to_text()` | HTML to text. |
+| `extract_web_title()` | Extract title. |
+| `extract_web_links()` | Extract links. |
+| `extract_web_structured_data()` | Extract structured data. |
+| `crawl_web()` | Crawl. |
+| `scrape_crawler_page()` | Scrape page. |
+| `render_web_page()` | Render with playwright. |
+| `load_web()` | Load source content. |
+| `load_web_recursive()` | Load web documents recursively. |
+| `load_web_pages()` | Load static web pages. |
+| `load_github()` | Load source content. |
+| `scrape_web_page()` | Fetch a web page. |
+| `scraper_html_to_text()` | Convert HTML to plain text. |
+| `scrape_paragraphs()` | Extract paragraph text. |
+| `scrape_lists()` | Extract list item text. |
+| `scrape_tables()` | Extract table cell text. |
+| `scrape_articles()` | Extract article text. |
+| `scrape_headings()` | Extract heading text. |
+| `scrape_divisions()` | Extract division text. |
+| `scrape_sections()` | Extract section text. |
+| `scrape_blockquotes()` | Extract blockquote text. |
+| `scrape_hyperlinks()` | Extract hyperlinks. |
+| `scrape_images()` | Extract image references. |
+| `encode_image()` | Encode an image as Base64 text. |
 
 ## 🧾 Requirements
 
 | Package                      | Purpose                                                   | Notes                                                       |
 |------------------------------|-----------------------------------------------------------|-------------------------------------------------------------|
-| `pydantic`                   | Defines structured models and tool input schemas          | Required for `models.py` and `tools/schemas.py`             |
+| `pydantic`                   | Defines structured models and tool input schemas          | Required for `models.py` and structured tool-definition models             |
 | `typing_extensions`          | Backports newer typing features                           | Useful for compatibility across Python versions             |
 | `requests`                   | HTTP client for API fetchers                              | Required by most fetchers                                   |
 | `pandas`                     | DataFrame handling and tabular data processing            | Used for structured data and loader outputs                 |
@@ -873,4 +554,3 @@ Expected shape:
 - Fonky is published under
 - ![License: Public Domain](https://img.shields.io/badge/license-public%20domain-brightgreen.svg)
   the [MIT General Public License v3](https://github.com/is-leeroy-jenkins/Fonky/blob/main/LICENSE.txt).
-
