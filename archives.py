@@ -68,14 +68,5 @@ from fetchers import Wikipedia
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [
-		'ArXiv',
-		'Congress',
-		'GoogleDrive',
-		'GoogleSearch',
-		'GovData',
-		'Grokipedia',
-		'InternetArchive',
-		'TheNews',
-		'Wikipedia',
-]
+__all__: list[ str ] = [ 'ArXiv', 'Congress', 'GoogleDrive', 'GoogleSearch', 'GovData',
+		'Grokipedia', 'InternetArchive', 'TheNews', 'Wikipedia', ]

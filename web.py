@@ -67,17 +67,7 @@ from scrapers import WebExtractor
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [
-		'ArXivLoader',
-		'Extractor',
-		'Fetcher',
-		'GithubLoader',
-		'OpenCityLoader',
-		'PubMedSearchLoader',
-		'WebCrawler',
-		'WebExtractor',
-		'WebFetcher',
-		'WebLoader',
-		'WikiLoader',
-		'encode_image',
-]
+__all__: list[ str ] = [ 'ArXivLoader', 'Extractor', 'Fetcher', 'GithubLoader', 'OpenCityLoader',
+		'PubMedSearchLoader', 'WebCrawler', 'WebExtractor', 'WebFetcher', 'WebLoader',
+		                 'WikiLoader',
+		'encode_image', ]

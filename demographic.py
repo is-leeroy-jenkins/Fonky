@@ -60,11 +60,5 @@ from loaders import OpenCityLoader
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [
-		'CensusData',
-		'OpenCityLoader',
-		'Socrata',
-		'UnitedNations',
-		'Wonder',
-		'WorldPopulation',
-]
+__all__: list[ str ] = [ 'CensusData', 'OpenCityLoader', 'Socrata', 'UnitedNations', 'Wonder',
+		'WorldPopulation', ]

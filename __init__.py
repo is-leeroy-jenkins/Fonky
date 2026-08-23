@@ -73,17 +73,8 @@ __version__: str = '0.1.0'
 # LAZY MODULE EXPORTS
 # ==========================================================================================
 
-_MODULES: List[ str ] = [
-		'archives',
-		'astronomical',
-		'cloud',
-		'demographic',
-		'documents',
-		'environmental',
-		'geospatial',
-		'health',
-		'web',
-]
+_MODULES: List[ str ] = [ 'archives', 'astronomical', 'cloud', 'demographic', 'documents',
+		'environmental', 'geospatial', 'health', 'web', ]
 
 def __getattr__( name: str ) -> ModuleType:
 	"""Lazily import a public Fonky category module.
@@ -124,13 +115,5 @@ def __dir__( ) -> List[ str ]:
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: List[ str ] = [
-		'archives',
-		'astronomical',
-		'cloud',
-		'demographic',
-		'documents',
-		'environmental',
-		'geospatial',
-		'health',
-		'web', ]
+__all__: List[ str ] = [ 'archives', 'astronomical', 'cloud', 'demographic', 'documents',
+		'environmental', 'geospatial', 'health', 'web', ]

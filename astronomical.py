@@ -66,15 +66,5 @@ from fetchers import StarMap
 # PUBLIC EXPORTS
 # ==========================================================================================
 
-__all__: list[ str ] = [
-		'AstroCatalog',
-		'AstroQuery',
-		'NavalObservatory',
-		'NearbyObjects',
-		'OpenScience',
-		'OpenSky',
-		'SatelliteCenter',
-		'SpaceWeather',
-		'StarChart',
-		'StarMap',
-]
+__all__: list[ str ] = [ 'AstroCatalog', 'AstroQuery', 'NavalObservatory', 'NearbyObjects',
+		'OpenScience', 'OpenSky', 'SatelliteCenter', 'SpaceWeather', 'StarChart', 'StarMap', ]
