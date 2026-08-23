@@ -3,7 +3,7 @@
 Fonky's architecture is intentionally split between **public call ergonomics** and **provider/format
 implementation behavior**.
 
-![Architecture and responsibility boundaries](images/fonky-arc)
+![Architecture and responsibility boundaries](images/fonky-architecture.png)
 
 ## Responsibilities
 
@@ -23,7 +23,7 @@ application calls such as `fetch_air_now()`, `load_pdf()`, or `scrape_tables()`.
 Use the class directly when a workflow depends on retained state or helper methods. This matters most
 for loaders because the base loader stores loaded documents and split configuration.
 
-![Loader lifecycle](images/loader-lifecycle.png)
+![Loader lifecycle](images/fonky-loaders.png)
 
 ## Failure Boundaries
 
