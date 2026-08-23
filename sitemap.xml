@@ -2,54 +2,162 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/architecture/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/configuration/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/getting-started/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/troubleshooting/</loc>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/usage/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/api/boogr/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/config/</loc>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/api/core/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/api/fetchers/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/fonky/</loc>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/api/loaders/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/api/models/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/api/processors/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/api/scrapers/</loc>
-         <lastmod>2026-08-03</lastmod>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/development/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/development/adding-fetcher/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/development/adding-loader/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/development/adding-scraper/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/development/adding-wrapper/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/development/development-guide/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/development/testing/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/archives/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/astronomical/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/cloud/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/composing-workflows/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/demographic/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/dependencies/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/documents/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/environmental/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/failures/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/geospatial/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/health/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/interface-selection/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/results/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/state/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/troubleshooting/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/usage/</loc>
+         <lastmod>2026-08-23</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/guides/web/</loc>
+         <lastmod>2026-08-23</lastmod>
     </url>
 </urlset>
