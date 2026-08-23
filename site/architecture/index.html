@@ -1725,7 +1725,7 @@
 <h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
 <p>Fonky's architecture is intentionally split between <strong>public call ergonomics</strong> and <strong>provider/format
 implementation behavior</strong>.</p>
-<p><img alt="Architecture and responsibility boundaries" src="images/architecture.png" /></p>
+<p><img alt="Architecture and responsibility boundaries" src="images/fonky-architecture.png" /></p>
 <h2 id="responsibilities">Responsibilities<a class="headerlink" href="#responsibilities" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1768,9 +1768,8 @@ implementation behavior</strong>.</p>
 application calls such as <code>fetch_air_now()</code>, <code>load_pdf()</code>, or <code>scrape_tables()</code>.</p>
 <p>Use the class directly when a workflow depends on retained state or helper methods. This matters most
 for loaders because the base loader stores loaded documents and split configuration.</p>
-<p><img alt="Loader lifecycle" src="images/loader-lifecycle.png" /></p>
+<p><img alt="Loader lifecycle" src="../images/fonky-loaders.png" /></p>
 <h2 id="failure-boundaries">Failure Boundaries<a class="headerlink" href="#failure-boundaries" title="Permanent link">&para;</a></h2>
-<p><img alt="Failure boundaries" src="images/failure-boundaries.png" /></p>
 <p>A failure can occur before the provider is ever contacted:</p>
 <ol>
 <li>missing Python dependency;</li>
@@ -1784,12 +1783,11 @@ for loaders because the base loader stores loaded documents and split configurat
 </ol>
 <p>The wrapper layer should not hide which boundary failed.</p>
 <h2 id="result-contracts">Result Contracts<a class="headerlink" href="#result-contracts" title="Permanent link">&para;</a></h2>
-<p><img alt="Result shapes" src="images/result-shapes.png" /></p>
 <p>Fonky preserves provider/loader-specific results. Common families are <code>Document</code> collections,
 dictionaries, lists of records, strings, extracted string lists, images/files, and provider-shaped
 objects.</p>
 <h2 id="extension-boundary">Extension Boundary<a class="headerlink" href="#extension-boundary" title="Permanent link">&para;</a></h2>
-<p><img alt="Extension workflow" src="images/extension-workflow.png" /></p>
+<p><img alt="Extension workflow" src="images/fonky-workflow.png" /></p>
 <p>New provider behavior belongs in the implementation class first. A <code>fonky.py</code> wrapper is added only
 after that behavior has a clear public one-shot use case.</p>
 
