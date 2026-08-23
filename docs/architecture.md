@@ -3,17 +3,17 @@
 Fonky's architecture is intentionally split between **public call ergonomics** and **provider/format
 implementation behavior**.
 
-![Architecture and responsibility boundaries](images/architecture.png)
+![Architecture and responsibility boundaries](images/fonky-arc)
 
 ## Responsibilities
 
-| Layer | Owns | Does Not Own |
-|---|---|---|
-| `fonky.py` | Typed public functions, argument exposure, one-shot instance lifecycle | Provider protocol details, response parsing, loader internals |
-| `fetchers.py` | HTTP endpoints, provider validation, authentication inputs, API request/response shaping | Application UI or cross-provider orchestration |
-| `loaders.py` | Source/file loading, document conversion, format integration, loader state | General remote API semantics |
-| `scrapers.py` | HTML retrieval and structural extraction | General crawling orchestration beyond its extraction responsibilities |
-| `config.py` | Environment-derived settings and credentials | Provider business logic |
+| Layer         | Owns                                                                                     | Does Not Own                                                          |
+|---------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| `fonky.py`    | Typed public functions, argument exposure, one-shot instance lifecycle                   | Provider protocol details, response parsing, loader internals         |
+| `fetchers.py` | HTTP endpoints, provider validation, authentication inputs, API request/response shaping | Application UI or cross-provider orchestration                        |
+| `loaders.py`  | Source/file loading, document conversion, format integration, loader state               | General remote API semantics                                          |
+| `scrapers.py` | HTML retrieval and structural extraction                                                 | General crawling orchestration beyond its extraction responsibilities |
+| `config.py`   | Environment-derived settings and credentials                                             | Provider business logic                                               |
 
 ## Functional Calls Versus Retained Instances
 
