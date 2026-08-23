@@ -5,7 +5,6 @@ validation, local filesystem, network transport, provider response, parsing, or 
 
 ## Failure Boundaries
 
-![Failure boundaries](../images/fonky-failure-boundaries.png)
 
 ## Common Symptoms
 
