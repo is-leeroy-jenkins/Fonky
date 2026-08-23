@@ -1,20 +1,16 @@
 site_name: Fonky
-site_description: Python framework for data retrieval, document ingestion, web scraping, cloud access, and domain-oriented public-data workflows.
+site_description: Data retrieval, document ingestion, scraping, cloud, public data, and scientific provider framework.
 site_url: https://is-leeroy-jenkins.github.io/Fonky/
 repo_name: is-leeroy-jenkins/Fonky
 repo_url: https://github.com/is-leeroy-jenkins/Fonky
-edit_uri: edit/main/docs/
 docs_dir: docs
 site_dir: site
 strict: true
 theme:
   name: material
   language: en
-  favicon: images/favicon.ico
-  logo: images/fonky-logo.png
   features:
     - navigation.instant
-    - navigation.instant.progress
     - navigation.tracking
     - navigation.tabs
     - navigation.sections
@@ -24,10 +20,8 @@ theme:
     - navigation.footer
     - toc.follow
     - content.code.copy
-    - content.code.annotate
     - search.suggest
     - search.highlight
-    - search.share
   palette:
     - scheme: slate
       primary: blue
@@ -37,8 +31,22 @@ nav:
   - Getting Started: getting-started.md
   - Configuration: configuration.md
   - Architecture: architecture.md
-  - Usage: usage.md
-  - User Guide: user-guide.md
+  - User Guide:
+      - Overview: user-guide.md
+      - Archives: guides/archives.md
+      - Astronomical: guides/astronomical.md
+      - Cloud: guides/cloud.md
+      - Demographic: guides/demographic.md
+      - Documents: guides/documents.md
+      - Environmental: guides/environmental.md
+      - Geospatial: guides/geospatial.md
+      - Health: guides/health.md
+      - Web: guides/web.md
+      - Results and Data Shapes: guides/results.md
+      - Stateful vs Functional Usage: guides/state.md
+      - Dependencies and Credentials: guides/dependencies.md
+      - Failure Handling: guides/failures.md
+  - Troubleshooting: troubleshooting.md
   - API Reference:
       - Functional API: api/fonky.md
       - Fetchers: api/fetchers.md
@@ -47,38 +55,28 @@ nav:
       - Models: api/models.md
       - Processors: api/processors.md
       - Core: api/core.md
-      - Boogr Integration: api/boogr.md
+      - Config: api/config.md
+  - Development:
+      - Overview: development/index.md
+      - Adding a Fetcher: development/adding-fetcher.md
+      - Adding a Loader: development/adding-loader.md
+      - Adding a Scraper: development/adding-scraper.md
+      - Adding a Wrapper: development/adding-wrapper.md
+      - Testing and Validation: development/testing.md
 plugins:
   - search
 extra_css:
   - stylesheets/fonky.css
 markdown_extensions:
-  - abbr
   - admonition
   - attr_list
-  - def_list
-  - footnotes
   - md_in_html
   - tables
   - toc:
       permalink: true
   - pymdownx.details
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
+  - pymdownx.highlight
   - pymdownx.inlinehilite
-  - pymdownx.keys
-  - pymdownx.magiclink
-  - pymdownx.mark
-  - pymdownx.smartsymbols
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
-  - pymdownx.tasklist:
-      custom_checkbox: true
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/is-leeroy-jenkins/Fonky
-      name: Fonky on GitHub

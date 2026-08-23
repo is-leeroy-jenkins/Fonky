@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Python framework for data retrieval, document ingestion, web scraping, cloud access, and domain-oriented public-data workflows.">
+        <meta name="description" content="Data retrieval, document ingestion, scraping, cloud, public data, and scientific provider framework.">
       
       
       
@@ -16,13 +16,13 @@
         <link rel="prev" href="../configuration/">
       
       
-        <link rel="next" href="../usage/">
+        <link rel="next" href="../user-guide/">
       
       
         
       
       
-      <link rel="icon" href="../images/favicon.ico">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
@@ -96,7 +96,8 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Fonky" class="md-header__button md-logo" aria-label="Fonky" data-md-component="logo">
       
-  <img src="../images/fonky-logo.png" alt="logo">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -155,11 +156,6 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
-        
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
@@ -294,17 +290,18 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../usage/" class="md-tabs__link">
-        
-  
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="../user-guide/" class="md-tabs__link">
+          
   
-  Usage
+  
+  User Guide
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -314,13 +311,13 @@
   
   
     <li class="md-tabs__item">
-      <a href="../user-guide/" class="md-tabs__link">
+      <a href="../troubleshooting/" class="md-tabs__link">
         
   
   
     
   
-  User Guide
+  Troubleshooting
 
       </a>
     </li>
@@ -340,6 +337,26 @@
   
   
   API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../development/" class="md-tabs__link">
+          
+  
+  
+  Development
 
         </a>
       </li>
@@ -371,7 +388,8 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Fonky" class="md-nav__button md-logo" aria-label="Fonky" data-md-component="logo">
       
-  <img src="../images/fonky-logo.png" alt="logo">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     Fonky
@@ -550,10 +568,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#implementation-inventory" class="md-nav__link">
+  <a href="#wrapper-lifecycle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Implementation Inventory
+        Wrapper lifecycle
       
     </span>
   </a>
@@ -561,10 +579,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#execution-path" class="md-nav__link">
+  <a href="#state" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Execution Path
+        State
       
     </span>
   </a>
@@ -572,10 +590,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#domain-organization" class="md-nav__link">
+  <a href="#validation-boundaries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Domain Organization
+        Validation boundaries
       
     </span>
   </a>
@@ -583,10 +601,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#supporting-modules" class="md-nav__link">
+  <a href="#result-contracts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supporting Modules
+        Result contracts
       
     </span>
   </a>
@@ -594,32 +612,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#state-and-lifecycle" class="md-nav__link">
+  <a href="#error-boundaries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        State and Lifecycle
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-boundary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Boundary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#intentional-non-goals" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Intentional Non-Goals
+        Error boundaries
       
     </span>
   </a>
@@ -640,15 +636,33 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../usage/" class="md-nav__link">
+    
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
     
   
-    Usage
+    User Guide
   
 
     
@@ -656,13 +670,22 @@
   
   
 
-      </a>
-    </li>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
   
 
-    
-      
-      
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
   
   
   
@@ -675,7 +698,406 @@
   <span class="md-ellipsis">
     
   
-    User Guide
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/archives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/astronomical/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astronomical
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/demographic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demographic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/documents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/environmental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environmental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/geospatial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geospatial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results and Data Shapes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stateful vs Functional Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/dependencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dependencies and Credentials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/failures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Handling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
   
 
     
@@ -945,14 +1367,243 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/boogr/" class="md-nav__link">
+      <a href="../api/config/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Boogr Integration
+    Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/adding-fetcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Fetcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/adding-loader/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Loader
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/adding-scraper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Scraper
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/adding-wrapper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Wrapper
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing and Validation
   
 
     
@@ -1011,10 +1662,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#implementation-inventory" class="md-nav__link">
+  <a href="#wrapper-lifecycle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Implementation Inventory
+        Wrapper lifecycle
       
     </span>
   </a>
@@ -1022,10 +1673,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#execution-path" class="md-nav__link">
+  <a href="#state" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Execution Path
+        State
       
     </span>
   </a>
@@ -1033,10 +1684,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#domain-organization" class="md-nav__link">
+  <a href="#validation-boundaries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Domain Organization
+        Validation boundaries
       
     </span>
   </a>
@@ -1044,10 +1695,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#supporting-modules" class="md-nav__link">
+  <a href="#result-contracts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supporting Modules
+        Result contracts
       
     </span>
   </a>
@@ -1055,32 +1706,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#state-and-lifecycle" class="md-nav__link">
+  <a href="#error-boundaries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        State and Lifecycle
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-boundary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Boundary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#intentional-non-goals" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Intentional Non-Goals
+        Error boundaries
       
     </span>
   </a>
@@ -1116,115 +1745,48 @@
 
 
 <h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
-<p>Fonky separates implementation behavior from a consolidated functional API. <code>fonky.py</code> delegates; it does not recreate provider behavior.</p>
-<p><img alt="Fonky Architecture" src="../images/fonky-architecture.png" /></p>
+<p>Fonky separates the public calling surface from provider-specific implementation behavior.</p>
 <h2 id="layers">Layers<a class="headerlink" href="#layers" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Consumer code</strong> — scripts, notebooks, applications, and future Tool orchestration.</li>
-<li><strong><code>fonky.py</code></strong> — 110 typed module-level functions grouped into 9 domains.</li>
-<li><strong>Implementation modules</strong> — <code>fetchers.py</code>, <code>loaders.py</code>, and <code>scrapers.py</code>.</li>
-<li><strong>External sources</strong> — APIs, cloud services, local files, and web pages.</li>
-</ol>
-<h2 id="implementation-inventory">Implementation Inventory<a class="headerlink" href="#implementation-inventory" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Module</th>
-<th style="text-align: right;">Classes</th>
+<th>Layer</th>
 <th>Responsibility</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>Consumer</td>
+<td>Scripts, notebooks, applications, batch jobs, future Tools</td>
+</tr>
+<tr>
+<td><code>fonky.py</code></td>
+<td>110 typed one-shot wrapper functions</td>
+</tr>
+<tr>
 <td><code>fetchers.py</code></td>
-<td style="text-align: right;">49</td>
-<td>Remote APIs, search, public data, environment, maps, astronomy, archives</td>
+<td>49 remote/provider implementation classes</td>
 </tr>
 <tr>
 <td><code>loaders.py</code></td>
-<td style="text-align: right;">29</td>
-<td>Local files, Office formats, cloud files, repositories, web documents</td>
+<td>29 document/cloud ingestion classes</td>
 </tr>
 <tr>
 <td><code>scrapers.py</code></td>
-<td style="text-align: right;">2</td>
-<td>HTML extraction and page-structure scraping</td>
+<td>2 focused HTML extraction classes</td>
 </tr>
 </tbody>
 </table>
-<h2 id="execution-path">Execution Path<a class="headerlink" href="#execution-path" title="Permanent link">&para;</a></h2>
-<p><img alt="Wrapper Workflow" src="../images/fonky-workflow.png" /></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>fonky.scrape_tables()
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    ↓
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>WebExtractor()
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    ↓
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>WebExtractor.scrape_tables(uri=...)
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ↓
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>implementation behavior in scrapers.py
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ↓
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>result returned to caller
-</span></code></pre></div>
-<h2 id="domain-organization">Domain Organization<a class="headerlink" href="#domain-organization" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Domain</th>
-<th style="text-align: right;">Wrappers</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Archives</td>
-<td style="text-align: right;">11</td>
-</tr>
-<tr>
-<td>Astronomical</td>
-<td style="text-align: right;">10</td>
-</tr>
-<tr>
-<td>Cloud</td>
-<td style="text-align: right;">8</td>
-</tr>
-<tr>
-<td>Demographic</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr>
-<td>Documents</td>
-<td style="text-align: right;">18</td>
-</tr>
-<tr>
-<td>Environmental</td>
-<td style="text-align: right;">19</td>
-</tr>
-<tr>
-<td>Geospatial</td>
-<td style="text-align: right;">10</td>
-</tr>
-<tr>
-<td>Health</td>
-<td style="text-align: right;">4</td>
-</tr>
-<tr>
-<td>Web</td>
-<td style="text-align: right;">25</td>
-</tr>
-</tbody>
-</table>
-<p>The domain sections are organizational. There is no runtime registry between a wrapper and its target class.</p>
-<h2 id="supporting-modules">Supporting Modules<a class="headerlink" href="#supporting-modules" title="Permanent link">&para;</a></h2>
-<ul>
-<li><code>config.py</code> supplies environment-driven configuration and request/provider descriptions.</li>
-<li><code>models.py</code> defines structured models and existing <code>ToolDef</code> infrastructure.</li>
-<li><code>processors.py</code> contains text processing outside the current wrapper scope.</li>
-<li><code>core.py</code> defines the core result model.</li>
-</ul>
-<h2 id="state-and-lifecycle">State and Lifecycle<a class="headerlink" href="#state-and-lifecycle" title="Permanent link">&para;</a></h2>
-<p>Each wrapper creates a fresh implementation instance. If a workflow intentionally depends on persistent instance state, instantiate the underlying class directly.</p>
-<h2 id="error-boundary">Error Boundary<a class="headerlink" href="#error-boundary" title="Permanent link">&para;</a></h2>
-<p>The wrapper layer returns implementation results directly and does not impose a second error envelope. Several implementation modules use the external <code>boogr</code> package for error/logging behavior.</p>
-<h2 id="intentional-non-goals">Intentional Non-Goals<a class="headerlink" href="#intentional-non-goals" title="Permanent link">&para;</a></h2>
-<p>The current design does not add a registry, global provider objects, factories, duplicated validation, or automatic Tool registration.</p>
+<h2 id="wrapper-lifecycle">Wrapper lifecycle<a class="headerlink" href="#wrapper-lifecycle" title="Permanent link">&para;</a></h2>
+<p>A wrapper validates only its ordinary Python call contract, creates the appropriate implementation object, invokes the target method, and returns the underlying result. Provider validation remains in the implementation class.</p>
+<h2 id="state">State<a class="headerlink" href="#state" title="Permanent link">&para;</a></h2>
+<p>Functional calls create fresh instances. Multi-step workflows that depend on previously loaded documents or retained provider state should use a persistent implementation instance.</p>
+<h2 id="validation-boundaries">Validation boundaries<a class="headerlink" href="#validation-boundaries" title="Permanent link">&para;</a></h2>
+<p>Provider-specific limits belong in implementation classes. Google Search, for example, validates result and start bounds before issuing a request; mode-dispatching fetchers reject unsupported operations.</p>
+<h2 id="result-contracts">Result contracts<a class="headerlink" href="#result-contracts" title="Permanent link">&para;</a></h2>
+<p>Fonky intentionally preserves provider/loader result shapes instead of forcing a universal envelope. Typical outputs include dictionaries, row collections, text, extracted string collections, and LangChain <code>Document</code> objects.</p>
+<h2 id="error-boundaries">Error boundaries<a class="headerlink" href="#error-boundaries" title="Permanent link">&para;</a></h2>
+<p>Common failure classes are dependency errors, authentication/authorization failures, local filesystem errors, validation failures, timeouts, HTTP errors, malformed provider responses, and parse/extraction failures.</p>
 
 
 
@@ -1277,13 +1839,13 @@
         
         
           
-          <a href="../usage/" class="md-footer__link md-footer__link--next" aria-label="Next: Usage">
+          <a href="../user-guide/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Usage
+                Overview
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1307,19 +1869,6 @@
   
 </div>
       
-        
-<div class="md-social">
-  
-    
-    
-    
-    
-    <a href="https://github.com/is-leeroy-jenkins/Fonky" target="_blank" rel="noopener" title="Fonky on GitHub" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-    </a>
-  
-</div>
-      
     </div>
   </div>
 </footer>
@@ -1329,13 +1878,11 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
-    
     
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>

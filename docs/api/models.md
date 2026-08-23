@@ -1,231 +1,90 @@
-# API Reference: `models.py`
+# API — `models.py`
 
-`models.py` defines structured project models and existing Tool infrastructure, including `ToolDef`.
-
-## Module Inventory
-
-- **Classes:** 15
-- **Top-level functions:** 5
-
-## Module-Level Functions
-
-| Function | Signature | Purpose |
-|---|---|---|
-| `throw_if()` | `throw_if( name: str, value: Any ) -> None` | Validate required argument. |
-| `clean_docstring()` | `clean_docstring( value: Optional[str] ) -> str` | Clean callable documentation. |
-| `python_type_to_json_schema()` | `python_type_to_json_schema( annotation: Any ) -> Dict[str, Any]` | Convert Python annotation to JSON Schema. |
-| `build_parameter_schema()` | `build_parameter_schema( function: Callable[..., Any] ) -> Dict[str, Any]` | Build callable parameter schema. |
-| `serialize_value()` | `serialize_value( value: Any ) -> Any` | Serialize runtime value. |
-
-## Classes
-
-| Class | Constructor | Public Methods | Functional Wrappers |
-|---|---|---:|---:|
-| [`Prompt`](#prompt) | `Prompt( )` | 0 | 0 |
-| [`File`](#file) | `File( )` | 0 | 0 |
-| [`Document`](#document) | `Document( )` | 0 | 0 |
-| [`Message`](#message) | `Message( )` | 0 | 0 |
-| [`Location`](#location) | `Location( )` | 0 | 0 |
-| [`GeoCoordinates`](#geocoordinates) | `GeoCoordinates( )` | 0 | 0 |
-| [`Forecast`](#forecast) | `Forecast( )` | 0 | 0 |
-| [`Directions`](#directions) | `Directions( )` | 0 | 0 |
-| [`SkyCoordinates`](#skycoordinates) | `SkyCoordinates( )` | 0 | 0 |
-| [`Tool`](#tool) | `Tool( )` | 0 | 0 |
-| [`Function`](#function) | `Function( )` | 0 | 0 |
-| [`FileSearch`](#filesearch) | `FileSearch( )` | 0 | 0 |
-| [`WebSearch`](#websearch) | `WebSearch( )` | 0 | 0 |
-| [`ComputerUse`](#computeruse) | `ComputerUse( )` | 0 | 0 |
-| [`ToolDef`](#tooldef) | `ToolDef( )` | 8 | 0 |
+| Class | Public methods | Purpose |
+|---|---:|---|
+| `Prompt` | 0 | Prompt model. Represents a structured prompt bundle used to pass instructions, versioning details, output format hints, and a user question through Fonky workflows. The model provides a typed container for prompt metadata that can be serialized by Pydantic. |
+| `File` | 0 | File model. Represents file metadata returned by provider APIs or managed by Fonky workflows. The model stores identity, lifecycle, size, object type, purpose, and filename fields in a consistent Pydantic structure. |
+| `Document` | 0 | Document model. Represents a compact document-style payload containing summary and description text. The model is useful for normalized outputs where only high-level document metadata is required. |
+| `Message` | 0 | Message model. Represents a normalized chat or tool message payload. The model stores role, content, message type, and optional structured data for conversational and provider-facing workflows. |
+| `Location` | 0 | Location model. Represents a high-level location descriptor for tools that need city, region, country, timezone, or location type information. The model keeps user-location context in a provider- neutral shape. |
+| `GeoCoordinates` | 0 | GeoCoordinates model. Represents geographic coordinates and optional timezone metadata for geospatial tools. The model stores latitude, longitude, coordinate type, and timezone in a serializable Pydantic container. |
+| `Forecast` | 0 | Forecast model. Represents a simplified weather forecast response. The model stores forecast type, temperature, precipitation, and sky-condition values for tool outputs or normalized provider responses. |
+| `Directions` | 0 | Directions model. Represents a simplified route or directions payload. The model stores route data and type metadata for mapping, navigation, or location-aware tool responses. |
+| `SkyCoordinates` | 0 | SkyCoordinates model. Represents astronomical coordinate values used by sky, catalog, and observatory workflows. The model stores declination and right ascension in a typed, serializable structure. |
+| `Tool` | 0 | Tool model. Represents the shared base descriptor for callable tools. The model stores a tool name, provider-facing type, and short description used by function-calling workflows. |
+| `Function` | 0 | Function model. Extends the base tool descriptor with callable parameter schema and strictness metadata. The model represents a function-style tool declaration independent of any single provider. |
+| `FileSearch` | 0 | FileSearch model. Represents configuration for a file-search tool. The model stores vector store identifiers, result limits, and optional filters for retrieval workflows. |
+| `WebSearch` | 0 | WebSearch model. Represents configuration for a web-search tool. The model stores search context size and optional user-location metadata used by search-capable provider workflows. |
+| `ComputerUse` | 0 | ComputerUse model. Represents configuration for a computer-use or UI-automation tool. The model stores display dimensions and execution environment metadata for provider tool declarations. |
+| `ToolDef` | 8 | ToolDef model. Represents a provider-neutral tool definition bound to a Python callable or object method. The model stores callable metadata, generated parameter schema, provider conversion helpers, and execution behavior for unified tool dispatch. |
 
 ## `Prompt`
 
-Prompt model.
-
-```python
-Prompt( )
-```
-
-**Source:** `models.py`, line 298
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Prompt model. Represents a structured prompt bundle used to pass instructions, versioning details, output format hints, and a user question through Fonky workflows. The model provides a typed container for prompt metadata that can be serialized by Pydantic.
 
 ## `File`
 
-File model.
-
-```python
-File( )
-```
-
-**Source:** `models.py`, line 318
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+File model. Represents file metadata returned by provider APIs or managed by Fonky workflows. The model stores identity, lifecycle, size, object type, purpose, and filename fields in a consistent Pydantic structure.
 
 ## `Document`
 
-Document model.
-
-```python
-Document( )
-```
-
-**Source:** `models.py`, line 342
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Document model. Represents a compact document-style payload containing summary and description text. The model is useful for normalized outputs where only high-level document metadata is required.
 
 ## `Message`
 
-Message model.
-
-```python
-Message( )
-```
-
-**Source:** `models.py`, line 355
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Message model. Represents a normalized chat or tool message payload. The model stores role, content, message type, and optional structured data for conversational and provider-facing workflows.
 
 ## `Location`
 
-Location model.
-
-```python
-Location( )
-```
-
-**Source:** `models.py`, line 372
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Location model. Represents a high-level location descriptor for tools that need city, region, country, timezone, or location type information. The model keeps user-location context in a provider- neutral shape.
 
 ## `GeoCoordinates`
 
-GeoCoordinates model.
-
-```python
-GeoCoordinates( )
-```
-
-**Source:** `models.py`, line 392
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+GeoCoordinates model. Represents geographic coordinates and optional timezone metadata for geospatial tools. The model stores latitude, longitude, coordinate type, and timezone in a serializable Pydantic container.
 
 ## `Forecast`
 
-Forecast model.
-
-```python
-Forecast( )
-```
-
-**Source:** `models.py`, line 410
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Forecast model. Represents a simplified weather forecast response. The model stores forecast type, temperature, precipitation, and sky-condition values for tool outputs or normalized provider responses.
 
 ## `Directions`
 
-Directions model.
-
-```python
-Directions( )
-```
-
-**Source:** `models.py`, line 428
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Directions model. Represents a simplified route or directions payload. The model stores route data and type metadata for mapping, navigation, or location-aware tool responses.
 
 ## `SkyCoordinates`
 
-SkyCoordinates model.
-
-```python
-SkyCoordinates( )
-```
-
-**Source:** `models.py`, line 441
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+SkyCoordinates model. Represents astronomical coordinate values used by sky, catalog, and observatory workflows. The model stores declination and right ascension in a typed, serializable structure.
 
 ## `Tool`
 
-Tool model.
-
-```python
-Tool( )
-```
-
-**Source:** `models.py`, line 456
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Tool model. Represents the shared base descriptor for callable tools. The model stores a tool name, provider-facing type, and short description used by function-calling workflows.
 
 ## `Function`
 
-Function model.
-
-```python
-Function( )
-```
-
-**Source:** `models.py`, line 471
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Function model. Extends the base tool descriptor with callable parameter schema and strictness metadata. The model represents a function-style tool declaration independent of any single provider.
 
 ## `FileSearch`
 
-FileSearch model.
-
-```python
-FileSearch( )
-```
-
-**Source:** `models.py`, line 484
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+FileSearch model. Represents configuration for a file-search tool. The model stores vector store identifiers, result limits, and optional filters for retrieval workflows.
 
 ## `WebSearch`
 
-WebSearch model.
-
-```python
-WebSearch( )
-```
-
-**Source:** `models.py`, line 499
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+WebSearch model. Represents configuration for a web-search tool. The model stores search context size and optional user-location metadata used by search-capable provider workflows.
 
 ## `ComputerUse`
 
-ComputerUse model.
-
-```python
-ComputerUse( )
-```
-
-**Source:** `models.py`, line 514
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+ComputerUse model. Represents configuration for a computer-use or UI-automation tool. The model stores display dimensions and execution environment metadata for provider tool declarations.
 
 ## `ToolDef`
 
-ToolDef model.
-
-```python
-ToolDef( )
-```
-
-**Source:** `models.py`, line 531
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
-
-### Public Methods
+ToolDef model. Represents a provider-neutral tool definition bound to a Python callable or object method. The model stores callable metadata, generated parameter schema, provider conversion helpers, and execution behavior for unified tool dispatch.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `from_callable()` | `from_callable( cls: Any, function: Callable[..., Any], name: Optional[str] = None, description: Optional[str] = None, category: Optional[str] = None, strict: bool = True ) -> 'ToolDef'` | Create tool definition from callable. |
-| `from_method()` | `from_method( cls: Any, target: Any, method: str, name: Optional[str] = None, description: Optional[str] = None, category: Optional[str] = None, strict: bool = True ) -> 'ToolDef'` | Create tool definition from object method. |
-| `resolve_callable()` | `resolve_callable( self: Any ) -> Callable[..., Any]` | Resolve bound callable. |
-| `call()` | `call( self: Any, arguments: Optional[Dict[str, Any]] = None ) -> Dict[str, Any]` | Execute bound tool callable. |
-| `to_dict()` | `to_dict( self: Any ) -> Dict[str, Any]` | Export neutral tool dictionary. |
-| `to_openai()` | `to_openai( self: Any ) -> Dict[str, Any]` | Export OpenAI tool schema. |
-| `to_grok()` | `to_grok( self: Any ) -> Dict[str, Any]` | Export Grok tool schema. |
-| `to_gemini()` | `to_gemini( self: Any ) -> Dict[str, Any]` | Export Gemini tool schema. |
+| `from_callable()` | `from_callable( cls: Any, function: Callable[..., Any], name: Optional[str] = None, description: Optional[str] = None, category: Optional[str] = None, strict: bool = True ) -> 'ToolDef'` | Create tool definition from callable. Creates a provider-neutral tool definition from a standalone Python callable. The method derives the callable name, source module, description, parameter schema, strictness flag, and execution handler needed for later tool dispatch. Tool definition that wraps the supplied callable for provider-neutral use. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata. |
+| `from_method()` | `from_method( cls: Any, target: Any, method: str, name: Optional[str] = None, description: Optional[str] = None, category: Optional[str] = None, strict: bool = True ) -> 'ToolDef'` | Create tool definition from object method. Creates a provider-neutral tool definition from a method on an existing object instance. The method validates that the target member exists and is callable, then stores the target, method name, source class, source module, and generated parameter schema. Tool definition that resolves and wraps a named method on the supplied object instance. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata. |
+| `resolve_callable()` | `resolve_callable(  ) -> Callable[..., Any]` | Resolve bound callable. Resolves the executable Python callable represented by the tool definition. The method returns a direct handler when one is stored or retrieves the named method from the stored target object after validating the binding. Python callable bound to this tool definition. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata. |
+| `call()` | `call( arguments: Optional[Dict[str, Any]] = None ) -> Dict[str, Any]` | Execute bound tool callable. Executes the bound tool callable with keyword arguments and returns a neutral response envelope. The method serializes successful results and converts failures into structured error metadata without exposing provider-specific response objects. Dictionary containing execution status, serialized data, error information, and tool metadata. |
+| `to_dict()` | `to_dict(  ) -> Dict[str, Any]` | Export neutral tool dictionary. Exports the tool definition as a provider-neutral dictionary for inspection, persistence, or application-level routing. The method includes schema fields, source metadata, method binding details, and category information. Provider-neutral dictionary representation of this tool definition. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata. |
+| `to_openai()` | `to_openai(  ) -> Dict[str, Any]` | Export OpenAI tool schema. Builds an OpenAI-compatible function tool declaration from the neutral tool definition. The method supplies a function name, description, parameters object, and strictness flag using safe defaults when optional schema fields are absent. OpenAI-compatible function-tool schema for this tool definition. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata. |
+| `to_grok()` | `to_grok(  ) -> Dict[str, Any]` | Export Grok tool schema. Builds a Grok-compatible function tool declaration using the same schema shape used for OpenAI function tools. The method preserves the neutral tool definition while reusing the shared provider conversion path. Grok-compatible function-tool schema for this tool definition. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata. |
+| `to_gemini()` | `to_gemini(  ) -> Dict[str, Any]` | Export Gemini tool schema. Builds a Gemini-compatible function declaration from the neutral tool definition. The method returns the function name, description, and parameters object in the schema shape expected by Gemini tool configuration. Gemini-compatible function declaration for this tool definition. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata. |

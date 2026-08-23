@@ -1,63 +1,30 @@
-# API Reference: `scrapers.py`
+# API — `scrapers.py`
 
-`scrapers.py` contains the HTML extraction layer. `WebExtractor` provides page extraction and independent structural scraping operations.
-
-## Module Inventory
-
-- **Classes:** 2
-- **Top-level functions:** 1
-
-## Module-Level Functions
-
-| Function | Signature | Purpose |
-|---|---|---|
-| `throw_if()` | `throw_if( name: str, value: object ) -> None` | Throw if. |
-
-## Classes
-
-| Class | Constructor | Public Methods | Functional Wrappers |
-|---|---|---:|---:|
-| [`Extractor`](#extractor) | `Extractor( self: Any ) -> Any` | 0 | 0 |
-| [`WebExtractor`](#webextractor) | `WebExtractor( self: Any ) -> None` | 13 | 12 |
+| Class | Public methods | Purpose |
+|---|---:|---|
+| `Extractor` | 0 | Provide shared state for HTML extraction classes. Defines the minimal base state used by concrete scraper implementations that retrieve raw HTML, parse it with BeautifulSoup, and store extracted text. The class provides a common inspection surface for extraction-oriented subclasses without performing network or parsing work by itself. |
+| `WebExtractor` | 13 | Fetch and extract selected structures from HTML pages. Provides synchronous HTML retrieval through ``requests`` and extraction helpers for common HTML structures. The class stores request state, parser state, regular expressions, and headers so individual scrape methods can request a page and return only the requested type of extracted content. |
 
 ## `Extractor`
 
-Provide shared state for HTML extraction classes.
-
-```python
-Extractor( self: Any ) -> Any
-```
-
-**Source:** `scrapers.py`, line 87
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Provide shared state for HTML extraction classes. Defines the minimal base state used by concrete scraper implementations that retrieve raw HTML, parse it with BeautifulSoup, and store extracted text. The class provides a common inspection surface for extraction-oriented subclasses without performing network or parsing work by itself.
 
 ## `WebExtractor`
 
-Fetch and extract selected structures from HTML pages.
-
-```python
-WebExtractor( self: Any ) -> None
-```
-
-**Source:** `scrapers.py`, line 128
-
-**Functional wrappers:** `fonky.scrape_web_page()`, `fonky.scraper_html_to_text()`, `fonky.scrape_paragraphs()`, `fonky.scrape_lists()`, `fonky.scrape_tables()`, `fonky.scrape_articles()`, `fonky.scrape_headings()`, `fonky.scrape_divisions()`, `fonky.scrape_sections()`, `fonky.scrape_blockquotes()`, `fonky.scrape_hyperlinks()`, `fonky.scrape_images()`
-
-### Public Methods
+Fetch and extract selected structures from HTML pages. Provides synchronous HTML retrieval through ``requests`` and extraction helpers for common HTML structures. The class stores request state, parser state, regular expressions, and headers so individual scrape methods can request a page and return only the requested type of extracted content.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `scrape()` | `scrape( self: Any, url: str, time: int = 10 ) -> Result \| None` | Fetch a web page. |
-| `html_to_text()` | `html_to_text( self: Any, html: str ) -> str` | Convert HTML to plain text. |
-| `scrape_paragraphs()` | `scrape_paragraphs( self: Any, uri: str ) -> List[str] \| None` | Extract paragraph text. |
-| `scrape_lists()` | `scrape_lists( self: Any, uri: str ) -> List[str] \| None` | Extract list item text. |
-| `scrape_tables()` | `scrape_tables( self: Any, uri: str ) -> List[str] \| None` | Extract table cell text. |
-| `scrape_articles()` | `scrape_articles( self: Any, uri: str ) -> List[str] \| None` | Extract article text. |
-| `scrape_headings()` | `scrape_headings( self: Any, uri: str ) -> List[str] \| None` | Extract heading text. |
-| `scrape_divisions()` | `scrape_divisions( self: Any, uri: str ) -> List[str] \| None` | Extract division text. |
-| `scrape_sections()` | `scrape_sections( self: Any, uri: str ) -> List[str] \| None` | Extract section text. |
-| `scrape_blockquotes()` | `scrape_blockquotes( self: Any, uri: str ) -> List[str] \| None` | Extract blockquote text. |
-| `scrape_hyperlinks()` | `scrape_hyperlinks( self: Any, uri: str ) -> List[str] \| None` | Extract hyperlinks. |
-| `scrape_images()` | `scrape_images( self: Any, uri: str ) -> List[str] \| None` | Extract image references. |
-| `create_schema()` | `create_schema( self: Any, function: str, tool: str, description: str, parameters: dict, required: list[str] ) -> Dict[str, str] \| None` | Create a dynamic tool schema. |
+| `scrape()` | `scrape( url: str, time: int = 10 ) -> Result \| None` | Fetch a web page. Performs a synchronous HTTP GET request for the supplied URL, stores the response and timeout state, validates HTTP success, and returns the canonical Fonky ``Result`` wrapper for downstream inspection or serialization. Result wrapper for the successful HTTP response. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `html_to_text()` | `html_to_text( html: str ) -> str` | Convert HTML to plain text. Removes script and style blocks, inserts spacing around common block-level tags, strips remaining HTML markup, and normalizes whitespace into compact readable text. Plain text extracted from the supplied HTML. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_paragraphs()` | `scrape_paragraphs( uri: str ) -> List[str] \| None` | Extract paragraph text. Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from all ``p`` elements, and returns only non-empty paragraph strings. Cleaned paragraph text entries. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_lists()` | `scrape_lists( uri: str ) -> List[str] \| None` | Extract list item text. Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from all ``li`` elements, and returns only non-empty list item strings. Clean list item text segments. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_tables()` | `scrape_tables( uri: str ) -> List[str] \| None` | Extract table cell text. Fetches the target HTML document, parses all ``table`` structures, and returns a flattened list of readable text from ``td`` and ``th`` cells. Table cell values extracted from all table rows. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_articles()` | `scrape_articles( uri: str ) -> List[str] \| None` | Extract article text. Fetches the target HTML page, parses it with BeautifulSoup, extracts consolidated readable text from each ``article`` element, and returns only non-empty article blocks. Article-level text blocks. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_headings()` | `scrape_headings( uri: str ) -> List[str] \| None` | Extract heading text. Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from heading tags ``h1`` through ``h6``, and returns only non-empty headings. Clean heading strings. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_divisions()` | `scrape_divisions( uri: str ) -> List[str] \| None` | Extract division text. Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from ``div`` elements, and returns only non-empty division text blocks. Clean division text blocks. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_sections()` | `scrape_sections( uri: str ) -> List[str] \| None` | Extract section text. Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from ``section`` elements, and returns only non-empty section text blocks. Clean section text blocks. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_blockquotes()` | `scrape_blockquotes( uri: str ) -> List[str] \| None` | Extract blockquote text. Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from ``blockquote`` elements, and returns only non-empty quoted text entries. Cleaned blockquote text entries. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_hyperlinks()` | `scrape_hyperlinks( uri: str ) -> List[str] \| None` | Extract hyperlinks. Fetches the target HTML document, parses it with BeautifulSoup, extracts ``href`` values from anchor tags, and returns only populated hyperlink values. Hyperlink paths or URLs extracted from anchor tags. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `scrape_images()` | `scrape_images( uri: str ) -> List[str] \| None` | Extract image references. Fetches the target HTML document, parses it with BeautifulSoup, extracts ``src`` values from image tags, and returns only populated image references. Image source values extracted from image tags. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `create_schema()` | `create_schema( function: str, tool: str, description: str, parameters: dict, required: list[str] ) -> Dict[str, str] \| None` | Create a dynamic tool schema. Constructs an OpenAI-style function tool schema from the supplied function name, service name, description, parameter schema, and required field list. The method validates required inputs and preserves the caller-provided JSON-schema fragments for individual parameters. JSON-compatible dictionary defining the tool schema. ValueError: Raised when ``parameters`` is not a dictionary. Error: Re-raised after the exception is wrapped and written to the application logger. |

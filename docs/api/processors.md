@@ -1,109 +1,66 @@
-# API Reference: `processors.py`
+# API — `processors.py`
 
-`processors.py` provides text-processing and parser classes. These are outside the current `fonky.py` wrapper scope.
-
-## Module Inventory
-
-- **Classes:** 3
-- **Top-level functions:** 1
-
-## Module-Level Functions
-
-| Function | Signature | Purpose |
-|---|---|---|
-| `throw_if()` | `throw_if( name: str, value: object ) -> None` | Throw if. |
-
-## Classes
-
-| Class | Constructor | Public Methods | Functional Wrappers |
-|---|---|---:|---:|
-| [`Processor`](#processor) | `Processor( self: Any ) -> Any` | 0 | 0 |
-| [`TextParser`](#textparser) | `TextParser( self: Any ) -> Any` | 32 | 0 |
-| [`NltkParser`](#nltkparser) | `NltkParser( self: Any ) -> None` | 9 | 0 |
+| Class | Public methods | Purpose |
+|---|---:|---|
+| `Processor` | 0 | Provide shared processor state. Initializes shared state and reusable NLP helpers used by text-processing subclasses. The class centralizes tokenizer, lemmatizer, stemmer, corpus, chunking, and intermediate text containers that derived processors reuse across cleaning, tokenization, and vectorization workflows. |
+| `TextParser` | 32 | Process and normalize text. Provides text-cleaning, markup-removal, tokenization, chunking, vocabulary, frequency, vectorization, and semantic-search utilities for Fonky processing workflows. The class transforms raw file and string inputs into normalized text, tabular artifacts, token lists, embeddings, and dataset-ready chunks. |
+| `NltkParser` | 9 | Run NLTK parsing operations. Wraps NLTK tokenization, stemming, lemmatization, part-of-speech tagging, named-entity recognition, and token chunking routines. The class ensures required NLTK resources are available and exposes parser methods that return structured token, sentence, tag, and entity outputs. |
 
 ## `Processor`
 
-Provide shared processor state.
-
-```python
-Processor( self: Any ) -> Any
-```
-
-**Source:** `processors.py`, line 183
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
+Provide shared processor state. Initializes shared state and reusable NLP helpers used by text-processing subclasses. The class centralizes tokenizer, lemmatizer, stemmer, corpus, chunking, and intermediate text containers that derived processors reuse across cleaning, tokenization, and vectorization workflows.
 
 ## `TextParser`
 
-Process and normalize text.
-
-```python
-TextParser( self: Any ) -> Any
-```
-
-**Source:** `processors.py`, line 281
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
-
-### Public Methods
+Process and normalize text. Provides text-cleaning, markup-removal, tokenization, chunking, vocabulary, frequency, vectorization, and semantic-search utilities for Fonky processing workflows. The class transforms raw file and string inputs into normalized text, tabular artifacts, token lists, embeddings, and dataset-ready chunks.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load_text()` | `load_text( self: Any, filepath: str ) -> str \| None` | Read UTF-8 text from a local file and return the raw string. |
-| `collapse_whitespace()` | `collapse_whitespace( self: Any, text: str ) -> str \| None` | Normalize spacing by lowercasing text and collapsing repeated whitespace. |
-| `remove_punctuation()` | `remove_punctuation( self: Any, text: str ) -> str` | Strip punctuation from tokenized text while preserving word and spacing content. |
-| `normalize_text()` | `normalize_text( self: Any, text: str ) -> str \| None` | Convert text to lowercase for stable downstream comparison and tokenization. |
-| `remove_errors()` | `remove_errors( self: Any, text: str ) -> str` | Filter tokens against the NLTK English words corpus. |
-| `remove_fragments()` | `remove_fragments( self: Any, text: str ) -> str \| None` | Remove very short token fragments from normalized text. |
-| `remove_symbols()` | `remove_symbols( self: Any, text: str ) -> str \| None` | Remove configured symbol characters from normalized text. |
-| `remove_html()` | `remove_html( self: Any, text: str ) -> str \| None` | Extract visible text from HTML markup. |
-| `remove_xml()` | `remove_xml( self: Any, text: str ) -> str` | Extract inner text from XML-like markup while recovering malformed fragments when possible. |
-| `remove_markdown()` | `remove_markdown( self: Any, text: str ) -> str \| None` | Remove common Markdown links, image syntax, and formatting markers. |
-| `remove_stopwords()` | `remove_stopwords( self: Any, text: str ) -> str \| None` | Remove English stop words from tokenized text. |
-| `remove_encodings()` | `remove_encodings( self: Any, text: str ) -> str \| None` | Resolve HTML entities, normalize Unicode characters, and remove control characters. |
-| `remove_headers()` | `remove_headers( self: Any, filepath: str, lines: int = 50, headers: int = 3, footers: int = 3 ) -> str \| None` | Detect and remove repeated page headers and footers from a text file. |
-| `remove_numbers()` | `remove_numbers( self: Any, text: str ) -> str \| None` | Remove decimal digits from text. |
-| `remove_numerals()` | `remove_numerals( self: Any, text: str ) -> str \| None` | Remove Roman-numeral patterns from text. |
-| `remove_images()` | `remove_images( self: Any, text: str ) -> str` | Remove Markdown image references, HTML image elements, and direct image URLs. |
-| `tiktokenize()` | `tiktokenize( self: Any, text: str, encoding: str = 'cl100k_base' ) -> DataFrame \| None` | Encode text with a tiktoken tokenizer and return token identifiers as tabular data. |
-| `split_sentences()` | `split_sentences( self: Any, text: str ) -> List[str] \| None` | Split text into sentence strings using NLTK sentence tokenization. |
-| `split_pages()` | `split_pages( self: Any, filepath: str, num: int = 50 ) -> List[str] \| None` | Split a text file into page-sized text blocks. |
-| `split_paragraphs()` | `split_paragraphs( self: Any, filepath: str ) -> DataFrame \| None` | Read a text file and return paragraph-like text blocks as tabular data. |
-| `create_frequency_distribution()` | `create_frequency_distribution( self: Any, tokens: List[str] ) -> DataFrame \| None` | Build a word-frequency table from a token sequence. |
-| `create_vocabulary()` | `create_vocabulary( self: Any, tokens: List[str] ) -> Series \| None` | Extract the vocabulary column from a token-frequency table. |
-| `create_wordbag()` | `create_wordbag( self: Any, tokens: List[str] ) -> DataFrame \| None` | Build a bag-of-words table from a token sequence. |
-| `create_vectors()` | `create_vectors( self: Any, tokens: List[str] ) -> DataFrame \| None` | Create TF-IDF vectors for token values. |
-| `clean_file()` | `clean_file( self: Any, filepath: str ) -> str \| None` | Apply the standard Fonky text-cleaning pipeline to a single file. |
-| `clean_files()` | `clean_files( self: Any, source: str, destination: str ) -> None` | Apply the standard Fonky text-cleaning pipeline to every file in a directory. |
-| `chunk_files()` | `chunk_files( self: Any, source: str, destination: str ) -> None` | Split text files into sentence chunks and write chunked output files. |
-| `chunk_data()` | `chunk_data( self: Any, filepath: str, size: int = 10 ) -> DataFrame \| None` | Chunk a single text file into fixed-size word groups represented as tabular data. |
-| `chunk_datasets()` | `chunk_datasets( self: Any, source: str, destination: str, size: int = 10 ) -> DataFrame` | Clean and chunk a directory of text files into spreadsheet datasets. |
-| `convert_jsonl()` | `convert_jsonl( self: Any, source: str, destination: str, size: int = 10 ) -> None` | Convert text files into line-oriented JSON-like chunk output. |
-| `encode_sentences()` | `encode_sentences( self: Any, tokens: List[str], model: str = 'all-MiniLM-L6-v2' ) -> Tuple[List[str], np.ndarray]` | Generate sentence-transformer embeddings for normalized token values. |
-| `semantic_search()` | `semantic_search( self: Any, query: str, tokens: List[str], embeddings: np.ndarray, model: SentenceTransformer, top: int = 5 ) -> List[tuple[str, float]]` | Rank embedded tokens by semantic similarity to a query. |
+| `load_text()` | `load_text( filepath: str ) -> str \| None` | Read UTF-8 text from a local file and return the raw string. Loads a local text file using UTF-8 with ignored decode errors so downstream cleaning routines can operate on a plain string. The method records the active file path and raises a project Error when the file cannot be read. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `collapse_whitespace()` | `collapse_whitespace( text: str ) -> str \| None` | Normalize spacing by lowercasing text and collapsing repeated whitespace. Creates a compact lowercase representation of text by splitting on whitespace and joining tokens with single spaces. This prepares raw text for deterministic comparison, cleaning, and tokenization steps. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_punctuation()` | `remove_punctuation( text: str ) -> str` | Strip punctuation from tokenized text while preserving word and spacing content. Tokenizes lowercase text and removes punctuation marks from each token. The method preserves alphanumeric token content while returning a whitespace-joined string for later cleaning stages. str: Processed text value produced by the operation. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `normalize_text()` | `normalize_text( text: str ) -> str \| None` | Convert text to lowercase for stable downstream comparison and tokenization. Converts text to lowercase without otherwise changing content. This provides a simple normalization stage for workflows that need case-insensitive matching or tokenization. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_errors()` | `remove_errors( text: str ) -> str` | Filter tokens against the NLTK English words corpus. Uses the NLTK English words corpus as a vocabulary filter and keeps only tokens recognized by that corpus. This reduces obvious OCR, spelling, and parsing artifacts before later analysis. str: Processed text value produced by the operation. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_fragments()` | `remove_fragments( text: str ) -> str \| None` | Remove very short token fragments from normalized text. Removes short text fragments that are unlikely to be useful lexical units. This helps reduce noise produced by OCR, markup stripping, punctuation removal, and aggressive token cleanup. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_symbols()` | `remove_symbols( text: str ) -> str \| None` | Remove configured symbol characters from normalized text. Removes characters listed in the parser symbol set from lowercase text. This produces cleaner text for tokenization, word-frequency generation, and embedding workflows. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_html()` | `remove_html( text: str ) -> str \| None` | Extract visible text from HTML markup. Parses HTML input with BeautifulSoup and extracts visible text content. This allows raw HTML fragments or pages to enter the same cleaning pipeline used for plain text. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_xml()` | `remove_xml( text: str ) -> str` | Extract inner text from XML-like markup while recovering malformed fragments when possible. Wraps XML-like text in a temporary root node, parses it with recovery enabled, and concatenates element text and tail content. This retains readable content while discarding markup structure. str: Processed text value produced by the operation. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_markdown()` | `remove_markdown( text: str ) -> str \| None` | Remove common Markdown links, image syntax, and formatting markers. Removes common Markdown link, image, and inline-formatting syntax from lowercase text. This converts README-style or documentation-style content into cleaner text for downstream analysis. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_stopwords()` | `remove_stopwords( text: str ) -> str \| None` | Remove English stop words from tokenized text. Tokenizes lowercase text and removes standard English stop words. This leaves a reduced token stream better suited for frequency analysis, vocabulary extraction, and embedding preparation. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_encodings()` | `remove_encodings( text: str ) -> str \| None` | Resolve HTML entities, normalize Unicode characters, and remove control characters. Decodes common escaped sequences when possible, resolves HTML entities, normalizes Unicode to compatibility form, and strips control characters. This reduces text artifacts from scraped, copied, or encoded sources. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_headers()` | `remove_headers( filepath: str, lines: int = 50, headers: int = 3, footers: int = 3 ) -> str \| None` | Detect and remove repeated page headers and footers from a text file. Splits a text file into page-sized blocks and identifies repeated leading and trailing line groups. Matching header and footer blocks are removed to produce cleaner body text for analysis. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_numbers()` | `remove_numbers( text: str ) -> str \| None` | Remove decimal digits from text. Removes digit sequences from lowercase text. This supports workflows that need lexical content without numeric values. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_numerals()` | `remove_numerals( text: str ) -> str \| None` | Remove Roman-numeral patterns from text. Applies the configured Roman-numeral expression to lowercase text and replaces matching numeral tokens with spaces. This reduces numbering artifacts in outlines, headings, and document sections. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `remove_images()` | `remove_images( text: str ) -> str` | Remove Markdown image references, HTML image elements, and direct image URLs. Removes Markdown image syntax, HTML image tags, and direct image URLs from text. This keeps descriptive text while excluding image-only references that do not support text processing. str: Processed text value produced by the operation. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `tiktokenize()` | `tiktokenize( text: str, encoding: str = 'cl100k_base' ) -> DataFrame \| None` | Encode text with a tiktoken tokenizer and return token identifiers as tabular data. Encodes lowercase text using the requested tiktoken encoding and returns token identifiers in a pandas DataFrame. This supports token inspection and model-facing preprocessing workflows. DataFrame \| None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `split_sentences()` | `split_sentences( text: str ) -> List[str] \| None` | Split text into sentence strings using NLTK sentence tokenization. Applies NLTK sentence tokenization to lowercase text and returns the resulting sentence list. This provides sentence boundaries for chunking, cleaning, and dataset generation workflows. List[ str ] \| None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `split_pages()` | `split_pages( filepath: str, num: int = 50 ) -> List[str] \| None` | Split a text file into page-sized text blocks. Reads a plain-text file and splits it into page-sized blocks using form-feed characters when available or fixed line counts otherwise. The resulting list can be used for page- level cleaning and analysis. List[ str ] \| None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `split_paragraphs()` | `split_paragraphs( filepath: str ) -> DataFrame \| None` | Read a text file and return paragraph-like text blocks as tabular data. Reads a text file and converts separated text blocks into a pandas DataFrame. The fallback Latin-1 branch preserves the ability to process files that fail UTF-8 decoding. DataFrame \| None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `create_frequency_distribution()` | `create_frequency_distribution( tokens: List[str] ) -> DataFrame \| None` | Build a word-frequency table from a token sequence. Counts token occurrences with NLTK frequency distribution support and returns a labeled pandas DataFrame. The output provides a simple word-frequency table for analysis and reporting. DataFrame \| None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `create_vocabulary()` | `create_vocabulary( tokens: List[str] ) -> Series \| None` | Extract the vocabulary column from a token-frequency table. Counts token occurrences and returns the unique token column as a pandas Series. This gives downstream routines a vocabulary list derived from the active token stream. Series \| None: Pandas Series containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `create_wordbag()` | `create_wordbag( tokens: List[str] ) -> DataFrame \| None` | Build a bag-of-words table from a token sequence. Builds a bag-of-words representation by extracting unique terms from the token frequency distribution. The returned DataFrame supports simple vocabulary inspection and feature preparation. DataFrame \| None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `create_vectors()` | `create_vectors( tokens: List[str] ) -> DataFrame \| None` | Create TF-IDF vectors for token values. Builds one-token documents, fits a TF-IDF vectorizer, and maps each token to its vector representation. This supplies lightweight vector features for lexical comparison workflows. DataFrame \| None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `clean_file()` | `clean_file( filepath: str ) -> str \| None` | Apply the standard Fonky text-cleaning pipeline to a single file. Runs a single file through the parser cleaning pipeline, including whitespace normalization, encoding cleanup, symbol removal, fragment filtering, lemmatization, and stop-word removal. The method returns the cleaned text instead of writing a file. str \| None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `clean_files()` | `clean_files( source: str, destination: str ) -> None` | Apply the standard Fonky text-cleaning pipeline to every file in a directory. Processes every file in a source directory through the standard cleaning pipeline and writes cleaned text to a destination directory. This supports batch preparation of corpora before chunking or dataset creation. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `chunk_files()` | `chunk_files( source: str, destination: str ) -> None` | Split text files into sentence chunks and write chunked output files. Reads each file in a source directory, splits text into sentences, and writes the resulting sentence sequence to matching output files. This prepares cleaned corpora for chunk-based downstream workflows. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `chunk_data()` | `chunk_data( filepath: str, size: int = 10 ) -> DataFrame \| None` | Chunk a single text file into fixed-size word groups represented as tabular data. Reads a single text file, filters recognized English alphabetic tokens, groups them into fixed-size chunks, and returns the chunk rows as a DataFrame. This provides a compact dataset-ready representation of token groups. DataFrame \| None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `chunk_datasets()` | `chunk_datasets( source: str, destination: str, size: int = 10 ) -> DataFrame` | Clean and chunk a directory of text files into spreadsheet datasets. Processes all text files in a directory through cleaning, tokenization, fixed-size chunking, and Excel export. This creates spreadsheet datasets suitable for review, labeling, or later ingestion. DataFrame: Pandas DataFrame containing the processed output. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `convert_jsonl()` | `convert_jsonl( source: str, destination: str, size: int = 10 ) -> None` | Convert text files into line-oriented JSON-like chunk output. Splits text files into fixed-size token groups and writes each group using a JSON-like line-oriented representation. This supports quick conversion of raw text corpora into chunked training or testing artifacts. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `encode_sentences()` | `encode_sentences( tokens: List[str], model: str = 'all-MiniLM-L6-v2' ) -> Tuple[List[str], np.ndarray]` | Generate sentence-transformer embeddings for normalized token values. Lemmatizes token values and encodes them with a SentenceTransformer model. The returned tuple pairs token text with a NumPy embedding matrix for semantic-search workflows. Tuple[ List[ str ], np.ndarray ]: Token values paired with the generated embedding matrix. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `semantic_search()` | `semantic_search( query: str, tokens: List[str], embeddings: np.ndarray, model: SentenceTransformer, top: int = 5 ) -> List[tuple[str, float]]` | Rank embedded tokens by semantic similarity to a query. Encodes the query with the supplied model, compares it with the embedding matrix using cosine similarity, and returns the highest-scoring token matches. This supports lightweight semantic retrieval over prepared token embeddings. List[ tuple[ str, float ] ]: Ranked token and similarity-score pairs. Error: Re-raised after the underlying exception is wrapped in the project error type. |
 
 ## `NltkParser`
 
-Run NLTK parsing operations.
-
-```python
-NltkParser( self: Any ) -> None
-```
-
-**Source:** `processors.py`, line 1584
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
-
-### Public Methods
+Run NLTK parsing operations. Wraps NLTK tokenization, stemming, lemmatization, part-of-speech tagging, named-entity recognition, and token chunking routines. The class ensures required NLTK resources are available and exposes parser methods that return structured token, sentence, tag, and entity outputs.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `initialize_resources()` | `initialize_resources( self: Any ) -> None` | Ensure the NLTK corpora, tokenizers, taggers, and chunkers required by the parser are available. |
-| `word_tokenizer()` | `word_tokenizer( self: Any, text: str ) -> List[str] \| None` | Tokenize text into lowercased word tokens. |
-| `sentence_tokenizer()` | `sentence_tokenizer( self: Any, text: str ) -> List[str] \| None` | Tokenize text into lowercased sentence strings. |
-| `word_stemmer()` | `word_stemmer( self: Any, text: str ) -> List[str] \| None` | Stem lowercased word tokens with the configured Porter stemmer. |
-| `word_lemmatizer()` | `word_lemmatizer( self: Any, text: str ) -> List[str] \| None` | Lemmatize lowercased word tokens with the configured WordNet lemmatizer. |
-| `pos_tagger()` | `pos_tagger( self: Any, text: str ) -> List[Tuple[str, str]] \| None` | Assign part-of-speech tags to lowercased word tokens. |
-| `named_entity_recognition()` | `named_entity_recognition( self: Any, text: str ) -> List[Tuple[str, str]] \| None` | Extract named-entity text and entity labels from tagged tokens. |
-| `chunk_words()` | `chunk_words( self: Any, text: str, size: int = 5 ) -> DataFrame \| None` | Group word tokens into fixed-size chunks and return them as tabular data. |
-| `chunk_sentences()` | `chunk_sentences( self: Any, text: str, size: int = 15 ) -> DataFrame \| None` | Group sentence tokens into fixed-size chunks and return them as tabular data. |
+| `initialize_resources()` | `initialize_resources(  ) -> None` | Ensure the NLTK corpora, tokenizers, taggers, and chunkers required by the parser are available. Checks for required NLTK resources and downloads missing packages. This prepares tokenization, lemmatization, tagging, and named-entity recognition routines for use by parser methods. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `word_tokenizer()` | `word_tokenizer( text: str ) -> List[str] \| None` | Tokenize text into lowercased word tokens. Lowercases text and tokenizes it into word tokens with NLTK. The resulting list is also stored on the parser instance for reuse by later NLTK operations. List[ str ] \| None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `sentence_tokenizer()` | `sentence_tokenizer( text: str ) -> List[str] \| None` | Tokenize text into lowercased sentence strings. Lowercases text and tokenizes it into sentence strings with NLTK. The resulting sentences are stored on the parser instance and returned to the caller. List[ str ] \| None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `word_stemmer()` | `word_stemmer( text: str ) -> List[str] \| None` | Stem lowercased word tokens with the configured Porter stemmer. Lowercases text, tokenizes it, and applies Porter stemming to each non-empty token. This produces stemmed tokens for lexical normalization workflows. List[ str ] \| None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `word_lemmatizer()` | `word_lemmatizer( text: str ) -> List[str] \| None` | Lemmatize lowercased word tokens with the configured WordNet lemmatizer. Lowercases text, tokenizes it, and applies WordNet lemmatization to each non-empty token. This produces normalized lexical forms suitable for downstream analysis. List[ str ] \| None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `pos_tagger()` | `pos_tagger( text: str ) -> List[Tuple[str, str]] \| None` | Assign part-of-speech tags to lowercased word tokens. Lowercases and tokenizes text, then assigns NLTK part-of-speech tags to each token. The tagged sequence is stored on the instance and returned for syntactic analysis. List[ Tuple[ str, str ] ] \| None: List of text and label tuples when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `named_entity_recognition()` | `named_entity_recognition( text: str ) -> List[Tuple[str, str]] \| None` | Extract named-entity text and entity labels from tagged tokens. Lowercases text, tokenizes and tags it, then applies NLTK named-entity chunking. Entity text and labels are collected into tuples for downstream review or extraction workflows. List[ Tuple[ str, str ] ] \| None: List of text and label tuples when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `chunk_words()` | `chunk_words( text: str, size: int = 5 ) -> DataFrame \| None` | Group word tokens into fixed-size chunks and return them as tabular data. Tokenizes lowercase text into words, groups the tokens into fixed-size chunks, and returns a DataFrame of chunk strings. This provides a simple word-level chunking utility for downstream vector or dataset generation. DataFrame \| None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |
+| `chunk_sentences()` | `chunk_sentences( text: str, size: int = 15 ) -> DataFrame \| None` | Group sentence tokens into fixed-size chunks and return them as tabular data. Tokenizes lowercase text into sentences, groups the sentences into fixed-size chunks, and returns a DataFrame of chunk strings. This provides a sentence-level chunking utility for review or dataset preparation. DataFrame \| None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type. |

@@ -1,612 +1,307 @@
-# API Reference: `loaders.py`
+# API — `loaders.py`
 
-`loaders.py` contains document and cloud ingestion implementations for local text/structured files, Office formats, PDF, web content, repositories, cloud storage, email/Outlook, SharePoint, speech, and provider-backed loading.
-
-## Module Inventory
-
-- **Classes:** 29
-- **Top-level functions:** 1
-
-## Module-Level Functions
-
-| Function | Signature | Purpose |
-|---|---|---|
-| `throw_if()` | `throw_if( name: str, value: object ) -> None` | Throw if. |
-
-## Classes
-
-| Class | Constructor | Public Methods | Functional Wrappers |
-|---|---|---:|---:|
-| [`Loader`](#loader) | `Loader( self: Any ) -> None` | 4 | 0 |
-| [`TextLoader`](#textloader) | `TextLoader( self: Any ) -> None` | 2 | 1 |
-| [`CsvLoader`](#csvloader) | `CsvLoader( self: Any ) -> None` | 2 | 1 |
-| [`WebLoader`](#webloader) | `WebLoader( self: Any, recursive: bool = False, max_depth: int = 2, prevent_outside: bool = True, timeout: int = 10, ignore: bool = True, progress: bool = True ) -> None` | 4 | 3 |
-| [`PdfReader`](#pdfreader) | `PdfReader( self: Any ) -> None` | 2 | 1 |
-| [`PdfLoader`](#pdfloader) | `PdfLoader( self: Any, size: int = 1000, overlap: int = 150, has_tables: bool = True, include: bool = True ) -> None` | 4 | 1 |
-| [`ExcelLoader`](#excelloader) | `ExcelLoader( self: Any ) -> None` | 3 | 1 |
-| [`WordLoader`](#wordloader) | `WordLoader( self: Any ) -> None` | 2 | 1 |
-| [`MarkdownLoader`](#markdownloader) | `MarkdownLoader( self: Any ) -> None` | 2 | 1 |
-| [`HtmlLoader`](#htmlloader) | `HtmlLoader( self: Any ) -> None` | 2 | 1 |
-| [`ArXivLoader`](#arxivloader) | `ArXivLoader( self: Any ) -> None` | 2 | 1 |
-| [`WikiLoader`](#wikiloader) | `WikiLoader( self: Any ) -> None` | 2 | 1 |
-| [`GoogleDriveLoader`](#googledriveloader) | `GoogleDriveLoader( self: Any ) -> None` | 4 | 2 |
-| [`OutlookLoader`](#outlookloader) | `OutlookLoader( self: Any ) -> None` | 2 | 1 |
-| [`SpfxLoader`](#spfxloader) | `SpfxLoader( self: Any ) -> None` | 3 | 2 |
-| [`PowerPointLoader`](#powerpointloader) | `PowerPointLoader( self: Any ) -> None` | 3 | 2 |
-| [`OneDriveDocLoader`](#onedrivedocloader) | `OneDriveDocLoader( self: Any ) -> None` | 2 | 1 |
-| [`EmailLoader`](#emailloader) | `EmailLoader( self: Any ) -> None` | 2 | 1 |
-| [`JsonLoader`](#jsonloader) | `JsonLoader( self: Any ) -> None` | 2 | 1 |
-| [`GithubLoader`](#githubloader) | `GithubLoader( self: Any ) -> None` | 2 | 1 |
-| [`XmlLoader`](#xmlloader) | `XmlLoader( self: Any ) -> None` | 4 | 2 |
-| [`PubMedSearchLoader`](#pubmedsearchloader) | `PubMedSearchLoader( self: Any ) -> None` | 2 | 1 |
-| [`OpenCityLoader`](#opencityloader) | `OpenCityLoader( self: Any ) -> None` | 2 | 1 |
-| [`JupyterNotebookLoader`](#jupyternotebookloader) | `JupyterNotebookLoader( self: Any ) -> None` | 2 | 1 |
-| [`GoogleCloudFileLoader`](#googlecloudfileloader) | `GoogleCloudFileLoader( self: Any ) -> None` | 2 | 1 |
-| [`AwsFileLoader`](#awsfileloader) | `AwsFileLoader( self: Any ) -> None` | 2 | 1 |
-| [`GoogleSpeechToTextLoader`](#googlespeechtotextloader) | `GoogleSpeechToTextLoader( self: Any ) -> None` | 2 | 1 |
-| [`GoogleBucketLoader`](#googlebucketloader) | `GoogleBucketLoader( self: Any ) -> None` | 2 | 1 |
-| [`AwsBucketLoader`](#awsbucketloader) | `AwsBucketLoader( self: Any ) -> None` | 2 | 1 |
+| Class | Public methods | Purpose |
+|---|---:|---|
+| `Loader` | 4 | Loader document loader wrapper. Provides shared path validation, path expansion, document loading support, and document splitting behavior used by concrete LangChain loader wrappers. |
+| `TextLoader` | 2 | TextLoader document loader wrapper. Loads local plain-text files into LangChain Document objects and prepares those documents for chunking workflows. |
+| `CsvLoader` | 2 | CsvLoader document loader wrapper. Loads comma-separated or delimiter-separated files into LangChain Document objects with configurable encoding, source-column, delimiter, and quote-character behavior. |
+| `WebLoader` | 4 | WebLoader document loader wrapper. Loads documents from one or more web pages, with optional recursive URL traversal and same-domain filtering for bounded web ingestion workflows. |
+| `PdfReader` | 2 | PdfReader document loader wrapper. Loads PDF files with PyPDFLoader and provides a base PDF reading path for simpler page or single-document extraction workflows. |
+| `PdfLoader` | 4 | PdfLoader document loader wrapper. Extends PDF loading with extraction-mode, image-inclusion, image-format, and chunk-size settings for richer PDF ingestion workflows. |
+| `ExcelLoader` | 3 | ExcelLoader document loader wrapper. Loads Excel workbooks through the unstructured Excel loader and exposes the loaded workbook content as LangChain Document objects. |
+| `WordLoader` | 2 | WordLoader document loader wrapper. Loads Microsoft Word documents through Docx2txtLoader and returns the extracted document text as LangChain Document objects. |
+| `MarkdownLoader` | 2 | MarkdownLoader document loader wrapper. Loads local Markdown files with the unstructured Markdown loader and returns parsed content as LangChain Document objects. |
+| `HtmlLoader` | 2 | HtmlLoader document loader wrapper. Loads local HTML files with the unstructured HTML loader and returns parsed page content as LangChain Document objects. |
+| `ArXivLoader` | 2 | ArXivLoader document loader wrapper. Queries ArXiv through the LangChain ArxivLoader and returns scholarly search results as LangChain Document objects. |
+| `WikiLoader` | 2 | WikiLoader document loader wrapper. Queries Wikipedia through the LangChain WikipediaLoader and returns encyclopedia search results as LangChain Document objects. |
+| `GoogleDriveLoader` | 4 | GoogleDriveLoader document loader wrapper. Loads files or folders from Google Drive through the Google Drive loader and returns accessible Drive content as LangChain Document objects. |
+| `OutlookLoader` | 2 | OutlookLoader document loader wrapper. Loads Outlook message files and returns their email content as LangChain Document objects. |
+| `SpfxLoader` | 3 | SpfxLoader document loader wrapper. Loads SharePoint document-library content through the SharePoint loader, including full-library and folder-scoped retrieval paths. |
+| `PowerPointLoader` | 3 | PowerPointLoader document loader wrapper. Loads PowerPoint presentation files through the unstructured PowerPoint loader and returns slide content as LangChain Document objects. |
+| `OneDriveDocLoader` | 2 | OneDriveDocLoader document loader wrapper. Loads OneDrive document content by drive, folder path, or object identifiers through the OneDrive loader. |
+| `EmailLoader` | 2 | EmailLoader document loader wrapper. Loads email files through the unstructured email loader, including optional attachment processing. |
+| `JsonLoader` | 2 | JsonLoader document loader wrapper. Loads JSON or JSON Lines files through JSONLoader using the configured jq schema and text-content settings. |
+| `GithubLoader` | 2 | GithubLoader document loader wrapper. Loads repository files through GithubFileLoader using a repository, branch, GitHub API URL, and file-extension filter. |
+| `XmlLoader` | 4 | XmlLoader document loader wrapper. Loads XML files as both unstructured documents and parsed element trees for XPath-based extraction workflows. |
+| `PubMedSearchLoader` | 2 | PubMedSearchLoader document loader wrapper. Queries PubMed through the LangChain PubMed loader and returns biomedical literature results as LangChain Document objects. |
+| `OpenCityLoader` | 2 | OpenCityLoader document loader wrapper. Loads open city dataset records through OpenCityDataLoader and returns civic dataset content as LangChain Document objects. |
+| `JupyterNotebookLoader` | 2 | JupyterNotebookLoader document loader wrapper. Loads Jupyter notebooks through NotebookLoader with configurable output, traceback, newline, and output-length handling. |
+| `GoogleCloudFileLoader` | 2 | GoogleCloudFileLoader document loader wrapper. Loads a single Google Cloud Storage blob through GCSFileLoader and returns the object content as LangChain Document objects. |
+| `AwsFileLoader` | 2 | AwsFileLoader document loader wrapper. Loads a single Amazon S3 object through S3FileLoader with optional AWS credential and region settings. |
+| `GoogleSpeechToTextLoader` | 2 | GoogleSpeechToTextLoader document loader wrapper. Loads audio transcription output through SpeechToTextLoader using a Google Cloud project, file path, and optional recognition configuration. |
+| `GoogleBucketLoader` | 2 | GoogleBucketLoader document loader wrapper. Loads Google Cloud Storage bucket directories through GCSDirectoryLoader with optional prefix and failure-continuation behavior. |
+| `AwsBucketLoader` | 2 | AwsBucketLoader document loader wrapper. Loads Amazon S3 bucket directories through S3DirectoryLoader with optional prefix, credentials, region, and endpoint settings. |
 
 ## `Loader`
 
-Loader document loader wrapper.
-
-```python
-Loader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 128
-
-**Functional wrappers:** None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.
-
-### Public Methods
+Loader document loader wrapper. Provides shared path validation, path expansion, document loading support, and document splitting behavior used by concrete LangChain loader wrappers.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `verify_exists()` | `verify_exists( self: Any, path: str ) -> str \| None` | Validate a local file path. |
-| `resolve_paths()` | `resolve_paths( self: Any, pattern: str ) -> List[str] \| None` | Resolve file paths or glob patterns. |
-| `load_documents()` | `load_documents( self: Any, path: str, encoding: Optional[str], csv_args: Optional[Dict[str, Any]], source_column: Optional[str] ) -> List[Document] \| None` | Load CSV-style documents. |
-| `split_documents()` | `split_documents( self: Any, docs: List[Document], chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split document collections. |
+| `verify_exists()` | `verify_exists( path: str ) -> str \| None` | Validate a local file path. Validates that a supplied local path points to an existing file before a loader attempts to read it. The method stores the verified path on the instance and returns the normalized path for subsequent loader construction. str \| None: Validated or generated string value. Error: Re-raised after the original exception is wrapped and written to the application logger. FileNotFoundError: Raised when a local file path or pattern does not resolve to an existing file. |
+| `resolve_paths()` | `resolve_paths( pattern: str ) -> List[str] \| None` | Resolve file paths or glob patterns. Expands a direct file path or glob pattern into concrete existing files. The method records candidate and resolved paths so batch-oriented loaders can operate on verified filesystem inputs. List[str] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. FileNotFoundError: Raised when a local file path or pattern does not resolve to an existing file. |
+| `load_documents()` | `load_documents( path: str, encoding: Optional[str], csv_args: Optional[Dict[str, Any]], source_column: Optional[str] ) -> List[Document] \| None` | Load CSV-style documents. Loads CSV-style source content into LangChain Document objects using the configured path, encoding, CSV options, and source-column settings. The method stores the active loader and loaded documents for downstream splitting. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split_documents()` | `split_documents( docs: List[Document], chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split document collections. Splits a supplied list of LangChain Document objects into smaller chunks using RecursiveCharacterTextSplitter. The method stores chunking settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `TextLoader`
 
-TextLoader document loader wrapper.
-
-```python
-TextLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 325
-
-**Functional wrappers:** `fonky.load_text()`
-
-### Public Methods
+TextLoader document loader wrapper. Loads local plain-text files into LangChain Document objects and prepares those documents for chunking workflows.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str, encoding: Optional[str] = None ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str, encoding: Optional[str] = None ) -> List[Document] \| None` | Load source content. Loads a local text file into LangChain Document objects. The method validates the path, applies the optional encoding, constructs TextDocLoader, stores the loader state, and returns loaded text documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `CsvLoader`
 
-CsvLoader document loader wrapper.
-
-```python
-CsvLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 455
-
-**Functional wrappers:** `fonky.load_csv()`
-
-### Public Methods
+CsvLoader document loader wrapper. Loads comma-separated or delimiter-separated files into LangChain Document objects with configurable encoding, source-column, delimiter, and quote-character behavior.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str, encoding: Optional[str] = 'utf-8', source_column: Optional[str] = None, delimiter: str = ',', quotechar: str = '"' ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str, encoding: Optional[str] = 'utf-8', source_column: Optional[str] = None, delimiter: str = ',', quotechar: str = '"' ) -> List[Document] \| None` | Load source content. Loads a CSV file into LangChain Document objects. The method validates the file path, builds CSV parsing options from delimiter and quote-character settings, records optional source-column metadata, and returns the parsed rows as documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `WebLoader`
 
-WebLoader document loader wrapper.
-
-```python
-WebLoader( self: Any, recursive: bool = False, max_depth: int = 2, prevent_outside: bool = True, timeout: int = 10, ignore: bool = True, progress: bool = True ) -> None
-```
-
-**Source:** `loaders.py`, line 589
-
-**Functional wrappers:** `fonky.load_web()`, `fonky.load_web_recursive()`, `fonky.load_web_pages()`
-
-### Public Methods
+WebLoader document loader wrapper. Loads documents from one or more web pages, with optional recursive URL traversal and same-domain filtering for bounded web ingestion workflows.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, urls: str \| List[str] ) -> List[Document] \| None` | Load source content. |
-| `load_recursive()` | `load_recursive( self: Any, url: str, depth: int = 2, max_time: int = 10, ignore: bool = True ) -> List[Document] \| None` | Load web documents recursively. |
-| `load_pages()` | `load_pages( self: Any, urls: List[str], depth: int = 2, timeout: int = 10, ignore: bool = True, progress: bool = True ) -> List[Document] \| None` | Load static web pages. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( urls: str \| List[str] ) -> List[Document] \| None` | Load source content. Loads web content from one or more URLs. The method chooses between recursive crawling and static page loading based on instance configuration, stores request state, and returns the loaded web documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
+| `load_recursive()` | `load_recursive( url: str, depth: int = 2, max_time: int = 10, ignore: bool = True ) -> List[Document] \| None` | Load web documents recursively. Recursively loads documents from a seed URL using RecursiveUrlLoader. The method records crawl settings, loads reachable content to the configured depth, and optionally filters results to the original domain. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `load_pages()` | `load_pages( urls: List[str], depth: int = 2, timeout: int = 10, ignore: bool = True, progress: bool = True ) -> List[Document] \| None` | Load static web pages. Loads one or more static web pages through WebBaseLoader. The method records the URL list and request settings before returning the loaded page documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
 
 ## `PdfReader`
 
-PdfReader document loader wrapper.
-
-```python
-PdfReader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 884
-
-**Functional wrappers:** `fonky.read_pdf()`
-
-### Public Methods
+PdfReader document loader wrapper. Loads PDF files with PyPDFLoader and provides a base PDF reading path for simpler page or single-document extraction workflows.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str, mode: str = 'single' ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str, mode: str = 'single' ) -> List[Document] \| None` | Load source content. Loads a PDF file through PyPDFLoader using the requested mode. The method validates the file path, stores the extraction mode, constructs the loader, and returns PDF page or single-document output. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `PdfLoader`
 
-PdfLoader document loader wrapper.
-
-```python
-PdfLoader( self: Any, size: int = 1000, overlap: int = 150, has_tables: bool = True, include: bool = True ) -> None
-```
-
-**Source:** `loaders.py`, line 1004
-
-**Functional wrappers:** `fonky.load_pdf()`
-
-### Public Methods
+PdfLoader document loader wrapper. Extends PDF loading with extraction-mode, image-inclusion, image-format, and chunk-size settings for richer PDF ingestion workflows.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `mode_options()` | `mode_options( self: Any ) -> List[str]` | Return loading mode options. |
-| `extraction_options()` | `extraction_options( self: Any ) -> List[str]` | Return PDF extraction options. |
-| `image_options()` | `image_options( self: Any ) -> List[str]` | Return PDF image output options. |
-| `load()` | `load( self: Any, path: str, mode: str = 'single', extract: str = 'plain', include: bool = False, format: str = 'markdown-img' ) -> List[Document]` | Load source content. |
+| `mode_options()` | `mode_options(  ) -> List[str]` | Return loading mode options. Returns the supported loading mode names exposed by the wrapper. These values can be used by UIs, examples, and validation logic to keep selectable options aligned with the active loader. List[str]: Loaded or split LangChain Document objects. |
+| `extraction_options()` | `extraction_options(  ) -> List[str]` | Return PDF extraction options. Returns the supported PDF extraction mode names. The values identify how PyPDFLoader should parse text from the source PDF. List[str]: Loaded or split LangChain Document objects. |
+| `image_options()` | `image_options(  ) -> List[str]` | Return PDF image output options. Returns the supported image-output formats used when PDF image extraction is enabled. The values control how extracted image references are embedded in document content. List[str]: Loaded or split LangChain Document objects. |
+| `load()` | `load( path: str, mode: str = 'single', extract: str = 'plain', include: bool = False, format: str = 'markdown-img' ) -> List[Document]` | Load source content. Loads a PDF file with configurable text extraction and optional image extraction. The method validates the path, configures PyPDFLoader options, falls back to text-only loading when image parsing fails, and returns loaded PDF documents. List[Document]: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `ExcelLoader`
 
-ExcelLoader document loader wrapper.
-
-```python
-ExcelLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 1163
-
-**Functional wrappers:** `fonky.load_excel()`
-
-### Public Methods
+ExcelLoader document loader wrapper. Loads Excel workbooks through the unstructured Excel loader and exposes the loaded workbook content as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `mode_options()` | `mode_options( self: Any ) -> List[str]` | Return loading mode options. |
-| `load()` | `load( self: Any, path: str, mode: str = 'elements', has_headers: bool = True ) -> List[Document]` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `mode_options()` | `mode_options(  ) -> List[str]` | Return loading mode options. Returns the supported loading mode names exposed by the wrapper. These values can be used by UIs, examples, and validation logic to keep selectable options aligned with the active loader. List[str]: Loaded or split LangChain Document objects. |
+| `load()` | `load( path: str, mode: str = 'elements', has_headers: bool = True ) -> List[Document]` | Load source content. Loads an Excel workbook into LangChain Document objects. The method validates the path, stores workbook parsing settings, constructs UnstructuredExcelLoader, and returns extracted workbook content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped & written to the logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
 
 ## `WordLoader`
 
-WordLoader document loader wrapper.
-
-```python
-WordLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 1297
-
-**Functional wrappers:** `fonky.load_word()`
-
-### Public Methods
+WordLoader document loader wrapper. Loads Microsoft Word documents through Docx2txtLoader and returns the extracted document text as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str ) -> List[Document] \| None` | Load source content. Loads a Word document into LangChain Document objects. The method validates the local path, constructs Docx2txtLoader, and returns extracted document text. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
 
 ## `MarkdownLoader`
 
-MarkdownLoader document loader wrapper.
-
-```python
-MarkdownLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 1407
-
-**Functional wrappers:** `fonky.load_markdown()`
-
-### Public Methods
+MarkdownLoader document loader wrapper. Loads local Markdown files with the unstructured Markdown loader and returns parsed content as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str ) -> List[Document] \| None` | Load source content. Loads a Markdown file into LangChain Document objects. The method validates the path, constructs UnstructuredMarkdownLoader, and returns parsed Markdown content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `HtmlLoader`
 
-HtmlLoader document loader wrapper.
-
-```python
-HtmlLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 1515
-
-**Functional wrappers:** `fonky.load_html()`
-
-### Public Methods
+HtmlLoader document loader wrapper. Loads local HTML files with the unstructured HTML loader and returns parsed page content as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str ) -> List[Document] \| None` | Load source content. Loads a local HTML file into LangChain Document objects. The method validates the path, constructs UnstructuredHTMLLoader, and returns extracted HTML content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
 
 ## `ArXivLoader`
 
-ArXivLoader document loader wrapper.
-
-```python
-ArXivLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 1625
-
-**Functional wrappers:** `fonky.load_arxiv()`
-
-### Public Methods
+ArXivLoader document loader wrapper. Queries ArXiv through the LangChain ArxivLoader and returns scholarly search results as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, question: str ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( question: str ) -> List[Document] \| None` | Load source content. Runs an ArXiv query and loads matching scholarly records as LangChain Document objects. The method stores the query, configures the ArxivLoader character limit, and returns the retrieved documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `WikiLoader`
 
-WikiLoader document loader wrapper.
-
-```python
-WikiLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 1747
-
-**Functional wrappers:** `fonky.load_wikipedia()`
-
-### Public Methods
+WikiLoader document loader wrapper. Queries Wikipedia through the LangChain WikipediaLoader and returns encyclopedia search results as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, question: str ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( question: str ) -> List[Document] \| None` | Load source content. Runs a Wikipedia query and loads matching encyclopedia records as LangChain Document objects. The method stores the query and retrieval limits before returning the retrieved documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `GoogleDriveLoader`
 
-GoogleDriveLoader document loader wrapper.
-
-```python
-GoogleDriveLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 1872
-
-**Functional wrappers:** `fonky.load_google_drive_file()`, `fonky.load_google_drive_folder()`
-
-### Public Methods
+GoogleDriveLoader document loader wrapper. Loads files or folders from Google Drive through the Google Drive loader and returns accessible Drive content as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `file_options()` | `file_options( self: Any ) -> List[str]` | Return Google Drive file options. |
-| `load_file()` | `load_file( self: Any, file_id: str, recursive: bool = False ) -> List[Document] \| None` | Load a provider file. |
-| `load_folder()` | `load_folder( self: Any, folder_id: str, recursive: bool = False ) -> List[Document] \| None` | Load provider folder content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `file_options()` | `file_options(  ) -> List[str]` | Return Google Drive file options. Returns the supported Google Drive file target names exposed by the wrapper. These values describe the Drive-backed file categories expected by the loader workflow. List[str]: Loaded or split LangChain Document objects. |
+| `load_file()` | `load_file( file_id: str, recursive: bool = False ) -> List[Document] \| None` | Load a provider file. Loads a single provider-backed file into LangChain Document objects. The method stores the selected file identifier and recursion flag before constructing the backing loader. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `load_folder()` | `load_folder( folder_id: str, recursive: bool = False ) -> List[Document] \| None` | Load provider folder content. Loads documents from a provider folder or document-library folder. The method records the folder identifiers, constructs the backing loader, and returns the loaded documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `OutlookLoader`
 
-OutlookLoader document loader wrapper.
-
-```python
-OutlookLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 2044
-
-**Functional wrappers:** `fonky.load_outlook()`
-
-### Public Methods
+OutlookLoader document loader wrapper. Loads Outlook message files and returns their email content as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str ) -> List[Document] \| None` | Load source content. Loads an Outlook message file into LangChain Document objects. The method validates the local message path, constructs OutlookMessageLoader, and returns extracted email content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `SpfxLoader`
 
-SpfxLoader document loader wrapper.
-
-```python
-SpfxLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 2162
-
-**Functional wrappers:** `fonky.load_spfx()`, `fonky.load_spfx_folder()`
-
-### Public Methods
+SpfxLoader document loader wrapper. Loads SharePoint document-library content through the SharePoint loader, including full-library and folder-scoped retrieval paths.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, library_id: str ) -> List[Document] \| None` | Load source content. |
-| `load_folder()` | `load_folder( self: Any, library_id: str, folder_id: str ) -> List[Document] \| None` | Load provider folder content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( library_id: str ) -> List[Document] \| None` | Load source content. Loads SharePoint document-library content into LangChain Document objects. The method records library or folder identifiers, configures SharePointLoader, and returns retrieved documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `load_folder()` | `load_folder( library_id: str, folder_id: str ) -> List[Document] \| None` | Load provider folder content. Loads documents from a provider folder or document-library folder. The method records the folder identifiers, constructs the backing loader, and returns the loaded documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `PowerPointLoader`
 
-PowerPointLoader document loader wrapper.
-
-```python
-PowerPointLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 2328
-
-**Functional wrappers:** `fonky.load_powerpoint()`, `fonky.load_powerpoint_multiple()`
-
-### Public Methods
+PowerPointLoader document loader wrapper. Loads PowerPoint presentation files through the unstructured PowerPoint loader and returns slide content as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str, mode: str = 'single' ) -> List[Document] \| None` | Load source content. |
-| `load_multiple()` | `load_multiple( self: Any, path: str ) -> List[Document] \| None` | Load multiple presentation elements. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str, mode: str = 'single' ) -> List[Document] \| None` | Load source content. Loads a PowerPoint file into LangChain Document objects. The method validates the path, sets the extraction mode, constructs UnstructuredPowerPointLoader, and returns slide content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `load_multiple()` | `load_multiple( path: str ) -> List[Document] \| None` | Load multiple presentation elements. Loads PowerPoint content using the loader mode intended for multiple-document or multi-element extraction. The method validates the file path and stores the loaded presentation documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `OneDriveDocLoader`
 
-OneDriveDocLoader document loader wrapper.
-
-```python
-OneDriveDocLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 2477
-
-**Functional wrappers:** `fonky.load_onedrive()`
-
-### Public Methods
+OneDriveDocLoader document loader wrapper. Loads OneDrive document content by drive, folder path, or object identifiers through the OneDrive loader.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, drive_id: str, folder_path: Optional[str] = None, object_ids: Optional[List[str]] = None, auth_with_token: bool = True ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( drive_id: str, folder_path: Optional[str] = None, object_ids: Optional[List[str]] = None, auth_with_token: bool = True ) -> List[Document] \| None` | Load source content. Loads OneDrive documents by drive identifier, folder path, or object identifiers. The method builds loader keyword arguments from optional inputs, constructs OneDriveLoader, and returns loaded documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `EmailLoader`
 
-EmailLoader document loader wrapper.
-
-```python
-EmailLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 2616
-
-**Functional wrappers:** `fonky.load_email()`
-
-### Public Methods
+EmailLoader document loader wrapper. Loads email files through the unstructured email loader, including optional attachment processing.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str, mode: str = 'single', attachments: bool = True ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str, mode: str = 'single', attachments: bool = True ) -> List[Document] \| None` | Load source content. Loads an email file into LangChain Document objects. The method validates the path, configures email mode and attachment handling, constructs UnstructuredEmailLoader, and returns parsed email content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `JsonLoader`
 
-JsonLoader document loader wrapper.
-
-```python
-JsonLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 2735
-
-**Functional wrappers:** `fonky.load_json()`
-
-### Public Methods
+JsonLoader document loader wrapper. Loads JSON or JSON Lines files through JSONLoader using the configured jq schema and text-content settings.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, filepath: str, is_text: bool = True, is_lines: bool = False ) -> List[Document]` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( filepath: str, is_text: bool = True, is_lines: bool = False ) -> List[Document]` | Load source content. Loads JSON content into LangChain Document objects using the configured jq schema. The method validates the file path, records JSON parsing flags, constructs JSONLoader, and returns extracted document content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
 
 ## `GithubLoader`
 
-GithubLoader document loader wrapper.
-
-```python
-GithubLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 2860
-
-**Functional wrappers:** `fonky.load_github()`
-
-### Public Methods
+GithubLoader document loader wrapper. Loads repository files through GithubFileLoader using a repository, branch, GitHub API URL, and file-extension filter.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, url: str, repo: str, branch: str, filetype: str = '.md' ) -> List[Document]` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( url: str, repo: str, branch: str, filetype: str = '.md' ) -> List[Document]` | Load source content. Loads files from a GitHub repository through GithubFileLoader. The method records repository, branch, API URL, and file-extension filter values before returning matching repository documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
 
 ## `XmlLoader`
 
-XmlLoader document loader wrapper.
-
-```python
-XmlLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 3007
-
-**Functional wrappers:** `fonky.load_xml()`, `fonky.load_xml_tree()`
-
-### Public Methods
+XmlLoader document loader wrapper. Loads XML files as both unstructured documents and parsed element trees for XPath-based extraction workflows.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, filepath: str ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, size: int = 1000, amount: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
-| `load_tree()` | `load_tree( self: Any, filepath: str ) -> etree._ElementTree \| None` | Parse an XML element tree. |
-| `get_elements()` | `get_elements( self: Any, xpath: str ) -> List[etree._Element] \| None` | Return XML elements by XPath. |
+| `load()` | `load( filepath: str ) -> List[Document] \| None` | Load source content. Loads an XML file through UnstructuredXMLLoader and returns parsed XML content as LangChain Document objects. The method validates the path, constructs the loader, and stores loaded documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( size: int = 1000, amount: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
+| `load_tree()` | `load_tree( filepath: str ) -> etree._ElementTree \| None` | Parse an XML element tree. Parses a local XML file into an lxml element tree with recovery enabled. The method stores the tree, root element, and namespace mapping for later XPath extraction. etree._ElementTree \| None: Parsed XML element tree. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `get_elements()` | `get_elements( xpath: str ) -> List[etree._Element] \| None` | Return XML elements by XPath. Runs an XPath expression against the previously loaded XML root element. The method uses stored namespace metadata and returns matching lxml elements as a list. List[etree._Element] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
 
 ## `PubMedSearchLoader`
 
-PubMedSearchLoader document loader wrapper.
-
-```python
-PubMedSearchLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 3200
-
-**Functional wrappers:** `fonky.load_pubmed()`
-
-### Public Methods
+PubMedSearchLoader document loader wrapper. Queries PubMed through the LangChain PubMed loader and returns biomedical literature results as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, query: str, max_docs: int = 5 ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( query: str, max_docs: int = 5 ) -> List[Document] \| None` | Load source content. Runs a PubMed query and loads matching biomedical literature records as LangChain Document objects. The method records the query and maximum result count before returning retrieved documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `OpenCityLoader`
 
-OpenCityLoader document loader wrapper.
-
-```python
-OpenCityLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 3311
-
-**Functional wrappers:** `fonky.load_open_city()`
-
-### Public Methods
+OpenCityLoader document loader wrapper. Loads open city dataset records through OpenCityDataLoader and returns civic dataset content as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, city_id: str, dataset_id: str, limit: int = 100 ) -> List[Document]` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document]` | Split loaded documents. |
+| `load()` | `load( city_id: str, dataset_id: str, limit: int = 100 ) -> List[Document]` | Load source content. Loads records from an open city dataset into LangChain Document objects. The method validates city and dataset identifiers, enforces a positive limit, constructs OpenCityDataLoader, and returns dataset documents. List[Document]: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document]` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document]: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `JupyterNotebookLoader`
 
-JupyterNotebookLoader document loader wrapper.
-
-```python
-JupyterNotebookLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 3437
-
-**Functional wrappers:** `fonky.load_jupyter_notebook()`
-
-### Public Methods
+JupyterNotebookLoader document loader wrapper. Loads Jupyter notebooks through NotebookLoader with configurable output, traceback, newline, and output-length handling.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, path: str, include_outputs: bool = False, max_output_length: int = 10, remove_newline: bool = False, traceback: bool = False ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( path: str, include_outputs: bool = False, max_output_length: int = 10, remove_newline: bool = False, traceback: bool = False ) -> List[Document] \| None` | Load source content. Loads a Jupyter notebook into LangChain Document objects. The method validates the notebook path, records output and traceback settings, constructs NotebookLoader, and returns notebook content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `GoogleCloudFileLoader`
 
-GoogleCloudFileLoader document loader wrapper.
-
-```python
-GoogleCloudFileLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 3567
-
-**Functional wrappers:** `fonky.load_google_cloud_file()`
-
-### Public Methods
+GoogleCloudFileLoader document loader wrapper. Loads a single Google Cloud Storage blob through GCSFileLoader and returns the object content as LangChain Document objects.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, project_name: str, bucket: str, blob: str ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( project_name: str, bucket: str, blob: str ) -> List[Document] \| None` | Load source content. Loads a single Google Cloud Storage blob into LangChain Document objects. The method validates project, bucket, and blob values, constructs GCSFileLoader, and returns loaded object content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `AwsFileLoader`
 
-AwsFileLoader document loader wrapper.
-
-```python
-AwsFileLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 3688
-
-**Functional wrappers:** `fonky.load_aws_file()`
-
-### Public Methods
+AwsFileLoader document loader wrapper. Loads a single Amazon S3 object through S3FileLoader with optional AWS credential and region settings.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, bucket: str, key: str, aws_access_key_id: Optional[str] = None, aws_secret_access_key: Optional[str] = None, aws_session_token: Optional[str] = None, region_name: Optional[str] = None ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( bucket: str, key: str, aws_access_key_id: Optional[str] = None, aws_secret_access_key: Optional[str] = None, aws_session_token: Optional[str] = None, region_name: Optional[str] = None ) -> List[Document] \| None` | Load source content. Loads a single Amazon S3 object into LangChain Document objects. The method validates bucket and key values, applies optional AWS credentials and region settings, constructs S3FileLoader, and returns object content. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `GoogleSpeechToTextLoader`
 
-GoogleSpeechToTextLoader document loader wrapper.
-
-```python
-GoogleSpeechToTextLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 3836
-
-**Functional wrappers:** `fonky.load_google_speech_to_text()`
-
-### Public Methods
+GoogleSpeechToTextLoader document loader wrapper. Loads audio transcription output through SpeechToTextLoader using a Google Cloud project, file path, and optional recognition configuration.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, project_id: str, file_path: str, config: Optional[Dict[str, Any]] = None ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( project_id: str, file_path: str, config: Optional[Dict[str, Any]] = None ) -> List[Document] \| None` | Load source content. Loads speech-to-text transcription output into LangChain Document objects. The method validates project and file values, applies optional recognition configuration, constructs SpeechToTextLoader, and returns transcription documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `GoogleBucketLoader`
 
-GoogleBucketLoader document loader wrapper.
-
-```python
-GoogleBucketLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 3969
-
-**Functional wrappers:** `fonky.load_google_bucket()`
-
-### Public Methods
+GoogleBucketLoader document loader wrapper. Loads Google Cloud Storage bucket directories through GCSDirectoryLoader with optional prefix and failure-continuation behavior.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, project_name: str, bucket: str, prefix: Optional[str] = None, continue_on_failure: bool = False ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( project_name: str, bucket: str, prefix: Optional[str] = None, continue_on_failure: bool = False ) -> List[Document] \| None` | Load source content. Loads a Google Cloud Storage bucket directory into LangChain Document objects. The method validates project and bucket values, applies optional prefix and failure-continuation settings, constructs GCSDirectoryLoader, and returns loaded bucket documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
 
 ## `AwsBucketLoader`
 
-AwsBucketLoader document loader wrapper.
-
-```python
-AwsBucketLoader( self: Any ) -> None
-```
-
-**Source:** `loaders.py`, line 4099
-
-**Functional wrappers:** `fonky.load_aws_bucket()`
-
-### Public Methods
+AwsBucketLoader document loader wrapper. Loads Amazon S3 bucket directories through S3DirectoryLoader with optional prefix, credentials, region, and endpoint settings.
 
 | Method | Signature | Purpose |
 |---|---|---|
-| `load()` | `load( self: Any, bucket: str, prefix: Optional[str] = None, aws_access_key_id: Optional[str] = None, aws_secret_access_key: Optional[str] = None, aws_session_token: Optional[str] = None, region_name: Optional[str] = None, endpoint_url: Optional[str] = None ) -> List[Document] \| None` | Load source content. |
-| `split()` | `split( self: Any, chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. |
+| `load()` | `load( bucket: str, prefix: Optional[str] = None, aws_access_key_id: Optional[str] = None, aws_secret_access_key: Optional[str] = None, aws_session_token: Optional[str] = None, region_name: Optional[str] = None, endpoint_url: Optional[str] = None ) -> List[Document] \| None` | Load source content. Loads an Amazon S3 bucket directory into LangChain Document objects. The method validates bucket input, applies optional prefix, credential, region, and endpoint settings, constructs S3DirectoryLoader, and returns loaded bucket documents. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |
+| `split()` | `split( chunk: int = 1000, overlap: int = 200 ) -> List[Document] \| None` | Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] \| None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. |

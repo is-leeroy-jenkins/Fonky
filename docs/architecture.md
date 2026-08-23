@@ -1,71 +1,33 @@
 # Architecture
 
-Fonky separates implementation behavior from a consolidated functional API. `fonky.py` delegates; it does not recreate provider behavior.
-
-![Fonky Architecture](images/fonky-architecture.png)
+Fonky separates the public calling surface from provider-specific implementation behavior.
 
 ## Layers
 
-1. **Consumer code** — scripts, notebooks, applications, and future Tool orchestration.
-2. **`fonky.py`** — 110 typed module-level functions grouped into 9 domains.
-3. **Implementation modules** — `fetchers.py`, `loaders.py`, and `scrapers.py`.
-4. **External sources** — APIs, cloud services, local files, and web pages.
+| Layer | Responsibility |
+|---|---|
+| Consumer | Scripts, notebooks, applications, batch jobs, future Tools |
+| `fonky.py` | 110 typed one-shot wrapper functions |
+| `fetchers.py` | 49 remote/provider implementation classes |
+| `loaders.py` | 29 document/cloud ingestion classes |
+| `scrapers.py` | 2 focused HTML extraction classes |
 
-## Implementation Inventory
+## Wrapper lifecycle
 
-| Module | Classes | Responsibility |
-|---|---:|---|
-| `fetchers.py` | 49 | Remote APIs, search, public data, environment, maps, astronomy, archives |
-| `loaders.py` | 29 | Local files, Office formats, cloud files, repositories, web documents |
-| `scrapers.py` | 2 | HTML extraction and page-structure scraping |
+A wrapper validates only its ordinary Python call contract, creates the appropriate implementation object, invokes the target method, and returns the underlying result. Provider validation remains in the implementation class.
 
-## Execution Path
+## State
 
-![Wrapper Workflow](images/fonky-workflow.png)
+Functional calls create fresh instances. Multi-step workflows that depend on previously loaded documents or retained provider state should use a persistent implementation instance.
 
-```text
-fonky.scrape_tables()
-    ↓
-WebExtractor()
-    ↓
-WebExtractor.scrape_tables(uri=...)
-    ↓
-implementation behavior in scrapers.py
-    ↓
-result returned to caller
-```
+## Validation boundaries
 
-## Domain Organization
+Provider-specific limits belong in implementation classes. Google Search, for example, validates result and start bounds before issuing a request; mode-dispatching fetchers reject unsupported operations.
 
-| Domain | Wrappers |
-|---|---:|
-| Archives | 11 |
-| Astronomical | 10 |
-| Cloud | 8 |
-| Demographic | 5 |
-| Documents | 18 |
-| Environmental | 19 |
-| Geospatial | 10 |
-| Health | 4 |
-| Web | 25 |
+## Result contracts
 
-The domain sections are organizational. There is no runtime registry between a wrapper and its target class.
+Fonky intentionally preserves provider/loader result shapes instead of forcing a universal envelope. Typical outputs include dictionaries, row collections, text, extracted string collections, and LangChain `Document` objects.
 
-## Supporting Modules
+## Error boundaries
 
-- `config.py` supplies environment-driven configuration and request/provider descriptions.
-- `models.py` defines structured models and existing `ToolDef` infrastructure.
-- `processors.py` contains text processing outside the current wrapper scope.
-- `core.py` defines the core result model.
-
-## State and Lifecycle
-
-Each wrapper creates a fresh implementation instance. If a workflow intentionally depends on persistent instance state, instantiate the underlying class directly.
-
-## Error Boundary
-
-The wrapper layer returns implementation results directly and does not impose a second error envelope. Several implementation modules use the external `boogr` package for error/logging behavior.
-
-## Intentional Non-Goals
-
-The current design does not add a registry, global provider objects, factories, duplicated validation, or automatic Tool registration.
+Common failure classes are dependency errors, authentication/authorization failures, local filesystem errors, validation failures, timeouts, HTTP errors, malformed provider responses, and parse/extraction failures.

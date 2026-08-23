@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Python framework for data retrieval, document ingestion, web scraping, cloud access, and domain-oriented public-data workflows.">
+        <meta name="description" content="Data retrieval, document ingestion, scraping, cloud, public data, and scientific provider framework.">
       
       
       
@@ -22,7 +22,7 @@
         
       
       
-      <link rel="icon" href="../../images/favicon.ico">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#api-reference-processorspy" class="md-skip">
+        <a href="#api-processorspy" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,8 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="Fonky" class="md-header__button md-logo" aria-label="Fonky" data-md-component="logo">
       
-  <img src="../../images/fonky-logo.png" alt="logo">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -155,11 +156,6 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
-        
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
-            
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
-          </a>
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
@@ -292,17 +288,18 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../usage/" class="md-tabs__link">
-        
-  
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="../../user-guide/" class="md-tabs__link">
+          
   
-  Usage
+  
+  User Guide
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -312,13 +309,13 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../user-guide/" class="md-tabs__link">
+      <a href="../../troubleshooting/" class="md-tabs__link">
         
   
   
     
   
-  User Guide
+  Troubleshooting
 
       </a>
     </li>
@@ -340,6 +337,26 @@
   
   
   API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/" class="md-tabs__link">
+          
+  
+  
+  Development
 
         </a>
       </li>
@@ -371,7 +388,8 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="Fonky" class="md-nav__button md-logo" aria-label="Fonky" data-md-component="logo">
       
-  <img src="../../images/fonky-logo.png" alt="logo">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     Fonky
@@ -505,15 +523,33 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../usage/" class="md-nav__link">
+    
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
     
   
-    Usage
+    User Guide
   
 
     
@@ -521,13 +557,22 @@
   
   
 
-      </a>
-    </li>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
   
 
-    
-      
-      
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
   
   
   
@@ -540,7 +585,406 @@
   <span class="md-ellipsis">
     
   
-    User Guide
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/archives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/astronomical/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astronomical
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/demographic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demographic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/documents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/environmental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environmental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/geospatial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geospatial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/health/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results and Data Shapes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stateful vs Functional Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/dependencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dependencies and Credentials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/failures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Handling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
   
 
     
@@ -817,39 +1261,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#module-inventory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module Inventory
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-level-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module-Level Functions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#classes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Classes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#processor" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -869,23 +1280,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="TextParser">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#public-methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Public Methods
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -896,23 +1290,6 @@
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="NltkParser">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#public-methods_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Public Methods
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -960,14 +1337,243 @@
   
   
     <li class="md-nav__item">
-      <a href="../boogr/" class="md-nav__link">
+      <a href="../config/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Boogr Integration
+    Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/adding-fetcher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Fetcher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/adding-loader/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Loader
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/adding-scraper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Scraper
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/adding-wrapper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adding a Wrapper
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing and Validation
   
 
     
@@ -1015,39 +1621,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#module-inventory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module Inventory
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-level-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Module-Level Functions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#classes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Classes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#processor" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1067,23 +1640,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="TextParser">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#public-methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Public Methods
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1094,23 +1650,6 @@
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="NltkParser">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#public-methods_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Public Methods
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1182,74 +1721,37 @@
   
 
 
-<h1 id="api-reference-processorspy">API Reference: <code>processors.py</code><a class="headerlink" href="#api-reference-processorspy" title="Permanent link">&para;</a></h1>
-<p><code>processors.py</code> provides text-processing and parser classes. These are outside the current <code>fonky.py</code> wrapper scope.</p>
-<h2 id="module-inventory">Module Inventory<a class="headerlink" href="#module-inventory" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Classes:</strong> 3</li>
-<li><strong>Top-level functions:</strong> 1</li>
-</ul>
-<h2 id="module-level-functions">Module-Level Functions<a class="headerlink" href="#module-level-functions" title="Permanent link">&para;</a></h2>
+<h1 id="api-processorspy">API — <code>processors.py</code><a class="headerlink" href="#api-processorspy" title="Permanent link">&para;</a></h1>
 <table>
 <thead>
 <tr>
-<th>Function</th>
-<th>Signature</th>
+<th>Class</th>
+<th style="text-align: right;">Public methods</th>
 <th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>throw_if()</code></td>
-<td><code>throw_if( name: str, value: object ) -&gt; None</code></td>
-<td>Throw if.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Class</th>
-<th>Constructor</th>
-<th style="text-align: right;">Public Methods</th>
-<th style="text-align: right;">Functional Wrappers</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="#processor"><code>Processor</code></a></td>
-<td><code>Processor( self: Any ) -&gt; Any</code></td>
+<td><code>Processor</code></td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
+<td>Provide shared processor state. Initializes shared state and reusable NLP helpers used by text-processing subclasses. The class centralizes tokenizer, lemmatizer, stemmer, corpus, chunking, and intermediate text containers that derived processors reuse across cleaning, tokenization, and vectorization workflows.</td>
 </tr>
 <tr>
-<td><a href="#textparser"><code>TextParser</code></a></td>
-<td><code>TextParser( self: Any ) -&gt; Any</code></td>
+<td><code>TextParser</code></td>
 <td style="text-align: right;">32</td>
-<td style="text-align: right;">0</td>
+<td>Process and normalize text. Provides text-cleaning, markup-removal, tokenization, chunking, vocabulary, frequency, vectorization, and semantic-search utilities for Fonky processing workflows. The class transforms raw file and string inputs into normalized text, tabular artifacts, token lists, embeddings, and dataset-ready chunks.</td>
 </tr>
 <tr>
-<td><a href="#nltkparser"><code>NltkParser</code></a></td>
-<td><code>NltkParser( self: Any ) -&gt; None</code></td>
+<td><code>NltkParser</code></td>
 <td style="text-align: right;">9</td>
-<td style="text-align: right;">0</td>
+<td>Run NLTK parsing operations. Wraps NLTK tokenization, stemming, lemmatization, part-of-speech tagging, named-entity recognition, and token chunking routines. The class ensures required NLTK resources are available and exposes parser methods that return structured token, sentence, tag, and entity outputs.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="processor"><code>Processor</code><a class="headerlink" href="#processor" title="Permanent link">&para;</a></h2>
-<p>Provide shared processor state.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">Processor</span><span class="p">(</span> <span class="bp">self</span><span class="p">:</span> <span class="n">Any</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span>
-</span></code></pre></div>
-<p><strong>Source:</strong> <code>processors.py</code>, line 183</p>
-<p><strong>Functional wrappers:</strong> None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.</p>
+<p>Provide shared processor state. Initializes shared state and reusable NLP helpers used by text-processing subclasses. The class centralizes tokenizer, lemmatizer, stemmer, corpus, chunking, and intermediate text containers that derived processors reuse across cleaning, tokenization, and vectorization workflows.</p>
 <h2 id="textparser"><code>TextParser</code><a class="headerlink" href="#textparser" title="Permanent link">&para;</a></h2>
-<p>Process and normalize text.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">TextParser</span><span class="p">(</span> <span class="bp">self</span><span class="p">:</span> <span class="n">Any</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span>
-</span></code></pre></div>
-<p><strong>Source:</strong> <code>processors.py</code>, line 281</p>
-<p><strong>Functional wrappers:</strong> None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.</p>
-<h3 id="public-methods">Public Methods<a class="headerlink" href="#public-methods" title="Permanent link">&para;</a></h3>
+<p>Process and normalize text. Provides text-cleaning, markup-removal, tokenization, chunking, vocabulary, frequency, vectorization, and semantic-search utilities for Fonky processing workflows. The class transforms raw file and string inputs into normalized text, tabular artifacts, token lists, embeddings, and dataset-ready chunks.</p>
 <table>
 <thead>
 <tr>
@@ -1261,173 +1763,168 @@
 <tbody>
 <tr>
 <td><code>load_text()</code></td>
-<td><code>load_text( self: Any, filepath: str ) -&gt; str \| None</code></td>
-<td>Read UTF-8 text from a local file and return the raw string.</td>
+<td><code>load_text( filepath: str ) -&gt; str \| None</code></td>
+<td>Read UTF-8 text from a local file and return the raw string. Loads a local text file using UTF-8 with ignored decode errors so downstream cleaning routines can operate on a plain string. The method records the active file path and raises a project Error when the file cannot be read. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>collapse_whitespace()</code></td>
-<td><code>collapse_whitespace( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Normalize spacing by lowercasing text and collapsing repeated whitespace.</td>
+<td><code>collapse_whitespace( text: str ) -&gt; str \| None</code></td>
+<td>Normalize spacing by lowercasing text and collapsing repeated whitespace. Creates a compact lowercase representation of text by splitting on whitespace and joining tokens with single spaces. This prepares raw text for deterministic comparison, cleaning, and tokenization steps. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_punctuation()</code></td>
-<td><code>remove_punctuation( self: Any, text: str ) -&gt; str</code></td>
-<td>Strip punctuation from tokenized text while preserving word and spacing content.</td>
+<td><code>remove_punctuation( text: str ) -&gt; str</code></td>
+<td>Strip punctuation from tokenized text while preserving word and spacing content. Tokenizes lowercase text and removes punctuation marks from each token. The method preserves alphanumeric token content while returning a whitespace-joined string for later cleaning stages. str: Processed text value produced by the operation. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>normalize_text()</code></td>
-<td><code>normalize_text( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Convert text to lowercase for stable downstream comparison and tokenization.</td>
+<td><code>normalize_text( text: str ) -&gt; str \| None</code></td>
+<td>Convert text to lowercase for stable downstream comparison and tokenization. Converts text to lowercase without otherwise changing content. This provides a simple normalization stage for workflows that need case-insensitive matching or tokenization. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_errors()</code></td>
-<td><code>remove_errors( self: Any, text: str ) -&gt; str</code></td>
-<td>Filter tokens against the NLTK English words corpus.</td>
+<td><code>remove_errors( text: str ) -&gt; str</code></td>
+<td>Filter tokens against the NLTK English words corpus. Uses the NLTK English words corpus as a vocabulary filter and keeps only tokens recognized by that corpus. This reduces obvious OCR, spelling, and parsing artifacts before later analysis. str: Processed text value produced by the operation. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_fragments()</code></td>
-<td><code>remove_fragments( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Remove very short token fragments from normalized text.</td>
+<td><code>remove_fragments( text: str ) -&gt; str \| None</code></td>
+<td>Remove very short token fragments from normalized text. Removes short text fragments that are unlikely to be useful lexical units. This helps reduce noise produced by OCR, markup stripping, punctuation removal, and aggressive token cleanup. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_symbols()</code></td>
-<td><code>remove_symbols( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Remove configured symbol characters from normalized text.</td>
+<td><code>remove_symbols( text: str ) -&gt; str \| None</code></td>
+<td>Remove configured symbol characters from normalized text. Removes characters listed in the parser symbol set from lowercase text. This produces cleaner text for tokenization, word-frequency generation, and embedding workflows. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_html()</code></td>
-<td><code>remove_html( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Extract visible text from HTML markup.</td>
+<td><code>remove_html( text: str ) -&gt; str \| None</code></td>
+<td>Extract visible text from HTML markup. Parses HTML input with BeautifulSoup and extracts visible text content. This allows raw HTML fragments or pages to enter the same cleaning pipeline used for plain text. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_xml()</code></td>
-<td><code>remove_xml( self: Any, text: str ) -&gt; str</code></td>
-<td>Extract inner text from XML-like markup while recovering malformed fragments when possible.</td>
+<td><code>remove_xml( text: str ) -&gt; str</code></td>
+<td>Extract inner text from XML-like markup while recovering malformed fragments when possible. Wraps XML-like text in a temporary root node, parses it with recovery enabled, and concatenates element text and tail content. This retains readable content while discarding markup structure. str: Processed text value produced by the operation. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_markdown()</code></td>
-<td><code>remove_markdown( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Remove common Markdown links, image syntax, and formatting markers.</td>
+<td><code>remove_markdown( text: str ) -&gt; str \| None</code></td>
+<td>Remove common Markdown links, image syntax, and formatting markers. Removes common Markdown link, image, and inline-formatting syntax from lowercase text. This converts README-style or documentation-style content into cleaner text for downstream analysis. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_stopwords()</code></td>
-<td><code>remove_stopwords( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Remove English stop words from tokenized text.</td>
+<td><code>remove_stopwords( text: str ) -&gt; str \| None</code></td>
+<td>Remove English stop words from tokenized text. Tokenizes lowercase text and removes standard English stop words. This leaves a reduced token stream better suited for frequency analysis, vocabulary extraction, and embedding preparation. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_encodings()</code></td>
-<td><code>remove_encodings( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Resolve HTML entities, normalize Unicode characters, and remove control characters.</td>
+<td><code>remove_encodings( text: str ) -&gt; str \| None</code></td>
+<td>Resolve HTML entities, normalize Unicode characters, and remove control characters. Decodes common escaped sequences when possible, resolves HTML entities, normalizes Unicode to compatibility form, and strips control characters. This reduces text artifacts from scraped, copied, or encoded sources. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_headers()</code></td>
-<td><code>remove_headers( self: Any, filepath: str, lines: int = 50, headers: int = 3, footers: int = 3 ) -&gt; str \| None</code></td>
-<td>Detect and remove repeated page headers and footers from a text file.</td>
+<td><code>remove_headers( filepath: str, lines: int = 50, headers: int = 3, footers: int = 3 ) -&gt; str \| None</code></td>
+<td>Detect and remove repeated page headers and footers from a text file. Splits a text file into page-sized blocks and identifies repeated leading and trailing line groups. Matching header and footer blocks are removed to produce cleaner body text for analysis. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_numbers()</code></td>
-<td><code>remove_numbers( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Remove decimal digits from text.</td>
+<td><code>remove_numbers( text: str ) -&gt; str \| None</code></td>
+<td>Remove decimal digits from text. Removes digit sequences from lowercase text. This supports workflows that need lexical content without numeric values. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_numerals()</code></td>
-<td><code>remove_numerals( self: Any, text: str ) -&gt; str \| None</code></td>
-<td>Remove Roman-numeral patterns from text.</td>
+<td><code>remove_numerals( text: str ) -&gt; str \| None</code></td>
+<td>Remove Roman-numeral patterns from text. Applies the configured Roman-numeral expression to lowercase text and replaces matching numeral tokens with spaces. This reduces numbering artifacts in outlines, headings, and document sections. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>remove_images()</code></td>
-<td><code>remove_images( self: Any, text: str ) -&gt; str</code></td>
-<td>Remove Markdown image references, HTML image elements, and direct image URLs.</td>
+<td><code>remove_images( text: str ) -&gt; str</code></td>
+<td>Remove Markdown image references, HTML image elements, and direct image URLs. Removes Markdown image syntax, HTML image tags, and direct image URLs from text. This keeps descriptive text while excluding image-only references that do not support text processing. str: Processed text value produced by the operation. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>tiktokenize()</code></td>
-<td><code>tiktokenize( self: Any, text: str, encoding: str = 'cl100k_base' ) -&gt; DataFrame \| None</code></td>
-<td>Encode text with a tiktoken tokenizer and return token identifiers as tabular data.</td>
+<td><code>tiktokenize( text: str, encoding: str = 'cl100k_base' ) -&gt; DataFrame \| None</code></td>
+<td>Encode text with a tiktoken tokenizer and return token identifiers as tabular data. Encodes lowercase text using the requested tiktoken encoding and returns token identifiers in a pandas DataFrame. This supports token inspection and model-facing preprocessing workflows. DataFrame | None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>split_sentences()</code></td>
-<td><code>split_sentences( self: Any, text: str ) -&gt; List[str] \| None</code></td>
-<td>Split text into sentence strings using NLTK sentence tokenization.</td>
+<td><code>split_sentences( text: str ) -&gt; List[str] \| None</code></td>
+<td>Split text into sentence strings using NLTK sentence tokenization. Applies NLTK sentence tokenization to lowercase text and returns the resulting sentence list. This provides sentence boundaries for chunking, cleaning, and dataset generation workflows. List[ str ] | None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>split_pages()</code></td>
-<td><code>split_pages( self: Any, filepath: str, num: int = 50 ) -&gt; List[str] \| None</code></td>
-<td>Split a text file into page-sized text blocks.</td>
+<td><code>split_pages( filepath: str, num: int = 50 ) -&gt; List[str] \| None</code></td>
+<td>Split a text file into page-sized text blocks. Reads a plain-text file and splits it into page-sized blocks using form-feed characters when available or fixed line counts otherwise. The resulting list can be used for page- level cleaning and analysis. List[ str ] | None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>split_paragraphs()</code></td>
-<td><code>split_paragraphs( self: Any, filepath: str ) -&gt; DataFrame \| None</code></td>
-<td>Read a text file and return paragraph-like text blocks as tabular data.</td>
+<td><code>split_paragraphs( filepath: str ) -&gt; DataFrame \| None</code></td>
+<td>Read a text file and return paragraph-like text blocks as tabular data. Reads a text file and converts separated text blocks into a pandas DataFrame. The fallback Latin-1 branch preserves the ability to process files that fail UTF-8 decoding. DataFrame | None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>create_frequency_distribution()</code></td>
-<td><code>create_frequency_distribution( self: Any, tokens: List[str] ) -&gt; DataFrame \| None</code></td>
-<td>Build a word-frequency table from a token sequence.</td>
+<td><code>create_frequency_distribution( tokens: List[str] ) -&gt; DataFrame \| None</code></td>
+<td>Build a word-frequency table from a token sequence. Counts token occurrences with NLTK frequency distribution support and returns a labeled pandas DataFrame. The output provides a simple word-frequency table for analysis and reporting. DataFrame | None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>create_vocabulary()</code></td>
-<td><code>create_vocabulary( self: Any, tokens: List[str] ) -&gt; Series \| None</code></td>
-<td>Extract the vocabulary column from a token-frequency table.</td>
+<td><code>create_vocabulary( tokens: List[str] ) -&gt; Series \| None</code></td>
+<td>Extract the vocabulary column from a token-frequency table. Counts token occurrences and returns the unique token column as a pandas Series. This gives downstream routines a vocabulary list derived from the active token stream. Series | None: Pandas Series containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>create_wordbag()</code></td>
-<td><code>create_wordbag( self: Any, tokens: List[str] ) -&gt; DataFrame \| None</code></td>
-<td>Build a bag-of-words table from a token sequence.</td>
+<td><code>create_wordbag( tokens: List[str] ) -&gt; DataFrame \| None</code></td>
+<td>Build a bag-of-words table from a token sequence. Builds a bag-of-words representation by extracting unique terms from the token frequency distribution. The returned DataFrame supports simple vocabulary inspection and feature preparation. DataFrame | None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>create_vectors()</code></td>
-<td><code>create_vectors( self: Any, tokens: List[str] ) -&gt; DataFrame \| None</code></td>
-<td>Create TF-IDF vectors for token values.</td>
+<td><code>create_vectors( tokens: List[str] ) -&gt; DataFrame \| None</code></td>
+<td>Create TF-IDF vectors for token values. Builds one-token documents, fits a TF-IDF vectorizer, and maps each token to its vector representation. This supplies lightweight vector features for lexical comparison workflows. DataFrame | None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>clean_file()</code></td>
-<td><code>clean_file( self: Any, filepath: str ) -&gt; str \| None</code></td>
-<td>Apply the standard Fonky text-cleaning pipeline to a single file.</td>
+<td><code>clean_file( filepath: str ) -&gt; str \| None</code></td>
+<td>Apply the standard Fonky text-cleaning pipeline to a single file. Runs a single file through the parser cleaning pipeline, including whitespace normalization, encoding cleanup, symbol removal, fragment filtering, lemmatization, and stop-word removal. The method returns the cleaned text instead of writing a file. str | None: Processed text value when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>clean_files()</code></td>
-<td><code>clean_files( self: Any, source: str, destination: str ) -&gt; None</code></td>
-<td>Apply the standard Fonky text-cleaning pipeline to every file in a directory.</td>
+<td><code>clean_files( source: str, destination: str ) -&gt; None</code></td>
+<td>Apply the standard Fonky text-cleaning pipeline to every file in a directory. Processes every file in a source directory through the standard cleaning pipeline and writes cleaned text to a destination directory. This supports batch preparation of corpora before chunking or dataset creation. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>chunk_files()</code></td>
-<td><code>chunk_files( self: Any, source: str, destination: str ) -&gt; None</code></td>
-<td>Split text files into sentence chunks and write chunked output files.</td>
+<td><code>chunk_files( source: str, destination: str ) -&gt; None</code></td>
+<td>Split text files into sentence chunks and write chunked output files. Reads each file in a source directory, splits text into sentences, and writes the resulting sentence sequence to matching output files. This prepares cleaned corpora for chunk-based downstream workflows. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>chunk_data()</code></td>
-<td><code>chunk_data( self: Any, filepath: str, size: int = 10 ) -&gt; DataFrame \| None</code></td>
-<td>Chunk a single text file into fixed-size word groups represented as tabular data.</td>
+<td><code>chunk_data( filepath: str, size: int = 10 ) -&gt; DataFrame \| None</code></td>
+<td>Chunk a single text file into fixed-size word groups represented as tabular data. Reads a single text file, filters recognized English alphabetic tokens, groups them into fixed-size chunks, and returns the chunk rows as a DataFrame. This provides a compact dataset-ready representation of token groups. DataFrame | None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>chunk_datasets()</code></td>
-<td><code>chunk_datasets( self: Any, source: str, destination: str, size: int = 10 ) -&gt; DataFrame</code></td>
-<td>Clean and chunk a directory of text files into spreadsheet datasets.</td>
+<td><code>chunk_datasets( source: str, destination: str, size: int = 10 ) -&gt; DataFrame</code></td>
+<td>Clean and chunk a directory of text files into spreadsheet datasets. Processes all text files in a directory through cleaning, tokenization, fixed-size chunking, and Excel export. This creates spreadsheet datasets suitable for review, labeling, or later ingestion. DataFrame: Pandas DataFrame containing the processed output. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>convert_jsonl()</code></td>
-<td><code>convert_jsonl( self: Any, source: str, destination: str, size: int = 10 ) -&gt; None</code></td>
-<td>Convert text files into line-oriented JSON-like chunk output.</td>
+<td><code>convert_jsonl( source: str, destination: str, size: int = 10 ) -&gt; None</code></td>
+<td>Convert text files into line-oriented JSON-like chunk output. Splits text files into fixed-size token groups and writes each group using a JSON-like line-oriented representation. This supports quick conversion of raw text corpora into chunked training or testing artifacts. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>encode_sentences()</code></td>
-<td><code>encode_sentences( self: Any, tokens: List[str], model: str = 'all-MiniLM-L6-v2' ) -&gt; Tuple[List[str], np.ndarray]</code></td>
-<td>Generate sentence-transformer embeddings for normalized token values.</td>
+<td><code>encode_sentences( tokens: List[str], model: str = 'all-MiniLM-L6-v2' ) -&gt; Tuple[List[str], np.ndarray]</code></td>
+<td>Generate sentence-transformer embeddings for normalized token values. Lemmatizes token values and encodes them with a SentenceTransformer model. The returned tuple pairs token text with a NumPy embedding matrix for semantic-search workflows. Tuple[ List[ str ], np.ndarray ]: Token values paired with the generated embedding matrix. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>semantic_search()</code></td>
-<td><code>semantic_search( self: Any, query: str, tokens: List[str], embeddings: np.ndarray, model: SentenceTransformer, top: int = 5 ) -&gt; List[tuple[str, float]]</code></td>
-<td>Rank embedded tokens by semantic similarity to a query.</td>
+<td><code>semantic_search( query: str, tokens: List[str], embeddings: np.ndarray, model: SentenceTransformer, top: int = 5 ) -&gt; List[tuple[str, float]]</code></td>
+<td>Rank embedded tokens by semantic similarity to a query. Encodes the query with the supplied model, compares it with the embedding matrix using cosine similarity, and returns the highest-scoring token matches. This supports lightweight semantic retrieval over prepared token embeddings. List[ tuple[ str, float ] ]: Ranked token and similarity-score pairs. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="nltkparser"><code>NltkParser</code><a class="headerlink" href="#nltkparser" title="Permanent link">&para;</a></h2>
-<p>Run NLTK parsing operations.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">NltkParser</span><span class="p">(</span> <span class="bp">self</span><span class="p">:</span> <span class="n">Any</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</span></code></pre></div>
-<p><strong>Source:</strong> <code>processors.py</code>, line 1584</p>
-<p><strong>Functional wrappers:</strong> None. This class is infrastructure/base functionality or is not surfaced independently by the current functional API.</p>
-<h3 id="public-methods_1">Public Methods<a class="headerlink" href="#public-methods_1" title="Permanent link">&para;</a></h3>
+<p>Run NLTK parsing operations. Wraps NLTK tokenization, stemming, lemmatization, part-of-speech tagging, named-entity recognition, and token chunking routines. The class ensures required NLTK resources are available and exposes parser methods that return structured token, sentence, tag, and entity outputs.</p>
 <table>
 <thead>
 <tr>
@@ -1439,48 +1936,48 @@
 <tbody>
 <tr>
 <td><code>initialize_resources()</code></td>
-<td><code>initialize_resources( self: Any ) -&gt; None</code></td>
-<td>Ensure the NLTK corpora, tokenizers, taggers, and chunkers required by the parser are available.</td>
+<td><code>initialize_resources(  ) -&gt; None</code></td>
+<td>Ensure the NLTK corpora, tokenizers, taggers, and chunkers required by the parser are available. Checks for required NLTK resources and downloads missing packages. This prepares tokenization, lemmatization, tagging, and named-entity recognition routines for use by parser methods. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>word_tokenizer()</code></td>
-<td><code>word_tokenizer( self: Any, text: str ) -&gt; List[str] \| None</code></td>
-<td>Tokenize text into lowercased word tokens.</td>
+<td><code>word_tokenizer( text: str ) -&gt; List[str] \| None</code></td>
+<td>Tokenize text into lowercased word tokens. Lowercases text and tokenizes it into word tokens with NLTK. The resulting list is also stored on the parser instance for reuse by later NLTK operations. List[ str ] | None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>sentence_tokenizer()</code></td>
-<td><code>sentence_tokenizer( self: Any, text: str ) -&gt; List[str] \| None</code></td>
-<td>Tokenize text into lowercased sentence strings.</td>
+<td><code>sentence_tokenizer( text: str ) -&gt; List[str] \| None</code></td>
+<td>Tokenize text into lowercased sentence strings. Lowercases text and tokenizes it into sentence strings with NLTK. The resulting sentences are stored on the parser instance and returned to the caller. List[ str ] | None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>word_stemmer()</code></td>
-<td><code>word_stemmer( self: Any, text: str ) -&gt; List[str] \| None</code></td>
-<td>Stem lowercased word tokens with the configured Porter stemmer.</td>
+<td><code>word_stemmer( text: str ) -&gt; List[str] \| None</code></td>
+<td>Stem lowercased word tokens with the configured Porter stemmer. Lowercases text, tokenizes it, and applies Porter stemming to each non-empty token. This produces stemmed tokens for lexical normalization workflows. List[ str ] | None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>word_lemmatizer()</code></td>
-<td><code>word_lemmatizer( self: Any, text: str ) -&gt; List[str] \| None</code></td>
-<td>Lemmatize lowercased word tokens with the configured WordNet lemmatizer.</td>
+<td><code>word_lemmatizer( text: str ) -&gt; List[str] \| None</code></td>
+<td>Lemmatize lowercased word tokens with the configured WordNet lemmatizer. Lowercases text, tokenizes it, and applies WordNet lemmatization to each non-empty token. This produces normalized lexical forms suitable for downstream analysis. List[ str ] | None: List of processed text values when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>pos_tagger()</code></td>
-<td><code>pos_tagger( self: Any, text: str ) -&gt; List[Tuple[str, str]] \| None</code></td>
-<td>Assign part-of-speech tags to lowercased word tokens.</td>
+<td><code>pos_tagger( text: str ) -&gt; List[Tuple[str, str]] \| None</code></td>
+<td>Assign part-of-speech tags to lowercased word tokens. Lowercases and tokenizes text, then assigns NLTK part-of-speech tags to each token. The tagged sequence is stored on the instance and returned for syntactic analysis. List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>named_entity_recognition()</code></td>
-<td><code>named_entity_recognition( self: Any, text: str ) -&gt; List[Tuple[str, str]] \| None</code></td>
-<td>Extract named-entity text and entity labels from tagged tokens.</td>
+<td><code>named_entity_recognition( text: str ) -&gt; List[Tuple[str, str]] \| None</code></td>
+<td>Extract named-entity text and entity labels from tagged tokens. Lowercases text, tokenizes and tags it, then applies NLTK named-entity chunking. Entity text and labels are collected into tuples for downstream review or extraction workflows. List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>chunk_words()</code></td>
-<td><code>chunk_words( self: Any, text: str, size: int = 5 ) -&gt; DataFrame \| None</code></td>
-<td>Group word tokens into fixed-size chunks and return them as tabular data.</td>
+<td><code>chunk_words( text: str, size: int = 5 ) -&gt; DataFrame \| None</code></td>
+<td>Group word tokens into fixed-size chunks and return them as tabular data. Tokenizes lowercase text into words, groups the tokens into fixed-size chunks, and returns a DataFrame of chunk strings. This provides a simple word-level chunking utility for downstream vector or dataset generation. DataFrame | None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 <tr>
 <td><code>chunk_sentences()</code></td>
-<td><code>chunk_sentences( self: Any, text: str, size: int = 15 ) -&gt; DataFrame \| None</code></td>
-<td>Group sentence tokens into fixed-size chunks and return them as tabular data.</td>
+<td><code>chunk_sentences( text: str, size: int = 15 ) -&gt; DataFrame \| None</code></td>
+<td>Group sentence tokens into fixed-size chunks and return them as tabular data. Tokenizes lowercase text into sentences, groups the sentences into fixed-size chunks, and returns a DataFrame of chunk strings. This provides a sentence-level chunking utility for review or dataset preparation. DataFrame | None: Pandas DataFrame containing the processed output when the operation succeeds. Error: Re-raised after the underlying exception is wrapped in the project error type.</td>
 </tr>
 </tbody>
 </table>
@@ -1566,19 +2063,6 @@
   
 </div>
       
-        
-<div class="md-social">
-  
-    
-    
-    
-    
-    <a href="https://github.com/is-leeroy-jenkins/Fonky" target="_blank" rel="noopener" title="Fonky on GitHub" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
-    </a>
-  
-</div>
-      
     </div>
   </div>
 </footer>
@@ -1588,13 +2072,11 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
-    
     
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
