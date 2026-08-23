@@ -1,14 +1,14 @@
 # Getting Started
-
+![](images/fonky-workflow.png)
 ## Prerequisites
 
-| Requirement | Why It Matters |
-|---|---|
-| Python 3.11+ | Runs Fonky and its integration libraries. |
-| Git | Clones and updates the repository. |
-| Virtual environment | Isolates Fonky's broad dependency set. |
-| Provider credentials | Required only for providers you actually call. |
-| Browser runtime | Required for Playwright-backed web rendering/crawling. |
+| Requirement          | Why It Matters                                         |
+|----------------------|--------------------------------------------------------|
+| Python 3.11+         | Runs Fonky and its integration libraries.              |
+| Git                  | Clones and updates the repository.                     |
+| Virtual environment  | Isolates Fonky's broad dependency set.                 |
+| Provider credentials | Required only for providers you actually call.         |
+| Browser runtime      | Required for Playwright-backed web rendering/crawling. |
 
 ## Create the Environment
 

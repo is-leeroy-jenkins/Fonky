@@ -1,4 +1,6 @@
-# Fonky
+![](images/fonky_project.png)
+
+___
 
 Fonky is a reusable Python integration framework for **retrieval, document ingestion, web extraction,
 cloud loading, public-data access, environmental/geospatial analysis, astronomy, demographics, and

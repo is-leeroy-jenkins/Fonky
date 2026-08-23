@@ -27,8 +27,6 @@ for loaders because the base loader stores loaded documents and split configurat
 
 ## Failure Boundaries
 
-![Failure boundaries](images/failure-boundaries.png)
-
 A failure can occur before the provider is ever contacted:
 
 1. missing Python dependency;
@@ -44,7 +42,6 @@ The wrapper layer should not hide which boundary failed.
 
 ## Result Contracts
 
-![Result shapes](images/result-shapes.png)
 
 Fonky preserves provider/loader-specific results. Common families are `Document` collections,
 dictionaries, lists of records, strings, extracted string lists, images/files, and provider-shaped
@@ -52,7 +49,7 @@ objects.
 
 ## Extension Boundary
 
-![Extension workflow](images/extension-workflow.png)
+![Extension workflow](images/fonky-workflow.png)
 
 New provider behavior belongs in the implementation class first. A `fonky.py` wrapper is added only
 after that behavior has a clear public one-shot use case.
