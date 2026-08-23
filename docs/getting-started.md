@@ -1,5 +1,5 @@
 # Getting Started
-![](images/fonky-workflow.png)
+![](images/fonky-classmap.png)
 ## Prerequisites
 
 | Requirement          | Why It Matters                                         |

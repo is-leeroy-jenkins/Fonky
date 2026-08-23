@@ -1,38 +1,42 @@
 # API — `loaders.py`
 
+![](images/fonky-loaders.png)
+
+___
+
 ## Classes
 
-| Class | Public Methods | Purpose |
-|---|---:|---|
-| `Loader` | 4 | Loader document loader wrapper. Provides shared path validation, path expansion, document loading support, and document splitting behavior used by concrete LangChain loader wrappers. |
-| `TextLoader` | 2 | TextLoader document loader wrapper. Loads local plain-text files into LangChain Document objects and prepares those documents for chunking workflows. |
-| `CsvLoader` | 2 | CsvLoader document loader wrapper. Loads comma-separated or delimiter-separated files into LangChain Document objects with configurable encoding, source-column, delimiter, and quote-character behavior. |
-| `WebLoader` | 4 | WebLoader document loader wrapper. Loads documents from one or more web pages, with optional recursive URL traversal and same-domain filtering for bounded web ingestion workflows. |
-| `PdfReader` | 2 | PdfReader document loader wrapper. Loads PDF files with PyPDFLoader and provides a base PDF reading path for simpler page or single-document extraction workflows. |
-| `PdfLoader` | 4 | PdfLoader document loader wrapper. Extends PDF loading with extraction-mode, image-inclusion, image-format, and chunk-size settings for richer PDF ingestion workflows. |
-| `ExcelLoader` | 3 | ExcelLoader document loader wrapper. Loads Excel workbooks through the unstructured Excel loader and exposes the loaded workbook content as LangChain Document objects. |
-| `WordLoader` | 2 | WordLoader document loader wrapper. Loads Microsoft Word documents through Docx2txtLoader and returns the extracted document text as LangChain Document objects. |
-| `MarkdownLoader` | 2 | MarkdownLoader document loader wrapper. Loads local Markdown files with the unstructured Markdown loader and returns parsed content as LangChain Document objects. |
-| `HtmlLoader` | 2 | HtmlLoader document loader wrapper. Loads local HTML files with the unstructured HTML loader and returns parsed page content as LangChain Document objects. |
-| `ArXivLoader` | 2 | ArXivLoader document loader wrapper. Queries ArXiv through the LangChain ArxivLoader and returns scholarly search results as LangChain Document objects. |
-| `WikiLoader` | 2 | WikiLoader document loader wrapper. Queries Wikipedia through the LangChain WikipediaLoader and returns encyclopedia search results as LangChain Document objects. |
-| `GoogleDriveLoader` | 4 | GoogleDriveLoader document loader wrapper. Loads files or folders from Google Drive through the Google Drive loader and returns accessible Drive content as LangChain Document objects. |
-| `OutlookLoader` | 2 | OutlookLoader document loader wrapper. Loads Outlook message files and returns their email content as LangChain Document objects. |
-| `SpfxLoader` | 3 | SpfxLoader document loader wrapper. Loads SharePoint document-library content through the SharePoint loader, including full-library and folder-scoped retrieval paths. |
-| `PowerPointLoader` | 3 | PowerPointLoader document loader wrapper. Loads PowerPoint presentation files through the unstructured PowerPoint loader and returns slide content as LangChain Document objects. |
-| `OneDriveDocLoader` | 2 | OneDriveDocLoader document loader wrapper. Loads OneDrive document content by drive, folder path, or object identifiers through the OneDrive loader. |
-| `EmailLoader` | 2 | EmailLoader document loader wrapper. Loads email files through the unstructured email loader, including optional attachment processing. |
-| `JsonLoader` | 2 | JsonLoader document loader wrapper. Loads JSON or JSON Lines files through JSONLoader using the configured jq schema and text-content settings. |
-| `GithubLoader` | 2 | GithubLoader document loader wrapper. Loads repository files through GithubFileLoader using a repository, branch, GitHub API URL, and file-extension filter. |
-| `XmlLoader` | 4 | XmlLoader document loader wrapper. Loads XML files as both unstructured documents and parsed element trees for XPath-based extraction workflows. |
-| `PubMedSearchLoader` | 2 | PubMedSearchLoader document loader wrapper. Queries PubMed through the LangChain PubMed loader and returns biomedical literature results as LangChain Document objects. |
-| `OpenCityLoader` | 2 | OpenCityLoader document loader wrapper. Loads open city dataset records through OpenCityDataLoader and returns civic dataset content as LangChain Document objects. |
-| `JupyterNotebookLoader` | 2 | JupyterNotebookLoader document loader wrapper. Loads Jupyter notebooks through NotebookLoader with configurable output, traceback, newline, and output-length handling. |
-| `GoogleCloudFileLoader` | 2 | GoogleCloudFileLoader document loader wrapper. Loads a single Google Cloud Storage blob through GCSFileLoader and returns the object content as LangChain Document objects. |
-| `AwsFileLoader` | 2 | AwsFileLoader document loader wrapper. Loads a single Amazon S3 object through S3FileLoader with optional AWS credential and region settings. |
-| `GoogleSpeechToTextLoader` | 2 | GoogleSpeechToTextLoader document loader wrapper. Loads audio transcription output through SpeechToTextLoader using a Google Cloud project, file path, and optional recognition configuration. |
-| `GoogleBucketLoader` | 2 | GoogleBucketLoader document loader wrapper. Loads Google Cloud Storage bucket directories through GCSDirectoryLoader with optional prefix and failure-continuation behavior. |
-| `AwsBucketLoader` | 2 | AwsBucketLoader document loader wrapper. Loads Amazon S3 bucket directories through S3DirectoryLoader with optional prefix, credentials, region, and endpoint settings. |
+| Class                      | Public Methods | Purpose                                                                                                                                                                                                   |
+|----------------------------|---------------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Loader`                   |              4 | Loader document loader wrapper. Provides shared path validation, path expansion, document loading support, and document splitting behavior used by concrete LangChain loader wrappers.                    |
+| `TextLoader`               |              2 | TextLoader document loader wrapper. Loads local plain-text files into LangChain Document objects and prepares those documents for chunking workflows.                                                     |
+| `CsvLoader`                |              2 | CsvLoader document loader wrapper. Loads comma-separated or delimiter-separated files into LangChain Document objects with configurable encoding, source-column, delimiter, and quote-character behavior. |
+| `WebLoader`                |              4 | WebLoader document loader wrapper. Loads documents from one or more web pages, with optional recursive URL traversal and same-domain filtering for bounded web ingestion workflows.                       |
+| `PdfReader`                |              2 | PdfReader document loader wrapper. Loads PDF files with PyPDFLoader and provides a base PDF reading path for simpler page or single-document extraction workflows.                                        |
+| `PdfLoader`                |              4 | PdfLoader document loader wrapper. Extends PDF loading with extraction-mode, image-inclusion, image-format, and chunk-size settings for richer PDF ingestion workflows.                                   |
+| `ExcelLoader`              |              3 | ExcelLoader document loader wrapper. Loads Excel workbooks through the unstructured Excel loader and exposes the loaded workbook content as LangChain Document objects.                                   |
+| `WordLoader`               |              2 | WordLoader document loader wrapper. Loads Microsoft Word documents through Docx2txtLoader and returns the extracted document text as LangChain Document objects.                                          |
+| `MarkdownLoader`           |              2 | MarkdownLoader document loader wrapper. Loads local Markdown files with the unstructured Markdown loader and returns parsed content as LangChain Document objects.                                        |
+| `HtmlLoader`               |              2 | HtmlLoader document loader wrapper. Loads local HTML files with the unstructured HTML loader and returns parsed page content as LangChain Document objects.                                               |
+| `ArXivLoader`              |              2 | ArXivLoader document loader wrapper. Queries ArXiv through the LangChain ArxivLoader and returns scholarly search results as LangChain Document objects.                                                  |
+| `WikiLoader`               |              2 | WikiLoader document loader wrapper. Queries Wikipedia through the LangChain WikipediaLoader and returns encyclopedia search results as LangChain Document objects.                                        |
+| `GoogleDriveLoader`        |              4 | GoogleDriveLoader document loader wrapper. Loads files or folders from Google Drive through the Google Drive loader and returns accessible Drive content as LangChain Document objects.                   |
+| `OutlookLoader`            |              2 | OutlookLoader document loader wrapper. Loads Outlook message files and returns their email content as LangChain Document objects.                                                                         |
+| `SpfxLoader`               |              3 | SpfxLoader document loader wrapper. Loads SharePoint document-library content through the SharePoint loader, including full-library and folder-scoped retrieval paths.                                    |
+| `PowerPointLoader`         |              3 | PowerPointLoader document loader wrapper. Loads PowerPoint presentation files through the unstructured PowerPoint loader and returns slide content as LangChain Document objects.                         |
+| `OneDriveDocLoader`        |              2 | OneDriveDocLoader document loader wrapper. Loads OneDrive document content by drive, folder path, or object identifiers through the OneDrive loader.                                                      |
+| `EmailLoader`              |              2 | EmailLoader document loader wrapper. Loads email files through the unstructured email loader, including optional attachment processing.                                                                   |
+| `JsonLoader`               |              2 | JsonLoader document loader wrapper. Loads JSON or JSON Lines files through JSONLoader using the configured jq schema and text-content settings.                                                           |
+| `GithubLoader`             |              2 | GithubLoader document loader wrapper. Loads repository files through GithubFileLoader using a repository, branch, GitHub API URL, and file-extension filter.                                              |
+| `XmlLoader`                |              4 | XmlLoader document loader wrapper. Loads XML files as both unstructured documents and parsed element trees for XPath-based extraction workflows.                                                          |
+| `PubMedSearchLoader`       |              2 | PubMedSearchLoader document loader wrapper. Queries PubMed through the LangChain PubMed loader and returns biomedical literature results as LangChain Document objects.                                   |
+| `OpenCityLoader`           |              2 | OpenCityLoader document loader wrapper. Loads open city dataset records through OpenCityDataLoader and returns civic dataset content as LangChain Document objects.                                       |
+| `JupyterNotebookLoader`    |              2 | JupyterNotebookLoader document loader wrapper. Loads Jupyter notebooks through NotebookLoader with configurable output, traceback, newline, and output-length handling.                                   |
+| `GoogleCloudFileLoader`    |              2 | GoogleCloudFileLoader document loader wrapper. Loads a single Google Cloud Storage blob through GCSFileLoader and returns the object content as LangChain Document objects.                               |
+| `AwsFileLoader`            |              2 | AwsFileLoader document loader wrapper. Loads a single Amazon S3 object through S3FileLoader with optional AWS credential and region settings.                                                             |
+| `GoogleSpeechToTextLoader` |              2 | GoogleSpeechToTextLoader document loader wrapper. Loads audio transcription output through SpeechToTextLoader using a Google Cloud project, file path, and optional recognition configuration.            |
+| `GoogleBucketLoader`       |              2 | GoogleBucketLoader document loader wrapper. Loads Google Cloud Storage bucket directories through GCSDirectoryLoader with optional prefix and failure-continuation behavior.                              |
+| `AwsBucketLoader`          |              2 | AwsBucketLoader document loader wrapper. Loads Amazon S3 bucket directories through S3DirectoryLoader with optional prefix, credentials, region, and endpoint settings.                                   |
 
 ## `Loader`
 

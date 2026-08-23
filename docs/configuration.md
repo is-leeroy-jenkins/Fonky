@@ -1,37 +1,37 @@
 # Configuration
-
+![](images/fonky-api.png)
 Fonky centralizes environment-derived credentials and runtime settings in `config.py`. Configuration
 is intentionally optional at import time: **configure the services you use, not every service Fonky
 knows about**.
 
 ## Provider Credentials Used by Current Fonky Capabilities
 
-| Variable | Used By | Required When | Value / Format | Purpose |
-|---|---|---|---|---|
-| `AIRNOW_API_KEY` | `AirNow` | AirNow observations/forecasts | `API key string` | Authenticates AirNow requests. |
-| `CENSUS_API_KEY` | `CensusData` | Census API use where a key is required or beneficial | `API key string` | Authenticates U.S. Census API requests. |
-| `CONGRESS_API_KEY` | `Congress` | Congress.gov API calls | `API key string` | Authenticates Congress, bill, law, and report retrieval. |
-| `FIRMS_MAP_KEY` | `Firms` | NASA FIRMS fire/hotspot retrieval | `MAP_KEY string` | Authorizes FIRMS area/point data access. |
-| `GOOGLE_API_KEY` | `GoogleSearch / Google integrations` | Google API-backed calls | `API key string` | General Google API credential used by supported integrations. |
-| `GOOGLE_CSE_ID` | `GoogleSearch` | Google Custom Search | `Programmable Search Engine ID` | Identifies the Custom Search Engine to query. |
-| `GOOGLE_WEATHER_API_KEY` | `GoogleWeather` | Google Weather calls | `API key string` | Authenticates Google Weather requests. |
-| `GOOGLE_ACCOUNT_CREDENTIALS` | `Google Drive / GCP integrations` | Service-account based Google workflows | `Credential file/path or configured value` | Provides Google account/service credentials. |
-| `GOOGLE_DRIVE_TOKEN_PATH` | `Google Drive` | OAuth-backed Google Drive access | `Filesystem path` | Locates persisted OAuth token material. |
-| `GOOGLE_DRIVE_FOLDER_ID` | `Google Drive` | Default Drive folder workflows | `Drive folder ID` | Identifies a default Drive folder. |
-| `GOOGLE_CLOUD_PROJECT_ID` | `Google Cloud` | GCP-backed loaders/services | `Project ID` | Selects the Google Cloud project. |
-| `NASA_API_KEY` | `SpaceWeather / NASA-backed services` | NASA APIs requiring a key | `API key string` | Authenticates supported NASA API calls. |
-| `NASA_EARTHDATA_TOKEN` | `NASA Earthdata` | Earthdata-protected resources | `Bearer token` | Authenticates NASA Earthdata access. |
-| `OPENAQ_API_KEY` | `OpenAQ` | OpenAQ air-quality data | `API key string` | Authenticates OpenAQ requests where required. |
-| `PURPLEAIR_API_KEY` | `PurpleAir` | PurpleAir sensor queries | `API key string` | Authenticates PurpleAir API requests. |
-| `SOCRATA_API_KEY` | `Socrata / HealthData` | Socrata-backed datasets | `Application token/API key` | Provides authenticated/higher-limit Socrata access. |
-| `THENEWSAPI_API_KEY` | `TheNews` | TheNewsAPI requests | `API key string` | Authenticates news search/headline retrieval. |
-| `OPENSKY_API_CLIENT_ID` | `OpenSky` | Authenticated OpenSky workflows | `OAuth client ID` | Identifies the OpenSky API client. |
-| `OPENSKY_API_CREDENTIALS` | `OpenSky` | Authenticated OpenSky workflows | `Credential/secret value` | Supplies OpenSky authentication material. |
-| `O365_CLIENT_ID` | `OneDrive / Microsoft 365` | OneDrive/O365 authentication | `Application client ID` | Identifies the Microsoft application. |
-| `O365_CLIENT_SECRET` | `OneDrive / Microsoft 365` | OneDrive/O365 authentication | `Client secret` | Authenticates the Microsoft application. |
-| `GEOAPIFY_API_KEY` | `Geospatial integrations` | Geoapify-backed geospatial calls | `API key string` | Authenticates Geoapify requests where used. |
-| `GEOCODING_API_KEY` | `Geocoding integration` | Configured geocoding provider | `API key string` | Authenticates configured geocoding requests. |
-| `USGS_API_KEY` | `USGS integrations` | USGS endpoints requiring/accepting a key | `API key string` | Provides USGS API authentication where applicable. |
+| Variable                     | Used By                               | Required When                                        | Value / Format                             | Purpose                                                       |
+|------------------------------|---------------------------------------|------------------------------------------------------|--------------------------------------------|---------------------------------------------------------------|
+| `AIRNOW_API_KEY`             | `AirNow`                              | AirNow observations/forecasts                        | `API key string`                           | Authenticates AirNow requests.                                |
+| `CENSUS_API_KEY`             | `CensusData`                          | Census API use where a key is required or beneficial | `API key string`                           | Authenticates U.S. Census API requests.                       |
+| `CONGRESS_API_KEY`           | `Congress`                            | Congress.gov API calls                               | `API key string`                           | Authenticates Congress, bill, law, and report retrieval.      |
+| `FIRMS_MAP_KEY`              | `Firms`                               | NASA FIRMS fire/hotspot retrieval                    | `MAP_KEY string`                           | Authorizes FIRMS area/point data access.                      |
+| `GOOGLE_API_KEY`             | `GoogleSearch / Google integrations`  | Google API-backed calls                              | `API key string`                           | General Google API credential used by supported integrations. |
+| `GOOGLE_CSE_ID`              | `GoogleSearch`                        | Google Custom Search                                 | `Programmable Search Engine ID`            | Identifies the Custom Search Engine to query.                 |
+| `GOOGLE_WEATHER_API_KEY`     | `GoogleWeather`                       | Google Weather calls                                 | `API key string`                           | Authenticates Google Weather requests.                        |
+| `GOOGLE_ACCOUNT_CREDENTIALS` | `Google Drive / GCP integrations`     | Service-account based Google workflows               | `Credential file/path or configured value` | Provides Google account/service credentials.                  |
+| `GOOGLE_DRIVE_TOKEN_PATH`    | `Google Drive`                        | OAuth-backed Google Drive access                     | `Filesystem path`                          | Locates persisted OAuth token material.                       |
+| `GOOGLE_DRIVE_FOLDER_ID`     | `Google Drive`                        | Default Drive folder workflows                       | `Drive folder ID`                          | Identifies a default Drive folder.                            |
+| `GOOGLE_CLOUD_PROJECT_ID`    | `Google Cloud`                        | GCP-backed loaders/services                          | `Project ID`                               | Selects the Google Cloud project.                             |
+| `NASA_API_KEY`               | `SpaceWeather / NASA-backed services` | NASA APIs requiring a key                            | `API key string`                           | Authenticates supported NASA API calls.                       |
+| `NASA_EARTHDATA_TOKEN`       | `NASA Earthdata`                      | Earthdata-protected resources                        | `Bearer token`                             | Authenticates NASA Earthdata access.                          |
+| `OPENAQ_API_KEY`             | `OpenAQ`                              | OpenAQ air-quality data                              | `API key string`                           | Authenticates OpenAQ requests where required.                 |
+| `PURPLEAIR_API_KEY`          | `PurpleAir`                           | PurpleAir sensor queries                             | `API key string`                           | Authenticates PurpleAir API requests.                         |
+| `SOCRATA_API_KEY`            | `Socrata / HealthData`                | Socrata-backed datasets                              | `Application token/API key`                | Provides authenticated/higher-limit Socrata access.           |
+| `THENEWSAPI_API_KEY`         | `TheNews`                             | TheNewsAPI requests                                  | `API key string`                           | Authenticates news search/headline retrieval.                 |
+| `OPENSKY_API_CLIENT_ID`      | `OpenSky`                             | Authenticated OpenSky workflows                      | `OAuth client ID`                          | Identifies the OpenSky API client.                            |
+| `OPENSKY_API_CREDENTIALS`    | `OpenSky`                             | Authenticated OpenSky workflows                      | `Credential/secret value`                  | Supplies OpenSky authentication material.                     |
+| `O365_CLIENT_ID`             | `OneDrive / Microsoft 365`            | OneDrive/O365 authentication                         | `Application client ID`                    | Identifies the Microsoft application.                         |
+| `O365_CLIENT_SECRET`         | `OneDrive / Microsoft 365`            | OneDrive/O365 authentication                         | `Client secret`                            | Authenticates the Microsoft application.                      |
+| `GEOAPIFY_API_KEY`           | `Geospatial integrations`             | Geoapify-backed geospatial calls                     | `API key string`                           | Authenticates Geoapify requests where used.                   |
+| `GEOCODING_API_KEY`          | `Geocoding integration`               | Configured geocoding provider                        | `API key string`                           | Authenticates configured geocoding requests.                  |
+| `USGS_API_KEY`               | `USGS integrations`                   | USGS endpoints requiring/accepting a key             | `API key string`                           | Provides USGS API authentication where applicable.            |
 
 ## Example — Google Custom Search
 
