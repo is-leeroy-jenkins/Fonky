@@ -1,82 +1,84 @@
-site_name: Fonky Documentation
-site_description: Documentation for the Fonky Python framework.
-site_author: Terry D. Eppler
+site_name: Fonky
+site_description: Python framework for data retrieval, document ingestion, web scraping, cloud access, and domain-oriented public-data workflows.
 site_url: https://is-leeroy-jenkins.github.io/Fonky/
-
-repo_url: https://github.com/is-leeroy-jenkins/Fonky
 repo_name: is-leeroy-jenkins/Fonky
-
-
-plugins:
-  - search
-  - mkdocstrings:
-      handlers:
-        python:
-          paths:
-            - .
-          options:
-            docstring_style: google
-            show_source: true
-            show_root_heading: true
-            show_root_full_path: false
-            show_signature: true
-            show_signature_annotations: true
-            separate_signature: true
-            merge_init_into_class: false
-            members_order: source
-            filters:
-              - "!^_"
-            heading_level: 2
-
-markdown_extensions:
-  - admonition
-  - attr_list
-  - md_in_html
-  - toc:
-      permalink: true
-      toc_depth: 3
-  - tables
-  - footnotes
-  - pymdownx.details
-  - pymdownx.superfences
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.tabbed:
-      alternate_style: true
-
+repo_url: https://github.com/is-leeroy-jenkins/Fonky
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: site
+strict: true
+theme:
+  name: material
+  language: en
+  favicon: images/favicon.ico
+  logo: images/fonky-logo.png
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+    - search.share
+  palette:
+    - scheme: slate
+      primary: blue
+      accent: light blue
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Configuration: configuration.md
   - Architecture: architecture.md
-  - Usage Examples: usage.md
+  - Usage: usage.md
   - User Guide: user-guide.md
-  - Core: api/core.md
-  - Models: api/models.md
-  - Loaders: api/loaders.md
-  - Fetchers: api/fetchers.md
-  - Scrapers: api/scrapers.md
-  - Processors: api/processors.md
-  - Boogr: api/boogr.md
-
-theme:
-  name: material
-  language: en
-  logo: images/fonky-logo.png
-  favicon: images/favicon.ico
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.top
-    - search.highlight
-    - search.suggest
-    - content.code.copy
-
+  - API Reference:
+      - Functional API: api/fonky.md
+      - Fetchers: api/fetchers.md
+      - Loaders: api/loaders.md
+      - Scrapers: api/scrapers.md
+      - Models: api/models.md
+      - Processors: api/processors.md
+      - Core: api/core.md
+      - Boogr Integration: api/boogr.md
+plugins:
+  - search
 extra_css:
-  - stylesheets/extra.css
-
-extra_javascript:
-  - javascripts/extra.js
+  - stylesheets/fonky.css
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/is-leeroy-jenkins/Fonky
+      name: Fonky on GitHub
