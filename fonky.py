@@ -848,7 +848,8 @@ def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='ac
     return _instance.fetch( mode=mode, year=year, dataset=dataset, fields=fields, geography_for=geography_for, geography_in=geography_in, predicates=predicates, time=time )
 
 def fetch_socrata( mode: str='rows', domain: str='data.cdc.gov', dataset_id: str='',
-		select: str='', where: str='', order: str='', group: str='', limit: int=25, offset: int=0, time: int=20 ) -> Any:
+		select: str='', where: str='', order: str='', group: str='', limit: int=25,
+		offset: int=0, time: int=20 ) -> Any:
     """Fetch Socrata dataset metadata and row retrieval.
 
     Purpose:
