@@ -1,33 +1,58 @@
 # Architecture
 
-Fonky separates the public calling surface from provider-specific implementation behavior.
+Fonky's architecture is intentionally split between **public call ergonomics** and **provider/format
+implementation behavior**.
 
-## Layers
+![Architecture and responsibility boundaries](images/architecture.png)
 
-| Layer | Responsibility |
-|---|---|
-| Consumer | Scripts, notebooks, applications, batch jobs, future Tools |
-| `fonky.py` | 110 typed one-shot wrapper functions |
-| `fetchers.py` | 49 remote/provider implementation classes |
-| `loaders.py` | 29 document/cloud ingestion classes |
-| `scrapers.py` | 2 focused HTML extraction classes |
+## Responsibilities
 
-## Wrapper lifecycle
+| Layer | Owns | Does Not Own |
+|---|---|---|
+| `fonky.py` | Typed public functions, argument exposure, one-shot instance lifecycle | Provider protocol details, response parsing, loader internals |
+| `fetchers.py` | HTTP endpoints, provider validation, authentication inputs, API request/response shaping | Application UI or cross-provider orchestration |
+| `loaders.py` | Source/file loading, document conversion, format integration, loader state | General remote API semantics |
+| `scrapers.py` | HTML retrieval and structural extraction | General crawling orchestration beyond its extraction responsibilities |
+| `config.py` | Environment-derived settings and credentials | Provider business logic |
 
-A wrapper validates only its ordinary Python call contract, creates the appropriate implementation object, invokes the target method, and returns the underlying result. Provider validation remains in the implementation class.
+## Functional Calls Versus Retained Instances
 
-## State
+A wrapper creates a fresh implementation object and performs one operation. That is ideal for normal
+application calls such as `fetch_air_now()`, `load_pdf()`, or `scrape_tables()`.
 
-Functional calls create fresh instances. Multi-step workflows that depend on previously loaded documents or retained provider state should use a persistent implementation instance.
+Use the class directly when a workflow depends on retained state or helper methods. This matters most
+for loaders because the base loader stores loaded documents and split configuration.
 
-## Validation boundaries
+![Loader lifecycle](images/loader-lifecycle.png)
 
-Provider-specific limits belong in implementation classes. Google Search, for example, validates result and start bounds before issuing a request; mode-dispatching fetchers reject unsupported operations.
+## Failure Boundaries
 
-## Result contracts
+![Failure boundaries](images/failure-boundaries.png)
 
-Fonky intentionally preserves provider/loader result shapes instead of forcing a universal envelope. Typical outputs include dictionaries, row collections, text, extracted string collections, and LangChain `Document` objects.
+A failure can occur before the provider is ever contacted:
 
-## Error boundaries
+1. missing Python dependency;
+2. invalid function argument;
+3. missing local file;
+4. missing credential;
+5. network/DNS/timeout failure;
+6. HTTP/provider error;
+7. parser/response-shape failure;
+8. downstream result handling failure.
 
-Common failure classes are dependency errors, authentication/authorization failures, local filesystem errors, validation failures, timeouts, HTTP errors, malformed provider responses, and parse/extraction failures.
+The wrapper layer should not hide which boundary failed.
+
+## Result Contracts
+
+![Result shapes](images/result-shapes.png)
+
+Fonky preserves provider/loader-specific results. Common families are `Document` collections,
+dictionaries, lists of records, strings, extracted string lists, images/files, and provider-shaped
+objects.
+
+## Extension Boundary
+
+![Extension workflow](images/extension-workflow.png)
+
+New provider behavior belongs in the implementation class first. A `fonky.py` wrapper is added only
+after that behavior has a clear public one-shot use case.

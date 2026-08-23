@@ -1,19 +1,57 @@
 # Troubleshooting
 
-## Import fails
-Run `python -m pip install -r requirements.txt` and retry `python -c "from fonky import fonky"`.
+## `ModuleNotFoundError` During Import
 
-## 401/403
-Verify provider credentials and authorization.
+**Meaning:** the Python environment cannot import one of Fonky's dependencies.
 
-## Timeout
-Check network access, provider availability, and the method timeout argument.
+```powershell
+python -m pip install -r requirements.txt
+python -c "from fonky import fonky"
+```
 
-## Empty scraper output
-An empty list can be a valid result when the page contains no matching structure. An exception means the request/extraction path failed.
+Resolve import errors before testing credentials or network behavior.
 
-## Loader failure
-Check file existence, permissions, format support, and parser/OCR dependencies.
+## Provider Returns 401/403
 
-## Validation error
-Read the provider-specific method contract. Several fetchers validate paging, mode, date, coordinate, and result-limit constraints before issuing a request.
+**Meaning:** authentication failed or the credential lacks access.
+
+Check the provider-specific variable in [Configuration](configuration.md). Do not print secrets while
+debugging.
+
+## Provider Times Out
+
+Check network access, provider availability, and the call's `time`/timeout setting. Repeated timeouts
+should not be interpreted as empty data.
+
+## Scraper Returns an Empty List
+
+The target page may contain no matching paragraphs/tables/headings/etc. Verify the page structure.
+If the page is JavaScript-rendered, use a Playwright-capable path instead of assuming the selector is
+wrong.
+
+## PDF Loads Poorly
+
+Try the extraction mode appropriate to the source. Scanned/image PDFs may need OCR; digitally created
+PDFs usually work better with plain text extraction.
+
+## Cloud Loader Cannot Authenticate
+
+Separate three questions:
+
+1. Is the SDK installed?
+2. Can the SDK find credentials?
+3. Does that identity have permission to the requested bucket/drive/object?
+
+## Public Dataset Query Fails
+
+Check the target dataset's current schema. Fonky can construct/submit provider queries, but dataset
+field names and availability are controlled by the provider.
+
+## MkDocs Build Fails
+
+```powershell
+mkdocs build --strict
+```
+
+Fix the first reported missing page, extension, plugin, or import error before addressing downstream
+warnings.

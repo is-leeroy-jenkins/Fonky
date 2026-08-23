@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Data retrieval, document ingestion, scraping, cloud, public data, and scientific provider framework.">
+        <meta name="description" content="Data retrieval, document ingestion, web scraping, cloud access, public data, scientific and geospatial integration framework.">
       
       
       
@@ -530,10 +530,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#environment-variable-inventory" class="md-nav__link">
+  <a href="#provider-credentials-used-by-current-fonky-capabilities" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Environment Variable Inventory
+        Provider Credentials Used by Current Fonky Capabilities
       
     </span>
   </a>
@@ -541,10 +541,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#powershell" class="md-nav__link">
+  <a href="#example-google-custom-search" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PowerShell
+        Example — Google Custom Search
       
     </span>
   </a>
@@ -552,10 +552,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#operational-guidance" class="md-nav__link">
+  <a href="#example-nasa-firms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Operational guidance
+        Example — NASA FIRMS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-onedrive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example — OneDrive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-variables-present-in-configpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Variables Present in config.py
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secret-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secret Handling
       
     </span>
   </a>
@@ -693,7 +726,7 @@
   <span class="md-ellipsis">
     
   
-    Archives
+    Archives & Research
   
 
     
@@ -721,7 +754,7 @@
   <span class="md-ellipsis">
     
   
-    Astronomical
+    Astronomy & Space
   
 
     
@@ -749,7 +782,7 @@
   <span class="md-ellipsis">
     
   
-    Cloud
+    Cloud & Remote Storage
   
 
     
@@ -777,7 +810,7 @@
   <span class="md-ellipsis">
     
   
-    Demographic
+    Demographic & Public Data
   
 
     
@@ -805,7 +838,7 @@
   <span class="md-ellipsis">
     
   
-    Documents
+    Document Loading
   
 
     
@@ -833,7 +866,7 @@
   <span class="md-ellipsis">
     
   
-    Environmental
+    Environmental & Climate
   
 
     
@@ -861,7 +894,7 @@
   <span class="md-ellipsis">
     
   
-    Geospatial
+    Geospatial & Mapping
   
 
     
@@ -889,7 +922,7 @@
   <span class="md-ellipsis">
     
   
-    Health
+    Health Data
   
 
     
@@ -917,7 +950,63 @@
   <span class="md-ellipsis">
     
   
-    Web
+    Web Retrieval & Scraping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/interface-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional vs Class Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/composing-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Combining Capabilities
   
 
     
@@ -945,35 +1034,7 @@
   <span class="md-ellipsis">
     
   
-    Results and Data Shapes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../guides/state/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Stateful vs Functional Usage
+    Results & Return Shapes
   
 
     
@@ -1001,35 +1062,7 @@
   <span class="md-ellipsis">
     
   
-    Dependencies and Credentials
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../guides/failures/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Failure Handling
+    Credentials & Dependencies
   
 
     
@@ -1341,7 +1374,7 @@
   <span class="md-ellipsis">
     
   
-    Config
+    Configuration API
   
 
     
@@ -1570,7 +1603,7 @@
   <span class="md-ellipsis">
     
   
-    Testing and Validation
+    Testing & Documentation
   
 
     
@@ -1618,10 +1651,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#environment-variable-inventory" class="md-nav__link">
+  <a href="#provider-credentials-used-by-current-fonky-capabilities" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Environment Variable Inventory
+        Provider Credentials Used by Current Fonky Capabilities
       
     </span>
   </a>
@@ -1629,10 +1662,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#powershell" class="md-nav__link">
+  <a href="#example-google-custom-search" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PowerShell
+        Example — Google Custom Search
       
     </span>
   </a>
@@ -1640,10 +1673,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#operational-guidance" class="md-nav__link">
+  <a href="#example-nasa-firms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Operational guidance
+        Example — NASA FIRMS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-onedrive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example — OneDrive
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-variables-present-in-configpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Variables Present in config.py
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secret-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secret Handling
       
     </span>
   </a>
@@ -1679,212 +1745,241 @@
 
 
 <h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h1>
-<p>Fonky reads provider and runtime settings from the environment. Configure only the integrations you use.</p>
-<h2 id="environment-variable-inventory">Environment Variable Inventory<a class="headerlink" href="#environment-variable-inventory" title="Permanent link">&para;</a></h2>
+<p>Fonky centralizes environment-derived credentials and runtime settings in <code>config.py</code>. Configuration
+is intentionally optional at import time: <strong>configure the services you use, not every service Fonky
+knows about</strong>.</p>
+<h2 id="provider-credentials-used-by-current-fonky-capabilities">Provider Credentials Used by Current Fonky Capabilities<a class="headerlink" href="#provider-credentials-used-by-current-fonky-capabilities" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
-<th>Role</th>
+<th>Used By</th>
+<th>Required When</th>
+<th>Value / Format</th>
+<th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>AIRNOW_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>AirNow</code></td>
+<td>AirNow observations/forecasts</td>
+<td><code>API key string</code></td>
+<td>Authenticates AirNow requests.</td>
 </tr>
 <tr>
 <td><code>CENSUS_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>CHROMA_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>CHROMA_TENET_ID</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>CLAUDE_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>CensusData</code></td>
+<td>Census API use where a key is required or beneficial</td>
+<td><code>API key string</code></td>
+<td>Authenticates U.S. Census API requests.</td>
 </tr>
 <tr>
 <td><code>CONGRESS_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>DATAGOV_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>Congress</code></td>
+<td>Congress.gov API calls</td>
+<td><code>API key string</code></td>
+<td>Authenticates Congress, bill, law, and report retrieval.</td>
 </tr>
 <tr>
 <td><code>FIRMS_MAP_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>GEMINI_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>GEOAPIFY_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>GEOCODING_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>GOOGLE_ACCOUNT_CREDENTIALS</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>Firms</code></td>
+<td>NASA FIRMS fire/hotspot retrieval</td>
+<td><code>MAP_KEY string</code></td>
+<td>Authorizes FIRMS area/point data access.</td>
 </tr>
 <tr>
 <td><code>GOOGLE_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>GOOGLE_CLOUD_LOCATION</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>GOOGLE_CLOUD_PROJECT_ID</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>GoogleSearch / Google integrations</code></td>
+<td>Google API-backed calls</td>
+<td><code>API key string</code></td>
+<td>General Google API credential used by supported integrations.</td>
 </tr>
 <tr>
 <td><code>GOOGLE_CSE_ID</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>GOOGLE_DRIVE_FOLDER_ID</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>GOOGLE_DRIVE_TOKEN_PATH</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>GOOGLE_GENAI_USE_VERTEXAI</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>GoogleSearch</code></td>
+<td>Google Custom Search</td>
+<td><code>Programmable Search Engine ID</code></td>
+<td>Identifies the Custom Search Engine to query.</td>
 </tr>
 <tr>
 <td><code>GOOGLE_WEATHER_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>GoogleWeather</code></td>
+<td>Google Weather calls</td>
+<td><code>API key string</code></td>
+<td>Authenticates Google Weather requests.</td>
 </tr>
 <tr>
-<td><code>GOVINFO_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>GOOGLE_ACCOUNT_CREDENTIALS</code></td>
+<td><code>Google Drive / GCP integrations</code></td>
+<td>Service-account based Google workflows</td>
+<td><code>Credential file/path or configured value</code></td>
+<td>Provides Google account/service credentials.</td>
 </tr>
 <tr>
-<td><code>HEALTHDATA_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>GOOGLE_DRIVE_TOKEN_PATH</code></td>
+<td><code>Google Drive</code></td>
+<td>OAuth-backed Google Drive access</td>
+<td><code>Filesystem path</code></td>
+<td>Locates persisted OAuth token material.</td>
 </tr>
 <tr>
-<td><code>HUGGINGFACE_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>GOOGLE_DRIVE_FOLDER_ID</code></td>
+<td><code>Google Drive</code></td>
+<td>Default Drive folder workflows</td>
+<td><code>Drive folder ID</code></td>
+<td>Identifies a default Drive folder.</td>
 </tr>
 <tr>
-<td><code>IPINFO_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>LANGSMITH_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>LLAMACLOUD_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>LLAMAINDEX_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>MISTRAL_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>GOOGLE_CLOUD_PROJECT_ID</code></td>
+<td><code>Google Cloud</code></td>
+<td>GCP-backed loaders/services</td>
+<td><code>Project ID</code></td>
+<td>Selects the Google Cloud project.</td>
 </tr>
 <tr>
 <td><code>NASA_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>SpaceWeather / NASA-backed services</code></td>
+<td>NASA APIs requiring a key</td>
+<td><code>API key string</code></td>
+<td>Authenticates supported NASA API calls.</td>
 </tr>
 <tr>
 <td><code>NASA_EARTHDATA_TOKEN</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>NEWSAPI_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>O365_CLIENT_ID</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>O365_CLIENT_SECRET</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>OPENAI_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>NASA Earthdata</code></td>
+<td>Earthdata-protected resources</td>
+<td><code>Bearer token</code></td>
+<td>Authenticates NASA Earthdata access.</td>
 </tr>
 <tr>
 <td><code>OPENAQ_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>OPENSKY_API_CLIENT_ID</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>OPENSKY_API_CREDENTIALS</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>PINECONE_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>OpenAQ</code></td>
+<td>OpenAQ air-quality data</td>
+<td><code>API key string</code></td>
+<td>Authenticates OpenAQ requests where required.</td>
 </tr>
 <tr>
 <td><code>PURPLEAIR_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>SKY_MAP_TOKEN</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>PurpleAir</code></td>
+<td>PurpleAir sensor queries</td>
+<td><code>API key string</code></td>
+<td>Authenticates PurpleAir API requests.</td>
 </tr>
 <tr>
 <td><code>SOCRATA_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>Socrata / HealthData</code></td>
+<td>Socrata-backed datasets</td>
+<td><code>Application token/API key</code></td>
+<td>Provides authenticated/higher-limit Socrata access.</td>
 </tr>
 <tr>
 <td><code>THENEWSAPI_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>TheNews</code></td>
+<td>TheNewsAPI requests</td>
+<td><code>API key string</code></td>
+<td>Authenticates news search/headline retrieval.</td>
+</tr>
+<tr>
+<td><code>OPENSKY_API_CLIENT_ID</code></td>
+<td><code>OpenSky</code></td>
+<td>Authenticated OpenSky workflows</td>
+<td><code>OAuth client ID</code></td>
+<td>Identifies the OpenSky API client.</td>
+</tr>
+<tr>
+<td><code>OPENSKY_API_CREDENTIALS</code></td>
+<td><code>OpenSky</code></td>
+<td>Authenticated OpenSky workflows</td>
+<td><code>Credential/secret value</code></td>
+<td>Supplies OpenSky authentication material.</td>
+</tr>
+<tr>
+<td><code>O365_CLIENT_ID</code></td>
+<td><code>OneDrive / Microsoft 365</code></td>
+<td>OneDrive/O365 authentication</td>
+<td><code>Application client ID</code></td>
+<td>Identifies the Microsoft application.</td>
+</tr>
+<tr>
+<td><code>O365_CLIENT_SECRET</code></td>
+<td><code>OneDrive / Microsoft 365</code></td>
+<td>OneDrive/O365 authentication</td>
+<td><code>Client secret</code></td>
+<td>Authenticates the Microsoft application.</td>
+</tr>
+<tr>
+<td><code>GEOAPIFY_API_KEY</code></td>
+<td><code>Geospatial integrations</code></td>
+<td>Geoapify-backed geospatial calls</td>
+<td><code>API key string</code></td>
+<td>Authenticates Geoapify requests where used.</td>
+</tr>
+<tr>
+<td><code>GEOCODING_API_KEY</code></td>
+<td><code>Geocoding integration</code></td>
+<td>Configured geocoding provider</td>
+<td><code>API key string</code></td>
+<td>Authenticates configured geocoding requests.</td>
 </tr>
 <tr>
 <td><code>USGS_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>WEATHERAPI_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
-</tr>
-<tr>
-<td><code>XAI_API_KEY</code></td>
-<td>Provider/runtime setting read by <code>config.py</code>.</td>
+<td><code>USGS integrations</code></td>
+<td>USGS endpoints requiring/accepting a key</td>
+<td><code>API key string</code></td>
+<td>Provides USGS API authentication where applicable.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="powershell">PowerShell<a class="headerlink" href="#powershell" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nv">$env:GOOGLE_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
-<span class="nv">$env:GOOGLE_CSE_ID</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
-<span class="nv">$env:GOOGLE_WEATHER_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
-<span class="nv">$env:NASA_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
-<span class="nv">$env:CONGRESS_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
-<span class="nv">$env:AIRNOW_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
+<h2 id="example-google-custom-search">Example — Google Custom Search<a class="headerlink" href="#example-google-custom-search" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">$env:GOOGLE_API_KEY</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">$env:GOOGLE_CSE_ID</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
 </code></pre></div>
-<h2 id="operational-guidance">Operational guidance<a class="headerlink" href="#operational-guidance" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">results</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">fetch_google_search</span><span class="p">(</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">keywords</span><span class="o">=</span><span class="s1">&#39;USGS water quality&#39;</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">results</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">site_search</span><span class="o">=</span><span class="s1">&#39;usgs.gov&#39;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">)</span>
+</code></pre></div>
+<p>The underlying search implementation validates provider result-count and pagination bounds before
+request execution; configuration does not replace provider validation.</p>
+<h2 id="example-nasa-firms">Example — NASA FIRMS<a class="headerlink" href="#example-nasa-firms" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">$env:FIRMS_MAP_KEY</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">fires</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">fetch_firms</span><span class="p">(</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">source</span><span class="o">=</span><span class="s1">&#39;VIIRS_SNPP_NRT&#39;</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">area_coordinates</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">day_range</span><span class="o">=</span><span class="mi">1</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="example-onedrive">Example — OneDrive<a class="headerlink" href="#example-onedrive" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">$env:O365_CLIENT_ID</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">$env:O365_CLIENT_SECRET</span> <span class="p">=</span> <span class="s2">&quot;...&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">documents</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">load_onedrive</span><span class="p">(</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">drive_id</span><span class="o">=</span><span class="s1">&#39;drive-id&#39;</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">folder_path</span><span class="o">=</span><span class="s1">&#39;/Reports&#39;</span><span class="p">,</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">auth_with_token</span><span class="o">=</span><span class="kc">True</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="additional-variables-present-in-configpy">Additional Variables Present in <code>config.py</code><a class="headerlink" href="#additional-variables-present-in-configpy" title="Permanent link">&para;</a></h2>
+<p>The configuration module also defines settings used by adjacent AI/vector/observability integrations
+or future workflows. They are <strong>not all required by the current fetcher/loader/scraper wrapper scope</strong>:</p>
+<p><code>CHROMA_API_KEY</code>, <code>CHROMA_TENET_ID</code>, <code>CLAUDE_API_KEY</code>, <code>DATAGOV_API_KEY</code>, <code>GEMINI_API_KEY</code>, <code>GOOGLE_CLOUD_LOCATION</code>, <code>GOOGLE_GENAI_USE_VERTEXAI</code>, <code>GOVINFO_API_KEY</code>, <code>HEALTHDATA_API_KEY</code>, <code>HUGGINGFACE_API_KEY</code>, <code>IPINFO_API_KEY</code>, <code>LANGSMITH_API_KEY</code>, <code>LLAMACLOUD_API_KEY</code>, <code>LLAMAINDEX_API_KEY</code>, <code>MISTRAL_API_KEY</code>, <code>NEWSAPI_API_KEY</code>, <code>OPENAI_API_KEY</code>, <code>PINECONE_API_KEY</code>, <code>SKY_MAP_TOKEN</code>, <code>WEATHERAPI_API_KEY</code>, <code>XAI_API_KEY</code>.</p>
+<p>Do not populate these simply because they exist. Configure a variable when the code path you are
+using actually consumes it.</p>
+<h2 id="secret-handling">Secret Handling<a class="headerlink" href="#secret-handling" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Keep secrets out of source control.</li>
-<li>Distinguish missing SDKs from missing credentials.</li>
-<li>Cloud providers may require service-account/OAuth credential files rather than simple API keys.</li>
-<li>Test a provider independently before composing it into a larger workflow.</li>
+<li>Never commit API keys, OAuth tokens, service-account JSON, or client secrets.</li>
+<li>Prefer environment variables, operating-system secret stores, CI/CD secrets, or cloud secret managers.</li>
+<li>Treat credential-file paths as deployment configuration.</li>
+<li>Do not print credentials in troubleshooting output.</li>
 </ul>
 
 
@@ -1981,7 +2076,7 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>

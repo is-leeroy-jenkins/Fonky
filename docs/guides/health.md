@@ -1,59 +1,67 @@
-# Health
+# Health Data
 
-HealthData, global health data, CDC WONDER, PubMed, and related public health retrieval.
+Fonky exposes HealthData/Socrata-style public-health data, global-health indicators, CDC WONDER, and
+PubMed document search.
 
-## Functional Operations
-
-| Function | Signature | Purpose |
-|---|---|---|
-| `fetch_health_data()` | `fetch_health_data( mode: str = 'rows', domain: str = 'healthdata.gov', dataset_id: str = '', select: str = '', where: str = '', order: str = '', group: str = '', limit: int = 25, offset: int = 0, time: int = 20 ) -> Any` | Fetch HealthData.gov Socrata metadata and rows. Provides direct module-level access to ``HealthData.fetch`` using a fresh ``HealthData`` instance. Any: Value returned by ``HealthData.fetch``. |
-| `fetch_global_health_data()` | `fetch_global_health_data( mode: str = 'indicator_registry', query_path: str = '', fmt: str = 'json', time: int = 20 ) -> Any` | Fetch WHO global health indicator and Athena data. Provides direct module-level access to ``GlobalHealthData.fetch`` using a fresh ``GlobalHealthData`` instance. Any: Value returned by ``GlobalHealthData.fetch``. |
-| `fetch_wonder()` | `fetch_wonder( mode: str = 'metadata_template', dataset_id: str = 'D76', request_xml: str = '', time: int = 20 ) -> Any` | Fetch CDC WONDER template and query submission. Provides direct module-level access to ``Wonder.fetch`` using a fresh ``Wonder`` instance. Any: Value returned by ``Wonder.fetch``. |
-| `load_pubmed()` | `load_pubmed( query: str, max_docs: int = 5 ) -> Any` | Load source content. Provides direct module-level access to ``PubMedSearchLoader.load`` using a fresh ``PubMedSearchLoader`` instance. Any: Value returned by ``PubMedSearchLoader.load``. |
-
-## How to choose
-
-Use the functional wrapper when one call completes the task. Use the implementation class when you need retained state, helper methods, or direct provider debugging.
-
-## Operational considerations
-
-- Remote providers require network access.
-- Rate limits, timeouts, service availability, and response-shape changes remain operational concerns.
-- Provider-specific argument validation is enforced by the implementation class.
-
-## Representative Functions
-
-### `fetch_health_data()`
+## Workflow — HealthData Rows
 
 ```python
-# fetch_health_data( mode: str = 'rows', domain: str = 'healthdata.gov', dataset_id: str = '', select: str = '', where: str = '', order: str = '', group: str = '', limit: int = 25, offset: int = 0, time: int = 20 ) -> Any
+from fonky import fonky
+
+rows = fonky.fetch_health_data(
+    mode='rows',
+    domain='healthdata.gov',
+    dataset_id='dataset-id',
+    select='*',
+    where='',
+    order='',
+    limit=25,
+    offset=0
+)
 ```
 
-Fetch HealthData.gov Socrata metadata and rows. Provides direct module-level access to ``HealthData.fetch`` using a fresh ``HealthData`` instance. Any: Value returned by ``HealthData.fetch``.
+Dataset IDs and fields are source-specific. Discover and validate the target dataset before building a
+complex query.
 
-### `fetch_global_health_data()`
+## Workflow — Global Health Indicator Registry
 
 ```python
-# fetch_global_health_data( mode: str = 'indicator_registry', query_path: str = '', fmt: str = 'json', time: int = 20 ) -> Any
+indicators = fonky.fetch_global_health_data(
+    mode='indicator_registry',
+    fmt='json'
+)
 ```
 
-Fetch WHO global health indicator and Athena data. Provides direct module-level access to ``GlobalHealthData.fetch`` using a fresh ``GlobalHealthData`` instance. Any: Value returned by ``GlobalHealthData.fetch``.
+Use registry/discovery output before constructing provider-specific query paths.
 
-### `fetch_wonder()`
+## Workflow — CDC WONDER
 
 ```python
-# fetch_wonder( mode: str = 'metadata_template', dataset_id: str = 'D76', request_xml: str = '', time: int = 20 ) -> Any
+from fonky import fonky
+
+template = fonky.fetch_wonder(
+    mode='metadata_template',
+    dataset_id='D76'
+)
 ```
 
-Fetch CDC WONDER template and query submission. Provides direct module-level access to ``Wonder.fetch`` using a fresh ``Wonder`` instance. Any: Value returned by ``Wonder.fetch``.
+The WONDER implementation supports metadata/template and query submission modes. Build request XML
+against the dataset contract rather than guessing field names.
 
-### `load_pubmed()`
+## Workflow — PubMed
 
 ```python
-# load_pubmed( query: str, max_docs: int = 5 ) -> Any
+papers = fonky.load_pubmed(
+    query='machine learning environmental health',
+    max_docs=10
+)
 ```
 
-Load source content. Provides direct module-level access to ``PubMedSearchLoader.load`` using a fresh ``PubMedSearchLoader`` instance. Any: Value returned by ``PubMedSearchLoader.load``.
+PubMed loading is useful when the next workflow expects document objects rather than raw provider
+records.
 
+## Data Responsibility
 
-See [Functional API](../api/fonky.md) for all signatures.
+Public-health and medical datasets can contain complex definitions, revisions, suppression rules,
+provisional observations, and population denominators. Fonky retrieves data; it does not replace
+source methodology or subject-matter interpretation.

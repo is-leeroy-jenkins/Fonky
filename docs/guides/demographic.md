@@ -1,68 +1,70 @@
-# Demographic
+# Demographic & Public Data
 
-Census, Socrata, United Nations, population, and municipal/open-data retrieval.
+This domain covers U.S. Census, Socrata, United Nations data, world-population catalog assets, and
+municipal/open-city datasets.
 
-## Functional Operations
+## Workflow — Census Variables and Data
 
-| Function | Signature | Purpose |
-|---|---|---|
-| `fetch_census_data()` | `fetch_census_data( mode: str = 'variables', year: str = '2022', dataset: str = 'acs/acs5', fields: str = 'NAME,B01001_001E', geography_for: str = 'state:*', geography_in: str = '', predicates: str = '', time: int = 20 ) -> Any` | Fetch U.S. Census dataset and variable retrieval. Provides direct module-level access to ``CensusData.fetch`` using a fresh ``CensusData`` instance. Any: Value returned by ``CensusData.fetch``. |
-| `fetch_socrata()` | `fetch_socrata( mode: str = 'rows', domain: str = 'data.cdc.gov', dataset_id: str = '', select: str = '', where: str = '', order: str = '', group: str = '', limit: int = 25, offset: int = 0, time: int = 20 ) -> Any` | Fetch Socrata dataset metadata and row retrieval. Provides direct module-level access to ``Socrata.fetch`` using a fresh ``Socrata`` instance. Any: Value returned by ``Socrata.fetch``. |
-| `fetch_united_nations()` | `fetch_united_nations( mode: str = 'datasets', query_path: str = '', time: int = 20 ) -> Any` | Fetch United Nations SDMX dataset and query retrieval. Provides direct module-level access to ``UnitedNations.fetch`` using a fresh ``UnitedNations`` instance. Any: Value returned by ``UnitedNations.fetch``. |
-| `fetch_world_population()` | `fetch_world_population( mode: str = 'catalog', query: str = '', asset_path: str = '', page: int = 1, page_size: int = 25, time: int = 20 ) -> Any` | Fetch WorldPop catalog and raster metadata retrieval. Provides direct module-level access to ``WorldPopulation.fetch`` using a fresh ``WorldPopulation`` instance. Any: Value returned by ``WorldPopulation.fetch``. |
-| `load_open_city()` | `load_open_city( city_id: str, dataset_id: str, limit: int = 100 ) -> Any` | Load source content. Provides direct module-level access to ``OpenCityLoader.load`` using a fresh ``OpenCityLoader`` instance. Any: Value returned by ``OpenCityLoader.load``. |
-
-## How to choose
-
-Use the functional wrapper when one call completes the task. Use the implementation class when you need retained state, helper methods, or direct provider debugging.
-
-## Operational considerations
-
-- Remote providers require network access.
-- Rate limits, timeouts, service availability, and response-shape changes remain operational concerns.
-- Provider-specific argument validation is enforced by the implementation class.
-
-## Representative Functions
-
-### `fetch_census_data()`
+Discover variables first when you do not know field names:
 
 ```python
-# fetch_census_data( mode: str = 'variables', year: str = '2022', dataset: str = 'acs/acs5', fields: str = 'NAME,B01001_001E', geography_for: str = 'state:*', geography_in: str = '', predicates: str = '', time: int = 20 ) -> Any
+from fonky import fonky
+
+variables = fonky.fetch_census_data(
+    mode='variables',
+    year='2022',
+    dataset='acs/acs5'
+)
 ```
 
-Fetch U.S. Census dataset and variable retrieval. Provides direct module-level access to ``CensusData.fetch`` using a fresh ``CensusData`` instance. Any: Value returned by ``CensusData.fetch``.
-
-### `fetch_socrata()`
+Then request data with explicit fields and geography:
 
 ```python
-# fetch_socrata( mode: str = 'rows', domain: str = 'data.cdc.gov', dataset_id: str = '', select: str = '', where: str = '', order: str = '', group: str = '', limit: int = 25, offset: int = 0, time: int = 20 ) -> Any
+records = fonky.fetch_census_data(
+    mode='data',
+    year='2022',
+    dataset='acs/acs5',
+    fields='NAME,B01001_001E',
+    geography_for='state:*'
+)
 ```
 
-Fetch Socrata dataset metadata and row retrieval. Provides direct module-level access to ``Socrata.fetch`` using a fresh ``Socrata`` instance. Any: Value returned by ``Socrata.fetch``.
-
-### `fetch_united_nations()`
+## Workflow — Socrata Query
 
 ```python
-# fetch_united_nations( mode: str = 'datasets', query_path: str = '', time: int = 20 ) -> Any
+from fonky import fonky
+
+rows = fonky.fetch_socrata(
+    mode='rows',
+    domain='data.cdc.gov',
+    dataset_id='dataset-id',
+    select='state,count(*) as total',
+    where="year >= 2024",
+    group='state',
+    order='total DESC',
+    limit=100
+)
 ```
 
-Fetch United Nations SDMX dataset and query retrieval. Provides direct module-level access to ``UnitedNations.fetch`` using a fresh ``UnitedNations`` instance. Any: Value returned by ``UnitedNations.fetch``.
+Socrata query clauses are provider syntax. Validate queries against the target dataset's schema rather
+than assuming fields are portable between datasets.
 
-### `fetch_world_population()`
+## Workflow — United Nations Dataset Discovery
 
 ```python
-# fetch_world_population( mode: str = 'catalog', query: str = '', asset_path: str = '', page: int = 1, page_size: int = 25, time: int = 20 ) -> Any
+from fonky import fonky
+
+datasets = fonky.fetch_united_nations(
+    mode='datasets'
+)
 ```
 
-Fetch WorldPop catalog and raster metadata retrieval. Provides direct module-level access to ``WorldPopulation.fetch`` using a fresh ``WorldPopulation`` instance. Any: Value returned by ``WorldPopulation.fetch``.
+Use the returned dataset metadata to construct the provider-specific `query_path` for subsequent
+requests.
 
-### `load_open_city()`
+## Operational Notes
 
-```python
-# load_open_city( city_id: str, dataset_id: str, limit: int = 100 ) -> Any
-```
-
-Load source content. Provides direct module-level access to ``OpenCityLoader.load`` using a fresh ``OpenCityLoader`` instance. Any: Value returned by ``OpenCityLoader.load``.
-
-
-See [Functional API](../api/fonky.md) for all signatures.
+- Public-data datasets change independently of Fonky.
+- Schema discovery is often the first step for Census/Socrata/UN workflows.
+- Pagination/limits should be intentional; avoid requesting an entire large dataset when a filtered
+  query will do.

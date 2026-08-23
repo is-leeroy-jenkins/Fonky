@@ -1,42 +1,57 @@
 # Fonky
 
-Fonky is a Python framework for retrieving, loading, extracting, and preparing information from local files, web pages, public APIs, scientific services, cloud platforms, government datasets, research repositories, and structured data providers.
+Fonky is a reusable Python integration framework for **retrieval, document ingestion, web extraction,
+cloud loading, public-data access, environmental/geospatial analysis, astronomy, demographics, and
+health-data workflows**.
 
-The framework exposes two complementary interfaces: a flat functional API in `fonky.py` and direct implementation classes in `fetchers.py`, `loaders.py`, and `scrapers.py`.
+The framework deliberately provides two levels of control:
 
-## What Fonky Can Do
+- **`fonky.py`** — a flat functional API with **110 operations across nine domains**.
+- **implementation classes** — the provider and format-specific classes in `fetchers.py`, `loaders.py`, and `scrapers.py`.
 
-| Domain | Operations | Representative Functions |
-|---|---:|---|
-| Archives | 11 | `fetch_arxiv()`, `fetch_google_drive()`, `fetch_wikipedia()`, `fetch_news()` |
-| Astronomical | 10 | `fetch_naval_observatory()`, `fetch_satellite_center()`, `fetch_nearby_objects()`, `fetch_open_science()` |
-| Cloud | 8 | `load_google_drive_file()`, `load_google_drive_folder()`, `load_onedrive()`, `load_google_cloud_file()` |
-| Demographic | 5 | `fetch_census_data()`, `fetch_socrata()`, `fetch_united_nations()`, `fetch_world_population()` |
-| Documents | 18 | `load_text()`, `load_csv()`, `read_pdf()`, `load_pdf()` |
-| Environmental | 19 | `fetch_google_weather_current()`, `fetch_google_weather_hourly_forecast()`, `fetch_google_weather_daily_forecast()`, `fetch_google_weather_hourly_history()` |
-| Geospatial | 10 | `geocode_location()`, `geocode_coordinates()`, `validate_address()`, `request_directions()` |
-| Health | 4 | `fetch_health_data()`, `fetch_global_health_data()`, `fetch_wonder()`, `load_pubmed()` |
-| Web | 25 | `fetch_web_page()`, `convert_html_to_text()`, `extract_web_title()`, `extract_web_links()` |
+The functional API is for concise application code. The class API remains available when a workflow
+needs retained state, provider-specific helpers, or lower-level control.
 
-## Start Here
+## Choose an Area
 
-- [Getting Started](getting-started.md) — install, configure, and run first calls.
-- [User Guide](user-guide.md) — task-oriented workflows across every domain.
-- [Architecture](architecture.md) — execution, state, validation, results, and error boundaries.
-- [Troubleshooting](troubleshooting.md) — dependency, provider, file, network, and validation failures.
-- [Functional API](api/fonky.md) — exhaustive reference for every wrapper.
-- [Development](development/index.md) — extending fetchers, loaders, scrapers, and wrappers.
+| Area | Use When |
+|---|---|
+| Archives & Research | You need papers, web/search results, legislative data, government datasets, news, or archived material. |
+| Astronomy & Space | You need celestial, satellite, near-Earth-object, space-weather, catalog, star-map, or aviation data. |
+| Cloud & Remote Storage | You need Google Drive, GCS, AWS S3, OneDrive, or Google Speech-to-Text ingestion. |
+| Demographic & Public Data | You need Census, Socrata, UN, world-population, or municipal open-data workflows. |
+| Documents | You need to load PDF, Word, Excel, CSV, XML, JSON, Markdown, HTML, PowerPoint, email, Outlook, SPFx, or notebooks. |
+| Environmental & Climate | You need weather, air quality, climate, natural hazards, fires, water, tides, UV, or environmental records. |
+| Geospatial & Mapping | You need geocoding, reverse geocoding, address validation, directions, imagery, ScienceBase, or National Map data. |
+| Health | You need HealthData, WHO/global-health, CDC WONDER, or PubMed retrieval. |
+| Web Retrieval & Scraping | You need page retrieval, crawling, structured extraction, web loading, links, tables, articles, headings, or images. |
 
-## Core Capability Families
+## Typical Workflow
 
-### Document ingestion
+```python
+from fonky import fonky
 
-The loader layer centralizes ingestion into LangChain `Document` objects for local files, Office documents, structured data, notebooks, email, cloud storage, repositories, public research sources, and web content. Loaded documents can be split into smaller chunks for retrieval and embedding workflows.
+papers = fonky.fetch_arxiv(
+    question='retrieval augmented generation',
+    max_documents=5,
+    full_documents=False,
+    include_metadata=True
+)
 
-### Web extraction
+for paper in papers:
+    print(paper.metadata.get('title'))
+    print(paper.page_content[:300])
+```
 
-`WebExtractor` supports whole-page retrieval plus structural extraction for paragraphs, lists, tables, articles, headings, divisions, sections, blockquotes, hyperlinks, and image references.
+The same functional surface can load local documents, call government/scientific providers, geocode
+locations, retrieve environmental observations, or extract structured content from web pages.
 
-### Remote/public data
+## Documentation Paths
 
-Fetchers cover archives, government data, search, weather, climate, environmental monitoring, geospatial services, astronomy, aviation, demographics, public health, and research sources.
+- [Getting Started](getting-started.md) — install, configure, verify, and make first calls.
+- [User Guide](user-guide.md) — choose a capability and follow a task-oriented workflow.
+- [Architecture](architecture.md) — understand state, validation, dependencies, return shapes, and failure boundaries.
+- [Configuration](configuration.md) — configure actual provider credentials and runtime settings.
+- [Troubleshooting](troubleshooting.md) — diagnose dependency, credential, provider, parser, and filesystem failures.
+- [Functional API](api/fonky.md) — exhaustive wrapper reference.
+- [Development](development/index.md) — extend fetchers, loaders, scrapers, wrappers, tests, and docs.

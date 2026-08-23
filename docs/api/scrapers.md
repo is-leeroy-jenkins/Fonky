@@ -1,6 +1,8 @@
 # API — `scrapers.py`
 
-| Class | Public methods | Purpose |
+## Classes
+
+| Class | Public Methods | Purpose |
 |---|---:|---|
 | `Extractor` | 0 | Provide shared state for HTML extraction classes. Defines the minimal base state used by concrete scraper implementations that retrieve raw HTML, parse it with BeautifulSoup, and store extracted text. The class provides a common inspection surface for extraction-oriented subclasses without performing network or parsing work by itself. |
 | `WebExtractor` | 13 | Fetch and extract selected structures from HTML pages. Provides synchronous HTML retrieval through ``requests`` and extraction helpers for common HTML structures. The class stores request state, parser state, regular expressions, and headers so individual scrape methods can request a page and return only the requested type of extracted content. |
@@ -27,4 +29,10 @@ Fetch and extract selected structures from HTML pages. Provides synchronous HTML
 | `scrape_blockquotes()` | `scrape_blockquotes( uri: str ) -> List[str] \| None` | Extract blockquote text. Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from ``blockquote`` elements, and returns only non-empty quoted text entries. Cleaned blockquote text entries. Error: Re-raised after the exception is wrapped and written to the application logger. |
 | `scrape_hyperlinks()` | `scrape_hyperlinks( uri: str ) -> List[str] \| None` | Extract hyperlinks. Fetches the target HTML document, parses it with BeautifulSoup, extracts ``href`` values from anchor tags, and returns only populated hyperlink values. Hyperlink paths or URLs extracted from anchor tags. Error: Re-raised after the exception is wrapped and written to the application logger. |
 | `scrape_images()` | `scrape_images( uri: str ) -> List[str] \| None` | Extract image references. Fetches the target HTML document, parses it with BeautifulSoup, extracts ``src`` values from image tags, and returns only populated image references. Image source values extracted from image tags. Error: Re-raised after the exception is wrapped and written to the application logger. |
-| `create_schema()` | `create_schema( function: str, tool: str, description: str, parameters: dict, required: list[str] ) -> Dict[str, str] \| None` | Create a dynamic tool schema. Constructs an OpenAI-style function tool schema from the supplied function name, service name, description, parameter schema, and required field list. The method validates required inputs and preserves the caller-provided JSON-schema fragments for individual parameters. JSON-compatible dictionary defining the tool schema. ValueError: Raised when ``parameters`` is not a dictionary. Error: Re-raised after the exception is wrapped and written to the application logger. |
+| `create_schema()` | `create_schema( function: str, tool: str, description: str, parameters: dict, required: list[str] ) -> Dict[str, str] \| None` | Create a dynamic tool schema. Constructs an OpenAI-style function tool schema from the supplied function name, service name, description, parameter schema, and required field list. The method validates required inputs and preserves the caller-provided JSON-schema fragments for individual parameters. JSON-compatible dictionary defining the tool schema. ValueError: Raised when ``parameters`` is not a dictionary. |
+
+## Module Functions
+
+| Function | Signature | Purpose |
+|---|---|---|
+| `throw_if()` | `throw_if( name: str, value: object ) -> None` | Throw if. Provides a input guard used by the Gipity Streamlit application. The function supports UI state management, provider coordination, data normalization, or display behavior required by the surrounding workflow. Error: Re-raised after the exception is wrapped and written to the application logger. |

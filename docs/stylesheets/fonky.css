@@ -1,6 +1,6 @@
 /*
  * ==========================================================================================
- *  Default Documentation Theme
+ *  Fonky Documentation Theme
  *  File: docs/assets/css/default.css
  *
  *  Purpose:
@@ -15,36 +15,36 @@
    ========================================================================================== */
 :root
 {
-	--default-blue: #024FA3;
-	--default-blue-dark: #00254C;
-	--default-blue-deep: #011A33;
-	--default-blue-bright: #0078FC;
-	--default-blue-soft: #4DA3FF;
-	--default-bg: #141414;
-	--default-bg-alt: #1B1B1B;
-	--default-surface: #242424;
-	--default-surface-2: #303030;
-	--default-surface-3: #414141;
-	--default-border: #565557;
-	--default-border-blue: #00254C;
-	--default-table-header: #023770;
-	--default-text: #FFFFFF;
-	--default-text-soft: #E6EAF0;
-	--default-text-muted: #B8C2CC;
-	--default-text-dim: #8F9BA8;
-	--default-code-bg: #101820;
-	--default-code-border: #25364A;
-	--default-success: #33D17A;
-	--default-warning: #F5C542;
-	--default-danger: #FF6B6B;
-	--default-info: #4DA3FF;
-	--default-radius-sm: 6px;
-	--default-radius-md: 10px;
-	--default-radius-lg: 14px;
-	--default-radius-xl: 18px;
-	--default-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-	--default-shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.22);
-	--default-transition: 140ms ease-in-out;
+	--fonky-blue: #024FA3;
+	--fonky-blue-dark: #00254C;
+	--fonky-blue-deep: #011A33;
+	--fonky-blue-bright: #0078FC;
+	--fonky-blue-soft: #4DA3FF;
+	--fonky-bg: #141414;
+	--fonky-bg-alt: #1B1B1B;
+	--fonky-surface: #242424;
+	--fonky-surface-2: #303030;
+	--fonky-surface-3: #414141;
+	--fonky-border: #565557;
+	--fonky-border-blue: #00254C;
+	--fonky-table-header: #023770;
+	--fonky-text: #FFFFFF;
+	--fonky-text-soft: #E6EAF0;
+	--fonky-text-muted: #B8C2CC;
+	--fonky-text-dim: #8F9BA8;
+	--fonky-code-bg: #101820;
+	--fonky-code-border: #25364A;
+	--fonky-success: #33D17A;
+	--fonky-warning: #F5C542;
+	--fonky-danger: #FF6B6B;
+	--fonky-info: #4DA3FF;
+	--fonky-radius-sm: 6px;
+	--fonky-radius-md: 10px;
+	--fonky-radius-lg: 14px;
+	--fonky-radius-xl: 18px;
+	--fonky-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+	--fonky-shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.22);
+	--fonky-transition: 140ms ease-in-out;
 }
 
 /* ==========================================================================================
@@ -52,21 +52,21 @@
    ========================================================================================== */
 [data-md-color-scheme='slate']
 {
-	--md-default-bg-color: var(--default-bg);
-	--md-default-bg-color--light: var(--default-bg-alt);
-	--md-default-bg-color--lighter: var(--default-surface);
-	--md-default-bg-color--lightest: var(--default-surface-2);
-	--md-default-fg-color: var(--default-text-soft);
-	--md-default-fg-color--light: var(--default-text-muted);
-	--md-default-fg-color--lighter: var(--default-text-dim);
+	--md-default-bg-color: var(--fonky-bg);
+	--md-default-bg-color--light: var(--fonky-bg-alt);
+	--md-default-bg-color--lighter: var(--fonky-surface);
+	--md-default-bg-color--lightest: var(--fonky-surface-2);
+	--md-default-fg-color: var(--fonky-text-soft);
+	--md-default-fg-color--light: var(--fonky-text-muted);
+	--md-default-fg-color--lighter: var(--fonky-text-dim);
 	--md-default-fg-color--lightest: #6F7B87;
-	--md-primary-fg-color: var(--default-blue);
-	--md-primary-fg-color--light: var(--default-blue-bright);
-	--md-primary-fg-color--dark: var(--default-blue-dark);
-	--md-accent-fg-color: var(--default-blue-bright);
+	--md-primary-fg-color: var(--fonky-blue);
+	--md-primary-fg-color--light: var(--fonky-blue-bright);
+	--md-primary-fg-color--dark: var(--fonky-blue-dark);
+	--md-accent-fg-color: var(--fonky-blue-bright);
 	--md-accent-fg-color--transparent: rgba(0, 120, 252, 0.16);
-	--md-typeset-a-color: var(--default-blue-soft);
-	--md-code-bg-color: var(--default-code-bg);
+	--md-typeset-a-color: var(--fonky-blue-soft);
+	--md-code-bg-color: var(--fonky-code-bg);
 	--md-code-fg-color: #EAF2FF;
 	--md-code-hl-color: rgba(0, 120, 252, 0.22);
 	--md-code-hl-number-color: #B7D9FF;
@@ -95,8 +95,8 @@ body
 {
 	background: radial-gradient(circle at 12% 0%, rgba(0, 120, 252, 0.12), transparent 30rem),
 	radial-gradient(circle at 85% 10%, rgba(2, 79, 163, 0.16), transparent 34rem),
-	var(--default-bg);
-	color: var(--default-text-soft);
+	var(--fonky-bg);
+	color: var(--fonky-text-soft);
 }
 
 .md-main__inner,
@@ -115,7 +115,7 @@ body
 .md-sidebar__scrollwrap
 {
 	scrollbar-width: thin;
-	scrollbar-color: var(--default-border) transparent;
+	scrollbar-color: var(--fonky-border) transparent;
 }
 
 /* ==========================================================================================
@@ -123,7 +123,7 @@ body
    ========================================================================================== */
 .md-header
 {
-	background: linear-gradient(90deg, var(--default-blue-dark) 0%, var(--default-blue) 48%, var(--default-blue-dark) 100%);
+	background: linear-gradient(90deg, var(--fonky-blue-dark) 0%, var(--fonky-blue) 48%, var(--fonky-blue-dark) 100%);
 	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.38);
 	border-bottom: 1px solid rgba(77, 163, 255, 0.28);
 }
@@ -148,7 +148,7 @@ body
 
 .md-tabs
 {
-	background: linear-gradient(90deg, var(--default-blue-dark) 0%, #023770 48%, var(--default-blue-dark) 100%);
+	background: linear-gradient(90deg, var(--fonky-blue-dark) 0%, #023770 48%, var(--fonky-blue-dark) 100%);
 	border-bottom: 1px solid rgba(77, 163, 255, 0.22);
 }
 
@@ -168,7 +168,7 @@ body
 {
 	background-color: rgba(255, 255, 255, 0.12);
 	border: 1px solid rgba(255, 255, 255, 0.18);
-	border-radius: var(--default-radius-md);
+	border-radius: var(--fonky-radius-md);
 }
 
 .md-search__form:hover
@@ -198,7 +198,7 @@ body
 {
 	font-size: 0.84rem;
 	line-height: 1.68;
-	color: var(--default-text-soft);
+	color: var(--fonky-text-soft);
 }
 
 .md-typeset h1,
@@ -244,7 +244,7 @@ body
 .md-typeset p,
 .md-typeset li
 {
-	color: var(--default-text-soft);
+	color: var(--fonky-text-soft);
 }
 
 .md-typeset strong
@@ -260,7 +260,7 @@ body
 
 .md-typeset a
 {
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 	text-decoration-thickness: 0.08em;
 	text-underline-offset: 0.16em;
 }
@@ -286,7 +286,7 @@ body
 
 .md-nav__item .md-nav__link--active
 {
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 	font-weight: 700;
 }
 
@@ -297,21 +297,21 @@ body
 
 .md-nav--secondary .md-nav__link
 {
-	color: var(--default-text-muted);
+	color: var(--fonky-text-muted);
 }
 
 .md-nav--secondary .md-nav__link:hover,
-.md-nav--secondary .md-nav__link.default-toc-active
+.md-nav--secondary .md-nav__link.fonky-toc-active
 {
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 }
 
-.default-toc-active
+.fonky-toc-active
 {
 	font-weight: 700;
 }
 
-.default-toc-marker
+.fonky-toc-marker
 {
 	display: none;
 }
@@ -319,7 +319,7 @@ body
 /* ==========================================================================================
    Page Tools from default.js
    ========================================================================================== */
-.default-page-tools
+.fonky-page-tools
 {
 	display: flex;
 	flex-wrap: wrap;
@@ -328,32 +328,32 @@ body
 	margin: -0.25rem 0 1.15rem;
 }
 
-.default-page-tools button
+.fonky-page-tools button
 {
 	padding: 0.32rem 0.62rem;
 	border: 1px solid rgba(77, 163, 255, 0.34);
-	border-radius: var(--default-radius-md);
+	border-radius: var(--fonky-radius-md);
 	background: rgba(0, 120, 252, 0.12);
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 	font-size: 0.72rem;
 	font-weight: 750;
 	cursor: pointer;
-	transition: background-color var(--default-transition),
-	border-color var(--default-transition),
-	color var(--default-transition);
+	transition: background-color var(--fonky-transition),
+	border-color var(--fonky-transition),
+	color var(--fonky-transition);
 }
 
-.default-page-tools button:hover
+.fonky-page-tools button:hover
 {
 	background: rgba(0, 120, 252, 0.22);
 	border-color: rgba(77, 163, 255, 0.58);
 	color: #FFFFFF;
 }
 
-.default-page-path
+.fonky-page-path
 {
 	margin: -0.65rem 0 1rem;
-	color: var(--default-text-dim);
+	color: var(--fonky-text-dim);
 	font-size: 0.72rem;
 	font-weight: 600;
 	letter-spacing: 0.01em;
@@ -362,34 +362,34 @@ body
 /* ==========================================================================================
    Headings with JS-Injected Section Links
    ========================================================================================== */
-.default-heading-link
+.fonky-heading-link
 {
 	margin-left: 0.45rem;
 	padding: 0.08rem 0.35rem;
 	border: 1px solid rgba(77, 163, 255, 0.28);
-	border-radius: var(--default-radius-sm);
+	border-radius: var(--fonky-radius-sm);
 	background: rgba(0, 120, 252, 0.10);
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 	font-size: 0.72em;
 	font-weight: 700;
 	cursor: pointer;
 	opacity: 0;
 	transform: translateY(-1px);
-	transition: opacity var(--default-transition),
-	background-color var(--default-transition),
-	border-color var(--default-transition),
-	color var(--default-transition);
+	transition: opacity var(--fonky-transition),
+	background-color var(--fonky-transition),
+	border-color var(--fonky-transition),
+	color var(--fonky-transition);
 }
 
-h2:hover .default-heading-link,
-h3:hover .default-heading-link,
-h4:hover .default-heading-link,
-.default-heading-link:focus
+h2:hover .fonky-heading-link,
+h3:hover .fonky-heading-link,
+h4:hover .fonky-heading-link,
+.fonky-heading-link:focus
 {
 	opacity: 1;
 }
 
-.default-heading-link:hover
+.fonky-heading-link:hover
 {
 	background: rgba(0, 120, 252, 0.18);
 	border-color: rgba(77, 163, 255, 0.55);
@@ -403,18 +403,18 @@ h4:hover .default-heading-link,
 {
 	display: table;
 	width: 100%;
-	border: 1px solid var(--default-border);
+	border: 1px solid var(--fonky-border);
 	border-collapse: separate;
 	border-spacing: 0;
-	border-radius: var(--default-radius-lg);
+	border-radius: var(--fonky-radius-lg);
 	overflow: hidden;
 	background-color: rgba(36, 36, 36, 0.92);
-	box-shadow: var(--default-shadow-soft);
+	box-shadow: var(--fonky-shadow-soft);
 }
 
 .md-typeset table:not([class]) th
 {
-	background: linear-gradient(180deg, var(--default-table-header) 0%, var(--default-blue-dark) 100%);
+	background: linear-gradient(180deg, var(--fonky-table-header) 0%, var(--fonky-blue-dark) 100%);
 	color: #FFFFFF;
 	font-weight: 750;
 	border-bottom: 1px solid rgba(77, 163, 255, 0.34);
@@ -422,7 +422,7 @@ h4:hover .default-heading-link,
 
 .md-typeset table:not([class]) td
 {
-	color: var(--default-text-soft);
+	color: var(--fonky-text-soft);
 	border-top: 1px solid rgba(0, 37, 76, 0.86);
 }
 
@@ -441,7 +441,7 @@ h4:hover .default-heading-link,
 	white-space: nowrap;
 }
 
-.default-table-tools
+.fonky-table-tools
 {
 	display: flex;
 	align-items: center;
@@ -450,36 +450,36 @@ h4:hover .default-heading-link,
 	margin: 1rem 0 0.45rem;
 	padding: 0.65rem;
 	border: 1px solid rgba(86, 85, 87, 0.72);
-	border-radius: var(--default-radius-lg);
+	border-radius: var(--fonky-radius-lg);
 	background: rgba(36, 36, 36, 0.82);
-	box-shadow: var(--default-shadow-soft);
+	box-shadow: var(--fonky-shadow-soft);
 }
 
-.default-table-filter
+.fonky-table-filter
 {
 	width: min(24rem, 100%);
 	padding: 0.45rem 0.7rem;
 	border: 1px solid rgba(77, 163, 255, 0.34);
-	border-radius: var(--default-radius-md);
+	border-radius: var(--fonky-radius-md);
 	background: rgba(20, 20, 20, 0.92);
 	color: #FFFFFF;
 	font-size: 0.78rem;
 }
 
-.default-table-filter::placeholder
+.fonky-table-filter::placeholder
 {
-	color: var(--default-text-dim);
+	color: var(--fonky-text-dim);
 }
 
-.default-table-filter:focus
+.fonky-table-filter:focus
 {
 	outline: 2px solid rgba(77, 163, 255, 0.42);
 	outline-offset: 2px;
 }
 
-.default-table-count
+.fonky-table-count
 {
-	color: var(--default-text-muted);
+	color: var(--fonky-text-muted);
 	font-size: 0.74rem;
 	white-space: nowrap;
 }
@@ -489,7 +489,7 @@ h4:hover .default-heading-link,
    ========================================================================================== */
 .md-typeset code
 {
-	border-radius: var(--default-radius-sm);
+	border-radius: var(--fonky-radius-sm);
 	background-color: rgba(16, 24, 32, 0.96);
 	color: #EAF2FF;
 	font-size: 0.78rem;
@@ -497,10 +497,10 @@ h4:hover .default-heading-link,
 
 .md-typeset pre
 {
-	border: 1px solid var(--default-code-border);
-	border-radius: var(--default-radius-lg);
+	border: 1px solid var(--fonky-code-border);
+	border-radius: var(--fonky-radius-lg);
 	background: linear-gradient(180deg, rgba(16, 24, 32, 0.98), rgba(13, 18, 24, 0.98));
-	box-shadow: var(--default-shadow-soft);
+	box-shadow: var(--fonky-shadow-soft);
 }
 
 .md-typeset pre > code
@@ -509,7 +509,7 @@ h4:hover .default-heading-link,
 	line-height: 1.62;
 }
 
-.default-code-label
+.fonky-code-label
 {
 	display: inline-flex;
 	align-items: center;
@@ -517,8 +517,8 @@ h4:hover .default-heading-link,
 	padding: 0.25rem 0.58rem;
 	border: 1px solid rgba(77, 163, 255, 0.28);
 	border-bottom: none;
-	border-radius: var(--default-radius-md) var(--default-radius-md) 0 0;
-	background: linear-gradient(180deg, var(--default-blue-dark), #021F3E);
+	border-radius: var(--fonky-radius-md) var(--fonky-radius-md) 0 0;
+	background: linear-gradient(180deg, var(--fonky-blue-dark), #021F3E);
 	color: #FFFFFF;
 	font-size: 0.68rem;
 	font-weight: 750;
@@ -526,19 +526,19 @@ h4:hover .default-heading-link,
 	text-transform: uppercase;
 }
 
-.default-code-label + .highlight,
-.default-code-label + pre
+.fonky-code-label + .highlight,
+.fonky-code-label + pre
 {
 	margin-top: 0 !important;
 }
 
-.default-code-collapsed
+.fonky-code-collapsed
 {
 	position: relative;
 	overflow: hidden;
 }
 
-.default-code-collapsed::after
+.fonky-code-collapsed::after
 {
 	position: absolute;
 	right: 0;
@@ -550,25 +550,25 @@ h4:hover .default-heading-link,
 	pointer-events: none;
 }
 
-.default-code-toggle
+.fonky-code-toggle
 {
 	display: inline-flex;
 	align-items: center;
 	margin: 0.35rem 0 1rem;
 	padding: 0.35rem 0.65rem;
 	border: 1px solid rgba(77, 163, 255, 0.32);
-	border-radius: var(--default-radius-md);
+	border-radius: var(--fonky-radius-md);
 	background: rgba(0, 120, 252, 0.12);
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 	font-size: 0.72rem;
 	font-weight: 700;
 	cursor: pointer;
-	transition: background-color var(--default-transition),
-	color var(--default-transition),
-	border-color var(--default-transition);
+	transition: background-color var(--fonky-transition),
+	color var(--fonky-transition),
+	border-color var(--fonky-transition);
 }
 
-.default-code-toggle:hover
+.fonky-code-toggle:hover
 {
 	background: rgba(0, 120, 252, 0.22);
 	border-color: rgba(77, 163, 255, 0.6);
@@ -581,16 +581,16 @@ h4:hover .default-heading-link,
 .md-typeset .admonition,
 .md-typeset details
 {
-	border-radius: var(--default-radius-lg);
+	border-radius: var(--fonky-radius-lg);
 	border-color: rgba(77, 163, 255, 0.32);
 	background-color: rgba(36, 36, 36, 0.86);
-	box-shadow: var(--default-shadow-soft);
+	box-shadow: var(--fonky-shadow-soft);
 }
 
 .md-typeset .admonition-title,
 .md-typeset summary
 {
-	border-radius: var(--default-radius-lg) var(--default-radius-lg) 0 0;
+	border-radius: var(--fonky-radius-lg) var(--fonky-radius-lg) 0 0;
 	background-color: rgba(2, 55, 112, 0.72);
 	color: #FFFFFF;
 	font-weight: 750;
@@ -620,12 +620,12 @@ h4:hover .default-heading-link,
 .md-typeset .grid.cards > ul > li
 {
 	border: 1px solid rgba(86, 85, 87, 0.74);
-	border-radius: var(--default-radius-lg);
+	border-radius: var(--fonky-radius-lg);
 	background: rgba(36, 36, 36, 0.84);
-	box-shadow: var(--default-shadow-soft);
-	transition: transform var(--default-transition),
-	border-color var(--default-transition),
-	background-color var(--default-transition);
+	box-shadow: var(--fonky-shadow-soft);
+	transition: transform var(--fonky-transition),
+	border-color var(--fonky-transition),
+	background-color var(--fonky-transition);
 }
 
 .md-typeset .grid.cards > ul > li:hover
@@ -637,21 +637,21 @@ h4:hover .default-heading-link,
 
 .md-typeset .md-button
 {
-	border-radius: var(--default-radius-md);
+	border-radius: var(--fonky-radius-md);
 	font-weight: 750;
 }
 
 .md-typeset .md-button--primary
 {
-	background-color: var(--default-blue);
-	border-color: var(--default-blue);
+	background-color: var(--fonky-blue);
+	border-color: var(--fonky-blue);
 	color: #FFFFFF;
 }
 
 .md-typeset .md-button--primary:hover
 {
-	background-color: var(--default-blue-bright);
-	border-color: var(--default-blue-bright);
+	background-color: var(--fonky-blue-bright);
+	border-color: var(--fonky-blue-bright);
 	color: #FFFFFF;
 }
 
@@ -660,7 +660,7 @@ h4:hover .default-heading-link,
    ========================================================================================== */
 .md-typeset img
 {
-	border-radius: var(--default-radius-lg);
+	border-radius: var(--fonky-radius-lg);
 }
 
 .md-typeset p > img,
@@ -669,7 +669,7 @@ h4:hover .default-heading-link,
 	display: block;
 	margin: 1.2rem auto;
 	border: 1px solid rgba(77, 163, 255, 0.22);
-	box-shadow: var(--default-shadow);
+	box-shadow: var(--fonky-shadow);
 }
 
 .md-typeset figure
@@ -679,7 +679,7 @@ h4:hover .default-heading-link,
 
 .md-typeset figcaption
 {
-	color: var(--default-text-muted);
+	color: var(--fonky-text-muted);
 	font-size: 0.76rem;
 }
 
@@ -697,9 +697,9 @@ h4:hover .default-heading-link,
 	margin-top: 1.1rem;
 	padding: 0.85rem 1rem;
 	border: 1px solid rgba(86, 85, 87, 0.72);
-	border-radius: var(--default-radius-lg);
+	border-radius: var(--fonky-radius-lg);
 	background: rgba(27, 27, 27, 0.84);
-	box-shadow: var(--default-shadow-soft);
+	box-shadow: var(--fonky-shadow-soft);
 }
 
 .doc-heading
@@ -711,9 +711,9 @@ h4:hover .default-heading-link,
 .doc-label-class-attribute,
 .doc-label-instance-attribute
 {
-	border-radius: var(--default-radius-sm);
+	border-radius: var(--fonky-radius-sm);
 	background: rgba(0, 120, 252, 0.14);
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 }
 
 .doc-signature
@@ -723,7 +723,7 @@ h4:hover .default-heading-link,
 
 .doc-contents
 {
-	color: var(--default-text-soft);
+	color: var(--fonky-text-soft);
 }
 
 .doc-contents table
@@ -731,7 +731,7 @@ h4:hover .default-heading-link,
 	font-size: 0.78rem;
 }
 
-.default-api-badge
+.fonky-api-badge
 {
 	display: inline-flex;
 	align-items: center;
@@ -740,7 +740,7 @@ h4:hover .default-heading-link,
 	border: 1px solid rgba(77, 163, 255, 0.32);
 	border-radius: 999px;
 	background: rgba(0, 120, 252, 0.12);
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 	font-size: 0.62rem;
 	font-weight: 800;
 	letter-spacing: 0.04em;
@@ -751,17 +751,17 @@ h4:hover .default-heading-link,
 /* ==========================================================================================
    API Tools Panel
    ========================================================================================== */
-.default-api-tools
+.fonky-api-tools
 {
 	margin: 1.25rem 0 1.75rem;
 	padding: 1rem 1.1rem;
 	border: 1px solid rgba(77, 163, 255, 0.42);
-	border-radius: var(--default-radius-lg);
+	border-radius: var(--fonky-radius-lg);
 	background: linear-gradient(180deg, rgba(2, 37, 76, 0.78), rgba(20, 28, 40, 0.92));
-	box-shadow: var(--default-shadow-soft);
+	box-shadow: var(--fonky-shadow-soft);
 }
 
-.default-api-tools-title
+.fonky-api-tools-title
 {
 	margin: 0 0 0.75rem !important;
 	padding-bottom: 0 !important;
@@ -771,41 +771,41 @@ h4:hover .default-heading-link,
 	font-weight: 800 !important;
 }
 
-.default-api-search-label
+.fonky-api-search-label
 {
 	display: block;
 	margin-bottom: 0.35rem;
-	color: var(--default-text-muted);
+	color: var(--fonky-text-muted);
 	font-size: 0.72rem;
 	font-weight: 700;
 	letter-spacing: 0.02em;
 }
 
-.default-api-search
+.fonky-api-search
 {
 	width: 100%;
 	padding: 0.75rem 0.9rem;
 	border: 1px solid rgba(77, 163, 255, 0.5);
-	border-radius: var(--default-radius-md);
+	border-radius: var(--fonky-radius-md);
 	background-color: rgba(10, 18, 26, 0.96);
 	color: #FFFFFF;
 	font-size: 0.9rem;
 	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
 }
 
-.default-api-search::placeholder
+.fonky-api-search::placeholder
 {
 	color: rgba(230, 234, 240, 0.52);
 }
 
-.default-api-search:focus
+.fonky-api-search:focus
 {
 	outline: 2px solid rgba(77, 163, 255, 0.48);
 	outline-offset: 2px;
 	border-color: rgba(77, 163, 255, 0.82);
 }
 
-.default-api-tool-buttons
+.fonky-api-tool-buttons
 {
 	display: flex;
 	flex-wrap: wrap;
@@ -813,7 +813,7 @@ h4:hover .default-heading-link,
 	margin-top: 1rem;
 }
 
-.default-api-tool-button
+.fonky-api-tool-button
 {
 	padding: 0.48rem 0.82rem;
 	border: 1px solid rgba(77, 163, 255, 0.5);
@@ -823,13 +823,13 @@ h4:hover .default-heading-link,
 	font-size: 0.74rem;
 	font-weight: 800;
 	cursor: pointer;
-	transition: background-color var(--default-transition),
-	border-color var(--default-transition),
-	color var(--default-transition),
-	transform var(--default-transition);
+	transition: background-color var(--fonky-transition),
+	border-color var(--fonky-transition),
+	color var(--fonky-transition),
+	transform var(--fonky-transition);
 }
 
-.default-api-tool-button:hover
+.fonky-api-tool-button:hover
 {
 	border-color: rgba(255, 255, 255, 0.68);
 	background: linear-gradient(180deg, rgba(0, 120, 252, 0.92), rgba(2, 79, 163, 0.95));
@@ -837,20 +837,20 @@ h4:hover .default-heading-link,
 	transform: translateY(-1px);
 }
 
-.default-api-tool-button:active
+.fonky-api-tool-button:active
 {
 	transform: translateY(0);
 }
 
-.default-api-filter-status
+.fonky-api-filter-status
 {
 	margin: 0.75rem 0 0;
-	color: var(--default-text-muted);
+	color: var(--fonky-text-muted);
 	font-size: 0.72rem;
 	font-weight: 700;
 }
 
-.default-api-hidden
+.fonky-api-hidden
 {
 	display: none !important;
 }
@@ -858,7 +858,7 @@ h4:hover .default-heading-link,
 /* ==========================================================================================
    Reading Progress and Scroll-to-Top
    ========================================================================================== */
-#default-reading-progress
+#fonky-reading-progress
 {
 	position: fixed;
 	top: 0;
@@ -870,17 +870,17 @@ h4:hover .default-heading-link,
 	pointer-events: none;
 }
 
-#default-reading-progress span
+#fonky-reading-progress span
 {
 	display: block;
 	width: 0%;
 	height: 100%;
-	background: linear-gradient(90deg, var(--default-blue-soft), var(--default-blue-bright), #80D0FF);
+	background: linear-gradient(90deg, var(--fonky-blue-soft), var(--fonky-blue-bright), #80D0FF);
 	box-shadow: 0 0 12px rgba(77, 163, 255, 0.9);
 	transition: width 90ms linear;
 }
 
-.default-scroll-top
+.fonky-scroll-top
 {
 	position: fixed;
 	right: 1.05rem;
@@ -893,67 +893,67 @@ h4:hover .default-heading-link,
 	height: 2.45rem;
 	border: 1px solid rgba(77, 163, 255, 0.45);
 	border-radius: 999px;
-	background: linear-gradient(180deg, var(--default-blue), var(--default-blue-dark));
+	background: linear-gradient(180deg, var(--fonky-blue), var(--fonky-blue-dark));
 	color: #FFFFFF;
 	font-size: 1.15rem;
 	font-weight: 900;
-	box-shadow: var(--default-shadow);
+	box-shadow: var(--fonky-shadow);
 	cursor: pointer;
 	opacity: 0;
 	pointer-events: none;
 	transform: translateY(0.6rem);
-	transition: opacity var(--default-transition),
-	transform var(--default-transition),
-	background-color var(--default-transition),
-	border-color var(--default-transition);
+	transition: opacity var(--fonky-transition),
+	transform var(--fonky-transition),
+	background-color var(--fonky-transition),
+	border-color var(--fonky-transition);
 }
 
-.default-scroll-top.is-visible
+.fonky-scroll-top.is-visible
 {
 	opacity: 1;
 	pointer-events: auto;
 	transform: translateY(0);
 }
 
-.default-scroll-top:hover
+.fonky-scroll-top:hover
 {
 	border-color: rgba(255, 255, 255, 0.72);
-	background: linear-gradient(180deg, var(--default-blue-bright), var(--default-blue));
+	background: linear-gradient(180deg, var(--fonky-blue-bright), var(--fonky-blue));
 }
 
 /* ==========================================================================================
    Links
    ========================================================================================== */
-.default-external-link
+.fonky-external-link
 {
 	font-weight: 600;
 }
 
-.default-external-indicator
+.fonky-external-indicator
 {
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 	font-size: 0.82em;
 }
 
 /* ==========================================================================================
    Focus and Accessibility
    ========================================================================================== */
-.default-keyboard-mode a:focus,
-.default-keyboard-mode button:focus,
-.default-keyboard-mode input:focus,
-.default-keyboard-mode textarea:focus,
-.default-keyboard-mode select:focus,
-.default-keyboard-mode summary:focus
+.fonky-keyboard-mode a:focus,
+.fonky-keyboard-mode button:focus,
+.fonky-keyboard-mode input:focus,
+.fonky-keyboard-mode textarea:focus,
+.fonky-keyboard-mode select:focus,
+.fonky-keyboard-mode summary:focus
 {
-	outline: 2px solid var(--default-blue-soft) !important;
+	outline: 2px solid var(--fonky-blue-soft) !important;
 	outline-offset: 3px !important;
 }
 
 /* ==========================================================================================
    Utility Badges and Inline Helpers
    ========================================================================================== */
-.default-pill,
-.md-typeset .default-pill
+.fonky-pill,
+.md-typeset .fonky-pill
 {
 	display: inline-flex;
 	align-items: center;
@@ -962,31 +962,31 @@ h4:hover .default-heading-link,
 	border: 1px solid rgba(77, 163, 255, 0.36);
 	border-radius: 999px;
 	background: rgba(0, 120, 252, 0.12);
-	color: var(--default-blue-soft);
+	color: var(--fonky-blue-soft);
 	font-size: 0.72rem;
 	font-weight: 750;
 	white-space: nowrap;
 }
 
-.default-pill-success
+.fonky-pill-success
 {
 	border-color: rgba(51, 209, 122, 0.42);
 	background: rgba(51, 209, 122, 0.12);
-	color: var(--default-success);
+	color: var(--fonky-success);
 }
 
-.default-pill-warning
+.fonky-pill-warning
 {
 	border-color: rgba(245, 197, 66, 0.46);
 	background: rgba(245, 197, 66, 0.12);
-	color: var(--default-warning);
+	color: var(--fonky-warning);
 }
 
-.default-pill-danger
+.fonky-pill-danger
 {
 	border-color: rgba(255, 107, 107, 0.46);
 	background: rgba(255, 107, 107, 0.12);
-	color: var(--default-danger);
+	color: var(--fonky-danger);
 }
 
 /* ==========================================================================================
@@ -997,9 +997,9 @@ h4:hover .default-heading-link,
 	margin: 1.2rem 0;
 	padding: 1rem;
 	border: 1px solid rgba(77, 163, 255, 0.24);
-	border-radius: var(--default-radius-lg);
+	border-radius: var(--fonky-radius-lg);
 	background: rgba(16, 24, 32, 0.88);
-	box-shadow: var(--default-shadow-soft);
+	box-shadow: var(--fonky-shadow-soft);
 }
 
 /* ==========================================================================================
@@ -1008,7 +1008,7 @@ h4:hover .default-heading-link,
 .md-footer
 {
 	border-top: 1px solid rgba(77, 163, 255, 0.22);
-	background: var(--default-blue-dark);
+	background: var(--fonky-blue-dark);
 }
 
 .md-footer-meta
@@ -1032,18 +1032,18 @@ h4:hover .default-heading-link,
 		font-size: 0.82rem;
 	}
 	
-	.default-table-tools
+	.fonky-table-tools
 	{
 		align-items: flex-start;
 		flex-direction: column;
 	}
 	
-	.default-table-filter
+	.fonky-table-filter
 	{
 		width: 100%;
 	}
 	
-	.default-page-tools
+	.fonky-page-tools
 	{
 		margin-top: 0;
 	}
@@ -1066,20 +1066,20 @@ h4:hover .default-heading-link,
 		font-size: 1.08rem;
 	}
 	
-	.default-api-tool-buttons,
-	.default-page-tools
+	.fonky-api-tool-buttons,
+	.fonky-page-tools
 	{
 		flex-direction: column;
 		align-items: stretch;
 	}
 	
-	.default-api-tool-button,
-	.default-page-tools button
+	.fonky-api-tool-button,
+	.fonky-page-tools button
 	{
 		width: 100%;
 	}
 	
-	.default-scroll-top
+	.fonky-scroll-top
 	{
 		right: 0.75rem;
 		bottom: 0.75rem;
@@ -1097,13 +1097,13 @@ h4:hover .default-heading-link,
 	.md-tabs,
 	.md-sidebar,
 	.md-footer,
-	.default-page-tools,
-	.default-api-tools,
-	.default-scroll-top,
-	#default-reading-progress,
-	.default-heading-link,
-	.default-code-toggle,
-	.default-table-tools
+	.fonky-page-tools,
+	.fonky-api-tools,
+	.fonky-scroll-top,
+	#fonky-reading-progress,
+	.fonky-heading-link,
+	.fonky-code-toggle,
+	.fonky-table-tools
 	{
 		display: none !important;
 	}

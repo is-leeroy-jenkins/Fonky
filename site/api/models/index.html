@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Data retrieval, document ingestion, scraping, cloud, public data, and scientific provider framework.">
+        <meta name="description" content="Data retrieval, document ingestion, web scraping, cloud access, public data, scientific and geospatial integration framework.">
       
       
       
@@ -613,7 +613,7 @@
   <span class="md-ellipsis">
     
   
-    Archives
+    Archives & Research
   
 
     
@@ -641,7 +641,7 @@
   <span class="md-ellipsis">
     
   
-    Astronomical
+    Astronomy & Space
   
 
     
@@ -669,7 +669,7 @@
   <span class="md-ellipsis">
     
   
-    Cloud
+    Cloud & Remote Storage
   
 
     
@@ -697,7 +697,7 @@
   <span class="md-ellipsis">
     
   
-    Demographic
+    Demographic & Public Data
   
 
     
@@ -725,7 +725,7 @@
   <span class="md-ellipsis">
     
   
-    Documents
+    Document Loading
   
 
     
@@ -753,7 +753,7 @@
   <span class="md-ellipsis">
     
   
-    Environmental
+    Environmental & Climate
   
 
     
@@ -781,7 +781,7 @@
   <span class="md-ellipsis">
     
   
-    Geospatial
+    Geospatial & Mapping
   
 
     
@@ -809,7 +809,7 @@
   <span class="md-ellipsis">
     
   
-    Health
+    Health Data
   
 
     
@@ -837,7 +837,63 @@
   <span class="md-ellipsis">
     
   
-    Web
+    Web Retrieval & Scraping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/interface-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional vs Class Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/composing-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Combining Capabilities
   
 
     
@@ -865,35 +921,7 @@
   <span class="md-ellipsis">
     
   
-    Results and Data Shapes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/state/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Stateful vs Functional Usage
+    Results & Return Shapes
   
 
     
@@ -921,35 +949,7 @@
   <span class="md-ellipsis">
     
   
-    Dependencies and Credentials
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/failures/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Failure Handling
+    Credentials & Dependencies
   
 
     
@@ -1233,6 +1233,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#prompt" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1397,6 +1408,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#module-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Functions
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1476,7 +1498,7 @@
   <span class="md-ellipsis">
     
   
-    Config
+    Configuration API
   
 
     
@@ -1705,7 +1727,7 @@
   <span class="md-ellipsis">
     
   
-    Testing and Validation
+    Testing & Documentation
   
 
     
@@ -1751,6 +1773,17 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#prompt" class="md-nav__link">
@@ -1917,6 +1950,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#module-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Functions
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1986,11 +2030,12 @@
 
 
 <h1 id="api-modelspy">API — <code>models.py</code><a class="headerlink" href="#api-modelspy" title="Permanent link">&para;</a></h1>
+<h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Class</th>
-<th style="text-align: right;">Public methods</th>
+<th style="text-align: right;">Public Methods</th>
 <th>Purpose</th>
 </tr>
 </thead>
@@ -2119,7 +2164,7 @@
 <tr>
 <td><code>from_method()</code></td>
 <td><code>from_method( cls: Any, target: Any, method: str, name: Optional[str] = None, description: Optional[str] = None, category: Optional[str] = None, strict: bool = True ) -&gt; 'ToolDef'</code></td>
-<td>Create tool definition from object method. Creates a provider-neutral tool definition from a method on an existing object instance. The method validates that the target member exists and is callable, then stores the target, method name, source class, source module, and generated parameter schema. Tool definition that resolves and wraps a named method on the supplied object instance. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</td>
+<td>Create tool definition from object method. Creates a provider-neutral tool definition from a method on an existing object instance. The method validates that the target member exists and is callable, then stores the target, method name, source class, source module, and generated parameter schema. Tool definition that resolves and wraps a named method on the supplied object instance.</td>
 </tr>
 <tr>
 <td><code>resolve_callable()</code></td>
@@ -2150,6 +2195,43 @@
 <td><code>to_gemini()</code></td>
 <td><code>to_gemini(  ) -&gt; Dict[str, Any]</code></td>
 <td>Export Gemini tool schema. Builds a Gemini-compatible function declaration from the neutral tool definition. The method returns the function name, description, and parameters object in the schema shape expected by Gemini tool configuration. Gemini-compatible function declaration for this tool definition. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="module-functions">Module Functions<a class="headerlink" href="#module-functions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>throw_if()</code></td>
+<td><code>throw_if( name: str, value: Any ) -&gt; None</code></td>
+<td>Validate required argument. Validates a required argument before downstream schema generation or tool execution uses it. The function rejects missing values and empty strings so callers fail early with a clear argument-specific error message. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</td>
+</tr>
+<tr>
+<td><code>clean_docstring()</code></td>
+<td><code>clean_docstring( value: Optional[str] ) -&gt; str</code></td>
+<td>Clean callable documentation. Normalizes optional callable documentation into a compact description string for generated tool schemas. The function removes indentation artifacts and returns an empty string when no documentation text is available. Cleaned docstring text suitable for reuse as a provider-facing tool description. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</td>
+</tr>
+<tr>
+<td><code>python_type_to_json_schema()</code></td>
+<td><code>python_type_to_json_schema( annotation: Any ) -&gt; Dict[str, Any]</code></td>
+<td>Convert Python annotation to JSON Schema. Maps Python type annotations to the JSON Schema fragments used by provider tool declarations. The function handles primitive types, containers, optional unions, and unknown annotations with conservative schema defaults. JSON Schema fragment that represents the supplied Python type annotation. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</td>
+</tr>
+<tr>
+<td><code>build_parameter_schema()</code></td>
+<td><code>build_parameter_schema( function: Callable[..., Any] ) -&gt; Dict[str, Any]</code></td>
+<td>Build callable parameter schema. Inspects a Python callable signature and builds a provider-neutral JSON Schema parameters object. The function excludes instance parameters, detects required arguments, preserves default values, and uses type hints when available. Provider-neutral JSON Schema object describing the callable parameters. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</td>
+</tr>
+<tr>
+<td><code>serialize_value()</code></td>
+<td><code>serialize_value( value: Any ) -&gt; Any</code></td>
+<td>Serialize runtime value. Converts common runtime objects into JSON-safe values for tool execution responses. The function preserves primitive values, recursively serializes mappings and sequences, and normalizes document, model, and dataframe-like objects when possible. JSON-safe representation of the supplied value. Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</td>
 </tr>
 </tbody>
 </table>
@@ -2248,7 +2330,7 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>

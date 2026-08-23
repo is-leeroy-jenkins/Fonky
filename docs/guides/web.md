@@ -1,112 +1,91 @@
-# Web
+# Web Retrieval & Scraping
 
-General web fetching, crawling, HTML conversion, link/title extraction, structured extraction, loading, and targeted scraping.
+The Web domain covers four distinct jobs: **HTTP retrieval**, **content extraction**, **crawling/web
+loading**, and **focused structural scraping**.
 
-## Functional Operations
+## Choose the Right Operation
 
-| Function | Signature | Purpose |
-|---|---|---|
-| `fetch_web_page()` | `fetch_web_page( url: str, time: int = 10 ) -> Any` | Fetch HTTP web page retrieval and HTML extraction. Provides direct module-level access to ``WebFetcher.fetch`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.fetch``. |
-| `convert_html_to_text()` | `convert_html_to_text( html: str ) -> Any` | HTML to text. Provides direct module-level access to ``WebFetcher.html_to_text`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.html_to_text``. |
-| `extract_web_title()` | `extract_web_title( html: str ) -> Any` | Extract title. Provides direct module-level access to ``WebFetcher.extract_title`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.extract_title``. |
-| `extract_web_links()` | `extract_web_links( base_url: str, html: str ) -> Any` | Extract links. Provides direct module-level access to ``WebFetcher.extract_links`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.extract_links``. |
-| `extract_web_structured_data()` | `extract_web_structured_data( url: str, html: str, selected_methods: Optional[List[str]] = None ) -> Any` | Extract structured data. Provides direct module-level access to ``WebFetcher.extract_structured_data`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.extract_structured_data``. |
-| `crawl_web()` | `crawl_web( seed_url: str, include_title: bool = True, include_basic_text: bool = True, include_raw_html: bool = False, selected_methods: Optional[List[str]] = None, recursive: bool = False, max_depth: int = 1, max_pages: int = 10, same_domain_only: bool = True, request_timeout: int = 10, delay_seconds: float = 0.25, max_bytes: int = 1000000, headers: Optional[Dict[str, str]] = None, use_playwright: bool = False ) -> Any` | Crawl. Provides direct module-level access to ``WebCrawler.crawl`` using a fresh ``WebCrawler`` instance. Any: Value returned by ``WebCrawler.crawl``. |
-| `scrape_crawler_page()` | `scrape_crawler_page( url: str, include_title: bool = True, include_basic_text: bool = True, include_raw_html: bool = False, selected_methods: Optional[List[str]] = None, request_timeout: int = 10, max_bytes: int = 1000000, headers: Optional[Dict[str, str]] = None, use_playwright: bool = False ) -> Any` | Scrape page. Provides direct module-level access to ``WebCrawler.scrape_page`` using a fresh ``WebCrawler`` instance. Any: Value returned by ``WebCrawler.scrape_page``. |
-| `render_web_page()` | `render_web_page( url: str, timeout: int = 15, headers: Optional[Dict[str, str]] = None, use_playwright: bool = False ) -> Any` | Render with playwright. Provides direct module-level access to ``WebCrawler.render_with_playwright`` using a fresh ``WebCrawler`` instance. Any: Value returned by ``WebCrawler.render_with_playwright``. |
-| `load_web()` | `load_web( urls: str \| List[str], recursive: bool = False, max_depth: int = 2, prevent_outside: bool = True, timeout: int = 10, ignore: bool = True, progress: bool = True ) -> Any` | Load source content. Provides direct module-level access to ``WebLoader.load`` using a fresh ``WebLoader`` instance. Any: Value returned by ``WebLoader.load``. |
-| `load_web_recursive()` | `load_web_recursive( url: str, depth: int = 2, max_time: int = 10, ignore: bool = True ) -> Any` | Load web documents recursively. Provides direct module-level access to ``WebLoader.load_recursive`` using a fresh ``WebLoader`` instance. Any: Value returned by ``WebLoader.load_recursive``. |
-| `load_web_pages()` | `load_web_pages( urls: List[str], depth: int = 2, timeout: int = 10, ignore: bool = True, progress: bool = True ) -> Any` | Load static web pages. Provides direct module-level access to ``WebLoader.load_pages`` using a fresh ``WebLoader`` instance. Any: Value returned by ``WebLoader.load_pages``. |
-| `load_github()` | `load_github( url: str, repo: str, branch: str, filetype: str = '.md' ) -> Any` | Load source content. Provides direct module-level access to ``GithubLoader.load`` using a fresh ``GithubLoader`` instance. Any: Value returned by ``GithubLoader.load``. |
-| `scrape_web_page()` | `scrape_web_page( url: str, time: int = 10 ) -> Any` | Fetch a web page. Provides direct module-level access to ``WebExtractor.scrape`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape``. |
-| `scraper_html_to_text()` | `scraper_html_to_text( html: str ) -> Any` | Convert HTML to plain text. Provides direct module-level access to ``WebExtractor.html_to_text`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.html_to_text``. |
-| `scrape_paragraphs()` | `scrape_paragraphs( uri: str ) -> Any` | Extract paragraph text. Provides direct module-level access to ``WebExtractor.scrape_paragraphs`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_paragraphs``. |
-| `scrape_lists()` | `scrape_lists( uri: str ) -> Any` | Extract list item text. Provides direct module-level access to ``WebExtractor.scrape_lists`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_lists``. |
-| `scrape_tables()` | `scrape_tables( uri: str ) -> Any` | Extract table cell text. Provides direct module-level access to ``WebExtractor.scrape_tables`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_tables``. |
-| `scrape_articles()` | `scrape_articles( uri: str ) -> Any` | Extract article text. Provides direct module-level access to ``WebExtractor.scrape_articles`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_articles``. |
-| `scrape_headings()` | `scrape_headings( uri: str ) -> Any` | Extract heading text. Provides direct module-level access to ``WebExtractor.scrape_headings`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_headings``. |
-| `scrape_divisions()` | `scrape_divisions( uri: str ) -> Any` | Extract division text. Provides direct module-level access to ``WebExtractor.scrape_divisions`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_divisions``. |
-| `scrape_sections()` | `scrape_sections( uri: str ) -> Any` | Extract section text. Provides direct module-level access to ``WebExtractor.scrape_sections`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_sections``. |
-| `scrape_blockquotes()` | `scrape_blockquotes( uri: str ) -> Any` | Extract blockquote text. Provides direct module-level access to ``WebExtractor.scrape_blockquotes`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_blockquotes``. |
-| `scrape_hyperlinks()` | `scrape_hyperlinks( uri: str ) -> Any` | Extract hyperlinks. Provides direct module-level access to ``WebExtractor.scrape_hyperlinks`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_hyperlinks``. |
-| `scrape_images()` | `scrape_images( uri: str ) -> Any` | Extract image references. Provides direct module-level access to ``WebExtractor.scrape_images`` using a fresh ``WebExtractor`` instance. Any: Value returned by ``WebExtractor.scrape_images``. |
-| `encode_image()` | `encode_image( path: str ) -> str` | Encode an image as Base64 text. Provides direct module-level access to ``fetchers.encode_image``. str: Base64-encoded image data. |
+| Need | Function |
+|---|---|
+| Raw/general page retrieval | `fetch_web_page()` |
+| Convert known HTML to text | `convert_html_to_text()` / `scraper_html_to_text()` |
+| Extract title/links/structured data from known HTML | `extract_web_title()`, `extract_web_links()`, `extract_web_structured_data()` |
+| Crawl multiple pages | `crawl_web()` |
+| Render one page, optionally with Playwright | `render_web_page()` |
+| Load web content as documents | `load_web()`, `load_web_recursive()`, `load_web_pages()` |
+| Load repository content | `load_github()` |
+| Extract page structures directly | `scrape_paragraphs()`, `scrape_lists()`, `scrape_tables()`, etc. |
 
-## How to choose
-
-Use the functional wrapper when one call completes the task. Use the implementation class when you need retained state, helper methods, or direct provider debugging.
-
-## Operational considerations
-
-- Remote providers require network access.
-- Rate limits, timeouts, service availability, and response-shape changes remain operational concerns.
-- Provider-specific argument validation is enforced by the implementation class.
-
-## Representative Functions
-
-### `fetch_web_page()`
+## Workflow — Fetch Once, Extract Several Structures
 
 ```python
-# fetch_web_page( url: str, time: int = 10 ) -> Any
+from fonky import fonky
+
+html = fonky.fetch_web_page(
+    url='https://example.com',
+    time=10
+)
+
+text = fonky.convert_html_to_text(html)
+title = fonky.extract_web_title(html)
+links = fonky.extract_web_links(
+    base_url='https://example.com',
+    html=html
+)
 ```
 
-Fetch HTTP web page retrieval and HTML extraction. Provides direct module-level access to ``WebFetcher.fetch`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.fetch``.
+This avoids issuing a separate HTTP request for each extraction when you already have the HTML.
 
-### `convert_html_to_text()`
+## Workflow — Focused Table Extraction
 
 ```python
-# convert_html_to_text( html: str ) -> Any
+from fonky import fonky
+
+cells = fonky.scrape_tables(
+    uri='https://example.com/report'
+)
+
+for value in cells or []:
+    print(value)
 ```
 
-HTML to text. Provides direct module-level access to ``WebFetcher.html_to_text`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.html_to_text``.
+The focused scraper performs its own request and returns flattened readable table-cell text.
 
-### `extract_web_title()`
+## Workflow — Bounded Crawl
 
 ```python
-# extract_web_title( html: str ) -> Any
+from fonky import fonky
+
+pages = fonky.crawl_web(
+    seed_url='https://example.com',
+    include_title=True,
+    include_basic_text=True,
+    include_raw_html=False,
+    recursive=True,
+    max_depth=2,
+    max_pages=25,
+    same_domain_only=True,
+    request_timeout=10,
+    delay_seconds=0.5,
+    max_bytes=1_000_000,
+    use_playwright=False
+)
 ```
 
-Extract title. Provides direct module-level access to ``WebFetcher.extract_title`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.extract_title``.
+Bound `max_depth`, `max_pages`, and `max_bytes`. Crawling without explicit limits can become expensive
+or impolite to the target site.
 
-### `extract_web_links()`
+## When to Use Playwright
 
-```python
-# extract_web_links( base_url: str, html: str ) -> Any
+Set `use_playwright=True` when meaningful content is produced by client-side JavaScript and ordinary
+HTTP retrieval does not contain the expected page content. Install Chromium separately with:
+
+```powershell
+python -m playwright install chromium
 ```
 
-Extract links. Provides direct module-level access to ``WebFetcher.extract_links`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.extract_links``.
+## Failure Interpretation
 
-### `extract_web_structured_data()`
-
-```python
-# extract_web_structured_data( url: str, html: str, selected_methods: Optional[List[str]] = None ) -> Any
-```
-
-Extract structured data. Provides direct module-level access to ``WebFetcher.extract_structured_data`` using a fresh ``WebFetcher`` instance. Any: Value returned by ``WebFetcher.extract_structured_data``.
-
-### `crawl_web()`
-
-```python
-# crawl_web( seed_url: str, include_title: bool = True, include_basic_text: bool = True, include_raw_html: bool = False, selected_methods: Optional[List[str]] = None, recursive: bool = False, max_depth: int = 1, max_pages: int = 10, same_domain_only: bool = True, request_timeout: int = 10, delay_seconds: float = 0.25, max_bytes: int = 1000000, headers: Optional[Dict[str, str]] = None, use_playwright: bool = False ) -> Any
-```
-
-Crawl. Provides direct module-level access to ``WebCrawler.crawl`` using a fresh ``WebCrawler`` instance. Any: Value returned by ``WebCrawler.crawl``.
-
-### `scrape_crawler_page()`
-
-```python
-# scrape_crawler_page( url: str, include_title: bool = True, include_basic_text: bool = True, include_raw_html: bool = False, selected_methods: Optional[List[str]] = None, request_timeout: int = 10, max_bytes: int = 1000000, headers: Optional[Dict[str, str]] = None, use_playwright: bool = False ) -> Any
-```
-
-Scrape page. Provides direct module-level access to ``WebCrawler.scrape_page`` using a fresh ``WebCrawler`` instance. Any: Value returned by ``WebCrawler.scrape_page``.
-
-### `render_web_page()`
-
-```python
-# render_web_page( url: str, timeout: int = 15, headers: Optional[Dict[str, str]] = None, use_playwright: bool = False ) -> Any
-```
-
-Render with playwright. Provides direct module-level access to ``WebCrawler.render_with_playwright`` using a fresh ``WebCrawler`` instance. Any: Value returned by ``WebCrawler.render_with_playwright``.
-
-
-See [Functional API](../api/fonky.md) for all signatures.
+A scraper exception is different from an empty extraction result. An empty list can mean the page
+contains no matching structures; an exception can indicate URI validation, network, timeout, HTTP,
+or parser failure.

@@ -1,9 +1,21 @@
-# Adding a Functional Wrapper
+# Adding a `fonky.py` Wrapper
+
+The wrapper is an ergonomic surface, not a new implementation layer.
 
 ```python
 def scrape_tables( uri: str ):
     scraper = WebExtractor( )
-    return scraper.scrape_tables( uri=uri )
+    return scraper.scrape_tables(
+        uri=uri
+    )
 ```
 
-Keep wrappers thin: explicit parameters, local implementation instance, direct method call, no duplicated provider logic.
+## Requirements
+
+- explicit typed parameters;
+- no duplicated provider logic;
+- local implementation instance;
+- direct call to the intended method;
+- result returned without unnecessary transformation;
+- exported through `__all__`;
+- route test verifies class, method, argument names, and result propagation.

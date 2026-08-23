@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Data retrieval, document ingestion, scraping, cloud, public data, and scientific provider framework.">
+        <meta name="description" content="Data retrieval, document ingestion, web scraping, cloud access, public data, scientific and geospatial integration framework.">
       
       
       
@@ -613,7 +613,7 @@
   <span class="md-ellipsis">
     
   
-    Archives
+    Archives & Research
   
 
     
@@ -641,7 +641,7 @@
   <span class="md-ellipsis">
     
   
-    Astronomical
+    Astronomy & Space
   
 
     
@@ -669,7 +669,7 @@
   <span class="md-ellipsis">
     
   
-    Cloud
+    Cloud & Remote Storage
   
 
     
@@ -697,7 +697,7 @@
   <span class="md-ellipsis">
     
   
-    Demographic
+    Demographic & Public Data
   
 
     
@@ -725,7 +725,7 @@
   <span class="md-ellipsis">
     
   
-    Documents
+    Document Loading
   
 
     
@@ -753,7 +753,7 @@
   <span class="md-ellipsis">
     
   
-    Environmental
+    Environmental & Climate
   
 
     
@@ -781,7 +781,7 @@
   <span class="md-ellipsis">
     
   
-    Geospatial
+    Geospatial & Mapping
   
 
     
@@ -809,7 +809,7 @@
   <span class="md-ellipsis">
     
   
-    Health
+    Health Data
   
 
     
@@ -837,7 +837,63 @@
   <span class="md-ellipsis">
     
   
-    Web
+    Web Retrieval & Scraping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/interface-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional vs Class Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/composing-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Combining Capabilities
   
 
     
@@ -865,35 +921,7 @@
   <span class="md-ellipsis">
     
   
-    Results and Data Shapes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/state/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Stateful vs Functional Usage
+    Results & Return Shapes
   
 
     
@@ -921,35 +949,7 @@
   <span class="md-ellipsis">
     
   
-    Dependencies and Credentials
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/failures/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Failure Handling
+    Credentials & Dependencies
   
 
     
@@ -1205,6 +1205,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#extractor" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1220,6 +1231,17 @@
     <span class="md-ellipsis">
       
         WebExtractor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Functions
       
     </span>
   </a>
@@ -1333,7 +1355,7 @@
   <span class="md-ellipsis">
     
   
-    Config
+    Configuration API
   
 
     
@@ -1562,7 +1584,7 @@
   <span class="md-ellipsis">
     
   
-    Testing and Validation
+    Testing & Documentation
   
 
     
@@ -1610,6 +1632,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#extractor" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1625,6 +1658,17 @@
     <span class="md-ellipsis">
       
         WebExtractor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Functions
       
     </span>
   </a>
@@ -1700,11 +1744,12 @@
 
 
 <h1 id="api-scraperspy">API — <code>scrapers.py</code><a class="headerlink" href="#api-scraperspy" title="Permanent link">&para;</a></h1>
+<h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Class</th>
-<th style="text-align: right;">Public methods</th>
+<th style="text-align: right;">Public Methods</th>
 <th>Purpose</th>
 </tr>
 </thead>
@@ -1797,7 +1842,24 @@
 <tr>
 <td><code>create_schema()</code></td>
 <td><code>create_schema( function: str, tool: str, description: str, parameters: dict, required: list[str] ) -&gt; Dict[str, str] \| None</code></td>
-<td>Create a dynamic tool schema. Constructs an OpenAI-style function tool schema from the supplied function name, service name, description, parameter schema, and required field list. The method validates required inputs and preserves the caller-provided JSON-schema fragments for individual parameters. JSON-compatible dictionary defining the tool schema. ValueError: Raised when <code>parameters</code> is not a dictionary. Error: Re-raised after the exception is wrapped and written to the application logger.</td>
+<td>Create a dynamic tool schema. Constructs an OpenAI-style function tool schema from the supplied function name, service name, description, parameter schema, and required field list. The method validates required inputs and preserves the caller-provided JSON-schema fragments for individual parameters. JSON-compatible dictionary defining the tool schema. ValueError: Raised when <code>parameters</code> is not a dictionary.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="module-functions">Module Functions<a class="headerlink" href="#module-functions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>throw_if()</code></td>
+<td><code>throw_if( name: str, value: object ) -&gt; None</code></td>
+<td>Throw if. Provides a input guard used by the Gipity Streamlit application. The function supports UI state management, provider coordination, data normalization, or display behavior required by the surrounding workflow. Error: Re-raised after the exception is wrapped and written to the application logger.</td>
 </tr>
 </tbody>
 </table>
@@ -1896,7 +1958,7 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>

@@ -1,13 +1,18 @@
-# Results and Data Shapes
+# Results and Return Shapes
 
-Fonky preserves the result contract of the underlying implementation.
+Fonky intentionally preserves implementation-specific return values instead of wrapping every result
+in a generic envelope.
 
-| Result | Typical use |
-|---|---|
-| `List[Document]` | loaders, retrieval, embeddings, chunking |
-| `dict` | normalized provider responses |
-| `list[dict]` | tabular/public-data records |
-| `str` | extracted text |
-| `list[str]` | scraper structures such as headings, links, cells, and images |
+| Family | Common Producers | Typical Use |
+|---|---|---|
+| `List[Document]` | Document/cloud/web loaders | Retrieval, embeddings, NLP, document analysis |
+| `dict` | API fetchers | Metadata + structured provider response |
+| `list[dict]` | Public-data APIs | Row/record processing, DataFrame conversion |
+| `str` | HTML/text conversion | NLP and direct display |
+| `list[str]` | Focused scrapers | Headings, links, paragraphs, table cells, images |
+| file/image/provider object | Imagery/specialized integrations | Save, display, or provider-specific downstream work |
 
-Normalize only at the application boundary when downstream code requires a uniform contract.
+## Normalize at the Application Boundary
+
+If your application requires one common contract, normalize results after Fonky returns them. Keeping
+normalization outside the wrapper avoids throwing away provider-specific information prematurely.

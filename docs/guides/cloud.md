@@ -1,95 +1,65 @@
-# Cloud
+# Cloud & Remote Storage
 
-Google Drive, Google Cloud Storage, AWS S3, OneDrive, and Google Speech-to-Text ingestion.
+Use the Cloud domain when the source document or audio is stored outside the local filesystem.
 
-## Functional Operations
+## Capability Selection
 
-| Function | Signature | Purpose |
+| Source | Function | Authentication Pattern |
 |---|---|---|
-| `load_google_drive_file()` | `load_google_drive_file( file_id: str, recursive: bool = False ) -> Any` | Load a provider file. Provides direct module-level access to ``GoogleDriveLoader.load_file`` using a fresh ``GoogleDriveLoader`` instance. Any: Value returned by ``GoogleDriveLoader.load_file``. |
-| `load_google_drive_folder()` | `load_google_drive_folder( folder_id: str, recursive: bool = False ) -> Any` | Load provider folder content. Provides direct module-level access to ``GoogleDriveLoader.load_folder`` using a fresh ``GoogleDriveLoader`` instance. Any: Value returned by ``GoogleDriveLoader.load_folder``. |
-| `load_onedrive()` | `load_onedrive( drive_id: str, folder_path: Optional[str] = None, object_ids: Optional[List[str]] = None, auth_with_token: bool = True ) -> Any` | Load source content. Provides direct module-level access to ``OneDriveDocLoader.load`` using a fresh ``OneDriveDocLoader`` instance. Any: Value returned by ``OneDriveDocLoader.load``. |
-| `load_google_cloud_file()` | `load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any` | Load source content. Provides direct module-level access to ``GoogleCloudFileLoader.load`` using a fresh ``GoogleCloudFileLoader`` instance. Any: Value returned by ``GoogleCloudFileLoader.load``. |
-| `load_aws_file()` | `load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str] = None, aws_secret_access_key: Optional[str] = None, aws_session_token: Optional[str] = None, region_name: Optional[str] = None ) -> Any` | Load source content. Provides direct module-level access to ``AwsFileLoader.load`` using a fresh ``AwsFileLoader`` instance. Any: Value returned by ``AwsFileLoader.load``. |
-| `load_google_speech_to_text()` | `load_google_speech_to_text( project_id: str, file_path: str, config: Optional[Dict[str, Any]] = None ) -> Any` | Load source content. Provides direct module-level access to ``GoogleSpeechToTextLoader.load`` using a fresh ``GoogleSpeechToTextLoader`` instance. Any: Value returned by ``GoogleSpeechToTextLoader.load``. |
-| `load_google_bucket()` | `load_google_bucket( project_name: str, bucket: str, prefix: Optional[str] = None, continue_on_failure: bool = False ) -> Any` | Load source content. Provides direct module-level access to ``GoogleBucketLoader.load`` using a fresh ``GoogleBucketLoader`` instance. Any: Value returned by ``GoogleBucketLoader.load``. |
-| `load_aws_bucket()` | `load_aws_bucket( bucket: str, prefix: Optional[str] = None, aws_access_key_id: Optional[str] = None, aws_secret_access_key: Optional[str] = None, aws_session_token: Optional[str] = None, region_name: Optional[str] = None, endpoint_url: Optional[str] = None ) -> Any` | Load source content. Provides direct module-level access to ``AwsBucketLoader.load`` using a fresh ``AwsBucketLoader`` instance. Any: Value returned by ``AwsBucketLoader.load``. |
+| Google Drive file | `load_google_drive_file()` | Google Drive OAuth/service credentials |
+| Google Drive folder | `load_google_drive_folder()` | Google Drive OAuth/service credentials |
+| OneDrive | `load_onedrive()` | Microsoft/O365 credentials or token flow |
+| Google Cloud Storage file | `load_google_cloud_file()` | GCP project + application/service credentials |
+| Google Cloud Storage bucket | `load_google_bucket()` | GCP project + credentials |
+| AWS S3 object | `load_aws_file()` | AWS credential chain or explicit keys |
+| AWS S3 bucket/prefix | `load_aws_bucket()` | AWS credential chain or explicit keys |
+| Speech-to-Text | `load_google_speech_to_text()` | GCP project + Speech API credentials |
 
-## How to choose
-
-Use the functional wrapper when one call completes the task. Use the implementation class when you need retained state, helper methods, or direct provider debugging.
-
-## Operational considerations
-
-- Cloud SDK credentials are commonly required.
-- Authentication failures and missing Python dependencies are separate problems.
-- Large objects may be expensive in memory and network transfer.
-
-## Representative Functions
-
-### `load_google_drive_file()`
+## Workflow — Load a Single S3 Object
 
 ```python
-# load_google_drive_file( file_id: str, recursive: bool = False ) -> Any
+from fonky import fonky
+
+documents = fonky.load_aws_file(
+    bucket='analysis-data',
+    key='reports/quarterly-report.pdf',
+    region_name='us-east-1'
+)
 ```
 
-Load a provider file. Provides direct module-level access to ``GoogleDriveLoader.load_file`` using a fresh ``GoogleDriveLoader`` instance. Any: Value returned by ``GoogleDriveLoader.load_file``.
+Prefer the ambient AWS credential chain in production rather than passing access keys directly.
 
-### `load_google_drive_folder()`
+## Workflow — Load a Folder from Google Drive
 
 ```python
-# load_google_drive_folder( folder_id: str, recursive: bool = False ) -> Any
+from fonky import fonky
+
+documents = fonky.load_google_drive_folder(
+    folder_id='1AbCdEf...',
+    recursive=True
+)
 ```
 
-Load provider folder content. Provides direct module-level access to ``GoogleDriveLoader.load_folder`` using a fresh ``GoogleDriveLoader`` instance. Any: Value returned by ``GoogleDriveLoader.load_folder``.
+Use recursive loading only when nested folders are intentional; it can materially increase retrieval
+volume and processing time.
 
-### `load_onedrive()`
+## Workflow — Transcribe an Audio File
 
 ```python
-# load_onedrive( drive_id: str, folder_path: Optional[str] = None, object_ids: Optional[List[str]] = None, auth_with_token: bool = True ) -> Any
+from fonky import fonky
+
+transcript = fonky.load_google_speech_to_text(
+    project_id='my-gcp-project',
+    file_path='meeting.wav',
+    config={
+        'language_code': 'en-US'
+    }
+)
 ```
 
-Load source content. Provides direct module-level access to ``OneDriveDocLoader.load`` using a fresh ``OneDriveDocLoader`` instance. Any: Value returned by ``OneDriveDocLoader.load``.
+## Operational Notes
 
-### `load_google_cloud_file()`
-
-```python
-# load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any
-```
-
-Load source content. Provides direct module-level access to ``GoogleCloudFileLoader.load`` using a fresh ``GoogleCloudFileLoader`` instance. Any: Value returned by ``GoogleCloudFileLoader.load``.
-
-### `load_aws_file()`
-
-```python
-# load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str] = None, aws_secret_access_key: Optional[str] = None, aws_session_token: Optional[str] = None, region_name: Optional[str] = None ) -> Any
-```
-
-Load source content. Provides direct module-level access to ``AwsFileLoader.load`` using a fresh ``AwsFileLoader`` instance. Any: Value returned by ``AwsFileLoader.load``.
-
-### `load_google_speech_to_text()`
-
-```python
-# load_google_speech_to_text( project_id: str, file_path: str, config: Optional[Dict[str, Any]] = None ) -> Any
-```
-
-Load source content. Provides direct module-level access to ``GoogleSpeechToTextLoader.load`` using a fresh ``GoogleSpeechToTextLoader`` instance. Any: Value returned by ``GoogleSpeechToTextLoader.load``.
-
-### `load_google_bucket()`
-
-```python
-# load_google_bucket( project_name: str, bucket: str, prefix: Optional[str] = None, continue_on_failure: bool = False ) -> Any
-```
-
-Load source content. Provides direct module-level access to ``GoogleBucketLoader.load`` using a fresh ``GoogleBucketLoader`` instance. Any: Value returned by ``GoogleBucketLoader.load``.
-
-### `load_aws_bucket()`
-
-```python
-# load_aws_bucket( bucket: str, prefix: Optional[str] = None, aws_access_key_id: Optional[str] = None, aws_secret_access_key: Optional[str] = None, aws_session_token: Optional[str] = None, region_name: Optional[str] = None, endpoint_url: Optional[str] = None ) -> Any
-```
-
-Load source content. Provides direct module-level access to ``AwsBucketLoader.load`` using a fresh ``AwsBucketLoader`` instance. Any: Value returned by ``AwsBucketLoader.load``.
-
-
-See [Functional API](../api/fonky.md) for all signatures.
+- Distinguish **SDK/import errors** from **authentication errors**.
+- Cloud folder/bucket calls can return large result sets; use prefixes/folder IDs deliberately.
+- Credential files and secrets are deployment configuration and should not be committed.
+- Network transfer cost and memory consumption can dominate large-object workflows.

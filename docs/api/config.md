@@ -1,4 +1,12 @@
 # API — `config.py`
 
-| Class | Public methods | Purpose |
-|---|---:|---|
+## Module Functions
+
+| Function | Signature | Purpose |
+|---|---|---|
+| `throw_if()` | `throw_if( name: str, value: object ) -> None` | Raise a ``ValueError`` when a required value is empty. Provides a small, consistent guard for required arguments and configuration values. The function treats falsy values as invalid and raises a ``ValueError`` containing the caller-supplied argument or setting name. ValueError: Raised when ``value`` is falsy. |
+| `get_bool()` | `get_bool( name: str, default: bool = False ) -> bool` | Read a Boolean environment variable. Converts environment-variable text into a deterministic Boolean value. Missing variables return the caller-provided default. Values of ``1``, ``true``, ``yes``, ``y``, and ``on`` are treated as ``True``; all other defined values are treated as ``False``. Parsed Boolean value, or the original default value when parsing fails. |
+| `get_int()` | `get_int( name: str, default: int ) -> int` | Read an integer environment variable. Parses an optional environment variable as an integer while preserving a safe default when the variable is missing, empty, or invalid. This keeps module import safe even when deployment configuration is incomplete. Parsed integer value or the supplied default value. |
+| `get_float()` | `get_float( name: str, default: float ) -> float` | Read a floating-point environment variable. Parses an optional environment variable as a float while preserving a safe default when the variable is missing, empty, or invalid. This helper supports numeric configuration without making module import dependent on perfect environment state. Parsed floating-point value or the supplied default value. |
+| `get_path()` | `get_path( name: str, default: Path ) -> Path` | Read a path environment variable. Resolves optional filesystem configuration from the environment. Missing variables return the resolved default path, and invalid values fall back to the resolved default path rather than interrupting module import. Resolved path value or the resolved default path. |
+| `get_text()` | `get_text( name: str, default: str ) -> str` | Read a text environment variable. Returns an environment variable as text while preserving the supplied default when the variable is missing or empty. This keeps optional configuration centralized and stable for callers that import the module early in application startup. Environment value or supplied default. |

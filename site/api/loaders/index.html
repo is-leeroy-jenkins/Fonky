@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Data retrieval, document ingestion, scraping, cloud, public data, and scientific provider framework.">
+        <meta name="description" content="Data retrieval, document ingestion, web scraping, cloud access, public data, scientific and geospatial integration framework.">
       
       
       
@@ -613,7 +613,7 @@
   <span class="md-ellipsis">
     
   
-    Archives
+    Archives & Research
   
 
     
@@ -641,7 +641,7 @@
   <span class="md-ellipsis">
     
   
-    Astronomical
+    Astronomy & Space
   
 
     
@@ -669,7 +669,7 @@
   <span class="md-ellipsis">
     
   
-    Cloud
+    Cloud & Remote Storage
   
 
     
@@ -697,7 +697,7 @@
   <span class="md-ellipsis">
     
   
-    Demographic
+    Demographic & Public Data
   
 
     
@@ -725,7 +725,7 @@
   <span class="md-ellipsis">
     
   
-    Documents
+    Document Loading
   
 
     
@@ -753,7 +753,7 @@
   <span class="md-ellipsis">
     
   
-    Environmental
+    Environmental & Climate
   
 
     
@@ -781,7 +781,7 @@
   <span class="md-ellipsis">
     
   
-    Geospatial
+    Geospatial & Mapping
   
 
     
@@ -809,7 +809,7 @@
   <span class="md-ellipsis">
     
   
-    Health
+    Health Data
   
 
     
@@ -837,7 +837,63 @@
   <span class="md-ellipsis">
     
   
-    Web
+    Web Retrieval & Scraping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/interface-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional vs Class Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/composing-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Combining Capabilities
   
 
     
@@ -865,35 +921,7 @@
   <span class="md-ellipsis">
     
   
-    Results and Data Shapes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/state/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Stateful vs Functional Usage
+    Results & Return Shapes
   
 
     
@@ -921,35 +949,7 @@
   <span class="md-ellipsis">
     
   
-    Dependencies and Credentials
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/failures/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Failure Handling
+    Credentials & Dependencies
   
 
     
@@ -1175,6 +1175,17 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#loader" class="md-nav__link">
@@ -1495,6 +1506,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#module-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Functions
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1630,7 +1652,7 @@
   <span class="md-ellipsis">
     
   
-    Config
+    Configuration API
   
 
     
@@ -1859,7 +1881,7 @@
   <span class="md-ellipsis">
     
   
-    Testing and Validation
+    Testing & Documentation
   
 
     
@@ -1905,6 +1927,17 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classes
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#loader" class="md-nav__link">
@@ -2225,6 +2258,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#module-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Functions
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2294,11 +2338,12 @@
 
 
 <h1 id="api-loaderspy">API — <code>loaders.py</code><a class="headerlink" href="#api-loaderspy" title="Permanent link">&para;</a></h1>
+<h2 id="classes">Classes<a class="headerlink" href="#classes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Class</th>
-<th style="text-align: right;">Public methods</th>
+<th style="text-align: right;">Public Methods</th>
 <th>Purpose</th>
 </tr>
 </thead>
@@ -2464,12 +2509,12 @@
 <tr>
 <td><code>verify_exists()</code></td>
 <td><code>verify_exists( path: str ) -&gt; str \| None</code></td>
-<td>Validate a local file path. Validates that a supplied local path points to an existing file before a loader attempts to read it. The method stores the verified path on the instance and returns the normalized path for subsequent loader construction. str | None: Validated or generated string value. Error: Re-raised after the original exception is wrapped and written to the application logger. FileNotFoundError: Raised when a local file path or pattern does not resolve to an existing file.</td>
+<td>Validate a local file path. Validates that a supplied local path points to an existing file before a loader attempts to read it. The method stores the verified path on the instance and returns the normalized path for subsequent loader construction. str | None: Validated or generated string value. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 <tr>
 <td><code>resolve_paths()</code></td>
 <td><code>resolve_paths( pattern: str ) -&gt; List[str] \| None</code></td>
-<td>Resolve file paths or glob patterns. Expands a direct file path or glob pattern into concrete existing files. The method records candidate and resolved paths so batch-oriented loaders can operate on verified filesystem inputs. List[str] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. FileNotFoundError: Raised when a local file path or pattern does not resolve to an existing file.</td>
+<td>Resolve file paths or glob patterns. Expands a direct file path or glob pattern into concrete existing files. The method records candidate and resolved paths so batch-oriented loaders can operate on verified filesystem inputs. List[str] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 <tr>
 <td><code>load_documents()</code></td>
@@ -2543,7 +2588,7 @@
 <tr>
 <td><code>load()</code></td>
 <td><code>load( urls: str \| List[str] ) -&gt; List[Document] \| None</code></td>
-<td>Load source content. Loads web content from one or more URLs. The method chooses between recursive crawling and static page loading based on instance configuration, stores request state, and returns the loaded web documents. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range.</td>
+<td>Load source content. Loads web content from one or more URLs. The method chooses between recursive crawling and static page loading based on instance configuration, stores request state, and returns the loaded web documents. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 <tr>
 <td><code>load_recursive()</code></td>
@@ -2558,7 +2603,7 @@
 <tr>
 <td><code>split()</code></td>
 <td><code>split( chunk: int = 1000, overlap: int = 200 ) -&gt; List[Document] \| None</code></td>
-<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range.</td>
+<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 </tbody>
 </table>
@@ -2642,7 +2687,7 @@
 <tr>
 <td><code>split()</code></td>
 <td><code>split( chunk: int = 1000, overlap: int = 200 ) -&gt; List[Document] \| None</code></td>
-<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range.</td>
+<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 </tbody>
 </table>
@@ -2665,7 +2710,7 @@
 <tr>
 <td><code>split()</code></td>
 <td><code>split( chunk: int = 1000, overlap: int = 200 ) -&gt; List[Document] \| None</code></td>
-<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range.</td>
+<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 </tbody>
 </table>
@@ -2711,7 +2756,7 @@
 <tr>
 <td><code>split()</code></td>
 <td><code>split( chunk: int = 1000, overlap: int = 200 ) -&gt; List[Document] \| None</code></td>
-<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range.</td>
+<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 </tbody>
 </table>
@@ -2938,7 +2983,7 @@
 <tr>
 <td><code>split()</code></td>
 <td><code>split( chunk: int = 1000, overlap: int = 200 ) -&gt; List[Document] \| None</code></td>
-<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range.</td>
+<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 </tbody>
 </table>
@@ -2961,7 +3006,7 @@
 <tr>
 <td><code>split()</code></td>
 <td><code>split( chunk: int = 1000, overlap: int = 200 ) -&gt; List[Document] \| None</code></td>
-<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range.</td>
+<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 </tbody>
 </table>
@@ -2984,7 +3029,7 @@
 <tr>
 <td><code>split()</code></td>
 <td><code>split( size: int = 1000, amount: int = 200 ) -&gt; List[Document] \| None</code></td>
-<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range.</td>
+<td>Split loaded documents. Splits the documents currently stored on the loader into smaller LangChain Document chunks. The method records chunk size and overlap settings before returning chunked documents for retrieval, embedding, or analysis workflows. List[Document] | None: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 <tr>
 <td><code>load_tree()</code></td>
@@ -3035,7 +3080,7 @@
 <tr>
 <td><code>load()</code></td>
 <td><code>load( city_id: str, dataset_id: str, limit: int = 100 ) -&gt; List[Document]</code></td>
-<td>Load source content. Loads records from an open city dataset into LangChain Document objects. The method validates city and dataset identifiers, enforces a positive limit, constructs OpenCityDataLoader, and returns dataset documents. List[Document]: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger. ValueError: Raised when a required value is missing, blank, or outside the supported range.</td>
+<td>Load source content. Loads records from an open city dataset into LangChain Document objects. The method validates city and dataset identifiers, enforces a positive limit, constructs OpenCityDataLoader, and returns dataset documents. List[Document]: Loaded or split LangChain Document objects. Error: Re-raised after the original exception is wrapped and written to the application logger.</td>
 </tr>
 <tr>
 <td><code>split()</code></td>
@@ -3182,6 +3227,23 @@
 </tr>
 </tbody>
 </table>
+<h2 id="module-functions">Module Functions<a class="headerlink" href="#module-functions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>throw_if()</code></td>
+<td><code>throw_if( name: str, value: object ) -&gt; None</code></td>
+<td>Throw if. Validates that a required argument contains a usable value so failures occur before provider, filesystem, or parsing work begins. None: This method updates instance state or validates input and does not return a value. ValueError: Raised when the method cannot satisfy its documented value requirement.</td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -3277,7 +3339,7 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>

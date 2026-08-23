@@ -1,11 +1,13 @@
 site_name: Fonky
-site_description: Data retrieval, document ingestion, scraping, cloud, public data, and scientific provider framework.
+site_description: Data retrieval, document ingestion, web scraping, cloud access, public data, scientific and geospatial integration framework.
 site_url: https://is-leeroy-jenkins.github.io/Fonky/
 repo_name: is-leeroy-jenkins/Fonky
 repo_url: https://github.com/is-leeroy-jenkins/Fonky
+
 docs_dir: docs
 site_dir: site
 strict: true
+
 theme:
   name: material
   language: en
@@ -20,12 +22,14 @@ theme:
     - navigation.footer
     - toc.follow
     - content.code.copy
+    - content.code.annotate
     - search.suggest
     - search.highlight
   palette:
     - scheme: slate
       primary: blue
       accent: light blue
+
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
@@ -33,19 +37,19 @@ nav:
   - Architecture: architecture.md
   - User Guide:
       - Overview: user-guide.md
-      - Archives: guides/archives.md
-      - Astronomical: guides/astronomical.md
-      - Cloud: guides/cloud.md
-      - Demographic: guides/demographic.md
-      - Documents: guides/documents.md
-      - Environmental: guides/environmental.md
-      - Geospatial: guides/geospatial.md
-      - Health: guides/health.md
-      - Web: guides/web.md
-      - Results and Data Shapes: guides/results.md
-      - Stateful vs Functional Usage: guides/state.md
-      - Dependencies and Credentials: guides/dependencies.md
-      - Failure Handling: guides/failures.md
+      - Archives & Research: guides/archives.md
+      - Astronomy & Space: guides/astronomical.md
+      - Cloud & Remote Storage: guides/cloud.md
+      - Demographic & Public Data: guides/demographic.md
+      - Document Loading: guides/documents.md
+      - Environmental & Climate: guides/environmental.md
+      - Geospatial & Mapping: guides/geospatial.md
+      - Health Data: guides/health.md
+      - Web Retrieval & Scraping: guides/web.md
+      - Functional vs Class Usage: guides/interface-selection.md
+      - Combining Capabilities: guides/composing-workflows.md
+      - Results & Return Shapes: guides/results.md
+      - Credentials & Dependencies: guides/dependencies.md
   - Troubleshooting: troubleshooting.md
   - API Reference:
       - Functional API: api/fonky.md
@@ -55,18 +59,21 @@ nav:
       - Models: api/models.md
       - Processors: api/processors.md
       - Core: api/core.md
-      - Config: api/config.md
+      - Configuration API: api/config.md
   - Development:
       - Overview: development/index.md
       - Adding a Fetcher: development/adding-fetcher.md
       - Adding a Loader: development/adding-loader.md
       - Adding a Scraper: development/adding-scraper.md
       - Adding a Wrapper: development/adding-wrapper.md
-      - Testing and Validation: development/testing.md
+      - Testing & Documentation: development/testing.md
+
 plugins:
   - search
+
 extra_css:
   - stylesheets/fonky.css
+
 markdown_extensions:
   - admonition
   - attr_list
@@ -75,7 +82,8 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.details
-  - pymdownx.highlight
+  - pymdownx.highlight:
+      anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.superfences
   - pymdownx.tabbed:

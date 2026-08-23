@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Data retrieval, document ingestion, scraping, cloud, public data, and scientific provider framework.">
+        <meta name="description" content="Data retrieval, document ingestion, web scraping, cloud access, public data, scientific and geospatial integration framework.">
       
       
       
@@ -641,10 +641,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#domains" class="md-nav__link">
+  <a href="#choose-a-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Domains
+        Choose a Workflow
       
     </span>
   </a>
@@ -652,10 +652,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cross-cutting" class="md-nav__link">
+  <a href="#common-operating-sequence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cross-cutting
+        Common Operating Sequence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-cutting-guides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Cutting Guides
       
     </span>
   </a>
@@ -685,7 +696,7 @@
   <span class="md-ellipsis">
     
   
-    Archives
+    Archives & Research
   
 
     
@@ -713,7 +724,7 @@
   <span class="md-ellipsis">
     
   
-    Astronomical
+    Astronomy & Space
   
 
     
@@ -741,7 +752,7 @@
   <span class="md-ellipsis">
     
   
-    Cloud
+    Cloud & Remote Storage
   
 
     
@@ -769,7 +780,7 @@
   <span class="md-ellipsis">
     
   
-    Demographic
+    Demographic & Public Data
   
 
     
@@ -797,7 +808,7 @@
   <span class="md-ellipsis">
     
   
-    Documents
+    Document Loading
   
 
     
@@ -825,7 +836,7 @@
   <span class="md-ellipsis">
     
   
-    Environmental
+    Environmental & Climate
   
 
     
@@ -853,7 +864,7 @@
   <span class="md-ellipsis">
     
   
-    Geospatial
+    Geospatial & Mapping
   
 
     
@@ -881,7 +892,7 @@
   <span class="md-ellipsis">
     
   
-    Health
+    Health Data
   
 
     
@@ -909,7 +920,63 @@
   <span class="md-ellipsis">
     
   
-    Web
+    Web Retrieval & Scraping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/interface-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional vs Class Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/composing-workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Combining Capabilities
   
 
     
@@ -937,35 +1004,7 @@
   <span class="md-ellipsis">
     
   
-    Results and Data Shapes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../guides/state/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Stateful vs Functional Usage
+    Results & Return Shapes
   
 
     
@@ -993,35 +1032,7 @@
   <span class="md-ellipsis">
     
   
-    Dependencies and Credentials
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../guides/failures/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Failure Handling
+    Credentials & Dependencies
   
 
     
@@ -1333,7 +1344,7 @@
   <span class="md-ellipsis">
     
   
-    Config
+    Configuration API
   
 
     
@@ -1562,7 +1573,7 @@
   <span class="md-ellipsis">
     
   
-    Testing and Validation
+    Testing & Documentation
   
 
     
@@ -1610,10 +1621,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#domains" class="md-nav__link">
+  <a href="#choose-a-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Domains
+        Choose a Workflow
       
     </span>
   </a>
@@ -1621,10 +1632,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cross-cutting" class="md-nav__link">
+  <a href="#common-operating-sequence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cross-cutting
+        Common Operating Sequence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-cutting-guides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-Cutting Guides
       
     </span>
   </a>
@@ -1700,25 +1722,71 @@
 
 
 <h1 id="user-guide">User Guide<a class="headerlink" href="#user-guide" title="Permanent link">&para;</a></h1>
-<p>The User Guide is organized around tasks.</p>
-<h2 id="domains">Domains<a class="headerlink" href="#domains" title="Permanent link">&para;</a></h2>
+<p>This guide is organized around <strong>what you are trying to accomplish</strong>, not around the names of source
+files or wrapper signatures.</p>
+<h2 id="choose-a-workflow">Choose a Workflow<a class="headerlink" href="#choose-a-workflow" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Use When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../guides/archives/">Archives</a></td>
+<td>You need research papers, search results, government/legislative data, news, or archival material.</td>
+</tr>
+<tr>
+<td><a href="../guides/astronomical/">Astronomical</a></td>
+<td>You need astronomy catalogs, satellites, near-Earth objects, space weather, star charts, or aviation state data.</td>
+</tr>
+<tr>
+<td><a href="../guides/cloud/">Cloud</a></td>
+<td>You need to ingest documents/audio from Google Drive, GCS, AWS S3, OneDrive, or Google Speech-to-Text.</td>
+</tr>
+<tr>
+<td><a href="../guides/demographic/">Demographic</a></td>
+<td>You need Census, Socrata, UN, world-population, or municipal open-data retrieval.</td>
+</tr>
+<tr>
+<td><a href="../guides/documents/">Documents</a></td>
+<td>You need to load local or enterprise documents into structured document objects.</td>
+</tr>
+<tr>
+<td><a href="../guides/environmental/">Environmental</a></td>
+<td>You need weather, climate, air quality, fires, earthquakes, water, tides, UV, or environmental facility data.</td>
+</tr>
+<tr>
+<td><a href="../guides/geospatial/">Geospatial</a></td>
+<td>You need geocoding, directions, imagery, National Map, or ScienceBase workflows.</td>
+</tr>
+<tr>
+<td><a href="../guides/health/">Health</a></td>
+<td>You need HealthData, WHO/global-health, CDC WONDER, or PubMed retrieval.</td>
+</tr>
+<tr>
+<td><a href="../guides/web/">Web</a></td>
+<td>You need HTTP retrieval, crawling, web-document loading, or structural HTML extraction.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="common-operating-sequence">Common Operating Sequence<a class="headerlink" href="#common-operating-sequence" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Choose the domain and provider/format that matches the task.</li>
+<li>Configure only the dependency and credential requirements for that path.</li>
+<li>Use the functional wrapper when the task is one-shot.</li>
+<li>Use the implementation class when the workflow needs retained state or helper methods.</li>
+<li>Inspect the returned shape before downstream transformation.</li>
+<li>Handle provider, file, parsing, and dependency failures explicitly.</li>
+</ol>
+<h2 id="cross-cutting-guides">Cross-Cutting Guides<a class="headerlink" href="#cross-cutting-guides" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../guides/archives/">Archives</a></li>
-<li><a href="../guides/astronomical/">Astronomical</a></li>
-<li><a href="../guides/cloud/">Cloud</a></li>
-<li><a href="../guides/demographic/">Demographic</a></li>
-<li><a href="../guides/documents/">Documents</a></li>
-<li><a href="../guides/environmental/">Environmental</a></li>
-<li><a href="../guides/geospatial/">Geospatial</a></li>
-<li><a href="../guides/health/">Health</a></li>
-<li><a href="../guides/web/">Web</a></li>
-</ul>
-<h2 id="cross-cutting">Cross-cutting<a class="headerlink" href="#cross-cutting" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="../guides/results/">Results and Data Shapes</a></li>
-<li><a href="../guides/state/">Stateful vs Functional Usage</a></li>
-<li><a href="../guides/dependencies/">Dependencies and Credentials</a></li>
-<li><a href="../guides/failures/">Failure Handling</a></li>
+<li><a href="../guides/interface-selection/">Choosing Functional vs Class Usage</a></li>
+<li><a href="../guides/composing-workflows/">Combining Capabilities</a></li>
+<li><a href="../guides/results/">Results and Return Shapes</a></li>
+<li><a href="../guides/dependencies/">Credentials and Dependencies</a></li>
+<li><a href="../troubleshooting/">Troubleshooting</a></li>
 </ul>
 
 
@@ -1772,13 +1840,13 @@
         
         
           
-          <a href="../guides/archives/" class="md-footer__link md-footer__link--next" aria-label="Next: Archives">
+          <a href="../guides/archives/" class="md-footer__link md-footer__link--next" aria-label="Next: Archives &amp; Research">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Archives
+                Archives & Research
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1815,7 +1883,7 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>

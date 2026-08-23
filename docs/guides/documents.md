@@ -1,106 +1,107 @@
-# Documents
+# Document Loading
 
-Local and structured document ingestion for text, CSV, XML, PDF, Markdown, HTML, JSON, PowerPoint, Excel, Word, email, Outlook, SharePoint, notebooks, and related formats.
+The Documents domain converts local and enterprise document formats into usable Python/LangChain
+document structures. It is one of Fonky's richest capability areas.
 
-## Functional Operations
+## Choose the Loader
 
-| Function | Signature | Purpose |
+| Source | Function | Use When |
 |---|---|---|
-| `load_text()` | `load_text( path: str, encoding: Optional[str] = None ) -> Any` | Load source content. Provides direct module-level access to ``TextLoader.load`` using a fresh ``TextLoader`` instance. Any: Value returned by ``TextLoader.load``. |
-| `load_csv()` | `load_csv( path: str, encoding: Optional[str] = 'utf-8', source_column: Optional[str] = None, delimiter: str = ',', quotechar: str = '"' ) -> Any` | Load source content. Provides direct module-level access to ``CsvLoader.load`` using a fresh ``CsvLoader`` instance. Any: Value returned by ``CsvLoader.load``. |
-| `read_pdf()` | `read_pdf( path: str, mode: str = 'single' ) -> Any` | Load source content. Provides direct module-level access to ``PdfReader.load`` using a fresh ``PdfReader`` instance. Any: Value returned by ``PdfReader.load``. |
-| `load_pdf()` | `load_pdf( path: str, mode: str = 'single', extract: str = 'plain', include: bool = False, format: str = 'markdown-img', size: int = 1000, overlap: int = 150, has_tables: bool = True ) -> Any` | Load source content. Provides direct module-level access to ``PdfLoader.load`` using a fresh ``PdfLoader`` instance. Any: Value returned by ``PdfLoader.load``. |
-| `load_excel()` | `load_excel( path: str, mode: str = 'elements', has_headers: bool = True ) -> Any` | Load source content. Provides direct module-level access to ``ExcelLoader.load`` using a fresh ``ExcelLoader`` instance. Any: Value returned by ``ExcelLoader.load``. |
-| `load_word()` | `load_word( path: str ) -> Any` | Load source content. Provides direct module-level access to ``WordLoader.load`` using a fresh ``WordLoader`` instance. Any: Value returned by ``WordLoader.load``. |
-| `load_markdown()` | `load_markdown( path: str ) -> Any` | Load source content. Provides direct module-level access to ``MarkdownLoader.load`` using a fresh ``MarkdownLoader`` instance. Any: Value returned by ``MarkdownLoader.load``. |
-| `load_html()` | `load_html( path: str ) -> Any` | Load source content. Provides direct module-level access to ``HtmlLoader.load`` using a fresh ``HtmlLoader`` instance. Any: Value returned by ``HtmlLoader.load``. |
-| `load_outlook()` | `load_outlook( path: str ) -> Any` | Load source content. Provides direct module-level access to ``OutlookLoader.load`` using a fresh ``OutlookLoader`` instance. Any: Value returned by ``OutlookLoader.load``. |
-| `load_spfx()` | `load_spfx( library_id: str ) -> Any` | Load source content. Provides direct module-level access to ``SpfxLoader.load`` using a fresh ``SpfxLoader`` instance. Any: Value returned by ``SpfxLoader.load``. |
-| `load_spfx_folder()` | `load_spfx_folder( library_id: str, folder_id: str ) -> Any` | Load provider folder content. Provides direct module-level access to ``SpfxLoader.load_folder`` using a fresh ``SpfxLoader`` instance. Any: Value returned by ``SpfxLoader.load_folder``. |
-| `load_powerpoint()` | `load_powerpoint( path: str, mode: str = 'single' ) -> Any` | Load source content. Provides direct module-level access to ``PowerPointLoader.load`` using a fresh ``PowerPointLoader`` instance. Any: Value returned by ``PowerPointLoader.load``. |
-| `load_powerpoint_multiple()` | `load_powerpoint_multiple( path: str ) -> Any` | Load multiple presentation elements. Provides direct module-level access to ``PowerPointLoader.load_multiple`` using a fresh ``PowerPointLoader`` instance. Any: Value returned by ``PowerPointLoader.load_multiple``. |
-| `load_email()` | `load_email( path: str, mode: str = 'single', attachments: bool = True ) -> Any` | Load source content. Provides direct module-level access to ``EmailLoader.load`` using a fresh ``EmailLoader`` instance. Any: Value returned by ``EmailLoader.load``. |
-| `load_json()` | `load_json( filepath: str, is_text: bool = True, is_lines: bool = False ) -> Any` | Load source content. Provides direct module-level access to ``JsonLoader.load`` using a fresh ``JsonLoader`` instance. Any: Value returned by ``JsonLoader.load``. |
-| `load_xml()` | `load_xml( filepath: str ) -> Any` | Load source content. Provides direct module-level access to ``XmlLoader.load`` using a fresh ``XmlLoader`` instance. Any: Value returned by ``XmlLoader.load``. |
-| `load_xml_tree()` | `load_xml_tree( filepath: str ) -> Any` | Parse an XML element tree. Provides direct module-level access to ``XmlLoader.load_tree`` using a fresh ``XmlLoader`` instance. Any: Value returned by ``XmlLoader.load_tree``. |
-| `load_jupyter_notebook()` | `load_jupyter_notebook( path: str, include_outputs: bool = False, max_output_length: int = 10, remove_newline: bool = False, traceback: bool = False ) -> Any` | Load source content. Provides direct module-level access to ``JupyterNotebookLoader.load`` using a fresh ``JupyterNotebookLoader`` instance. Any: Value returned by ``JupyterNotebookLoader.load``. |
+| Plain text | `load_text()` | You need raw text as documents. |
+| CSV | `load_csv()` | Each row should become structured document content. |
+| PDF | `read_pdf()` | You need direct PDF reader output. |
+| PDF | `load_pdf()` | You need loader-managed extraction, OCR/plain modes, images, tables, or chunk settings. |
+| Excel | `load_excel()` | You need spreadsheet/sheet content. |
+| Word | `load_word()` | You need DOCX text extraction. |
+| Markdown | `load_markdown()` | You need Markdown source as documents. |
+| HTML | `load_html()` | You need local HTML document loading. |
+| Outlook | `load_outlook()` | You need Outlook message content. |
+| SPFx | `load_spfx()` / `load_spfx_folder()` | You need SharePoint Framework library/folder content. |
+| PowerPoint | `load_powerpoint()` / `load_powerpoint_multiple()` | You need slide content from one or multiple presentations. |
+| Email | `load_email()` | You need email body and optionally attachments. |
+| JSON | `load_json()` | You need JSON or JSON Lines content. |
+| XML | `load_xml()` / `load_xml_tree()` | You need semantic XML documents or a structured XML tree. |
+| Notebook | `load_jupyter_notebook()` | You need notebook cells and optionally outputs. |
 
-## How to choose
-
-Use the functional wrapper when one call completes the task. Use the implementation class when you need retained state, helper methods, or direct provider debugging.
-
-## Operational considerations
-
-- Local paths must exist and be readable.
-- Format-specific parser dependencies must be installed.
-- Chunking changes document boundaries and should match downstream retrieval needs.
-- Stateful split workflows are better handled on a retained loader instance.
-
-## Representative Functions
-
-### `load_text()`
+## Workflow — PDF with Plain Extraction
 
 ```python
-# load_text( path: str, encoding: Optional[str] = None ) -> Any
+from fonky import fonky
+
+documents = fonky.load_pdf(
+    path='report.pdf',
+    mode='single',
+    extract='plain',
+    include=False,
+    format='markdown-img',
+    size=1000,
+    overlap=150,
+    has_tables=True
+)
 ```
 
-Load source content. Provides direct module-level access to ``TextLoader.load`` using a fresh ``TextLoader`` instance. Any: Value returned by ``TextLoader.load``.
+### When to change the defaults
 
-### `load_csv()`
+- Use OCR-oriented extraction when the PDF is image-based or text extraction is poor.
+- Keep table handling enabled when tables materially affect the document meaning.
+- Tune `size` and `overlap` to the downstream retrieval/embedding task; there is no universal optimal
+  chunk size.
+
+## Workflow — CSV with Source Metadata
 
 ```python
-# load_csv( path: str, encoding: Optional[str] = 'utf-8', source_column: Optional[str] = None, delimiter: str = ',', quotechar: str = '"' ) -> Any
+from fonky import fonky
+
+documents = fonky.load_csv(
+    path='records.csv',
+    encoding='utf-8',
+    source_column='record_id',
+    delimiter=',',
+    quotechar='"'
+)
 ```
 
-Load source content. Provides direct module-level access to ``CsvLoader.load`` using a fresh ``CsvLoader`` instance. Any: Value returned by ``CsvLoader.load``.
+A source column is useful when downstream results must retain a row-level identifier.
 
-### `read_pdf()`
+## Workflow — Jupyter Notebook
 
 ```python
-# read_pdf( path: str, mode: str = 'single' ) -> Any
+from fonky import fonky
+
+documents = fonky.load_jupyter_notebook(
+    path='analysis.ipynb',
+    include_outputs=True,
+    max_output_length=20,
+    remove_newline=False,
+    traceback=False
+)
 ```
 
-Load source content. Provides direct module-level access to ``PdfReader.load`` using a fresh ``PdfReader`` instance. Any: Value returned by ``PdfReader.load``.
+Avoid including large cell outputs unless the outputs are actually needed for downstream analysis.
 
-### `load_pdf()`
+## Workflow — Email with Attachments
 
 ```python
-# load_pdf( path: str, mode: str = 'single', extract: str = 'plain', include: bool = False, format: str = 'markdown-img', size: int = 1000, overlap: int = 150, has_tables: bool = True ) -> Any
+from fonky import fonky
+
+documents = fonky.load_email(
+    path='message.eml',
+    mode='single',
+    attachments=True
+)
 ```
 
-Load source content. Provides direct module-level access to ``PdfLoader.load`` using a fresh ``PdfLoader`` instance. Any: Value returned by ``PdfLoader.load``.
+## Stateful Loader Workflows
 
-### `load_excel()`
+The functional API is best for one-shot loading. Use a loader class directly when you need to retain
+`self.documents` and perform later operations such as splitting on the same instance.
 
-```python
-# load_excel( path: str, mode: str = 'elements', has_headers: bool = True ) -> Any
-```
+## Failure Modes
 
-Load source content. Provides direct module-level access to ``ExcelLoader.load`` using a fresh ``ExcelLoader`` instance. Any: Value returned by ``ExcelLoader.load``.
-
-### `load_word()`
-
-```python
-# load_word( path: str ) -> Any
-```
-
-Load source content. Provides direct module-level access to ``WordLoader.load`` using a fresh ``WordLoader`` instance. Any: Value returned by ``WordLoader.load``.
-
-### `load_markdown()`
-
-```python
-# load_markdown( path: str ) -> Any
-```
-
-Load source content. Provides direct module-level access to ``MarkdownLoader.load`` using a fresh ``MarkdownLoader`` instance. Any: Value returned by ``MarkdownLoader.load``.
-
-### `load_html()`
-
-```python
-# load_html( path: str ) -> Any
-```
-
-Load source content. Provides direct module-level access to ``HtmlLoader.load`` using a fresh ``HtmlLoader`` instance. Any: Value returned by ``HtmlLoader.load``.
-
-
-See [Functional API](../api/fonky.md) for all signatures.
+- missing/unreadable path;
+- unsupported/corrupt file;
+- missing format-specific dependency;
+- OCR dependency not installed;
+- parser failure on malformed content;
+- excessive memory use on very large files;
+- enterprise authentication failure for SPFx/Outlook-backed integrations.
