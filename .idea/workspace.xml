@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="685dddad-e825-4bf0-82d8-7075e3b95217" name="Changes" comment="updates">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +64,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "last_opened_file_path": "C:/Users/terry/source/repos/Fonky/docs/images",
+    "last_opened_file_path": "C:/Users/terry/source/repos/Fonky",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -76,8 +76,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\terry\source\repos\Fonky\docs\images" />
       <recent name="C:\Users\terry\source\repos\Fonky" />
+      <recent name="C:\Users\terry\source\repos\Fonky\docs\images" />
       <recent name="C:\Users\terry\source\repos\Fonky\resources\images" />
       <recent name="C:\Users\terry\source\repos\Fonky\docs" />
     </key>
@@ -111,15 +111,7 @@
       <workItem from="1787272583767" duration="42000" />
       <workItem from="1787445174445" duration="100000" />
       <workItem from="1787469828393" duration="11645000" />
-      <workItem from="1787580387643" duration="5776000" />
-    </task>
-    <task id="LOCAL-00057" summary="updates">
-      <option name="closed" value="true" />
-      <created>1786470156779</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1786470156779</updated>
+      <workItem from="1787580387643" duration="5971000" />
     </task>
     <task id="LOCAL-00058" summary="updates">
       <option name="closed" value="true" />
@@ -505,7 +497,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787588096378</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="updates">
+      <option name="closed" value="true" />
+      <created>1787588663254</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1787588663254</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
