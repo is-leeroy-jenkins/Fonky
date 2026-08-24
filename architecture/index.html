@@ -53,6 +53,8 @@
       
     
     
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
       <link rel="stylesheet" href="../stylesheets/fonky.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
@@ -238,6 +240,25 @@
     
   
   Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage
 
       </a>
     </li>
@@ -468,6 +489,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../configuration/" class="md-nav__link">
         
   
@@ -555,10 +603,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#responsibilities" class="md-nav__link">
+  <a href="#runtime-shape" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Responsibilities
+        Runtime Shape
       
     </span>
   </a>
@@ -566,10 +614,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#functional-calls-versus-retained-instances" class="md-nav__link">
+  <a href="#module-responsibilities" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functional Calls Versus Retained Instances
+        Module Responsibilities
       
     </span>
   </a>
@@ -577,10 +625,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#failure-boundaries" class="md-nav__link">
+  <a href="#public-api-consequence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Failure Boundaries
+        Public-API Consequence
       
     </span>
   </a>
@@ -588,21 +636,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#result-contracts" class="md-nav__link">
+  <a href="#supporting-views" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Result Contracts
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extension-boundary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Extension Boundary
+        Supporting Views
       
     </span>
   </a>
@@ -639,10 +676,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -660,8 +697,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -686,6 +723,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide Index
   
 
     
@@ -986,6 +1051,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../guides/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../guides/composing-workflows/" class="md-nav__link">
         
   
@@ -994,6 +1087,62 @@
     
   
     Combining Capabilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/failures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Handling
   
 
     
@@ -1063,6 +1212,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1119,10 +1296,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -1140,8 +1317,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1166,6 +1343,34 @@
     
   
     Functional API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LangChain Tools
   
 
     
@@ -1375,6 +1580,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/boogr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boogr
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1404,10 +1637,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -1425,8 +1658,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1451,6 +1684,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/development-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Guide
   
 
     
@@ -1638,10 +1899,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#responsibilities" class="md-nav__link">
+  <a href="#runtime-shape" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Responsibilities
+        Runtime Shape
       
     </span>
   </a>
@@ -1649,10 +1910,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#functional-calls-versus-retained-instances" class="md-nav__link">
+  <a href="#module-responsibilities" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functional Calls Versus Retained Instances
+        Module Responsibilities
       
     </span>
   </a>
@@ -1660,10 +1921,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#failure-boundaries" class="md-nav__link">
+  <a href="#public-api-consequence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Failure Boundaries
+        Public-API Consequence
       
     </span>
   </a>
@@ -1671,21 +1932,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#result-contracts" class="md-nav__link">
+  <a href="#supporting-views" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Result Contracts
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extension-boundary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Extension Boundary
+        Supporting Views
       
     </span>
   </a>
@@ -1721,73 +1971,92 @@
 
 
 <h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
-<p>Fonky's architecture is intentionally split between <strong>public call ergonomics</strong> and <strong>provider/format
-implementation behavior</strong>.</p>
-<p><img alt="Architecture and responsibility boundaries" src="../images/fonky-architecture.png" /></p>
-<h2 id="responsibilities">Responsibilities<a class="headerlink" href="#responsibilities" title="Permanent link">&para;</a></h2>
+<p><img alt="Fonky Architecture" src="../images/fonky-architecture.png" /></p>
+<h2 id="runtime-shape">Runtime Shape<a class="headerlink" href="#runtime-shape" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Applications / notebooks / agents
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>           |
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>           +--&gt; fonky.py   (public `@tool` exports)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>           |
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>           +--&gt; tools.py   (domain grouping / discovery)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                                                   --&gt; fetchers.py
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>                          --&gt; loaders.py
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>                          --&gt; scrapers.py
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>                               |
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>                               +--&gt; models.py / processors.py / core.py / config.py
+</code></pre></div>
+<h2 id="module-responsibilities">Module Responsibilities<a class="headerlink" href="#module-responsibilities" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Layer</th>
-<th>Owns</th>
-<th>Does Not Own</th>
+<th>Module</th>
+<th>Responsibility</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>fonky.py</code></td>
-<td>Typed public functions, argument exposure, one-shot instance lifecycle</td>
-<td>Provider protocol details, response parsing, loader internals</td>
+<td>public execution surface</td>
+<td>literal decorators; one export per public operation</td>
+</tr>
+<tr>
+<td><code>tools.py</code></td>
+<td>discovery surface</td>
+<td>returns domain names, tool lists, and tool names</td>
 </tr>
 <tr>
 <td><code>fetchers.py</code></td>
-<td>HTTP endpoints, provider validation, authentication inputs, API request/response shaping</td>
-<td>Application UI or cross-provider orchestration</td>
+<td>remote/service retrieval</td>
+<td>APIs, public sources, search, weather, maps, health, archives</td>
 </tr>
 <tr>
 <td><code>loaders.py</code></td>
-<td>Source/file loading, document conversion, format integration, loader state</td>
-<td>General remote API semantics</td>
+<td>ingestion and conversion</td>
+<td>files, cloud, notebooks, recursive web loading, document creation</td>
 </tr>
 <tr>
 <td><code>scrapers.py</code></td>
-<td>HTML retrieval and structural extraction</td>
-<td>General crawling orchestration beyond its extraction responsibilities</td>
+<td>targeted extraction</td>
+<td>readable text and page structures</td>
+</tr>
+<tr>
+<td><code>models.py</code></td>
+<td>data schemas and tool helpers</td>
+<td>document/tool related types</td>
+</tr>
+<tr>
+<td><code>processors.py</code></td>
+<td>transformation support</td>
+<td>normalization and parser helpers</td>
+</tr>
+<tr>
+<td><code>core.py</code></td>
+<td>shared utility base</td>
+<td>common errors and supporting runtime pieces</td>
 </tr>
 <tr>
 <td><code>config.py</code></td>
-<td>Environment-derived settings and credentials</td>
-<td>Provider business logic</td>
+<td>environment-backed settings</td>
+<td>provider/runtime configuration</td>
 </tr>
 </tbody>
 </table>
-<h2 id="functional-calls-versus-retained-instances">Functional Calls Versus Retained Instances<a class="headerlink" href="#functional-calls-versus-retained-instances" title="Permanent link">&para;</a></h2>
-<p>A wrapper creates a fresh implementation object and performs one operation. That is ideal for normal
-application calls such as <code>fetch_air_now()</code>, <code>load_pdf()</code>, or <code>scrape_tables()</code>.</p>
-<p>Use the class directly when a workflow depends on retained state or helper methods. This matters most
-for loaders because the base loader stores loaded documents and split configuration.</p>
-<p><img alt="Loader lifecycle" src="../images/fonky-loaders.png" /></p>
-<h2 id="failure-boundaries">Failure Boundaries<a class="headerlink" href="#failure-boundaries" title="Permanent link">&para;</a></h2>
-<p>A failure can occur before the provider is ever contacted:</p>
-<ol>
-<li>missing Python dependency;</li>
-<li>invalid function argument;</li>
-<li>missing local file;</li>
-<li>missing credential;</li>
-<li>network/DNS/timeout failure;</li>
-<li>HTTP/provider error;</li>
-<li>parser/response-shape failure;</li>
-<li>downstream result handling failure.</li>
-</ol>
-<p>The wrapper layer should not hide which boundary failed.</p>
-<h2 id="result-contracts">Result Contracts<a class="headerlink" href="#result-contracts" title="Permanent link">&para;</a></h2>
-<p>Fonky preserves provider/loader-specific results. Common families are <code>Document</code> collections,
-dictionaries, lists of records, strings, extracted string lists, images/files, and provider-shaped
-objects.</p>
-<h2 id="extension-boundary">Extension Boundary<a class="headerlink" href="#extension-boundary" title="Permanent link">&para;</a></h2>
-<p><img alt="Extension workflow" src="../images/fonky-workflow.png" /></p>
-<p>New provider behavior belongs in the implementation class first. A <code>fonky.py</code> wrapper is added only
-after that behavior has a clear public one-shot use case.</p>
+<h2 id="public-api-consequence">Public-API Consequence<a class="headerlink" href="#public-api-consequence" title="Permanent link">&para;</a></h2>
+<p>Literal decoration means exported names in <code>fonky.py</code> are not plain Python functions; they are LangChain tool objects.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_google_search</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fetch_google_search</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="p">{</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;appropriations law guidance&#39;</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="s1">&#39;max_documents&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="s1">&#39;full_documents&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="s1">&#39;include_metadata&#39;</span><span class="p">:</span> <span class="kc">True</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="p">}</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="supporting-views">Supporting Views<a class="headerlink" href="#supporting-views" title="Permanent link">&para;</a></h2>
+<p><img alt="Fonky Class Map" src="../images/fonky-classmap.png" /></p>
+<p><img alt="Fonky API Surface" src="../images/fonky-api.png" /></p>
 
 
 

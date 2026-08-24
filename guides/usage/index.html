@@ -13,6 +13,10 @@
         <link rel="canonical" href="https://is-leeroy-jenkins.github.io/Fonky/guides/usage/">
       
       
+        <link rel="prev" href="../interface-selection/">
+      
+      
+        <link rel="next" href="../composing-workflows/">
       
       
         
@@ -23,7 +27,7 @@
     
     
       
-        <title>Usage Recipes - Fonky</title>
+        <title>Usage Patterns - Fonky</title>
       
     
     
@@ -48,6 +52,8 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
       <link rel="stylesheet" href="../../stylesheets/fonky.css">
     
@@ -76,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#usage-recipes" class="md-skip">
+        <a href="#usage-patterns" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Usage Recipes
+              Usage Patterns
             
           </span>
         </div>
@@ -246,6 +252,25 @@
   
   
     <li class="md-tabs__item">
+      <a href="../../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
       <a href="../../configuration/" class="md-tabs__link">
         
   
@@ -282,10 +307,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../../user-guide/" class="md-tabs__link">
           
   
@@ -462,6 +489,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../configuration/" class="md-nav__link">
         
   
@@ -513,28 +567,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
@@ -552,8 +609,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -578,6 +635,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide Index
   
 
     
@@ -875,6 +960,131 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Patterns
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#representative-recipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Representative Recipes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Representative Recipes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#retrieval-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retrieval-first
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loader-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loader-first
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scraper-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scraper-first
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
@@ -886,6 +1096,62 @@
     
   
     Combining Capabilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../failures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Handling
   
 
     
@@ -955,6 +1221,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1011,10 +1305,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -1032,8 +1326,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1058,6 +1352,34 @@
     
   
     Functional API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LangChain Tools
   
 
     
@@ -1267,6 +1589,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/boogr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boogr
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1296,10 +1646,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -1317,8 +1667,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1343,6 +1693,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/development-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Guide
   
 
     
@@ -1530,112 +1908,52 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#archives" class="md-nav__link">
+  <a href="#representative-recipes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Archives
+        Representative Recipes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Representative Recipes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#retrieval-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retrieval-first
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#astronomical" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#loader-first" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Astronomical
+        Loader-first
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#cloud" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#scraper-first" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cloud
+        Scraper-first
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#demographic" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Demographic
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documents" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Documents
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#environmental" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Environmental
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#geospatial" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Geospatial
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#health" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Health
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#web" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Web
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#composing-calls" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Composing Calls
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1657,6 +1975,46 @@
   
 
 
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../user-guide/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
               
               <article class="md-content__inner md-typeset">
                 
@@ -1667,557 +2025,37 @@
   
 
 
-<h1 id="usage-recipes">Usage Recipes<a class="headerlink" href="#usage-recipes" title="Permanent link">&para;</a></h1>
-<p>This page is organized by task domain. It is intentionally example-driven and points to the
-exhaustive <a href="../../api/fonky/">Functional API</a> when a full signature or parameter table is needed.</p>
-<h2 id="archives">Archives<a class="headerlink" href="#archives" title="Permanent link">&para;</a></h2>
-<p>This domain currently exposes <strong>11</strong> operations. Common entry points include:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Implementation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>fetch_arxiv()</code></td>
-<td>Fetch ArXiv research document retrieval. Purpose: Provides direct module-level access to <code>ArXiv.fetch</code> using a fresh <code>ArXiv</code> instance. Args: question (str): Value passed to <code>ArXiv.fetch</code>. max_documents (int): Value passed to <code>ArXiv.fetch</code>. full_documents (bool): Value passed to <code>ArXiv.fetch</code>. include_metadata (bool): Value passed to <code>ArXiv.fetch</code>. Returns: Any: Value returned by <code>ArXiv.fetch</code>.</td>
-<td><code>ArXiv.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_google_drive()</code></td>
-<td>Fetch Google Drive document retrieval. Purpose: Provides direct module-level access to <code>GoogleDrive.fetch</code> using a fresh <code>GoogleDrive</code> instance. Args: question (str): Value passed to <code>GoogleDrive.fetch</code>. folder_id (str): Value passed to <code>GoogleDrive.fetch</code>. results (int): Value passed to <code>GoogleDrive.fetch</code>. template (str): Value passed to <code>GoogleDrive.fetch</code>. mime_type (str): Value passed to ``GoogleDri…</td>
-<td><code>GoogleDrive.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_wikipedia()</code></td>
-<td>Fetch Wikipedia document retrieval. Purpose: Provides direct module-level access to <code>Wikipedia.fetch</code> using a fresh <code>Wikipedia</code> instance. Args: question (str): Value passed to <code>Wikipedia.fetch</code>. language (str): Value passed to <code>Wikipedia.fetch</code>. max_documents (int): Value passed to <code>Wikipedia.fetch</code>. include_metadata (bool): Value passed to <code>Wikipedia.fetch</code>. Returns: Any: Value returned by ``Wikipedia.f…</td>
-<td><code>Wikipedia.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_news()</code></td>
-<td>Fetch The News API article retrieval. Purpose: Provides direct module-level access to <code>TheNews.fetch</code> using a fresh <code>TheNews</code> instance. Args: endpoint (str): Value passed to <code>TheNews.fetch</code>. query (str): Value passed to <code>TheNews.fetch</code>. language (str): Value passed to <code>TheNews.fetch</code>. categories (str): Value passed to <code>TheNews.fetch</code>. exclude_categories (str): Value passed to <code>TheNews.fetch</code>. locale (s…</td>
-<td><code>TheNews.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_google_search()</code></td>
-<td>Fetch Google Custom Search retrieval. Purpose: Provides direct module-level access to <code>GoogleSearch.fetch</code> using a fresh <code>GoogleSearch</code> instance. Args: keywords (str): Value passed to <code>GoogleSearch.fetch</code>. results (int): Value passed to <code>GoogleSearch.fetch</code>. start (int): Value passed to <code>GoogleSearch.fetch</code>. exact_terms (str): Value passed to <code>GoogleSearch.fetch</code>. exclude_terms (str): Value passed to ``G…</td>
-<td><code>GoogleSearch.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_gov_data()</code></td>
-<td>Fetch Data.gov package and collection retrieval. Purpose: Provides direct module-level access to <code>GovData.fetch</code> using a fresh <code>GovData</code> instance. Args: mode (str): Value passed to <code>GovData.fetch</code>. query (str): Value passed to <code>GovData.fetch</code>. page_size (int): Value passed to <code>GovData.fetch</code>. offset_mark (str): Value passed to <code>GovData.fetch</code>. sort_field (str): Value passed to <code>GovData.fetch</code>. sort_ord…</td>
-<td><code>GovData.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_congress()</code></td>
-<td>Fetch Congress.gov legislative data retrieval. Purpose: Provides direct module-level access to <code>Congress.fetch</code> using a fresh <code>Congress</code> instance. Args: mode (str): Value passed to <code>Congress.fetch</code>. congress (int): Value passed to <code>Congress.fetch</code>. bill_type (str): Value passed to <code>Congress.fetch</code>. bill_number (int): Value passed to <code>Congress.fetch</code>. law_type (str): Value passed to <code>Congress.fetch</code>. la…</td>
-<td><code>Congress.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_internet_archive()</code></td>
-<td>Fetch Internet Archive search and metadata retrieval. Purpose: Provides direct module-level access to <code>InternetArchive.fetch</code> using a fresh <code>InternetArchive</code> instance. Args: keywords (str): Value passed to <code>InternetArchive.fetch</code>. fields (List[str] | None): Value passed to <code>InternetArchive.fetch</code>. rows (int): Value passed to <code>InternetArchive.fetch</code>. page (int): Value passed to <code>InternetArchive.fetch</code>. so…</td>
-<td><code>InternetArchive.fetch()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Representative call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
+<h1 id="usage-patterns">Usage Patterns<a class="headerlink" href="#usage-patterns" title="Permanent link">&para;</a></h1>
+<h2 id="representative-recipes">Representative Recipes<a class="headerlink" href="#representative-recipes" title="Permanent link">&para;</a></h2>
+<h3 id="retrieval-first">Retrieval-first<a class="headerlink" href="#retrieval-first" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_gov_data</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">fetch_arxiv</span><span class="p">(</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">question</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_documents</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">full_documents</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">include_metadata</span><span class="o">=</span><span class="kc">None</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fetch_gov_data</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="s1">&#39;budget execution&#39;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="s1">&#39;max_documents&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="s1">&#39;full_documents&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="s1">&#39;include_metadata&#39;</span><span class="p">:</span> <span class="kc">True</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="p">}</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
 </code></pre></div>
-<h2 id="astronomical">Astronomical<a class="headerlink" href="#astronomical" title="Permanent link">&para;</a></h2>
-<p>This domain currently exposes <strong>10</strong> operations. Common entry points include:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Implementation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>fetch_naval_observatory()</code></td>
-<td>Fetch U.S. Naval Observatory celestial-navigation data. Purpose: Provides direct module-level access to <code>NavalObservatory.fetch</code> using a fresh <code>NavalObservatory</code> instance. Args: mode (str): Value passed to <code>NavalObservatory.fetch</code>. date_value (str): Value passed to <code>NavalObservatory.fetch</code>. time_value (str): Value passed to <code>NavalObservatory.fetch</code>. latitude (float): Value passed to ``NavalObservatory.fetc…</td>
-<td><code>NavalObservatory.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_satellite_center()</code></td>
-<td>Fetch SSC satellite observatory, ground-station, and location data. Purpose: Provides direct module-level access to <code>SatelliteCenter.fetch</code> using a fresh <code>SatelliteCenter</code> instance. Args: mode (str): Value passed to <code>SatelliteCenter.fetch</code>. query (str): Value passed to <code>SatelliteCenter.fetch</code>. start_time (str): Value passed to <code>SatelliteCenter.fetch</code>. end_time (str): Value passed to ``SatelliteCenter.fetch…</td>
-<td><code>SatelliteCenter.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_nearby_objects()</code></td>
-<td>Fetch JPL SSD and CNEOS near-Earth object data. Purpose: Provides direct module-level access to <code>NearbyObjects.fetch</code> using a fresh <code>NearbyObjects</code> instance. Args: mode (str): Value passed to <code>NearbyObjects.fetch</code>. start_date (str): Value passed to <code>NearbyObjects.fetch</code>. end_date (str): Value passed to <code>NearbyObjects.fetch</code>. query (str): Value passed to <code>NearbyObjects.fetch</code>. query_type (str): Value pass…</td>
-<td><code>NearbyObjects.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_open_science()</code></td>
-<td>Fetch NASA Open Science Data Repository resources. Purpose: Provides direct module-level access to <code>OpenScience.fetch</code> using a fresh <code>OpenScience</code> instance. Args: mode (str): Value passed to <code>OpenScience.fetch</code>. query (str): Value passed to <code>OpenScience.fetch</code>. accession (str): Value passed to <code>OpenScience.fetch</code>. format_value (str): Value passed to <code>OpenScience.fetch</code>. time (int): Value passed to ``Open…</td>
-<td><code>OpenScience.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_space_weather()</code></td>
-<td>Fetch NASA DONKI space weather endpoints. Purpose: Provides direct module-level access to <code>SpaceWeather.fetch</code> using a fresh <code>SpaceWeather</code> instance. Args: mode (str): Value passed to <code>SpaceWeather.fetch</code>. start_date (str): Value passed to <code>SpaceWeather.fetch</code>. end_date (str): Value passed to <code>SpaceWeather.fetch</code>. time (int): Value passed to <code>SpaceWeather.fetch</code>. location (str): Value passed to ``SpaceWe…</td>
-<td><code>SpaceWeather.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_astro_catalog()</code></td>
-<td>Fetch Open Astronomy Catalog queries. Purpose: Provides direct module-level access to <code>AstroCatalog.fetch</code> using a fresh <code>AstroCatalog</code> instance. Args: mode (str): Value passed to <code>AstroCatalog.fetch</code>. query (str): Value passed to <code>AstroCatalog.fetch</code>. quantity (str): Value passed to <code>AstroCatalog.fetch</code>. attributes (str): Value passed to <code>AstroCatalog.fetch</code>. arguments (str): Value passed to ``AstroCata…</td>
-<td><code>AstroCatalog.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_astro_query()</code></td>
-<td>Fetch Simbad and astronomy object search operations. Purpose: Provides direct module-level access to <code>AstroQuery.fetch</code> using a fresh <code>AstroQuery</code> instance. Args: mode (str): Value passed to <code>AstroQuery.fetch</code>. query (str): Value passed to <code>AstroQuery.fetch</code>. ra (str): Value passed to <code>AstroQuery.fetch</code>. dec (str): Value passed to <code>AstroQuery.fetch</code>. radius (float): Value passed to <code>AstroQuery.fetch</code>.…</td>
-<td><code>AstroQuery.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_star_map()</code></td>
-<td>Fetch astronomical object map links and imagery. Purpose: Provides direct module-level access to <code>StarMap.fetch</code> using a fresh <code>StarMap</code> instance. Args: mode (str): Value passed to <code>StarMap.fetch</code>. query (str): Value passed to <code>StarMap.fetch</code>. ra (float): Value passed to <code>StarMap.fetch</code>. dec (float): Value passed to <code>StarMap.fetch</code>. zoom (int): Value passed to <code>StarMap.fetch</code>. image_source (str): Value…</td>
-<td><code>StarMap.fetch()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Representative call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
+<h3 id="loader-first">Loader-first<a class="headerlink" href="#loader-first" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_markdown</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">fetch_naval_observatory</span><span class="p">(</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;celnav&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">date_value</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">time_value</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">latitude</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">longitude</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">location_label</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">docs</span> <span class="o">=</span> <span class="n">load_markdown</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="p">{</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="s1">&#39;file_path&#39;</span><span class="p">:</span> <span class="s1">&#39;README.md&#39;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="p">}</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">)</span>
 </code></pre></div>
-<h2 id="cloud">Cloud<a class="headerlink" href="#cloud" title="Permanent link">&para;</a></h2>
-<p>This domain currently exposes <strong>8</strong> operations. Common entry points include:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Implementation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>load_google_drive_file()</code></td>
-<td>Load a provider file. Purpose: Provides direct module-level access to <code>GoogleDriveLoader.load_file</code> using a fresh <code>GoogleDriveLoader</code> instance. Args: file_id (str): Value passed to <code>GoogleDriveLoader.load_file</code>. recursive (bool): Value passed to <code>GoogleDriveLoader.load_file</code>. Returns: Any: Value returned by <code>GoogleDriveLoader.load_file</code>.</td>
-<td><code>GoogleDriveLoader.load_file()</code></td>
-</tr>
-<tr>
-<td><code>load_google_drive_folder()</code></td>
-<td>Load provider folder content. Purpose: Provides direct module-level access to <code>GoogleDriveLoader.load_folder</code> using a fresh <code>GoogleDriveLoader</code> instance. Args: folder_id (str): Value passed to <code>GoogleDriveLoader.load_folder</code>. recursive (bool): Value passed to <code>GoogleDriveLoader.load_folder</code>. Returns: Any: Value returned by <code>GoogleDriveLoader.load_folder</code>.</td>
-<td><code>GoogleDriveLoader.load_folder()</code></td>
-</tr>
-<tr>
-<td><code>load_onedrive()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>OneDriveDocLoader.load</code> using a fresh <code>OneDriveDocLoader</code> instance. Args: drive_id (str): Value passed to <code>OneDriveDocLoader.load</code>. folder_path (Optional[str]): Value passed to <code>OneDriveDocLoader.load</code>. object_ids (Optional[List[str]]): Value passed to <code>OneDriveDocLoader.load</code>. auth_with_token (bool): Value passed to ``OneDriveDocLoader.…</td>
-<td><code>OneDriveDocLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_google_cloud_file()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>GoogleCloudFileLoader.load</code> using a fresh <code>GoogleCloudFileLoader</code> instance. Args: project_name (str): Value passed to <code>GoogleCloudFileLoader.load</code>. bucket (str): Value passed to <code>GoogleCloudFileLoader.load</code>. blob (str): Value passed to <code>GoogleCloudFileLoader.load</code>. Returns: Any: Value returned by <code>GoogleCloudFileLoader.load</code>.</td>
-<td><code>GoogleCloudFileLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_aws_file()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>AwsFileLoader.load</code> using a fresh <code>AwsFileLoader</code> instance. Args: bucket (str): Value passed to <code>AwsFileLoader.load</code>. key (str): Value passed to <code>AwsFileLoader.load</code>. aws_access_key_id (Optional[str]): Value passed to <code>AwsFileLoader.load</code>. aws_secret_access_key (Optional[str]): Value passed to <code>AwsFileLoader.load</code>. aws_session_token (O…</td>
-<td><code>AwsFileLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_google_speech_to_text()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>GoogleSpeechToTextLoader.load</code> using a fresh <code>GoogleSpeechToTextLoader</code> instance. Args: project_id (str): Value passed to <code>GoogleSpeechToTextLoader.load</code>. file_path (str): Value passed to <code>GoogleSpeechToTextLoader.load</code>. config (Optional[Dict[str, Any]]): Value passed to <code>GoogleSpeechToTextLoader.load</code>. Returns: Any: Value returned by ``…</td>
-<td><code>GoogleSpeechToTextLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_google_bucket()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>GoogleBucketLoader.load</code> using a fresh <code>GoogleBucketLoader</code> instance. Args: project_name (str): Value passed to <code>GoogleBucketLoader.load</code>. bucket (str): Value passed to <code>GoogleBucketLoader.load</code>. prefix (Optional[str]): Value passed to <code>GoogleBucketLoader.load</code>. continue_on_failure (bool): Value passed to <code>GoogleBucketLoader.load</code>. Ret…</td>
-<td><code>GoogleBucketLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_aws_bucket()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>AwsBucketLoader.load</code> using a fresh <code>AwsBucketLoader</code> instance. Args: bucket (str): Value passed to <code>AwsBucketLoader.load</code>. prefix (Optional[str]): Value passed to <code>AwsBucketLoader.load</code>. aws_access_key_id (Optional[str]): Value passed to <code>AwsBucketLoader.load</code>. aws_secret_access_key (Optional[str]): Value passed to ``AwsBucketLoader.loa…</td>
-<td><code>AwsBucketLoader.load()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Representative call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
+<h3 id="scraper-first">Scraper-first<a class="headerlink" href="#scraper-first" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky.fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">scrape_tables</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">load_google_drive_file</span><span class="p">(</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">file_id</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">)</span>
-</code></pre></div>
-<h2 id="demographic">Demographic<a class="headerlink" href="#demographic" title="Permanent link">&para;</a></h2>
-<p>This domain currently exposes <strong>5</strong> operations. Common entry points include:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Implementation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>fetch_census_data()</code></td>
-<td>Fetch U.S. Census dataset and variable retrieval. Purpose: Provides direct module-level access to <code>CensusData.fetch</code> using a fresh <code>CensusData</code> instance. Args: mode (str): Value passed to <code>CensusData.fetch</code>. year (str): Value passed to <code>CensusData.fetch</code>. dataset (str): Value passed to <code>CensusData.fetch</code>. fields (str): Value passed to <code>CensusData.fetch</code>. geography_for (str): Value passed to ``CensusData.…</td>
-<td><code>CensusData.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_socrata()</code></td>
-<td>Fetch Socrata dataset metadata and row retrieval. Purpose: Provides direct module-level access to <code>Socrata.fetch</code> using a fresh <code>Socrata</code> instance. Args: mode (str): Value passed to <code>Socrata.fetch</code>. domain (str): Value passed to <code>Socrata.fetch</code>. dataset_id (str): Value passed to <code>Socrata.fetch</code>. select (str): Value passed to <code>Socrata.fetch</code>. where (str): Value passed to <code>Socrata.fetch</code>. order (str): Va…</td>
-<td><code>Socrata.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_united_nations()</code></td>
-<td>Fetch United Nations SDMX dataset and query retrieval. Purpose: Provides direct module-level access to <code>UnitedNations.fetch</code> using a fresh <code>UnitedNations</code> instance. Args: mode (str): Value passed to <code>UnitedNations.fetch</code>. query_path (str): Value passed to <code>UnitedNations.fetch</code>. time (int): Value passed to <code>UnitedNations.fetch</code>. Returns: Any: Value returned by <code>UnitedNations.fetch</code>.</td>
-<td><code>UnitedNations.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_world_population()</code></td>
-<td>Fetch WorldPop catalog and raster metadata retrieval. Purpose: Provides direct module-level access to <code>WorldPopulation.fetch</code> using a fresh <code>WorldPopulation</code> instance. Args: mode (str): Value passed to <code>WorldPopulation.fetch</code>. query (str): Value passed to <code>WorldPopulation.fetch</code>. asset_path (str): Value passed to <code>WorldPopulation.fetch</code>. page (int): Value passed to <code>WorldPopulation.fetch</code>. page_size (int…</td>
-<td><code>WorldPopulation.fetch()</code></td>
-</tr>
-<tr>
-<td><code>load_open_city()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>OpenCityLoader.load</code> using a fresh <code>OpenCityLoader</code> instance. Args: city_id (str): Value passed to <code>OpenCityLoader.load</code>. dataset_id (str): Value passed to <code>OpenCityLoader.load</code>. limit (int): Value passed to <code>OpenCityLoader.load</code>. Returns: Any: Value returned by <code>OpenCityLoader.load</code>.</td>
-<td><code>OpenCityLoader.load()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Representative call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">fetch_census_data</span><span class="p">(</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;variables&#39;</span><span class="p">,</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2022&#39;</span><span class="p">,</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;acs/acs5&#39;</span><span class="p">,</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">fields</span><span class="o">=</span><span class="s1">&#39;NAME,B01001_001E&#39;</span><span class="p">,</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">geography_for</span><span class="o">=</span><span class="s1">&#39;state:*&#39;</span><span class="p">,</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">geography_in</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
-</code></pre></div>
-<h2 id="documents">Documents<a class="headerlink" href="#documents" title="Permanent link">&para;</a></h2>
-<p>This domain currently exposes <strong>18</strong> operations. Common entry points include:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Implementation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>load_text()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>TextLoader.load</code> using a fresh <code>TextLoader</code> instance. Args: path (str): Value passed to <code>TextLoader.load</code>. encoding (Optional[str]): Value passed to <code>TextLoader.load</code>. Returns: Any: Value returned by <code>TextLoader.load</code>.</td>
-<td><code>TextLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_csv()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>CsvLoader.load</code> using a fresh <code>CsvLoader</code> instance. Args: path (str): Value passed to <code>CsvLoader.load</code>. encoding (Optional[str]): Value passed to <code>CsvLoader.load</code>. source_column (Optional[str]): Value passed to <code>CsvLoader.load</code>. delimiter (str): Value passed to <code>CsvLoader.load</code>. quotechar (str): Value passed to <code>CsvLoader.load</code>. Retu…</td>
-<td><code>CsvLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>read_pdf()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>PdfReader.load</code> using a fresh <code>PdfReader</code> instance. Args: path (str): Value passed to <code>PdfReader.load</code>. mode (str): Value passed to <code>PdfReader.load</code>. Returns: Any: Value returned by <code>PdfReader.load</code>.</td>
-<td><code>PdfReader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_pdf()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>PdfLoader.load</code> using a fresh <code>PdfLoader</code> instance. Args: path (str): Value passed to <code>PdfLoader.load</code>. mode (str): Value passed to <code>PdfLoader.load</code>. extract (str): Value passed to <code>PdfLoader.load</code>. include (bool): Value passed to <code>PdfLoader.load</code>. format (str): Value passed to <code>PdfLoader.load</code>. size (int): Value passed to ``PdfLoade…</td>
-<td><code>PdfLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_excel()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>ExcelLoader.load</code> using a fresh <code>ExcelLoader</code> instance. Args: path (str): Value passed to <code>ExcelLoader.load</code>. mode (str): Value passed to <code>ExcelLoader.load</code>. has_headers (bool): Value passed to <code>ExcelLoader.load</code>. Returns: Any: Value returned by <code>ExcelLoader.load</code>.</td>
-<td><code>ExcelLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_word()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>WordLoader.load</code> using a fresh <code>WordLoader</code> instance. Args: path (str): Value passed to <code>WordLoader.load</code>. Returns: Any: Value returned by <code>WordLoader.load</code>.</td>
-<td><code>WordLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_markdown()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>MarkdownLoader.load</code> using a fresh <code>MarkdownLoader</code> instance. Args: path (str): Value passed to <code>MarkdownLoader.load</code>. Returns: Any: Value returned by <code>MarkdownLoader.load</code>.</td>
-<td><code>MarkdownLoader.load()</code></td>
-</tr>
-<tr>
-<td><code>load_html()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>HtmlLoader.load</code> using a fresh <code>HtmlLoader</code> instance. Args: path (str): Value passed to <code>HtmlLoader.load</code>. Returns: Any: Value returned by <code>HtmlLoader.load</code>.</td>
-<td><code>HtmlLoader.load()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Representative call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">load_text</span><span class="p">(</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">path</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">)</span>
-</code></pre></div>
-<h2 id="environmental">Environmental<a class="headerlink" href="#environmental" title="Permanent link">&para;</a></h2>
-<p>This domain currently exposes <strong>19</strong> operations. Common entry points include:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Implementation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>fetch_google_weather_current()</code></td>
-<td>Fetch current. Purpose: Provides direct module-level access to <code>GoogleWeather.fetch_current</code> using a fresh <code>GoogleWeather</code> instance. Args: address (str): Value passed to <code>GoogleWeather.fetch_current</code>. units_system (str): Value passed to <code>GoogleWeather.fetch_current</code>. language_code (str): Value passed to <code>GoogleWeather.fetch_current</code>. time (int): Value passed to <code>GoogleWeather.fetch_current</code>. Returns: Any…</td>
-<td><code>GoogleWeather.fetch_current()</code></td>
-</tr>
-<tr>
-<td><code>fetch_google_weather_hourly_forecast()</code></td>
-<td>Fetch hourly forecast. Purpose: Provides direct module-level access to <code>GoogleWeather.fetch_hourly_forecast</code> using a fresh <code>GoogleWeather</code> instance. Args: address (str): Value passed to <code>GoogleWeather.fetch_hourly_forecast</code>. hours (int): Value passed to <code>GoogleWeather.fetch_hourly_forecast</code>. units_system (str): Value passed to <code>GoogleWeather.fetch_hourly_forecast</code>. language_code (str): Value passed to ``Go…</td>
-<td><code>GoogleWeather.fetch_hourly_forecast()</code></td>
-</tr>
-<tr>
-<td><code>fetch_google_weather_daily_forecast()</code></td>
-<td>Fetch daily forecast. Purpose: Provides direct module-level access to <code>GoogleWeather.fetch_daily_forecast</code> using a fresh <code>GoogleWeather</code> instance. Args: address (str): Value passed to <code>GoogleWeather.fetch_daily_forecast</code>. days (int): Value passed to <code>GoogleWeather.fetch_daily_forecast</code>. units_system (str): Value passed to <code>GoogleWeather.fetch_daily_forecast</code>. language_code (str): Value passed to ``GoogleWe…</td>
-<td><code>GoogleWeather.fetch_daily_forecast()</code></td>
-</tr>
-<tr>
-<td><code>fetch_google_weather_hourly_history()</code></td>
-<td>Fetch hourly history. Purpose: Provides direct module-level access to <code>GoogleWeather.fetch_hourly_history</code> using a fresh <code>GoogleWeather</code> instance. Args: address (str): Value passed to <code>GoogleWeather.fetch_hourly_history</code>. hours (int): Value passed to <code>GoogleWeather.fetch_hourly_history</code>. units_system (str): Value passed to <code>GoogleWeather.fetch_hourly_history</code>. language_code (str): Value passed to ``GoogleW…</td>
-<td><code>GoogleWeather.fetch_hourly_history()</code></td>
-</tr>
-<tr>
-<td><code>fetch_google_weather_alerts()</code></td>
-<td>Fetch alerts. Purpose: Provides direct module-level access to <code>GoogleWeather.fetch_alerts</code> using a fresh <code>GoogleWeather</code> instance. Args: address (str): Value passed to <code>GoogleWeather.fetch_alerts</code>. language_code (str): Value passed to <code>GoogleWeather.fetch_alerts</code>. time (int): Value passed to <code>GoogleWeather.fetch_alerts</code>. Returns: Any: Value returned by <code>GoogleWeather.fetch_alerts</code>.</td>
-<td><code>GoogleWeather.fetch_alerts()</code></td>
-</tr>
-<tr>
-<td><code>fetch_earth_observatory()</code></td>
-<td>Fetch NASA EONET events, categories, sources, and layers. Purpose: Provides direct module-level access to <code>EarthObservatory.fetch</code> using a fresh <code>EarthObservatory</code> instance. Args: mode (str): Value passed to <code>EarthObservatory.fetch</code>. status (str): Value passed to <code>EarthObservatory.fetch</code>. category (str): Value passed to <code>EarthObservatory.fetch</code>. source (str): Value passed to <code>EarthObservatory.fetch</code>. lim…</td>
-<td><code>EarthObservatory.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_open_weather()</code></td>
-<td>Fetch Open-Meteo current and forecast weather retrieval. Purpose: Provides direct module-level access to <code>OpenWeather.fetch</code> using a fresh <code>OpenWeather</code> instance. Args: location (str): Value passed to <code>OpenWeather.fetch</code>. mode (str): Value passed to <code>OpenWeather.fetch</code>. zone (str): Value passed to <code>OpenWeather.fetch</code>. forecast_days (int): Value passed to <code>OpenWeather.fetch</code>. past_days (int): Value passed…</td>
-<td><code>OpenWeather.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_historical_weather()</code></td>
-<td>Fetch historical weather archive retrieval. Purpose: Provides direct module-level access to <code>HistoricalWeather.fetch</code> using a fresh <code>HistoricalWeather</code> instance. Args: location (str): Value passed to <code>HistoricalWeather.fetch</code>. date (dt.date): Value passed to <code>HistoricalWeather.fetch</code>. zone (str): Value passed to <code>HistoricalWeather.fetch</code>. count (int): Value passed to <code>HistoricalWeather.fetch</code>. Returns: A…</td>
-<td><code>HistoricalWeather.fetch()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Representative call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">fetch_google_weather_current</span><span class="p">(</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">address</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">units_system</span><span class="o">=</span><span class="s1">&#39;METRIC&#39;</span><span class="p">,</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">language_code</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">,</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">time</span><span class="o">=</span><span class="mi">10</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">)</span>
-</code></pre></div>
-<h2 id="geospatial">Geospatial<a class="headerlink" href="#geospatial" title="Permanent link">&para;</a></h2>
-<p>This domain currently exposes <strong>10</strong> operations. Common entry points include:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Implementation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>geocode_location()</code></td>
-<td>Geocode location. Purpose: Provides direct module-level access to <code>GoogleMaps.geocode_location</code> using a fresh <code>GoogleMaps</code> instance. Args: address (str): Value passed to <code>GoogleMaps.geocode_location</code>. Returns: Any: Value returned by <code>GoogleMaps.geocode_location</code>.</td>
-<td><code>GoogleMaps.geocode_location()</code></td>
-</tr>
-<tr>
-<td><code>geocode_coordinates()</code></td>
-<td>Geocode coordinates. Purpose: Provides direct module-level access to <code>GoogleMaps.geocode_coordinates</code> using a fresh <code>GoogleMaps</code> instance. Args: lat (float): Value passed to <code>GoogleMaps.geocode_coordinates</code>. long (float): Value passed to <code>GoogleMaps.geocode_coordinates</code>. Returns: Any: Value returned by <code>GoogleMaps.geocode_coordinates</code>.</td>
-<td><code>GoogleMaps.geocode_coordinates()</code></td>
-</tr>
-<tr>
-<td><code>validate_address()</code></td>
-<td>Validate address. Purpose: Provides direct module-level access to <code>GoogleMaps.validate_address</code> using a fresh <code>GoogleMaps</code> instance. Args: address (List[str]): Value passed to <code>GoogleMaps.validate_address</code>. Returns: Any: Value returned by <code>GoogleMaps.validate_address</code>.</td>
-<td><code>GoogleMaps.validate_address()</code></td>
-</tr>
-<tr>
-<td><code>request_directions()</code></td>
-<td>Request directions. Purpose: Provides direct module-level access to <code>GoogleMaps.request_directions</code> using a fresh <code>GoogleMaps</code> instance. Args: origin (str): Value passed to <code>GoogleMaps.request_directions</code>. destination (str): Value passed to <code>GoogleMaps.request_directions</code>. mode (str): Value passed to <code>GoogleMaps.request_directions</code>. Returns: Any: Value returned by <code>GoogleMaps.request_directions</code>.</td>
-<td><code>GoogleMaps.request_directions()</code></td>
-</tr>
-<tr>
-<td><code>fetch_global_imagery_wms_map()</code></td>
-<td>Fetch wms map. Purpose: Provides direct module-level access to <code>GlobalImagery.fetch_wms_map</code> using a fresh <code>GlobalImagery</code> instance. Args: layer (str): Value passed to <code>GlobalImagery.fetch_wms_map</code>. image_date (str): Value passed to <code>GlobalImagery.fetch_wms_map</code>. bbox (Tuple[float, float, float, float]): Value passed to <code>GlobalImagery.fetch_wms_map</code>. width (int): Value passed to ``GlobalImagery.fetch_wms_m…</td>
-<td><code>GlobalImagery.fetch_wms_map()</code></td>
-</tr>
-<tr>
-<td><code>fetch_global_imagery_map_services()</code></td>
-<td>Fetch map services. Purpose: Provides direct module-level access to <code>GlobalImagery.fetch_map_services</code> using a fresh <code>GlobalImagery</code> instance. Args: None. Returns: Any: Value returned by <code>GlobalImagery.fetch_map_services</code>.</td>
-<td><code>GlobalImagery.fetch_map_services()</code></td>
-</tr>
-<tr>
-<td><code>fetch_global_imagery_mercator_map()</code></td>
-<td>Fetch mercator map. Purpose: Provides direct module-level access to <code>GlobalImagery.fetch_mercator_map</code> using a fresh <code>GlobalImagery</code> instance. Args: ccrs (Any): Value passed to <code>GlobalImagery.fetch_mercator_map</code>. Returns: Any: Value returned by <code>GlobalImagery.fetch_mercator_map</code>.</td>
-<td><code>GlobalImagery.fetch_mercator_map()</code></td>
-</tr>
-<tr>
-<td><code>fetch_google_geocoding()</code></td>
-<td>Fetch Google forward, reverse, and place geocoding. Purpose: Provides direct module-level access to <code>GoogleGeocoding.fetch</code> using a fresh <code>GoogleGeocoding</code> instance. Args: mode (str): Value passed to <code>GoogleGeocoding.fetch</code>. query (str): Value passed to <code>GoogleGeocoding.fetch</code>. latitude (float): Value passed to <code>GoogleGeocoding.fetch</code>. longitude (float): Value passed to <code>GoogleGeocoding.fetch</code>. place_id…</td>
-<td><code>GoogleGeocoding.fetch()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Representative call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">geocode_location</span><span class="p">(</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">address</span><span class="o">=</span><span class="s1">&#39;value&#39;</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">)</span>
-</code></pre></div>
-<h2 id="health">Health<a class="headerlink" href="#health" title="Permanent link">&para;</a></h2>
-<p>This domain currently exposes <strong>4</strong> operations. Common entry points include:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Implementation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>fetch_health_data()</code></td>
-<td>Fetch HealthData.gov Socrata metadata and rows. Purpose: Provides direct module-level access to <code>HealthData.fetch</code> using a fresh <code>HealthData</code> instance. Args: mode (str): Value passed to <code>HealthData.fetch</code>. domain (str): Value passed to <code>HealthData.fetch</code>. dataset_id (str): Value passed to <code>HealthData.fetch</code>. select (str): Value passed to <code>HealthData.fetch</code>. where (str): Value passed to ``HealthData.fetch…</td>
-<td><code>HealthData.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_global_health_data()</code></td>
-<td>Fetch WHO global health indicator and Athena data. Purpose: Provides direct module-level access to <code>GlobalHealthData.fetch</code> using a fresh <code>GlobalHealthData</code> instance. Args: mode (str): Value passed to <code>GlobalHealthData.fetch</code>. query_path (str): Value passed to <code>GlobalHealthData.fetch</code>. fmt (str): Value passed to <code>GlobalHealthData.fetch</code>. time (int): Value passed to <code>GlobalHealthData.fetch</code>. Returns: Any:…</td>
-<td><code>GlobalHealthData.fetch()</code></td>
-</tr>
-<tr>
-<td><code>fetch_wonder()</code></td>
-<td>Fetch CDC WONDER template and query submission. Purpose: Provides direct module-level access to <code>Wonder.fetch</code> using a fresh <code>Wonder</code> instance. Args: mode (str): Value passed to <code>Wonder.fetch</code>. dataset_id (str): Value passed to <code>Wonder.fetch</code>. request_xml (str): Value passed to <code>Wonder.fetch</code>. time (int): Value passed to <code>Wonder.fetch</code>. Returns: Any: Value returned by <code>Wonder.fetch</code>.</td>
-<td><code>Wonder.fetch()</code></td>
-</tr>
-<tr>
-<td><code>load_pubmed()</code></td>
-<td>Load source content. Purpose: Provides direct module-level access to <code>PubMedSearchLoader.load</code> using a fresh <code>PubMedSearchLoader</code> instance. Args: query (str): Value passed to <code>PubMedSearchLoader.load</code>. max_docs (int): Value passed to <code>PubMedSearchLoader.load</code>. Returns: Any: Value returned by <code>PubMedSearchLoader.load</code>.</td>
-<td><code>PubMedSearchLoader.load()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Representative call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">fetch_health_data</span><span class="p">(</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;rows&#39;</span><span class="p">,</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">domain</span><span class="o">=</span><span class="s1">&#39;healthdata.gov&#39;</span><span class="p">,</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">dataset_id</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">select</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">where</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="n">order</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="p">)</span>
-</code></pre></div>
-<h2 id="web">Web<a class="headerlink" href="#web" title="Permanent link">&para;</a></h2>
-<p>This domain currently exposes <strong>25</strong> operations. Common entry points include:</p>
-<table>
-<thead>
-<tr>
-<th>Function</th>
-<th>Purpose</th>
-<th>Implementation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>fetch_web_page()</code></td>
-<td>Fetch HTTP web page retrieval and HTML extraction. Purpose: Provides direct module-level access to <code>WebFetcher.fetch</code> using a fresh <code>WebFetcher</code> instance. Args: url (str): Value passed to <code>WebFetcher.fetch</code>. time (int): Value passed to <code>WebFetcher.fetch</code>. Returns: Any: Value returned by <code>WebFetcher.fetch</code>.</td>
-<td><code>WebFetcher.fetch()</code></td>
-</tr>
-<tr>
-<td><code>convert_html_to_text()</code></td>
-<td>HTML to text. Purpose: Provides direct module-level access to <code>WebFetcher.html_to_text</code> using a fresh <code>WebFetcher</code> instance. Args: html (str): Value passed to <code>WebFetcher.html_to_text</code>. Returns: Any: Value returned by <code>WebFetcher.html_to_text</code>.</td>
-<td><code>WebFetcher.html_to_text()</code></td>
-</tr>
-<tr>
-<td><code>extract_web_title()</code></td>
-<td>Extract title. Purpose: Provides direct module-level access to <code>WebFetcher.extract_title</code> using a fresh <code>WebFetcher</code> instance. Args: html (str): Value passed to <code>WebFetcher.extract_title</code>. Returns: Any: Value returned by <code>WebFetcher.extract_title</code>.</td>
-<td><code>WebFetcher.extract_title()</code></td>
-</tr>
-<tr>
-<td><code>extract_web_links()</code></td>
-<td>Extract links. Purpose: Provides direct module-level access to <code>WebFetcher.extract_links</code> using a fresh <code>WebFetcher</code> instance. Args: base_url (str): Value passed to <code>WebFetcher.extract_links</code>. html (str): Value passed to <code>WebFetcher.extract_links</code>. Returns: Any: Value returned by <code>WebFetcher.extract_links</code>.</td>
-<td><code>WebFetcher.extract_links()</code></td>
-</tr>
-<tr>
-<td><code>extract_web_structured_data()</code></td>
-<td>Extract structured data. Purpose: Provides direct module-level access to <code>WebFetcher.extract_structured_data</code> using a fresh <code>WebFetcher</code> instance. Args: url (str): Value passed to <code>WebFetcher.extract_structured_data</code>. html (str): Value passed to <code>WebFetcher.extract_structured_data</code>. selected_methods (Optional[List[str]]): Value passed to <code>WebFetcher.extract_structured_data</code>. Returns: Any: Value returned by…</td>
-<td><code>WebFetcher.extract_structured_data()</code></td>
-</tr>
-<tr>
-<td><code>crawl_web()</code></td>
-<td>Crawl. Purpose: Provides direct module-level access to <code>WebCrawler.crawl</code> using a fresh <code>WebCrawler</code> instance. Args: seed_url (str): Value passed to <code>WebCrawler.crawl</code>. include_title (bool): Value passed to <code>WebCrawler.crawl</code>. include_basic_text (bool): Value passed to <code>WebCrawler.crawl</code>. include_raw_html (bool): Value passed to <code>WebCrawler.crawl</code>. selected_methods (Optional[List[str]]): Value passed to…</td>
-<td><code>WebCrawler.crawl()</code></td>
-</tr>
-<tr>
-<td><code>scrape_crawler_page()</code></td>
-<td>Scrape page. Purpose: Provides direct module-level access to <code>WebCrawler.scrape_page</code> using a fresh <code>WebCrawler</code> instance. Args: url (str): Value passed to <code>WebCrawler.scrape_page</code>. include_title (bool): Value passed to <code>WebCrawler.scrape_page</code>. include_basic_text (bool): Value passed to <code>WebCrawler.scrape_page</code>. include_raw_html (bool): Value passed to <code>WebCrawler.scrape_page</code>. selected_methods (Optiona…</td>
-<td><code>WebCrawler.scrape_page()</code></td>
-</tr>
-<tr>
-<td><code>render_web_page()</code></td>
-<td>Render with playwright. Purpose: Provides direct module-level access to <code>WebCrawler.render_with_playwright</code> using a fresh <code>WebCrawler</code> instance. Args: url (str): Value passed to <code>WebCrawler.render_with_playwright</code>. timeout (int): Value passed to <code>WebCrawler.render_with_playwright</code>. headers (Optional[ Dict[ str, str ] ]): Value passed to <code>WebCrawler.render_with_playwright</code>. use_playwright (bool): Value pass…</td>
-<td><code>WebCrawler.render_with_playwright()</code></td>
-</tr>
-</tbody>
-</table>
-<p>Representative call:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">result</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">fetch_web_page</span><span class="p">(</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">time</span><span class="o">=</span><span class="mi">10</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">)</span>
-</code></pre></div>
-<h2 id="composing-calls">Composing Calls<a class="headerlink" href="#composing-calls" title="Permanent link">&para;</a></h2>
-<p>A typical application will normalize outputs at its own boundary rather than expecting every Fonky
-call to return the same shape.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fonky</span><span class="w"> </span><span class="kn">import</span> <span class="n">fonky</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">location</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">geocode_location</span><span class="p">(</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">address</span><span class="o">=</span><span class="s1">&#39;Arlington, VA&#39;</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">)</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">weather</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">fetch_google_weather_current</span><span class="p">(</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">address</span><span class="o">=</span><span class="s1">&#39;Arlington, VA&#39;</span><span class="p">,</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="n">units_system</span><span class="o">=</span><span class="s1">&#39;METRIC&#39;</span><span class="p">,</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="n">language_code</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">,</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="n">time</span><span class="o">=</span><span class="mi">10</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">)</span>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="n">paragraphs</span> <span class="o">=</span> <span class="n">fonky</span><span class="o">.</span><span class="n">scrape_paragraphs</span><span class="p">(</span>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    <span class="n">uri</span><span class="o">=</span><span class="s1">&#39;https://example.com&#39;</span>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">tables</span> <span class="o">=</span> <span class="n">scrape_tables</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        <span class="s1">&#39;uri&#39;</span><span class="p">:</span> <span class="s1">&#39;https://example.com/report&#39;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="p">}</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">)</span>
 </code></pre></div>
 
 
@@ -2249,6 +2087,44 @@ call to return the same shape.</p>
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../interface-selection/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Functional vs Class Usage">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Functional vs Class Usage
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../composing-workflows/" class="md-footer__link md-footer__link--next" aria-label="Next: Combining Capabilities">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Combining Capabilities
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">

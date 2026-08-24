@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://is-leeroy-jenkins.github.io/Fonky/guides/results/">
       
       
-        <link rel="prev" href="../composing-workflows/">
+        <link rel="prev" href="../failures/">
       
       
         <link rel="next" href="../dependencies/">
@@ -53,6 +53,8 @@
       
     
     
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
       <link rel="stylesheet" href="../../stylesheets/fonky.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
@@ -80,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#results-and-return-shapes" class="md-skip">
+        <a href="#results-return-shapes" class="md-skip">
           Skip to content
         </a>
       
@@ -238,6 +240,25 @@
     
   
   Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage
 
       </a>
     </li>
@@ -468,6 +489,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../configuration/" class="md-nav__link">
         
   
@@ -540,10 +588,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
@@ -561,8 +609,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -587,6 +635,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide Index
   
 
     
@@ -887,6 +963,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../composing-workflows/" class="md-nav__link">
         
   
@@ -895,6 +999,62 @@
     
   
     Combining Capabilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../failures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Handling
   
 
     
@@ -975,10 +1135,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#normalize-at-the-application-boundary" class="md-nav__link">
+  <a href="#result-families" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Normalize at the Application Boundary
+        Result Families
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading Results
       
     </span>
   </a>
@@ -1009,6 +1180,34 @@
     
   
     Credentials & Dependencies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting Guide
   
 
     
@@ -1078,10 +1277,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -1099,8 +1298,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1125,6 +1324,34 @@
     
   
     Functional API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LangChain Tools
   
 
     
@@ -1334,6 +1561,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/boogr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boogr
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1363,10 +1618,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -1384,8 +1639,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1410,6 +1665,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/development-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Guide
   
 
     
@@ -1597,10 +1880,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#normalize-at-the-application-boundary" class="md-nav__link">
+  <a href="#result-families" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Normalize at the Application Boundary
+        Result Families
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading Results
       
     </span>
   </a>
@@ -1675,53 +1969,47 @@
   
 
 
-<h1 id="results-and-return-shapes">Results and Return Shapes<a class="headerlink" href="#results-and-return-shapes" title="Permanent link">&para;</a></h1>
-<p>Fonky intentionally preserves implementation-specific return values instead of wrapping every result
-in a generic envelope.</p>
+<h1 id="results-return-shapes">Results &amp; Return Shapes<a class="headerlink" href="#results-return-shapes" title="Permanent link">&para;</a></h1>
+<h2 id="result-families">Result Families<a class="headerlink" href="#result-families" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Family</th>
-<th>Common Producers</th>
-<th>Typical Use</th>
+<th>Typical Producer</th>
+<th>Shape</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>List[Document]</code></td>
-<td>Document/cloud/web loaders</td>
-<td>Retrieval, embeddings, NLP, document analysis</td>
+<td>provider records</td>
+<td>fetchers</td>
+<td>dictionaries, lists, normalized provider payloads</td>
 </tr>
 <tr>
-<td><code>dict</code></td>
-<td>API fetchers</td>
-<td>Metadata + structured provider response</td>
+<td>LangChain documents</td>
+<td>loaders</td>
+<td><code>List[Document]</code>-like structures with content and metadata</td>
 </tr>
 <tr>
-<td><code>list[dict]</code></td>
-<td>Public-data APIs</td>
-<td>Row/record processing, DataFrame conversion</td>
+<td>extracted structures</td>
+<td>scrapers</td>
+<td>lists or dictionaries of headings, links, tables, paragraphs, images</td>
 </tr>
 <tr>
-<td><code>str</code></td>
-<td>HTML/text conversion</td>
-<td>NLP and direct display</td>
-</tr>
-<tr>
-<td><code>list[str]</code></td>
-<td>Focused scrapers</td>
-<td>Headings, links, paragraphs, table cells, images</td>
-</tr>
-<tr>
-<td>file/image/provider object</td>
-<td>Imagery/specialized integrations</td>
-<td>Save, display, or provider-specific downstream work</td>
+<td>metadata bundles</td>
+<td>loaders / fetchers</td>
+<td>source, timestamps, identifiers, provider descriptors</td>
 </tr>
 </tbody>
 </table>
-<h2 id="normalize-at-the-application-boundary">Normalize at the Application Boundary<a class="headerlink" href="#normalize-at-the-application-boundary" title="Permanent link">&para;</a></h2>
-<p>If your application requires one common contract, normalize results after Fonky returns them. Keeping
-normalization outside the wrapper avoids throwing away provider-specific information prematurely.</p>
+<h2 id="reading-results">Reading Results<a class="headerlink" href="#reading-results" title="Permanent link">&para;</a></h2>
+<ul>
+<li>inspect the top-level type,</li>
+<li>confirm presence of metadata,</li>
+<li>preserve source identifiers for provenance,</li>
+<li>convert to downstream schemas only after execution succeeds,</li>
+<li>keep scrape and fetch outputs distinct from loader document outputs.</li>
+</ul>
 
 
 
@@ -1757,7 +2045,7 @@ normalization outside the wrapper avoids throwing away provider-specific informa
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../composing-workflows/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Combining Capabilities">
+          <a href="../failures/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Failure Handling">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1767,7 +2055,7 @@ normalization outside the wrapper avoids throwing away provider-specific informa
                 Previous
               </span>
               <div class="md-ellipsis">
-                Combining Capabilities
+                Failure Handling
               </div>
             </div>
           </a>

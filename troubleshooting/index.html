@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://is-leeroy-jenkins.github.io/Fonky/troubleshooting/">
       
       
-        <link rel="prev" href="../guides/dependencies/">
+        <link rel="prev" href="../guides/troubleshooting/">
       
       
         <link rel="next" href="../api/fonky/">
@@ -52,6 +52,8 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
       <link rel="stylesheet" href="../stylesheets/fonky.css">
     
@@ -238,6 +240,25 @@
     
   
   Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage
 
       </a>
     </li>
@@ -468,6 +489,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../configuration/" class="md-nav__link">
         
   
@@ -537,10 +585,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -558,8 +606,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -584,6 +632,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide Index
   
 
     
@@ -884,6 +960,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../guides/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../guides/composing-workflows/" class="md-nav__link">
         
   
@@ -892,6 +996,62 @@
     
   
     Combining Capabilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/failures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Handling
   
 
     
@@ -948,6 +1108,34 @@
     
   
     Credentials & Dependencies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting Guide
   
 
     
@@ -1035,10 +1223,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#modulenotfounderror-during-import" class="md-nav__link">
+  <a href="#symptom-index" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ModuleNotFoundError During Import
+        Symptom Index
       
     </span>
   </a>
@@ -1046,10 +1234,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#provider-returns-401403" class="md-nav__link">
+  <a href="#build-checks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Provider Returns 401/403
+        Build Checks
       
     </span>
   </a>
@@ -1057,65 +1245,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#provider-times-out" class="md-nav__link">
+  <a href="#fast-isolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Provider Times Out
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#scraper-returns-an-empty-list" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scraper Returns an Empty List
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pdf-loads-poorly" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PDF Loads Poorly
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cloud-loader-cannot-authenticate" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cloud Loader Cannot Authenticate
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#public-dataset-query-fails" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Public Dataset Query Fails
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mkdocs-build-fails" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        MkDocs Build Fails
+        Fast Isolation
       
     </span>
   </a>
@@ -1152,10 +1285,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -1173,8 +1306,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1199,6 +1332,34 @@
     
   
     Functional API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LangChain Tools
   
 
     
@@ -1408,6 +1569,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/boogr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boogr
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1437,10 +1626,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -1458,8 +1647,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1484,6 +1673,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development/development-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Guide
   
 
     
@@ -1671,10 +1888,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#modulenotfounderror-during-import" class="md-nav__link">
+  <a href="#symptom-index" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ModuleNotFoundError During Import
+        Symptom Index
       
     </span>
   </a>
@@ -1682,10 +1899,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#provider-returns-401403" class="md-nav__link">
+  <a href="#build-checks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Provider Returns 401/403
+        Build Checks
       
     </span>
   </a>
@@ -1693,65 +1910,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#provider-times-out" class="md-nav__link">
+  <a href="#fast-isolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Provider Times Out
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#scraper-returns-an-empty-list" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scraper Returns an Empty List
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pdf-loads-poorly" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PDF Loads Poorly
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cloud-loader-cannot-authenticate" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cloud Loader Cannot Authenticate
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#public-dataset-query-fails" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Public Dataset Query Fails
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mkdocs-build-fails" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        MkDocs Build Fails
+        Fast Isolation
       
     </span>
   </a>
@@ -1787,41 +1949,62 @@
 
 
 <h1 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h1>
-<h2 id="modulenotfounderror-during-import"><code>ModuleNotFoundError</code> During Import<a class="headerlink" href="#modulenotfounderror-during-import" title="Permanent link">&para;</a></h2>
-<p><strong>Meaning:</strong> the Python environment cannot import one of Fonky's dependencies.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;from fonky import fonky&quot;</span>
+<h2 id="symptom-index">Symptom Index<a class="headerlink" href="#symptom-index" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely Cause</th>
+<th>First Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tool import fails</td>
+<td>missing LangChain dependency</td>
+<td><code>pip check</code></td>
+</tr>
+<tr>
+<td>provider call fails</td>
+<td>missing/invalid credentials</td>
+<td>environment variables and provider-specific auth</td>
+</tr>
+<tr>
+<td>loader raises parse/driver error</td>
+<td>missing library or unsupported file</td>
+<td>loader dependency and file format</td>
+</tr>
+<tr>
+<td>scraper returns sparse content</td>
+<td>boilerplate-heavy or script-rendered page</td>
+<td>use render/load path instead of static scrape</td>
+</tr>
+<tr>
+<td>MkDocs API page is empty or shallow</td>
+<td>page built from hand-written table instead of <code>mkdocstrings</code></td>
+<td>use source-driven API directives</td>
+</tr>
+<tr>
+<td><code>.invoke()</code> confusion</td>
+<td>public export treated as plain function</td>
+<td>confirm <code>fonky.py</code> names are <code>BaseTool</code> objects</td>
+</tr>
+</tbody>
+</table>
+<h2 id="build-checks">Build Checks<a class="headerlink" href="#build-checks" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">check</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">pytest</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">mkdocs</span> <span class="n">build</span> <span class="p">-</span><span class="n">-strict</span>
 </code></pre></div>
-<p>Resolve import errors before testing credentials or network behavior.</p>
-<h2 id="provider-returns-401403">Provider Returns 401/403<a class="headerlink" href="#provider-returns-401403" title="Permanent link">&para;</a></h2>
-<p><strong>Meaning:</strong> authentication failed or the credential lacks access.</p>
-<p>Check the provider-specific variable in <a href="../configuration/">Configuration</a>. Do not print secrets while
-debugging.</p>
-<h2 id="provider-times-out">Provider Times Out<a class="headerlink" href="#provider-times-out" title="Permanent link">&para;</a></h2>
-<p>Check network access, provider availability, and the call's <code>time</code>/timeout setting. Repeated timeouts
-should not be interpreted as empty data.</p>
-<h2 id="scraper-returns-an-empty-list">Scraper Returns an Empty List<a class="headerlink" href="#scraper-returns-an-empty-list" title="Permanent link">&para;</a></h2>
-<p>The target page may contain no matching paragraphs/tables/headings/etc. Verify the page structure.
-If the page is JavaScript-rendered, use a Playwright-capable path instead of assuming the selector is
-wrong.</p>
-<h2 id="pdf-loads-poorly">PDF Loads Poorly<a class="headerlink" href="#pdf-loads-poorly" title="Permanent link">&para;</a></h2>
-<p>Try the extraction mode appropriate to the source. Scanned/image PDFs may need OCR; digitally created
-PDFs usually work better with plain text extraction.</p>
-<h2 id="cloud-loader-cannot-authenticate">Cloud Loader Cannot Authenticate<a class="headerlink" href="#cloud-loader-cannot-authenticate" title="Permanent link">&para;</a></h2>
-<p>Separate three questions:</p>
+<h2 id="fast-isolation">Fast Isolation<a class="headerlink" href="#fast-isolation" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Is the SDK installed?</li>
-<li>Can the SDK find credentials?</li>
-<li>Does that identity have permission to the requested bucket/drive/object?</li>
+<li>validate environment,</li>
+<li>import the tool,</li>
+<li>invoke with the smallest viable parameter set,</li>
+<li>test the underlying implementation class if needed,</li>
+<li>confirm provider configuration,</li>
+<li>confirm documentation imports the intended module.</li>
 </ol>
-<h2 id="public-dataset-query-fails">Public Dataset Query Fails<a class="headerlink" href="#public-dataset-query-fails" title="Permanent link">&para;</a></h2>
-<p>Check the target dataset's current schema. Fonky can construct/submit provider queries, but dataset
-field names and availability are controlled by the provider.</p>
-<h2 id="mkdocs-build-fails">MkDocs Build Fails<a class="headerlink" href="#mkdocs-build-fails" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">mkdocs</span> <span class="n">build</span> <span class="p">-</span><span class="n">-strict</span>
-</code></pre></div>
-<p>Fix the first reported missing page, extension, plugin, or import error before addressing downstream
-warnings.</p>
 
 
 
@@ -1857,7 +2040,7 @@ warnings.</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../guides/dependencies/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Credentials &amp; Dependencies">
+          <a href="../guides/troubleshooting/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Troubleshooting Guide">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1867,7 +2050,7 @@ warnings.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Credentials & Dependencies
+                Troubleshooting Guide
               </div>
             </div>
           </a>

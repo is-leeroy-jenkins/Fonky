@@ -13,6 +13,10 @@
         <link rel="canonical" href="https://is-leeroy-jenkins.github.io/Fonky/guides/troubleshooting/">
       
       
+        <link rel="prev" href="../dependencies/">
+      
+      
+        <link rel="next" href="../../troubleshooting/">
       
       
         
@@ -23,7 +27,7 @@
     
     
       
-        <title>Troubleshooting - Fonky</title>
+        <title>Troubleshooting Guide - Fonky</title>
       
     
     
@@ -48,6 +52,8 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
       <link rel="stylesheet" href="../../stylesheets/fonky.css">
     
@@ -76,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#troubleshooting" class="md-skip">
+        <a href="#troubleshooting-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Troubleshooting
+              Troubleshooting Guide
             
           </span>
         </div>
@@ -246,6 +252,25 @@
   
   
     <li class="md-tabs__item">
+      <a href="../../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
       <a href="../../configuration/" class="md-tabs__link">
         
   
@@ -282,10 +307,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../../user-guide/" class="md-tabs__link">
           
   
@@ -462,6 +489,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../configuration/" class="md-nav__link">
         
   
@@ -513,28 +567,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
@@ -552,8 +609,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -578,6 +635,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide Index
   
 
     
@@ -878,6 +963,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../composing-workflows/" class="md-nav__link">
         
   
@@ -886,6 +999,62 @@
     
   
     Combining Capabilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../failures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Handling
   
 
     
@@ -955,6 +1124,103 @@
 
               
             
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#diagnostic-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnostic Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tooling-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tooling Problems
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1011,10 +1277,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -1032,8 +1298,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1058,6 +1324,34 @@
     
   
     Functional API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LangChain Tools
   
 
     
@@ -1267,6 +1561,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/boogr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boogr
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1296,10 +1618,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -1317,8 +1639,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1343,6 +1665,34 @@
     
   
     Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/development-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Guide
   
 
     
@@ -1530,10 +1880,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#failure-boundaries" class="md-nav__link">
+  <a href="#diagnostic-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Failure Boundaries
+        Diagnostic Flow
       
     </span>
   </a>
@@ -1541,76 +1891,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#common-symptoms" class="md-nav__link">
+  <a href="#tooling-problems" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Common Symptoms
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#import-fails-before-any-call-runs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Import Fails Before Any Call Runs
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#credential-failures" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Credential Failures
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#filesystem-failures" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Filesystem Failures
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#network-failures" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Network Failures
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parsing-failures" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Parsing Failures
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#wrapper-routing-failures" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Wrapper Routing Failures
+        Tooling Problems
       
     </span>
   </a>
@@ -1635,6 +1919,46 @@
   
 
 
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../user-guide/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
               
               <article class="md-content__inner md-typeset">
                 
@@ -1645,72 +1969,43 @@
   
 
 
-<h1 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h1>
-<p>Troubleshooting Fonky usually means identifying which boundary failed: import, configuration,
-validation, local filesystem, network transport, provider response, parsing, or return handling.</p>
-<h2 id="failure-boundaries">Failure Boundaries<a class="headerlink" href="#failure-boundaries" title="Permanent link">&para;</a></h2>
-<h2 id="common-symptoms">Common Symptoms<a class="headerlink" href="#common-symptoms" title="Permanent link">&para;</a></h2>
+<h1 id="troubleshooting-guide">Troubleshooting Guide<a class="headerlink" href="#troubleshooting-guide" title="Permanent link">&para;</a></h1>
+<h2 id="diagnostic-flow">Diagnostic Flow<a class="headerlink" href="#diagnostic-flow" title="Permanent link">&para;</a></h2>
+<ol>
+<li>import the target tool,</li>
+<li>confirm <code>.invoke(...)</code> usage,</li>
+<li>validate required provider settings,</li>
+<li>validate file path or URL,</li>
+<li>test the implementation class directly,</li>
+<li>rebuild docs with <code>mkdocs build --strict</code> if the issue is documentation.</li>
+</ol>
+<h2 id="tooling-problems">Tooling Problems<a class="headerlink" href="#tooling-problems" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Symptom</th>
-<th>Likely cause</th>
+<th>Problem</th>
+<th>Corrective Action</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>ModuleNotFoundError</code></td>
-<td>Missing package or local module. Install dependencies or fix import path.</td>
+<td><code>BaseTool</code> expected but plain function assumptions remain</td>
+<td>update calling code to <code>.invoke(...)</code></td>
 </tr>
 <tr>
-<td>Credential or authorization error</td>
-<td>Missing/invalid environment variable, token file, API key, service account, or provider permission.</td>
+<td>invalid tool schema</td>
+<td>repair Google-style docstring in source</td>
 </tr>
 <tr>
-<td><code>FileNotFoundError</code></td>
-<td>Path is wrong relative to current working directory or file does not exist.</td>
+<td>empty API reference page</td>
+<td>replace static page with <code>mkdocstrings</code> module page</td>
 </tr>
 <tr>
-<td>Timeout / connection error</td>
-<td>Network, proxy, firewall, provider outage, or timeout setting.</td>
-</tr>
-<tr>
-<td>HTTP 4xx/5xx</td>
-<td>Provider rejected request or provider failed. Inspect status code and payload.</td>
-</tr>
-<tr>
-<td>Empty result</td>
-<td>Valid call with no provider matches, filtered response, or parsed page without target elements.</td>
-</tr>
-<tr>
-<td>Unexpected return type</td>
-<td>Provider-specific result shape; consult target implementation API.</td>
+<td>missing nav target</td>
+<td>update <code>mkdocs.yml</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="import-fails-before-any-call-runs">Import Fails Before Any Call Runs<a class="headerlink" href="#import-fails-before-any-call-runs" title="Permanent link">&para;</a></h2>
-<p>This usually means the active environment lacks a dependency imported by an implementation module.
-Install requirements and retry a minimal import.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;from fonky import fonky; print(&#39;ok&#39;)&quot;</span>
-</code></pre></div>
-<h2 id="credential-failures">Credential Failures<a class="headerlink" href="#credential-failures" title="Permanent link">&para;</a></h2>
-<p>Provider wrappers forward arguments to the implementation class. Some implementations use
-credentials from <code>config.py</code>; others accept credentials as method arguments. Verify both the API page
-and <code>configuration.md</code> before assuming the wrapper is at fault.</p>
-<h2 id="filesystem-failures">Filesystem Failures<a class="headerlink" href="#filesystem-failures" title="Permanent link">&para;</a></h2>
-<p>Local loaders generally validate that a path exists before loading. Check current working directory,
-absolute path, file extension, and file permissions.</p>
-<h2 id="network-failures">Network Failures<a class="headerlink" href="#network-failures" title="Permanent link">&para;</a></h2>
-<p>Network and provider calls can fail for DNS, proxy, TLS, timeout, firewall, rate-limit, quota, or
-provider status reasons. Test with the smallest possible provider query before running a batch.</p>
-<h2 id="parsing-failures">Parsing Failures<a class="headerlink" href="#parsing-failures" title="Permanent link">&para;</a></h2>
-<p>Document parsing depends on format-specific libraries. A valid file path can still fail if the file
-is corrupted, encrypted, malformed, image-only, or unsupported by the selected loader mode.</p>
-<h2 id="wrapper-routing-failures">Wrapper Routing Failures<a class="headerlink" href="#wrapper-routing-failures" title="Permanent link">&para;</a></h2>
-<p>A wrapper routing bug would appear as a Python error before the implementation method starts, such as
-an undefined class name, missing method, or invalid keyword. The generated wrapper layer should be
-covered by a routing test that validates every wrapper resolves to its declared class and method.</p>
 
 
 
@@ -1741,6 +2036,44 @@ covered by a routing test that validates every wrapper resolves to its declared 
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../dependencies/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Credentials &amp; Dependencies">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Credentials & Dependencies
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../troubleshooting/" class="md-footer__link md-footer__link--next" aria-label="Next: Troubleshooting">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Troubleshooting
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
