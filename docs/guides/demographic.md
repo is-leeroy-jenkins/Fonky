@@ -1,70 +1,28 @@
 # Demographic & Public Data
 
-This domain covers U.S. Census, Socrata, United Nations data, world-population catalog assets, and
-municipal/open-city datasets.
+![Demographic & Public Data](../images/fonky-gov-demo-health.png)
 
-## Workflow — Census Variables and Data
+## Scope
 
-Discover variables first when you do not know field names:
+Demographic workflows focus on census, international, civic, and public-data sources intended for statistics, public analysis, and comparative reporting.
 
-```python
-from fonky import fonky
+## Key Operations
 
-variables = fonky.fetch_census_data(
-    mode='variables',
-    year='2022',
-    dataset='acs/acs5'
-)
-```
+| Operation | Primary Use |
+|---|---|
+| `fetch_census_data` | retrieve census datasets or endpoint-backed results |
+| `fetch_socrata` | retrieve public datasets exposed through Socrata |
+| `fetch_united_nations` | retrieve UN and international public data |
+| `fetch_world_population` | retrieve world population or related demographic data |
+| `load_open_city` | ingest city/public-data source material |
 
-Then request data with explicit fields and geography:
+## Workflow Patterns
 
-```python
-records = fonky.fetch_census_data(
-    mode='data',
-    year='2022',
-    dataset='acs/acs5',
-    fields='NAME,B01001_001E',
-    geography_for='state:*'
-)
-```
+- retrieve public measures or dimensional datasets
+- standardize records
+- join with geographic or health context
+- render tabular analysis or document summaries
 
-## Workflow — Socrata Query
+## Notes
 
-```python
-from fonky import fonky
-
-rows = fonky.fetch_socrata(
-    mode='rows',
-    domain='data.cdc.gov',
-    dataset_id='dataset-id',
-    select='state,count(*) as total',
-    where="year >= 2024",
-    group='state',
-    order='total DESC',
-    limit=100
-)
-```
-
-Socrata query clauses are provider syntax. Validate queries against the target dataset's schema rather
-than assuming fields are portable between datasets.
-
-## Workflow — United Nations Dataset Discovery
-
-```python
-from fonky import fonky
-
-datasets = fonky.fetch_united_nations(
-    mode='datasets'
-)
-```
-
-Use the returned dataset metadata to construct the provider-specific `query_path` for subsequent
-requests.
-
-## Operational Notes
-
-- Public-data datasets change independently of Fonky.
-- Schema discovery is often the first step for Census/Socrata/UN workflows.
-- Pagination/limits should be intentional; avoid requesting an entire large dataset when a filtered
-  query will do.
+Prefer demographic tools when the primary output is a public statistic, civic dataset, or international demographic indicator.

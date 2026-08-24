@@ -5,6 +5,123 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="685dddad-e825-4bf0-82d8-7075e3b95217" name="Changes" comment="updates">
+      <change afterPath="$PROJECT_DIR$/docs/api/tools.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/images/fonky_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/user-guide/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/images/fonky-portfolio.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/boogr.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/boogr.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/config.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/config.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/core.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/core.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/fetchers.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/fetchers.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/fonky.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/fonky.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/loaders.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/loaders.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/models.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/models.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/processors.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/processors.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/scrapers.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/scrapers.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/architecture.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/architecture.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/configuration.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/configuration.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/development/adding-fetcher.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/development/adding-fetcher.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/development/adding-loader.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/development/adding-loader.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/development/adding-scraper.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/development/adding-scraper.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/development/adding-wrapper.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/development/adding-wrapper.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/development/development-guide.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/development/development-guide.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/development/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/development/index.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/development/testing.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/development/testing.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/getting-started.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/getting-started.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/archives.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/archives.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/astronomical.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/astronomical.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/cloud.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/cloud.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/composing-workflows.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/composing-workflows.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/demographic.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/demographic.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/dependencies.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/dependencies.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/documents.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/documents.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/environmental.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/environmental.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/failures.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/failures.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/geospatial.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/geospatial.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/health.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/health.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/interface-selection.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/interface-selection.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/results.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/results.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/state.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/state.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/troubleshooting.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/troubleshooting.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/usage.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/usage.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/web.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/web.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky-architecture.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-architecture.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky-astro-space.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-astro-space.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky-classes.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-classes.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky-classmap-overview.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-classmap-overview.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky-enviro-geo-climate.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-enviro-geo-climate.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky-gov-demo-health.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-gov-demo-health.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky-loaders.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-loaders.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky-logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky-workflow.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-workflow.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/images/fonky_project.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky_project.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/troubleshooting.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/troubleshooting.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/usage.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/usage.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/user-guide.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user-guide.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fetchers.py" beforeDir="false" afterPath="$PROJECT_DIR$/fetchers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fonky.py" beforeDir="false" afterPath="$PROJECT_DIR$/fonky.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/processors.py" beforeDir="false" afterPath="$PROJECT_DIR$/processors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/images/fonky_portfolio.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/images/fonky-portfolio.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scrapers.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrapers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/boogr/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/boogr/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/config/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/config/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/core/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/core/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/fetchers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/fetchers/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/fonky/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/fonky/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/loaders/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/loaders/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/models/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/models/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/processors/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/processors/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/scrapers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/scrapers/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/architecture/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/architecture/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/configuration/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/configuration/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-fetcher/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/adding-fetcher/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-loader/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/adding-loader/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-scraper/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/adding-scraper/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-wrapper/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/adding-wrapper/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/development-guide/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/development-guide/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/testing/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/testing/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/getting-started/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/getting-started/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/archives/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/archives/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/astronomical/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/astronomical/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/cloud/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/cloud/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/composing-workflows/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/composing-workflows/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/demographic/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/demographic/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/dependencies/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/dependencies/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/documents/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/documents/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/environmental/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/environmental/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/failures/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/failures/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/geospatial/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/geospatial/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/health/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/health/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/interface-selection/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/interface-selection/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/results/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/results/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/state/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/state/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/troubleshooting/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/troubleshooting/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/usage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/usage/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/web/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky-architecture.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky-architecture.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky-astro-space.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky-astro-space.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky-classes.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky-classes.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky-classmap-overview.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky-classmap-overview.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky-enviro-geo-climate.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky-enviro-geo-climate.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky-gov-demo-health.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky-gov-demo-health.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky-loaders.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky-loaders.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky-logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky-logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky-workflow.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky-workflow.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/images/fonky_project.png" beforeDir="false" afterPath="$PROJECT_DIR$/site/images/fonky_project.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/site/search/search_index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/troubleshooting/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/troubleshooting/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/usage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/usage/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/user-guide/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/user-guide/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,10 +181,12 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "last_opened_file_path": "C:/Users/terry/source/repos/Fonky",
+    "last_opened_file_path": "C:/Users/terry/source/repos/Fonky/docs/images",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.jshint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.jshint": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.sourceCode.Python",
@@ -76,10 +195,10 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\terry\source\repos\Fonky" />
       <recent name="C:\Users\terry\source\repos\Fonky\docs\images" />
-      <recent name="C:\Users\terry\source\repos\Fonky\resources\images" />
+      <recent name="C:\Users\terry\source\repos\Fonky" />
       <recent name="C:\Users\terry\source\repos\Fonky\docs" />
+      <recent name="C:\Users\terry\source\repos\Fonky\resources\images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\terry\source\repos\Fonky\docs" />
@@ -111,23 +230,7 @@
       <workItem from="1787272583767" duration="42000" />
       <workItem from="1787445174445" duration="100000" />
       <workItem from="1787469828393" duration="11645000" />
-      <workItem from="1787580387643" duration="5971000" />
-    </task>
-    <task id="LOCAL-00058" summary="updates">
-      <option name="closed" value="true" />
-      <created>1786470220019</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1786470220020</updated>
-    </task>
-    <task id="LOCAL-00059" summary="updates">
-      <option name="closed" value="true" />
-      <created>1786470529903</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1786470529903</updated>
+      <workItem from="1787580387643" duration="16387000" />
     </task>
     <task id="LOCAL-00060" summary="updates">
       <option name="closed" value="true" />
@@ -505,7 +608,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787588663254</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="updates">
+      <option name="closed" value="true" />
+      <created>1787588750364</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1787588750364</updated>
+    </task>
+    <task id="LOCAL-00108" summary="updates">
+      <option name="closed" value="true" />
+      <created>1787590084890</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1787590084890</updated>
+    </task>
+    <option name="localTasksCounter" value="109" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -17,48 +17,97 @@ ___
 
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/Fonky/)
 
-Fonky is a Python library providing access to web API's  **across 9 domains** that can be used to 
-create tools for agentic workflows.
+Fonky is a reusable Python framework for data retrieval, document ingestion, web scraping,
+cloud loading, domain-oriented data access, and LangChain tool integration.
+
+The implementation remains object-oriented in `fetchers.py`, `loaders.py`, and `scrapers.py`.
+The `fonky.py` module provides a simple functional interface over those implementation classes:
+each module-level function creates the appropriate implementation object, invokes its existing
+method, and returns the result.
+
+Fonky exposes **110 operations across 9 domains** through both its functional API and
+LangChain tool surface.
 
 ## 🎯 Purpose
 
+Fonky provides a reusable library for:
 
-| Capability              | Description                                                                                                                   |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| 🌐 Web Fetching         | Retrieve web pages, crawl sites, extract links and structured content, and render or scrape web sources                       |
-| 🔎 Search & Archives    | Query ArXiv, Wikipedia, Google Search, Google Drive, Congress, government data, news, Internet Archive, and Grokipedia        |
-| 📄 Document Loading     | Load text, PDF, CSV, Excel, Word, Markdown, HTML, PowerPoint, JSON, XML, Outlook, email, SharePoint, and Jupyter content      |
-| ☁️ Cloud Loading        | Load from Google Drive, Google Cloud Storage, AWS S3, OneDrive, and Google Speech-to-Text                                     |
-| 🌿 Environmental Data   | Retrieve weather, climate, air-quality, water, earthquake, fire, UV, tide, and natural-event data                             |
-| 🗺️ Geospatial Data      | Geocode locations, reverse-geocode coordinates, validate addresses, request directions, and retrieve imagery and mapping data |
-| 🔭 Astronomy & Space    | Query astronomical catalogs, satellites, space weather, star maps, star charts, OpenSky, and near-Earth objects               |
-| 👥 Demographic & Health | Retrieve Census, Socrata, United Nations, population, health, CDC WONDER, PubMed, and open-city data                          |
-| 🧰 Functional API       | Typed, stateless entry points over Fonky fetchers, loaders, and scrapers                                                      |
-| 🤖 LangChain Tools      | Agent-callable versions of the functional API with schemas derived from type hints and Google-style docstrings                |
+| Capability | Description |
+|---|---|
+| 🌐 Web Fetching | Retrieve web pages, crawl sites, extract links and structured content, and render or scrape web sources |
+| 🔎 Search & Archives | Query ArXiv, Wikipedia, Google Search, Google Drive, Congress, government data, news, Internet Archive, and Grokipedia |
+| 📄 Document Loading | Load text, PDF, CSV, Excel, Word, Markdown, HTML, PowerPoint, JSON, XML, Outlook, email, SharePoint, and Jupyter content |
+| ☁️ Cloud Loading | Load from Google Drive, Google Cloud Storage, AWS S3, OneDrive, and Google Speech-to-Text |
+| 🌿 Environmental Data | Retrieve weather, climate, air-quality, water, earthquake, fire, UV, tide, and natural-event data |
+| 🗺️ Geospatial Data | Geocode locations, reverse-geocode coordinates, validate addresses, request directions, and retrieve imagery and mapping data |
+| 🔭 Astronomy & Space | Query astronomical catalogs, satellites, space weather, star maps, star charts, OpenSky, and near-Earth objects |
+| 👥 Demographic & Health | Retrieve Census, Socrata, United Nations, population, health, CDC WONDER, PubMed, and open-city data |
+| 🧰 Functional API | Typed, stateless entry points over Fonky fetchers, loaders, and scrapers |
+| 🤖 LangChain Tools | Agent-callable versions of the functional API with schemas derived from type hints and Google-style docstrings |
 
 ## 🏗️ Architecture
 
-![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-architecture.png)
-
-Fonky has three intentionally simple surfaces over the existing implementation classes:
+Fonky's LangChain integration is implemented directly in `fonky.py`.
 
 ```text
-Application / Notebook
-        |
-        v
-  fonky/fonky.py
- ordinary Python functions
-        |
-        +------------------------------+
-        |                              |
-        v                              v
-fetchers / loaders / scrapers     LangChain Agent
-        ^                              |
-        |                              v
-        +------------------------ fonky/tools.py
-                                  @tool objects
+LangChain Agent / Application
+            |
+            v
+       fonky/fonky.py
+ literal @tool decorators
+            |
+    +-------+-------+
+    |       |       |
+    v       v       v
+fetchers  loaders  scrapers
 ```
 
+Each public operation is decorated directly:
+
+```python
+from langchain_core.tools import tool
+
+
+@tool(
+    parse_docstring=True,
+    error_on_invalid_docstring=True
+)
+def scrape_tables( uri: str ) -> Any:
+    """Extract table cell text.
+
+    Args:
+        uri: Fully qualified URI of the target HTML document.
+
+    Returns:
+        List[str] | None: Table cell text values produced by the operation.
+    """
+    _instance = WebExtractor( )
+    return _instance.scrape_tables( uri=uri )
+```
+
+`tools.py` is a grouping and discovery module only. It imports the already-decorated `BaseTool`
+objects from `fonky.py` and organizes them into the nine Fonky domains.
+
+### Important API consequence
+
+Because `@tool` replaces each decorated function binding with a LangChain `BaseTool`, decorated
+operations are invoked with `.invoke()` rather than as ordinary Python functions:
+
+```python
+from fonky.fonky import fetch_arxiv
+
+result = fetch_arxiv.invoke(
+    {
+        'question': 'large language model tool use',
+        'max_documents': 5,
+        'full_documents': False,
+        'include_metadata': True
+    }
+)
+```
+
+If ordinary function-call semantics are required, the underlying implementation classes in
+`fetchers.py`, `loaders.py`, and `scrapers.py` remain directly callable.
 
 ## 🧰 Project Structure
 
@@ -119,6 +168,7 @@ python -m venv .venv
 python -m pip install --upgrade pip wheel
 python -m pip install "setuptools==81.0.0"
 python -m pip install -r requirements.txt
+python -m pip check
 ```
 
 Install Playwright browser support when using Playwright-backed web functionality:
@@ -167,148 +217,61 @@ $env:THENEWSAPI_API_KEY = "your-thenewsapi-key"
 Credentials should remain in environment variables or controlled configuration and should not be
 embedded in source code.
 
-## 🧰 Functional Interface
+## 🧰 Public Tool Interface
 
-The new `fonky.py` module is the consolidated functional interface for the functionality implemented
-by `fetchers.py`, `loaders.py`, and `scrapers.py`.
+The 110 public operations in `fonky.py` are LangChain `BaseTool` objects because they are decorated
+directly with `@tool(...)`.
 
-Each function:
-
-1. accepts explicit typed arguments;
-2. creates a fresh implementation-class instance;
-3. invokes the corresponding implementation method;
-4. returns the implementation result directly.
-
-No provider logic is duplicated in `fonky.py`.
-
-### Import the functional module
+Import an operation:
 
 ```python
-from fonky import fonky
+from fonky.fonky import fetch_usgs_earthquakes
 ```
 
-### Fetch environmental data
+Invoke it:
 
 ```python
-weather = fonky.fetch_google_weather_current(
-    address='Arlington, VA',
-    units_system='METRIC',
-    language_code='en',
-    time=10
-)
-```
-
-```python
-earthquakes = fonky.fetch_usgs_earthquakes(
-    mode='feed',
-    feed='all_day.geojson',
-    min_magnitude=1.0,
-    limit=25
-)
-```
-
-### Load documents
-
-```python
-documents = fonky.load_pdf(
-    path='sample.pdf',
-    mode='single',
-    extract='plain',
-    include=False,
-    format='markdown-img',
-    size=1000,
-    overlap=150,
-    has_tables=True
-)
-```
-
-```python
-documents = fonky.load_excel(
-    path='sample.xlsx',
-    mode='elements',
-    has_headers=True
-)
-```
-
-### Scrape web content
-
-```python
-tables = fonky.scrape_tables(
-    uri='https://example.com'
-)
-```
-
-```python
-paragraphs = fonky.scrape_paragraphs(
-    uri='https://example.com'
-)
-```
-
-### Search archive and research sources
-
-```python
-documents = fonky.fetch_arxiv(
-    question='large language model tool use',
-    max_documents=5,
-    full_documents=False,
-    include_metadata=True
-)
-```
-
-### Geocode locations
-
-```python
-location = fonky.geocode_location(
-    address='1600 Pennsylvania Avenue NW, Washington, DC'
-)
-```
-
-## 🤖 LangChain Tool Integration
-
-Fonky exposes its functional API directly to LangChain through `fonky.tools`.
-
-The tool layer uses the existing typed functions and their Google-style docstrings to build
-LangChain schemas. The integration applies `@tool` semantics with:
-
-```python
-parse_docstring=True
-error_on_invalid_docstring=True
-```
-
-This allows LangChain to use each function's type annotations, summary, argument descriptions,
-defaults, and validation documentation when constructing the model-facing tool schema.
-
-### Import tools directly
-
-```python
-from fonky.tools import fetch_arxiv
-from fonky.tools import fetch_usgs_earthquakes
-```
-
-LangChain tool objects are invoked with `.invoke()`:
-
-```python
-result = fetch_arxiv.invoke(
+result = fetch_usgs_earthquakes.invoke(
     {
-        'question': 'large language model tool use',
-        'max_documents': 5,
-        'full_documents': False,
-        'include_metadata': True
+        'mode': 'feed',
+        'feed': 'all_day.geojson',
+        'min_magnitude': 1.0,
+        'limit': 25
     }
 )
 ```
 
-### Use domain-scoped tool sets
+The operation's typed signature and Google-style `Args:` documentation are used to construct the
+LangChain input schema.
 
-Fonky keeps the same nine-domain organization for agent tool selection:
+## 🤖 LangChain Tool Integration
+
+### Literal decorators
+
+Every public operation in `fonky.py` uses the actual decorator syntax:
+
+```python
+@tool(
+    parse_docstring=True,
+    error_on_invalid_docstring=True
+)
+def fetch_arxiv( ... ):
+    ...
+```
+
+No callable-conversion expression is used as a substitute for the requested decorator syntax.
+
+### Domain-scoped tool sets
+
+`tools.py` groups the already-decorated tools:
 
 ```python
 from fonky.tools import get_tools
 
-tools = get_tools( 'environmental' )
+tools = get_tools( domain='archives' )
 ```
 
-Available domains are:
+Supported domains:
 
 ```text
 archives
@@ -322,10 +285,7 @@ health
 web
 ```
 
-Domain-scoped tool sets keep the model's tool-selection surface focused instead of exposing all
-110 operations to every agent.
-
-### Create a LangChain agent
+### Agent usage
 
 ```python
 from langchain.agents import create_agent
@@ -334,37 +294,10 @@ from fonky.tools import get_tools
 
 agent = create_agent(
     model='openai:gpt-5',
-    tools=get_tools( 'archives' ),
+    tools=get_tools( domain='archives' ),
     system_prompt='Use Fonky tools when external research or public-source retrieval is required.'
 )
-
-result = agent.invoke(
-    {
-        'messages': [
-            {
-                'role': 'user',
-                'content': 'Research recent work on agentic retrieval augmented generation.'
-            }
-        ]
-    }
-)
 ```
-
-### Continue using ordinary Python calls
-
-`fonky.py` remains the direct Python API:
-
-```python
-from fonky import fonky
-
-result = fonky.fetch_arxiv(
-    question='large language model tool use',
-    max_documents=5,
-    full_documents=False,
-    include_metadata=True
-)
-```
-
 
 ## 📓 Jupyter Notebook
 

@@ -1,104 +1,55 @@
 # Getting Started
-![](images/fonky-classmap.png)
-## Prerequisites
 
-| Requirement          | Why It Matters                                         |
-|----------------------|--------------------------------------------------------|
-| Python 3.11+         | Runs Fonky and its integration libraries.              |
-| Git                  | Clones and updates the repository.                     |
-| Virtual environment  | Isolates Fonky's broad dependency set.                 |
-| Provider credentials | Required only for providers you actually call.         |
-| Browser runtime      | Required for Playwright-backed web rendering/crawling. |
-
-## Create the Environment
+## Environment
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip setuptools wheel
+python -m pip install --upgrade pip wheel
+python -m pip install "setuptools==81.0.0"
 python -m pip install -r requirements.txt
+python -m pip check
 ```
 
-When browser-backed retrieval is needed:
+## Smoke Tests
 
 ```powershell
-python -m playwright install chromium
+python -c "from fonky.fonky import fetch_arxiv; print(fetch_arxiv.name)"
+python -c "from fonky.tools import get_domains; print(get_domains())"
 ```
 
-## Verify Imports Before Provider Testing
-
-```powershell
-python -c "from fonky import fonky; print('Fonky import succeeded')"
-```
-
-If that command fails with `ModuleNotFoundError`, resolve the missing Python dependency before
-investigating API credentials or provider behavior.
-
-## First Local Workflow — Load a Text File
-
-Start with a local operation so network and credentials are not variables:
+## First Direct Invocation
 
 ```python
-from pathlib import Path
-from fonky import fonky
+from fonky.fonky import fetch_arxiv
 
-path = Path('sample.txt')
-path.write_text(
-    'Fonky is ready for document ingestion.',
-    encoding='utf-8'
+result = fetch_arxiv.invoke(
+    {
+        'question': 'federal AI governance',
+        'max_documents': 3,
+        'full_documents': False,
+        'include_metadata': True
+    }
 )
-
-documents = fonky.load_text(
-    path=str(path),
-    encoding='utf-8'
-)
-
-for document in documents:
-    print(document.page_content)
 ```
 
-## First Web Workflow — Extract Headings
+## First Domain Tool Set
 
 ```python
-from fonky import fonky
+from fonky.tools import get_tools
 
-headings = fonky.scrape_headings(
-    uri='https://example.com'
-)
-
-for heading in headings or []:
-    print(heading)
+web_tools = get_tools( domain='web' )
 ```
 
-## First Provider Workflow — ArXiv
+## Runtime Expectations
 
-```python
-from fonky import fonky
+- Public exports in `fonky.py` are `BaseTool` objects.
+- Direct calls use `.invoke(...)`.
+- `tools.py` groups existing tools; it does not define new ones.
+- Google-style docstrings are part of the runtime contract because tool schemas are parsed from them.
 
-papers = fonky.fetch_arxiv(
-    question='agentic retrieval systems',
-    max_documents=3,
-    full_documents=False,
-    include_metadata=True
-)
+## Validation Checklist
 
-for paper in papers:
-    print(paper.metadata)
-```
-
-## Validate Documentation Locally
-
-```powershell
-python -m pip install mkdocs-material
-mkdocs serve
-```
-
-Before committing documentation changes:
-
-```powershell
-mkdocs build --strict
-```
-
-## Next
-
-Use [Configuration](configuration.md) for credentials, then select a workflow in the [User Guide](user-guide.md).
+- `pip check` returns no broken requirements.
+- `pytest` completes for decorator and runtime tests.
+- `mkdocs build --strict` completes without navigation or import errors.

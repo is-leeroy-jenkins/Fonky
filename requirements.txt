@@ -2,7 +2,7 @@
 # Fonky Requirements
 # --------------------------------------------------------------------------------------------------
 # Purpose:
-#   Runtime dependencies for the Fonky/funky package and the planned funky.tools adapter layer.
+#   Runtime dependencies for Fonky, including its literal LangChain @tool integration.
 #
 # Notes:
 #   - This file intentionally favors package families already reflected in fetchers.py/loaders.py.
@@ -13,6 +13,7 @@
 # --------------------------------------------------------------------------------------------------
 # Core Python Data / Validation
 # --------------------------------------------------------------------------------------------------
+setuptools==81.0.0
 pydantic>=2.7,<3
 typing_extensions>=4.11,<5
 requests>=2.32,<3
@@ -29,9 +30,7 @@ langchain-community==0.4.2
 langchain-text-splitters==1.1.2
 langchain-google-community==5.0.0
 langchain-googledrive==0.1.52
-langchain-openai
-langchain-anthropic
-langchain-google-genai
+
 
 # --------------------------------------------------------------------------------------------------
 # Document Loading / Parsing
@@ -106,12 +105,11 @@ sentence-transformers
 scikit-learn
 textblob
 tiktoken
-docx
+python-docx
 chromadb
 gensim
 pinecone
 PyMuPDF
-crawl4ai
 
 
 # --------------------------------------------------------------------------------------------------

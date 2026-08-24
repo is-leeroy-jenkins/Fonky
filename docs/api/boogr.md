@@ -1,27 +1,19 @@
-# Boogr Integration
+# `boogr`
 
-Fonky's implementation modules currently import error and logging support from the external `boogr`
-package. This page documents that boundary so operators know why imports may fail before provider
-calls run.
+## Scope
 
-## Where Boogr Appears
+This page is reserved for the Boogr integration/extension surface referenced by the current documentation tree.
 
-| Module | Imported symbols |
-| --- | --- |
-| `fetchers.py` | `Error` |
-| `loaders.py` | `Error`, `Logger` |
-| `models.py` | `Error` |
-| `processors.py` | `Error` |
-| `scrapers.py` | `Error`, `Logger` |
+## Current Status
 
-## Operational Meaning
+- keep the page in navigation when the module is part of the project tree,
+- replace this placeholder with a `mkdocstrings` page once `fonky.boogr` is present and importable,
+- remove the page from navigation if the integration is retired.
 
-If `boogr` is unavailable, importing some implementation modules may fail before any wrapper call is
-executed. That is a dependency/environment issue, not a `fonky.py` routing issue.
+## Expected Documentation Shape
 
-## Handling Strategy
-
-- install or expose the expected `boogr` package/module;
-- do not replace the error boundary in `fonky.py`;
-- keep wrapper functions thin;
-- handle exceptions at application boundaries.
+- import path,
+- purpose and lifecycle,
+- extension points,
+- examples,
+- `mkdocstrings` reference.

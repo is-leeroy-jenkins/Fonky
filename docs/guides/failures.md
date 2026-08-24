@@ -1,16 +1,27 @@
 # Failure Handling
 
-Common failure boundaries:
+## Failure Taxonomy
 
-1. invalid arguments;
-2. missing files;
-3. missing Python dependencies;
-4. missing/invalid credentials;
-5. DNS/network failure;
-6. timeout;
-7. HTTP failure;
-8. provider rate limiting;
-9. malformed response;
-10. parser/extractor failure.
+| Class | Typical Trigger | Surface |
+|---|---|---|
+| missing source | bad path, missing URL, 404 | loaders / fetchers / scrapers |
+| auth failure | absent or invalid credentials | provider-backed fetchers/loaders |
+| parse failure | malformed or unsupported content | loaders / scrapers |
+| dependency failure | missing package, driver, or binary | loaders / rendering paths |
+| schema failure | unexpected provider shape | fetchers / models |
+| documentation failure | invalid docstring or import path | `fonky.py`, API docs |
 
-Do not treat an exception as equivalent to a valid empty result.
+## Response Pattern
+
+1. isolate the failing surface,
+2. reduce to the smallest reproducible invocation,
+3. verify dependency and credential prerequisites,
+4. test the underlying implementation class,
+5. restore documentation or schema parity if the failure is tooling-related.
+
+## Documentation-Specific Failures
+
+- `mkdocstrings` import path wrong,
+- navigation references missing pages,
+- source page replaced by static tables,
+- tool docstring cannot be parsed into schema.

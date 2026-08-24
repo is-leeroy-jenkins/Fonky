@@ -1,57 +1,29 @@
 # Troubleshooting
 
-## `ModuleNotFoundError` During Import
+## Symptom Index
 
-**Meaning:** the Python environment cannot import one of Fonky's dependencies.
+| Symptom | Likely Cause | First Check |
+|---|---|---|
+| tool import fails | missing LangChain dependency | `pip check` |
+| provider call fails | missing/invalid credentials | environment variables and provider-specific auth |
+| loader raises parse/driver error | missing library or unsupported file | loader dependency and file format |
+| scraper returns sparse content | boilerplate-heavy or script-rendered page | use render/load path instead of static scrape |
+| MkDocs API page is empty or shallow | page built from hand-written table instead of `mkdocstrings` | use source-driven API directives |
+| `.invoke()` confusion | public export treated as plain function | confirm `fonky.py` names are `BaseTool` objects |
 
-```powershell
-python -m pip install -r requirements.txt
-python -c "from fonky import fonky"
-```
-
-Resolve import errors before testing credentials or network behavior.
-
-## Provider Returns 401/403
-
-**Meaning:** authentication failed or the credential lacks access.
-
-Check the provider-specific variable in [Configuration](configuration.md). Do not print secrets while
-debugging.
-
-## Provider Times Out
-
-Check network access, provider availability, and the call's `time`/timeout setting. Repeated timeouts
-should not be interpreted as empty data.
-
-## Scraper Returns an Empty List
-
-The target page may contain no matching paragraphs/tables/headings/etc. Verify the page structure.
-If the page is JavaScript-rendered, use a Playwright-capable path instead of assuming the selector is
-wrong.
-
-## PDF Loads Poorly
-
-Try the extraction mode appropriate to the source. Scanned/image PDFs may need OCR; digitally created
-PDFs usually work better with plain text extraction.
-
-## Cloud Loader Cannot Authenticate
-
-Separate three questions:
-
-1. Is the SDK installed?
-2. Can the SDK find credentials?
-3. Does that identity have permission to the requested bucket/drive/object?
-
-## Public Dataset Query Fails
-
-Check the target dataset's current schema. Fonky can construct/submit provider queries, but dataset
-field names and availability are controlled by the provider.
-
-## MkDocs Build Fails
+## Build Checks
 
 ```powershell
+python -m pip check
+pytest
 mkdocs build --strict
 ```
 
-Fix the first reported missing page, extension, plugin, or import error before addressing downstream
-warnings.
+## Fast Isolation
+
+1. validate environment,
+2. import the tool,
+3. invoke with the smallest viable parameter set,
+4. test the underlying implementation class if needed,
+5. confirm provider configuration,
+6. confirm documentation imports the intended module.

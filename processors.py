@@ -98,35 +98,8 @@ except Exception:
 
 DELIMITERS: Set[ str ] = { '. ', '; ', '? ', '! ', ', ' }
 
-SYMBOLS: Set[ str ] = {
-		"@",
-		"#",
-		"$",
-		"^",
-		"*",
-		"<",
-		">",
-		"+",
-		"=",
-		"|",
-		"\\",
-		"<",
-		">",
-		":",
-		"[",
-		"]",
-		"{",
-		"}",
-		"(",
-		")",
-		"`",
-		"~",
-		"-",
-		"_",
-		'"',
-		"'",
-		".",
-}
+SYMBOLS: Set[ str ] = { "@", "#", "$", "^", "*", "<", ">", "+", "=", "|", "\\", "<", ">", ":", "[",
+		"]", "{", "}", "(", ")", "`", "~", "-", "_", '"', "'", ".", }
 
 ASCII_LETTERS: Set[ str ] = set( string.ascii_letters )
 
@@ -134,13 +107,9 @@ DIGITS: Set[ str ] = set( string.digits )
 
 PUNCTUATION: Set[ str ] = set( string.punctuation )
 
-WHITESPACE: Set[ str ] = {
-		" ", "\t", "\n", "\r", "\v", "\f"
-}
+WHITESPACE: Set[ str ] = { " ", "\t", "\n", "\r", "\v", "\f" }
 
-CONTROL_CHARACTERS: Set[ str ] = {
-		chr( i ) for i in range( 0x00, 0x20 )
-}.union( { chr( 0x7F ) } )
+CONTROL_CHARACTERS: Set[ str ] = { chr( i ) for i in range( 0x00, 0x20 ) }.union( { chr( 0x7F ) } )
 
 NUMERALS = (r"\bM{0,4}(CM|CD|D?C{0,3})"
             r"(XC|XL|L?X{0,3})"
@@ -247,7 +216,7 @@ class Processor( ):
 	removed: Optional[ List[ str ] ]
 	frequency_distribution: Optional[ DataFrame ]
 	
-	def __init__( self ):
+	def __init__( self ) -> None:
 		"""Initialize Processor.
 
 		Purpose:
@@ -323,7 +292,7 @@ class TextParser( Processor ):
 	SYMBOLS: Optional[ Set[ str ] ]
 	NUMERALS: Optional[ str ]
 	
-	def __init__( self ):
+	def __init__( self ) -> None:
 		"""Initialize Text Parser.
 
 		Purpose:

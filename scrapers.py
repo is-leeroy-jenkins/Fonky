@@ -105,7 +105,7 @@ class Extractor( ):
 	extracted_text: Optional[ str ]
 	soup: Optional[ BeautifulSoup ]
 	
-	def __init__( self ):
+	def __init__( self ) -> None:
 		"""Initialize extraction state.
 
 		Purpose:
@@ -190,24 +190,10 @@ class WebExtractor( Extractor ):
 		Returns:
 		    Ordered attribute and method names exposed by the extractor.
 		"""
-		return [ 'agents',
-		         'url',
-		         'html',
-		         'timeout',
-		         'headers',
-		         'fetch',
-		         'html_to_text',
-		         'scrape_images',
-		         'scrape_hyperlinks',
-		         'scrape_images',
-		         'scrape_hyperlinks',
-		         'scrape_blockquotes',
-		         'scrape_sections',
-		         'scrape_divisions',
-		         'sracpe_headings',
-		         'scrape_tables',
-		         'scrape_lists',
-		         'scrape_paragraphse', ]
+		return [ 'agents', 'url', 'html', 'timeout', 'headers', 'fetch', 'html_to_text',
+		         'scrape_images', 'scrape_hyperlinks', 'scrape_images', 'scrape_hyperlinks',
+		         'scrape_blockquotes', 'scrape_sections', 'scrape_divisions', 'sracpe_headings',
+		         'scrape_tables', 'scrape_lists', 'scrape_paragraphse', ]
 	
 	def scrape( self, url: str, time: int = 10 ) -> Result | None:
 		"""Fetch a web page.

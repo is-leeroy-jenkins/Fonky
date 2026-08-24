@@ -4351,7 +4351,7 @@ class GlobalImagery( Fetcher ):
 			exception.method = 'fetch_map_services( self ) -> Dict[ str, Any ] | None'
 			raise exception
 	
-	def fetch_mercator_map( self, ccrs=None ) -> Dict[ str, Any ] | None:
+	def fetch_mercator_map( self, ccrs: Any=None ) -> Dict[ str, Any ] | None:
 		"""Fetch mercator map.
 
 		Purpose:
@@ -4361,7 +4361,7 @@ class GlobalImagery( Fetcher ):
 		    normalized payload for downstream analysis or tool execution.
 
 		Args:
-		    ccrs: Optional Cartopy coordinate reference system used to construct the map.
+		    ccrs (Any): Optional Cartopy coordinate reference system used to construct the map.
 
 		Returns:
 		    Dict[str, Any] | None: Normalized provider response, result payload, or document collection
@@ -4375,8 +4375,9 @@ class GlobalImagery( Fetcher ):
 			self.mode = 'mercator_map'
 			return self.fetch_wms_map(
 				layer='Landsat_WELD_CorrectedReflectance_Bands157_Global_Annual',
-				image_date='2000-12-01', bbox=(-8000000.0, -8000000.0, 8000000.0, 8000000.0),
-				width=600, height=600, projection='epsg3857', quality='best',
+				image_date='2000-12-01', bbox=(
+					-8000000.0, -8000000.0, 8000000.0,
+					8000000.0), width=600, height=600, projection='epsg3857', quality='best',
 				image_format='image/png', transparent=True, output_dir='python-examples',
 				output_name='Landsat_WELD_CorrectedReflectance_Bands157_Global_Annual.png',
 				time=20 )
@@ -5606,7 +5607,7 @@ class AstroCatalog( Fetcher ):
 	radius: Optional[ int ]
 	params: Optional[ Dict[ str, Any ] ]
 	
-	def __init__( self ):
+	def __init__( self ) -> None:
 		"""Initialize Astro Catalog.
 
 		Purpose:
@@ -24731,52 +24732,28 @@ class OpenAQ( Fetcher ):
 				period = item.get( 'period', { } ) or { }
 				datetime_value = item.get( 'datetime', { } ) or item.get( 'date', { } ) or { }
 				
-				rows.append(
-					{
-							'Location Id': (
-									location.get( 'id', '' )
-									if isinstance( location, dict )
-									else ''
-							),
-							'Name': (
-									location.get( 'name', '' )
-									if isinstance( location, dict )
-									else ''
-							),
-							'Parameter': (
-									parameter.get( 'name', '' )
-									if isinstance( parameter, dict )
-									else item.get( 'parameter', '' )
-							),
-							'Parameter Id': (
-									parameter.get( 'id', '' )
-									if isinstance( parameter, dict )
-									else ''
-							),
-							'Value': item.get( 'value', '' ),
-							'Unit': item.get( 'unit', '' ),
-							'Datetime': (
-									datetime_value.get( 'utc', '' )
-									if isinstance( datetime_value, dict )
-									else datetime_value
-							),
-							'Period Label': (
-									period.get( 'label', '' )
-									if isinstance( period, dict )
-									else ''
-							),
-							'Latitude': (
-									coordinates.get( 'latitude', None )
-									if isinstance( coordinates, dict )
-									else None
-							),
-							'Longitude': (
-									coordinates.get( 'longitude', None )
-									if isinstance( coordinates, dict )
-									else None
-							)
-					}
-				)
+				rows.append( { 'Location Id': (
+						location.get( 'id', '' ) if isinstance( location, dict ) else ''),
+						'Name': (
+						location.get( 'name', '' ) if isinstance( location, dict ) else ''),
+						'Parameter': (
+								parameter.get( 'name', '' ) if isinstance( parameter, dict ) else
+								item.get( 'parameter', '' )),
+						'Parameter Id': (
+								parameter.get( 'id', '' ) if isinstance( parameter, dict ) else
+								''),
+						'Value': item.get( 'value', '' ), 'Unit': item.get( 'unit', '' ),
+						'Datetime': (
+								datetime_value.get( 'utc', '' ) if isinstance( datetime_value,
+									dict ) else datetime_value),
+						'Period Label': (
+								period.get( 'label', '' ) if isinstance( period, dict ) else ''),
+						'Latitude': (
+								coordinates.get( 'latitude', None ) if isinstance( coordinates,
+									dict ) else None),
+						'Longitude': (
+								coordinates.get( 'longitude', None ) if isinstance( coordinates,
+									dict ) else None) } )
 			
 			return rows
 		
@@ -24784,10 +24761,7 @@ class OpenAQ( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'OpenAQ'
-			exception.method = (
-					'shape_latest_rows( self, *args, **kwargs ) '
-					'-> List[ Dict[ str, Any ] ]'
-			)
+			exception.method = ('shape_latest_rows( self, *args, **kwargs ) -> List[ Dict[ str, Any ] ]')
 			raise exception
 	
 	def summarize_rows( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
@@ -24926,8 +24900,7 @@ class OpenAQ( Fetcher ):
 			raise exception
 	
 	def fetch_countries( self, providers_id: str='', parameters_id: str='',
-			limit: int=100, page: int=1,
-			time: int=20 ) -> Dict[ str, Any ] | None:
+			limit: int=100, page: int=1, time: int=20 ) -> Dict[ str, Any ] | None:
 		"""Retrieve countries data.
 
 		Purpose:
@@ -25463,7 +25436,6 @@ class Firms( Fetcher ):
 				raise ValueError( "Unsupported FIRMS mode. Use 'area' or 'data-availability'." )
 			
 			return value
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25502,7 +25474,6 @@ class Firms( Fetcher ):
 				                  'LANDSAT, MODIS, or VIIRS source identifiers.' )
 			
 			return value
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25538,7 +25509,6 @@ class Firms( Fetcher ):
 				                  'VIIRS_SNPP, VIIRS_NOAA20, or VIIRS_NOAA21.' )
 			
 			return value
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25572,7 +25542,6 @@ class Firms( Fetcher ):
 				raise ValueError( 'day_range must be between 1 and 5.' )
 			
 			return value
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25605,7 +25574,6 @@ class Firms( Fetcher ):
 			
 			dt.datetime.strptime( value, '%Y-%m-%d' )
 			return value
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25688,27 +25656,22 @@ class Firms( Fetcher ):
 		"""
 		try:
 			text = str( csv_text or '' )
-			
 			if not text.strip( ):
 				return [ ]
 			
 			reader = csv.DictReader( io.StringIO( text ) )
 			rows: List[ Dict[ str, Any ] ] = [ ]
-			
 			for record in reader:
 				if not isinstance( record, dict ):
 					continue
 				
 				row: Dict[ str, Any ] = { }
-				
 				for key, value in record.items( ):
 					friendly_key = str( key ).replace( '_', ' ' ).title( )
 					row[ friendly_key ] = value
 				
 				rows.append( row )
-			
 			return rows
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25738,7 +25701,6 @@ class Firms( Fetcher ):
 			first_sensor = ''
 			first_lat = ''
 			first_lon = ''
-			
 			if rows:
 				first_date = str(
 					rows[ 0 ].get( 'Acq Date', '' ) or rows[ 0 ].get( 'Date', '' ) or rows[
@@ -25756,9 +25718,7 @@ class Firms( Fetcher ):
 			exception = Error( e )
 			exception.module = 'fetchers'
 			exception.cause = 'Firms'
-			exception.method = (
-					'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
-			)
+			exception.method = 'summarize_rows( self, *args, **kwargs ) -> Dict[ str, Any ]'
 			raise exception
 	
 	def package_response( self, rows: List[ Dict[ str, Any ] ] ) -> Dict[ str, Any ]:
@@ -25784,7 +25744,6 @@ class Firms( Fetcher ):
 					'summary': self.summarize_rows( rows ), 'rows': rows, 'raw': self.payload }
 			
 			return self.result
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25825,9 +25784,7 @@ class Firms( Fetcher ):
 			self.response.raise_for_status( )
 			self.payload = self.response.text or ''
 			self.result = { 'url': self.url, 'params': self.params, 'raw': self.payload }
-			
 			return self.result
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25877,11 +25834,8 @@ class Firms( Fetcher ):
 				self.url = f'{self.url}/{self.date}'
 			
 			self.request_csv( url=self.url, time=self.timeout )
-			
 			rows = self.csv_to_rows( self.payload )
-			
 			return self.package_response( rows )
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25920,11 +25874,8 @@ class Firms( Fetcher ):
 			            f'{self.validate_map_key( )}/{self.sensor}')
 			
 			self.request_csv( url=self.url, time=self.timeout )
-			
 			rows = self.csv_to_rows( self.payload )
-			
 			return self.package_response( rows )
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -25966,7 +25917,6 @@ class Firms( Fetcher ):
 		"""
 		try:
 			self.mode = self.validate_mode( mode )
-			
 			if self.mode == 'area':
 				return self.fetch_area( source=source, area_coordinates=area_coordinates,
 					day_range=day_range, date=date, time=time )
@@ -25975,7 +25925,6 @@ class Firms( Fetcher ):
 				return self.fetch_data_availability( sensor=sensor, time=time )
 			
 			raise ValueError( "Unsupported FIRMS mode. Use 'area' or 'data-availability'." )
-		
 		except Exception as e:
 			exception = Error( e )
 			exception.module = 'fetchers'
@@ -26014,13 +25963,11 @@ class Firms( Fetcher ):
 			throw_if( 'tool', tool )
 			throw_if( 'description', description )
 			throw_if( 'parameters', parameters )
-			
 			if not isinstance( parameters, dict ):
 				raise ValueError( 'parameters must be a dict of param_name -> schema definition.' )
 			
 			if required is None:
 				required = list( parameters.keys( ) )
-			
 			return { 'name': function.strip( ),
 					'description': (f'{description.strip( )} This function uses the '
 					                f'{tool.strip( )} service.'),
@@ -26170,7 +26117,6 @@ class OpenSky( Fetcher ):
 		"""
 		try:
 			throw_if( 'mode', mode )
-			
 			value = str( mode ).strip( ).lower( )
 			allowed = { 'states_bbox', 'flights_aircraft', 'arrivals_airport',
 			            'departures_airport',
@@ -26182,7 +26128,6 @@ class OpenSky( Fetcher ):
 				                  "'departures_airport', or 'track_aircraft'." )
 			
 			return value
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'
@@ -26212,9 +26157,7 @@ class OpenSky( Fetcher ):
 		"""
 		try:
 			throw_if( 'endpoint', endpoint )
-			
 			value = str( endpoint ).strip( )
-			
 			if value.startswith( 'http://' ) or value.startswith( 'https://' ):
 				raise ValueError( 'endpoint must be a path segment, not a full URL.' )
 			
@@ -26228,7 +26171,6 @@ class OpenSky( Fetcher ):
 				raise ValueError( 'Unsupported OpenSky endpoint path.' )
 			
 			return value
-		
 		except Exception as exc:
 			exception = Error( exc )
 			exception.module = 'fetchers'

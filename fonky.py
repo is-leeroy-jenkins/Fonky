@@ -9,19 +9,20 @@
       Last Modified On:        08-23-2026
   ******************************************************************************************
   <summary>
-    Provides the module-level functional interface for Fonky fetchers, loaders, and scrapers.
+    Provides the LangChain tool interface for Fonky fetchers, loaders, and scrapers.
 
     Purpose:
-        Exposes thin domain-organized functions over the implementation classes in
-        ``fetchers.py``, ``loaders.py``, and ``scrapers.py``. Each function creates a fresh
-        implementation instance, invokes the corresponding operation, and returns its result.
+        Exposes domain-organized operations over the implementation classes in ``fetchers.py``,
+        ``loaders.py``, and ``scrapers.py``. Each public operation is decorated directly with
+        LangChain's ``@tool`` decorator, creates a fresh implementation instance, invokes the
+        corresponding operation, and returns its result.
   </summary>
   ******************************************************************************************
 '''
 from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 import datetime as dt
-
+from langchain_core.tools import tool
 
 # ==========================================================================================
 # FETCHERS IMPORTS
@@ -114,6 +115,7 @@ from .scrapers import WebExtractor
 
 # --------- ARCHIVES ---------
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_arxiv( question: str, max_documents: int=None, full_documents: bool=None,
 		include_metadata: bool=None ) -> Any:
     """Retrieve ArXiv research documents.
@@ -140,6 +142,7 @@ def fetch_arxiv( question: str, max_documents: int=None, full_documents: bool=No
     return _instance.fetch( question=question, max_documents=max_documents,
 	    full_documents=full_documents, include_metadata=include_metadata )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_google_drive( question: str, folder_id: str='root', results: int=10,
 		template: str='gdrive-query', mime_type: str=None, mode: str='documents' ) -> Any:
     """Retrieve Google Drive documents.
@@ -166,9 +169,9 @@ def fetch_google_drive( question: str, folder_id: str='root', results: int=10,
             the project error type.
     """
     _instance = GoogleDrive( )
-    return _instance.fetch( question=question, folder_id=folder_id, results=results,
-	    template=template, mime_type=mime_type, mode=mode )
+    return _instance.fetch( question=question, folder_id=folder_id, results=results, template=template, mime_type=mime_type, mode=mode )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_wikipedia( question: str, language: str=None, max_documents: int=None,
 		include_metadata: bool=None ) -> Any:
     """Retrieve Wikipedia documents.
@@ -192,9 +195,9 @@ def fetch_wikipedia( question: str, language: str=None, max_documents: int=None,
             the project error type.
     """
     _instance = Wikipedia( )
-    return _instance.fetch( question=question, language=language, max_documents=max_documents,
-	    include_metadata=include_metadata )
+    return _instance.fetch( question=question, language=language, max_documents=max_documents, include_metadata=include_metadata )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_news( endpoint: str='all', query: str='', language: str='en', categories: str='',
 		exclude_categories: str='', locale: str='', domains: str='', exclude_domains: str='',
 		source_ids: str='', exclude_source_ids: str='', published_after: str='',
@@ -241,13 +244,9 @@ def fetch_news( endpoint: str='all', query: str='', language: str='en', categori
             the project error type.
     """
     _instance = TheNews( )
-    return _instance.fetch( endpoint=endpoint, query=query, language=language, categories=categories,
-	    exclude_categories=exclude_categories, locale=locale, domains=domains,
-	    exclude_domains=exclude_domains, source_ids=source_ids, exclude_source_ids=exclude_source_ids,
-	    published_after=published_after, published_before=published_before,
-	    published_on=published_on, sort=sort, limit=limit, page=page, include_similar=include_similar,
-	    headlines_per_category=headlines_per_category, time=time, api_key=api_key )
+    return _instance.fetch( endpoint=endpoint, query=query, language=language, categories=categories, exclude_categories=exclude_categories, locale=locale, domains=domains, exclude_domains=exclude_domains, source_ids=source_ids, exclude_source_ids=exclude_source_ids, published_after=published_after, published_before=published_before, published_on=published_on, sort=sort, limit=limit, page=page, include_similar=include_similar, headlines_per_category=headlines_per_category, time=time, api_key=api_key )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_terms: str='',
 		exclude_terms: str='', file_type: str='', date_restrict: str='', gl: str='', lr: str='',
 		safe: str='off', search_type: str='', site_search: str='', site_search_filter: str='',
@@ -297,10 +296,11 @@ def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_ter
     return _instance.fetch( keywords=keywords, results=results, start=start,
 	    exact_terms=exact_terms, exclude_terms=exclude_terms, file_type=file_type,
 	    date_restrict=date_restrict, gl=gl, lr=lr, safe=safe, search_type=search_type,
-	    site_search=site_search, site_search_filter=site_search_filter, sort=sort, img_size=img_size,
-	    img_type=img_type, img_color_type=img_color_type, img_dominant_color=img_dominant_color,
-	    time=time, api_key=api_key, cse_id=cse_id )
+	    site_search=site_search, site_search_filter=site_search_filter, sort=sort,
+	    img_size=img_size, img_type=img_type, img_color_type=img_color_type,
+	    img_dominant_color=img_dominant_color, time=time, api_key=api_key, cse_id=cse_id )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_gov_data( mode: str='search', query: str='', page_size: int=10, offset_mark: str='*',
 		sort_field: str='score', sort_order: str='DESC', package_id: str='', collection: str='',
 		start_date: str='', time: int=20 ) -> Any:
@@ -334,10 +334,10 @@ def fetch_gov_data( mode: str='search', query: str='', page_size: int=10, offset
             the project error type.
     """
     _instance = GovData( )
-    return _instance.fetch( mode=mode, query=query, page_size=page_size, offset_mark=offset_mark,
-	    sort_field=sort_field, sort_order=sort_order, package_id=package_id, collection=collection,
-	    start_date=start_date, time=time )
+    return _instance.fetch( mode=mode, query=query, page_size=page_size, offset_mark=offset_mark, sort_field=sort_field, sort_order=sort_order, package_id=package_id, collection=collection, start_date=start_date, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_congress( mode: str='congresses', congress: int=0, bill_type: str='', bill_number: int=0,
 		law_type: str='', law_number: int=0, report_type: str='', report_number: int=0,
 		offset: int=0, limit: int=20, sort: str='updateDate+desc', from_date_time: str='',
@@ -378,11 +378,10 @@ def fetch_congress( mode: str='congresses', congress: int=0, bill_type: str='', 
             the project error type.
     """
     _instance = Congress( )
-    return _instance.fetch( mode=mode, congress=congress, bill_type=bill_type,
-	    bill_number=bill_number, law_type=law_type, law_number=law_number, report_type=report_type,
-	    report_number=report_number, offset=offset, limit=limit, sort=sort,
-	    from_date_time=from_date_time, to_date_time=to_date_time, conference=conference, time=time )
+    return _instance.fetch( mode=mode, congress=congress, bill_type=bill_type, bill_number=bill_number, law_type=law_type, law_number=law_number, report_type=report_type, report_number=report_number, offset=offset, limit=limit, sort=sort, from_date_time=from_date_time, to_date_time=to_date_time, conference=conference, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_internet_archive( keywords: str, fields: List[str] | None=None, rows: int=10, page: int=1,
 		sort: str='downloads desc', media_type: str='', collection: str='', time: int=20 ) -> Any:
     """Retrieve Internet Archive search and metadata.
@@ -411,9 +410,10 @@ def fetch_internet_archive( keywords: str, fields: List[str] | None=None, rows: 
             the project error type.
     """
     _instance = InternetArchive( )
-    return _instance.fetch( keywords=keywords, fields=fields, rows=rows, page=page, sort=sort,
-	    media_type=media_type, collection=collection, time=time )
+    return _instance.fetch( keywords=keywords, fields=fields, rows=rows, page=page, sort=sort, media_type=media_type, collection=collection, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_grokipedia( mode: str='search', query: str='', page: str='', limit: int=12,
 		offset: int=0, include_content: bool=True ) -> Any:
     """Retrieve Grokipedia search and page.
@@ -440,9 +440,10 @@ def fetch_grokipedia( mode: str='search', query: str='', page: str='', limit: in
             the project error type.
     """
     _instance = Grokipedia( )
-    return _instance.fetch( mode=mode, query=query, page=page, limit=limit, offset=offset,
-	    include_content=include_content )
+    return _instance.fetch( mode=mode, query=query, page=page, limit=limit, offset=offset, include_content=include_content )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_arxiv( question: str ) -> Any:
     """Load ArXiv research documents.
 
@@ -463,6 +464,7 @@ def load_arxiv( question: str ) -> Any:
     _instance = ArXivLoader( )
     return _instance.load( question=question )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_wikipedia( question: str ) -> Any:
     """Load Wikipedia articles.
 
@@ -485,6 +487,7 @@ def load_wikipedia( question: str ) -> Any:
 
 #  --------- ASTRONOMICAL ---------
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_naval_observatory( mode: str='celnav', date_value: str='', time_value: str='',
 		latitude: float=0.0, longitude: float=0.0, location_label: str='', time: int=20 ) -> Any:
     """Retrieve U.S. Naval Observatory celestial-navigation data.
@@ -511,9 +514,9 @@ def fetch_naval_observatory( mode: str='celnav', date_value: str='', time_value:
             the project error type.
     """
     _instance = NavalObservatory( )
-    return _instance.fetch( mode=mode, date_value=date_value, time_value=time_value,
-	    latitude=latitude, longitude=longitude, location_label=location_label, time=time )
+    return _instance.fetch( mode=mode, date_value=date_value, time_value=time_value, latitude=latitude, longitude=longitude, location_label=location_label, time=time )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_satellite_center( mode: str='observatories', query: str='', start_time: str='',
 		end_time: str='', coordinate_systems: str='gse', resolution_factor: int=1, time: int=20 ) -> Any:
     """Retrieve SSC satellite observatory, ground-station, and location data.
@@ -542,9 +545,9 @@ def fetch_satellite_center( mode: str='observatories', query: str='', start_time
             the project error type.
     """
     _instance = SatelliteCenter( )
-    return _instance.fetch( mode=mode, query=query, start_time=start_time, end_time=end_time,
-	    coordinate_systems=coordinate_systems, resolution_factor=resolution_factor, time=time )
+    return _instance.fetch( mode=mode, query=query, start_time=start_time, end_time=end_time, coordinate_systems=coordinate_systems, resolution_factor=resolution_factor, time=time )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_date: str='',
 		query: str='', query_type: str='sstr', dist_max: str='10LD', body: str='Earth',
 		sort: str='date', limit: int=20, dv: float=6.0, dur: int=360, stay: int=8,
@@ -590,12 +593,10 @@ def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_
             the project error type.
     """
     _instance = NearbyObjects( )
-    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date,
-	    query=query, query_type=query_type, dist_max=dist_max, body=body, sort=sort,
-	    limit=limit, dv=dv, dur=dur, stay=stay, launch=launch, h=h, occ=occ,
-	    include_physical=include_physical, include_close_approaches=include_close_approaches,
-	    ca_body=ca_body, include_discovery=include_discovery, time=time )
+    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, query=query, query_type=query_type, dist_max=dist_max, body=body, sort=sort, limit=limit, dv=dv, dur=dur, stay=stay, launch=launch, h=h, occ=occ, include_physical=include_physical, include_close_approaches=include_close_approaches, ca_body=ca_body, include_discovery=include_discovery, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_open_science( mode: str='dataset', query: str='', accession: str='',
 		format_value: str='json', time: int=20 ) -> Any:
     """Retrieve NASA Open Science Data Repository resources.
@@ -620,9 +621,10 @@ def fetch_open_science( mode: str='dataset', query: str='', accession: str='',
             the project error type.
     """
     _instance = OpenScience( )
-    return _instance.fetch( mode=mode, query=query, accession=accession,
-	    format_value=format_value, time=time )
+    return _instance.fetch( mode=mode, query=query, accession=accession, format_value=format_value, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_space_weather( mode: str='cme', start_date: str='', end_date: str='', time: int=20,
 		location: str='ALL', catalog: str='ALL', notification_type: str='all',
 		most_accurate_only: bool=True, complete_entry_only: bool=True, speed: int=0,
@@ -658,11 +660,10 @@ def fetch_space_weather( mode: str='cme', start_date: str='', end_date: str='', 
             the project error type.
     """
     _instance = SpaceWeather( )
-    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, time=time,
-	    location=location, catalog=catalog, notification_type=notification_type,
-	    most_accurate_only=most_accurate_only, complete_entry_only=complete_entry_only,
-	    speed=speed, half_angle=half_angle, keyword=keyword, api_key=api_key )
+    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, time=time, location=location, catalog=catalog, notification_type=notification_type, most_accurate_only=most_accurate_only, complete_entry_only=complete_entry_only, speed=speed, half_angle=half_angle, keyword=keyword, api_key=api_key )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_astro_catalog( mode: str='object_query', query: str='', quantity: str='',
 		attributes: str='', arguments: str='', ra: str='', dec: str='', radius: int=2,
 		data_format: str='json', time: int=20 ) -> Any:
@@ -693,9 +694,10 @@ def fetch_astro_catalog( mode: str='object_query', query: str='', quantity: str=
             the project error type.
     """
     _instance = AstroCatalog( )
-    return _instance.fetch( mode=mode, query=query, quantity=quantity, attributes=attributes,
-	    arguments=arguments, ra=ra, dec=dec, radius=radius, data_format=data_format, time=time )
+    return _instance.fetch( mode=mode, query=query, quantity=quantity, attributes=attributes, arguments=arguments, ra=ra, dec=dec, radius=radius, data_format=data_format, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_astro_query( mode: str='object_search', query: str='', ra: str='', dec: str='',
 		radius: float=0.5, radius_unit: str='deg', row_limit: int=100 ) -> Any:
     """Retrieve Simbad and astronomy object search operations.
@@ -723,9 +725,10 @@ def fetch_astro_query( mode: str='object_search', query: str='', ra: str='', dec
             the project error type.
     """
     _instance = AstroQuery( )
-    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, radius=radius,
-	    radius_unit=radius_unit, row_limit=row_limit )
+    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, radius=radius, radius_unit=radius_unit, row_limit=row_limit )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_star_map( mode: str='object_link', query: str='', ra: float=0.0, dec: float=0.0,
 		zoom: int=5, image_source: str='DSS2', box_color: str='yellow', show_box: bool=True,
 		show_grid: bool=True, show_lines: bool=True, show_boundaries: bool=True,
@@ -760,11 +763,10 @@ def fetch_star_map( mode: str='object_link', query: str='', ra: float=0.0, dec: 
             the project error type.
     """
     _instance = StarMap( )
-    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom,
-	    image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid,
-	    show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names,
-	    time=time )
+    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom, image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid, show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_star_chart( mode: str='object_chart', query: str='', ra: float=0.0,
 		dec: float=0.0, zoom: int=5, image_source: str='DSS2', box_color: str='yellow',
 		show_box: bool=True, show_grid: bool=True, show_lines: bool=True, show_boundaries: bool=True,
@@ -803,11 +805,10 @@ def fetch_star_chart( mode: str='object_chart', query: str='', ra: float=0.0,
             the project error type.
     """
     _instance = StarChart( )
-    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom,
-	    image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid,
-	    show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names,
-	    width=width, height=height, magnitude=magnitude, time=time )
+    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom, image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid, show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names, width=width, height=height, magnitude=magnitude, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', begin: int=None,
 		end: int=None, time_value: int=None, lamin: float | None=None,
 		lomin: float | None=None, lamax: float | None=None, lomax: float | None=None,
@@ -846,12 +847,12 @@ def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', be
             the project error type.
     """
     _instance = OpenSky( )
-    return _instance.fetch( mode=mode, icao24=icao24, airport=airport, begin=begin, end=end,
-	    time_value=time_value, lamin=lamin, lomin=lomin, lamax=lamax, lomax=lomax,
-	    extended=extended, client_id=client_id, client_secret=client_secret, time=time )
+    return _instance.fetch( mode=mode, icao24=icao24, airport=airport, begin=begin, end=end, time_value=time_value, lamin=lamin, lomin=lomin, lamax=lamax, lomax=lomax, extended=extended, client_id=client_id, client_secret=client_secret, time=time )
 
 # --------- CLOUD ---------
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_google_drive_file( file_id: str, recursive: bool=False ) -> Any:
     """Load a Google Drive file.
 
@@ -873,6 +874,8 @@ def load_google_drive_file( file_id: str, recursive: bool=False ) -> Any:
     _instance = GoogleDriveLoader( )
     return _instance.load_file( file_id=file_id, recursive=recursive )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_google_drive_folder( folder_id: str, recursive: bool=False ) -> Any:
     """Load documents from a Google Drive folder.
 
@@ -894,6 +897,8 @@ def load_google_drive_folder( folder_id: str, recursive: bool=False ) -> Any:
     _instance = GoogleDriveLoader( )
     return _instance.load_folder( folder_id=folder_id, recursive=recursive )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_onedrive( drive_id: str, folder_path: Optional[str]=None,
 		object_ids: Optional[List[str]]=None, auth_with_token: bool=True ) -> Any:
     """Load documents from OneDrive.
@@ -915,9 +920,10 @@ def load_onedrive( drive_id: str, folder_path: Optional[str]=None,
             the project error type.
     """
     _instance = OneDriveDocLoader( )
-    return _instance.load( drive_id=drive_id, folder_path=folder_path, object_ids=object_ids,
-	    auth_with_token=auth_with_token )
+    return _instance.load( drive_id=drive_id, folder_path=folder_path, object_ids=object_ids, auth_with_token=auth_with_token )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any:
     """Load a Google Cloud Storage object.
 
@@ -939,6 +945,8 @@ def load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any:
     _instance = GoogleCloudFileLoader( )
     return _instance.load( project_name=project_name, bucket=bucket, blob=blob )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str]=None,
 		aws_secret_access_key: Optional[str]=None, aws_session_token: Optional[str]=None,
 		region_name: Optional[str]=None ) -> Any:
@@ -963,10 +971,10 @@ def load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str]=None,
             the project error type.
     """
     _instance = AwsFileLoader( )
-    return _instance.load( bucket=bucket, key=key, aws_access_key_id=aws_access_key_id,
-	    aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token,
-	    region_name=region_name )
+    return _instance.load( bucket=bucket, key=key, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token, region_name=region_name )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_google_speech_to_text( project_id: str, file_path: str,
 		config: Optional[Dict[str, Any]]=None ) -> Any:
     """Transcribe audio with Google Speech-to-Text.
@@ -989,6 +997,8 @@ def load_google_speech_to_text( project_id: str, file_path: str,
     _instance = GoogleSpeechToTextLoader( )
     return _instance.load( project_id=project_id, file_path=file_path, config=config )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_google_bucket( project_name: str, bucket: str, prefix: Optional[str]=None,
 		continue_on_failure: bool=False ) -> Any:
     """Load documents from a Google Cloud Storage bucket.
@@ -1011,9 +1021,10 @@ def load_google_bucket( project_name: str, bucket: str, prefix: Optional[str]=No
             the project error type.
     """
     _instance = GoogleBucketLoader( )
-    return _instance.load( project_name=project_name, bucket=bucket, prefix=prefix,
-	    continue_on_failure=continue_on_failure )
+    return _instance.load( project_name=project_name, bucket=bucket, prefix=prefix, continue_on_failure=continue_on_failure )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id: Optional[str]=None,
 		aws_secret_access_key: Optional[str]=None, aws_session_token: Optional[str]=None,
 		region_name: Optional[str]=None, endpoint_url: Optional[str]=None ) -> Any:
@@ -1039,12 +1050,12 @@ def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id:
             the project error type.
     """
     _instance = AwsBucketLoader( )
-    return _instance.load( bucket=bucket, prefix=prefix, aws_access_key_id=aws_access_key_id,
-	    aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token,
-	    region_name=region_name, endpoint_url=endpoint_url )
+    return _instance.load( bucket=bucket, prefix=prefix, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token, region_name=region_name, endpoint_url=endpoint_url )
 
 # --------- DEMOGRAPHIC ---------
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='acs/acs5',
 		fields: str='NAME,B01001_001E', geography_for: str='state:*', geography_in: str='',
 		predicates: str='', time: int=20 ) -> Any:
@@ -1074,9 +1085,10 @@ def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='ac
             the project error type.
     """
     _instance = CensusData( )
-    return _instance.fetch( mode=mode, year=year, dataset=dataset, fields=fields,
-	    geography_for=geography_for, geography_in=geography_in, predicates=predicates, time=time )
+    return _instance.fetch( mode=mode, year=year, dataset=dataset, fields=fields, geography_for=geography_for, geography_in=geography_in, predicates=predicates, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_socrata( mode: str='rows', domain: str='data.cdc.gov', dataset_id: str='',
 		select: str='', where: str='', order: str='', group: str='', limit: int=25,
 		offset: int=0, time: int=20 ) -> Any:
@@ -1108,9 +1120,10 @@ def fetch_socrata( mode: str='rows', domain: str='data.cdc.gov', dataset_id: str
             the project error type.
     """
     _instance = Socrata( )
-    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select,
-	    where=where, order=order, group=group, limit=limit, offset=offset, time=time )
+    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select, where=where, order=order, group=group, limit=limit, offset=offset, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_united_nations( mode: str='datasets', query_path: str='', time: int=20 ) -> Any:
     """Retrieve United Nations SDMX dataset and query.
 
@@ -1135,6 +1148,8 @@ def fetch_united_nations( mode: str='datasets', query_path: str='', time: int=20
     _instance = UnitedNations( )
     return _instance.fetch( mode=mode, query_path=query_path, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_world_population( mode: str='catalog', query: str='', asset_path: str='',
 		page: int=1, page_size: int=25, time: int=20 ) -> Any:
     """Retrieve WorldPop catalog and raster metadata.
@@ -1163,9 +1178,10 @@ def fetch_world_population( mode: str='catalog', query: str='', asset_path: str=
             the project error type.
     """
     _instance = WorldPopulation( )
-    return _instance.fetch( mode=mode, query=query, asset_path=asset_path,
-	    page=page, page_size=page_size, time=time )
+    return _instance.fetch( mode=mode, query=query, asset_path=asset_path, page=page, page_size=page_size, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_open_city( city_id: str, dataset_id: str, limit: int=100 ) -> Any:
     """Load an Open City dataset.
 
@@ -1191,6 +1207,8 @@ def load_open_city( city_id: str, dataset_id: str, limit: int=100 ) -> Any:
 
 # --------- DOCUMENTS ---------
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_text( path: str, encoding: Optional[str]=None ) -> Any:
     """Load a plain-text file.
 
@@ -1211,6 +1229,8 @@ def load_text( path: str, encoding: Optional[str]=None ) -> Any:
     _instance = TextLoader( )
     return _instance.load( path=path, encoding=encoding )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_csv( path: str, encoding: Optional[str]='utf-8', source_column: Optional[str]=None,
 		delimiter: str=',', quotechar: str='"' ) -> Any:
     """Load a CSV file.
@@ -1233,9 +1253,10 @@ def load_csv( path: str, encoding: Optional[str]='utf-8', source_column: Optiona
             the project error type.
     """
     _instance = CsvLoader( )
-    return _instance.load( path=path, encoding=encoding, source_column=source_column,
-	    delimiter=delimiter, quotechar=quotechar )
+    return _instance.load( path=path, encoding=encoding, source_column=source_column, delimiter=delimiter, quotechar=quotechar )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def read_pdf( path: str, mode: str='single' ) -> Any:
     """Read a PDF file.
 
@@ -1256,6 +1277,7 @@ def read_pdf( path: str, mode: str='single' ) -> Any:
     _instance = PdfReader( )
     return _instance.load( path=path, mode=mode )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_pdf( path: str, mode: str='single', extract: str='plain', include: bool=False,
 		format: str='markdown-img', size: int=1000, overlap: int=150, has_tables: bool=True ) -> Any:
     """Load and extract a PDF file.
@@ -1283,6 +1305,8 @@ def load_pdf( path: str, mode: str='single', extract: str='plain', include: bool
     _instance = PdfLoader( size=size, overlap=overlap, has_tables=has_tables )
     return _instance.load( path=path, mode=mode, extract=extract, include=include, format=format )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_excel( path: str, mode: str='elements', has_headers: bool=True ) -> Any:
     """Load an Excel workbook.
 
@@ -1304,6 +1328,8 @@ def load_excel( path: str, mode: str='elements', has_headers: bool=True ) -> Any
     _instance = ExcelLoader( )
     return _instance.load( path=path, mode=mode, has_headers=has_headers )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_word( path: str ) -> Any:
     """Load a Word document.
 
@@ -1323,6 +1349,8 @@ def load_word( path: str ) -> Any:
     _instance = WordLoader( )
     return _instance.load( path=path )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_markdown( path: str ) -> Any:
     """Load a Markdown document.
 
@@ -1342,6 +1370,8 @@ def load_markdown( path: str ) -> Any:
     _instance = MarkdownLoader( )
     return _instance.load( path=path )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_html( path: str ) -> Any:
     """Load an HTML document.
 
@@ -1361,6 +1391,8 @@ def load_html( path: str ) -> Any:
     _instance = HtmlLoader( )
     return _instance.load( path=path )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_outlook( path: str ) -> Any:
     """Load an Outlook message.
 
@@ -1380,6 +1412,8 @@ def load_outlook( path: str ) -> Any:
     _instance = OutlookLoader( )
     return _instance.load( path=path )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_spfx( library_id: str ) -> Any:
     """Load a SharePoint document library.
 
@@ -1399,6 +1433,8 @@ def load_spfx( library_id: str ) -> Any:
     _instance = SpfxLoader( )
     return _instance.load( library_id=library_id )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_spfx_folder( library_id: str, folder_id: str ) -> Any:
     """Load a SharePoint folder.
 
@@ -1419,6 +1455,8 @@ def load_spfx_folder( library_id: str, folder_id: str ) -> Any:
     _instance = SpfxLoader( )
     return _instance.load_folder( library_id=library_id, folder_id=folder_id )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_powerpoint( path: str, mode: str='single' ) -> Any:
     """Load a PowerPoint presentation.
 
@@ -1439,6 +1477,8 @@ def load_powerpoint( path: str, mode: str='single' ) -> Any:
     _instance = PowerPointLoader( )
     return _instance.load( path=path, mode=mode )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_powerpoint_multiple( path: str ) -> Any:
     """Load multiple PowerPoint presentation elements.
 
@@ -1458,6 +1498,8 @@ def load_powerpoint_multiple( path: str ) -> Any:
     _instance = PowerPointLoader( )
     return _instance.load_multiple( path=path )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_email( path: str, mode: str='single', attachments: bool=True ) -> Any:
     """Load an email message.
 
@@ -1479,6 +1521,8 @@ def load_email( path: str, mode: str='single', attachments: bool=True ) -> Any:
     _instance = EmailLoader( )
     return _instance.load( path=path, mode=mode, attachments=attachments )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_json( filepath: str, is_text: bool=True, is_lines: bool=False ) -> Any:
     """Load JSON content.
 
@@ -1500,6 +1544,8 @@ def load_json( filepath: str, is_text: bool=True, is_lines: bool=False ) -> Any:
     _instance = JsonLoader( )
     return _instance.load( filepath=filepath, is_text=is_text, is_lines=is_lines )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_xml( filepath: str ) -> Any:
     """Load an XML document.
 
@@ -1519,6 +1565,8 @@ def load_xml( filepath: str ) -> Any:
     _instance = XmlLoader( )
     return _instance.load( filepath=filepath )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_xml_tree( filepath: str ) -> Any:
     """Parse an XML document tree.
 
@@ -1538,6 +1586,8 @@ def load_xml_tree( filepath: str ) -> Any:
     _instance = XmlLoader( )
     return _instance.load_tree( filepath=filepath )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_jupyter_notebook( path: str, include_outputs: bool=False, max_output_length: int=10,
 		remove_newline: bool=False, traceback: bool=False ) -> Any:
     """Load a Jupyter notebook.
@@ -1561,11 +1611,11 @@ def load_jupyter_notebook( path: str, include_outputs: bool=False, max_output_le
             the project error type.
     """
     _instance = JupyterNotebookLoader( )
-    return _instance.load( path=path, include_outputs=include_outputs,
-	    max_output_length=max_output_length, remove_newline=remove_newline, traceback=traceback )
+    return _instance.load( path=path, include_outputs=include_outputs, max_output_length=max_output_length, remove_newline=remove_newline, traceback=traceback )
 
 # --------- ENVIRONMENTAL ---------
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_google_weather_current( address: str, units_system: str='METRIC', language_code: str='en',
 		time: int=10 ) -> Any:
     """Retrieve google weather current data.
@@ -1587,9 +1637,10 @@ def fetch_google_weather_current( address: str, units_system: str='METRIC', lang
             the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_current( address=address, units_system=units_system,
-	    language_code=language_code, time=time )
+    return _instance.fetch_current( address=address, units_system=units_system, language_code=language_code, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_google_weather_hourly_forecast( address: str, hours: int=24, units_system: str='METRIC',
 		language_code: str='en', time: int=10 ) -> Any:
     """Retrieve hourly forecast.
@@ -1613,9 +1664,10 @@ def fetch_google_weather_hourly_forecast( address: str, hours: int=24, units_sys
             the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_hourly_forecast( address=address, hours=hours, units_system=units_system,
-	    language_code=language_code, time=time )
+    return _instance.fetch_hourly_forecast( address=address, hours=hours, units_system=units_system, language_code=language_code, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_google_weather_daily_forecast( address: str, days: int=5, units_system: str='METRIC',
 		language_code: str='en', time: int=10 ) -> Any:
     """Retrieve daily forecast.
@@ -1639,9 +1691,10 @@ def fetch_google_weather_daily_forecast( address: str, days: int=5, units_system
             the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_daily_forecast( address=address, days=days, units_system=units_system,
-	    language_code=language_code, time=time )
+    return _instance.fetch_daily_forecast( address=address, days=days, units_system=units_system, language_code=language_code, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_google_weather_hourly_history( address: str, hours: int=24, units_system: str='METRIC',
 		language_code: str='en', time: int=10 ) -> Any:
     """Retrieve hourly history.
@@ -1665,9 +1718,10 @@ def fetch_google_weather_hourly_history( address: str, hours: int=24, units_syst
             the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_hourly_history( address=address, hours=hours, units_system=units_system,
-	    language_code=language_code, time=time )
+    return _instance.fetch_hourly_history( address=address, hours=hours, units_system=units_system, language_code=language_code, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_google_weather_alerts( address: str, language_code: str='en', time: int=10 ) -> Any:
     """Retrieve google weather alerts data.
 
@@ -1689,6 +1743,8 @@ def fetch_google_weather_alerts( address: str, language_code: str='en', time: in
     _instance = GoogleWeather( )
     return _instance.fetch_alerts( address=address, language_code=language_code, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_earth_observatory( mode: str='events', status: str='open', category: str='', source: str='',
 		limit: int=20, days: int=30, start_date: str='', end_date: str='', time: int=20 ) -> Any:
     """Retrieve NASA EONET events, categories, sources, and layers.
@@ -1721,6 +1777,8 @@ def fetch_earth_observatory( mode: str='events', status: str='open', category: s
     return _instance.fetch( mode=mode, status=status, category=category, source=source,
 	    limit=limit, days=days, start_date=start_date, end_date=end_date, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_open_weather( location: str, mode: str='current', zone: str='auto', forecast_days: int=7,
 		past_days: int=0, count: int=10 ) -> Any:
     """Retrieve Open-Meteo current and forecast weather.
@@ -1748,6 +1806,8 @@ def fetch_open_weather( location: str, mode: str='current', zone: str='auto', fo
     return _instance.fetch( location=location, mode=mode, zone=zone, forecast_days=forecast_days,
 	    past_days=past_days, count=count )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_historical_weather( location: str, date: dt.date, zone: str='auto', count: int=10 ) -> Any:
     """Retrieve historical weather archive.
 
@@ -1770,6 +1830,8 @@ def fetch_historical_weather( location: str, date: dt.date, zone: str='auto', co
     _instance = HistoricalWeather( )
     return _instance.fetch( location=location, date=date, zone=zone, count=count )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_usgs_earthquakes( mode: str='feed', feed: str='all_day.geojson', start_date: str='',
 		end_date: str='', min_magnitude: float=1.0, max_magnitude: float=10.0,
 		limit: int=25, order_by: str='time', event_type: str='earthquake', latitude: float | None=None,
@@ -1812,6 +1874,8 @@ def fetch_usgs_earthquakes( mode: str='feed', feed: str='all_day.geojson', start
 	    event_type=event_type, latitude=latitude, longitude=longitude,
 	    max_radius_km=max_radius_km, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_usgs_water_data( mode: str='monitoring-locations', monitoring_location_id: str='',
 		state_code: str='', county_code: str='', site_type: str='', parameter_code: str='',
 		limit: int=25, time: int=20 ) -> Any:
@@ -1842,10 +1906,9 @@ def fetch_usgs_water_data( mode: str='monitoring-locations', monitoring_location
             the project error type.
     """
     _instance = USGSWaterData( )
-    return _instance.fetch( mode=mode, monitoring_location_id=monitoring_location_id,
-	    state_code=state_code, county_code=county_code, site_type=site_type,
-	    parameter_code=parameter_code, limit=limit, time=time )
+    return _instance.fetch( mode=mode, monitoring_location_id=monitoring_location_id, state_code=state_code, county_code=county_code, site_type=site_type, parameter_code=parameter_code, limit=limit, time=time )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_air_now( mode: str='current-zip', zip_code: str='', latitude: float | None=None,
 		longitude: float | None=None, date: str='', distance: int=25, time: int=20 ) -> Any:
     """Retrieve AirNow current and forecast air quality data.
@@ -1874,9 +1937,10 @@ def fetch_air_now( mode: str='current-zip', zip_code: str='', latitude: float | 
             the project error type.
     """
     _instance = AirNow( )
-    return _instance.fetch( mode=mode, zip_code=zip_code, latitude=latitude, longitude=longitude,
-	    date=date, distance=distance, time=time )
+    return _instance.fetch( mode=mode, zip_code=zip_code, latitude=latitude, longitude=longitude, date=date, distance=distance, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_climate_data( mode: str='datasets', keyword: str='', dataset: str='', start_date: str='',
 		end_date: str='', stations: str='', data_types: str='', limit: int=25,
 		offset: int=0, time: int=20 ) -> Any:
@@ -1909,10 +1973,10 @@ def fetch_climate_data( mode: str='datasets', keyword: str='', dataset: str='', 
             the project error type.
     """
     _instance = ClimateData( )
-    return _instance.fetch( mode=mode, keyword=keyword, dataset=dataset, start_date=start_date,
-	    end_date=end_date, stations=stations, data_types=data_types, limit=limit,
-	    offset=offset, time=time )
+    return _instance.fetch( mode=mode, keyword=keyword, dataset=dataset, start_date=start_date, end_date=end_date, stations=stations, data_types=data_types, limit=limit, offset=offset, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_eonet( mode: str='events', source: str='', category: str='', status: str='open',
 		limit: int=25, days: int=30, start_date: str='', end_date: str='',
 		bbox: str='', time: int=20 ) -> Any:
@@ -1946,9 +2010,10 @@ def fetch_eonet( mode: str='events', source: str='', category: str='', status: s
             the project error type.
     """
     _instance = EoNet( )
-    return _instance.fetch( mode=mode, source=source, category=category, status=status,
-	    limit=limit, days=days, start_date=start_date, end_date=end_date, bbox=bbox, time=time )
+    return _instance.fetch( mode=mode, source=source, category=category, status=status, limit=limit, days=days, start_date=start_date, end_date=end_date, bbox=bbox, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='',
 		facility_name: str='', limit: int=25, time: int=20 ) -> Any:
     """Retrieve EPA Envirofacts table and facility records.
@@ -1972,9 +2037,10 @@ def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='',
             the project error type.
     """
     _instance = EnviroFacts( )
-    return _instance.fetch( table_name=table_name, state_code=state_code,
-	    facility_name=facility_name, limit=limit, time=time )
+    return _instance.fetch( table_name=table_name, state_code=state_code, facility_name=facility_name, limit=limit, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_tides_and_currents( mode: str='water-level', station_id: str='', begin_date: str='',
 		end_date: str='', datum: str='MLLW', units: str='metric', time_zone: str='gmt',
 		interval: str='hilo', time: int=20 ) -> Any:
@@ -2006,10 +2072,10 @@ def fetch_tides_and_currents( mode: str='water-level', station_id: str='', begin
             the project error type.
     """
     _instance = TidesAndCurrents( )
-    return _instance.fetch( mode=mode, station_id=station_id, begin_date=begin_date,
-	    end_date=end_date, datum=datum, units=units, time_zone=time_zone,
-	    interval=interval, time=time )
+    return _instance.fetch( mode=mode, station_id=station_id, begin_date=begin_date, end_date=end_date, datum=datum, units=units, time_zone=time_zone, interval=interval, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_uv_index( mode: str='daily-zip', zip_code: str='', city: str='',
 		state: str='', time: int=20 ) -> Any:
     """Retrieve EPA UV Index current and forecast data.
@@ -2037,6 +2103,8 @@ def fetch_uv_index( mode: str='daily-zip', zip_code: str='', city: str='',
     _instance = UvIndex( )
     return _instance.fetch( mode=mode, zip_code=zip_code, city=city, state=state, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_purple_air( mode: str='sensors', sensor_index: int=None, nwlng: float | None=None,
 		nwlat: float | None=None, selng: float | None=None, selat: float | None=None,
 		location_type: int=0, max_age: int=0, modified_since: int=0, fields: str='',
@@ -2071,10 +2139,10 @@ def fetch_purple_air( mode: str='sensors', sensor_index: int=None, nwlng: float 
             the project error type.
     """
     _instance = PurpleAir( )
-    return _instance.fetch( mode=mode, sensor_index=sensor_index, nwlng=nwlng, nwlat=nwlat,
-	    selng=selng, selat=selat, location_type=location_type, max_age=max_age,
-	    modified_since=modified_since, fields=fields, time=time )
+    return _instance.fetch( mode=mode, sensor_index=sensor_index, nwlng=nwlng, nwlat=nwlat, selng=selng, selat=selat, location_type=location_type, max_age=max_age, modified_since=modified_since, fields=fields, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_open_aq( mode: str='locations', location_id: int=None, parameter_id: int=None,
 		country_id: int=None, coordinates: str='', radius: int=25000, providers_id: str='',
 		parameters_id: str='', limit: int=25, page: int=1, time: int=20 ) -> Any:
@@ -2110,10 +2178,10 @@ def fetch_open_aq( mode: str='locations', location_id: int=None, parameter_id: i
             the project error type.
     """
     _instance = OpenAQ( )
-    return _instance.fetch( mode=mode, location_id=location_id, parameter_id=parameter_id,
-	    country_id=country_id, coordinates=coordinates, radius=radius, providers_id=providers_id,
-	    parameters_id=parameters_id, limit=limit, page=page, time=time )
+    return _instance.fetch( mode=mode, location_id=location_id, parameter_id=parameter_id, country_id=country_id, coordinates=coordinates, radius=radius, providers_id=providers_id, parameters_id=parameters_id, limit=limit, page=page, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinates: str='world',
 		day_range: int=1, date: str='', sensor: str='ALL', time: int=20 ) -> Any:
     """Retrieve NASA FIRMS active fire data.
@@ -2146,6 +2214,8 @@ def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinate
 
 # --------- GEOSPATIAL ---------
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def geocode_location( address: str ) -> Any:
     """Geocode location.
 
@@ -2166,6 +2236,8 @@ def geocode_location( address: str ) -> Any:
     _instance = GoogleMaps( )
     return _instance.geocode_location( address=address )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def geocode_coordinates( lat: float, long: float ) -> Any:
     """Geocode coordinates.
 
@@ -2188,6 +2260,8 @@ def geocode_coordinates( lat: float, long: float ) -> Any:
     _instance = GoogleMaps( )
     return _instance.geocode_coordinates( lat=lat, long=long )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def validate_address( address: List[str] ) -> Any:
     """Validate address.
 
@@ -2209,6 +2283,8 @@ def validate_address( address: List[str] ) -> Any:
     _instance = GoogleMaps( )
     return _instance.validate_address( address=address )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def request_directions( origin: str, destination: str, mode: str='driving' ) -> Any:
     """Request directions.
 
@@ -2230,6 +2306,8 @@ def request_directions( origin: str, destination: str, mode: str='driving' ) -> 
     _instance = GoogleMaps( )
     return _instance.request_directions( origin=origin, destination=destination, mode=mode )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_global_imagery_wms_map( layer: str,
 		image_date: str, bbox: Tuple[float, float, float, float],
 		width: int=1200, height: int=600, projection: str='epsg4326', quality: str='best',
@@ -2264,10 +2342,10 @@ def fetch_global_imagery_wms_map( layer: str,
             the project error type.
     """
     _instance = GlobalImagery( )
-    return _instance.fetch_wms_map( layer=layer, image_date=image_date, bbox=bbox, width=width,
-	    height=height, projection=projection, quality=quality, image_format=image_format,
-	    transparent=transparent, output_dir=output_dir, output_name=output_name, time=time )
+    return _instance.fetch_wms_map( layer=layer, image_date=image_date, bbox=bbox, width=width, height=height, projection=projection, quality=quality, image_format=image_format, transparent=transparent, output_dir=output_dir, output_name=output_name, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_global_imagery_map_services(  ) -> Any:
     """Retrieve available imagery map services.
 
@@ -2284,14 +2362,16 @@ def fetch_global_imagery_map_services(  ) -> Any:
     _instance = GlobalImagery( )
     return _instance.fetch_map_services(  )
 
-def fetch_global_imagery_mercator_map( ccrs=None ) -> Any:
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
+def fetch_global_imagery_mercator_map( ccrs: Any=None ) -> Any:
     """Render a Mercator imagery map.
 
     Purpose:
         Render a Mercator imagery map through NASA Global Imagery Browse Services.
 
     Args:
-        ccrs: Optional Cartopy coordinate reference system used to construct the map.
+        ccrs (Any): Optional Cartopy coordinate reference system used to construct the map.
 
     Returns:
         Dict[str, Any] | None: Structured mapping produced by the operation.
@@ -2303,6 +2383,7 @@ def fetch_global_imagery_mercator_map( ccrs=None ) -> Any:
     _instance = GlobalImagery( )
     return _instance.fetch_mercator_map( ccrs=ccrs )
 
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_google_geocoding( mode: str='forward', query: str='', latitude: float=0.0,
 		longitude: float=0.0, place_id: str='', language: str='en', region: str='',
 		result_type: str='', location_type: str='', time: int=10, api_key: Optional[str]=None ) -> Any:
@@ -2342,6 +2423,8 @@ def fetch_google_geocoding( mode: str='forward', query: str='', latitude: float=
 	    place_id=place_id, language=language, region=region, result_type=result_type,
 	    location_type=location_type, time=time, api_key=api_key )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_usgs_national_map( mode: str='products', dataset: str='', q: str='', bbox: str='',
 		prod_formats: str='', max_items: int=25, offset: int=0, time: int=20 ) -> Any:
     """Retrieve USGS National Map datasets and products.
@@ -2372,9 +2455,10 @@ def fetch_usgs_national_map( mode: str='products', dataset: str='', q: str='', b
             the project error type.
     """
     _instance = USGSTheNationalMap( )
-    return _instance.fetch( mode=mode, dataset=dataset, q=q, bbox=bbox, prod_formats=prod_formats,
-	    max_items=max_items, offset=offset, time=time )
+    return _instance.fetch( mode=mode, dataset=dataset, q=q, bbox=bbox, prod_formats=prod_formats, max_items=max_items, offset=offset, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_usgs_sciencebase( mode: str='items', q: str='', item_id: str='', max_items: int=25,
 		offset: int=0, fields: str='', time: int=20 ) -> Any:
     """Retrieve USGS ScienceBase items and catalog records.
@@ -2403,13 +2487,14 @@ def fetch_usgs_sciencebase( mode: str='items', q: str='', item_id: str='', max_i
             the project error type.
     """
     _instance = USGSScienceBase( )
-    return _instance.fetch( mode=mode, q=q, item_id=item_id, max_items=max_items,
-	    offset=offset, fields=fields, time=time )
+    return _instance.fetch( mode=mode, q=q, item_id=item_id, max_items=max_items, offset=offset, fields=fields, time=time )
 
 # ==========================================================================================
 # HEALTH
 # ==========================================================================================
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_health_data( mode: str='rows', domain: str='healthdata.gov', dataset_id: str='',
 		select: str='', where: str='', order: str='', group: str='', limit: int=25,
 		offset: int=0, time: int=20 ) -> Any:
@@ -2442,9 +2527,10 @@ def fetch_health_data( mode: str='rows', domain: str='healthdata.gov', dataset_i
             the project error type.
     """
     _instance = HealthData( )
-    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select,
-	    where=where, order=order, group=group, limit=limit, offset=offset, time=time )
+    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select, where=where, order=order, group=group, limit=limit, offset=offset, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_global_health_data( mode: str='indicator_registry', query_path: str='',
 		fmt: str='json', time: int=20 ) -> Any:
     """Retrieve WHO global health indicator and Athena data.
@@ -2471,6 +2557,8 @@ def fetch_global_health_data( mode: str='indicator_registry', query_path: str=''
     _instance = GlobalHealthData( )
     return _instance.fetch( mode=mode, query_path=query_path, fmt=fmt, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_wonder( mode: str='metadata_template', dataset_id: str='D76',
 		request_xml: str='', time: int=20 ) -> Any:
     """Retrieve CDC WONDER template and query submission.
@@ -2497,6 +2585,8 @@ def fetch_wonder( mode: str='metadata_template', dataset_id: str='D76',
     _instance = Wonder( )
     return _instance.fetch( mode=mode, dataset_id=dataset_id, request_xml=request_xml, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_pubmed( query: str, max_docs: int=5 ) -> Any:
     """Load PubMed research documents.
 
@@ -2523,6 +2613,8 @@ def load_pubmed( query: str, max_docs: int=5 ) -> Any:
 # WEB
 # ==========================================================================================
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_web_page( url: str, time: int=10 ) -> Any:
     """Retrieve HTTP web page retrieval and HTML extraction.
 
@@ -2543,6 +2635,8 @@ def fetch_web_page( url: str, time: int=10 ) -> Any:
     _instance = WebFetcher( )
     return _instance.fetch( url=url, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def convert_html_to_text( html: str ) -> Any:
     """Convert HTML to plain text.
 
@@ -2562,6 +2656,8 @@ def convert_html_to_text( html: str ) -> Any:
     _instance = WebFetcher( )
     return _instance.html_to_text( html=html )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def extract_web_title( html: str ) -> Any:
     """Extract web title from the supplied content.
 
@@ -2581,6 +2677,8 @@ def extract_web_title( html: str ) -> Any:
     _instance = WebFetcher( )
     return _instance.extract_title( html=html )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def extract_web_links( base_url: str, html: str ) -> Any:
     """Extract web links from the supplied content.
 
@@ -2601,6 +2699,8 @@ def extract_web_links( base_url: str, html: str ) -> Any:
     _instance = WebFetcher( )
     return _instance.extract_links( base_url=base_url, html=html )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def extract_web_structured_data( url: str, html: str,
 		selected_methods: Optional[List[str]]=None ) -> Any:
     """Extract structured data.
@@ -2623,6 +2723,8 @@ def extract_web_structured_data( url: str, html: str,
     _instance = WebFetcher( )
     return _instance.extract_structured_data( url=url, html=html, selected_methods=selected_methods )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def crawl_web( seed_url: str, include_title: bool=True, include_basic_text: bool=True,
 		include_raw_html: bool=False, selected_methods: Optional[List[str]]=None,
 		recursive: bool=False, max_depth: int=1, max_pages: int=10, same_domain_only: bool=True,
@@ -2665,6 +2767,8 @@ def crawl_web( seed_url: str, include_title: bool=True, include_basic_text: bool
 	    max_pages=max_pages, same_domain_only=same_domain_only, request_timeout=request_timeout,
 	    delay_seconds=delay_seconds, max_bytes=max_bytes )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text: bool=True,
 		include_raw_html: bool=False, selected_methods: Optional[List[str]]=None,
 		request_timeout: int=10, max_bytes: int=1000000,
@@ -2692,10 +2796,10 @@ def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text:
         Exception: If the delegated implementation raises an operational failure.
     """
     _instance = WebCrawler( headers=headers, use_playwright=use_playwright )
-    return _instance.scrape_page( url=url, include_title=include_title,
-	    include_basic_text=include_basic_text, include_raw_html=include_raw_html,
-	    selected_methods=selected_methods, request_timeout=request_timeout, max_bytes=max_bytes )
+    return _instance.scrape_page( url=url, include_title=include_title, include_basic_text=include_basic_text, include_raw_html=include_raw_html, selected_methods=selected_methods, request_timeout=request_timeout, max_bytes=max_bytes )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def render_web_page( url: str, timeout: int=15, headers: Optional[ Dict[ str, str ] ]=None,
 		use_playwright: bool=False ) -> Any:
     """Render a dynamic web page with Playwright.
@@ -2719,6 +2823,8 @@ def render_web_page( url: str, timeout: int=15, headers: Optional[ Dict[ str, st
     _instance = WebCrawler( headers=headers, use_playwright=use_playwright )
     return _instance.render_with_playwright( url=url, timeout=timeout )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_web( urls: str | List[str], recursive: bool=False, max_depth: int=2,
 		prevent_outside: bool=True, timeout: int=10, ignore: bool=True, progress: bool=True ) -> Any:
     """Load web documents.
@@ -2744,10 +2850,11 @@ def load_web( urls: str | List[str], recursive: bool=False, max_depth: int=2,
         Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
             the project error type.
     """
-    _instance = WebLoader( recursive=recursive, max_depth=max_depth,
-	    prevent_outside=prevent_outside, timeout=timeout, ignore=ignore, progress=progress )
+    _instance = WebLoader( recursive=recursive, max_depth=max_depth, prevent_outside=prevent_outside, timeout=timeout, ignore=ignore, progress=progress )
     return _instance.load( urls=urls )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_web_recursive( url: str, depth: int=2, max_time: int=10, ignore: bool=True ) -> Any:
     """Recursively load web documents.
 
@@ -2770,6 +2877,8 @@ def load_web_recursive( url: str, depth: int=2, max_time: int=10, ignore: bool=T
     _instance = WebLoader( )
     return _instance.load_recursive( url=url, depth=depth, max_time=max_time, ignore=ignore )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_web_pages( urls: List[str], depth: int=2, timeout: int=10, ignore: bool=True,
 		progress: bool=True ) -> Any:
     """Load static web pages.
@@ -2794,6 +2903,8 @@ def load_web_pages( urls: List[str], depth: int=2, timeout: int=10, ignore: bool
     _instance = WebLoader( )
     return _instance.load_pages( urls=urls, depth=depth, timeout=timeout, ignore=ignore, progress=progress )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def load_github( url: str, repo: str, branch: str, filetype: str='.md' ) -> Any:
     """Load files from a GitHub repository.
 
@@ -2816,6 +2927,8 @@ def load_github( url: str, repo: str, branch: str, filetype: str='.md' ) -> Any:
     _instance = GithubLoader( )
     return _instance.load( url=url, repo=repo, branch=branch, filetype=filetype )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_web_page( url: str, time: int=10 ) -> Any:
     """Fetch a web page for extraction.
 
@@ -2836,6 +2949,8 @@ def scrape_web_page( url: str, time: int=10 ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape( url=url, time=time )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scraper_html_to_text( html: str ) -> Any:
     """Convert HTML to plain text.
 
@@ -2855,6 +2970,8 @@ def scraper_html_to_text( html: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.html_to_text( html=html )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_paragraphs( uri: str ) -> Any:
     """Extract paragraph text.
 
@@ -2874,6 +2991,8 @@ def scrape_paragraphs( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_paragraphs( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_lists( uri: str ) -> Any:
     """Extract list item text.
 
@@ -2893,6 +3012,8 @@ def scrape_lists( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_lists( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_tables( uri: str ) -> Any:
     """Extract table cell text.
 
@@ -2912,6 +3033,8 @@ def scrape_tables( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_tables( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_articles( uri: str ) -> Any:
     """Extract article text.
 
@@ -2931,6 +3054,8 @@ def scrape_articles( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_articles( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_headings( uri: str ) -> Any:
     """Extract heading text.
 
@@ -2950,6 +3075,8 @@ def scrape_headings( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_headings( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_divisions( uri: str ) -> Any:
     """Extract division text.
 
@@ -2969,6 +3096,8 @@ def scrape_divisions( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_divisions( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_sections( uri: str ) -> Any:
     """Extract section text.
 
@@ -2988,6 +3117,8 @@ def scrape_sections( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_sections( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_blockquotes( uri: str ) -> Any:
     """Extract blockquote text.
 
@@ -3007,6 +3138,8 @@ def scrape_blockquotes( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_blockquotes( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_hyperlinks( uri: str ) -> Any:
     """Extract hyperlinks from an HTML page.
 
@@ -3026,6 +3159,8 @@ def scrape_hyperlinks( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_hyperlinks( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def scrape_images( uri: str ) -> Any:
     """Extract image references.
 
@@ -3045,6 +3180,8 @@ def scrape_images( uri: str ) -> Any:
     _instance = WebExtractor( )
     return _instance.scrape_images( uri=uri )
 
+
+@tool( parse_docstring=True, error_on_invalid_docstring=True )
 def encode_image( path: str ) -> str:
     """Encode a local image as Base64 text.
 

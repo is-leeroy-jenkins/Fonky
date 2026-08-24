@@ -1,61 +1,74 @@
-![](images/fonky_project.png)
+![](images/fonky-portfolio.png)
 
 ___
 
-Fonky is a reusable Python integration framework for **retrieval, document ingestion, web extraction,
-cloud loading, public-data access, environmental/geospatial analysis, astronomy, demographics, and
-health-data workflows**.
+Fonky is a modular external-data framework organized around three execution modules:
 
-The framework deliberately provides two levels of control:
+- `fetchers.py` for provider-backed retrieval,
+- `loaders.py` for source ingestion and document construction,
+- `scrapers.py` for synchronous HTML extraction.
 
-- **`fonky.py`** — a flat functional API with **110 operations across nine domains**.
-- **implementation classes** — the provider and format-specific classes in `fetchers.py`, `loaders.py`, and `scrapers.py`.
+The public surface is split into two layers:
 
-The functional API is for concise application code. The class API remains available when a workflow
-needs retained state, provider-specific helpers, or lower-level control.
+1. `fonky.py` — 110 literal `@tool(...)` exports.
+2. `tools.py` — domain grouping and discovery helpers for the exported tools.
 
-## Choose an Area
+![Fonky Overview](images/fonky_project.png)
 
-| Area                      | Use When                                                                                                             |
-|---------------------------|----------------------------------------------------------------------------------------------------------------------|
-| Archives & Research       | You need papers, web/search results, legislative data, government datasets, news, or archived material.              |
-| Astronomy & Space         | You need celestial, satellite, near-Earth-object, space-weather, catalog, star-map, or aviation data.                |
-| Cloud & Remote Storage    | You need Google Drive, GCS, AWS S3, OneDrive, or Google Speech-to-Text ingestion.                                    |
-| Demographic & Public Data | You need Census, Socrata, UN, world-population, or municipal open-data workflows.                                    |
-| Documents                 | You need to load PDF, Word, Excel, CSV, XML, JSON, Markdown, HTML, PowerPoint, email, Outlook, SPFx, or notebooks.   |
-| Environmental & Climate   | You need weather, air quality, climate, natural hazards, fires, water, tides, UV, or environmental records.          |
-| Geospatial & Mapping      | You need geocoding, reverse geocoding, address validation, directions, imagery, ScienceBase, or National Map data.   |
-| Health                    | You need HealthData, WHO/global-health, CDC WONDER, or PubMed retrieval.                                             |
-| Web Retrieval & Scraping  | You need page retrieval, crawling, structured extraction, web loading, links, tables, articles, headings, or images. |
+---
 
-## Typical Workflow
+## Public Domains
 
-![](images/fonky-classmap-overview.png)
+| Domain          | Operations | Examples                                                                                                                                           |
+|-----------------|-----------:|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `archives`      |         11 | `fetch_arxiv, fetch_google_drive, fetch_wikipedia, fetch_news ...`                                                                                 |
+| `astronomical`  |         10 | `fetch_naval_observatory, fetch_satellite_center, fetch_nearby_objects, fetch_open_science ...`                                                    |
+| `cloud`         |          8 | `load_google_drive_file, load_google_drive_folder, load_onedrive, load_google_cloud_file ...`                                                      |
+| `demographic`   |          5 | `fetch_census_data, fetch_socrata, fetch_united_nations, fetch_world_population ...`                                                               |
+| `documents`     |         18 | `load_text, load_csv, read_pdf, load_pdf ...`                                                                                                      |
+| `environmental` |         19 | `fetch_google_weather_current, fetch_google_weather_hourly_forecast, fetch_google_weather_daily_forecast, fetch_google_weather_hourly_history ...` |
+| `geospatial`    |         10 | `geocode_location, geocode_coordinates, validate_address, request_directions ...`                                                                  |
+| `health`        |          4 | `fetch_health_data, fetch_global_health_data, fetch_wonder, load_pubmed`                                                                           |
+| `web`           |         25 | `fetch_web_page, convert_html_to_text, extract_web_title, extract_web_links ...`                                                                   |
+
+## Core Surfaces
+
+| Surface                 | Role                     | Primary Use                                                    |
+|-------------------------|--------------------------|----------------------------------------------------------------|
+| `fonky.py`              | Public tool exports      | Direct `.invoke(...)` execution or agent-ready tool imports    |
+| `tools.py`              | Tool discovery           | `get_domains()`, `get_tools(domain)`, `get_tool_names(domain)` |
+| `fetchers.py`           | Retrieval implementation | APIs, remote services, public data, search, weather, maps      |
+| `loaders.py`            | Ingestion implementation | Files, notebooks, cloud sources, recursive web loading         |
+| `scrapers.py`           | Structured extraction    | Headings, paragraphs, links, tables, images, sections          |
+| `models.py`             | Data contracts           | shared schemas and tool definition helpers                     |
+| `processors.py`         | Transformation utilities | text cleanup, parsing, chunking support                        |
+| `core.py` / `config.py` | Support infrastructure   | errors, configuration, runtime utilities                       |
+
+## Representative Paths
 
 ```python
-from fonky import fonky
+from fonky.fonky import fetch_arxiv
 
-papers = fonky.fetch_arxiv(
-    question='retrieval augmented generation',
-    max_documents=5,
-    full_documents=False,
-    include_metadata=True
+result = fetch_arxiv.invoke(
+    {
+        'question': 'retrieval augmented generation',
+        'max_documents': 5,
+        'full_documents': False,
+        'include_metadata': True
+    }
 )
-
-for paper in papers:
-    print(paper.metadata.get('title'))
-    print(paper.page_content[:300])
 ```
 
-The same functional surface can load local documents, call government/scientific providers, geocode
-locations, retrieve environmental observations, or extract structured content from web pages.
+```python
+from fonky.tools import get_tools
 
-## Documentation Paths
+environmental_tools = get_tools( domain='environmental' )
+```
 
-- [Getting Started](getting-started.md) — install, configure, verify, and make first calls.
-- [User Guide](user-guide.md) — choose a capability and follow a task-oriented workflow.
-- [Architecture](architecture.md) — understand state, validation, dependencies, return shapes, and failure boundaries.
-- [Configuration](configuration.md) — configure actual provider credentials and runtime settings.
-- [Troubleshooting](troubleshooting.md) — diagnose dependency, credential, provider, parser, and filesystem failures.
-- [Functional API](api/fonky.md) — exhaustive wrapper reference.
-- [Development](development/index.md) — extend fetchers, loaders, scrapers, wrappers, tests, and docs.
+## Documentation Map
+
+- **Getting Started** — install, validate, execute first tool.
+- **User Guide** — task-oriented usage patterns.
+- **Guides** — domain-specific operation references.
+- **API Reference** — module and source-level API docs via `mkdocstrings`.
+- **Development** — extension standards, tests, contribution rules.

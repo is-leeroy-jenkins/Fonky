@@ -1,10 +1,19 @@
-# Stateful vs Functional Usage
+# State
 
-Functional wrappers create fresh implementation instances. This is ideal for one-shot calls.
+## Public Surface State Model
 
-Use direct classes when:
+The public tool layer is intentionally short-lived.
 
-- a later method depends on documents loaded earlier;
-- you need to inspect response or provider state;
-- you need class helper methods not exposed by `fonky.py`;
-- you are debugging or extending an integration.
+- each `fonky.py` export creates a fresh implementation instance,
+- provider configuration is resolved per invocation,
+- `tools.py` returns already-defined tool objects and adds no execution state,
+- downstream persistence belongs outside the public surface.
+
+## When to Use Implementation Classes
+
+Use a source-module class when you need:
+
+- repeated calls with shared configuration,
+- lower-level testing,
+- provider debugging,
+- stateful orchestration not appropriate for the one-shot public surface.

@@ -1,21 +1,34 @@
-# Adding a `fonky.py` Wrapper
+# Adding a Public Export
 
-The wrapper is an ergonomic surface, not a new implementation layer.
+## Public Export Standard
+
+A public export in `fonky.py` must:
+
+- use literal `@tool(parse_docstring=True, error_on_invalid_docstring=True)`,
+- have a typed signature,
+- delegate to the owning implementation class,
+- use a Google-style docstring with accurate `Args`, `Returns`, and `Raises`,
+- avoid generic filler such as “Load source content” or “Result produced by the operation”.
+
+## Minimal Pattern
 
 ```python
-def scrape_tables( uri: str ):
-    scraper = WebExtractor( )
-    return scraper.scrape_tables(
-        uri=uri
-    )
+from langchain_core.tools import tool
+
+
+@tool(
+    parse_docstring=True,
+    error_on_invalid_docstring=True
+)
+def operation( value: str ) -> dict:
+    """Resolve the requested value.
+
+    Args:
+        value: Domain-specific input used by the operation.
+
+    Returns:
+        dict: Normalized operation result.
+    """
+    _instance = OwnerClass( )
+    return _instance.operation( value=value )
 ```
-
-## Requirements
-
-- explicit typed parameters;
-- no duplicated provider logic;
-- local implementation instance;
-- direct call to the intended method;
-- result returned without unnecessary transformation;
-- exported through `__all__`;
-- route test verifies class, method, argument names, and result propagation.

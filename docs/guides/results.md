@@ -1,18 +1,18 @@
-# Results and Return Shapes
+# Results & Return Shapes
 
-Fonky intentionally preserves implementation-specific return values instead of wrapping every result
-in a generic envelope.
+## Result Families
 
-| Family | Common Producers | Typical Use |
+| Family | Typical Producer | Shape |
 |---|---|---|
-| `List[Document]` | Document/cloud/web loaders | Retrieval, embeddings, NLP, document analysis |
-| `dict` | API fetchers | Metadata + structured provider response |
-| `list[dict]` | Public-data APIs | Row/record processing, DataFrame conversion |
-| `str` | HTML/text conversion | NLP and direct display |
-| `list[str]` | Focused scrapers | Headings, links, paragraphs, table cells, images |
-| file/image/provider object | Imagery/specialized integrations | Save, display, or provider-specific downstream work |
+| provider records | fetchers | dictionaries, lists, normalized provider payloads |
+| LangChain documents | loaders | `List[Document]`-like structures with content and metadata |
+| extracted structures | scrapers | lists or dictionaries of headings, links, tables, paragraphs, images |
+| metadata bundles | loaders / fetchers | source, timestamps, identifiers, provider descriptors |
 
-## Normalize at the Application Boundary
+## Reading Results
 
-If your application requires one common contract, normalize results after Fonky returns them. Keeping
-normalization outside the wrapper avoids throwing away provider-specific information prematurely.
+- inspect the top-level type,
+- confirm presence of metadata,
+- preserve source identifiers for provenance,
+- convert to downstream schemas only after execution succeeds,
+- keep scrape and fetch outputs distinct from loader document outputs.
