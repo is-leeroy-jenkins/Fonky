@@ -394,154 +394,66 @@ encode_image = tool( parse_docstring=True, error_on_invalid_docstring=True )( _e
 # DOMAIN GROUPS
 # ==========================================================================================
 
-ARCHIVES_TOOLS: Tuple[ BaseTool, ... ] = (
-    fetch_arxiv,
-    fetch_google_drive,
-    fetch_wikipedia,
-    fetch_news,
-    fetch_google_search,
-    fetch_gov_data,
-    fetch_congress,
-    fetch_internet_archive,
-    fetch_grokipedia,
-    load_arxiv,
-    load_wikipedia,
-)
+ARCHIVES_TOOLS: Tuple[ BaseTool, ... ] = (fetch_arxiv, fetch_google_drive, fetch_wikipedia,
+                                          fetch_news, fetch_google_search, fetch_gov_data,
+                                          fetch_congress, fetch_internet_archive, fetch_grokipedia,
+                                          load_arxiv, load_wikipedia,)
 
-ASTRONOMICAL_TOOLS: Tuple[ BaseTool, ... ] = (
-    fetch_naval_observatory,
-    fetch_satellite_center,
-    fetch_nearby_objects,
-    fetch_open_science,
-    fetch_space_weather,
-    fetch_astro_catalog,
-    fetch_astro_query,
-    fetch_star_map,
-    fetch_star_chart,
-    fetch_open_sky,
-)
+ASTRONOMICAL_TOOLS: Tuple[ BaseTool, ... ] = (fetch_naval_observatory, fetch_satellite_center,
+                                              fetch_nearby_objects, fetch_open_science,
+                                              fetch_space_weather, fetch_astro_catalog,
+                                              fetch_astro_query, fetch_star_map, fetch_star_chart,
+                                              fetch_open_sky,)
 
-CLOUD_TOOLS: Tuple[ BaseTool, ... ] = (
-    load_google_drive_file,
-    load_google_drive_folder,
-    load_onedrive,
-    load_google_cloud_file,
-    load_aws_file,
-    load_google_speech_to_text,
-    load_google_bucket,
-    load_aws_bucket,
-)
+CLOUD_TOOLS: Tuple[ BaseTool, ... ] = (load_google_drive_file, load_google_drive_folder,
+                                       load_onedrive, load_google_cloud_file, load_aws_file,
+                                       load_google_speech_to_text, load_google_bucket,
+                                       load_aws_bucket,)
 
-DEMOGRAPHIC_TOOLS: Tuple[ BaseTool, ... ] = (
-    fetch_census_data,
-    fetch_socrata,
-    fetch_united_nations,
-    fetch_world_population,
-    load_open_city,
-)
+DEMOGRAPHIC_TOOLS: Tuple[ BaseTool, ... ] = (fetch_census_data, fetch_socrata, fetch_united_nations,
+                                             fetch_world_population, load_open_city,)
 
-DOCUMENTS_TOOLS: Tuple[ BaseTool, ... ] = (
-    load_text,
-    load_csv,
-    read_pdf,
-    load_pdf,
-    load_excel,
-    load_word,
-    load_markdown,
-    load_html,
-    load_outlook,
-    load_spfx,
-    load_spfx_folder,
-    load_powerpoint,
-    load_powerpoint_multiple,
-    load_email,
-    load_json,
-    load_xml,
-    load_xml_tree,
-    load_jupyter_notebook,
-)
+DOCUMENTS_TOOLS: Tuple[ BaseTool, ... ] = (load_text, load_csv, read_pdf, load_pdf, load_excel,
+                                           load_word, load_markdown, load_html, load_outlook,
+                                           load_spfx, load_spfx_folder, load_powerpoint,
+                                           load_powerpoint_multiple, load_email, load_json,
+                                           load_xml, load_xml_tree, load_jupyter_notebook,)
 
-ENVIRONMENTAL_TOOLS: Tuple[ BaseTool, ... ] = (
-    fetch_google_weather_current,
-    fetch_google_weather_hourly_forecast,
-    fetch_google_weather_daily_forecast,
-    fetch_google_weather_hourly_history,
-    fetch_google_weather_alerts,
-    fetch_earth_observatory,
-    fetch_open_weather,
-    fetch_historical_weather,
-    fetch_usgs_earthquakes,
-    fetch_usgs_water_data,
-    fetch_air_now,
-    fetch_climate_data,
-    fetch_eonet,
-    fetch_envirofacts,
-    fetch_tides_and_currents,
-    fetch_uv_index,
-    fetch_purple_air,
-    fetch_open_aq,
-    fetch_firms,
-)
+ENVIRONMENTAL_TOOLS: Tuple[ BaseTool, ... ] = (fetch_google_weather_current,
+                                               fetch_google_weather_hourly_forecast,
+                                               fetch_google_weather_daily_forecast,
+                                               fetch_google_weather_hourly_history,
+                                               fetch_google_weather_alerts, fetch_earth_observatory,
+                                               fetch_open_weather, fetch_historical_weather,
+                                               fetch_usgs_earthquakes, fetch_usgs_water_data,
+                                               fetch_air_now, fetch_climate_data, fetch_eonet,
+                                               fetch_envirofacts, fetch_tides_and_currents,
+                                               fetch_uv_index, fetch_purple_air, fetch_open_aq,
+                                               fetch_firms,)
 
-GEOSPATIAL_TOOLS: Tuple[ BaseTool, ... ] = (
-    geocode_location,
-    geocode_coordinates,
-    validate_address,
-    request_directions,
-    fetch_global_imagery_wms_map,
-    fetch_global_imagery_map_services,
-    fetch_global_imagery_mercator_map,
-    fetch_google_geocoding,
-    fetch_usgs_national_map,
-    fetch_usgs_sciencebase,
-)
+GEOSPATIAL_TOOLS: Tuple[ BaseTool, ... ] = (geocode_location, geocode_coordinates, validate_address,
+                                            request_directions, fetch_global_imagery_wms_map,
+                                            fetch_global_imagery_map_services,
+                                            fetch_global_imagery_mercator_map,
+                                            fetch_google_geocoding, fetch_usgs_national_map,
+                                            fetch_usgs_sciencebase,)
 
-HEALTH_TOOLS: Tuple[ BaseTool, ... ] = (
-    fetch_health_data,
-    fetch_global_health_data,
-    fetch_wonder,
-    load_pubmed,
-)
+HEALTH_TOOLS: Tuple[ BaseTool, ... ] = (fetch_health_data, fetch_global_health_data, fetch_wonder,
+                                        load_pubmed,)
 
-WEB_TOOLS: Tuple[ BaseTool, ... ] = (
-    fetch_web_page,
-    convert_html_to_text,
-    extract_web_title,
-    extract_web_links,
-    extract_web_structured_data,
-    crawl_web,
-    scrape_crawler_page,
-    render_web_page,
-    load_web,
-    load_web_recursive,
-    load_web_pages,
-    load_github,
-    scrape_web_page,
-    scraper_html_to_text,
-    scrape_paragraphs,
-    scrape_lists,
-    scrape_tables,
-    scrape_articles,
-    scrape_headings,
-    scrape_divisions,
-    scrape_sections,
-    scrape_blockquotes,
-    scrape_hyperlinks,
-    scrape_images,
-    encode_image,
-)
+WEB_TOOLS: Tuple[ BaseTool, ... ] = (fetch_web_page, convert_html_to_text, extract_web_title,
+                                     extract_web_links, extract_web_structured_data, crawl_web,
+                                     scrape_crawler_page, render_web_page, load_web,
+                                     load_web_recursive, load_web_pages, load_github,
+                                     scrape_web_page, scraper_html_to_text, scrape_paragraphs,
+                                     scrape_lists, scrape_tables, scrape_articles, scrape_headings,
+                                     scrape_divisions, scrape_sections, scrape_blockquotes,
+                                     scrape_hyperlinks, scrape_images, encode_image,)
 
-TOOL_DOMAINS: Dict[ str, Tuple[ BaseTool, ... ] ] = {
-    'archives': ARCHIVES_TOOLS,
-    'astronomical': ASTRONOMICAL_TOOLS,
-    'cloud': CLOUD_TOOLS,
-    'demographic': DEMOGRAPHIC_TOOLS,
-    'documents': DOCUMENTS_TOOLS,
-    'environmental': ENVIRONMENTAL_TOOLS,
-    'geospatial': GEOSPATIAL_TOOLS,
-    'health': HEALTH_TOOLS,
-    'web': WEB_TOOLS,
-}
+TOOL_DOMAINS: Dict[ str, Tuple[ BaseTool, ... ] ] = { 'archives': ARCHIVES_TOOLS,
+		'astronomical': ASTRONOMICAL_TOOLS, 'cloud': CLOUD_TOOLS, 'demographic': DEMOGRAPHIC_TOOLS,
+		'documents': DOCUMENTS_TOOLS, 'environmental': ENVIRONMENTAL_TOOLS,
+		'geospatial': GEOSPATIAL_TOOLS, 'health': HEALTH_TOOLS, 'web': WEB_TOOLS, }
 
 
 def get_domains( ) -> List[ str ]:
