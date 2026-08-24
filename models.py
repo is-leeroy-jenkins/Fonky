@@ -58,19 +58,22 @@ from typing import Any, Dict, List, Optional, Union, get_args, get_origin, get_t
 from pydantic import BaseModel, ConfigDict
 
 def throw_if( name: str, value: Any ) -> None:
-	"""Validate required argument.
-	
+	"""Validate a required model argument.
+
 	Purpose:
-	    Validates a required argument before downstream schema generation or tool execution uses it.
-	    The function rejects missing values and empty strings so callers fail early with a clear
-	    argument-specific error message.
-	
+	    Validates that a required model or tool-schema argument is present and non-empty before schema
+	    generation or tool execution.
+
 	Args:
-	    name (str): Human-readable argument name used in validation error messages.
-	    value (Any): Runtime value converted into a JSON-safe representation.
-	
+	    name: Argument name included in the validation error message.
+	    value: Candidate value checked for ``None``, blank text, or an empty container.
+
+	Returns:
+	    None: Validation succeeds silently; invalid values raise ``ValueError``.
+
 	Raises:
-	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+	    ValueError: If a required value is missing, blank, or outside the supported range.
+	"""
 	if value is None:
 		raise ValueError( f'Argument "{name}" cannot be None.' )
 	
@@ -79,20 +82,21 @@ def throw_if( name: str, value: Any ) -> None:
 
 def clean_docstring( value: Optional[ str ] ) -> str:
 	"""Clean callable documentation.
-	
+
 	Purpose:
-	    Normalizes optional callable documentation into a compact description string for generated
-	    tool schemas. The function removes indentation artifacts and returns an empty string when no
+	    Normalizes optional callable documentation into a compact description string for generated tool
+	    schemas. The function removes indentation artifacts and returns an empty string when no
 	    documentation text is available.
-	
+
 	Args:
-	    value (Optional[str]): Runtime value converted into a JSON-safe representation.
-	
+	    value: Runtime value converted into a JSON-safe representation.
+
 	Returns:
 	    Cleaned docstring text suitable for reuse as a provider-facing tool description.
-	
+
 	Raises:
-	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+	"""
 	try:
 		if not value:
 			return ''
@@ -107,20 +111,21 @@ def clean_docstring( value: Optional[ str ] ) -> str:
 
 def python_type_to_json_schema( annotation: Any ) -> Dict[ str, Any ]:
 	"""Convert Python annotation to JSON Schema.
-	
+
 	Purpose:
-	    Maps Python type annotations to the JSON Schema fragments used by provider tool
-	    declarations. The function handles primitive types, containers, optional unions, and unknown
-	    annotations with conservative schema defaults.
-	
+	    Maps Python type annotations to the JSON Schema fragments used by provider tool declarations.
+	    The function handles primitive types, containers, optional unions, and unknown annotations with
+	    conservative schema defaults.
+
 	Args:
-	    annotation (Any): Python type annotation converted into a JSON Schema fragment.
-	
+	    annotation: Python type annotation converted into a JSON Schema fragment.
+
 	Returns:
 	    JSON Schema fragment that represents the supplied Python type annotation.
-	
+
 	Raises:
-	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+	"""
 	try:
 		if annotation is inspect.Signature.empty:
 			return { 'type': 'string' }
@@ -178,20 +183,22 @@ def python_type_to_json_schema( annotation: Any ) -> Dict[ str, Any ]:
 
 def build_parameter_schema( function: Callable[ ..., Any ] ) -> Dict[ str, Any ]:
 	"""Build callable parameter schema.
-	
+
 	Purpose:
 	    Inspects a Python callable signature and builds a provider-neutral JSON Schema parameters
 	    object. The function excludes instance parameters, detects required arguments, preserves
 	    default values, and uses type hints when available.
-	
+
 	Args:
-	    function (Callable[..., Any]): Callable inspected, wrapped, or converted into a provider-neutral tool schema.
-	
+	    function: Callable inspected, wrapped, or converted into a provider-neutral tool schema.
+
 	Returns:
 	    Provider-neutral JSON Schema object describing the callable parameters.
-	
+
 	Raises:
-	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+	    TypeError: If a supplied value has an unsupported type.
+	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+	"""
 	try:
 		throw_if( 'function', function )
 		
@@ -242,20 +249,21 @@ def build_parameter_schema( function: Callable[ ..., Any ] ) -> Dict[ str, Any ]
 
 def serialize_value( value: Any ) -> Any:
 	"""Serialize runtime value.
-	
+
 	Purpose:
 	    Converts common runtime objects into JSON-safe values for tool execution responses. The
 	    function preserves primitive values, recursively serializes mappings and sequences, and
 	    normalizes document, model, and dataframe-like objects when possible.
-	
+
 	Args:
-	    value (Any): Runtime value converted into a JSON-safe representation.
-	
+	    value: Runtime value converted into a JSON-safe representation.
+
 	Returns:
 	    JSON-safe representation of the supplied value.
-	
+
 	Raises:
-	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+	"""
 	try:
 		if value is None:
 			return None
@@ -297,18 +305,19 @@ def serialize_value( value: Any ) -> Any:
 
 class Prompt( BaseModel ):
 	"""Prompt model.
-	
+
 	Purpose:
 	    Represents a structured prompt bundle used to pass instructions, versioning details, output
-	    format hints, and a user question through Fonky workflows. The model provides a typed
-	    container for prompt metadata that can be serialized by Pydantic.
-	
+	    format hints, and a user question through Fonky workflows. The model provides a typed container
+	    for prompt metadata that can be serialized by Pydantic.
+
 	Attributes:
-	    instructions (Optional[str]): Instructions value stored by the model.
-	    id (Optional[str]): Id value stored by the model.
-	    version (Optional[str]): Version value stored by the model.
-	    format (Optional[str]): Format value stored by the model.
-	    question (Optional[str]): Question value stored by the model."""
+	    instructions: Instructions value stored by the model.
+	    id: Id value stored by the model.
+	    version: Version value stored by the model.
+	    format: Format value stored by the model.
+	    question: Question value stored by the model.
+	"""
 	instructions: Optional[ str ]
 	id: Optional[ str ]
 	version: Optional[ str ]
@@ -317,20 +326,21 @@ class Prompt( BaseModel ):
 
 class File( BaseModel ):
 	"""File model.
-	
+
 	Purpose:
 	    Represents file metadata returned by provider APIs or managed by Fonky workflows. The model
 	    stores identity, lifecycle, size, object type, purpose, and filename fields in a consistent
 	    Pydantic structure.
-	
+
 	Attributes:
-	    filename (Optional[str]): Filename value stored by the model.
-	    bytes (Optional[int]): Bytes value stored by the model.
-	    created_at (Optional[int]): Created at value stored by the model.
-	    expires_at (Optional[int]): Expires at value stored by the model.
-	    id (Optional[str]): Id value stored by the model.
-	    object (Optional[str]): Object value stored by the model.
-	    purpose (Optional[str]): Purpose value stored by the model."""
+	    filename: Filename value stored by the model.
+	    bytes: Bytes value stored by the model.
+	    created_at: Created at value stored by the model.
+	    expires_at: Expires at value stored by the model.
+	    id: Id value stored by the model.
+	    object: Object value stored by the model.
+	    purpose: Purpose value stored by the model.
+	"""
 	filename: Optional[ str ]
 	bytes: Optional[ int ]
 	created_at: Optional[ int ]
@@ -341,29 +351,31 @@ class File( BaseModel ):
 
 class Document( BaseModel ):
 	"""Document model.
-	
+
 	Purpose:
-	    Represents a compact document-style payload containing summary and description text. The
-	    model is useful for normalized outputs where only high-level document metadata is required.
-	
+	    Represents a compact document-style payload containing summary and description text. The model
+	    is useful for normalized outputs where only high-level document metadata is required.
+
 	Attributes:
-	    summary (Optional[str]): Summary value stored by the model.
-	    description (Optional[str]): Description value stored by the model."""
+	    summary: Summary value stored by the model.
+	    description: Description value stored by the model.
+	"""
 	summary: Optional[ str ]
 	description: Optional[ str ]
 
 class Message( BaseModel ):
 	"""Message model.
-	
+
 	Purpose:
-	    Represents a normalized chat or tool message payload. The model stores role, content,
-	    message type, and optional structured data for conversational and provider-facing workflows.
-	
+	    Represents a normalized chat or tool message payload. The model stores role, content, message
+	    type, and optional structured data for conversational and provider-facing workflows.
+
 	Attributes:
-	    content (Optional[str]): Content value stored by the model.
-	    role (Optional[str]): Role value stored by the model.
-	    type (Optional[str]): Type value stored by the model.
-	    data (Optional[Dict]): Data value stored by the model."""
+	    content: Content value stored by the model.
+	    role: Role value stored by the model.
+	    type: Type value stored by the model.
+	    data: Data value stored by the model.
+	"""
 	content: Optional[ str ]
 	role: Optional[ str ]
 	type: Optional[ str ]
@@ -371,18 +383,19 @@ class Message( BaseModel ):
 
 class Location( BaseModel ):
 	"""Location model.
-	
+
 	Purpose:
 	    Represents a high-level location descriptor for tools that need city, region, country,
 	    timezone, or location type information. The model keeps user-location context in a provider-
 	    neutral shape.
-	
+
 	Attributes:
-	    type (Optional[str]): Type value stored by the model.
-	    city (Optional[str]): City value stored by the model.
-	    country (Optional[str]): Country value stored by the model.
-	    region (Optional[str]): Region value stored by the model.
-	    timezone (Optional[str]): Timezone value stored by the model."""
+	    type: Type value stored by the model.
+	    city: City value stored by the model.
+	    country: Country value stored by the model.
+	    region: Region value stored by the model.
+	    timezone: Timezone value stored by the model.
+	"""
 	type: Optional[ str ]
 	city: Optional[ str ]
 	country: Optional[ str ]
@@ -391,17 +404,18 @@ class Location( BaseModel ):
 
 class GeoCoordinates( BaseModel ):
 	"""GeoCoordinates model.
-	
+
 	Purpose:
 	    Represents geographic coordinates and optional timezone metadata for geospatial tools. The
 	    model stores latitude, longitude, coordinate type, and timezone in a serializable Pydantic
 	    container.
-	
+
 	Attributes:
-	    type (Optional[str]): Type value stored by the model.
-	    latitude (Optional[float]): Latitude value stored by the model.
-	    longitude (Optional[float]): Longitude value stored by the model.
-	    timezone (Optional[str]): Timezone value stored by the model."""
+	    type: Type value stored by the model.
+	    latitude: Latitude value stored by the model.
+	    longitude: Longitude value stored by the model.
+	    timezone: Timezone value stored by the model.
+	"""
 	type: Optional[ str ]
 	latitude: Optional[ float ]
 	longitude: Optional[ float ]
@@ -409,17 +423,17 @@ class GeoCoordinates( BaseModel ):
 
 class Forecast( BaseModel ):
 	"""Forecast model.
-	
+
 	Purpose:
-	    Represents a simplified weather forecast response. The model stores forecast type,
-	    temperature, precipitation, and sky-condition values for tool outputs or normalized provider
-	    responses.
-	
+	    Represents a simplified weather forecast response. The model stores forecast type, temperature,
+	    precipitation, and sky-condition values for tool outputs or normalized provider responses.
+
 	Attributes:
-	    type (Optional[str]): Type value stored by the model.
-	    temperature (Optional[int]): Temperature value stored by the model.
-	    precipitation (Optional[int]): Precipitation value stored by the model.
-	    sky_conditions (Optional[str]): Sky conditions value stored by the model."""
+	    type: Type value stored by the model.
+	    temperature: Temperature value stored by the model.
+	    precipitation: Precipitation value stored by the model.
+	    sky_conditions: Sky conditions value stored by the model.
+	"""
 	type: Optional[ str ]
 	temperature: Optional[ int ]
 	precipitation: Optional[ int ]
@@ -427,102 +441,109 @@ class Forecast( BaseModel ):
 
 class Directions( BaseModel ):
 	"""Directions model.
-	
+
 	Purpose:
 	    Represents a simplified route or directions payload. The model stores route data and type
 	    metadata for mapping, navigation, or location-aware tool responses.
-	
+
 	Attributes:
-	    type (Optional[str]): Type value stored by the model.
-	    route (Optional[Any]): Route value stored by the model."""
+	    type: Type value stored by the model.
+	    route: Route value stored by the model.
+	"""
 	type: Optional[ str ]
 	route: Optional[ Any ]
 
 class SkyCoordinates( BaseModel ):
 	"""SkyCoordinates model.
-	
+
 	Purpose:
-	    Represents astronomical coordinate values used by sky, catalog, and observatory workflows.
-	    The model stores declination and right ascension in a typed, serializable structure.
-	
+	    Represents astronomical coordinate values used by sky, catalog, and observatory workflows. The
+	    model stores declination and right ascension in a typed, serializable structure.
+
 	Attributes:
-	    type (Optional[str]): Type value stored by the model.
-	    declination (Optional[float]): Declination value stored by the model.
-	    right_ascension (Optional[float]): Right ascension value stored by the model."""
+	    type: Type value stored by the model.
+	    declination: Declination value stored by the model.
+	    right_ascension: Right ascension value stored by the model.
+	"""
 	type: Optional[ str ]
 	declination: Optional[ float ]
 	right_ascension: Optional[ float ]
 
 class Tool( BaseModel ):
 	"""Tool model.
-	
+
 	Purpose:
 	    Represents the shared base descriptor for callable tools. The model stores a tool name,
 	    provider-facing type, and short description used by function-calling workflows.
-	
+
 	Attributes:
-	    name (Optional[str]): Name value stored by the model.
-	    type (Optional[str]): Type value stored by the model.
-	    description (Optional[str]): Description value stored by the model."""
+	    name: Name value stored by the model.
+	    type: Type value stored by the model.
+	    description: Description value stored by the model.
+	"""
 	name: Optional[ str ]
 	type: Optional[ str ]
 	description: Optional[ str ]
 
 class Function( Tool ):
 	"""Function model.
-	
+
 	Purpose:
 	    Extends the base tool descriptor with callable parameter schema and strictness metadata. The
 	    model represents a function-style tool declaration independent of any single provider.
-	
+
 	Attributes:
-	    parameters (Optional[Dict[str, Any]]): Parameters value stored by the model.
-	    strict (Optional[bool]): Strict value stored by the model."""
+	    parameters: Parameters value stored by the model.
+	    strict: Strict value stored by the model.
+	"""
 	parameters: Optional[ Dict[ str, Any ] ]
 	strict: Optional[ bool ]
 
 class FileSearch( Tool ):
 	"""FileSearch model.
-	
+
 	Purpose:
 	    Represents configuration for a file-search tool. The model stores vector store identifiers,
 	    result limits, and optional filters for retrieval workflows.
-	
+
 	Attributes:
-	    vector_store_ids (Optional[List[str]]): Vector store ids value stored by the model.
-	    max_num_results (Optional[int]): Max num results value stored by the model.
-	    filters (Optional[Dict[str, Any]]): Filters value stored by the model."""
+	    vector_store_ids: Vector store ids value stored by the model.
+	    max_num_results: Max num results value stored by the model.
+	    filters: Filters value stored by the model.
+	"""
 	vector_store_ids: Optional[ List[ str ] ]
 	max_num_results: Optional[ int ]
 	filters: Optional[ Dict[ str, Any ] ]
 
 class WebSearch( Tool ):
 	"""WebSearch model.
-	
+
 	Purpose:
 	    Represents configuration for a web-search tool. The model stores search context size and
 	    optional user-location metadata used by search-capable provider workflows.
-	
+
 	Attributes:
-	    type (Optional[str]): Type value stored by the model.
-	    search_context_size (Optional[str]): Search context size value stored by the model.
-	    user_location (Optional[Any]): User location value stored by the model."""
+	    type: Type value stored by the model.
+	    search_context_size: Search context size value stored by the model.
+	    user_location: User location value stored by the model.
+	"""
 	type: Optional[ str ]
 	search_context_size: Optional[ str ]
 	user_location: Optional[ Any ]
 
 class ComputerUse( Tool ):
 	"""ComputerUse model.
-	
+
 	Purpose:
 	    Represents configuration for a computer-use or UI-automation tool. The model stores display
 	    dimensions and execution environment metadata for provider tool declarations.
-	
+
 	Attributes:
-	    type (Optional[str]): Type value stored by the model.
-	    display_height (Optional[int]): Display height value stored by the model.
-	    display_width (Optional[int]): Display width value stored by the model.
-	    environment (Optional[str]): Environment value stored by the model."""
+	    type: Type value stored by the model.
+	    display_height: Display height value stored by the model.
+	    display_width: Display width value stored by the model.
+	    environment: Environment value stored by the model.
+	"""
 	type: Optional[ str ]
 	display_height: Optional[ int ]
 	display_width: Optional[ int ]
@@ -530,25 +551,26 @@ class ComputerUse( Tool ):
 
 class ToolDef( Function ):
 	"""ToolDef model.
-	
+
 	Purpose:
-	    Represents a provider-neutral tool definition bound to a Python callable or object method.
-	    The model stores callable metadata, generated parameter schema, provider conversion helpers,
-	    and execution behavior for unified tool dispatch.
-	
+	    Represents a provider-neutral tool definition bound to a Python callable or object method. The
+	    model stores callable metadata, generated parameter schema, provider conversion helpers, and
+	    execution behavior for unified tool dispatch.
+
 	Attributes:
-	    name (Optional[str]): Name value stored by the model.
-	    type (Optional[str]): Type value stored by the model.
-	    description (Optional[str]): Description value stored by the model.
-	    parameters (Optional[Dict[str, Any]]): Parameters value stored by the model.
-	    strict (Optional[bool]): Strict value stored by the model.
-	    target (Optional[Any]): Target value stored by the model.
-	    method (Optional[str]): Method value stored by the model.
-	    handler (Optional[Callable[..., Any]]): Handler value stored by the model.
-	    category (Optional[str]): Category value stored by the model.
-	    source_module (Optional[str]): Source module value stored by the model.
-	    source_class (Optional[str]): Source class value stored by the model.
-	    callable_name (Optional[str]): Callable name value stored by the model."""
+	    name: Name value stored by the model.
+	    type: Type value stored by the model.
+	    description: Description value stored by the model.
+	    parameters: Parameters value stored by the model.
+	    strict: Strict value stored by the model.
+	    target: Target value stored by the model.
+	    method: Method value stored by the model.
+	    handler: Handler value stored by the model.
+	    category: Category value stored by the model.
+	    source_module: Source module value stored by the model.
+	    source_class: Source class value stored by the model.
+	    callable_name: Callable name value stored by the model.
+	"""
 	model_config = ConfigDict( arbitrary_types_allowed=True )
 	
 	name: Optional[ str ] = None
@@ -569,24 +591,26 @@ class ToolDef( Function ):
 			description: Optional[ str ] = None, category: Optional[ str ] = None,
 			strict: bool = True ) -> 'ToolDef':
 		"""Create tool definition from callable.
-		
+
 		Purpose:
 		    Creates a provider-neutral tool definition from a standalone Python callable. The method
-		    derives the callable name, source module, description, parameter schema, strictness flag,
-		    and execution handler needed for later tool dispatch.
-		
+		    derives the callable name, source module, description, parameter schema, strictness flag, and
+		    execution handler needed for later tool dispatch.
+
 		Args:
-		    function (Callable[..., Any]): Callable inspected, wrapped, or converted into a provider-neutral tool schema.
-		    name (Optional[str]): Human-readable argument name used in validation error messages.
-		    description (Optional[str]): Optional provider-facing description used instead of the callable docstring.
-		    category (Optional[str]): Optional grouping value retained in tool metadata.
-		    strict (bool): Flag indicating whether provider schema validation should be strict.
-		
+		    function: Callable inspected, wrapped, or converted into a provider-neutral tool schema.
+		    name: Human-readable argument name used in validation error messages.
+		    description: Optional provider-facing description used instead of the callable docstring.
+		    category: Optional grouping value retained in tool metadata.
+		    strict: Flag indicating whether provider schema validation should be strict.
+
 		Returns:
 		    Tool definition that wraps the supplied callable for provider-neutral use.
-		
+
 		Raises:
-		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+		    TypeError: If a supplied value has an unsupported type.
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+		"""
 		try:
 			throw_if( 'function', function )
 			
@@ -617,25 +641,28 @@ class ToolDef( Function ):
 			description: Optional[ str ] = None, category: Optional[ str ] = None,
 			strict: bool = True ) -> 'ToolDef':
 		"""Create tool definition from object method.
-		
+
 		Purpose:
 		    Creates a provider-neutral tool definition from a method on an existing object instance. The
-		    method validates that the target member exists and is callable, then stores the target,
-		    method name, source class, source module, and generated parameter schema.
-		
+		    method validates that the target member exists and is callable, then stores the target, method
+		    name, source class, source module, and generated parameter schema.
+
 		Args:
-		    target (Any): Object instance that owns the method being exposed as a tool.
-		    method (str): Name of the target method exposed through the tool definition.
-		    name (Optional[str]): Human-readable argument name used in validation error messages.
-		    description (Optional[str]): Optional provider-facing description used instead of the callable docstring.
-		    category (Optional[str]): Optional grouping value retained in tool metadata.
-		    strict (bool): Flag indicating whether provider schema validation should be strict.
-		
+		    target: Object instance that owns the method being exposed as a tool.
+		    method: Name of the target method exposed through the tool definition.
+		    name: Human-readable argument name used in validation error messages.
+		    description: Optional provider-facing description used instead of the callable docstring.
+		    category: Optional grouping value retained in tool metadata.
+		    strict: Flag indicating whether provider schema validation should be strict.
+
 		Returns:
 		    Tool definition that resolves and wraps a named method on the supplied object instance.
-		
+
 		Raises:
-		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+		    AttributeError: If a requested object member or method does not exist.
+		    TypeError: If a supplied value has an unsupported type.
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+		"""
 		try:
 			throw_if( 'target', target )
 			throw_if( 'method', method )
@@ -680,17 +707,21 @@ class ToolDef( Function ):
 	
 	def resolve_callable( self ) -> Callable[ ..., Any ]:
 		"""Resolve bound callable.
-		
+
 		Purpose:
-		    Resolves the executable Python callable represented by the tool definition. The method
-		    returns a direct handler when one is stored or retrieves the named method from the stored
-		    target object after validating the binding.
-		
+		    Resolves the executable Python callable represented by the tool definition. The method returns
+		    a direct handler when one is stored or retrieves the named method from the stored target
+		    object after validating the binding.
+
 		Returns:
 		    Python callable bound to this tool definition.
-		
+
 		Raises:
-		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+		    ValueError: If a required value is missing, blank, or outside the supported range.
+		    AttributeError: If a requested object member or method does not exist.
+		    TypeError: If a supplied value has an unsupported type.
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+		"""
 		try:
 			if self.handler is not None:
 				return self.handler
@@ -720,18 +751,22 @@ class ToolDef( Function ):
 	
 	def call( self, arguments: Optional[ Dict[ str, Any ] ] = None ) -> Dict[ str, Any ]:
 		"""Execute bound tool callable.
-		
+
 		Purpose:
 		    Executes the bound tool callable with keyword arguments and returns a neutral response
-		    envelope. The method serializes successful results and converts failures into structured
-		    error metadata without exposing provider-specific response objects.
-		
+		    envelope. The method serializes successful results and converts failures into structured error
+		    metadata without exposing provider-specific response objects.
+
 		Args:
-		    arguments (Optional[Dict[str, Any]]): Keyword arguments passed to the resolved callable during tool execution.
-		
+		    arguments: Keyword arguments passed to the resolved callable during tool execution.
+
 		Returns:
-		    Dictionary containing execution status, serialized data, error information, and tool
-		    metadata."""
+		    Dictionary containing execution status, serialized data, error information, and tool metadata.
+
+		Raises:
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
+		"""
 		try:
 			handler = self.resolve_callable( )
 			payload = arguments or { }
@@ -775,17 +810,18 @@ class ToolDef( Function ):
 	
 	def to_dict( self ) -> Dict[ str, Any ]:
 		"""Export neutral tool dictionary.
-		
+
 		Purpose:
 		    Exports the tool definition as a provider-neutral dictionary for inspection, persistence, or
-		    application-level routing. The method includes schema fields, source metadata, method
-		    binding details, and category information.
-		
+		    application-level routing. The method includes schema fields, source metadata, method binding
+		    details, and category information.
+
 		Returns:
 		    Provider-neutral dictionary representation of this tool definition.
-		
+
 		Raises:
-		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+		"""
 		try:
 			return { 'name': self.name,
 			         'type': self.type,
@@ -806,17 +842,18 @@ class ToolDef( Function ):
 	
 	def to_openai( self ) -> Dict[ str, Any ]:
 		"""Export OpenAI tool schema.
-		
+
 		Purpose:
 		    Builds an OpenAI-compatible function tool declaration from the neutral tool definition. The
 		    method supplies a function name, description, parameters object, and strictness flag using
 		    safe defaults when optional schema fields are absent.
-		
+
 		Returns:
 		    OpenAI-compatible function-tool schema for this tool definition.
-		
+
 		Raises:
-		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+		"""
 		try:
 			return {
 					'type': 'function',
@@ -840,17 +877,18 @@ class ToolDef( Function ):
 	
 	def to_grok( self ) -> Dict[ str, Any ]:
 		"""Export Grok tool schema.
-		
+
 		Purpose:
-		    Builds a Grok-compatible function tool declaration using the same schema shape used for
-		    OpenAI function tools. The method preserves the neutral tool definition while reusing the
-		    shared provider conversion path.
-		
+		    Builds a Grok-compatible function tool declaration using the same schema shape used for OpenAI
+		    function tools. The method preserves the neutral tool definition while reusing the shared
+		    provider conversion path.
+
 		Returns:
 		    Grok-compatible function-tool schema for this tool definition.
-		
+
 		Raises:
-		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+		"""
 		try:
 			return self.to_openai( )
 		except Exception as e:
@@ -862,17 +900,18 @@ class ToolDef( Function ):
 	
 	def to_gemini( self ) -> Dict[ str, Any ]:
 		"""Export Gemini tool schema.
-		
+
 		Purpose:
 		    Builds a Gemini-compatible function declaration from the neutral tool definition. The method
-		    returns the function name, description, and parameters object in the schema shape expected
-		    by Gemini tool configuration.
-		
+		    returns the function name, description, and parameters object in the schema shape expected by
+		    Gemini tool configuration.
+
 		Returns:
 		    Gemini-compatible function declaration for this tool definition.
-		
+
 		Raises:
-		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata."""
+		    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.
+		"""
 		try:
 			return {
 					'name': self.name,

@@ -61,20 +61,23 @@ from core import Result
 
 
 def throw_if( name: str, value: object ) -> None:
-	"""Throw if.
-    
-        Purpose:
-            Provides a input guard used by the Gipity Streamlit application. The function
-            supports UI state management, provider coordination, data normalization, or display
-            behavior required by the surrounding workflow.
-    
-        Args:
-            name (str): Value supplied to the helper.
-            value (object): Value supplied to the helper.
-    
-        Raises:
-            Error: Re-raised after the exception is wrapped and written to the application logger.
-    """
+	"""Validate a required scraper argument.
+
+	Purpose:
+	    Validates that a required scraper argument is present and non-empty before network or parsing
+	    work begins. The guard rejects ``None``, blank strings, and empty container values with an
+	    argument-specific ``ValueError``.
+
+	Args:
+	    name: Argument name included in the validation error message.
+	    value: Candidate value checked for ``None``, blank text, or an empty container.
+
+	Returns:
+	    None: Validation succeeds silently; invalid values raise ``ValueError``.
+
+	Raises:
+	    ValueError: If a required value is missing, blank, or outside the supported range.
+	"""
 	if value is None:
 		raise ValueError( f'Argument "{name}" cannot be empty!' )
 	
@@ -88,15 +91,15 @@ class Extractor( ):
 	"""Provide shared state for HTML extraction classes.
 
 	Purpose:
-		Defines the minimal base state used by concrete scraper implementations that retrieve
-		raw HTML, parse it with BeautifulSoup, and store extracted text. The class provides a
-		common inspection surface for extraction-oriented subclasses without performing network
-		or parsing work by itself.
+	    Defines the minimal base state used by concrete scraper implementations that retrieve raw HTML,
+	    parse it with BeautifulSoup, and store extracted text. The class provides a common inspection
+	    surface for extraction-oriented subclasses without performing network or parsing work by
+	    itself.
 
 	Attributes:
-		raw_html (Optional[str]): Raw HTML captured for extraction.
-		extracted_text (Optional[str]): Extracted text generated from the source HTML.
-		soup (Optional[BeautifulSoup]): Parsed BeautifulSoup document tree.
+	    raw_html: Raw HTML captured for extraction.
+	    extracted_text: Extracted text generated from the source HTML.
+	    soup: Parsed BeautifulSoup document tree.
 	"""
 	raw_html: Optional[ str ]
 	extracted_text: Optional[ str ]
@@ -106,8 +109,11 @@ class Extractor( ):
 		"""Initialize extraction state.
 
 		Purpose:
-			Initializes the base extractor fields to empty state so subclasses can store raw
-			HTML, parsed HTML, and extracted text consistently during later scrape operations.
+		    Initializes the base extractor fields to empty state so subclasses can store raw HTML, parsed
+		    HTML, and extracted text consistently during later scrape operations.
+
+		Returns:
+		    None: Constructors initialize instance state and do not return a value.
 		"""
 		self.raw_html = None
 		self.extracted_text = None
@@ -117,11 +123,11 @@ class Extractor( ):
 		"""Return extractor inspection names.
 
 		Purpose:
-			Provides a stable list of member names for interactive inspection, documentation,
-			and simple tooling that displays extractor state.
+		    Provides a stable list of member names for interactive inspection, documentation, and simple
+		    tooling that displays extractor state.
 
 		Returns:
-			Ordered extractor member names.
+		    Ordered extractor member names.
 		"""
 		return [ 'raw_html', 'extract' ]
 
@@ -129,19 +135,19 @@ class WebExtractor( Extractor ):
 	"""Fetch and extract selected structures from HTML pages.
 
 	Purpose:
-		Provides synchronous HTML retrieval through ``requests`` and extraction helpers for
-		common HTML structures. The class stores request state, parser state, regular
-		expressions, and headers so individual scrape methods can request a page and return
-		only the requested type of extracted content.
+	    Provides synchronous HTML retrieval through ``requests`` and extraction helpers for common HTML
+	    structures. The class stores request state, parser state, regular expressions, and headers so
+	    individual scrape methods can request a page and return only the requested type of extracted
+	    content.
 
 	Attributes:
-		soup (Optional[BeautifulSoup]): Parsed BeautifulSoup document tree.
-		agents (Optional[str]): User-agent string loaded from configuration.
-		url (Optional[str]): URL used for the active scrape request.
-		html (Optional[str]): Raw HTML text retained by the extractor.
-		re_tag (Optional[Pattern]): Compiled tag-removal regular expression.
-		re_ws (Optional[Pattern]): Compiled whitespace-normalization regular expression.
-		response (Optional[Response]): Most recent HTTP response.
+	    soup: Parsed BeautifulSoup document tree.
+	    agents: User-agent string loaded from configuration.
+	    url: URL used for the active scrape request.
+	    html: Raw HTML text retained by the extractor.
+	    re_tag: Compiled tag-removal regular expression.
+	    re_ws: Compiled whitespace-normalization regular expression.
+	    response: Most recent HTTP response.
 	"""
 	soup: Optional[ BeautifulSoup ]
 	agents: Optional[ str ]
@@ -155,9 +161,12 @@ class WebExtractor( Extractor ):
 		"""Initialize the web extractor.
 
 		Purpose:
-			Initializes request defaults, compiled regular expressions, response state, and
-			HTTP headers used by synchronous HTML extraction methods. The constructor prepares
-			the object for later network calls without performing any external request.
+		    Initializes request defaults, compiled regular expressions, response state, and HTTP headers
+		    used by synchronous HTML extraction methods. The constructor prepares the object for later
+		    network calls without performing any external request.
+
+		Returns:
+		    None: Constructors initialize instance state and do not return a value.
 		"""
 		super( ).__init__( )
 		self.timeout = 10
@@ -175,11 +184,11 @@ class WebExtractor( Extractor ):
 		"""Return web extractor inspection names.
 
 		Purpose:
-			Provides a stable ordering of public attributes and extraction methods for
-			interactive inspection, debugging, and documentation tooling.
+		    Provides a stable ordering of public attributes and extraction methods for interactive
+		    inspection, debugging, and documentation tooling.
 
 		Returns:
-			Ordered attribute and method names exposed by the extractor.
+		    Ordered attribute and method names exposed by the extractor.
 		"""
 		return [ 'agents',
 		         'url',
@@ -204,19 +213,20 @@ class WebExtractor( Extractor ):
 		"""Fetch a web page.
 
 		Purpose:
-			Performs a synchronous HTTP GET request for the supplied URL, stores the response
-			and timeout state, validates HTTP success, and returns the canonical Fonky
-			``Result`` wrapper for downstream inspection or serialization.
+		    Performs a synchronous HTTP GET request for the supplied URL, stores the response and timeout
+		    state, validates HTTP success, and returns the canonical Fonky ``Result`` wrapper for
+		    downstream inspection or serialization.
 
 		Args:
-			url (str): Absolute URL to fetch.
-			time (int): Request timeout in seconds.
+		    url: Absolute URL to fetch.
+		    time: Request timeout in seconds.
 
 		Returns:
-			Result wrapper for the successful HTTP response.
+		    Result wrapper for the successful HTTP response.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'url', url )
@@ -239,17 +249,18 @@ class WebExtractor( Extractor ):
 		"""Convert HTML to plain text.
 
 		Purpose:
-			Removes script and style blocks, inserts spacing around common block-level tags,
-			strips remaining HTML markup, and normalizes whitespace into compact readable text.
+		    Removes script and style blocks, inserts spacing around common block-level tags, strips
+		    remaining HTML markup, and normalizes whitespace into compact readable text.
 
 		Args:
-			html (str): Raw HTML string to convert.
+		    html: Raw HTML string to convert.
 
 		Returns:
-			Plain text extracted from the supplied HTML.
+		    Plain text extracted from the supplied HTML.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'html', html )
@@ -271,17 +282,18 @@ class WebExtractor( Extractor ):
 		"""Extract paragraph text.
 
 		Purpose:
-			Fetches the target HTML document, parses it with BeautifulSoup, extracts readable
-			text from all ``p`` elements, and returns only non-empty paragraph strings.
+		    Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from
+		    all ``p`` elements, and returns only non-empty paragraph strings.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML document.
+		    uri: Fully qualified URI of the target HTML document.
 
 		Returns:
-			Cleaned paragraph text entries.
+		    Cleaned paragraph text entries.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -302,17 +314,18 @@ class WebExtractor( Extractor ):
 		"""Extract list item text.
 
 		Purpose:
-			Fetches the target HTML document, parses it with BeautifulSoup, extracts readable
-			text from all ``li`` elements, and returns only non-empty list item strings.
+		    Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from
+		    all ``li`` elements, and returns only non-empty list item strings.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML page.
+		    uri: Fully qualified URI of the target HTML page.
 
 		Returns:
-			Clean list item text segments.
+		    Clean list item text segments.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -333,17 +346,18 @@ class WebExtractor( Extractor ):
 		"""Extract table cell text.
 
 		Purpose:
-			Fetches the target HTML document, parses all ``table`` structures, and returns a
-			flattened list of readable text from ``td`` and ``th`` cells.
+		    Fetches the target HTML document, parses all ``table`` structures, and returns a flattened
+		    list of readable text from ``td`` and ``th`` cells.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML document.
+		    uri: Fully qualified URI of the target HTML document.
 
 		Returns:
-			Table cell values extracted from all table rows.
+		    Table cell values extracted from all table rows.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -372,18 +386,18 @@ class WebExtractor( Extractor ):
 		"""Extract article text.
 
 		Purpose:
-			Fetches the target HTML page, parses it with BeautifulSoup, extracts consolidated
-			readable text from each ``article`` element, and returns only non-empty article
-			blocks.
+		    Fetches the target HTML page, parses it with BeautifulSoup, extracts consolidated readable
+		    text from each ``article`` element, and returns only non-empty article blocks.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML page.
+		    uri: Fully qualified URI of the target HTML page.
 
 		Returns:
-			Article-level text blocks.
+		    Article-level text blocks.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -404,17 +418,18 @@ class WebExtractor( Extractor ):
 		"""Extract heading text.
 
 		Purpose:
-			Fetches the target HTML document, parses it with BeautifulSoup, extracts readable
-			text from heading tags ``h1`` through ``h6``, and returns only non-empty headings.
+		    Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from
+		    heading tags ``h1`` through ``h6``, and returns only non-empty headings.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML document.
+		    uri: Fully qualified URI of the target HTML document.
 
 		Returns:
-			Clean heading strings.
+		    Clean heading strings.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -441,17 +456,18 @@ class WebExtractor( Extractor ):
 		"""Extract division text.
 
 		Purpose:
-			Fetches the target HTML document, parses it with BeautifulSoup, extracts readable
-			text from ``div`` elements, and returns only non-empty division text blocks.
+		    Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from
+		    ``div`` elements, and returns only non-empty division text blocks.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML document.
+		    uri: Fully qualified URI of the target HTML document.
 
 		Returns:
-			Clean division text blocks.
+		    Clean division text blocks.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -472,17 +488,18 @@ class WebExtractor( Extractor ):
 		"""Extract section text.
 
 		Purpose:
-			Fetches the target HTML document, parses it with BeautifulSoup, extracts readable
-			text from ``section`` elements, and returns only non-empty section text blocks.
+		    Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from
+		    ``section`` elements, and returns only non-empty section text blocks.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML document.
+		    uri: Fully qualified URI of the target HTML document.
 
 		Returns:
-			Clean section text blocks.
+		    Clean section text blocks.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -503,17 +520,18 @@ class WebExtractor( Extractor ):
 		"""Extract blockquote text.
 
 		Purpose:
-			Fetches the target HTML document, parses it with BeautifulSoup, extracts readable
-			text from ``blockquote`` elements, and returns only non-empty quoted text entries.
+		    Fetches the target HTML document, parses it with BeautifulSoup, extracts readable text from
+		    ``blockquote`` elements, and returns only non-empty quoted text entries.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML document.
+		    uri: Fully qualified URI of the target HTML document.
 
 		Returns:
-			Cleaned blockquote text entries.
+		    Cleaned blockquote text entries.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -531,20 +549,21 @@ class WebExtractor( Extractor ):
 			raise exception
 	
 	def scrape_hyperlinks( self, uri: str ) -> List[ str ] | None:
-		"""Extract hyperlinks.
+		"""Extract hyperlinks from an HTML page.
 
 		Purpose:
-			Fetches the target HTML document, parses it with BeautifulSoup, extracts ``href``
-			values from anchor tags, and returns only populated hyperlink values.
+		    Fetches the target HTML document, parses it with BeautifulSoup, extracts ``href`` values from
+		    anchor tags, and returns only populated hyperlink values.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML page.
+		    uri: Fully qualified URI of the target HTML page.
 
 		Returns:
-			Hyperlink paths or URLs extracted from anchor tags.
+		    Hyperlink paths or URLs extracted from anchor tags.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -565,17 +584,18 @@ class WebExtractor( Extractor ):
 		"""Extract image references.
 
 		Purpose:
-			Fetches the target HTML document, parses it with BeautifulSoup, extracts ``src``
-			values from image tags, and returns only populated image references.
+		    Fetches the target HTML document, parses it with BeautifulSoup, extracts ``src`` values from
+		    image tags, and returns only populated image references.
 
 		Args:
-			uri (str): Fully qualified URI of the target HTML page.
+		    uri: Fully qualified URI of the target HTML page.
 
 		Returns:
-			Image source values extracted from image tags.
+		    Image source values extracted from image tags.
 
 		Raises:
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'uri', uri )
@@ -597,24 +617,24 @@ class WebExtractor( Extractor ):
 		"""Create a dynamic tool schema.
 
 		Purpose:
-			Constructs an OpenAI-style function tool schema from the supplied function name,
-			service name, description, parameter schema, and required field list. The method
-			validates required inputs and preserves the caller-provided JSON-schema fragments
-			for individual parameters.
+		    Constructs an OpenAI-style function tool schema from the supplied function name, service name,
+		    description, parameter schema, and required field list. The method validates required inputs
+		    and preserves the caller-provided JSON-schema fragments for individual parameters.
 
 		Args:
-			function (str): Function name exposed to the model or tool caller.
-			tool (str): Underlying system or service wrapped by the function.
-			description (str): Description of what the function does.
-			parameters (dict): JSON-schema property definitions keyed by parameter name.
-			required (list[str]): Required parameter names. When ``None``, all parameter keys are used.
+		    function: Function name exposed to the model or tool caller.
+		    tool: Underlying system or service wrapped by the function.
+		    description: Description of what the function does.
+		    parameters: JSON-schema property definitions keyed by parameter name.
+		    required: Required parameter names. When ``None``, all parameter keys are used.
 
 		Returns:
-			JSON-compatible dictionary defining the tool schema.
+		    JSON-compatible dictionary defining the tool schema.
 
 		Raises:
-			ValueError: Raised when ``parameters`` is not a dictionary.
-			Error: Re-raised after the exception is wrapped and written to the application logger.
+		    ValueError: Raised when ``parameters`` is not a dictionary.
+		    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+		        project error type.
 		"""
 		try:
 			throw_if( 'function', function )

@@ -22,6 +22,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 import datetime as dt
 
+
 # ==========================================================================================
 # FETCHERS IMPORTS
 # ==========================================================================================
@@ -115,19 +116,25 @@ from .scrapers import WebExtractor
 
 def fetch_arxiv( question: str, max_documents: int=None, full_documents: bool=None,
 		include_metadata: bool=None ) -> Any:
-    """Fetch ArXiv research document retrieval.
+    """Retrieve ArXiv research documents.
 
     Purpose:
-        Provides direct module-level access to ``ArXiv.fetch`` using a fresh ``ArXiv`` instance.
+        Retrieve ArXiv research documents through ArXiv. The query text determines the records or
+        documents matched by the provider. Result-count arguments bound the amount of data
+        requested. Boolean options control retrieval depth or supplemental content.
 
     Args:
-        question (str): Value passed to ``ArXiv.fetch``.
-        max_documents (int): Value passed to ``ArXiv.fetch``.
-        full_documents (bool): Value passed to ``ArXiv.fetch``.
-        include_metadata (bool): Value passed to ``ArXiv.fetch``.
+        question: Search text, lookup value, or provider query submitted by the caller.
+        max_documents: Maximum number of documents to retrieve.
+        full_documents: Whether to retrieve full document content instead of abbreviated search results.
+        include_metadata: Whether provider metadata should be included with retrieved content.
 
     Returns:
-        Any: Value returned by ``ArXiv.fetch``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = ArXiv( )
     return _instance.fetch( question=question, max_documents=max_documents,
@@ -135,43 +142,58 @@ def fetch_arxiv( question: str, max_documents: int=None, full_documents: bool=No
 
 def fetch_google_drive( question: str, folder_id: str='root', results: int=10,
 		template: str='gdrive-query', mime_type: str=None, mode: str='documents' ) -> Any:
-    """Fetch Google Drive document retrieval.
+    """Retrieve Google Drive documents.
 
     Purpose:
-        Provides direct module-level access to ``GoogleDrive.fetch`` using a fresh ``GoogleDrive`` instance.
+        Retrieve Google Drive documents through Google Drive. The query text determines the records
+        or documents matched by the provider. Result-count arguments bound the amount of data
+        requested.
 
     Args:
-        question (str): Value passed to ``GoogleDrive.fetch``.
-        folder_id (str): Value passed to ``GoogleDrive.fetch``.
-        results (int): Value passed to ``GoogleDrive.fetch``.
-        template (str): Value passed to ``GoogleDrive.fetch``.
-        mime_type (str): Value passed to ``GoogleDrive.fetch``.
-        mode (str): Value passed to ``GoogleDrive.fetch``.
+        question: Search text, lookup value, or provider query submitted by the caller.
+        folder_id: Provider folder identifier that scopes the operation.
+        results: Maximum number of search results to request.
+        template: Provider query template used to construct the request.
+        mime_type: Optional MIME type used to restrict matching files.
+        mode: Operation mode used to select the provider or processing workflow.
 
     Returns:
-        Any: Value returned by ``GoogleDrive.fetch``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleDrive( )
-    return _instance.fetch( question=question, folder_id=folder_id, results=results, template=template, mime_type=mime_type, mode=mode )
+    return _instance.fetch( question=question, folder_id=folder_id, results=results,
+	    template=template, mime_type=mime_type, mode=mode )
 
 def fetch_wikipedia( question: str, language: str=None, max_documents: int=None,
 		include_metadata: bool=None ) -> Any:
-    """Fetch Wikipedia document retrieval.
+    """Retrieve Wikipedia documents.
 
     Purpose:
-        Provides direct module-level access to ``Wikipedia.fetch`` using a fresh ``Wikipedia`` instance.
+        Retrieve Wikipedia documents through Wikipedia. The query text determines the records or
+        documents matched by the provider. Result-count arguments bound the amount of data
+        requested. Boolean options control retrieval depth or supplemental content.
 
     Args:
-        question (str): Value passed to ``Wikipedia.fetch``.
-        language (str): Value passed to ``Wikipedia.fetch``.
-        max_documents (int): Value passed to ``Wikipedia.fetch``.
-        include_metadata (bool): Value passed to ``Wikipedia.fetch``.
+        question: Search text, lookup value, or provider query submitted by the caller.
+        language: Language code used for provider results or parsing.
+        max_documents: Maximum number of documents to retrieve.
+        include_metadata: Whether provider metadata should be included with retrieved content.
 
     Returns:
-        Any: Value returned by ``Wikipedia.fetch``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = Wikipedia( )
-    return _instance.fetch( question=question, language=language, max_documents=max_documents, include_metadata=include_metadata )
+    return _instance.fetch( question=question, language=language, max_documents=max_documents,
+	    include_metadata=include_metadata )
 
 def fetch_news( endpoint: str='all', query: str='', language: str='en', categories: str='',
 		exclude_categories: str='', locale: str='', domains: str='', exclude_domains: str='',
@@ -179,206 +201,284 @@ def fetch_news( endpoint: str='all', query: str='', language: str='en', categori
 		published_before: str='', published_on: str='', sort: str='published_at',
 		limit: int=10, page: int=1, include_similar: bool=True,
 		headlines_per_category: int=6, time: int=10, api_key: str=None ) -> Any:
-    """Fetch The News API article retrieval.
+    """Retrieve The News API article.
 
     Purpose:
-        Provides direct module-level access to ``TheNews.fetch`` using a fresh ``TheNews`` instance.
+        Retrieve The News API article through The News API. The query text determines the records or
+        documents matched by the provider. Date and time arguments constrain the requested interval
+        when supplied. Result-count arguments bound the amount of data requested. Boolean options
+        control retrieval depth or supplemental content. When supplied, ``api_key`` overrides the
+        configured provider credential for this request.
 
     Args:
-        endpoint (str): Value passed to ``TheNews.fetch``.
-        query (str): Value passed to ``TheNews.fetch``.
-        language (str): Value passed to ``TheNews.fetch``.
-        categories (str): Value passed to ``TheNews.fetch``.
-        exclude_categories (str): Value passed to ``TheNews.fetch``.
-        locale (str): Value passed to ``TheNews.fetch``.
-        domains (str): Value passed to ``TheNews.fetch``.
-        exclude_domains (str): Value passed to ``TheNews.fetch``.
-        source_ids (str): Value passed to ``TheNews.fetch``.
-        exclude_source_ids (str): Value passed to ``TheNews.fetch``.
-        published_after (str): Value passed to ``TheNews.fetch``.
-        published_before (str): Value passed to ``TheNews.fetch``.
-        published_on (str): Value passed to ``TheNews.fetch``.
-        sort (str): Value passed to ``TheNews.fetch``.
-        limit (int): Value passed to ``TheNews.fetch``.
-        page (int): Value passed to ``TheNews.fetch``.
-        include_similar (bool): Value passed to ``TheNews.fetch``.
-        headlines_per_category (int): Value passed to ``TheNews.fetch``.
-        time (int): Value passed to ``TheNews.fetch``.
-        api_key (str): Value passed to ``TheNews.fetch``.
+        endpoint: Provider endpoint or endpoint family to request.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        language: Language code used for provider results or parsing.
+        categories: Comma-separated news categories used to include matching articles.
+        exclude_categories: Filter value used to exclude categories from provider results.
+        locale: Locale filter applied to news results.
+        domains: Comma-separated source domains used to include matching news articles.
+        exclude_domains: Filter value used to exclude domains from provider results.
+        source_ids: Provider identifiers for the selected source.
+        exclude_source_ids: Filter value used to exclude source ids from provider results.
+        published_after: Earliest publication timestamp accepted by the news query.
+        published_before: Latest publication timestamp accepted by the news query.
+        published_on: Specific publication date used to restrict news results.
+        sort: Provider-supported result ordering expression.
+        limit: Maximum number of records or items to return.
+        page: One-based result page to request.
+        include_similar: Whether to include similar in the result.
+        headlines_per_category: Maximum number of headlines returned for each category in headline mode.
+        time: Request timeout in seconds.
+        api_key: Optional credential override used for the active request.
 
     Returns:
-        Any: Value returned by ``TheNews.fetch``.
+        Dict[str, Any]: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = TheNews( )
-    return _instance.fetch( endpoint=endpoint, query=query, language=language, categories=categories, exclude_categories=exclude_categories, locale=locale, domains=domains, exclude_domains=exclude_domains, source_ids=source_ids, exclude_source_ids=exclude_source_ids, published_after=published_after, published_before=published_before, published_on=published_on, sort=sort, limit=limit, page=page, include_similar=include_similar, headlines_per_category=headlines_per_category, time=time, api_key=api_key )
+    return _instance.fetch( endpoint=endpoint, query=query, language=language, categories=categories,
+	    exclude_categories=exclude_categories, locale=locale, domains=domains,
+	    exclude_domains=exclude_domains, source_ids=source_ids, exclude_source_ids=exclude_source_ids,
+	    published_after=published_after, published_before=published_before,
+	    published_on=published_on, sort=sort, limit=limit, page=page, include_similar=include_similar,
+	    headlines_per_category=headlines_per_category, time=time, api_key=api_key )
 
 def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_terms: str='',
 		exclude_terms: str='', file_type: str='', date_restrict: str='', gl: str='', lr: str='',
 		safe: str='off', search_type: str='', site_search: str='', site_search_filter: str='',
 		sort: str='', img_size: str='', img_type: str='', img_color_type: str='',
 		img_dominant_color: str='', time: int=10, api_key: str=None, cse_id: str=None ) -> Any:
-    """Fetch Google Custom Search retrieval.
+    """Retrieve Google Custom Search.
 
     Purpose:
-        Provides direct module-level access to ``GoogleSearch.fetch`` using a fresh ``GoogleSearch`` instance.
+        Retrieve Google Custom Search through Google Custom Search. The query text determines the
+        records or documents matched by the provider. Result-count arguments bound the amount of
+        data requested. When supplied, ``api_key`` overrides the configured provider credential for
+        this request.
 
     Args:
-        keywords (str): Value passed to ``GoogleSearch.fetch``.
-        results (int): Value passed to ``GoogleSearch.fetch``.
-        start (int): Value passed to ``GoogleSearch.fetch``.
-        exact_terms (str): Value passed to ``GoogleSearch.fetch``.
-        exclude_terms (str): Value passed to ``GoogleSearch.fetch``.
-        file_type (str): Value passed to ``GoogleSearch.fetch``.
-        date_restrict (str): Value passed to ``GoogleSearch.fetch``.
-        gl (str): Value passed to ``GoogleSearch.fetch``.
-        lr (str): Value passed to ``GoogleSearch.fetch``.
-        safe (str): Value passed to ``GoogleSearch.fetch``.
-        search_type (str): Value passed to ``GoogleSearch.fetch``.
-        site_search (str): Value passed to ``GoogleSearch.fetch``.
-        site_search_filter (str): Value passed to ``GoogleSearch.fetch``.
-        sort (str): Value passed to ``GoogleSearch.fetch``.
-        img_size (str): Value passed to ``GoogleSearch.fetch``.
-        img_type (str): Value passed to ``GoogleSearch.fetch``.
-        img_color_type (str): Value passed to ``GoogleSearch.fetch``.
-        img_dominant_color (str): Value passed to ``GoogleSearch.fetch``.
-        time (int): Value passed to ``GoogleSearch.fetch``.
-        api_key (str): Value passed to ``GoogleSearch.fetch``.
-        cse_id (str): Value passed to ``GoogleSearch.fetch``.
+        keywords: Search text, lookup value, or provider query submitted by the caller.
+        results: Maximum number of search results to request.
+        start: Starting result position used for pagination.
+        exact_terms: Phrase that must appear exactly in Google Custom Search results.
+        exclude_terms: Terms that must not appear in Google Custom Search results.
+        file_type: File-extension filter applied to Google Custom Search results.
+        date_restrict: Google Custom Search date restriction expression.
+        gl: Google country-code boost applied to search results.
+        lr: Google language restriction expression.
+        safe: Google SafeSearch setting.
+        search_type: Google Custom Search result type; use the provider-supported image-search value when
+            requesting images.
+        site_search: Domain or site used to restrict Google Custom Search results.
+        site_search_filter: Whether ``site_search`` is included or excluded by Google Custom Search.
+        sort: Provider-supported result ordering expression.
+        img_size: Image-size filter used for Google image search.
+        img_type: Google image type filter.
+        img_color_type: Google image color-type filter.
+        img_dominant_color: Dominant-color filter used for Google image search.
+        time: Request timeout in seconds.
+        api_key: Optional credential override used for the active request.
+        cse_id: Google Programmable Search Engine identifier.
 
     Returns:
-        Any: Value returned by ``GoogleSearch.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleSearch( )
-    return _instance.fetch( keywords=keywords, results=results, start=start, exact_terms=exact_terms, exclude_terms=exclude_terms, file_type=file_type, date_restrict=date_restrict, gl=gl, lr=lr, safe=safe, search_type=search_type, site_search=site_search, site_search_filter=site_search_filter, sort=sort, img_size=img_size, img_type=img_type, img_color_type=img_color_type, img_dominant_color=img_dominant_color, time=time, api_key=api_key, cse_id=cse_id )
+    return _instance.fetch( keywords=keywords, results=results, start=start,
+	    exact_terms=exact_terms, exclude_terms=exclude_terms, file_type=file_type,
+	    date_restrict=date_restrict, gl=gl, lr=lr, safe=safe, search_type=search_type,
+	    site_search=site_search, site_search_filter=site_search_filter, sort=sort, img_size=img_size,
+	    img_type=img_type, img_color_type=img_color_type, img_dominant_color=img_dominant_color,
+	    time=time, api_key=api_key, cse_id=cse_id )
 
 def fetch_gov_data( mode: str='search', query: str='', page_size: int=10, offset_mark: str='*',
 		sort_field: str='score', sort_order: str='DESC', package_id: str='', collection: str='',
 		start_date: str='', time: int=20 ) -> Any:
-    """Fetch Data.gov package and collection retrieval.
+    """Retrieve Data.gov package and collection.
 
     Purpose:
-        Provides direct module-level access to ``GovData.fetch`` using a fresh ``GovData`` instance.
+        Retrieve Data.gov package and collection through Data.gov. Use ``mode`` to select among
+        ``collection``, ``package_summary``, ``search``. The query text determines the records or
+        documents matched by the provider. Date and time arguments constrain the requested interval
+        when supplied. Result-count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``GovData.fetch``.
-        query (str): Value passed to ``GovData.fetch``.
-        page_size (int): Value passed to ``GovData.fetch``.
-        offset_mark (str): Value passed to ``GovData.fetch``.
-        sort_field (str): Value passed to ``GovData.fetch``.
-        sort_order (str): Value passed to ``GovData.fetch``.
-        package_id (str): Value passed to ``GovData.fetch``.
-        collection (str): Value passed to ``GovData.fetch``.
-        start_date (str): Value passed to ``GovData.fetch``.
-        time (int): Value passed to ``GovData.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``collection``, ``package_summary``, ``search``.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        page_size: Maximum number of records requested per page.
+        offset_mark: Provider continuation marker used for paginated Data.gov search results.
+        sort_field: Provider field used to order search results.
+        sort_order: Sort direction applied to the provider search.
+        package_id: Provider identifier for the selected package.
+        collection: Provider collection identifier used to restrict results.
+        start_date: Inclusive start date for the requested time range, in the provider-supported format.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``GovData.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GovData( )
-    return _instance.fetch( mode=mode, query=query, page_size=page_size, offset_mark=offset_mark, sort_field=sort_field, sort_order=sort_order, package_id=package_id, collection=collection, start_date=start_date, time=time )
+    return _instance.fetch( mode=mode, query=query, page_size=page_size, offset_mark=offset_mark,
+	    sort_field=sort_field, sort_order=sort_order, package_id=package_id, collection=collection,
+	    start_date=start_date, time=time )
 
 def fetch_congress( mode: str='congresses', congress: int=0, bill_type: str='', bill_number: int=0,
 		law_type: str='', law_number: int=0, report_type: str='', report_number: int=0,
 		offset: int=0, limit: int=20, sort: str='updateDate+desc', from_date_time: str='',
 		to_date_time: str='', conference: bool=False, time: int=20 ) -> Any:
-    """Fetch Congress.gov legislative data retrieval.
+    """Retrieve Congress.gov legislative data.
 
     Purpose:
-        Provides direct module-level access to ``Congress.fetch`` using a fresh ``Congress`` instance.
+        Retrieve Congress.gov legislative data through Congress.gov. Use ``mode`` to select among
+        ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``,
+        ``reports``. Date and time arguments constrain the requested interval when supplied. Result-
+        count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``Congress.fetch``.
-        congress (int): Value passed to ``Congress.fetch``.
-        bill_type (str): Value passed to ``Congress.fetch``.
-        bill_number (int): Value passed to ``Congress.fetch``.
-        law_type (str): Value passed to ``Congress.fetch``.
-        law_number (int): Value passed to ``Congress.fetch``.
-        report_type (str): Value passed to ``Congress.fetch``.
-        report_number (int): Value passed to ``Congress.fetch``.
-        offset (int): Value passed to ``Congress.fetch``.
-        limit (int): Value passed to ``Congress.fetch``.
-        sort (str): Value passed to ``Congress.fetch``.
-        from_date_time (str): Value passed to ``Congress.fetch``.
-        to_date_time (str): Value passed to ``Congress.fetch``.
-        conference (bool): Value passed to ``Congress.fetch``.
-        time (int): Value passed to ``Congress.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``,
+            ``reports``.
+        congress: Congress number used to scope legislative records.
+        bill_type: Provider type selector for bill.
+        bill_number: Legislative bill number used with the selected Congress and bill type.
+        law_type: Provider type selector for law.
+        law_number: Public or private law number used with the selected law type.
+        report_type: Provider type selector for report.
+        report_number: Committee report number used with the selected Congress and report type.
+        offset: Zero-based result offset used for pagination.
+        limit: Maximum number of records or items to return.
+        sort: Provider-supported result ordering expression.
+        from_date_time: Earliest provider update timestamp to include.
+        to_date_time: Latest provider update timestamp to include.
+        conference: Whether to restrict committee reports to conference reports.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``Congress.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = Congress( )
-    return _instance.fetch( mode=mode, congress=congress, bill_type=bill_type, bill_number=bill_number, law_type=law_type, law_number=law_number, report_type=report_type, report_number=report_number, offset=offset, limit=limit, sort=sort, from_date_time=from_date_time, to_date_time=to_date_time, conference=conference, time=time )
+    return _instance.fetch( mode=mode, congress=congress, bill_type=bill_type,
+	    bill_number=bill_number, law_type=law_type, law_number=law_number, report_type=report_type,
+	    report_number=report_number, offset=offset, limit=limit, sort=sort,
+	    from_date_time=from_date_time, to_date_time=to_date_time, conference=conference, time=time )
 
 def fetch_internet_archive( keywords: str, fields: List[str] | None=None, rows: int=10, page: int=1,
 		sort: str='downloads desc', media_type: str='', collection: str='', time: int=20 ) -> Any:
-    """Fetch Internet Archive search and metadata retrieval.
+    """Retrieve Internet Archive search and metadata.
 
     Purpose:
-        Provides direct module-level access to ``InternetArchive.fetch`` using a fresh ``InternetArchive`` instance.
+        Retrieve Internet Archive search and metadata through Internet Archive. The query text
+        determines the records or documents matched by the provider. Result-count arguments bound
+        the amount of data requested.
 
     Args:
-        keywords (str): Value passed to ``InternetArchive.fetch``.
-        fields (List[str] | None): Value passed to ``InternetArchive.fetch``.
-        rows (int): Value passed to ``InternetArchive.fetch``.
-        page (int): Value passed to ``InternetArchive.fetch``.
-        sort (str): Value passed to ``InternetArchive.fetch``.
-        media_type (str): Value passed to ``InternetArchive.fetch``.
-        collection (str): Value passed to ``InternetArchive.fetch``.
-        time (int): Value passed to ``InternetArchive.fetch``.
+        keywords: Search text, lookup value, or provider query submitted by the caller.
+        fields: Comma-separated or provider-specific field selection.
+        rows: Maximum number of rows to request.
+        page: One-based result page to request.
+        sort: Provider-supported result ordering expression.
+        media_type: Provider type selector for media.
+        collection: Provider collection identifier used to restrict results.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``InternetArchive.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = InternetArchive( )
-    return _instance.fetch( keywords=keywords, fields=fields, rows=rows, page=page, sort=sort, media_type=media_type, collection=collection, time=time )
+    return _instance.fetch( keywords=keywords, fields=fields, rows=rows, page=page, sort=sort,
+	    media_type=media_type, collection=collection, time=time )
 
 def fetch_grokipedia( mode: str='search', query: str='', page: str='', limit: int=12,
 		offset: int=0, include_content: bool=True ) -> Any:
-    """Fetch Grokipedia search and page retrieval.
+    """Retrieve Grokipedia search and page.
 
     Purpose:
-        Provides direct module-level access to ``Grokipedia.fetch`` using a fresh ``Grokipedia`` instance.
+        Retrieve Grokipedia search and page through Grokipedia. The query text determines the
+        records or documents matched by the provider. Result-count arguments bound the amount of
+        data requested.
 
     Args:
-        mode (str): Value passed to ``Grokipedia.fetch``.
-        query (str): Value passed to ``Grokipedia.fetch``.
-        page (str): Value passed to ``Grokipedia.fetch``.
-        limit (int): Value passed to ``Grokipedia.fetch``.
-        offset (int): Value passed to ``Grokipedia.fetch``.
-        include_content (bool): Value passed to ``Grokipedia.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        page: One-based result page to request.
+        limit: Maximum number of records or items to return.
+        offset: Zero-based result offset used for pagination.
+        include_content: Whether to include content in the result.
 
     Returns:
-        Any: Value returned by ``Grokipedia.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = Grokipedia( )
-    return _instance.fetch( mode=mode, query=query, page=page, limit=limit, offset=offset, include_content=include_content )
+    return _instance.fetch( mode=mode, query=query, page=page, limit=limit, offset=offset,
+	    include_content=include_content )
 
 def load_arxiv( question: str ) -> Any:
-    """Load source content.
+    """Load ArXiv research documents.
 
     Purpose:
-        Provides direct module-level access to ``ArXivLoader.load`` using a fresh ``ArXivLoader`` instance.
+        Load ArXiv research documents using the ArXiv loader. The query text determines the records
+        or documents matched by the provider.
 
     Args:
-        question (str): Value passed to ``ArXivLoader.load``.
+        question: Search query or prompt submitted to the backing loader.
 
     Returns:
-        Any: Value returned by ``ArXivLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = ArXivLoader( )
     return _instance.load( question=question )
 
 def load_wikipedia( question: str ) -> Any:
-    """Load source content.
+    """Load Wikipedia articles.
 
     Purpose:
-        Provides direct module-level access to ``WikiLoader.load`` using a fresh ``WikiLoader`` instance.
+        Load Wikipedia articles using the Wikipedia loader. The query text determines the records or
+        documents matched by the provider.
 
     Args:
-        question (str): Value passed to ``WikiLoader.load``.
+        question: Search query or prompt submitted to the backing loader.
 
     Returns:
-        Any: Value returned by ``WikiLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WikiLoader( )
     return _instance.load( question=question )
@@ -387,47 +487,63 @@ def load_wikipedia( question: str ) -> Any:
 
 def fetch_naval_observatory( mode: str='celnav', date_value: str='', time_value: str='',
 		latitude: float=0.0, longitude: float=0.0, location_label: str='', time: int=20 ) -> Any:
-    """Fetch U.S. Naval Observatory celestial-navigation data.
+    """Retrieve U.S. Naval Observatory celestial-navigation data.
 
     Purpose:
-        Provides direct module-level access to ``NavalObservatory.fetch`` using a fresh ``NavalObservatory`` instance.
+        Retrieve U.S. Naval Observatory celestial-navigation data through U.S. Naval Observatory.
+        Coordinate and bounding arguments constrain geographic scope when supported.
 
     Args:
-        mode (str): Value passed to ``NavalObservatory.fetch``.
-        date_value (str): Value passed to ``NavalObservatory.fetch``.
-        time_value (str): Value passed to ``NavalObservatory.fetch``.
-        latitude (float): Value passed to ``NavalObservatory.fetch``.
-        longitude (float): Value passed to ``NavalObservatory.fetch``.
-        location_label (str): Value passed to ``NavalObservatory.fetch``.
-        time (int): Value passed to ``NavalObservatory.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        date_value: Calendar date used by the selected provider operation.
+        time_value: Clock time or timestamp used by the selected provider operation.
+        latitude: Latitude in decimal degrees.
+        longitude: Longitude in decimal degrees.
+        location_label: Human-readable label associated with the supplied coordinates.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``NavalObservatory.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = NavalObservatory( )
-    return _instance.fetch( mode=mode, date_value=date_value, time_value=time_value, latitude=latitude, longitude=longitude, location_label=location_label, time=time )
+    return _instance.fetch( mode=mode, date_value=date_value, time_value=time_value,
+	    latitude=latitude, longitude=longitude, location_label=location_label, time=time )
 
 def fetch_satellite_center( mode: str='observatories', query: str='', start_time: str='',
 		end_time: str='', coordinate_systems: str='gse', resolution_factor: int=1, time: int=20 ) -> Any:
-    """Fetch SSC satellite observatory, ground-station, and location data.
+    """Retrieve SSC satellite observatory, ground-station, and location data.
 
     Purpose:
-        Provides direct module-level access to ``SatelliteCenter.fetch`` using a fresh ``SatelliteCenter`` instance.
+        Retrieve SSC satellite observatory, ground-station, and location data through NASA Satellite
+        Situation Center. The query text determines the records or documents matched by the
+        provider.
 
     Args:
-        mode (str): Value passed to ``SatelliteCenter.fetch``.
-        query (str): Value passed to ``SatelliteCenter.fetch``.
-        start_time (str): Value passed to ``SatelliteCenter.fetch``.
-        end_time (str): Value passed to ``SatelliteCenter.fetch``.
-        coordinate_systems (str): Value passed to ``SatelliteCenter.fetch``.
-        resolution_factor (int): Value passed to ``SatelliteCenter.fetch``.
-        time (int): Value passed to ``SatelliteCenter.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        start_time: Beginning timestamp for the requested provider interval.
+        end_time: Ending timestamp for the requested provider interval.
+        coordinate_systems: Coordinate system or comma-separated coordinate systems requested from the satellite
+            service.
+        resolution_factor: Sampling resolution factor applied to returned satellite location data.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``SatelliteCenter.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = SatelliteCenter( )
-    return _instance.fetch( mode=mode, query=query, start_time=start_time, end_time=end_time, coordinate_systems=coordinate_systems, resolution_factor=resolution_factor, time=time )
+    return _instance.fetch( mode=mode, query=query, start_time=start_time, end_time=end_time,
+	    coordinate_systems=coordinate_systems, resolution_factor=resolution_factor, time=time )
 
 def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_date: str='',
 		query: str='', query_type: str='sstr', dist_max: str='10LD', body: str='Earth',
@@ -435,298 +551,390 @@ def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_
 		launch: str='2020-2045', h: float=26.0, occ: int=7, include_physical: bool=True,
 		include_close_approaches: bool=True, ca_body: str='Earth',
 		include_discovery: bool=True, time: int=20 ) -> Any:
-    """Fetch JPL SSD and CNEOS near-Earth object data.
+    """Retrieve JPL SSD and CNEOS near-Earth object data.
 
     Purpose:
-        Provides direct module-level access to ``NearbyObjects.fetch`` using a fresh ``NearbyObjects`` instance.
+        Retrieve JPL SSD and CNEOS near-Earth object data through NASA/JPL near-Earth object
+        services. The query text determines the records or documents matched by the provider. Date
+        and time arguments constrain the requested interval when supplied. Result-count arguments
+        bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``NearbyObjects.fetch``.
-        start_date (str): Value passed to ``NearbyObjects.fetch``.
-        end_date (str): Value passed to ``NearbyObjects.fetch``.
-        query (str): Value passed to ``NearbyObjects.fetch``.
-        query_type (str): Value passed to ``NearbyObjects.fetch``.
-        dist_max (str): Value passed to ``NearbyObjects.fetch``.
-        body (str): Value passed to ``NearbyObjects.fetch``.
-        sort (str): Value passed to ``NearbyObjects.fetch``.
-        limit (int): Value passed to ``NearbyObjects.fetch``.
-        dv (float): Value passed to ``NearbyObjects.fetch``.
-        dur (int): Value passed to ``NearbyObjects.fetch``.
-        stay (int): Value passed to ``NearbyObjects.fetch``.
-        launch (str): Value passed to ``NearbyObjects.fetch``.
-        h (float): Value passed to ``NearbyObjects.fetch``.
-        occ (int): Value passed to ``NearbyObjects.fetch``.
-        include_physical (bool): Value passed to ``NearbyObjects.fetch``.
-        include_close_approaches (bool): Value passed to ``NearbyObjects.fetch``.
-        ca_body (str): Value passed to ``NearbyObjects.fetch``.
-        include_discovery (bool): Value passed to ``NearbyObjects.fetch``.
-        time (int): Value passed to ``NearbyObjects.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        start_date: Inclusive start date for the requested time range, in the provider-supported format.
+        end_date: Inclusive end date for the requested time range, in the provider-supported format.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        query_type: Provider type selector for query.
+        dist_max: Maximum close-approach distance expression accepted by the JPL service.
+        body: Solar-system body used as the reference object.
+        sort: Provider-supported result ordering expression.
+        limit: Maximum number of records or items to return.
+        dv: Delta-v threshold or mission constraint used by the near-Earth object query.
+        dur: Mission duration constraint, in days, used by the near-Earth object query.
+        stay: Target stay-duration constraint, in days, used by the near-Earth object query.
+        launch: Launch-year or launch-window expression used by the near-Earth object query.
+        h: Absolute-magnitude threshold used by the near-Earth object query.
+        occ: Opportunity-count or occurrence constraint used by the mission query.
+        include_physical: Whether to include physical in the result.
+        include_close_approaches: Whether to include close approaches in the result.
+        ca_body: Reference body used for close-approach data.
+        include_discovery: Whether to include discovery in the result.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``NearbyObjects.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = NearbyObjects( )
-    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, query=query, query_type=query_type, dist_max=dist_max, body=body, sort=sort, limit=limit, dv=dv, dur=dur, stay=stay, launch=launch, h=h, occ=occ, include_physical=include_physical, include_close_approaches=include_close_approaches, ca_body=ca_body, include_discovery=include_discovery, time=time )
+    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date,
+	    query=query, query_type=query_type, dist_max=dist_max, body=body, sort=sort,
+	    limit=limit, dv=dv, dur=dur, stay=stay, launch=launch, h=h, occ=occ,
+	    include_physical=include_physical, include_close_approaches=include_close_approaches,
+	    ca_body=ca_body, include_discovery=include_discovery, time=time )
 
 def fetch_open_science( mode: str='dataset', query: str='', accession: str='',
 		format_value: str='json', time: int=20 ) -> Any:
-    """Fetch NASA Open Science Data Repository resources.
+    """Retrieve NASA Open Science Data Repository resources.
 
     Purpose:
-        Provides direct module-level access to ``OpenScience.fetch`` using a fresh ``OpenScience`` instance.
+        Retrieve NASA Open Science Data Repository resources through NASA Open Science Data
+        Repository. The query text determines the records or documents matched by the provider.
 
     Args:
-        mode (str): Value passed to ``OpenScience.fetch``.
-        query (str): Value passed to ``OpenScience.fetch``.
-        accession (str): Value passed to ``OpenScience.fetch``.
-        format_value (str): Value passed to ``OpenScience.fetch``.
-        time (int): Value passed to ``OpenScience.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        accession: Dataset accession identifier used to retrieve a specific Open Science resource.
+        format_value: Provider output format.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``OpenScience.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = OpenScience( )
-    return _instance.fetch( mode=mode, query=query, accession=accession, format_value=format_value, time=time )
+    return _instance.fetch( mode=mode, query=query, accession=accession,
+	    format_value=format_value, time=time )
 
 def fetch_space_weather( mode: str='cme', start_date: str='', end_date: str='', time: int=20,
 		location: str='ALL', catalog: str='ALL', notification_type: str='all',
 		most_accurate_only: bool=True, complete_entry_only: bool=True, speed: int=0,
 		half_angle: int=0, keyword: str='', api_key: str=None ) -> Any:
-    """Fetch NASA DONKI space weather endpoints.
+    """Retrieve NASA DONKI space weather endpoints.
 
     Purpose:
-        Provides direct module-level access to ``SpaceWeather.fetch`` using a fresh ``SpaceWeather`` instance.
+        Retrieve NASA DONKI space weather endpoints through NASA DONKI. Date and time arguments
+        constrain the requested interval when supplied. When supplied, ``api_key`` overrides the
+        configured provider credential for this request.
 
     Args:
-        mode (str): Value passed to ``SpaceWeather.fetch``.
-        start_date (str): Value passed to ``SpaceWeather.fetch``.
-        end_date (str): Value passed to ``SpaceWeather.fetch``.
-        time (int): Value passed to ``SpaceWeather.fetch``.
-        location (str): Value passed to ``SpaceWeather.fetch``.
-        catalog (str): Value passed to ``SpaceWeather.fetch``.
-        notification_type (str): Value passed to ``SpaceWeather.fetch``.
-        most_accurate_only (bool): Value passed to ``SpaceWeather.fetch``.
-        complete_entry_only (bool): Value passed to ``SpaceWeather.fetch``.
-        speed (int): Value passed to ``SpaceWeather.fetch``.
-        half_angle (int): Value passed to ``SpaceWeather.fetch``.
-        keyword (str): Value passed to ``SpaceWeather.fetch``.
-        api_key (str): Value passed to ``SpaceWeather.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        start_date: Inclusive start date for the requested time range, in the provider-supported format.
+        end_date: Inclusive end date for the requested time range, in the provider-supported format.
+        time: Request timeout in seconds.
+        location: Place name, address, or location description resolved by the provider.
+        catalog: Provider catalog filter.
+        notification_type: Provider type selector for notification.
+        most_accurate_only: Whether to restrict results to the provider-designated most accurate analyses.
+        complete_entry_only: Whether to restrict results to complete provider entries.
+        speed: Minimum or target speed constraint used by the space-weather query.
+        half_angle: Half-angle constraint used by the space-weather query.
+        keyword: Keyword used to filter provider records.
+        api_key: Optional credential override used for the active request.
 
     Returns:
-        Any: Value returned by ``SpaceWeather.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = SpaceWeather( )
-    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, time=time, location=location, catalog=catalog, notification_type=notification_type, most_accurate_only=most_accurate_only, complete_entry_only=complete_entry_only, speed=speed, half_angle=half_angle, keyword=keyword, api_key=api_key )
+    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, time=time,
+	    location=location, catalog=catalog, notification_type=notification_type,
+	    most_accurate_only=most_accurate_only, complete_entry_only=complete_entry_only,
+	    speed=speed, half_angle=half_angle, keyword=keyword, api_key=api_key )
 
 def fetch_astro_catalog( mode: str='object_query', query: str='', quantity: str='',
 		attributes: str='', arguments: str='', ra: str='', dec: str='', radius: int=2,
 		data_format: str='json', time: int=20 ) -> Any:
-    """Fetch Open Astronomy Catalog queries.
+    """Retrieve Open Astronomy Catalog queries.
 
     Purpose:
-        Provides direct module-level access to ``AstroCatalog.fetch`` using a fresh ``AstroCatalog`` instance.
+        Retrieve Open Astronomy Catalog queries through Open Astronomy Catalog. The query text
+        determines the records or documents matched by the provider.
 
     Args:
-        mode (str): Value passed to ``AstroCatalog.fetch``.
-        query (str): Value passed to ``AstroCatalog.fetch``.
-        quantity (str): Value passed to ``AstroCatalog.fetch``.
-        attributes (str): Value passed to ``AstroCatalog.fetch``.
-        arguments (str): Value passed to ``AstroCatalog.fetch``.
-        ra (str): Value passed to ``AstroCatalog.fetch``.
-        dec (str): Value passed to ``AstroCatalog.fetch``.
-        radius (int): Value passed to ``AstroCatalog.fetch``.
-        data_format (str): Value passed to ``AstroCatalog.fetch``.
-        time (int): Value passed to ``AstroCatalog.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        quantity: Provider quantity or field requested from the catalog.
+        attributes: Provider attributes requested for matching catalog records.
+        arguments: Keyword arguments passed to the bound callable.
+        ra: Right ascension value.
+        dec: Declination value.
+        radius: Search radius in the units specified by the operation.
+        data_format: Provider output data format.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``AstroCatalog.fetch``.
+        Any: Provider-specific structured data produced by the retrieval operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = AstroCatalog( )
-    return _instance.fetch( mode=mode, query=query, quantity=quantity, attributes=attributes, arguments=arguments, ra=ra, dec=dec, radius=radius, data_format=data_format, time=time )
+    return _instance.fetch( mode=mode, query=query, quantity=quantity, attributes=attributes,
+	    arguments=arguments, ra=ra, dec=dec, radius=radius, data_format=data_format, time=time )
 
 def fetch_astro_query( mode: str='object_search', query: str='', ra: str='', dec: str='',
 		radius: float=0.5, radius_unit: str='deg', row_limit: int=100 ) -> Any:
-    """Fetch Simbad and astronomy object search operations.
+    """Retrieve Simbad and astronomy object search operations.
 
     Purpose:
-        Provides direct module-level access to ``AstroQuery.fetch`` using a fresh ``AstroQuery`` instance.
+        Retrieve Simbad and astronomy object search operations through Astroquery/SIMBAD. The query
+        text determines the records or documents matched by the provider. Result-count arguments
+        bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``AstroQuery.fetch``.
-        query (str): Value passed to ``AstroQuery.fetch``.
-        ra (str): Value passed to ``AstroQuery.fetch``.
-        dec (str): Value passed to ``AstroQuery.fetch``.
-        radius (float): Value passed to ``AstroQuery.fetch``.
-        radius_unit (str): Value passed to ``AstroQuery.fetch``.
-        row_limit (int): Value passed to ``AstroQuery.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        ra: Right ascension value.
+        dec: Declination value.
+        radius: Search radius in the units specified by the operation.
+        radius_unit: Unit applied to the search radius.
+        row_limit: Maximum number of rows returned by the astronomy query.
 
     Returns:
-        Any: Value returned by ``AstroQuery.fetch``.
+        Dict[str, Any]: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = AstroQuery( )
-    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, radius=radius, radius_unit=radius_unit, row_limit=row_limit )
+    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, radius=radius,
+	    radius_unit=radius_unit, row_limit=row_limit )
 
 def fetch_star_map( mode: str='object_link', query: str='', ra: float=0.0, dec: float=0.0,
 		zoom: int=5, image_source: str='DSS2', box_color: str='yellow', show_box: bool=True,
 		show_grid: bool=True, show_lines: bool=True, show_boundaries: bool=True,
 		show_const_names: bool=False, time: int=20 ) -> Any:
-    """Fetch astronomical object map links and imagery.
+    """Retrieve astronomical object map links and imagery.
 
     Purpose:
-        Provides direct module-level access to ``StarMap.fetch`` using a fresh ``StarMap`` instance.
+        Retrieve astronomical object map links and imagery through astronomical map service. The
+        query text determines the records or documents matched by the provider.
 
     Args:
-        mode (str): Value passed to ``StarMap.fetch``.
-        query (str): Value passed to ``StarMap.fetch``.
-        ra (float): Value passed to ``StarMap.fetch``.
-        dec (float): Value passed to ``StarMap.fetch``.
-        zoom (int): Value passed to ``StarMap.fetch``.
-        image_source (str): Value passed to ``StarMap.fetch``.
-        box_color (str): Value passed to ``StarMap.fetch``.
-        show_box (bool): Value passed to ``StarMap.fetch``.
-        show_grid (bool): Value passed to ``StarMap.fetch``.
-        show_lines (bool): Value passed to ``StarMap.fetch``.
-        show_boundaries (bool): Value passed to ``StarMap.fetch``.
-        show_const_names (bool): Value passed to ``StarMap.fetch``.
-        time (int): Value passed to ``StarMap.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        ra: Right ascension value.
+        dec: Declination value.
+        zoom: Map or chart zoom level.
+        image_source: Imagery or survey source used to render the map or chart.
+        box_color: Color used to draw the target box on generated map or chart output.
+        show_box: Whether to display box in generated output.
+        show_grid: Whether to display grid in generated output.
+        show_lines: Whether to display lines in generated output.
+        show_boundaries: Whether to display boundaries in generated output.
+        show_const_names: Whether to display const names in generated output.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``StarMap.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = StarMap( )
-    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom, image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid, show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names, time=time )
+    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom,
+	    image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid,
+	    show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names,
+	    time=time )
 
 def fetch_star_chart( mode: str='object_chart', query: str='', ra: float=0.0,
 		dec: float=0.0, zoom: int=5, image_source: str='DSS2', box_color: str='yellow',
 		show_box: bool=True, show_grid: bool=True, show_lines: bool=True, show_boundaries: bool=True,
 		show_const_names: bool=False, width: int=900, height: int=450,
 		magnitude: float=7.5, time: int=20 ) -> Any:
-    """Fetch static star chart and coordinate chart generation.
+    """Retrieve static star chart and coordinate chart generation.
 
     Purpose:
-        Provides direct module-level access to ``StarChart.fetch`` using a fresh ``StarChart`` instance.
+        Retrieve static star chart and coordinate chart generation through astronomical chart
+        service. The query text determines the records or documents matched by the provider.
 
     Args:
-        mode (str): Value passed to ``StarChart.fetch``.
-        query (str): Value passed to ``StarChart.fetch``.
-        ra (float): Value passed to ``StarChart.fetch``.
-        dec (float): Value passed to ``StarChart.fetch``.
-        zoom (int): Value passed to ``StarChart.fetch``.
-        image_source (str): Value passed to ``StarChart.fetch``.
-        box_color (str): Value passed to ``StarChart.fetch``.
-        show_box (bool): Value passed to ``StarChart.fetch``.
-        show_grid (bool): Value passed to ``StarChart.fetch``.
-        show_lines (bool): Value passed to ``StarChart.fetch``.
-        show_boundaries (bool): Value passed to ``StarChart.fetch``.
-        show_const_names (bool): Value passed to ``StarChart.fetch``.
-        width (int): Value passed to ``StarChart.fetch``.
-        height (int): Value passed to ``StarChart.fetch``.
-        magnitude (float): Value passed to ``StarChart.fetch``.
-        time (int): Value passed to ``StarChart.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        ra: Right ascension value.
+        dec: Declination value.
+        zoom: Map or chart zoom level.
+        image_source: Imagery or survey source used to render the map or chart.
+        box_color: Color used to draw the target box on generated map or chart output.
+        show_box: Whether to display box in generated output.
+        show_grid: Whether to display grid in generated output.
+        show_lines: Whether to display lines in generated output.
+        show_boundaries: Whether to display boundaries in generated output.
+        show_const_names: Whether to display const names in generated output.
+        width: Output image or chart width in pixels.
+        height: Output image or chart height in pixels.
+        magnitude: Limiting stellar magnitude used when rendering a chart.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``StarChart.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = StarChart( )
-    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom, image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid, show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names, width=width, height=height, magnitude=magnitude, time=time )
+    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom,
+	    image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid,
+	    show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names,
+	    width=width, height=height, magnitude=magnitude, time=time )
 
 def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', begin: int=None,
 		end: int=None, time_value: int=None, lamin: float | None=None,
 		lomin: float | None=None, lamax: float | None=None, lomax: float | None=None,
 		extended: bool=False, client_id: str=None, client_secret: str=None, time: int=20 ) -> Any:
-    """Fetch OpenSky Network aircraft, airport, and state-vector data.
+    """Retrieve OpenSky Network aircraft, airport, and state-vector data.
 
     Purpose:
-        Provides direct module-level access to ``OpenSky.fetch`` using a fresh ``OpenSky`` instance.
+        Retrieve OpenSky Network aircraft, airport, and state-vector data through OpenSky Network.
+        Use ``mode`` to select among ``arrivals_airport``, ``departures_airport``,
+        ``flights_aircraft``, ``states_bbox``, ``track_aircraft``.
 
     Args:
-        mode (str): Value passed to ``OpenSky.fetch``.
-        icao24 (str): Value passed to ``OpenSky.fetch``.
-        airport (str): Value passed to ``OpenSky.fetch``.
-        begin (int): Value passed to ``OpenSky.fetch``.
-        end (int): Value passed to ``OpenSky.fetch``.
-        time_value (int): Value passed to ``OpenSky.fetch``.
-        lamin (float | None): Value passed to ``OpenSky.fetch``.
-        lomin (float | None): Value passed to ``OpenSky.fetch``.
-        lamax (float | None): Value passed to ``OpenSky.fetch``.
-        lomax (float | None): Value passed to ``OpenSky.fetch``.
-        extended (bool): Value passed to ``OpenSky.fetch``.
-        client_id (str): Value passed to ``OpenSky.fetch``.
-        client_secret (str): Value passed to ``OpenSky.fetch``.
-        time (int): Value passed to ``OpenSky.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``arrivals_airport``, ``departures_airport``, ``flights_aircraft``, ``states_bbox``,
+            ``track_aircraft``.
+        icao24: 24-bit ICAO aircraft transponder address.
+        airport: ICAO airport identifier used to query arrivals or departures.
+        begin: Beginning Unix timestamp for the requested aviation interval.
+        end: Ending Unix timestamp for the requested aviation interval.
+        time_value: Clock time or timestamp used by the selected provider operation.
+        lamin: Bounding-box minimum latitude in decimal degrees.
+        lomin: Bounding-box minimum longitude in decimal degrees.
+        lamax: Bounding-box maximum latitude in decimal degrees.
+        lomax: Bounding-box maximum longitude in decimal degrees.
+        extended: Whether extended OpenSky state-vector fields should be requested.
+        client_id: Optional credential override used for the active request.
+        client_secret: Optional credential override used for the active request.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``OpenSky.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = OpenSky( )
-    return _instance.fetch( mode=mode, icao24=icao24, airport=airport, begin=begin, end=end, time_value=time_value, lamin=lamin, lomin=lomin, lamax=lamax, lomax=lomax, extended=extended, client_id=client_id, client_secret=client_secret, time=time )
+    return _instance.fetch( mode=mode, icao24=icao24, airport=airport, begin=begin, end=end,
+	    time_value=time_value, lamin=lamin, lomin=lomin, lamax=lamax, lomax=lomax,
+	    extended=extended, client_id=client_id, client_secret=client_secret, time=time )
 
 # --------- CLOUD ---------
 
 def load_google_drive_file( file_id: str, recursive: bool=False ) -> Any:
-    """Load a provider file.
+    """Load a Google Drive file.
 
     Purpose:
-        Provides direct module-level access to ``GoogleDriveLoader.load_file`` using a fresh ``GoogleDriveLoader`` instance.
+        Load a Google Drive file using the Google Drive loader. Boolean options control retrieval
+        depth or supplemental content.
 
     Args:
-        file_id (str): Value passed to ``GoogleDriveLoader.load_file``.
-        recursive (bool): Value passed to ``GoogleDriveLoader.load_file``.
+        file_id: Provider file identifier used to load a single file.
+        recursive: Whether the loader should traverse nested provider or URL resources.
 
     Returns:
-        Any: Value returned by ``GoogleDriveLoader.load_file``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleDriveLoader( )
     return _instance.load_file( file_id=file_id, recursive=recursive )
 
 def load_google_drive_folder( folder_id: str, recursive: bool=False ) -> Any:
-    """Load provider folder content.
+    """Load documents from a Google Drive folder.
 
     Purpose:
-        Provides direct module-level access to ``GoogleDriveLoader.load_folder`` using a fresh ``GoogleDriveLoader`` instance.
+        Load documents from a Google Drive folder using the Google Drive loader. Boolean options
+        control retrieval depth or supplemental content.
 
     Args:
-        folder_id (str): Value passed to ``GoogleDriveLoader.load_folder``.
-        recursive (bool): Value passed to ``GoogleDriveLoader.load_folder``.
+        folder_id: Provider folder identifier used to load folder contents.
+        recursive: Whether the loader should traverse nested provider or URL resources.
 
     Returns:
-        Any: Value returned by ``GoogleDriveLoader.load_folder``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleDriveLoader( )
     return _instance.load_folder( folder_id=folder_id, recursive=recursive )
 
 def load_onedrive( drive_id: str, folder_path: Optional[str]=None,
 		object_ids: Optional[List[str]]=None, auth_with_token: bool=True ) -> Any:
-    """Load source content.
+    """Load documents from OneDrive.
 
     Purpose:
-        Provides direct module-level access to ``OneDriveDocLoader.load`` using a fresh ``OneDriveDocLoader`` instance.
+        Load documents from OneDrive using the OneDrive loader.
 
     Args:
-        drive_id (str): Value passed to ``OneDriveDocLoader.load``.
-        folder_path (Optional[str]): Value passed to ``OneDriveDocLoader.load``.
-        object_ids (Optional[List[str]]): Value passed to ``OneDriveDocLoader.load``.
-        auth_with_token (bool): Value passed to ``OneDriveDocLoader.load``.
+        drive_id: OneDrive drive identifier.
+        folder_path: Optional folder path within the selected drive.
+        object_ids: Optional provider object identifiers to load.
+        auth_with_token: Whether token-based authentication should be used.
 
     Returns:
-        Any: Value returned by ``OneDriveDocLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = OneDriveDocLoader( )
-    return _instance.load( drive_id=drive_id, folder_path=folder_path, object_ids=object_ids, auth_with_token=auth_with_token )
+    return _instance.load( drive_id=drive_id, folder_path=folder_path, object_ids=object_ids,
+	    auth_with_token=auth_with_token )
 
 def load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any:
-    """Load source content.
+    """Load a Google Cloud Storage object.
 
     Purpose:
-        Provides direct module-level access to ``GoogleCloudFileLoader.load`` using a fresh ``GoogleCloudFileLoader`` instance.
+        Load a Google Cloud Storage object using the Google Cloud Storage loader.
 
     Args:
-        project_name (str): Value passed to ``GoogleCloudFileLoader.load``.
-        bucket (str): Value passed to ``GoogleCloudFileLoader.load``.
-        blob (str): Value passed to ``GoogleCloudFileLoader.load``.
+        project_name: Google Cloud project name used by the storage loader.
+        bucket: Storage bucket name.
+        blob: Cloud storage object name.
 
     Returns:
-        Any: Value returned by ``GoogleCloudFileLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleCloudFileLoader( )
     return _instance.load( project_name=project_name, bucket=bucket, blob=blob )
@@ -734,188 +942,249 @@ def load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any:
 def load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str]=None,
 		aws_secret_access_key: Optional[str]=None, aws_session_token: Optional[str]=None,
 		region_name: Optional[str]=None ) -> Any:
-    """Load source content.
+    """Load an Amazon S3 object.
 
     Purpose:
-        Provides direct module-level access to ``AwsFileLoader.load`` using a fresh ``AwsFileLoader`` instance.
+        Load an Amazon S3 object using the Amazon S3 file loader.
 
     Args:
-        bucket (str): Value passed to ``AwsFileLoader.load``.
-        key (str): Value passed to ``AwsFileLoader.load``.
-        aws_access_key_id (Optional[str]): Value passed to ``AwsFileLoader.load``.
-        aws_secret_access_key (Optional[str]): Value passed to ``AwsFileLoader.load``.
-        aws_session_token (Optional[str]): Value passed to ``AwsFileLoader.load``.
-        region_name (Optional[str]): Value passed to ``AwsFileLoader.load``.
+        bucket: Storage bucket name.
+        key: Amazon S3 object key.
+        aws_access_key_id: Provider identifier for the selected aws access key.
+        aws_secret_access_key: AWS credential or configuration value for secret access key.
+        aws_session_token: AWS credential or configuration value for session token.
+        region_name: Cloud region name used to configure the storage client.
 
     Returns:
-        Any: Value returned by ``AwsFileLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = AwsFileLoader( )
-    return _instance.load( bucket=bucket, key=key, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token, region_name=region_name )
+    return _instance.load( bucket=bucket, key=key, aws_access_key_id=aws_access_key_id,
+	    aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token,
+	    region_name=region_name )
 
 def load_google_speech_to_text( project_id: str, file_path: str,
 		config: Optional[Dict[str, Any]]=None ) -> Any:
-    """Load source content.
+    """Transcribe audio with Google Speech-to-Text.
 
     Purpose:
-        Provides direct module-level access to ``GoogleSpeechToTextLoader.load`` using a fresh ``GoogleSpeechToTextLoader`` instance.
+        Transcribe audio with Google Speech-to-Text using the Google Speech-to-Text loader.
 
     Args:
-        project_id (str): Value passed to ``GoogleSpeechToTextLoader.load``.
-        file_path (str): Value passed to ``GoogleSpeechToTextLoader.load``.
-        config (Optional[Dict[str, Any]]): Value passed to ``GoogleSpeechToTextLoader.load``.
+        project_id: Google Cloud project identifier used by the speech loader.
+        file_path: Local filesystem path to the source file.
+        config: Optional provider configuration mapping.
 
     Returns:
-        Any: Value returned by ``GoogleSpeechToTextLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleSpeechToTextLoader( )
     return _instance.load( project_id=project_id, file_path=file_path, config=config )
 
 def load_google_bucket( project_name: str, bucket: str, prefix: Optional[str]=None,
 		continue_on_failure: bool=False ) -> Any:
-    """Load source content.
+    """Load documents from a Google Cloud Storage bucket.
 
     Purpose:
-        Provides direct module-level access to ``GoogleBucketLoader.load`` using a fresh ``GoogleBucketLoader`` instance.
+        Load documents from a Google Cloud Storage bucket using the Google Cloud Storage bucket
+        loader.
 
     Args:
-        project_name (str): Value passed to ``GoogleBucketLoader.load``.
-        bucket (str): Value passed to ``GoogleBucketLoader.load``.
-        prefix (Optional[str]): Value passed to ``GoogleBucketLoader.load``.
-        continue_on_failure (bool): Value passed to ``GoogleBucketLoader.load``.
+        project_name: Google Cloud project name used by the storage loader.
+        bucket: Storage bucket name.
+        prefix: Optional object-name prefix used to restrict cloud storage results.
+        continue_on_failure: Whether loading should continue when an individual object fails.
 
     Returns:
-        Any: Value returned by ``GoogleBucketLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleBucketLoader( )
-    return _instance.load( project_name=project_name, bucket=bucket, prefix=prefix, continue_on_failure=continue_on_failure )
+    return _instance.load( project_name=project_name, bucket=bucket, prefix=prefix,
+	    continue_on_failure=continue_on_failure )
 
 def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id: Optional[str]=None,
 		aws_secret_access_key: Optional[str]=None, aws_session_token: Optional[str]=None,
 		region_name: Optional[str]=None, endpoint_url: Optional[str]=None ) -> Any:
-    """Load source content.
+    """Load documents from an Amazon S3 bucket.
 
     Purpose:
-        Provides direct module-level access to ``AwsBucketLoader.load`` using a fresh ``AwsBucketLoader`` instance.
+        Load documents from an Amazon S3 bucket using the Amazon S3 bucket loader.
 
     Args:
-        bucket (str): Value passed to ``AwsBucketLoader.load``.
-        prefix (Optional[str]): Value passed to ``AwsBucketLoader.load``.
-        aws_access_key_id (Optional[str]): Value passed to ``AwsBucketLoader.load``.
-        aws_secret_access_key (Optional[str]): Value passed to ``AwsBucketLoader.load``.
-        aws_session_token (Optional[str]): Value passed to ``AwsBucketLoader.load``.
-        region_name (Optional[str]): Value passed to ``AwsBucketLoader.load``.
-        endpoint_url (Optional[str]): Value passed to ``AwsBucketLoader.load``.
+        bucket: Storage bucket name.
+        prefix: Optional object-name prefix used to restrict cloud storage results.
+        aws_access_key_id: Provider identifier for the selected aws access key.
+        aws_secret_access_key: AWS credential or configuration value for secret access key.
+        aws_session_token: AWS credential or configuration value for session token.
+        region_name: Cloud region name used to configure the storage client.
+        endpoint_url: Optional alternate service endpoint URL.
 
     Returns:
-        Any: Value returned by ``AwsBucketLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = AwsBucketLoader( )
-    return _instance.load( bucket=bucket, prefix=prefix, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token, region_name=region_name, endpoint_url=endpoint_url )
+    return _instance.load( bucket=bucket, prefix=prefix, aws_access_key_id=aws_access_key_id,
+	    aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token,
+	    region_name=region_name, endpoint_url=endpoint_url )
 
 # --------- DEMOGRAPHIC ---------
 
 def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='acs/acs5',
 		fields: str='NAME,B01001_001E', geography_for: str='state:*', geography_in: str='',
 		predicates: str='', time: int=20 ) -> Any:
-    """Fetch U.S. Census dataset and variable retrieval.
+    """Retrieve U.S. Census dataset and variable.
 
     Purpose:
-        Provides direct module-level access to ``CensusData.fetch`` using a fresh ``CensusData`` instance.
+        Retrieve U.S. Census dataset and variable through U.S. Census API. Use ``mode`` to select
+        among ``data``, ``variables``.
 
     Args:
-        mode (str): Value passed to ``CensusData.fetch``.
-        year (str): Value passed to ``CensusData.fetch``.
-        dataset (str): Value passed to ``CensusData.fetch``.
-        fields (str): Value passed to ``CensusData.fetch``.
-        geography_for (str): Value passed to ``CensusData.fetch``.
-        geography_in (str): Value passed to ``CensusData.fetch``.
-        predicates (str): Value passed to ``CensusData.fetch``.
-        time (int): Value passed to ``CensusData.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``data``,
+            ``variables``.
+        year: Dataset or observation year requested from the provider.
+        dataset: Provider dataset name or identifier.
+        fields: Comma-separated or provider-specific field selection.
+        geography_for: Census ``for`` geography clause defining the requested geography.
+        geography_in: Optional Census ``in`` geography clause constraining the request.
+        predicates: Additional Census query predicates appended to the request.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``CensusData.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = CensusData( )
-    return _instance.fetch( mode=mode, year=year, dataset=dataset, fields=fields, geography_for=geography_for, geography_in=geography_in, predicates=predicates, time=time )
+    return _instance.fetch( mode=mode, year=year, dataset=dataset, fields=fields,
+	    geography_for=geography_for, geography_in=geography_in, predicates=predicates, time=time )
 
 def fetch_socrata( mode: str='rows', domain: str='data.cdc.gov', dataset_id: str='',
 		select: str='', where: str='', order: str='', group: str='', limit: int=25,
 		offset: int=0, time: int=20 ) -> Any:
-    """Fetch Socrata dataset metadata and row retrieval.
+    """Retrieve Socrata dataset metadata and row.
 
     Purpose:
-        Provides direct module-level access to ``Socrata.fetch`` using a fresh ``Socrata`` instance.
+        Retrieve Socrata dataset metadata and row through Socrata. Use ``mode`` to select among
+        ``metadata``, ``rows``. Result-count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``Socrata.fetch``.
-        domain (str): Value passed to ``Socrata.fetch``.
-        dataset_id (str): Value passed to ``Socrata.fetch``.
-        select (str): Value passed to ``Socrata.fetch``.
-        where (str): Value passed to ``Socrata.fetch``.
-        order (str): Value passed to ``Socrata.fetch``.
-        group (str): Value passed to ``Socrata.fetch``.
-        limit (int): Value passed to ``Socrata.fetch``.
-        offset (int): Value passed to ``Socrata.fetch``.
-        time (int): Value passed to ``Socrata.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``metadata``, ``rows``.
+        domain: Provider domain or host containing the requested dataset.
+        dataset_id: Provider dataset identifier.
+        select: Socrata ``$select`` expression defining returned columns or calculations.
+        where: Socrata ``$where`` filter expression.
+        order: Provider-supported result ordering expression.
+        group: Socrata ``$group`` expression used to aggregate rows.
+        limit: Maximum number of records or items to return.
+        offset: Zero-based result offset used for pagination.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``Socrata.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = Socrata( )
-    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select, where=where, order=order, group=group, limit=limit, offset=offset, time=time )
+    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select,
+	    where=where, order=order, group=group, limit=limit, offset=offset, time=time )
 
 def fetch_united_nations( mode: str='datasets', query_path: str='', time: int=20 ) -> Any:
-    """Fetch United Nations SDMX dataset and query retrieval.
+    """Retrieve United Nations SDMX dataset and query.
 
     Purpose:
-        Provides direct module-level access to ``UnitedNations.fetch`` using a fresh ``UnitedNations`` instance.
+        Retrieve United Nations SDMX dataset and query through United Nations SDMX service. Use
+        ``mode`` to select among ``datasets``, ``sdmx_query``.
 
     Args:
-        mode (str): Value passed to ``UnitedNations.fetch``.
-        query_path (str): Value passed to ``UnitedNations.fetch``.
-        time (int): Value passed to ``UnitedNations.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``datasets``, ``sdmx_query``.
+        query_path: Path identifying the query resource.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``UnitedNations.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = UnitedNations( )
     return _instance.fetch( mode=mode, query_path=query_path, time=time )
 
 def fetch_world_population( mode: str='catalog', query: str='', asset_path: str='',
 		page: int=1, page_size: int=25, time: int=20 ) -> Any:
-    """Fetch WorldPop catalog and raster metadata retrieval.
+    """Retrieve WorldPop catalog and raster metadata.
 
     Purpose:
-        Provides direct module-level access to ``WorldPopulation.fetch`` using a fresh ``WorldPopulation`` instance.
+        Retrieve WorldPop catalog and raster metadata through WorldPop. Use ``mode`` to select among
+        ``catalog``, ``raster_metadata``, ``search``. The query text determines the records or
+        documents matched by the provider. Result-count arguments bound the amount of data
+        requested.
 
     Args:
-        mode (str): Value passed to ``WorldPopulation.fetch``.
-        query (str): Value passed to ``WorldPopulation.fetch``.
-        asset_path (str): Value passed to ``WorldPopulation.fetch``.
-        page (int): Value passed to ``WorldPopulation.fetch``.
-        page_size (int): Value passed to ``WorldPopulation.fetch``.
-        time (int): Value passed to ``WorldPopulation.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``catalog``,
+            ``raster_metadata``, ``search``.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        asset_path: Path identifying the asset resource.
+        page: One-based result page to request.
+        page_size: Maximum number of records requested per page.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``WorldPopulation.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WorldPopulation( )
-    return _instance.fetch( mode=mode, query=query, asset_path=asset_path, page=page, page_size=page_size, time=time )
+    return _instance.fetch( mode=mode, query=query, asset_path=asset_path,
+	    page=page, page_size=page_size, time=time )
 
 def load_open_city( city_id: str, dataset_id: str, limit: int=100 ) -> Any:
-    """Load source content.
+    """Load an Open City dataset.
 
     Purpose:
-        Provides direct module-level access to ``OpenCityLoader.load`` using a fresh ``OpenCityLoader`` instance.
+        Load an Open City dataset using the Open City Data loader. Result-count arguments bound the
+        amount of data requested.
 
     Args:
-        city_id (str): Value passed to ``OpenCityLoader.load``.
-        dataset_id (str): Value passed to ``OpenCityLoader.load``.
-        limit (int): Value passed to ``OpenCityLoader.load``.
+        city_id: Provider identifier for the selected city.
+        dataset_id: Provider dataset identifier.
+        limit: Maximum number of records requested from the backing source.
 
     Returns:
-        Any: Value returned by ``OpenCityLoader.load``.
+        List[Document]: LangChain documents loaded from the requested source.
+
+    Raises:
+        ValueError: Raised when a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = OpenCityLoader( )
     return _instance.load( city_id=city_id, dataset_id=dataset_id, limit=limit )
@@ -923,421 +1192,530 @@ def load_open_city( city_id: str, dataset_id: str, limit: int=100 ) -> Any:
 # --------- DOCUMENTS ---------
 
 def load_text( path: str, encoding: Optional[str]=None ) -> Any:
-    """Load source content.
+    """Load a plain-text file.
 
     Purpose:
-        Provides direct module-level access to ``TextLoader.load`` using a fresh ``TextLoader`` instance.
+        Load a plain-text file using the text loader.
 
     Args:
-        path (str): Value passed to ``TextLoader.load``.
-        encoding (Optional[str]): Value passed to ``TextLoader.load``.
+        path: Local file path used by the loader.
+        encoding: Optional file encoding passed to the backing loader.
 
     Returns:
-        Any: Value returned by ``TextLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = TextLoader( )
     return _instance.load( path=path, encoding=encoding )
 
 def load_csv( path: str, encoding: Optional[str]='utf-8', source_column: Optional[str]=None,
 		delimiter: str=',', quotechar: str='"' ) -> Any:
-    """Load source content.
+    """Load a CSV file.
 
     Purpose:
-        Provides direct module-level access to ``CsvLoader.load`` using a fresh ``CsvLoader`` instance.
+        Load a CSV file using the CSV loader.
 
     Args:
-        path (str): Value passed to ``CsvLoader.load``.
-        encoding (Optional[str]): Value passed to ``CsvLoader.load``.
-        source_column (Optional[str]): Value passed to ``CsvLoader.load``.
-        delimiter (str): Value passed to ``CsvLoader.load``.
-        quotechar (str): Value passed to ``CsvLoader.load``.
+        path: Local file path used by the loader.
+        encoding: Optional file encoding passed to the backing loader.
+        source_column: Optional CSV column whose value is stored as the document source.
+        delimiter: Field delimiter used to parse delimited text.
+        quotechar: Quote character used to parse delimited text.
 
     Returns:
-        Any: Value returned by ``CsvLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = CsvLoader( )
-    return _instance.load( path=path, encoding=encoding, source_column=source_column, delimiter=delimiter, quotechar=quotechar )
+    return _instance.load( path=path, encoding=encoding, source_column=source_column,
+	    delimiter=delimiter, quotechar=quotechar )
 
 def read_pdf( path: str, mode: str='single' ) -> Any:
-    """Load source content.
+    """Read a PDF file.
 
     Purpose:
-        Provides direct module-level access to ``PdfReader.load`` using a fresh ``PdfReader`` instance.
+        Read a PDF file using the PDF reader.
 
     Args:
-        path (str): Value passed to ``PdfReader.load``.
-        mode (str): Value passed to ``PdfReader.load``.
+        path: Local file path used by the loader.
+        mode: Operation mode used to select the provider or processing workflow.
 
     Returns:
-        Any: Value returned by ``PdfReader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = PdfReader( )
     return _instance.load( path=path, mode=mode )
 
 def load_pdf( path: str, mode: str='single', extract: str='plain', include: bool=False,
 		format: str='markdown-img', size: int=1000, overlap: int=150, has_tables: bool=True ) -> Any:
-    """Load source content.
+    """Load and extract a PDF file.
 
     Purpose:
-        Provides direct module-level access to ``PdfLoader.load`` using a fresh ``PdfLoader`` instance.
+        Load and extract a PDF file using the PDF loader.
 
     Args:
-        path (str): Value passed to ``PdfLoader.load``.
-        mode (str): Value passed to ``PdfLoader.load``.
-        extract (str): Value passed to ``PdfLoader.load``.
-        include (bool): Value passed to ``PdfLoader.load``.
-        format (str): Value passed to ``PdfLoader.load``.
-        size (int): Value passed to ``PdfLoader.load``.
-        overlap (int): Value passed to ``PdfLoader.load``.
-        has_tables (bool): Value passed to ``PdfLoader.load``.
+        path: Local file path used by the loader.
+        mode: Operation mode used to select the provider or processing workflow.
+        extract: PDF text-extraction strategy used by the underlying parser.
+        include: Whether optional embedded content should be included.
+        format: Output or embedded-image format requested from the loader.
+        size: Maximum chunk size used for document splitting.
+        overlap: Number of characters or tokens repeated between adjacent chunks.
+        has_tables: Whether table-aware parsing or extraction should be enabled.
 
     Returns:
-        Any: Value returned by ``PdfLoader.load``.
+        List[Document]: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = PdfLoader( size=size, overlap=overlap, has_tables=has_tables )
     return _instance.load( path=path, mode=mode, extract=extract, include=include, format=format )
 
 def load_excel( path: str, mode: str='elements', has_headers: bool=True ) -> Any:
-    """Load source content.
+    """Load an Excel workbook.
 
     Purpose:
-        Provides direct module-level access to ``ExcelLoader.load`` using a fresh ``ExcelLoader`` instance.
+        Load an Excel workbook using the Excel loader.
 
     Args:
-        path (str): Value passed to ``ExcelLoader.load``.
-        mode (str): Value passed to ``ExcelLoader.load``.
-        has_headers (bool): Value passed to ``ExcelLoader.load``.
+        path: Local file path used by the loader.
+        mode: Operation mode used to select the provider or processing workflow.
+        has_headers: Whether the first spreadsheet row should be treated as column headers.
 
     Returns:
-        Any: Value returned by ``ExcelLoader.load``.
+        List[Document]: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = ExcelLoader( )
     return _instance.load( path=path, mode=mode, has_headers=has_headers )
 
 def load_word( path: str ) -> Any:
-    """Load source content.
+    """Load a Word document.
 
     Purpose:
-        Provides direct module-level access to ``WordLoader.load`` using a fresh ``WordLoader`` instance.
+        Load a Word document using the Word loader.
 
     Args:
-        path (str): Value passed to ``WordLoader.load``.
+        path: Local file path used by the loader.
 
     Returns:
-        Any: Value returned by ``WordLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WordLoader( )
     return _instance.load( path=path )
 
 def load_markdown( path: str ) -> Any:
-    """Load source content.
+    """Load a Markdown document.
 
     Purpose:
-        Provides direct module-level access to ``MarkdownLoader.load`` using a fresh ``MarkdownLoader`` instance.
+        Load a Markdown document using the Markdown loader.
 
     Args:
-        path (str): Value passed to ``MarkdownLoader.load``.
+        path: Local file path used by the loader.
 
     Returns:
-        Any: Value returned by ``MarkdownLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = MarkdownLoader( )
     return _instance.load( path=path )
 
 def load_html( path: str ) -> Any:
-    """Load source content.
+    """Load an HTML document.
 
     Purpose:
-        Provides direct module-level access to ``HtmlLoader.load`` using a fresh ``HtmlLoader`` instance.
+        Load an HTML document using the HTML loader.
 
     Args:
-        path (str): Value passed to ``HtmlLoader.load``.
+        path: Local file path used by the loader.
 
     Returns:
-        Any: Value returned by ``HtmlLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = HtmlLoader( )
     return _instance.load( path=path )
 
 def load_outlook( path: str ) -> Any:
-    """Load source content.
+    """Load an Outlook message.
 
     Purpose:
-        Provides direct module-level access to ``OutlookLoader.load`` using a fresh ``OutlookLoader`` instance.
+        Load an Outlook message using the Outlook message loader.
 
     Args:
-        path (str): Value passed to ``OutlookLoader.load``.
+        path: Local file path used by the loader.
 
     Returns:
-        Any: Value returned by ``OutlookLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = OutlookLoader( )
     return _instance.load( path=path )
 
 def load_spfx( library_id: str ) -> Any:
-    """Load source content.
+    """Load a SharePoint document library.
 
     Purpose:
-        Provides direct module-level access to ``SpfxLoader.load`` using a fresh ``SpfxLoader`` instance.
+        Load a SharePoint document library using the SharePoint loader.
 
     Args:
-        library_id (str): Value passed to ``SpfxLoader.load``.
+        library_id: SharePoint document-library identifier.
 
     Returns:
-        Any: Value returned by ``SpfxLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = SpfxLoader( )
     return _instance.load( library_id=library_id )
 
 def load_spfx_folder( library_id: str, folder_id: str ) -> Any:
-    """Load provider folder content.
+    """Load a SharePoint folder.
 
     Purpose:
-        Provides direct module-level access to ``SpfxLoader.load_folder`` using a fresh ``SpfxLoader`` instance.
+        Load a SharePoint folder using the SharePoint loader.
 
     Args:
-        library_id (str): Value passed to ``SpfxLoader.load_folder``.
-        folder_id (str): Value passed to ``SpfxLoader.load_folder``.
+        library_id: SharePoint document-library identifier.
+        folder_id: Provider folder identifier used to load folder contents.
 
     Returns:
-        Any: Value returned by ``SpfxLoader.load_folder``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = SpfxLoader( )
     return _instance.load_folder( library_id=library_id, folder_id=folder_id )
 
 def load_powerpoint( path: str, mode: str='single' ) -> Any:
-    """Load source content.
+    """Load a PowerPoint presentation.
 
     Purpose:
-        Provides direct module-level access to ``PowerPointLoader.load`` using a fresh ``PowerPointLoader`` instance.
+        Load a PowerPoint presentation using the PowerPoint loader.
 
     Args:
-        path (str): Value passed to ``PowerPointLoader.load``.
-        mode (str): Value passed to ``PowerPointLoader.load``.
+        path: Local file path used by the loader.
+        mode: Operation mode used to select the provider or processing workflow.
 
     Returns:
-        Any: Value returned by ``PowerPointLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = PowerPointLoader( )
     return _instance.load( path=path, mode=mode )
 
 def load_powerpoint_multiple( path: str ) -> Any:
-    """Load multiple presentation elements.
+    """Load multiple PowerPoint presentation elements.
 
     Purpose:
-        Provides direct module-level access to ``PowerPointLoader.load_multiple`` using a fresh ``PowerPointLoader`` instance.
+        Load multiple PowerPoint presentation elements using the PowerPoint loader.
 
     Args:
-        path (str): Value passed to ``PowerPointLoader.load_multiple``.
+        path: Local file path used by the loader.
 
     Returns:
-        Any: Value returned by ``PowerPointLoader.load_multiple``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = PowerPointLoader( )
     return _instance.load_multiple( path=path )
 
 def load_email( path: str, mode: str='single', attachments: bool=True ) -> Any:
-    """Load source content.
+    """Load an email message.
 
     Purpose:
-        Provides direct module-level access to ``EmailLoader.load`` using a fresh ``EmailLoader`` instance.
+        Load an email message using the email loader.
 
     Args:
-        path (str): Value passed to ``EmailLoader.load``.
-        mode (str): Value passed to ``EmailLoader.load``.
-        attachments (bool): Value passed to ``EmailLoader.load``.
+        path: Local file path used by the loader.
+        mode: Operation mode used to select the provider or processing workflow.
+        attachments: Whether email attachments should be included when supported.
 
     Returns:
-        Any: Value returned by ``EmailLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = EmailLoader( )
     return _instance.load( path=path, mode=mode, attachments=attachments )
 
 def load_json( filepath: str, is_text: bool=True, is_lines: bool=False ) -> Any:
-    """Load source content.
+    """Load JSON content.
 
     Purpose:
-        Provides direct module-level access to ``JsonLoader.load`` using a fresh ``JsonLoader`` instance.
+        Load JSON content using the JSON loader.
 
     Args:
-        filepath (str): Value passed to ``JsonLoader.load``.
-        is_text (bool): Value passed to ``JsonLoader.load``.
-        is_lines (bool): Value passed to ``JsonLoader.load``.
+        filepath: Local file path used by the loader.
+        is_text: Whether JSON values should be treated as text content.
+        is_lines: Whether the JSON source uses JSON Lines format.
 
     Returns:
-        Any: Value returned by ``JsonLoader.load``.
+        List[Document]: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = JsonLoader( )
     return _instance.load( filepath=filepath, is_text=is_text, is_lines=is_lines )
 
 def load_xml( filepath: str ) -> Any:
-    """Load source content.
+    """Load an XML document.
 
     Purpose:
-        Provides direct module-level access to ``XmlLoader.load`` using a fresh ``XmlLoader`` instance.
+        Load an XML document using the XML loader.
 
     Args:
-        filepath (str): Value passed to ``XmlLoader.load``.
+        filepath: Local file path used by the loader.
 
     Returns:
-        Any: Value returned by ``XmlLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = XmlLoader( )
     return _instance.load( filepath=filepath )
 
 def load_xml_tree( filepath: str ) -> Any:
-    """Parse an XML element tree.
+    """Parse an XML document tree.
 
     Purpose:
-        Provides direct module-level access to ``XmlLoader.load_tree`` using a fresh ``XmlLoader`` instance.
+        Parse an XML document tree using the XML loader.
 
     Args:
-        filepath (str): Value passed to ``XmlLoader.load_tree``.
+        filepath: Local file path used by the loader.
 
     Returns:
-        Any: Value returned by ``XmlLoader.load_tree``.
+        etree._ElementTree | None: XML elements matching the requested XPath expression.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = XmlLoader( )
     return _instance.load_tree( filepath=filepath )
 
 def load_jupyter_notebook( path: str, include_outputs: bool=False, max_output_length: int=10,
 		remove_newline: bool=False, traceback: bool=False ) -> Any:
-    """Load source content.
+    """Load a Jupyter notebook.
 
     Purpose:
-        Provides direct module-level access to ``JupyterNotebookLoader.load`` using a fresh ``JupyterNotebookLoader`` instance.
+        Load a Jupyter notebook using the Jupyter notebook loader. Boolean options control retrieval
+        depth or supplemental content.
 
     Args:
-        path (str): Value passed to ``JupyterNotebookLoader.load``.
-        include_outputs (bool): Value passed to ``JupyterNotebookLoader.load``.
-        max_output_length (int): Value passed to ``JupyterNotebookLoader.load``.
-        remove_newline (bool): Value passed to ``JupyterNotebookLoader.load``.
-        traceback (bool): Value passed to ``JupyterNotebookLoader.load``.
+        path: Local file path used by the loader.
+        include_outputs: Whether notebook cell outputs should be included.
+        max_output_length: Maximum notebook cell output length to retain.
+        remove_newline: Whether newline characters should be removed from notebook output.
+        traceback: Whether notebook traceback output should be included.
 
     Returns:
-        Any: Value returned by ``JupyterNotebookLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = JupyterNotebookLoader( )
-    return _instance.load( path=path, include_outputs=include_outputs, max_output_length=max_output_length, remove_newline=remove_newline, traceback=traceback )
+    return _instance.load( path=path, include_outputs=include_outputs,
+	    max_output_length=max_output_length, remove_newline=remove_newline, traceback=traceback )
 
 # --------- ENVIRONMENTAL ---------
 
 def fetch_google_weather_current( address: str, units_system: str='METRIC', language_code: str='en',
 		time: int=10 ) -> Any:
-    """Fetch current.
+    """Retrieve google weather current data.
 
     Purpose:
-        Provides direct module-level access to ``GoogleWeather.fetch_current`` using a fresh ``GoogleWeather`` instance.
+        Retrieve google weather current data through Google Weather.
 
     Args:
-        address (str): Value passed to ``GoogleWeather.fetch_current``.
-        units_system (str): Value passed to ``GoogleWeather.fetch_current``.
-        language_code (str): Value passed to ``GoogleWeather.fetch_current``.
-        time (int): Value passed to ``GoogleWeather.fetch_current``.
+        address: Street address or place description used for geocoding, validation, or routing.
+        units_system: Measurement unit system requested from the provider.
+        language_code: BCP-47-style language code used for provider results.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``GoogleWeather.fetch_current``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_current( address=address, units_system=units_system, language_code=language_code, time=time )
+    return _instance.fetch_current( address=address, units_system=units_system,
+	    language_code=language_code, time=time )
 
 def fetch_google_weather_hourly_forecast( address: str, hours: int=24, units_system: str='METRIC',
 		language_code: str='en', time: int=10 ) -> Any:
-    """Fetch hourly forecast.
+    """Retrieve hourly forecast.
 
     Purpose:
-        Provides direct module-level access to ``GoogleWeather.fetch_hourly_forecast`` using a fresh ``GoogleWeather`` instance.
+        Retrieve hourly forecast through Google Weather.
 
     Args:
-        address (str): Value passed to ``GoogleWeather.fetch_hourly_forecast``.
-        hours (int): Value passed to ``GoogleWeather.fetch_hourly_forecast``.
-        units_system (str): Value passed to ``GoogleWeather.fetch_hourly_forecast``.
-        language_code (str): Value passed to ``GoogleWeather.fetch_hourly_forecast``.
-        time (int): Value passed to ``GoogleWeather.fetch_hourly_forecast``.
+        address: Street address or place description used for geocoding, validation, or routing.
+        hours: Number of hourly observations or forecast periods to request.
+        units_system: Measurement unit system requested from the provider.
+        language_code: BCP-47-style language code used for provider results.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``GoogleWeather.fetch_hourly_forecast``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_hourly_forecast( address=address, hours=hours, units_system=units_system, language_code=language_code, time=time )
+    return _instance.fetch_hourly_forecast( address=address, hours=hours, units_system=units_system,
+	    language_code=language_code, time=time )
 
 def fetch_google_weather_daily_forecast( address: str, days: int=5, units_system: str='METRIC',
 		language_code: str='en', time: int=10 ) -> Any:
-    """Fetch daily forecast.
+    """Retrieve daily forecast.
 
     Purpose:
-        Provides direct module-level access to ``GoogleWeather.fetch_daily_forecast`` using a fresh ``GoogleWeather`` instance.
+        Retrieve daily forecast through Google Weather.
 
     Args:
-        address (str): Value passed to ``GoogleWeather.fetch_daily_forecast``.
-        days (int): Value passed to ``GoogleWeather.fetch_daily_forecast``.
-        units_system (str): Value passed to ``GoogleWeather.fetch_daily_forecast``.
-        language_code (str): Value passed to ``GoogleWeather.fetch_daily_forecast``.
-        time (int): Value passed to ``GoogleWeather.fetch_daily_forecast``.
+        address: Street address or place description used for geocoding, validation, or routing.
+        days: Number of calendar days included in the requested interval.
+        units_system: Measurement unit system requested from the provider.
+        language_code: BCP-47-style language code used for provider results.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``GoogleWeather.fetch_daily_forecast``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_daily_forecast( address=address, days=days, units_system=units_system, language_code=language_code, time=time )
+    return _instance.fetch_daily_forecast( address=address, days=days, units_system=units_system,
+	    language_code=language_code, time=time )
 
 def fetch_google_weather_hourly_history( address: str, hours: int=24, units_system: str='METRIC',
 		language_code: str='en', time: int=10 ) -> Any:
-    """Fetch hourly history.
+    """Retrieve hourly history.
 
     Purpose:
-        Provides direct module-level access to ``GoogleWeather.fetch_hourly_history`` using a fresh ``GoogleWeather`` instance.
+        Retrieve hourly history through Google Weather.
 
     Args:
-        address (str): Value passed to ``GoogleWeather.fetch_hourly_history``.
-        hours (int): Value passed to ``GoogleWeather.fetch_hourly_history``.
-        units_system (str): Value passed to ``GoogleWeather.fetch_hourly_history``.
-        language_code (str): Value passed to ``GoogleWeather.fetch_hourly_history``.
-        time (int): Value passed to ``GoogleWeather.fetch_hourly_history``.
+        address: Street address or place description used for geocoding, validation, or routing.
+        hours: Number of hourly observations or forecast periods to request.
+        units_system: Measurement unit system requested from the provider.
+        language_code: BCP-47-style language code used for provider results.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``GoogleWeather.fetch_hourly_history``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_hourly_history( address=address, hours=hours, units_system=units_system, language_code=language_code, time=time )
+    return _instance.fetch_hourly_history( address=address, hours=hours, units_system=units_system,
+	    language_code=language_code, time=time )
 
 def fetch_google_weather_alerts( address: str, language_code: str='en', time: int=10 ) -> Any:
-    """Fetch alerts.
+    """Retrieve google weather alerts data.
 
     Purpose:
-        Provides direct module-level access to ``GoogleWeather.fetch_alerts`` using a fresh ``GoogleWeather`` instance.
+        Retrieve google weather alerts data through Google Weather.
 
     Args:
-        address (str): Value passed to ``GoogleWeather.fetch_alerts``.
-        language_code (str): Value passed to ``GoogleWeather.fetch_alerts``.
-        time (int): Value passed to ``GoogleWeather.fetch_alerts``.
+        address: Street address or place description used for geocoding, validation, or routing.
+        language_code: BCP-47-style language code used for provider results.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``GoogleWeather.fetch_alerts``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleWeather( )
     return _instance.fetch_alerts( address=address, language_code=language_code, time=time )
 
 def fetch_earth_observatory( mode: str='events', status: str='open', category: str='', source: str='',
 		limit: int=20, days: int=30, start_date: str='', end_date: str='', time: int=20 ) -> Any:
-    """Fetch NASA EONET events, categories, sources, and layers.
+    """Retrieve NASA EONET events, categories, sources, and layers.
 
     Purpose:
-        Provides direct module-level access to ``EarthObservatory.fetch`` using a fresh ``EarthObservatory`` instance.
+        Retrieve NASA EONET events, categories, sources, and layers through NASA EONET. Date and
+        time arguments constrain the requested interval when supplied. Result-count arguments bound
+        the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``EarthObservatory.fetch``.
-        status (str): Value passed to ``EarthObservatory.fetch``.
-        category (str): Value passed to ``EarthObservatory.fetch``.
-        source (str): Value passed to ``EarthObservatory.fetch``.
-        limit (int): Value passed to ``EarthObservatory.fetch``.
-        days (int): Value passed to ``EarthObservatory.fetch``.
-        start_date (str): Value passed to ``EarthObservatory.fetch``.
-        end_date (str): Value passed to ``EarthObservatory.fetch``.
-        time (int): Value passed to ``EarthObservatory.fetch``.
+        mode: Operation mode used to select the provider or processing workflow.
+        status: Provider status filter applied to returned records.
+        category: Optional logical category retained in tool metadata.
+        source: Provider source identifier used to restrict or classify results.
+        limit: Maximum number of records or items to return.
+        days: Number of calendar days included in the requested interval.
+        start_date: Inclusive start date for the requested time range, in the provider-supported format.
+        end_date: Inclusive end date for the requested time range, in the provider-supported format.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``EarthObservatory.fetch``.
+        Dict[str, Any]: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = EarthObservatory( )
     return _instance.fetch( mode=mode, status=status, category=category, source=source,
@@ -1345,40 +1723,49 @@ def fetch_earth_observatory( mode: str='events', status: str='open', category: s
 
 def fetch_open_weather( location: str, mode: str='current', zone: str='auto', forecast_days: int=7,
 		past_days: int=0, count: int=10 ) -> Any:
-    """Fetch Open-Meteo current and forecast weather retrieval.
+    """Retrieve Open-Meteo current and forecast weather.
 
     Purpose:
-        Provides direct module-level access to ``OpenWeather.fetch`` using a fresh ``OpenWeather`` instance.
+        Retrieve Open-Meteo current and forecast weather through Open-Meteo.
 
     Args:
-        location (str): Value passed to ``OpenWeather.fetch``.
-        mode (str): Value passed to ``OpenWeather.fetch``.
-        zone (str): Value passed to ``OpenWeather.fetch``.
-        forecast_days (int): Value passed to ``OpenWeather.fetch``.
-        past_days (int): Value passed to ``OpenWeather.fetch``.
-        count (int): Value passed to ``OpenWeather.fetch``.
+        location: Place name, address, or location description resolved by the provider.
+        mode: Operation mode used to select the provider or processing workflow.
+        zone: Timezone identifier or automatic timezone-selection mode.
+        forecast_days: Number of forecast days to request.
+        past_days: Number of historical days to include with the weather request.
+        count: Maximum number of matching locations or records to consider.
 
     Returns:
-        Any: Value returned by ``OpenWeather.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = OpenWeather( )
     return _instance.fetch( location=location, mode=mode, zone=zone, forecast_days=forecast_days,
 	    past_days=past_days, count=count )
 
 def fetch_historical_weather( location: str, date: dt.date, zone: str='auto', count: int=10 ) -> Any:
-    """Fetch historical weather archive retrieval.
+    """Retrieve historical weather archive.
 
     Purpose:
-        Provides direct module-level access to ``HistoricalWeather.fetch`` using a fresh ``HistoricalWeather`` instance.
+        Retrieve historical weather archive through Open-Meteo Archive.
 
     Args:
-        location (str): Value passed to ``HistoricalWeather.fetch``.
-        date (dt.date): Value passed to ``HistoricalWeather.fetch``.
-        zone (str): Value passed to ``HistoricalWeather.fetch``.
-        count (int): Value passed to ``HistoricalWeather.fetch``.
+        location: Place name, address, or location description resolved by the provider.
+        date: Date used by the provider or processing operation.
+        zone: Timezone identifier or automatic timezone-selection mode.
+        count: Maximum number of matching locations or records to consider.
 
     Returns:
-        Any: Value returned by ``HistoricalWeather.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = HistoricalWeather( )
     return _instance.fetch( location=location, date=date, zone=zone, count=count )
@@ -1387,28 +1774,37 @@ def fetch_usgs_earthquakes( mode: str='feed', feed: str='all_day.geojson', start
 		end_date: str='', min_magnitude: float=1.0, max_magnitude: float=10.0,
 		limit: int=25, order_by: str='time', event_type: str='earthquake', latitude: float | None=None,
 		longitude: float | None=None, max_radius_km: float | None=None, time: int=20 ) -> Any:
-    """Fetch USGS earthquake feed and query retrieval.
+    """Retrieve USGS earthquake feed and query.
 
     Purpose:
-        Provides direct module-level access to ``USGSEarthquakes.fetch`` using a fresh ``USGSEarthquakes`` instance.
+        Retrieve USGS earthquake feed and query through USGS Earthquake Hazards Program. Use
+        ``mode`` to select among ``feed``, ``search``. Date and time arguments constrain the
+        requested interval when supplied. Coordinate and bounding arguments constrain geographic
+        scope when supported. Result-count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``USGSEarthquakes.fetch``.
-        feed (str): Value passed to ``USGSEarthquakes.fetch``.
-        start_date (str): Value passed to ``USGSEarthquakes.fetch``.
-        end_date (str): Value passed to ``USGSEarthquakes.fetch``.
-        min_magnitude (float): Value passed to ``USGSEarthquakes.fetch``.
-        max_magnitude (float): Value passed to ``USGSEarthquakes.fetch``.
-        limit (int): Value passed to ``USGSEarthquakes.fetch``.
-        order_by (str): Value passed to ``USGSEarthquakes.fetch``.
-        event_type (str): Value passed to ``USGSEarthquakes.fetch``.
-        latitude (float | None): Value passed to ``USGSEarthquakes.fetch``.
-        longitude (float | None): Value passed to ``USGSEarthquakes.fetch``.
-        max_radius_km (float | None): Value passed to ``USGSEarthquakes.fetch``.
-        time (int): Value passed to ``USGSEarthquakes.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``feed``,
+            ``search``.
+        feed: Predefined USGS earthquake feed name used when feed mode is selected.
+        start_date: Inclusive start date for the requested time range, in the provider-supported format.
+        end_date: Inclusive end date for the requested time range, in the provider-supported format.
+        min_magnitude: Minimum earthquake magnitude to include in the result set.
+        max_magnitude: Maximum earthquake magnitude to include in the result set.
+        limit: Maximum number of records or items to return.
+        order_by: Provider-supported field used to order results.
+        event_type: USGS event type to include; ``earthquake`` is the default.
+        latitude: Latitude in decimal degrees.
+        longitude: Longitude in decimal degrees.
+        max_radius_km: Maximum geographic search radius in kilometers.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``USGSEarthquakes.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = USGSEarthquakes( )
     return _instance.fetch( mode=mode, feed=feed, start_date=start_date, end_date=end_date,
@@ -1419,162 +1815,224 @@ def fetch_usgs_earthquakes( mode: str='feed', feed: str='all_day.geojson', start
 def fetch_usgs_water_data( mode: str='monitoring-locations', monitoring_location_id: str='',
 		state_code: str='', county_code: str='', site_type: str='', parameter_code: str='',
 		limit: int=25, time: int=20 ) -> Any:
-    """Fetch USGS water services records.
+    """Retrieve USGS water services records.
 
     Purpose:
-        Provides direct module-level access to ``USGSWaterData.fetch`` using a fresh ``USGSWaterData`` instance.
+        Retrieve USGS water services records through USGS Water Data. Use ``mode`` to select among
+        ``latest-continuous``, ``latest-daily``, ``monitoring-locations``, ``time-series-metadata``.
+        Result-count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``USGSWaterData.fetch``.
-        monitoring_location_id (str): Value passed to ``USGSWaterData.fetch``.
-        state_code (str): Value passed to ``USGSWaterData.fetch``.
-        county_code (str): Value passed to ``USGSWaterData.fetch``.
-        site_type (str): Value passed to ``USGSWaterData.fetch``.
-        parameter_code (str): Value passed to ``USGSWaterData.fetch``.
-        limit (int): Value passed to ``USGSWaterData.fetch``.
-        time (int): Value passed to ``USGSWaterData.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``latest-
+            continuous``, ``latest-daily``, ``monitoring-locations``, ``time-series-metadata``.
+        monitoring_location_id: USGS monitoring-location identifier used to target a specific site.
+        state_code: State code used to restrict provider records.
+        county_code: County code used to restrict provider records.
+        site_type: USGS site-type code used to restrict monitoring locations.
+        parameter_code: USGS parameter code identifying the measured property.
+        limit: Maximum number of records or items to return.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``USGSWaterData.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = USGSWaterData( )
-    return _instance.fetch( mode=mode, monitoring_location_id=monitoring_location_id, state_code=state_code, county_code=county_code, site_type=site_type, parameter_code=parameter_code, limit=limit, time=time )
+    return _instance.fetch( mode=mode, monitoring_location_id=monitoring_location_id,
+	    state_code=state_code, county_code=county_code, site_type=site_type,
+	    parameter_code=parameter_code, limit=limit, time=time )
 
 def fetch_air_now( mode: str='current-zip', zip_code: str='', latitude: float | None=None,
 		longitude: float | None=None, date: str='', distance: int=25, time: int=20 ) -> Any:
-    """Fetch AirNow current and forecast air quality data.
+    """Retrieve AirNow current and forecast air quality data.
 
     Purpose:
-        Provides direct module-level access to ``AirNow.fetch`` using a fresh ``AirNow`` instance.
+        Retrieve AirNow current and forecast air quality data through AirNow. Use ``mode`` to select
+        among ``current-latlon``, ``current-zip``, ``forecast-latlon``, ``forecast-zip``. Coordinate
+        and bounding arguments constrain geographic scope when supported.
 
     Args:
-        mode (str): Value passed to ``AirNow.fetch``.
-        zip_code (str): Value passed to ``AirNow.fetch``.
-        latitude (float | None): Value passed to ``AirNow.fetch``.
-        longitude (float | None): Value passed to ``AirNow.fetch``.
-        date (str): Value passed to ``AirNow.fetch``.
-        distance (int): Value passed to ``AirNow.fetch``.
-        time (int): Value passed to ``AirNow.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``current-
+            latlon``, ``current-zip``, ``forecast-latlon``, ``forecast-zip``.
+        zip_code: Provider code identifying or filtering zip.
+        latitude: Latitude in decimal degrees.
+        longitude: Longitude in decimal degrees.
+        date: Date used by the provider or processing operation.
+        distance: Maximum provider search distance, using the units defined by that service.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``AirNow.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = AirNow( )
-    return _instance.fetch( mode=mode, zip_code=zip_code, latitude=latitude, longitude=longitude, date=date, distance=distance, time=time )
+    return _instance.fetch( mode=mode, zip_code=zip_code, latitude=latitude, longitude=longitude,
+	    date=date, distance=distance, time=time )
 
 def fetch_climate_data( mode: str='datasets', keyword: str='', dataset: str='', start_date: str='',
 		end_date: str='', stations: str='', data_types: str='', limit: int=25,
 		offset: int=0, time: int=20 ) -> Any:
-    """Fetch NOAA climate dataset and data records.
+    """Retrieve NOAA climate dataset and data records.
 
     Purpose:
-        Provides direct module-level access to ``ClimateData.fetch`` using a fresh ``ClimateData`` instance.
+        Retrieve NOAA climate dataset and data records through NOAA climate services. Use ``mode``
+        to select among ``data``, ``datasets``. Date and time arguments constrain the requested
+        interval when supplied. Result-count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``ClimateData.fetch``.
-        keyword (str): Value passed to ``ClimateData.fetch``.
-        dataset (str): Value passed to ``ClimateData.fetch``.
-        start_date (str): Value passed to ``ClimateData.fetch``.
-        end_date (str): Value passed to ``ClimateData.fetch``.
-        stations (str): Value passed to ``ClimateData.fetch``.
-        data_types (str): Value passed to ``ClimateData.fetch``.
-        limit (int): Value passed to ``ClimateData.fetch``.
-        offset (int): Value passed to ``ClimateData.fetch``.
-        time (int): Value passed to ``ClimateData.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``data``,
+            ``datasets``.
+        keyword: Keyword used to filter provider records.
+        dataset: Provider dataset name or identifier.
+        start_date: Inclusive start date for the requested time range, in the provider-supported format.
+        end_date: Inclusive end date for the requested time range, in the provider-supported format.
+        stations: Station identifiers used to restrict climate observations.
+        data_types: Climate data-type identifiers requested from the provider.
+        limit: Maximum number of records or items to return.
+        offset: Zero-based result offset used for pagination.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``ClimateData.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = ClimateData( )
-    return _instance.fetch( mode=mode, keyword=keyword, dataset=dataset, start_date=start_date, end_date=end_date, stations=stations, data_types=data_types, limit=limit, offset=offset, time=time )
+    return _instance.fetch( mode=mode, keyword=keyword, dataset=dataset, start_date=start_date,
+	    end_date=end_date, stations=stations, data_types=data_types, limit=limit,
+	    offset=offset, time=time )
 
 def fetch_eonet( mode: str='events', source: str='', category: str='', status: str='open',
 		limit: int=25, days: int=30, start_date: str='', end_date: str='',
 		bbox: str='', time: int=20 ) -> Any:
-    """Fetch NASA EONET environmental event data.
+    """Retrieve NASA EONET environmental event data.
 
     Purpose:
-        Provides direct module-level access to ``EoNet.fetch`` using a fresh ``EoNet`` instance.
+        Retrieve NASA EONET environmental event data through NASA EONET. Use ``mode`` to select
+        among ``categories``, ``events``. Date and time arguments constrain the requested interval
+        when supplied. Coordinate and bounding arguments constrain geographic scope when supported.
+        Result-count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``EoNet.fetch``.
-        source (str): Value passed to ``EoNet.fetch``.
-        category (str): Value passed to ``EoNet.fetch``.
-        status (str): Value passed to ``EoNet.fetch``.
-        limit (int): Value passed to ``EoNet.fetch``.
-        days (int): Value passed to ``EoNet.fetch``.
-        start_date (str): Value passed to ``EoNet.fetch``.
-        end_date (str): Value passed to ``EoNet.fetch``.
-        bbox (str): Value passed to ``EoNet.fetch``.
-        time (int): Value passed to ``EoNet.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``categories``, ``events``.
+        source: Provider source identifier used to restrict or classify results.
+        category: Optional logical category retained in tool metadata.
+        status: Provider status filter applied to returned records.
+        limit: Maximum number of records or items to return.
+        days: Number of calendar days included in the requested interval.
+        start_date: Inclusive start date for the requested time range, in the provider-supported format.
+        end_date: Inclusive end date for the requested time range, in the provider-supported format.
+        bbox: Bounding box defining the geographic extent of the request.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``EoNet.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = EoNet( )
-    return _instance.fetch( mode=mode, source=source, category=category, status=status, limit=limit, days=days, start_date=start_date, end_date=end_date, bbox=bbox, time=time )
+    return _instance.fetch( mode=mode, source=source, category=category, status=status,
+	    limit=limit, days=days, start_date=start_date, end_date=end_date, bbox=bbox, time=time )
 
 def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='',
 		facility_name: str='', limit: int=25, time: int=20 ) -> Any:
-    """Fetch EPA Envirofacts table and facility records.
+    """Retrieve EPA Envirofacts table and facility records.
 
     Purpose:
-        Provides direct module-level access to ``EnviroFacts.fetch`` using a fresh ``EnviroFacts`` instance.
+        Retrieve EPA Envirofacts table and facility records through EPA Envirofacts. Result-count
+        arguments bound the amount of data requested.
 
     Args:
-        table_name (str): Value passed to ``EnviroFacts.fetch``.
-        state_code (str): Value passed to ``EnviroFacts.fetch``.
-        facility_name (str): Value passed to ``EnviroFacts.fetch``.
-        limit (int): Value passed to ``EnviroFacts.fetch``.
-        time (int): Value passed to ``EnviroFacts.fetch``.
+        table_name: Envirofacts table or resource name to query.
+        state_code: State code used to restrict provider records.
+        facility_name: Facility-name filter applied to Envirofacts records.
+        limit: Maximum number of records or items to return.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``EnviroFacts.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = EnviroFacts( )
-    return _instance.fetch( table_name=table_name, state_code=state_code, facility_name=facility_name, limit=limit, time=time )
+    return _instance.fetch( table_name=table_name, state_code=state_code,
+	    facility_name=facility_name, limit=limit, time=time )
 
 def fetch_tides_and_currents( mode: str='water-level', station_id: str='', begin_date: str='',
 		end_date: str='', datum: str='MLLW', units: str='metric', time_zone: str='gmt',
 		interval: str='hilo', time: int=20 ) -> Any:
-    """Fetch NOAA tides, currents, and station data.
+    """Retrieve NOAA tides, currents, and station data.
 
     Purpose:
-        Provides direct module-level access to ``TidesAndCurrents.fetch`` using a fresh ``TidesAndCurrents`` instance.
+        Retrieve NOAA tides, currents, and station data through NOAA Tides & Currents. Use ``mode``
+        to select among ``station``, ``tide-predictions``, ``water-level``. Date and time arguments
+        constrain the requested interval when supplied.
 
     Args:
-        mode (str): Value passed to ``TidesAndCurrents.fetch``.
-        station_id (str): Value passed to ``TidesAndCurrents.fetch``.
-        begin_date (str): Value passed to ``TidesAndCurrents.fetch``.
-        end_date (str): Value passed to ``TidesAndCurrents.fetch``.
-        datum (str): Value passed to ``TidesAndCurrents.fetch``.
-        units (str): Value passed to ``TidesAndCurrents.fetch``.
-        time_zone (str): Value passed to ``TidesAndCurrents.fetch``.
-        interval (str): Value passed to ``TidesAndCurrents.fetch``.
-        time (int): Value passed to ``TidesAndCurrents.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``station``,
+            ``tide-predictions``, ``water-level``.
+        station_id: Provider identifier for the selected station.
+        begin_date: Beginning date for the requested interval, in the provider-supported format.
+        end_date: Inclusive end date for the requested time range, in the provider-supported format.
+        datum: Vertical datum used for tide or water-level measurements.
+        units: Unit system used for returned measurements.
+        time_zone: Timezone used for returned tide or current timestamps.
+        interval: Provider sampling or reporting interval.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``TidesAndCurrents.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = TidesAndCurrents( )
-    return _instance.fetch( mode=mode, station_id=station_id, begin_date=begin_date, end_date=end_date, datum=datum, units=units, time_zone=time_zone, interval=interval, time=time )
+    return _instance.fetch( mode=mode, station_id=station_id, begin_date=begin_date,
+	    end_date=end_date, datum=datum, units=units, time_zone=time_zone,
+	    interval=interval, time=time )
 
 def fetch_uv_index( mode: str='daily-zip', zip_code: str='', city: str='',
 		state: str='', time: int=20 ) -> Any:
-    """Fetch EPA UV Index current and forecast data.
+    """Retrieve EPA UV Index current and forecast data.
 
     Purpose:
-        Provides direct module-level access to ``UvIndex.fetch`` using a fresh ``UvIndex`` instance.
+        Retrieve EPA UV Index current and forecast data through EPA UV Index. Use ``mode`` to select
+        among ``daily-city-state``, ``daily-zip``, ``hourly-city-state``, ``hourly-zip``.
 
     Args:
-        mode (str): Value passed to ``UvIndex.fetch``.
-        zip_code (str): Value passed to ``UvIndex.fetch``.
-        city (str): Value passed to ``UvIndex.fetch``.
-        state (str): Value passed to ``UvIndex.fetch``.
-        time (int): Value passed to ``UvIndex.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``daily-
+            city-state``, ``daily-zip``, ``hourly-city-state``, ``hourly-zip``.
+        zip_code: Provider code identifying or filtering zip.
+        city: City name used to locate or filter provider records.
+        state: State name or abbreviation used to locate or filter provider records.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``UvIndex.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = UvIndex( )
     return _instance.fetch( mode=mode, zip_code=zip_code, city=city, state=state, time=time )
@@ -1583,75 +2041,104 @@ def fetch_purple_air( mode: str='sensors', sensor_index: int=None, nwlng: float 
 		nwlat: float | None=None, selng: float | None=None, selat: float | None=None,
 		location_type: int=0, max_age: int=0, modified_since: int=0, fields: str='',
 		time: int=20 ) -> Any:
-    """Fetch PurpleAir sensor and air quality records.
+    """Retrieve PurpleAir sensor and air quality records.
 
     Purpose:
-        Provides direct module-level access to ``PurpleAir.fetch`` using a fresh ``PurpleAir`` instance.
+        Retrieve PurpleAir sensor and air quality records through PurpleAir. Use ``mode`` to select
+        among ``sensor``, ``sensors``. Coordinate and bounding arguments constrain geographic scope
+        when supported.
 
     Args:
-        mode (str): Value passed to ``PurpleAir.fetch``.
-        sensor_index (int): Value passed to ``PurpleAir.fetch``.
-        nwlng (float | None): Value passed to ``PurpleAir.fetch``.
-        nwlat (float | None): Value passed to ``PurpleAir.fetch``.
-        selng (float | None): Value passed to ``PurpleAir.fetch``.
-        selat (float | None): Value passed to ``PurpleAir.fetch``.
-        location_type (int): Value passed to ``PurpleAir.fetch``.
-        max_age (int): Value passed to ``PurpleAir.fetch``.
-        modified_since (int): Value passed to ``PurpleAir.fetch``.
-        fields (str): Value passed to ``PurpleAir.fetch``.
-        time (int): Value passed to ``PurpleAir.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``sensor``,
+            ``sensors``.
+        sensor_index: PurpleAir sensor identifier.
+        nwlng: Northwest bounding-box longitude in decimal degrees.
+        nwlat: Northwest bounding-box latitude in decimal degrees.
+        selng: Southeast bounding-box longitude in decimal degrees.
+        selat: Southeast bounding-box latitude in decimal degrees.
+        location_type: Provider type selector for location.
+        max_age: Maximum age permitted by the operation.
+        modified_since: Unix timestamp used to return PurpleAir sensors modified after the specified time.
+        fields: Comma-separated or provider-specific field selection.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``PurpleAir.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = PurpleAir( )
-    return _instance.fetch( mode=mode, sensor_index=sensor_index, nwlng=nwlng, nwlat=nwlat, selng=selng, selat=selat, location_type=location_type, max_age=max_age, modified_since=modified_since, fields=fields, time=time )
+    return _instance.fetch( mode=mode, sensor_index=sensor_index, nwlng=nwlng, nwlat=nwlat,
+	    selng=selng, selat=selat, location_type=location_type, max_age=max_age,
+	    modified_since=modified_since, fields=fields, time=time )
 
 def fetch_open_aq( mode: str='locations', location_id: int=None, parameter_id: int=None,
 		country_id: int=None, coordinates: str='', radius: int=25000, providers_id: str='',
 		parameters_id: str='', limit: int=25, page: int=1, time: int=20 ) -> Any:
-    """Fetch OpenAQ location, measurement, and air-quality records.
+    """Retrieve OpenAQ location, measurement, and air-quality records.
 
     Purpose:
-        Provides direct module-level access to ``OpenAQ.fetch`` using a fresh ``OpenAQ`` instance.
+        Retrieve OpenAQ location, measurement, and air-quality records through OpenAQ. Use ``mode``
+        to select among ``countries``, ``latest``, ``locations``, ``parameter_latest``,
+        ``parameters``, ``providers``. Coordinate and bounding arguments constrain geographic scope
+        when supported. Result-count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``OpenAQ.fetch``.
-        location_id (int): Value passed to ``OpenAQ.fetch``.
-        parameter_id (int): Value passed to ``OpenAQ.fetch``.
-        country_id (int): Value passed to ``OpenAQ.fetch``.
-        coordinates (str): Value passed to ``OpenAQ.fetch``.
-        radius (int): Value passed to ``OpenAQ.fetch``.
-        providers_id (str): Value passed to ``OpenAQ.fetch``.
-        parameters_id (str): Value passed to ``OpenAQ.fetch``.
-        limit (int): Value passed to ``OpenAQ.fetch``.
-        page (int): Value passed to ``OpenAQ.fetch``.
-        time (int): Value passed to ``OpenAQ.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``countries``, ``latest``, ``locations``, ``parameter_latest``, ``parameters``,
+            ``providers``.
+        location_id: Provider identifier for the selected location.
+        parameter_id: Provider identifier for the selected parameter.
+        country_id: Provider identifier for the selected country.
+        coordinates: Latitude/longitude coordinate string used by the provider.
+        radius: Search radius in the units specified by the operation.
+        providers_id: Provider identifier for the selected providers.
+        parameters_id: Provider identifier for the selected parameters.
+        limit: Maximum number of records or items to return.
+        page: One-based result page to request.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``OpenAQ.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = OpenAQ( )
-    return _instance.fetch( mode=mode, location_id=location_id, parameter_id=parameter_id, country_id=country_id, coordinates=coordinates, radius=radius, providers_id=providers_id, parameters_id=parameters_id, limit=limit, page=page, time=time )
+    return _instance.fetch( mode=mode, location_id=location_id, parameter_id=parameter_id,
+	    country_id=country_id, coordinates=coordinates, radius=radius, providers_id=providers_id,
+	    parameters_id=parameters_id, limit=limit, page=page, time=time )
 
 def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinates: str='world',
 		day_range: int=1, date: str='', sensor: str='ALL', time: int=20 ) -> Any:
-    """Fetch NASA FIRMS active fire data.
+    """Retrieve NASA FIRMS active fire data.
 
     Purpose:
-        Provides direct module-level access to ``Firms.fetch`` using a fresh ``Firms`` instance.
+        Retrieve NASA FIRMS active fire data through NASA FIRMS. Use ``mode`` to select among
+        ``area``, ``data-availability``.
 
     Args:
-        mode (str): Value passed to ``Firms.fetch``.
-        source (str): Value passed to ``Firms.fetch``.
-        area_coordinates (str): Value passed to ``Firms.fetch``.
-        day_range (int): Value passed to ``Firms.fetch``.
-        date (str): Value passed to ``Firms.fetch``.
-        sensor (str): Value passed to ``Firms.fetch``.
-        time (int): Value passed to ``Firms.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``area``,
+            ``data-availability``.
+        source: Provider source identifier used to restrict or classify results.
+        area_coordinates: FIRMS area-of-interest coordinates or ``world`` selector.
+        day_range: Number of days included in the FIRMS active-fire request.
+        date: Date used by the provider or processing operation.
+        sensor: Sensor or instrument filter applied to provider results.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``Firms.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = Firms( )
     return _instance.fetch( mode=mode, source=source, area_coordinates=area_coordinates,
@@ -1663,13 +2150,18 @@ def geocode_location( address: str ) -> Any:
     """Geocode location.
 
     Purpose:
-        Provides direct module-level access to ``GoogleMaps.geocode_location`` using a fresh ``GoogleMaps`` instance.
+        Geocode location using Google Maps.
 
     Args:
-        address (str): Value passed to ``GoogleMaps.geocode_location``.
+        address: Street address or place description used for geocoding, validation, or routing.
 
     Returns:
-        Any: Value returned by ``GoogleMaps.geocode_location``.
+        Tuple[float, float]: Latitude and longitude coordinate pair.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleMaps( )
     return _instance.geocode_location( address=address )
@@ -1678,14 +2170,20 @@ def geocode_coordinates( lat: float, long: float ) -> Any:
     """Geocode coordinates.
 
     Purpose:
-        Provides direct module-level access to ``GoogleMaps.geocode_coordinates`` using a fresh ``GoogleMaps`` instance.
+        Geocode coordinates using Google Maps. Coordinate and bounding arguments constrain
+        geographic scope when supported.
 
     Args:
-        lat (float): Value passed to ``GoogleMaps.geocode_coordinates``.
-        long (float): Value passed to ``GoogleMaps.geocode_coordinates``.
+        lat: Latitude in decimal degrees.
+        long: Longitude in decimal degrees.
 
     Returns:
-        Any: Value returned by ``GoogleMaps.geocode_coordinates``.
+        str | None: Text produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleMaps( )
     return _instance.geocode_coordinates( lat=lat, long=long )
@@ -1694,13 +2192,19 @@ def validate_address( address: List[str] ) -> Any:
     """Validate address.
 
     Purpose:
-        Provides direct module-level access to ``GoogleMaps.validate_address`` using a fresh ``GoogleMaps`` instance.
+        Validate address using Google Maps.
 
     Args:
-        address (List[str]): Value passed to ``GoogleMaps.validate_address``.
+        address: Street address or place description used for geocoding, validation, or routing.
 
     Returns:
-        Any: Value returned by ``GoogleMaps.validate_address``.
+        Dict[Any, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        TypeError: If a supplied value has an unsupported type.
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleMaps( )
     return _instance.validate_address( address=address )
@@ -1709,15 +2213,19 @@ def request_directions( origin: str, destination: str, mode: str='driving' ) -> 
     """Request directions.
 
     Purpose:
-        Provides direct module-level access to ``GoogleMaps.request_directions`` using a fresh ``GoogleMaps`` instance.
+        Request directions using Google Maps.
 
     Args:
-        origin (str): Value passed to ``GoogleMaps.request_directions``.
-        destination (str): Value passed to ``GoogleMaps.request_directions``.
-        mode (str): Value passed to ``GoogleMaps.request_directions``.
+        origin: Starting address or place for a routing request.
+        destination: Destination address or place for a routing request.
+        mode: Operation mode used to select the provider or processing workflow.
 
     Returns:
-        Any: Value returned by ``GoogleMaps.request_directions``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleMaps( )
     return _instance.request_directions( origin=origin, destination=destination, mode=mode )
@@ -1727,57 +2235,70 @@ def fetch_global_imagery_wms_map( layer: str,
 		width: int=1200, height: int=600, projection: str='epsg4326', quality: str='best',
 		image_format: str='image/png', transparent: bool=True, output_dir: str='python-examples',
 		output_name: str='', time: int=20 ) -> Any:
-    """Fetch wms map.
+    """Retrieve a WMS imagery map.
 
     Purpose:
-        Provides direct module-level access to ``GlobalImagery.fetch_wms_map`` using a fresh ``GlobalImagery`` instance.
+        Retrieve a WMS imagery map through NASA Global Imagery Browse Services. Coordinate and
+        bounding arguments constrain geographic scope when supported.
 
     Args:
-        layer (str): Value passed to ``GlobalImagery.fetch_wms_map``.
-        image_date (str): Value passed to ``GlobalImagery.fetch_wms_map``.
-        bbox (Tuple[float, float, float, float]): Value passed to ``GlobalImagery.fetch_wms_map``.
-        width (int): Value passed to ``GlobalImagery.fetch_wms_map``.
-        height (int): Value passed to ``GlobalImagery.fetch_wms_map``.
-        projection (str): Value passed to ``GlobalImagery.fetch_wms_map``.
-        quality (str): Value passed to ``GlobalImagery.fetch_wms_map``.
-        image_format (str): Value passed to ``GlobalImagery.fetch_wms_map``.
-        transparent (bool): Value passed to ``GlobalImagery.fetch_wms_map``.
-        output_dir (str): Value passed to ``GlobalImagery.fetch_wms_map``.
-        output_name (str): Value passed to ``GlobalImagery.fetch_wms_map``.
-        time (int): Value passed to ``GlobalImagery.fetch_wms_map``.
+        layer: Map or imagery layer identifier.
+        image_date: Observation date used to select imagery.
+        bbox: Bounding box defining the geographic extent of the request.
+        width: Output image or chart width in pixels.
+        height: Output image or chart height in pixels.
+        projection: Coordinate reference system used for rendered imagery.
+        quality: Imagery quality level requested from the mapping service.
+        image_format: Output format requested for image.
+        transparent: Whether the generated map image should use a transparent background.
+        output_dir: Local directory where generated imagery is written.
+        output_name: Optional filename for generated imagery.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``GlobalImagery.fetch_wms_map``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GlobalImagery( )
-    return _instance.fetch_wms_map( layer=layer, image_date=image_date, bbox=bbox, width=width, height=height, projection=projection, quality=quality, image_format=image_format, transparent=transparent, output_dir=output_dir, output_name=output_name, time=time )
+    return _instance.fetch_wms_map( layer=layer, image_date=image_date, bbox=bbox, width=width,
+	    height=height, projection=projection, quality=quality, image_format=image_format,
+	    transparent=transparent, output_dir=output_dir, output_name=output_name, time=time )
 
 def fetch_global_imagery_map_services(  ) -> Any:
-    """Fetch map services.
+    """Retrieve available imagery map services.
 
     Purpose:
-        Provides direct module-level access to ``GlobalImagery.fetch_map_services`` using a fresh ``GlobalImagery`` instance.
-
-    Args:
-        None.
+        Retrieve available imagery map services through NASA Global Imagery Browse Services.
 
     Returns:
-        Any: Value returned by ``GlobalImagery.fetch_map_services``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GlobalImagery( )
     return _instance.fetch_map_services(  )
 
 def fetch_global_imagery_mercator_map( ccrs=None ) -> Any:
-    """Fetch mercator map.
+    """Render a Mercator imagery map.
 
     Purpose:
-        Provides direct module-level access to ``GlobalImagery.fetch_mercator_map`` using a fresh ``GlobalImagery`` instance.
+        Render a Mercator imagery map through NASA Global Imagery Browse Services.
 
     Args:
-        ccrs (Any): Value passed to ``GlobalImagery.fetch_mercator_map``.
+        ccrs: Optional Cartopy coordinate reference system used to construct the map.
 
     Returns:
-        Any: Value returned by ``GlobalImagery.fetch_mercator_map``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GlobalImagery( )
     return _instance.fetch_mercator_map( ccrs=ccrs )
@@ -1785,74 +2306,105 @@ def fetch_global_imagery_mercator_map( ccrs=None ) -> Any:
 def fetch_google_geocoding( mode: str='forward', query: str='', latitude: float=0.0,
 		longitude: float=0.0, place_id: str='', language: str='en', region: str='',
 		result_type: str='', location_type: str='', time: int=10, api_key: Optional[str]=None ) -> Any:
-    """Fetch Google forward, reverse, and place geocoding.
+    """Retrieve Google forward, reverse, and place geocoding.
 
     Purpose:
-        Provides direct module-level access to ``GoogleGeocoding.fetch`` using a fresh ``GoogleGeocoding`` instance.
+        Retrieve Google forward, reverse, and place geocoding through Google Geocoding. Use ``mode``
+        to select among ``forward``, ``place``, ``reverse``. The query text determines the records
+        or documents matched by the provider. Coordinate and bounding arguments constrain geographic
+        scope when supported. When supplied, ``api_key`` overrides the configured provider
+        credential for this request.
 
     Args:
-        mode (str): Value passed to ``GoogleGeocoding.fetch``.
-        query (str): Value passed to ``GoogleGeocoding.fetch``.
-        latitude (float): Value passed to ``GoogleGeocoding.fetch``.
-        longitude (float): Value passed to ``GoogleGeocoding.fetch``.
-        place_id (str): Value passed to ``GoogleGeocoding.fetch``.
-        language (str): Value passed to ``GoogleGeocoding.fetch``.
-        region (str): Value passed to ``GoogleGeocoding.fetch``.
-        result_type (str): Value passed to ``GoogleGeocoding.fetch``.
-        location_type (str): Value passed to ``GoogleGeocoding.fetch``.
-        time (int): Value passed to ``GoogleGeocoding.fetch``.
-        api_key (Optional[str]): Value passed to ``GoogleGeocoding.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``forward``,
+            ``place``, ``reverse``.
+        query: Search text, lookup value, or provider query submitted by the caller.
+        latitude: Latitude in decimal degrees.
+        longitude: Longitude in decimal degrees.
+        place_id: Provider identifier for the selected place.
+        language: Language code used for provider results or parsing.
+        region: Provider region filter or regional bias value.
+        result_type: Provider type selector for result.
+        location_type: Provider type selector for location.
+        time: Request timeout in seconds.
+        api_key: Optional credential override used for the active request.
 
     Returns:
-        Any: Value returned by ``GoogleGeocoding.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GoogleGeocoding( )
-    return _instance.fetch( mode=mode, query=query, latitude=latitude, longitude=longitude, place_id=place_id, language=language, region=region, result_type=result_type, location_type=location_type, time=time, api_key=api_key )
+    return _instance.fetch( mode=mode, query=query, latitude=latitude, longitude=longitude,
+	    place_id=place_id, language=language, region=region, result_type=result_type,
+	    location_type=location_type, time=time, api_key=api_key )
 
 def fetch_usgs_national_map( mode: str='products', dataset: str='', q: str='', bbox: str='',
 		prod_formats: str='', max_items: int=25, offset: int=0, time: int=20 ) -> Any:
-    """Fetch USGS National Map datasets and products.
+    """Retrieve USGS National Map datasets and products.
 
     Purpose:
-        Provides direct module-level access to ``USGSTheNationalMap.fetch`` using a fresh ``USGSTheNationalMap`` instance.
+        Retrieve USGS National Map datasets and products through USGS The National Map. Use ``mode``
+        to select among ``datasets``, ``products``. The query text determines the records or
+        documents matched by the provider. Coordinate and bounding arguments constrain geographic
+        scope when supported. Result-count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``USGSTheNationalMap.fetch``.
-        dataset (str): Value passed to ``USGSTheNationalMap.fetch``.
-        q (str): Value passed to ``USGSTheNationalMap.fetch``.
-        bbox (str): Value passed to ``USGSTheNationalMap.fetch``.
-        prod_formats (str): Value passed to ``USGSTheNationalMap.fetch``.
-        max_items (int): Value passed to ``USGSTheNationalMap.fetch``.
-        offset (int): Value passed to ``USGSTheNationalMap.fetch``.
-        time (int): Value passed to ``USGSTheNationalMap.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``datasets``, ``products``.
+        dataset: Provider dataset name or identifier.
+        q: Free-text provider query used to search matching records.
+        bbox: Bounding box defining the geographic extent of the request.
+        prod_formats: Product-format filter applied to National Map results.
+        max_items: Maximum number of records or items to return.
+        offset: Zero-based result offset used for pagination.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``USGSTheNationalMap.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = USGSTheNationalMap( )
-    return _instance.fetch( mode=mode, dataset=dataset, q=q, bbox=bbox, prod_formats=prod_formats, max_items=max_items, offset=offset, time=time )
+    return _instance.fetch( mode=mode, dataset=dataset, q=q, bbox=bbox, prod_formats=prod_formats,
+	    max_items=max_items, offset=offset, time=time )
 
 def fetch_usgs_sciencebase( mode: str='items', q: str='', item_id: str='', max_items: int=25,
 		offset: int=0, fields: str='', time: int=20 ) -> Any:
-    """Fetch USGS ScienceBase items and catalog records.
+    """Retrieve USGS ScienceBase items and catalog records.
 
     Purpose:
-        Provides direct module-level access to ``USGSScienceBase.fetch`` using a fresh ``USGSScienceBase`` instance.
+        Retrieve USGS ScienceBase items and catalog records through USGS ScienceBase. Use ``mode``
+        to select among ``item``, ``items``. The query text determines the records or documents
+        matched by the provider. Result-count arguments bound the amount of data requested.
 
     Args:
-        mode (str): Value passed to ``USGSScienceBase.fetch``.
-        q (str): Value passed to ``USGSScienceBase.fetch``.
-        item_id (str): Value passed to ``USGSScienceBase.fetch``.
-        max_items (int): Value passed to ``USGSScienceBase.fetch``.
-        offset (int): Value passed to ``USGSScienceBase.fetch``.
-        fields (str): Value passed to ``USGSScienceBase.fetch``.
-        time (int): Value passed to ``USGSScienceBase.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``item``,
+            ``items``.
+        q: Free-text provider query used to search matching records.
+        item_id: Provider identifier for the selected item.
+        max_items: Maximum number of records or items to return.
+        offset: Zero-based result offset used for pagination.
+        fields: Comma-separated or provider-specific field selection.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``USGSScienceBase.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = USGSScienceBase( )
-    return _instance.fetch( mode=mode, q=q, item_id=item_id, max_items=max_items, offset=offset, fields=fields, time=time )
+    return _instance.fetch( mode=mode, q=q, item_id=item_id, max_items=max_items,
+	    offset=offset, fields=fields, time=time )
 
 # ==========================================================================================
 # HEALTH
@@ -1861,79 +2413,108 @@ def fetch_usgs_sciencebase( mode: str='items', q: str='', item_id: str='', max_i
 def fetch_health_data( mode: str='rows', domain: str='healthdata.gov', dataset_id: str='',
 		select: str='', where: str='', order: str='', group: str='', limit: int=25,
 		offset: int=0, time: int=20 ) -> Any:
-    """Fetch HealthData.gov Socrata metadata and rows.
+    """Retrieve HealthData.gov Socrata metadata and rows.
 
     Purpose:
-        Provides direct module-level access to ``HealthData.fetch`` using a fresh ``HealthData`` instance.
+        Retrieve HealthData.gov Socrata metadata and rows through HealthData.gov. Use ``mode`` to
+        select among ``metadata``, ``rows``. Result-count arguments bound the amount of data
+        requested.
 
     Args:
-        mode (str): Value passed to ``HealthData.fetch``.
-        domain (str): Value passed to ``HealthData.fetch``.
-        dataset_id (str): Value passed to ``HealthData.fetch``.
-        select (str): Value passed to ``HealthData.fetch``.
-        where (str): Value passed to ``HealthData.fetch``.
-        order (str): Value passed to ``HealthData.fetch``.
-        group (str): Value passed to ``HealthData.fetch``.
-        limit (int): Value passed to ``HealthData.fetch``.
-        offset (int): Value passed to ``HealthData.fetch``.
-        time (int): Value passed to ``HealthData.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``metadata``, ``rows``.
+        domain: Provider domain or host containing the requested dataset.
+        dataset_id: Provider dataset identifier.
+        select: Socrata ``$select`` expression defining returned columns or calculations.
+        where: Socrata ``$where`` filter expression.
+        order: Provider-supported result ordering expression.
+        group: Socrata ``$group`` expression used to aggregate rows.
+        limit: Maximum number of records or items to return.
+        offset: Zero-based result offset used for pagination.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``HealthData.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = HealthData( )
-    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select, where=where, order=order, group=group, limit=limit, offset=offset, time=time )
+    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select,
+	    where=where, order=order, group=group, limit=limit, offset=offset, time=time )
 
 def fetch_global_health_data( mode: str='indicator_registry', query_path: str='',
 		fmt: str='json', time: int=20 ) -> Any:
-    """Fetch WHO global health indicator and Athena data.
+    """Retrieve WHO global health indicator and Athena data.
 
     Purpose:
-        Provides direct module-level access to ``GlobalHealthData.fetch`` using a fresh ``GlobalHealthData`` instance.
+        Retrieve WHO global health indicator and Athena data through WHO Global Health. Use ``mode``
+        to select among ``athena``, ``indicator_registry``.
 
     Args:
-        mode (str): Value passed to ``GlobalHealthData.fetch``.
-        query_path (str): Value passed to ``GlobalHealthData.fetch``.
-        fmt (str): Value passed to ``GlobalHealthData.fetch``.
-        time (int): Value passed to ``GlobalHealthData.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include ``athena``,
+            ``indicator_registry``.
+        query_path: Path identifying the query resource.
+        fmt: Provider response format, such as JSON or XML when supported.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``GlobalHealthData.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GlobalHealthData( )
     return _instance.fetch( mode=mode, query_path=query_path, fmt=fmt, time=time )
 
 def fetch_wonder( mode: str='metadata_template', dataset_id: str='D76',
 		request_xml: str='', time: int=20 ) -> Any:
-    """Fetch CDC WONDER template and query submission.
+    """Retrieve CDC WONDER template and query submission.
 
     Purpose:
-        Provides direct module-level access to ``Wonder.fetch`` using a fresh ``Wonder`` instance.
+        Retrieve CDC WONDER template and query submission through CDC WONDER. Use ``mode`` to select
+        among ``metadata_template``, ``query_xml``.
 
     Args:
-        mode (str): Value passed to ``Wonder.fetch``.
-        dataset_id (str): Value passed to ``Wonder.fetch``.
-        request_xml (str): Value passed to ``Wonder.fetch``.
-        time (int): Value passed to ``Wonder.fetch``.
+        mode: Operation selector. Supported values detected in the implementation include
+            ``metadata_template``, ``query_xml``.
+        dataset_id: Provider dataset identifier.
+        request_xml: CDC WONDER XML request document submitted for query execution.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``Wonder.fetch``.
+        Dict[str, Any] | None: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = Wonder( )
     return _instance.fetch( mode=mode, dataset_id=dataset_id, request_xml=request_xml, time=time )
 
 def load_pubmed( query: str, max_docs: int=5 ) -> Any:
-    """Load source content.
+    """Load PubMed research documents.
 
     Purpose:
-        Provides direct module-level access to ``PubMedSearchLoader.load`` using a fresh ``PubMedSearchLoader`` instance.
+        Load PubMed research documents using the PubMed loader. The query text determines the
+        records or documents matched by the provider. Result-count arguments bound the amount of
+        data requested.
 
     Args:
-        query (str): Value passed to ``PubMedSearchLoader.load``.
-        max_docs (int): Value passed to ``PubMedSearchLoader.load``.
+        query: Search query submitted to the backing loader.
+        max_docs: Maximum number of documents requested from the backing service.
 
     Returns:
-        Any: Value returned by ``PubMedSearchLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = PubMedSearchLoader( )
     return _instance.load( query=query, max_docs=max_docs )
@@ -1943,63 +2524,79 @@ def load_pubmed( query: str, max_docs: int=5 ) -> Any:
 # ==========================================================================================
 
 def fetch_web_page( url: str, time: int=10 ) -> Any:
-    """Fetch HTTP web page retrieval and HTML extraction.
+    """Retrieve HTTP web page retrieval and HTML extraction.
 
     Purpose:
-        Provides direct module-level access to ``WebFetcher.fetch`` using a fresh ``WebFetcher`` instance.
+        Retrieve HTTP web page retrieval and HTML extraction through web fetcher.
 
     Args:
-        url (str): Value passed to ``WebFetcher.fetch``.
-        time (int): Value passed to ``WebFetcher.fetch``.
+        url: URL or URI value used as the request or parsing source.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``WebFetcher.fetch``.
+        Result | None: Fonky result wrapper containing the provider or HTTP response.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebFetcher( )
     return _instance.fetch( url=url, time=time )
 
 def convert_html_to_text( html: str ) -> Any:
-    """HTML to text.
+    """Convert HTML to plain text.
 
     Purpose:
-        Provides direct module-level access to ``WebFetcher.html_to_text`` using a fresh ``WebFetcher`` instance.
+        Convert HTML to plain text using Fonky's web fetcher implementation.
 
     Args:
-        html (str): Value passed to ``WebFetcher.html_to_text``.
+        html: Raw HTML content to parse or transform.
 
     Returns:
-        Any: Value returned by ``WebFetcher.html_to_text``.
+        str: Text produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebFetcher( )
     return _instance.html_to_text( html=html )
 
 def extract_web_title( html: str ) -> Any:
-    """Extract title.
+    """Extract web title from the supplied content.
 
     Purpose:
-        Provides direct module-level access to ``WebFetcher.extract_title`` using a fresh ``WebFetcher`` instance.
+        Extract web title from the supplied content using Fonky's web fetcher implementation.
 
     Args:
-        html (str): Value passed to ``WebFetcher.extract_title``.
+        html: Raw HTML content to parse or transform.
 
     Returns:
-        Any: Value returned by ``WebFetcher.extract_title``.
+        str: Text produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebFetcher( )
     return _instance.extract_title( html=html )
 
 def extract_web_links( base_url: str, html: str ) -> Any:
-    """Extract links.
+    """Extract web links from the supplied content.
 
     Purpose:
-        Provides direct module-level access to ``WebFetcher.extract_links`` using a fresh ``WebFetcher`` instance.
+        Extract web links from the supplied content using Fonky's web fetcher implementation.
 
     Args:
-        base_url (str): Value passed to ``WebFetcher.extract_links``.
-        html (str): Value passed to ``WebFetcher.extract_links``.
+        base_url: URL or URI value used as the request or parsing source.
+        html: Raw HTML content to parse or transform.
 
     Returns:
-        Any: Value returned by ``WebFetcher.extract_links``.
+        List[str]: Hyperlink values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebFetcher( )
     return _instance.extract_links( base_url=base_url, html=html )
@@ -2009,15 +2606,19 @@ def extract_web_structured_data( url: str, html: str,
     """Extract structured data.
 
     Purpose:
-        Provides direct module-level access to ``WebFetcher.extract_structured_data`` using a fresh ``WebFetcher`` instance.
+        Extract structured data using Fonky's web fetcher implementation.
 
     Args:
-        url (str): Value passed to ``WebFetcher.extract_structured_data``.
-        html (str): Value passed to ``WebFetcher.extract_structured_data``.
-        selected_methods (Optional[List[str]]): Value passed to ``WebFetcher.extract_structured_data``.
+        url: URL or URI value used as the request or parsing source.
+        html: Raw HTML content to parse or transform.
+        selected_methods: Extraction method names to execute against the supplied HTML.
 
     Returns:
-        Any: Value returned by ``WebFetcher.extract_structured_data``.
+        Dict[str, List[str]]: Text or identifier values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebFetcher( )
     return _instance.extract_structured_data( url=url, html=html, selected_methods=selected_methods )
@@ -2027,114 +2628,144 @@ def crawl_web( seed_url: str, include_title: bool=True, include_basic_text: bool
 		recursive: bool=False, max_depth: int=1, max_pages: int=10, same_domain_only: bool=True,
 		request_timeout: int=10, delay_seconds: float=0.25, max_bytes: int=1000000,
 		headers: Optional[ Dict[ str, str ] ]=None, use_playwright: bool=False ) -> Any:
-    """Crawl.
+    """Crawl web pages from a seed URL.
 
     Purpose:
-        Provides direct module-level access to ``WebCrawler.crawl`` using a fresh ``WebCrawler`` instance.
+        Crawl web pages from a seed URL. Boolean options control retrieval depth or supplemental
+        content.
 
     Args:
-        seed_url (str): Value passed to ``WebCrawler.crawl``.
-        include_title (bool): Value passed to ``WebCrawler.crawl``.
-        include_basic_text (bool): Value passed to ``WebCrawler.crawl``.
-        include_raw_html (bool): Value passed to ``WebCrawler.crawl``.
-        selected_methods (Optional[List[str]]): Value passed to ``WebCrawler.crawl``.
-        recursive (bool): Value passed to ``WebCrawler.crawl``.
-        max_depth (int): Value passed to ``WebCrawler.crawl``.
-        max_pages (int): Value passed to ``WebCrawler.crawl``.
-        same_domain_only (bool): Value passed to ``WebCrawler.crawl``.
-        request_timeout (int): Value passed to ``WebCrawler.crawl``.
-        delay_seconds (float): Value passed to ``WebCrawler.crawl``.
-        max_bytes (int): Value passed to ``WebCrawler.crawl``.
-        headers (Optional[ Dict[ str, str ] ]): Value passed to ``WebCrawler.crawl``.
-        use_playwright (bool): Value passed to ``WebCrawler.crawl``.
+        seed_url: Starting URL for the crawl.
+        include_title: Whether to include title in the result.
+        include_basic_text: Whether to include basic text in the result.
+        include_raw_html: Whether to include raw html in the result.
+        selected_methods: Extraction method names to execute against the supplied HTML.
+        recursive: Whether nested folders, links, or provider resources should be traversed.
+        max_depth: Maximum recursion depth.
+        max_pages: Maximum pages permitted by the operation.
+        same_domain_only: Whether crawl traversal should remain on the seed URL domain.
+        request_timeout: Request timeout in seconds.
+        delay_seconds: Delay in seconds inserted between crawl requests.
+        max_bytes: Maximum bytes permitted by the operation.
+        headers: Optional HTTP headers applied to web requests.
+        use_playwright: Whether browser-backed rendering should be used for dynamic pages.
 
     Returns:
-        Any: Value returned by ``WebCrawler.crawl``.
+        Dict[str, Any]: Structured mapping produced by the operation.
+
+    Raises:
+        ValueError: If a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebCrawler( headers=headers, use_playwright=use_playwright )
-    return _instance.crawl( seed_url=seed_url, include_title=include_title, include_basic_text=include_basic_text, include_raw_html=include_raw_html, selected_methods=selected_methods, recursive=recursive, max_depth=max_depth, max_pages=max_pages, same_domain_only=same_domain_only, request_timeout=request_timeout, delay_seconds=delay_seconds, max_bytes=max_bytes )
+    return _instance.crawl( seed_url=seed_url, include_title=include_title,
+	    include_basic_text=include_basic_text, include_raw_html=include_raw_html,
+	    selected_methods=selected_methods, recursive=recursive, max_depth=max_depth,
+	    max_pages=max_pages, same_domain_only=same_domain_only, request_timeout=request_timeout,
+	    delay_seconds=delay_seconds, max_bytes=max_bytes )
 
 def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text: bool=True,
 		include_raw_html: bool=False, selected_methods: Optional[List[str]]=None,
 		request_timeout: int=10, max_bytes: int=1000000,
 		headers: Optional[ Dict[ str, str ] ]=None, use_playwright: bool=False ) -> Any:
-    """Scrape page.
+    """Extract crawler page from an HTML page.
 
     Purpose:
-        Provides direct module-level access to ``WebCrawler.scrape_page`` using a fresh ``WebCrawler`` instance.
+        Extract crawler page from an HTML page using Fonky's web crawler implementation.
 
     Args:
-        url (str): Value passed to ``WebCrawler.scrape_page``.
-        include_title (bool): Value passed to ``WebCrawler.scrape_page``.
-        include_basic_text (bool): Value passed to ``WebCrawler.scrape_page``.
-        include_raw_html (bool): Value passed to ``WebCrawler.scrape_page``.
-        selected_methods (Optional[List[str]]): Value passed to ``WebCrawler.scrape_page``.
-        request_timeout (int): Value passed to ``WebCrawler.scrape_page``.
-        max_bytes (int): Value passed to ``WebCrawler.scrape_page``.
-        headers (Optional[ Dict[ str, str ] ]): Value passed to ``WebCrawler.scrape_page``.
-        use_playwright (bool): Value passed to ``WebCrawler.scrape_page``.
+        url: URL or URI value used as the request or parsing source.
+        include_title: Whether to include title in the result.
+        include_basic_text: Whether to include basic text in the result.
+        include_raw_html: Whether to include raw html in the result.
+        selected_methods: Extraction method names to execute against the supplied HTML.
+        request_timeout: Request timeout in seconds.
+        max_bytes: Maximum bytes permitted by the operation.
+        headers: Optional HTTP headers applied to web requests.
+        use_playwright: Whether browser-backed rendering should be used for dynamic pages.
 
     Returns:
-        Any: Value returned by ``WebCrawler.scrape_page``.
+        Dict[str, Any]: Structured mapping produced by the operation.
+
+    Raises:
+        Exception: If the delegated implementation raises an operational failure.
     """
     _instance = WebCrawler( headers=headers, use_playwright=use_playwright )
-    return _instance.scrape_page( url=url, include_title=include_title, include_basic_text=include_basic_text, include_raw_html=include_raw_html, selected_methods=selected_methods, request_timeout=request_timeout, max_bytes=max_bytes )
+    return _instance.scrape_page( url=url, include_title=include_title,
+	    include_basic_text=include_basic_text, include_raw_html=include_raw_html,
+	    selected_methods=selected_methods, request_timeout=request_timeout, max_bytes=max_bytes )
 
 def render_web_page( url: str, timeout: int=15, headers: Optional[ Dict[ str, str ] ]=None,
 		use_playwright: bool=False ) -> Any:
-    """Render with playwright.
+    """Render a dynamic web page with Playwright.
 
     Purpose:
-        Provides direct module-level access to ``WebCrawler.render_with_playwright`` using a fresh ``WebCrawler`` instance.
+        Render a dynamic web page with Playwright.
 
     Args:
-        url (str): Value passed to ``WebCrawler.render_with_playwright``.
-        timeout (int): Value passed to ``WebCrawler.render_with_playwright``.
-        headers (Optional[ Dict[ str, str ] ]): Value passed to ``WebCrawler.render_with_playwright``.
-        use_playwright (bool): Value passed to ``WebCrawler.render_with_playwright``.
+        url: URL or URI value used as the request or parsing source.
+        timeout: Request timeout in seconds.
+        headers: Optional HTTP headers applied to web requests.
+        use_playwright: Whether browser-backed rendering should be used for dynamic pages.
 
     Returns:
-        Any: Value returned by ``WebCrawler.render_with_playwright``.
+        str: Text produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebCrawler( headers=headers, use_playwright=use_playwright )
     return _instance.render_with_playwright( url=url, timeout=timeout )
 
 def load_web( urls: str | List[str], recursive: bool=False, max_depth: int=2,
 		prevent_outside: bool=True, timeout: int=10, ignore: bool=True, progress: bool=True ) -> Any:
-    """Load source content.
+    """Load web documents.
 
     Purpose:
-        Provides direct module-level access to ``WebLoader.load`` using a fresh ``WebLoader`` instance.
+        Load web documents using the web loader. Boolean options control retrieval depth or
+        supplemental content.
 
     Args:
-        urls (str | List[str]): Value passed to ``WebLoader.load``.
-        recursive (bool): Value passed to ``WebLoader.load``.
-        max_depth (int): Value passed to ``WebLoader.load``.
-        prevent_outside (bool): Value passed to ``WebLoader.load``.
-        timeout (int): Value passed to ``WebLoader.load``.
-        ignore (bool): Value passed to ``WebLoader.load``.
-        progress (bool): Value passed to ``WebLoader.load``.
+        urls: URL string or URL list used as web-loader input.
+        recursive: Whether nested folders, links, or provider resources should be traversed.
+        max_depth: Maximum recursion depth.
+        prevent_outside: Whether recursive web loading should exclude pages outside the seed domain.
+        timeout: Maximum time in seconds to wait for the operation.
+        ignore: Whether individual loading failures should be skipped when supported.
+        progress: Whether the underlying loader should report progress.
 
     Returns:
-        Any: Value returned by ``WebLoader.load``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        ValueError: Raised when a required value is missing, blank, or outside the supported range.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
-    _instance = WebLoader( recursive=recursive, max_depth=max_depth, prevent_outside=prevent_outside, timeout=timeout, ignore=ignore, progress=progress )
+    _instance = WebLoader( recursive=recursive, max_depth=max_depth,
+	    prevent_outside=prevent_outside, timeout=timeout, ignore=ignore, progress=progress )
     return _instance.load( urls=urls )
 
 def load_web_recursive( url: str, depth: int=2, max_time: int=10, ignore: bool=True ) -> Any:
-    """Load web documents recursively.
+    """Recursively load web documents.
 
     Purpose:
-        Provides direct module-level access to ``WebLoader.load_recursive`` using a fresh ``WebLoader`` instance.
+        Recursively load web documents using the web loader.
 
     Args:
-        url (str): Value passed to ``WebLoader.load_recursive``.
-        depth (int): Value passed to ``WebLoader.load_recursive``.
-        max_time (int): Value passed to ``WebLoader.load_recursive``.
-        ignore (bool): Value passed to ``WebLoader.load_recursive``.
+        url: URL used by the web or repository loader.
+        depth: Maximum recursion depth.
+        max_time: Maximum request or crawl time in seconds.
+        ignore: Whether individual loading failures should be skipped when supported.
 
     Returns:
-        Any: Value returned by ``WebLoader.load_recursive``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebLoader( )
     return _instance.load_recursive( url=url, depth=depth, max_time=max_time, ignore=ignore )
@@ -2144,51 +2775,63 @@ def load_web_pages( urls: List[str], depth: int=2, timeout: int=10, ignore: bool
     """Load static web pages.
 
     Purpose:
-        Provides direct module-level access to ``WebLoader.load_pages`` using a fresh ``WebLoader`` instance.
+        Load static web pages using the web loader.
 
     Args:
-        urls (List[str]): Value passed to ``WebLoader.load_pages``.
-        depth (int): Value passed to ``WebLoader.load_pages``.
-        timeout (int): Value passed to ``WebLoader.load_pages``.
-        ignore (bool): Value passed to ``WebLoader.load_pages``.
-        progress (bool): Value passed to ``WebLoader.load_pages``.
+        urls: URL string or URL list used as web-loader input.
+        depth: Maximum recursion depth.
+        timeout: Maximum time in seconds to wait for the operation.
+        ignore: Whether individual loading failures should be skipped when supported.
+        progress: Whether the underlying loader should report progress.
 
     Returns:
-        Any: Value returned by ``WebLoader.load_pages``.
+        List[Document] | None: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebLoader( )
     return _instance.load_pages( urls=urls, depth=depth, timeout=timeout, ignore=ignore, progress=progress )
 
 def load_github( url: str, repo: str, branch: str, filetype: str='.md' ) -> Any:
-    """Load source content.
+    """Load files from a GitHub repository.
 
     Purpose:
-        Provides direct module-level access to ``GithubLoader.load`` using a fresh ``GithubLoader`` instance.
+        Load files from a GitHub repository using the GitHub loader.
 
     Args:
-        url (str): Value passed to ``GithubLoader.load``.
-        repo (str): Value passed to ``GithubLoader.load``.
-        branch (str): Value passed to ``GithubLoader.load``.
-        filetype (str): Value passed to ``GithubLoader.load``.
+        url: URL used by the web or repository loader.
+        repo: GitHub repository name or owner/repository path.
+        branch: Repository branch to inspect.
+        filetype: File suffix filter used when loading repository files.
 
     Returns:
-        Any: Value returned by ``GithubLoader.load``.
+        List[Document]: LangChain documents loaded from the requested source.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = GithubLoader( )
     return _instance.load( url=url, repo=repo, branch=branch, filetype=filetype )
 
 def scrape_web_page( url: str, time: int=10 ) -> Any:
-    """Fetch a web page.
+    """Fetch a web page for extraction.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape`` using a fresh ``WebExtractor`` instance.
+        Fetch a web page for extraction using Fonky's web extractor implementation.
 
     Args:
-        url (str): Value passed to ``WebExtractor.scrape``.
-        time (int): Value passed to ``WebExtractor.scrape``.
+        url: Absolute URL to fetch.
+        time: Request timeout in seconds.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape``.
+        Result | None: Fonky result wrapper containing the provider or HTTP response.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape( url=url, time=time )
@@ -2197,13 +2840,17 @@ def scraper_html_to_text( html: str ) -> Any:
     """Convert HTML to plain text.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.html_to_text`` using a fresh ``WebExtractor`` instance.
+        Convert HTML to plain text.
 
     Args:
-        html (str): Value passed to ``WebExtractor.html_to_text``.
+        html: Raw HTML string to convert.
 
     Returns:
-        Any: Value returned by ``WebExtractor.html_to_text``.
+        str: Text produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.html_to_text( html=html )
@@ -2212,13 +2859,17 @@ def scrape_paragraphs( uri: str ) -> Any:
     """Extract paragraph text.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_paragraphs`` using a fresh ``WebExtractor`` instance.
+        Extract paragraph text using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_paragraphs``.
+        uri: Fully qualified URI of the target HTML document.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_paragraphs``.
+        List[str] | None: Paragraph text values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_paragraphs( uri=uri )
@@ -2227,13 +2878,17 @@ def scrape_lists( uri: str ) -> Any:
     """Extract list item text.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_lists`` using a fresh ``WebExtractor`` instance.
+        Extract list item text using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_lists``.
+        uri: Fully qualified URI of the target HTML page.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_lists``.
+        List[str] | None: Text or identifier values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_lists( uri=uri )
@@ -2242,13 +2897,17 @@ def scrape_tables( uri: str ) -> Any:
     """Extract table cell text.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_tables`` using a fresh ``WebExtractor`` instance.
+        Extract table cell text using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_tables``.
+        uri: Fully qualified URI of the target HTML document.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_tables``.
+        List[str] | None: Table cell text values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_tables( uri=uri )
@@ -2257,13 +2916,17 @@ def scrape_articles( uri: str ) -> Any:
     """Extract article text.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_articles`` using a fresh ``WebExtractor`` instance.
+        Extract article text using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_articles``.
+        uri: Fully qualified URI of the target HTML page.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_articles``.
+        List[str] | None: Text or identifier values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_articles( uri=uri )
@@ -2272,13 +2935,17 @@ def scrape_headings( uri: str ) -> Any:
     """Extract heading text.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_headings`` using a fresh ``WebExtractor`` instance.
+        Extract heading text using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_headings``.
+        uri: Fully qualified URI of the target HTML document.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_headings``.
+        List[str] | None: Heading text values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_headings( uri=uri )
@@ -2287,13 +2954,17 @@ def scrape_divisions( uri: str ) -> Any:
     """Extract division text.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_divisions`` using a fresh ``WebExtractor`` instance.
+        Extract division text using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_divisions``.
+        uri: Fully qualified URI of the target HTML document.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_divisions``.
+        List[str] | None: Text or identifier values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_divisions( uri=uri )
@@ -2302,13 +2973,17 @@ def scrape_sections( uri: str ) -> Any:
     """Extract section text.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_sections`` using a fresh ``WebExtractor`` instance.
+        Extract section text using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_sections``.
+        uri: Fully qualified URI of the target HTML document.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_sections``.
+        List[str] | None: Text or identifier values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_sections( uri=uri )
@@ -2317,28 +2992,36 @@ def scrape_blockquotes( uri: str ) -> Any:
     """Extract blockquote text.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_blockquotes`` using a fresh ``WebExtractor`` instance.
+        Extract blockquote text using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_blockquotes``.
+        uri: Fully qualified URI of the target HTML document.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_blockquotes``.
+        List[str] | None: Text or identifier values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_blockquotes( uri=uri )
 
 def scrape_hyperlinks( uri: str ) -> Any:
-    """Extract hyperlinks.
+    """Extract hyperlinks from an HTML page.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_hyperlinks`` using a fresh ``WebExtractor`` instance.
+        Extract hyperlinks from an HTML page using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_hyperlinks``.
+        uri: Fully qualified URI of the target HTML page.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_hyperlinks``.
+        List[str] | None: Hyperlink values produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_hyperlinks( uri=uri )
@@ -2347,28 +3030,35 @@ def scrape_images( uri: str ) -> Any:
     """Extract image references.
 
     Purpose:
-        Provides direct module-level access to ``WebExtractor.scrape_images`` using a fresh ``WebExtractor`` instance.
+        Extract image references using Fonky's web extractor implementation.
 
     Args:
-        uri (str): Value passed to ``WebExtractor.scrape_images``.
+        uri: Fully qualified URI of the target HTML page.
 
     Returns:
-        Any: Value returned by ``WebExtractor.scrape_images``.
+        List[str] | None: Image references produced by the operation.
+
+    Raises:
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
     """
     _instance = WebExtractor( )
     return _instance.scrape_images( uri=uri )
 
 def encode_image( path: str ) -> str:
-    """Encode an image as Base64 text.
+    """Encode a local image as Base64 text.
 
     Purpose:
-        Provides direct module-level access to ``fetchers.encode_image``.
+        Encode a local image as Base64 text using Fonky's provider implementation.
 
     Args:
-        path (str): Local image path to encode.
+        path: Local image path to encode.
 
     Returns:
-        str: Base64-encoded image data.
+        str: Text produced by the operation.
+
+    Raises:
+        Exception: If the delegated implementation raises an operational failure.
     """
     return _encode_image( path=path )
 
