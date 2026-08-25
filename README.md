@@ -46,7 +46,7 @@ Fonky provides a reusable library for:
 
 ## 🏗️ Architecture
 
-Fonky's LangChain integration is implemented directly in `funkytown.py`.
+Fonky's LangChain integration is implemented directly in `fonky.py`.
 
 ![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-architecture.png)
 

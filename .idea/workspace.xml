@@ -5,8 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0404ebd8-9a3c-41ad-b1e4-808acb77a19d" name="Changes" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/fetchers/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/fonky/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/loaders/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/models/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/processors/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/scrapers/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/tools/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-fetcher/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-loader/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-scraper/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-wrapper/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/development-guide/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/testing/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/archives/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/astronomical/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/cloud/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/composing-workflows/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/demographic/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/dependencies/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/documents/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/environmental/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/failures/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/geospatial/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/health/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/interface-selection/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/results/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/state/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/troubleshooting/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/usage/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/web/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/search/search_index.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/user-guide/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/user-guide/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +122,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1787613800661</updated>
-      <workItem from="1787613800665" duration="6351000" />
+      <workItem from="1787613800665" duration="6735000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -228,7 +260,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787673274962</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="update">
+      <option name="closed" value="true" />
+      <created>1787673898783</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1787673898783</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
