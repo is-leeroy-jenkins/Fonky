@@ -56,7 +56,7 @@ ___
 LangChain Agent / Application
             |
             v
-       fonkytown/funkytown.py
+       fonkytown/fonky.py
  literal @tool decorators
             |
     +-------+-------+
@@ -89,7 +89,7 @@ def scrape_tables( uri: str ) -> Any:
 ```
 
 `tools.py` is a grouping and discovery module only. It imports the already-decorated `BaseTool`
-objects from `funkytown.py` and organizes them into the nine Fonky domains.
+objects from `fonky.py` and organizes them into the nine Fonky domains.
 
 ### Important API consequence
 
