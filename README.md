@@ -2,7 +2,7 @@
 
 ![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-project.png)
 
-<p align="center">
+<p align="left">
   <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-architecture">Architecture</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-installation">Installation</a> &nbsp;|&nbsp;

@@ -5,7 +5,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0404ebd8-9a3c-41ad-b1e4-808acb77a19d" name="Changes" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/boogr/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/boogr/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/config/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/config/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/core/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/core/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/fetchers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/fetchers/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/fonky/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/fonky/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/loaders/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/loaders/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/models/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/models/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/processors/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/processors/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/scrapers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/scrapers/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/api/tools/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/tools/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/architecture/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/architecture/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/configuration/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/configuration/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-fetcher/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/adding-fetcher/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-loader/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/adding-loader/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-scraper/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/adding-scraper/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/adding-wrapper/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/adding-wrapper/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/development-guide/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/development-guide/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/development/testing/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/testing/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/getting-started/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/getting-started/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/archives/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/archives/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/astronomical/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/astronomical/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/cloud/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/cloud/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/composing-workflows/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/composing-workflows/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/demographic/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/demographic/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/dependencies/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/dependencies/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/documents/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/documents/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/environmental/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/environmental/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/failures/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/failures/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/geospatial/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/geospatial/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/health/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/health/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/interface-selection/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/interface-selection/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/results/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/results/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/state/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/state/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/troubleshooting/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/troubleshooting/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/usage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/usage/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/guides/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/guides/web/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/troubleshooting/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/troubleshooting/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/usage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/usage/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/user-guide/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/user-guide/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +124,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1787613800661</updated>
-      <workItem from="1787613800665" duration="3771000" />
+      <workItem from="1787613800665" duration="4023000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -136,7 +182,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787670891422</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="update">
+      <option name="closed" value="true" />
+      <created>1787671044515</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1787671044515</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

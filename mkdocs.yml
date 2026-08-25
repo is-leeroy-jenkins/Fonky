@@ -1,8 +1,8 @@
 site_name: Fonky
 site_description: Data retrieval, document ingestion, web scraping, cloud access, public data, scientific and geospatial integration framework.
-site_url: https://is-leeroy-jenkins.github.io/Fonky/
+site_url: https://is-leeroy-jenkins.github.io/funkytown/
 repo_name: is-leeroy-jenkins/Fonky
-repo_url: https://github.com/is-leeroy-jenkins/Fonky
+repo_url: https://github.com/is-leeroy-jenkins/funkytown#fonky
 
 docs_dir: docs
 site_dir: site
