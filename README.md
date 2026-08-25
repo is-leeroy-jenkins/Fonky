@@ -137,6 +137,7 @@ funkytown/
     geospatial.py
     health.py
     web.py
+    boogr.py
 
     notebook/
         funkytown.ipynb
