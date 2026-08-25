@@ -1,6 +1,6 @@
 ###### Fonky
 
-![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky_project.png)
+![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-project.png)
 
 <p align="center">
   <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
