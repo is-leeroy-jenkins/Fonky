@@ -6,7 +6,6 @@
   <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-architecture">Architecture</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-installation">Installation</a> &nbsp;|&nbsp;
-  <a href="#-functional-interface">Functional Interface</a> &nbsp;|&nbsp;
   <a href="#-domain-api-reference">Domains</a> &nbsp;|&nbsp;
   <a href="resources/user-guide.md">Usage</a> &nbsp;|&nbsp;
   <a href="https://is-leeroy-jenkins.github.io/funkytown/">Documentation</a> &nbsp;|&nbsp;
