@@ -1,6 +1,6 @@
 # Usage Patterns
 
-## Representative Recipes
+### Representative Recipes
 
 ### Retrieval-first
 

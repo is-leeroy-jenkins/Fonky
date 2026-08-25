@@ -2,11 +2,11 @@
 
 ![Health Data](../images/fonky-gov-demo-health.png)
 
-## Scope
+### Scope
 
 Health workflows center on public health, epidemiological, and biomedical publication retrieval.
 
-## Key Operations
+### Key Operations
 
 | Operation                  | Primary Use                              |
 |----------------------------|------------------------------------------|
@@ -15,12 +15,12 @@ Health workflows center on public health, epidemiological, and biomedical public
 | `fetch_wonder`             | CDC WONDER retrieval                     |
 | `load_pubmed`              | PubMed loading for biomedical literature |
 
-## Workflow Patterns
+### Workflow Patterns
 
 - collect public or global health measures
 - combine literature with structured health data
 - enrich demographic or geographic reporting
 
-## Notes
+### Notes
 
 Use health tools for public-health analytics, indicator retrieval, and biomedical publication ingestion.

@@ -1,6 +1,6 @@
 # Results & Return Shapes
 
-## Result Families
+### Result Families
 
 | Family | Typical Producer | Shape |
 |---|---|---|
@@ -9,7 +9,7 @@
 | extracted structures | scrapers | lists or dictionaries of headings, links, tables, paragraphs, images |
 | metadata bundles | loaders / fetchers | source, timestamps, identifiers, provider descriptors |
 
-## Reading Results
+### Reading Results
 
 - inspect the top-level type,
 - confirm presence of metadata,

@@ -2,11 +2,11 @@
 
 ![Archives & Research](../images/fonky-gov-demo-health.png)
 
-## Scope
+### Scope
 
 Archive and research workflows concentrate public knowledge sources, scholarly repositories, open-government catalogs, and reusable loaders for research corpora.
 
-## Key Operations
+### Key Operations
 
 | Operation             | Primary Use                                                    |
 |-----------------------|----------------------------------------------------------------|
@@ -18,12 +18,12 @@ Archive and research workflows concentrate public knowledge sources, scholarly r
 | `load_arxiv`          | materialize ArXiv content as documents                         |
 | `load_wikipedia`      | materialize Wikipedia content as documents                     |
 
-## Workflow Patterns
+### Workflow Patterns
 
 - discovery → fetch candidate sources
 - materialization → convert selected sources into documents
 - downstream → summarize, embed, index, or compare across sources
 
-## Notes
+### Notes
 
 Prefer archive tools for discovery and provenance-rich retrieval. Prefer loaders when the downstream step requires LangChain `Document` objects.

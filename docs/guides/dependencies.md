@@ -1,6 +1,6 @@
 # Dependencies
 
-## Validated Baseline
+### Validated Baseline
 
 ```text
 langchain==1.3.16
@@ -12,7 +12,7 @@ langchain-googledrive==0.1.52
 setuptools==81.0.0
 ```
 
-## Dependency Groups
+### Dependency Groups
 
 | Group            | Examples                                                       |
 |------------------|----------------------------------------------------------------|
@@ -22,7 +22,7 @@ setuptools==81.0.0
 | scraper support  | HTML parsing, readability, crawling, browser or render support |
 | documentation    | `mkdocs`, `mkdocstrings`, theme and plugin packages            |
 
-## Verification
+### Verification
 
 ```powershell
 python -m pip check
@@ -30,7 +30,7 @@ pytest
 mkdocs build --strict
 ```
 
-## Failure Classes
+### Failure Classes
 
 - missing provider library,
 - conflicting LangChain versions,

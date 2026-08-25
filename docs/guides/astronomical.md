@@ -2,11 +2,11 @@
 
 ![Astronomical, Space & Flight](../images/fonky-astro-space.png)
 
-## Scope
+### Scope
 
 Astronomical workflows combine observatory, catalog, orbit, space-weather, and flight-state sources into shared monitoring and discovery patterns.
 
-## Key Operations
+### Key Operations
 
 | Operation                 | Primary Use                                 |
 |---------------------------|---------------------------------------------|
@@ -19,13 +19,13 @@ Astronomical workflows combine observatory, catalog, orbit, space-weather, and f
 | `fetch_astro_query`       | query-oriented astronomy access             |
 | `fetch_open_sky`          | OpenSky flight-state retrieval              |
 
-## Workflow Patterns
+### Workflow Patterns
 
 - monitor celestial or aircraft state
 - combine live and historical data
 - enrich with catalog or geospatial context
 - render alerts, tracking views, or situational awareness
 
-## Notes
+### Notes
 
 Use this domain when the data is fundamentally observational, orbital, or flight-oriented rather than generic geospatial mapping.

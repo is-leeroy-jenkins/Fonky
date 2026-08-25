@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0404ebd8-9a3c-41ad-b1e4-808acb77a19d" name="Changes" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/getting-started.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/getting-started.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/guides/archives.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/archives.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/guides/astronomical.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/astronomical.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/guides/cloud.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/cloud.md" afterDir="false" />
@@ -19,12 +17,11 @@
       <change beforePath="$PROJECT_DIR$/docs/guides/geospatial.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/geospatial.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/guides/health.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/health.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/guides/interface-selection.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/interface-selection.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/results.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/results.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/state.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/state.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/guides/troubleshooting.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/troubleshooting.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/guides/usage.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/usage.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/guides/web.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/guides/web.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/usage.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/usage.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/user-guide.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user-guide.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +105,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1787613800661</updated>
-      <workItem from="1787613800665" duration="4790000" />
+      <workItem from="1787613800665" duration="5221000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -182,7 +179,23 @@
       <option name="project" value="LOCAL" />
       <updated>1787671316937</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update">
+      <option name="closed" value="true" />
+      <created>1787672106454</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1787672106454</updated>
+    </task>
+    <task id="LOCAL-00011" summary="update">
+      <option name="closed" value="true" />
+      <created>1787672149080</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1787672149080</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

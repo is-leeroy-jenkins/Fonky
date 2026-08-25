@@ -2,11 +2,11 @@
 
 ![Document Loading](../images/fonky-loaders.png)
 
-## Scope
+### Scope
 
 Document loading turns local, remote, and generated sources into normalized content structures suitable for downstream chunking, indexing, and analysis.
 
-## Key Operations
+### Key Operations
 
 | Operation                                    | Primary Use                           |
 |----------------------------------------------|---------------------------------------|
@@ -21,7 +21,7 @@ Document loading turns local, remote, and generated sources into normalized cont
 | `load_powerpoint / load_powerpoint_multiple` | slide content ingestion               |
 | `load_email / load_outlook`                  | email and mailbox-related loading     |
 
-## Workflow Patterns
+### Workflow Patterns
 
 - select source
 - instantiate loader
@@ -29,6 +29,6 @@ Document loading turns local, remote, and generated sources into normalized cont
 - normalize into LangChain `Document` objects
 - optionally split or index downstream
 
-## Notes
+### Notes
 
 Use document loaders when downstream systems expect `Document` objects with `page_content` and `metadata`.

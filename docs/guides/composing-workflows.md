@@ -1,6 +1,6 @@
 # Composing Workflows
 
-## Common Compositions
+### Common Compositions
 
 | Composition                              | Pattern                                                                |
 |------------------------------------------|------------------------------------------------------------------------|
@@ -10,7 +10,7 @@
 | research + public data                   | combine archive sources with government or demographic datasets        |
 | document load → chunk → index            | produce `Document` objects, split, and send to vector storage          |
 
-## Example
+### Example
 
 ```python
 from funkytown.fonky import fetch_google_search
@@ -34,6 +34,6 @@ page = load_web.invoke(
 )
 ```
 
-## Composition Rule
+### Composition Rule
 
 Keep each step narrow and typed. Fetch for discovery, load for document construction, scrape for structure, and process/index downstream.

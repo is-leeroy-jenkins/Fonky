@@ -1,10 +1,10 @@
 # Cloud & Remote Storage
 
-## Scope
+### Scope
 
 Cloud loaders cover remote documents, provider folders, bucket-backed assets, and speech-to-text ingestion for provider-hosted media.
 
-## Key Operations
+### Key Operations
 
 | Operation                    | Primary Use                                         |
 |------------------------------|-----------------------------------------------------|
@@ -17,13 +17,13 @@ Cloud loaders cover remote documents, provider folders, bucket-backed assets, an
 | `load_aws_bucket`            | load from an S3-compatible bucket                   |
 | `load_google_speech_to_text` | transcribe provider-backed audio through Google STT |
 
-## Workflow Patterns
+### Workflow Patterns
 
 - locate remote asset
 - resolve credentials and provider library
 - load to text or documents
 - preserve metadata for provenance and downstream indexing
 
-## Notes
+### Notes
 
 Cloud loaders are still ingestion workflows. Use them when the asset lives remotely but the target output is a normalized document set.

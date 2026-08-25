@@ -1,6 +1,6 @@
 # State
 
-## Public Surface State Model
+### Public Surface State Model
 
 The public tool layer is intentionally short-lived.
 
@@ -9,7 +9,7 @@ The public tool layer is intentionally short-lived.
 - `tools.py` returns already-defined tool objects and adds no execution state,
 - downstream persistence belongs outside the public surface.
 
-## When to Use Implementation Classes
+### When to Use Implementation Classes
 
 Use a source-module class when you need:
 

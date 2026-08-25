@@ -2,11 +2,11 @@
 
 ![Web Retrieval & Scraping](../images/fonky-workflows.png)
 
-## Scope
+### Scope
 
 Web workflows split into three tracks: fetching pages, loading pages into documents, and scraping structured page elements.
 
-## Key Operations
+### Key Operations
 
 | Operation                                                             | Primary Use                           |
 |-----------------------------------------------------------------------|---------------------------------------|
@@ -18,13 +18,13 @@ Web workflows split into three tracks: fetching pages, loading pages into docume
 | `extract_web_title / extract_web_links / extract_web_structured_data` | focused extraction utilities          |
 | `scrape_paragraphs / scrape_lists / scrape_tables / scrape_images`    | structure-specific extraction         |
 
-## Workflow Patterns
+### Workflow Patterns
 
 - fetch raw page
 - load page to documents if downstream chunking or indexing is required
 - scrape structure if the goal is headings, links, tables, or images
 - use recursive loading for site sections rather than individual pages
 
-## Notes
+### Notes
 
 Choose **loaders** when the result must become document objects. Choose **scrapers** when you need HTML structures. Choose **fetchers** when you need raw or rendered page retrieval.

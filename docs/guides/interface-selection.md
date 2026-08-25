@@ -1,6 +1,6 @@
 # Interface Selection
 
-## Choose by Required Control
+### Choose by Required Control
 
 | Need                                   | Surface                      |
 |----------------------------------------|------------------------------|
@@ -8,7 +8,7 @@
 | retrieve a domain-scoped list of tools | `tools.py`                   |
 | inspect provider or parser behavior    | source implementation class  |
 
-## Decision Rules
+### Decision Rules
 
 - choose `fonky.py` for deterministic execution,
 - choose `tools.py` for agent-facing tool discovery,

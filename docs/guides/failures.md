@@ -1,6 +1,6 @@
 # Failure Handling
 
-## Failure Taxonomy
+### Failure Taxonomy
 
 | Class                 | Typical Trigger                    | Surface                          |
 |-----------------------|------------------------------------|----------------------------------|
@@ -11,7 +11,7 @@
 | schema failure        | unexpected provider shape          | fetchers / models                |
 | documentation failure | invalid docstring or import path   | `fonky.py`, API docs             |
 
-## Response Pattern
+### Response Pattern
 
 1. isolate the failing surface,
 2. reduce to the smallest reproducible invocation,
@@ -19,7 +19,7 @@
 4. test the underlying implementation class,
 5. restore documentation or schema parity if the failure is tooling-related.
 
-## Documentation-Specific Failures
+### Documentation-Specific Failures
 
 - `mkdocstrings` import path wrong,
 - navigation references missing pages,

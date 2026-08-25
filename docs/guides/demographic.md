@@ -2,11 +2,11 @@
 
 ![Demographic & Public Data](../images/fonky-gov-demo-health.png)
 
-## Scope
+### Scope
 
 Demographic workflows focus on census, international, civic, and public-data sources intended for statistics, public analysis, and comparative reporting.
 
-## Key Operations
+### Key Operations
 
 | Operation                | Primary Use                                           |
 |--------------------------|-------------------------------------------------------|
@@ -16,13 +16,13 @@ Demographic workflows focus on census, international, civic, and public-data sou
 | `fetch_world_population` | retrieve world population or related demographic data |
 | `load_open_city`         | ingest city/public-data source material               |
 
-## Workflow Patterns
+### Workflow Patterns
 
 - retrieve public measures or dimensional datasets
 - standardize records
 - join with geographic or health context
 - render tabular analysis or document summaries
 
-## Notes
+### Notes
 
 Prefer demographic tools when the primary output is a public statistic, civic dataset, or international demographic indicator.

@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-## Diagnostic Flow
+### Diagnostic Flow
 
 1. import the target tool,
 2. confirm `.invoke(...)` usage,
@@ -9,7 +9,7 @@
 5. test the implementation class directly,
 6. rebuild docs with `mkdocs build --strict` if the issue is documentation.
 
-## Tooling Problems
+### Tooling Problems
 
 | Problem | Corrective Action |
 |---|---|
