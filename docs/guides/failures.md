@@ -2,14 +2,14 @@
 
 ## Failure Taxonomy
 
-| Class | Typical Trigger | Surface |
-|---|---|---|
-| missing source | bad path, missing URL, 404 | loaders / fetchers / scrapers |
-| auth failure | absent or invalid credentials | provider-backed fetchers/loaders |
-| parse failure | malformed or unsupported content | loaders / scrapers |
-| dependency failure | missing package, driver, or binary | loaders / rendering paths |
-| schema failure | unexpected provider shape | fetchers / models |
-| documentation failure | invalid docstring or import path | `fonky.py`, API docs |
+| Class                 | Typical Trigger                    | Surface                          |
+|-----------------------|------------------------------------|----------------------------------|
+| missing source        | bad path, missing URL, 404         | loaders / fetchers / scrapers    |
+| auth failure          | absent or invalid credentials      | provider-backed fetchers/loaders |
+| parse failure         | malformed or unsupported content   | loaders / scrapers               |
+| dependency failure    | missing package, driver, or binary | loaders / rendering paths        |
+| schema failure        | unexpected provider shape          | fetchers / models                |
+| documentation failure | invalid docstring or import path   | `fonky.py`, API docs             |
 
 ## Response Pattern
 

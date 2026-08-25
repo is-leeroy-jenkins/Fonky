@@ -2,12 +2,11 @@
 
 ## Choose by Required Control
 
-| Need | Surface |
-|---|---|
-| invoke a single public operation | `fonky.py` |
-| retrieve a domain-scoped list of tools | `tools.py` |
-| inspect provider or parser behavior | source implementation class |
-| build documentation from source docs | API pages via `mkdocstrings` |
+| Need                                   | Surface                      |
+|----------------------------------------|------------------------------|
+| invoke a single public operation       | `fonky.py`                   |
+| retrieve a domain-scoped list of tools | `tools.py`                   |
+| inspect provider or parser behavior    | source implementation class  |
 
 ## Decision Rules
 

@@ -2,13 +2,13 @@
 
 ## Task to Entry Point
 
-| Task | Recommended Entry Point | Follow-On |
-|---|---|---|
-| search papers, government data, archives | `fonky.fonky` fetch tools | use `tools.py` for agent selection |
-| ingest documents from local or cloud sources | `fonky.fonky` load tools | optional chunking / indexing downstream |
-| scrape page sections or links | `fonky.fonky` scrape tools | pair with loaders for recursive capture |
-| run an agent with scoped tools | `fonky.tools.get_tools(domain)` | supply only the required domain set |
-| debug provider behavior | implementation class | instantiate class in source module directly |
+| Task                                         | Recommended Entry Point         | Follow-On                                   |
+|----------------------------------------------|---------------------------------|---------------------------------------------|
+| search papers, government data, archives     | `funkytown.fonky` fetch tools       | use `tools.py` for agent selection          |
+| ingest documents from local or cloud sources | `funkytown.fonky` load tools        | optional chunking / indexing downstream     |
+| scrape page sections or links                | `funkytown.fonky` scrape tools      | pair with loaders for recursive capture     |
+| run an agent with scoped tools               | `funkytown.tools.get_tools(domain)` | supply only the required domain set         |
+| debug provider behavior                      | implementation class            | instantiate class in source module directly |
 
 ## Common Patterns
 
@@ -20,13 +20,13 @@
 ## Execution Reference
 
 ```python
-from fonky.tools import get_tools
+from funkytown.tools import get_tools
 
 agent_tools = get_tools( domain='archives' )
 ```
 
 ```python
-from fonky.fonky import load_pdf
+from funkytown.fonky import load_pdf
 
 docs = load_pdf.invoke(
     {

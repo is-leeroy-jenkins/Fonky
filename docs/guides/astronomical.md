@@ -8,16 +8,16 @@ Astronomical workflows combine observatory, catalog, orbit, space-weather, and f
 
 ## Key Operations
 
-| Operation | Primary Use |
-|---|---|
+| Operation                 | Primary Use                                 |
+|---------------------------|---------------------------------------------|
 | `fetch_naval_observatory` | observatory and ephemeris-related retrieval |
-| `fetch_satellite_center` | satellite/space-object support retrieval |
-| `fetch_nearby_objects` | small-body and near-Earth object data |
-| `fetch_open_science` | open science and astronomical data |
-| `fetch_space_weather` | space-weather and solar-activity retrieval |
-| `fetch_astro_catalog` | catalog and astronomical source retrieval |
-| `fetch_astro_query` | query-oriented astronomy access |
-| `fetch_open_sky` | OpenSky flight-state retrieval |
+| `fetch_satellite_center`  | satellite/space-object support retrieval    |
+| `fetch_nearby_objects`    | small-body and near-Earth object data       |
+| `fetch_open_science`      | open science and astronomical data          |
+| `fetch_space_weather`     | space-weather and solar-activity retrieval  |
+| `fetch_astro_catalog`     | catalog and astronomical source retrieval   |
+| `fetch_astro_query`       | query-oriented astronomy access             |
+| `fetch_open_sky`          | OpenSky flight-state retrieval              |
 
 ## Workflow Patterns
 

@@ -8,13 +8,13 @@ Demographic workflows focus on census, international, civic, and public-data sou
 
 ## Key Operations
 
-| Operation | Primary Use |
-|---|---|
-| `fetch_census_data` | retrieve census datasets or endpoint-backed results |
-| `fetch_socrata` | retrieve public datasets exposed through Socrata |
-| `fetch_united_nations` | retrieve UN and international public data |
+| Operation                | Primary Use                                           |
+|--------------------------|-------------------------------------------------------|
+| `fetch_census_data`      | retrieve census datasets or endpoint-backed results   |
+| `fetch_socrata`          | retrieve public datasets exposed through Socrata      |
+| `fetch_united_nations`   | retrieve UN and international public data             |
 | `fetch_world_population` | retrieve world population or related demographic data |
-| `load_open_city` | ingest city/public-data source material |
+| `load_open_city`         | ingest city/public-data source material               |
 
 ## Workflow Patterns
 

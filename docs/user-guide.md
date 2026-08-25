@@ -2,10 +2,10 @@
 
 ## Choose the Surface
 
-| Surface | Use When |
-|---|---|
-| `fonky.py` | direct invocation of a specific public operation |
-| `tools.py` | tool discovery or agent-scoped selection |
+| Surface              | Use When                                                                |
+|----------------------|-------------------------------------------------------------------------|
+| `fonky.py`           | direct invocation of a specific public operation                        |
+| `tools.py`           | tool discovery or agent-scoped selection                                |
 | implementation class | debugging, low-level behavior, or repeated operations with shared state |
 
 ## Quick Recipes

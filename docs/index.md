@@ -10,7 +10,7 @@ Fonky is a modular external-data framework organized around three execution modu
 
 The public surface is split into two layers:
 
-1. `fonky.py` — 110 literal `@tool(...)` exports.
+1. `funkytown.py` — 110 literal `@tool(...)` exports.
 2. `tools.py` — domain grouping and discovery helpers for the exported tools.
 
 ![Fonky Overview](images/fonky_project.png)
@@ -35,7 +35,7 @@ The public surface is split into two layers:
 
 | Surface                 | Role                     | Primary Use                                                    |
 |-------------------------|--------------------------|----------------------------------------------------------------|
-| `fonky.py`              | Public tool exports      | Direct `.invoke(...)` execution or agent-ready tool imports    |
+| `funkytown.py`              | Public tool exports      | Direct `.invoke(...)` execution or agent-ready tool imports    |
 | `tools.py`              | Tool discovery           | `get_domains()`, `get_tools(domain)`, `get_tool_names(domain)` |
 | `fetchers.py`           | Retrieval implementation | APIs, remote services, public data, search, weather, maps      |
 | `loaders.py`            | Ingestion implementation | Files, notebooks, cloud sources, recursive web loading         |
@@ -47,7 +47,7 @@ The public surface is split into two layers:
 ## Representative Paths
 
 ```python
-from fonky.fonky import fetch_arxiv
+from funkytown.fonky import fetch_arxiv
 
 result = fetch_arxiv.invoke(
     {
@@ -60,7 +60,7 @@ result = fetch_arxiv.invoke(
 ```
 
 ```python
-from fonky.tools import get_tools
+from funkytown.tools import get_tools
 
 environmental_tools = get_tools( domain='environmental' )
 ```

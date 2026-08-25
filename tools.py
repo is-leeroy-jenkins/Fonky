@@ -174,6 +174,31 @@ TOOLS_BY_DOMAIN: Dict[ str, List[ BaseTool ] ] = {
 				scrape_articles, scrape_headings, scrape_divisions, scrape_sections,
 				scrape_blockquotes, scrape_hyperlinks, scrape_images, encode_image, ], }
 
+def throw_if( name: str, value: object ) -> None:
+	"""Validate a required processor argument.
+
+	Purpose:
+	    Validates that a required argument is present and non-empty before text processing begins. The
+	    guard rejects ``None``, blank strings, and empty container values with an argument-specific
+	    ``ValueError``.
+
+	Args:
+	    name: Argument name included in the validation error message.
+	    value: Candidate value checked for ``None``, blank text, or an empty container.
+
+	Returns:
+	    None: Validation succeeds silently; invalid values raise ``ValueError``.
+
+	Raises:
+	    ValueError: If a required value is missing, blank, or outside the supported range.
+	"""
+	if value is None:
+		raise ValueError( f'Argument "{name}" cannot be empty!' )
+	if isinstance( value, str ) and (not value.strip( )):
+		raise ValueError( f'Argument "{name}" cannot be empty!' )
+	if isinstance( value, (list, tuple, dict, set) ) and len( value ) == 0:
+		raise ValueError( f'Argument "{name}" cannot be empty!' )
+
 def get_domains( ) -> List[ str ]:
     """Return the supported Fonky tool domains.
 

@@ -2,19 +2,19 @@
 
 ## Common Compositions
 
-| Composition | Pattern |
-|---|---|
-| retrieval → load → summarize | fetch source metadata, materialize content, summarize/index downstream |
-| recursive web load → scrape tables/links | capture a site section, then extract specific page structures |
-| environmental fetch → geocode → map | retrieve events/measurements, enrich with spatial context |
-| research + public data | combine archive sources with government or demographic datasets |
-| document load → chunk → index | produce `Document` objects, split, and send to vector storage |
+| Composition                              | Pattern                                                                |
+|------------------------------------------|------------------------------------------------------------------------|
+| retrieval → load → summarize             | fetch source metadata, materialize content, summarize/index downstream |
+| recursive web load → scrape tables/links | capture a site section, then extract specific page structures          |
+| environmental fetch → geocode → map      | retrieve events/measurements, enrich with spatial context              |
+| research + public data                   | combine archive sources with government or demographic datasets        |
+| document load → chunk → index            | produce `Document` objects, split, and send to vector storage          |
 
 ## Example
 
 ```python
-from fonky.fonky import fetch_google_search
-from fonky.fonky import load_web
+from funkytown.fonky import fetch_google_search
+from funkytown.fonky import load_web
 
 search_hits = fetch_google_search.invoke(
     {

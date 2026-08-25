@@ -14,13 +14,13 @@ setuptools==81.0.0
 
 ## Dependency Groups
 
-| Group | Examples |
-|---|---|
-| LangChain core | `langchain`, `langchain-core`, `langchain-community` |
-| provider clients | Google, AWS, weather, mapping, health, archive libraries |
-| document parsers | PDF, Office, HTML, XML, notebook, OCR-related packages |
-| scraper support | HTML parsing, readability, crawling, browser or render support |
-| documentation | `mkdocs`, `mkdocstrings`, theme and plugin packages |
+| Group            | Examples                                                       |
+|------------------|----------------------------------------------------------------|
+| LangChain core   | `langchain`, `langchain-core`, `langchain-community`           |
+| provider clients | Google, AWS, weather, mapping, health, archive libraries       |
+| document parsers | PDF, Office, HTML, XML, notebook, OCR-related packages         |
+| scraper support  | HTML parsing, readability, crawling, browser or render support |
+| documentation    | `mkdocs`, `mkdocstrings`, theme and plugin packages            |
 
 ## Verification
 

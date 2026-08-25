@@ -5,7 +5,7 @@
 ### Retrieval-first
 
 ```python
-from fonky.fonky import fetch_gov_data
+from funkytown.fonky import fetch_gov_data
 
 result = fetch_gov_data.invoke(
     {
@@ -20,7 +20,7 @@ result = fetch_gov_data.invoke(
 ### Loader-first
 
 ```python
-from fonky.fonky import load_markdown
+from funkytown.fonky import load_markdown
 
 docs = load_markdown.invoke(
     {
@@ -32,7 +32,7 @@ docs = load_markdown.invoke(
 ### Scraper-first
 
 ```python
-from fonky.fonky import scrape_tables
+from funkytown.fonky import scrape_tables
 
 tables = scrape_tables.invoke(
     {

@@ -8,15 +8,15 @@ Web workflows split into three tracks: fetching pages, loading pages into docume
 
 ## Key Operations
 
-| Operation | Primary Use |
-|---|---|
-| `fetch_web_page` | retrieve page content directly |
-| `render_web_page` | render page content for dynamic cases |
-| `load_web / load_web_recursive / load_web_pages` | load web sources into documents |
-| `crawl_web / scrape_crawler_page` | crawl-oriented retrieval support |
-| `scrape_web_page` | generic page scrape |
-| `extract_web_title / extract_web_links / extract_web_structured_data` | focused extraction utilities |
-| `scrape_paragraphs / scrape_lists / scrape_tables / scrape_images` | structure-specific extraction |
+| Operation                                                             | Primary Use                           |
+|-----------------------------------------------------------------------|---------------------------------------|
+| `fetch_web_page`                                                      | retrieve page content directly        |
+| `render_web_page`                                                     | render page content for dynamic cases |
+| `load_web / load_web_recursive / load_web_pages`                      | load web sources into documents       |
+| `crawl_web / scrape_crawler_page`                                     | crawl-oriented retrieval support      |
+| `scrape_web_page`                                                     | generic page scrape                   |
+| `extract_web_title / extract_web_links / extract_web_structured_data` | focused extraction utilities          |
+| `scrape_paragraphs / scrape_lists / scrape_tables / scrape_images`    | structure-specific extraction         |
 
 ## Workflow Patterns
 

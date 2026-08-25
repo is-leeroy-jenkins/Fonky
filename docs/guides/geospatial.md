@@ -8,16 +8,16 @@ Geospatial workflows provide geocoding, reverse geocoding, address validation, d
 
 ## Key Operations
 
-| Operation | Primary Use |
-|---|---|
-| `geocode_location` | resolve a place/address to coordinates |
-| `geocode_coordinates` | reverse-geocode coordinates |
-| `validate_address` | validate and normalize an address |
-| `request_directions` | retrieve routing and navigation output |
-| `fetch_global_imagery_wms_map` | retrieve WMS imagery |
-| `fetch_global_imagery_map_services` | discover or use imagery service endpoints |
-| `fetch_google_geocoding` | provider-backed geocoding |
-| `fetch_usgs_national_map / fetch_usgs_sciencebase` | USGS geospatial retrieval |
+| Operation                                          | Primary Use                               |
+|----------------------------------------------------|-------------------------------------------|
+| `geocode_location`                                 | resolve a place/address to coordinates    |
+| `geocode_coordinates`                              | reverse-geocode coordinates               |
+| `validate_address`                                 | validate and normalize an address         |
+| `request_directions`                               | retrieve routing and navigation output    |
+| `fetch_global_imagery_wms_map`                     | retrieve WMS imagery                      |
+| `fetch_global_imagery_map_services`                | discover or use imagery service endpoints |
+| `fetch_google_geocoding`                           | provider-backed geocoding                 |
+| `fetch_usgs_national_map / fetch_usgs_sciencebase` | USGS geospatial retrieval                 |
 
 ## Workflow Patterns
 

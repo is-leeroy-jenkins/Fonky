@@ -14,14 +14,14 @@ python -m pip check
 ## Smoke Tests
 
 ```powershell
-python -c "from fonky.fonky import fetch_arxiv; print(fetch_arxiv.name)"
-python -c "from fonky.tools import get_domains; print(get_domains())"
+python -c "from funkytown.fonky import fetch_arxiv; print(fetch_arxiv.name)"
+python -c "from funkytown.tools import get_domains; print(get_domains())"
 ```
 
 ## First Direct Invocation
 
 ```python
-from fonky.fonky import fetch_arxiv
+from funkytown.fonky import fetch_arxiv
 
 result = fetch_arxiv.invoke(
     {
@@ -36,14 +36,14 @@ result = fetch_arxiv.invoke(
 ## First Domain Tool Set
 
 ```python
-from fonky.tools import get_tools
+from funkytown.tools import get_tools
 
 web_tools = get_tools( domain='web' )
 ```
 
 ## Runtime Expectations
 
-- Public exports in `fonky.py` are `BaseTool` objects.
+- Public exports in `funkytown.py` are `BaseTool` objects.
 - Direct calls use `.invoke(...)`.
 - `tools.py` groups existing tools; it does not define new ones.
 - Google-style docstrings are part of the runtime contract because tool schemas are parsed from them.
