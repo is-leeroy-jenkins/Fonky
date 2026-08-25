@@ -20,7 +20,7 @@ Fonky is a reusable Python framework for data retrieval, document ingestion, web
 cloud loading, domain-oriented data access, and LangChain tool integration.
 
 The implementation remains object-oriented in `fetchers.py`, `loaders.py`, and `scrapers.py`.
-The `fonky.py` module provides a simple functional interface over those implementation classes:
+The `funkytown.py` module provides a simple functional interface over those implementation classes:
 each module-level function creates the appropriate implementation object, invokes its existing
 method, and returns the result.
 
@@ -46,7 +46,7 @@ Fonky provides a reusable library for:
 
 ## 🏗️ Architecture
 
-Fonky's LangChain integration is implemented directly in `fonky.py`.
+Fonky's LangChain integration is implemented directly in `funkytown.py`.
 
 ![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-architecture.png)
 
@@ -56,7 +56,7 @@ ___
 LangChain Agent / Application
             |
             v
-       fonkytown/fonky.py
+       fonkytown/funkytown.py
  literal @tool decorators
             |
     +-------+-------+
@@ -89,7 +89,7 @@ def scrape_tables( uri: str ) -> Any:
 ```
 
 `tools.py` is a grouping and discovery module only. It imports the already-decorated `BaseTool`
-objects from `fonky.py` and organizes them into the nine Fonky domains.
+objects from `funkytown.py` and organizes them into the nine Fonky domains.
 
 ### Important API consequence
 
@@ -115,16 +115,16 @@ If ordinary function-call semantics are required, the underlying implementation 
 ## 🧰 Project Structure
 
 ```text
-Fonky/
+funkytown/
     README.md
     requirements.txt
 
     notebook/
-        fonkytown.ipynb
+        funkytown.ipynb
 
     fonky/
         __init__.py
-        fonky.py
+        funkytown.py
         config.py
         core.py
         fetchers.py
@@ -152,20 +152,20 @@ Fonky/
 The original class-based APIs remain available:
 
 ```python
-from fonky.fetchers import WebFetcher, GoogleSearch, Wikipedia, ArXiv
-from fonky.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
-from fonky.scrapers import WebExtractor
+from funkytown.fetchers import WebFetcher, GoogleSearch, Wikipedia, ArXiv
+from funkytown.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
+from funkytown.scrapers import WebExtractor
 ```
 
 The functional API provides a simple entry point for applications and notebooks. The
-LangChain-facing API is available from `fonky.tools`.
+LangChain-facing API is available from `funkytown.tools`.
 
 ## ⚙️ Installation
 
 From the project root:
 
 ```powershell
-cd Fonky
+cd funkytown
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip wheel
@@ -182,7 +182,7 @@ python -m playwright install chromium
 
 ## 🔐 Environment Configuration
 
-Fonky reads credentials from environment variables through `fonky.config`.
+Fonky reads credentials from environment variables through `funkytown.config`.
 
 Common variables include:
 
@@ -222,7 +222,7 @@ embedded in source code.
 
 ## 🧰 Public Tool Interface
 
-The 110 public operations in `fonky.py` are LangChain `BaseTool` objects because they are decorated
+The 110 public operations in `funkytown.py` are LangChain `BaseTool` objects because they are decorated
 directly with `@tool(...)`.
 
 Import an operation:
@@ -251,7 +251,7 @@ LangChain input schema.
 
 ### Literal decorators
 
-Every public operation in `fonky.py` uses the actual decorator syntax:
+Every public operation in `funkytown.py` uses the actual decorator syntax:
 
 ```python
 @tool(
@@ -269,7 +269,7 @@ No callable-conversion expression is used as a substitute for the requested deco
 `tools.py` groups the already-decorated tools:
 
 ```python
-from fonky.tools import get_tools
+from funkytown.tools import get_tools
 
 tools = get_tools( domain='archives' )
 ```
@@ -293,7 +293,7 @@ web
 ```python
 from langchain.agents import create_agent
 
-from fonky.tools import get_tools
+from funkytown.tools import get_tools
 
 agent = create_agent(
     model='openai:gpt-5',
@@ -587,7 +587,7 @@ requires `setuptools<82`.
 | `cartopy`                    | Geospatial mapping/projections                            | Heavy dependency; needed for map rendering                  |
 | `matplotlib`                 | Plotting and map rendering                                | Required by imagery/geospatial rendering                    |
 | `grokipedia-api`             | Grokipedia client support                                 | Required only when Grokipedia tools are enabled             |
-| `boogr`                      | Custom error wrapper used by service classes              | Keep as local package/module or replace with `fonky.errors` |
+| `boogr`                      | Custom error wrapper used by service classes              | Keep as local package/module or replace with `funkytown.errors` |
 
 #### 📝 License
 
