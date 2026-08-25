@@ -1,4 +1,4 @@
-![](images/fonky-portfolio.png)
+![](images/fonky-project.png)
 
 ___
 
