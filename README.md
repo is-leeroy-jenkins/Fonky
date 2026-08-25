@@ -118,31 +118,32 @@ If ordinary function-call semantics are required, the underlying implementation 
 funkytown/
     README.md
     requirements.txt
+    __init__.py
+    fonky.py
+    tools.py
+    config.py
+    core.py
+    fetchers.py
+    loaders.py
+    models.py
+    processors.py
+    scrapers.py
+    archives.py
+    astronomical.py
+    cloud.py
+    demographic.py
+    documents.py
+    environmental.py
+    geospatial.py
+    health.py
+    web.py
 
     notebook/
         funkytown.ipynb
+    
+    logging/
+        Exceptions.db
 
-    fonky/
-        __init__.py
-        funkytown.py
-        config.py
-        core.py
-        fetchers.py
-        loaders.py
-        models.py
-        processors.py
-        scrapers.py
-        tools.py
-
-        archives.py
-        astronomical.py
-        cloud.py
-        demographic.py
-        documents.py
-        environmental.py
-        geospatial.py
-        health.py
-        web.py
 ```
 
 ## 🗺️ Class Map
