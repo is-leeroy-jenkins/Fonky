@@ -169,7 +169,8 @@ def fetch_google_drive( question: str, folder_id: str='root', results: int=10,
             the project error type.
     """
     _instance = GoogleDrive( )
-    return _instance.fetch( question=question, folder_id=folder_id, results=results, template=template, mime_type=mime_type, mode=mode )
+    return _instance.fetch( question=question, folder_id=folder_id, results=results,
+	    template=template, mime_type=mime_type, mode=mode )
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_wikipedia( question: str, language: str=None, max_documents: int=None,
@@ -195,7 +196,8 @@ def fetch_wikipedia( question: str, language: str=None, max_documents: int=None,
             the project error type.
     """
     _instance = Wikipedia( )
-    return _instance.fetch( question=question, language=language, max_documents=max_documents, include_metadata=include_metadata )
+    return _instance.fetch( question=question, language=language, max_documents=max_documents,
+	    include_metadata=include_metadata )
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_news( endpoint: str='all', query: str='', language: str='en', categories: str='',
@@ -244,7 +246,13 @@ def fetch_news( endpoint: str='all', query: str='', language: str='en', categori
             the project error type.
     """
     _instance = TheNews( )
-    return _instance.fetch( endpoint=endpoint, query=query, language=language, categories=categories, exclude_categories=exclude_categories, locale=locale, domains=domains, exclude_domains=exclude_domains, source_ids=source_ids, exclude_source_ids=exclude_source_ids, published_after=published_after, published_before=published_before, published_on=published_on, sort=sort, limit=limit, page=page, include_similar=include_similar, headlines_per_category=headlines_per_category, time=time, api_key=api_key )
+    return _instance.fetch( endpoint=endpoint, query=query, language=language,
+	    categories=categories, exclude_categories=exclude_categories, locale=locale,
+	    domains=domains, exclude_domains=exclude_domains, source_ids=source_ids,
+	    exclude_source_ids=exclude_source_ids, published_after=published_after,
+	    published_before=published_before, published_on=published_on, sort=sort, limit=limit,
+	    page=page, include_similar=include_similar, headlines_per_category=headlines_per_category,
+	    time=time, api_key=api_key )
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_terms: str='',
@@ -334,7 +342,9 @@ def fetch_gov_data( mode: str='search', query: str='', page_size: int=10, offset
             the project error type.
     """
     _instance = GovData( )
-    return _instance.fetch( mode=mode, query=query, page_size=page_size, offset_mark=offset_mark, sort_field=sort_field, sort_order=sort_order, package_id=package_id, collection=collection, start_date=start_date, time=time )
+    return _instance.fetch( mode=mode, query=query, page_size=page_size, offset_mark=offset_mark,
+	    sort_field=sort_field, sort_order=sort_order, package_id=package_id, collection=collection,
+	    start_date=start_date, time=time )
 
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
@@ -514,7 +524,8 @@ def fetch_naval_observatory( mode: str='celnav', date_value: str='', time_value:
             the project error type.
     """
     _instance = NavalObservatory( )
-    return _instance.fetch( mode=mode, date_value=date_value, time_value=time_value, latitude=latitude, longitude=longitude, location_label=location_label, time=time )
+    return _instance.fetch( mode=mode, date_value=date_value, time_value=time_value,
+	    latitude=latitude, longitude=longitude, location_label=location_label, time=time )
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_satellite_center( mode: str='observatories', query: str='', start_time: str='',
@@ -545,7 +556,8 @@ def fetch_satellite_center( mode: str='observatories', query: str='', start_time
             the project error type.
     """
     _instance = SatelliteCenter( )
-    return _instance.fetch( mode=mode, query=query, start_time=start_time, end_time=end_time, coordinate_systems=coordinate_systems, resolution_factor=resolution_factor, time=time )
+    return _instance.fetch( mode=mode, query=query, start_time=start_time, end_time=end_time,
+	    coordinate_systems=coordinate_systems, resolution_factor=resolution_factor, time=time )
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
 def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_date: str='',
@@ -621,7 +633,8 @@ def fetch_open_science( mode: str='dataset', query: str='', accession: str='',
             the project error type.
     """
     _instance = OpenScience( )
-    return _instance.fetch( mode=mode, query=query, accession=accession, format_value=format_value, time=time )
+    return _instance.fetch( mode=mode, query=query, accession=accession,
+	    format_value=format_value, time=time )
 
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
@@ -694,7 +707,8 @@ def fetch_astro_catalog( mode: str='object_query', query: str='', quantity: str=
             the project error type.
     """
     _instance = AstroCatalog( )
-    return _instance.fetch( mode=mode, query=query, quantity=quantity, attributes=attributes, arguments=arguments, ra=ra, dec=dec, radius=radius, data_format=data_format, time=time )
+    return _instance.fetch( mode=mode, query=query, quantity=quantity, attributes=attributes,
+	    arguments=arguments, ra=ra, dec=dec, radius=radius, data_format=data_format, time=time )
 
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
@@ -725,7 +739,8 @@ def fetch_astro_query( mode: str='object_search', query: str='', ra: str='', dec
             the project error type.
     """
     _instance = AstroQuery( )
-    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, radius=radius, radius_unit=radius_unit, row_limit=row_limit )
+    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, radius=radius,
+	    radius_unit=radius_unit, row_limit=row_limit )
 
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
@@ -763,7 +778,10 @@ def fetch_star_map( mode: str='object_link', query: str='', ra: float=0.0, dec: 
             the project error type.
     """
     _instance = StarMap( )
-    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom, image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid, show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names, time=time )
+    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom,
+	    image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid,
+	    show_lines=show_lines, show_boundaries=show_boundaries,
+	    show_const_names=show_const_names, time=time )
 
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )
@@ -805,7 +823,10 @@ def fetch_star_chart( mode: str='object_chart', query: str='', ra: float=0.0,
             the project error type.
     """
     _instance = StarChart( )
-    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom, image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid, show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names, width=width, height=height, magnitude=magnitude, time=time )
+    return _instance.fetch( mode=mode, query=query, ra=ra, dec=dec, zoom=zoom,
+	    image_source=image_source, box_color=box_color, show_box=show_box, show_grid=show_grid,
+	    show_lines=show_lines, show_boundaries=show_boundaries, show_const_names=show_const_names,
+	    width=width, height=height, magnitude=magnitude, time=time )
 
 
 @tool( parse_docstring=True, error_on_invalid_docstring=True )

@@ -1,6 +1,6 @@
 ###### Fonky
 
-![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky_project.png)
+![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky_project.png)
 
 <p align="center">
   <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
@@ -9,13 +9,13 @@
   <a href="#-functional-interface">Functional Interface</a> &nbsp;|&nbsp;
   <a href="#-domain-api-reference">Domains</a> &nbsp;|&nbsp;
   <a href="resources/user-guide.md">Usage</a> &nbsp;|&nbsp;
-  <a href="https://is-leeroy-jenkins.github.io/Fonky/">Documentation</a> &nbsp;|&nbsp;
+  <a href="https://is-leeroy-jenkins.github.io/funkytown/">Documentation</a> &nbsp;|&nbsp;
   <a href="#-requirements">Requirements</a>
 </p>
 
 ___
 
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/Fonky/)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/funkytown/)
 
 Fonky is a reusable Python framework for data retrieval, document ingestion, web scraping,
 cloud loading, domain-oriented data access, and LangChain tool integration.
@@ -32,18 +32,18 @@ LangChain tool surface.
 
 Fonky provides a reusable library for:
 
-| Capability | Description |
-|---|---|
-| 🌐 Web Fetching | Retrieve web pages, crawl sites, extract links and structured content, and render or scrape web sources |
-| 🔎 Search & Archives | Query ArXiv, Wikipedia, Google Search, Google Drive, Congress, government data, news, Internet Archive, and Grokipedia |
-| 📄 Document Loading | Load text, PDF, CSV, Excel, Word, Markdown, HTML, PowerPoint, JSON, XML, Outlook, email, SharePoint, and Jupyter content |
-| ☁️ Cloud Loading | Load from Google Drive, Google Cloud Storage, AWS S3, OneDrive, and Google Speech-to-Text |
-| 🌿 Environmental Data | Retrieve weather, climate, air-quality, water, earthquake, fire, UV, tide, and natural-event data |
-| 🗺️ Geospatial Data | Geocode locations, reverse-geocode coordinates, validate addresses, request directions, and retrieve imagery and mapping data |
-| 🔭 Astronomy & Space | Query astronomical catalogs, satellites, space weather, star maps, star charts, OpenSky, and near-Earth objects |
-| 👥 Demographic & Health | Retrieve Census, Socrata, United Nations, population, health, CDC WONDER, PubMed, and open-city data |
-| 🧰 Functional API | Typed, stateless entry points over Fonky fetchers, loaders, and scrapers |
-| 🤖 LangChain Tools | Agent-callable versions of the functional API with schemas derived from type hints and Google-style docstrings |
+| Capability              | Description                                                                                                                   |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| 🌐 Web Fetching         | Retrieve web pages, crawl sites, extract links and structured content, and render or scrape web sources                       |
+| 🔎 Search & Archives    | Query ArXiv, Wikipedia, Google Search, Google Drive, Congress, government data, news, Internet Archive, and Grokipedia        |
+| 📄 Document Loading     | Load text, PDF, CSV, Excel, Word, Markdown, HTML, PowerPoint, JSON, XML, Outlook, email, SharePoint, and Jupyter content      |
+| ☁️ Cloud Loading        | Load from Google Drive, Google Cloud Storage, AWS S3, OneDrive, and Google Speech-to-Text                                     |
+| 🌿 Environmental Data   | Retrieve weather, climate, air-quality, water, earthquake, fire, UV, tide, and natural-event data                             |
+| 🗺️ Geospatial Data      | Geocode locations, reverse-geocode coordinates, validate addresses, request directions, and retrieve imagery and mapping data |
+| 🔭 Astronomy & Space    | Query astronomical catalogs, satellites, space weather, star maps, star charts, OpenSky, and near-Earth objects               |
+| 👥 Demographic & Health | Retrieve Census, Socrata, United Nations, population, health, CDC WONDER, PubMed, and open-city data                          |
+| 🧰 Functional API       | Typed, stateless entry points over Fonky fetchers, loaders, and scrapers                                                      |
+| 🤖 LangChain Tools      | Agent-callable versions of the functional API with schemas derived from type hints and Google-style docstrings                |
 
 ## 🏗️ Architecture
 
@@ -53,7 +53,7 @@ Fonky's LangChain integration is implemented directly in `fonky.py`.
 LangChain Agent / Application
             |
             v
-       fonky/fonky.py
+       fonkytown/fonky.py
  literal @tool decorators
             |
     +-------+-------+
@@ -94,7 +94,7 @@ Because `@tool` replaces each decorated function binding with a LangChain `BaseT
 operations are invoked with `.invoke()` rather than as ordinary Python functions:
 
 ```python
-from fonky.fonky import fetch_arxiv
+from funkytown.fonky import fetch_arxiv
 
 result = fetch_arxiv.invoke(
     {
@@ -144,7 +144,7 @@ Fonky/
 
 ## 🗺️ Class Map
 
-![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-classmap.png)
+![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-classmap.png)
 
 The original class-based APIs remain available:
 
@@ -225,7 +225,7 @@ directly with `@tool(...)`.
 Import an operation:
 
 ```python
-from fonky.fonky import fetch_usgs_earthquakes
+from funkytown.fonky import fetch_usgs_earthquakes
 ```
 
 Invoke it:
@@ -581,4 +581,4 @@ requires `setuptools<82`.
 #### 📝 License
 
 Fonky is distributed under the license defined in
-[`LICENSE.txt`](https://github.com/is-leeroy-jenkins/Fonky/blob/main/LICENSE.txt).
+[`LICENSE.txt`](https://github.com/is-leeroy-jenkins/funkytown/blob/main/LICENSE.txt).
