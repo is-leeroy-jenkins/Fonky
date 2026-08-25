@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -98,7 +98,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="Fonky" class="md-header__button md-logo" aria-label="Fonky" data-md-component="logo">
       
-  <img src="../../images/fonky-logo.png" alt="logo">
+  <img src="../../images/fonky_logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -408,7 +408,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="Fonky" class="md-nav__button md-logo" aria-label="Fonky" data-md-component="logo">
       
-  <img src="../../images/fonky-logo.png" alt="logo">
+  <img src="../../images/fonky_logo.png" alt="logo">
 
     </a>
     Fonky
@@ -4737,7 +4737,7 @@ execution behavior for unified tool dispatch.</p>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">description</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">category</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">strict</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ToolDef&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ToolDef"</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4956,8 +4956,8 @@ execution handler needed for later tool dispatch.</p>
 <span class="normal"><a href="#__codelineno-0-637">637</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-589" name="__codelineno-0-589"></a><span class="nd">@classmethod</span>
 <a id="__codelineno-0-590" name="__codelineno-0-590"></a><span class="k">def</span><span class="w"> </span><span class="nf">from_callable</span><span class="p">(</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span> <span class="o">...</span><span class="p">,</span> <span class="n">Any</span> <span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span> <span class="nb">str</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-591" name="__codelineno-0-591"></a>		<span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span> <span class="nb">str</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span> <span class="nb">str</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-592" name="__codelineno-0-592"></a>		<span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ToolDef&#39;</span><span class="p">:</span>
-<a id="__codelineno-0-593" name="__codelineno-0-593"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Create tool definition from callable.</span>
+<a id="__codelineno-0-592" name="__codelineno-0-592"></a>		<span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ToolDef'</span><span class="p">:</span>
+<a id="__codelineno-0-593" name="__codelineno-0-593"></a><span class="w">	</span><span class="sd">"""Create tool definition from callable.</span>
 <a id="__codelineno-0-594" name="__codelineno-0-594"></a>
 <a id="__codelineno-0-595" name="__codelineno-0-595"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-596" name="__codelineno-0-596"></a><span class="sd">	    Creates a provider-neutral tool definition from a standalone Python callable. The method</span>
@@ -4977,29 +4977,29 @@ execution handler needed for later tool dispatch.</p>
 <a id="__codelineno-0-610" name="__codelineno-0-610"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-611" name="__codelineno-0-611"></a><span class="sd">	    TypeError: If a supplied value has an unsupported type.</span>
 <a id="__codelineno-0-612" name="__codelineno-0-612"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-613" name="__codelineno-0-613"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-613" name="__codelineno-0-613"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-614" name="__codelineno-0-614"></a>	<span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-615" name="__codelineno-0-615"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">&#39;function&#39;</span><span class="p">,</span> <span class="n">function</span> <span class="p">)</span>
+<a id="__codelineno-0-615" name="__codelineno-0-615"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">'function'</span><span class="p">,</span> <span class="n">function</span> <span class="p">)</span>
 <a id="__codelineno-0-616" name="__codelineno-0-616"></a>
 <a id="__codelineno-0-617" name="__codelineno-0-617"></a>		<span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">function</span> <span class="p">):</span>
-<a id="__codelineno-0-618" name="__codelineno-0-618"></a>			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span> <span class="s1">&#39;Argument &quot;function&quot; must be callable.&#39;</span> <span class="p">)</span>
+<a id="__codelineno-0-618" name="__codelineno-0-618"></a>			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span> <span class="s1">'Argument "function" must be callable.'</span> <span class="p">)</span>
 <a id="__codelineno-0-619" name="__codelineno-0-619"></a>
-<a id="__codelineno-0-620" name="__codelineno-0-620"></a>		<span class="n">callable_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span> <span class="n">function</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="n">function</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="p">)</span>
-<a id="__codelineno-0-621" name="__codelineno-0-621"></a>		<span class="n">source_module</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span> <span class="n">function</span><span class="p">,</span> <span class="s1">&#39;__module__&#39;</span><span class="p">,</span> <span class="kc">None</span> <span class="p">)</span>
+<a id="__codelineno-0-620" name="__codelineno-0-620"></a>		<span class="n">callable_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span> <span class="n">function</span><span class="p">,</span> <span class="s1">'__name__'</span><span class="p">,</span> <span class="n">function</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="p">)</span>
+<a id="__codelineno-0-621" name="__codelineno-0-621"></a>		<span class="n">source_module</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span> <span class="n">function</span><span class="p">,</span> <span class="s1">'__module__'</span><span class="p">,</span> <span class="kc">None</span> <span class="p">)</span>
 <a id="__codelineno-0-622" name="__codelineno-0-622"></a>
-<a id="__codelineno-0-623" name="__codelineno-0-623"></a>		<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="ow">or</span> <span class="n">callable_name</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;function&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-624" name="__codelineno-0-624"></a>			<span class="n">description</span><span class="o">=</span><span class="n">description</span> <span class="ow">or</span> <span class="n">clean_docstring</span><span class="p">(</span> <span class="nb">getattr</span><span class="p">(</span> <span class="n">function</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span> <span class="p">)</span> <span class="p">),</span>
+<a id="__codelineno-0-623" name="__codelineno-0-623"></a>		<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="ow">or</span> <span class="n">callable_name</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">'function'</span><span class="p">,</span>
+<a id="__codelineno-0-624" name="__codelineno-0-624"></a>			<span class="n">description</span><span class="o">=</span><span class="n">description</span> <span class="ow">or</span> <span class="n">clean_docstring</span><span class="p">(</span> <span class="nb">getattr</span><span class="p">(</span> <span class="n">function</span><span class="p">,</span> <span class="s1">'__doc__'</span><span class="p">,</span> <span class="s1">''</span> <span class="p">)</span> <span class="p">),</span>
 <a id="__codelineno-0-625" name="__codelineno-0-625"></a>			<span class="n">parameters</span><span class="o">=</span><span class="n">build_parameter_schema</span><span class="p">(</span> <span class="n">function</span> <span class="p">),</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-626" name="__codelineno-0-626"></a>			<span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">handler</span><span class="o">=</span><span class="n">function</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span> <span class="n">source_module</span><span class="o">=</span><span class="n">source_module</span><span class="p">,</span>
 <a id="__codelineno-0-627" name="__codelineno-0-627"></a>			<span class="n">source_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">callable_name</span><span class="o">=</span><span class="n">callable_name</span> <span class="p">)</span>
 <a id="__codelineno-0-628" name="__codelineno-0-628"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-629" name="__codelineno-0-629"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-630" name="__codelineno-0-630"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-631" name="__codelineno-0-631"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
+<a id="__codelineno-0-630" name="__codelineno-0-630"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-631" name="__codelineno-0-631"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
 <a id="__codelineno-0-632" name="__codelineno-0-632"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-0-633" name="__codelineno-0-633"></a>				<span class="s1">&#39;from_callable( cls, function: Callable[ ..., Any ], &#39;</span>
-<a id="__codelineno-0-634" name="__codelineno-0-634"></a>				<span class="s1">&#39;name: Optional[ str ]=None, description: Optional[ str ]=None, &#39;</span>
-<a id="__codelineno-0-635" name="__codelineno-0-635"></a>				<span class="s1">&#39;category: Optional[ str ]=None, strict: bool=True ) -&gt; ToolDef&#39;</span>
+<a id="__codelineno-0-633" name="__codelineno-0-633"></a>				<span class="s1">'from_callable( cls, function: Callable[ ..., Any ], '</span>
+<a id="__codelineno-0-634" name="__codelineno-0-634"></a>				<span class="s1">'name: Optional[ str ]=None, description: Optional[ str ]=None, '</span>
+<a id="__codelineno-0-635" name="__codelineno-0-635"></a>				<span class="s1">'category: Optional[ str ]=None, strict: bool=True ) -&gt; ToolDef'</span>
 <a id="__codelineno-0-636" name="__codelineno-0-636"></a>		<span class="p">)</span>
 <a id="__codelineno-0-637" name="__codelineno-0-637"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
@@ -5027,7 +5027,7 @@ execution handler needed for later tool dispatch.</p>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">description</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">category</span><span class="p">:</span> <span class="n"><span title="typing.Optional">Optional</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">strict</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ToolDef&quot;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"ToolDef"</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5291,8 +5291,8 @@ name, source class, source module, and generated parameter schema.</p>
 <span class="normal"><a href="#__codelineno-0-706">706</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-639" name="__codelineno-0-639"></a><span class="nd">@classmethod</span>
 <a id="__codelineno-0-640" name="__codelineno-0-640"></a><span class="k">def</span><span class="w"> </span><span class="nf">from_method</span><span class="p">(</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span> <span class="nb">str</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-641" name="__codelineno-0-641"></a>		<span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span> <span class="nb">str</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span> <span class="nb">str</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-642" name="__codelineno-0-642"></a>		<span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ToolDef&#39;</span><span class="p">:</span>
-<a id="__codelineno-0-643" name="__codelineno-0-643"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Create tool definition from object method.</span>
+<a id="__codelineno-0-642" name="__codelineno-0-642"></a>		<span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'ToolDef'</span><span class="p">:</span>
+<a id="__codelineno-0-643" name="__codelineno-0-643"></a><span class="w">	</span><span class="sd">"""Create tool definition from object method.</span>
 <a id="__codelineno-0-644" name="__codelineno-0-644"></a>
 <a id="__codelineno-0-645" name="__codelineno-0-645"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-646" name="__codelineno-0-646"></a><span class="sd">	    Creates a provider-neutral tool definition from a method on an existing object instance. The</span>
@@ -5314,28 +5314,28 @@ name, source class, source module, and generated parameter schema.</p>
 <a id="__codelineno-0-662" name="__codelineno-0-662"></a><span class="sd">	    AttributeError: If a requested object member or method does not exist.</span>
 <a id="__codelineno-0-663" name="__codelineno-0-663"></a><span class="sd">	    TypeError: If a supplied value has an unsupported type.</span>
 <a id="__codelineno-0-664" name="__codelineno-0-664"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-665" name="__codelineno-0-665"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-665" name="__codelineno-0-665"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-666" name="__codelineno-0-666"></a>	<span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-667" name="__codelineno-0-667"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="n">target</span> <span class="p">)</span>
-<a id="__codelineno-0-668" name="__codelineno-0-668"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="n">method</span> <span class="p">)</span>
+<a id="__codelineno-0-667" name="__codelineno-0-667"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">'target'</span><span class="p">,</span> <span class="n">target</span> <span class="p">)</span>
+<a id="__codelineno-0-668" name="__codelineno-0-668"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">'method'</span><span class="p">,</span> <span class="n">method</span> <span class="p">)</span>
 <a id="__codelineno-0-669" name="__codelineno-0-669"></a>
 <a id="__codelineno-0-670" name="__codelineno-0-670"></a>		<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">target</span><span class="p">,</span> <span class="n">method</span> <span class="p">):</span>
 <a id="__codelineno-0-671" name="__codelineno-0-671"></a>			<span class="n">target_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span> <span class="n">target</span> <span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-<a id="__codelineno-0-672" name="__codelineno-0-672"></a>			<span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">&#39;Target &quot;</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s1">&quot; has no method &quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1">&quot;.&#39;</span> <span class="p">)</span>
+<a id="__codelineno-0-672" name="__codelineno-0-672"></a>			<span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">'Target "</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s1">" has no method "</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1">".'</span> <span class="p">)</span>
 <a id="__codelineno-0-673" name="__codelineno-0-673"></a>
 <a id="__codelineno-0-674" name="__codelineno-0-674"></a>		<span class="n">handler</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span> <span class="n">target</span><span class="p">,</span> <span class="n">method</span> <span class="p">)</span>
 <a id="__codelineno-0-675" name="__codelineno-0-675"></a>
 <a id="__codelineno-0-676" name="__codelineno-0-676"></a>		<span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">handler</span> <span class="p">):</span>
 <a id="__codelineno-0-677" name="__codelineno-0-677"></a>			<span class="n">target_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span> <span class="n">target</span> <span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-<a id="__codelineno-0-678" name="__codelineno-0-678"></a>			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">&#39;Target &quot;</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1">&quot; is not callable.&#39;</span> <span class="p">)</span>
+<a id="__codelineno-0-678" name="__codelineno-0-678"></a>			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">'Target "</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1">" is not callable.'</span> <span class="p">)</span>
 <a id="__codelineno-0-679" name="__codelineno-0-679"></a>
 <a id="__codelineno-0-680" name="__codelineno-0-680"></a>		<span class="n">source_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span> <span class="n">target</span> <span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
 <a id="__codelineno-0-681" name="__codelineno-0-681"></a>		<span class="n">source_module</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span> <span class="n">target</span> <span class="p">)</span><span class="o">.</span><span class="vm">__module__</span>
 <a id="__codelineno-0-682" name="__codelineno-0-682"></a>
 <a id="__codelineno-0-683" name="__codelineno-0-683"></a>		<span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-<a id="__codelineno-0-684" name="__codelineno-0-684"></a>			<span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">source_class</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-685" name="__codelineno-0-685"></a>			<span class="nb">type</span><span class="o">=</span><span class="s1">&#39;function&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-686" name="__codelineno-0-686"></a>			<span class="n">description</span><span class="o">=</span><span class="n">description</span> <span class="ow">or</span> <span class="n">clean_docstring</span><span class="p">(</span> <span class="nb">getattr</span><span class="p">(</span> <span class="n">handler</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span> <span class="p">)</span> <span class="p">),</span>
+<a id="__codelineno-0-684" name="__codelineno-0-684"></a>			<span class="n">name</span><span class="o">=</span><span class="n">name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">source_class</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span>
+<a id="__codelineno-0-685" name="__codelineno-0-685"></a>			<span class="nb">type</span><span class="o">=</span><span class="s1">'function'</span><span class="p">,</span>
+<a id="__codelineno-0-686" name="__codelineno-0-686"></a>			<span class="n">description</span><span class="o">=</span><span class="n">description</span> <span class="ow">or</span> <span class="n">clean_docstring</span><span class="p">(</span> <span class="nb">getattr</span><span class="p">(</span> <span class="n">handler</span><span class="p">,</span> <span class="s1">'__doc__'</span><span class="p">,</span> <span class="s1">''</span> <span class="p">)</span> <span class="p">),</span>
 <a id="__codelineno-0-687" name="__codelineno-0-687"></a>			<span class="n">parameters</span><span class="o">=</span><span class="n">build_parameter_schema</span><span class="p">(</span> <span class="n">handler</span> <span class="p">),</span>
 <a id="__codelineno-0-688" name="__codelineno-0-688"></a>			<span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">,</span>
 <a id="__codelineno-0-689" name="__codelineno-0-689"></a>			<span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
@@ -5348,12 +5348,12 @@ name, source class, source module, and generated parameter schema.</p>
 <a id="__codelineno-0-696" name="__codelineno-0-696"></a>		<span class="p">)</span>
 <a id="__codelineno-0-697" name="__codelineno-0-697"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-698" name="__codelineno-0-698"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-699" name="__codelineno-0-699"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-700" name="__codelineno-0-700"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
+<a id="__codelineno-0-699" name="__codelineno-0-699"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-700" name="__codelineno-0-700"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
 <a id="__codelineno-0-701" name="__codelineno-0-701"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="p">(</span>
-<a id="__codelineno-0-702" name="__codelineno-0-702"></a>				<span class="s1">&#39;from_method( cls, target: Any, method: str, name: Optional[ str ]=None, &#39;</span>
-<a id="__codelineno-0-703" name="__codelineno-0-703"></a>				<span class="s1">&#39;description: Optional[ str ]=None, category: Optional[ str ]=None, &#39;</span>
-<a id="__codelineno-0-704" name="__codelineno-0-704"></a>				<span class="s1">&#39;strict: bool=True ) -&gt; ToolDef&#39;</span>
+<a id="__codelineno-0-702" name="__codelineno-0-702"></a>				<span class="s1">'from_method( cls, target: Any, method: str, name: Optional[ str ]=None, '</span>
+<a id="__codelineno-0-703" name="__codelineno-0-703"></a>				<span class="s1">'description: Optional[ str ]=None, category: Optional[ str ]=None, '</span>
+<a id="__codelineno-0-704" name="__codelineno-0-704"></a>				<span class="s1">'strict: bool=True ) -&gt; ToolDef'</span>
 <a id="__codelineno-0-705" name="__codelineno-0-705"></a>		<span class="p">)</span>
 <a id="__codelineno-0-706" name="__codelineno-0-706"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
@@ -5506,7 +5506,7 @@ object after validating the binding.</p>
 <span class="normal"><a href="#__codelineno-0-748">748</a></span>
 <span class="normal"><a href="#__codelineno-0-749">749</a></span>
 <span class="normal"><a href="#__codelineno-0-750">750</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-708" name="__codelineno-0-708"></a><span class="k">def</span><span class="w"> </span><span class="nf">resolve_callable</span><span class="p">(</span> <span class="bp">self</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span> <span class="o">...</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]:</span>
-<a id="__codelineno-0-709" name="__codelineno-0-709"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Resolve bound callable.</span>
+<a id="__codelineno-0-709" name="__codelineno-0-709"></a><span class="w">	</span><span class="sd">"""Resolve bound callable.</span>
 <a id="__codelineno-0-710" name="__codelineno-0-710"></a>
 <a id="__codelineno-0-711" name="__codelineno-0-711"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-712" name="__codelineno-0-712"></a><span class="sd">	    Resolves the executable Python callable represented by the tool definition. The method returns</span>
@@ -5521,32 +5521,32 @@ object after validating the binding.</p>
 <a id="__codelineno-0-721" name="__codelineno-0-721"></a><span class="sd">	    AttributeError: If a requested object member or method does not exist.</span>
 <a id="__codelineno-0-722" name="__codelineno-0-722"></a><span class="sd">	    TypeError: If a supplied value has an unsupported type.</span>
 <a id="__codelineno-0-723" name="__codelineno-0-723"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-724" name="__codelineno-0-724"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-724" name="__codelineno-0-724"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-725" name="__codelineno-0-725"></a>	<span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-0-726" name="__codelineno-0-726"></a>		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-727" name="__codelineno-0-727"></a>			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handler</span>
 <a id="__codelineno-0-728" name="__codelineno-0-728"></a>
 <a id="__codelineno-0-729" name="__codelineno-0-729"></a>		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-730" name="__codelineno-0-730"></a>			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span> <span class="s1">&#39;ToolDef target cannot be None when handler is not supplied.&#39;</span> <span class="p">)</span>
+<a id="__codelineno-0-730" name="__codelineno-0-730"></a>			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span> <span class="s1">'ToolDef target cannot be None when handler is not supplied.'</span> <span class="p">)</span>
 <a id="__codelineno-0-731" name="__codelineno-0-731"></a>
-<a id="__codelineno-0-732" name="__codelineno-0-732"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="p">)</span>
+<a id="__codelineno-0-732" name="__codelineno-0-732"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">'method'</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="p">)</span>
 <a id="__codelineno-0-733" name="__codelineno-0-733"></a>
 <a id="__codelineno-0-734" name="__codelineno-0-734"></a>		<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="p">):</span>
 <a id="__codelineno-0-735" name="__codelineno-0-735"></a>			<span class="n">target_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-<a id="__codelineno-0-736" name="__codelineno-0-736"></a>			<span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">&#39;Target &quot;</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s1">&quot; has no method &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s1">&quot;.&#39;</span> <span class="p">)</span>
+<a id="__codelineno-0-736" name="__codelineno-0-736"></a>			<span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">'Target "</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s1">" has no method "</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s1">".'</span> <span class="p">)</span>
 <a id="__codelineno-0-737" name="__codelineno-0-737"></a>
 <a id="__codelineno-0-738" name="__codelineno-0-738"></a>		<span class="n">handler</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="p">)</span>
 <a id="__codelineno-0-739" name="__codelineno-0-739"></a>
 <a id="__codelineno-0-740" name="__codelineno-0-740"></a>		<span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">handler</span> <span class="p">):</span>
 <a id="__codelineno-0-741" name="__codelineno-0-741"></a>			<span class="n">target_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-<a id="__codelineno-0-742" name="__codelineno-0-742"></a>			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">&#39;Target &quot;</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s1">&quot; is not callable.&#39;</span> <span class="p">)</span>
+<a id="__codelineno-0-742" name="__codelineno-0-742"></a>			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">'Target "</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="si">}</span><span class="s1">" is not callable.'</span> <span class="p">)</span>
 <a id="__codelineno-0-743" name="__codelineno-0-743"></a>
 <a id="__codelineno-0-744" name="__codelineno-0-744"></a>		<span class="k">return</span> <span class="n">handler</span>
 <a id="__codelineno-0-745" name="__codelineno-0-745"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-746" name="__codelineno-0-746"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-747" name="__codelineno-0-747"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-748" name="__codelineno-0-748"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-749" name="__codelineno-0-749"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;resolve_callable( self ) -&gt; Callable[ ..., Any ]&#39;</span>
+<a id="__codelineno-0-747" name="__codelineno-0-747"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-748" name="__codelineno-0-748"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-749" name="__codelineno-0-749"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'resolve_callable( self ) -&gt; Callable[ ..., Any ]'</span>
 <a id="__codelineno-0-750" name="__codelineno-0-750"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -5717,7 +5717,7 @@ project error type.</p>
 <span class="normal"><a href="#__codelineno-0-807">807</a></span>
 <span class="normal"><a href="#__codelineno-0-808">808</a></span>
 <span class="normal"><a href="#__codelineno-0-809">809</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-752" name="__codelineno-0-752"></a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span> <span class="bp">self</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span> <span class="n">Dict</span><span class="p">[</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]</span> <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]:</span>
-<a id="__codelineno-0-753" name="__codelineno-0-753"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Execute bound tool callable.</span>
+<a id="__codelineno-0-753" name="__codelineno-0-753"></a><span class="w">	</span><span class="sd">"""Execute bound tool callable.</span>
 <a id="__codelineno-0-754" name="__codelineno-0-754"></a>
 <a id="__codelineno-0-755" name="__codelineno-0-755"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-756" name="__codelineno-0-756"></a><span class="sd">	    Executes the bound tool callable with keyword arguments and returns a neutral response</span>
@@ -5733,45 +5733,45 @@ project error type.</p>
 <a id="__codelineno-0-766" name="__codelineno-0-766"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-767" name="__codelineno-0-767"></a><span class="sd">	    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the</span>
 <a id="__codelineno-0-768" name="__codelineno-0-768"></a><span class="sd">	        project error type.</span>
-<a id="__codelineno-0-769" name="__codelineno-0-769"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-769" name="__codelineno-0-769"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-770" name="__codelineno-0-770"></a>	<span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-0-771" name="__codelineno-0-771"></a>		<span class="n">handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_callable</span><span class="p">(</span> <span class="p">)</span>
 <a id="__codelineno-0-772" name="__codelineno-0-772"></a>		<span class="n">payload</span> <span class="o">=</span> <span class="n">arguments</span> <span class="ow">or</span> <span class="p">{</span> <span class="p">}</span>
 <a id="__codelineno-0-773" name="__codelineno-0-773"></a>		<span class="n">result</span> <span class="o">=</span> <span class="n">handler</span><span class="p">(</span> <span class="o">**</span><span class="n">payload</span> <span class="p">)</span>
 <a id="__codelineno-0-774" name="__codelineno-0-774"></a>
 <a id="__codelineno-0-775" name="__codelineno-0-775"></a>		<span class="k">return</span> <span class="p">{</span>
-<a id="__codelineno-0-776" name="__codelineno-0-776"></a>				<span class="s1">&#39;ok&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-0-777" name="__codelineno-0-777"></a>				<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-<a id="__codelineno-0-778" name="__codelineno-0-778"></a>				<span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">serialize_value</span><span class="p">(</span> <span class="n">result</span> <span class="p">),</span>
-<a id="__codelineno-0-779" name="__codelineno-0-779"></a>				<span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-780" name="__codelineno-0-780"></a>				<span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
-<a id="__codelineno-0-781" name="__codelineno-0-781"></a>						<span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
-<a id="__codelineno-0-782" name="__codelineno-0-782"></a>						<span class="s1">&#39;source_module&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_module</span><span class="p">,</span>
-<a id="__codelineno-0-783" name="__codelineno-0-783"></a>						<span class="s1">&#39;source_class&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_class</span><span class="p">,</span>
-<a id="__codelineno-0-784" name="__codelineno-0-784"></a>						<span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
-<a id="__codelineno-0-785" name="__codelineno-0-785"></a>						<span class="s1">&#39;callable_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable_name</span>
+<a id="__codelineno-0-776" name="__codelineno-0-776"></a>				<span class="s1">'ok'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-0-777" name="__codelineno-0-777"></a>				<span class="s1">'name'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-0-778" name="__codelineno-0-778"></a>				<span class="s1">'data'</span><span class="p">:</span> <span class="n">serialize_value</span><span class="p">(</span> <span class="n">result</span> <span class="p">),</span>
+<a id="__codelineno-0-779" name="__codelineno-0-779"></a>				<span class="s1">'error'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-780" name="__codelineno-0-780"></a>				<span class="s1">'metadata'</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-0-781" name="__codelineno-0-781"></a>						<span class="s1">'category'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
+<a id="__codelineno-0-782" name="__codelineno-0-782"></a>						<span class="s1">'source_module'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_module</span><span class="p">,</span>
+<a id="__codelineno-0-783" name="__codelineno-0-783"></a>						<span class="s1">'source_class'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_class</span><span class="p">,</span>
+<a id="__codelineno-0-784" name="__codelineno-0-784"></a>						<span class="s1">'method'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+<a id="__codelineno-0-785" name="__codelineno-0-785"></a>						<span class="s1">'callable_name'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable_name</span>
 <a id="__codelineno-0-786" name="__codelineno-0-786"></a>				<span class="p">}</span>
 <a id="__codelineno-0-787" name="__codelineno-0-787"></a>		<span class="p">}</span>
 <a id="__codelineno-0-788" name="__codelineno-0-788"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-789" name="__codelineno-0-789"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-790" name="__codelineno-0-790"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-791" name="__codelineno-0-791"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-792" name="__codelineno-0-792"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;call( self, arguments: Optional[ Dict[ str, Any ] ]=None ) -&gt; Dict[ str, Any ]&#39;</span>
+<a id="__codelineno-0-790" name="__codelineno-0-790"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-791" name="__codelineno-0-791"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-792" name="__codelineno-0-792"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'call( self, arguments: Optional[ Dict[ str, Any ] ]=None ) -&gt; Dict[ str, Any ]'</span>
 <a id="__codelineno-0-793" name="__codelineno-0-793"></a>
 <a id="__codelineno-0-794" name="__codelineno-0-794"></a>		<span class="k">return</span> <span class="p">{</span>
-<a id="__codelineno-0-795" name="__codelineno-0-795"></a>				<span class="s1">&#39;ok&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-<a id="__codelineno-0-796" name="__codelineno-0-796"></a>				<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-<a id="__codelineno-0-797" name="__codelineno-0-797"></a>				<span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-798" name="__codelineno-0-798"></a>				<span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="p">{</span>
-<a id="__codelineno-0-799" name="__codelineno-0-799"></a>						<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span> <span class="n">exception</span> <span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-<a id="__codelineno-0-800" name="__codelineno-0-800"></a>						<span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span> <span class="n">exception</span> <span class="p">)</span>
+<a id="__codelineno-0-795" name="__codelineno-0-795"></a>				<span class="s1">'ok'</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-0-796" name="__codelineno-0-796"></a>				<span class="s1">'name'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-0-797" name="__codelineno-0-797"></a>				<span class="s1">'data'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-798" name="__codelineno-0-798"></a>				<span class="s1">'error'</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-0-799" name="__codelineno-0-799"></a>						<span class="s1">'type'</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span> <span class="n">exception</span> <span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+<a id="__codelineno-0-800" name="__codelineno-0-800"></a>						<span class="s1">'message'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span> <span class="n">exception</span> <span class="p">)</span>
 <a id="__codelineno-0-801" name="__codelineno-0-801"></a>				<span class="p">},</span>
-<a id="__codelineno-0-802" name="__codelineno-0-802"></a>				<span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
-<a id="__codelineno-0-803" name="__codelineno-0-803"></a>						<span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
-<a id="__codelineno-0-804" name="__codelineno-0-804"></a>						<span class="s1">&#39;source_module&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_module</span><span class="p">,</span>
-<a id="__codelineno-0-805" name="__codelineno-0-805"></a>						<span class="s1">&#39;source_class&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_class</span><span class="p">,</span>
-<a id="__codelineno-0-806" name="__codelineno-0-806"></a>						<span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
-<a id="__codelineno-0-807" name="__codelineno-0-807"></a>						<span class="s1">&#39;callable_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable_name</span>
+<a id="__codelineno-0-802" name="__codelineno-0-802"></a>				<span class="s1">'metadata'</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-0-803" name="__codelineno-0-803"></a>						<span class="s1">'category'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
+<a id="__codelineno-0-804" name="__codelineno-0-804"></a>						<span class="s1">'source_module'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_module</span><span class="p">,</span>
+<a id="__codelineno-0-805" name="__codelineno-0-805"></a>						<span class="s1">'source_class'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_class</span><span class="p">,</span>
+<a id="__codelineno-0-806" name="__codelineno-0-806"></a>						<span class="s1">'method'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+<a id="__codelineno-0-807" name="__codelineno-0-807"></a>						<span class="s1">'callable_name'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable_name</span>
 <a id="__codelineno-0-808" name="__codelineno-0-808"></a>				<span class="p">}</span>
 <a id="__codelineno-0-809" name="__codelineno-0-809"></a>		<span class="p">}</span>
 </code></pre></div></td></tr></table></div>
@@ -5882,7 +5882,7 @@ details, and category information.</p>
 <span class="normal"><a href="#__codelineno-0-839">839</a></span>
 <span class="normal"><a href="#__codelineno-0-840">840</a></span>
 <span class="normal"><a href="#__codelineno-0-841">841</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-811" name="__codelineno-0-811"></a><span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span> <span class="bp">self</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]:</span>
-<a id="__codelineno-0-812" name="__codelineno-0-812"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Export neutral tool dictionary.</span>
+<a id="__codelineno-0-812" name="__codelineno-0-812"></a><span class="w">	</span><span class="sd">"""Export neutral tool dictionary.</span>
 <a id="__codelineno-0-813" name="__codelineno-0-813"></a>
 <a id="__codelineno-0-814" name="__codelineno-0-814"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-815" name="__codelineno-0-815"></a><span class="sd">	    Exports the tool definition as a provider-neutral dictionary for inspection, persistence, or</span>
@@ -5894,23 +5894,23 @@ details, and category information.</p>
 <a id="__codelineno-0-821" name="__codelineno-0-821"></a>
 <a id="__codelineno-0-822" name="__codelineno-0-822"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-823" name="__codelineno-0-823"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-824" name="__codelineno-0-824"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-824" name="__codelineno-0-824"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-825" name="__codelineno-0-825"></a>	<span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-826" name="__codelineno-0-826"></a>		<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-<a id="__codelineno-0-827" name="__codelineno-0-827"></a>		         <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
-<a id="__codelineno-0-828" name="__codelineno-0-828"></a>		         <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
-<a id="__codelineno-0-829" name="__codelineno-0-829"></a>		         <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
-<a id="__codelineno-0-830" name="__codelineno-0-830"></a>		         <span class="s1">&#39;strict&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span><span class="p">,</span>
-<a id="__codelineno-0-831" name="__codelineno-0-831"></a>		         <span class="s1">&#39;category&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
-<a id="__codelineno-0-832" name="__codelineno-0-832"></a>		         <span class="s1">&#39;source_module&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_module</span><span class="p">,</span>
-<a id="__codelineno-0-833" name="__codelineno-0-833"></a>		         <span class="s1">&#39;source_class&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_class</span><span class="p">,</span>
-<a id="__codelineno-0-834" name="__codelineno-0-834"></a>		         <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
-<a id="__codelineno-0-835" name="__codelineno-0-835"></a>		         <span class="s1">&#39;callable_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable_name</span> <span class="p">}</span>
+<a id="__codelineno-0-826" name="__codelineno-0-826"></a>		<span class="k">return</span> <span class="p">{</span> <span class="s1">'name'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-0-827" name="__codelineno-0-827"></a>		         <span class="s1">'type'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+<a id="__codelineno-0-828" name="__codelineno-0-828"></a>		         <span class="s1">'description'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+<a id="__codelineno-0-829" name="__codelineno-0-829"></a>		         <span class="s1">'parameters'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+<a id="__codelineno-0-830" name="__codelineno-0-830"></a>		         <span class="s1">'strict'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span><span class="p">,</span>
+<a id="__codelineno-0-831" name="__codelineno-0-831"></a>		         <span class="s1">'category'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,</span>
+<a id="__codelineno-0-832" name="__codelineno-0-832"></a>		         <span class="s1">'source_module'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_module</span><span class="p">,</span>
+<a id="__codelineno-0-833" name="__codelineno-0-833"></a>		         <span class="s1">'source_class'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_class</span><span class="p">,</span>
+<a id="__codelineno-0-834" name="__codelineno-0-834"></a>		         <span class="s1">'method'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">,</span>
+<a id="__codelineno-0-835" name="__codelineno-0-835"></a>		         <span class="s1">'callable_name'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">callable_name</span> <span class="p">}</span>
 <a id="__codelineno-0-836" name="__codelineno-0-836"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-837" name="__codelineno-0-837"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-838" name="__codelineno-0-838"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-839" name="__codelineno-0-839"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-840" name="__codelineno-0-840"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;to_dict( self ) -&gt; Dict[ str, Any ]&#39;</span>
+<a id="__codelineno-0-838" name="__codelineno-0-838"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-839" name="__codelineno-0-839"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-840" name="__codelineno-0-840"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'to_dict( self ) -&gt; Dict[ str, Any ]'</span>
 <a id="__codelineno-0-841" name="__codelineno-0-841"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -6023,7 +6023,7 @@ safe defaults when optional schema fields are absent.</p>
 <span class="normal"><a href="#__codelineno-0-874">874</a></span>
 <span class="normal"><a href="#__codelineno-0-875">875</a></span>
 <span class="normal"><a href="#__codelineno-0-876">876</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-843" name="__codelineno-0-843"></a><span class="k">def</span><span class="w"> </span><span class="nf">to_openai</span><span class="p">(</span> <span class="bp">self</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]:</span>
-<a id="__codelineno-0-844" name="__codelineno-0-844"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Export OpenAI tool schema.</span>
+<a id="__codelineno-0-844" name="__codelineno-0-844"></a><span class="w">	</span><span class="sd">"""Export OpenAI tool schema.</span>
 <a id="__codelineno-0-845" name="__codelineno-0-845"></a>
 <a id="__codelineno-0-846" name="__codelineno-0-846"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-847" name="__codelineno-0-847"></a><span class="sd">	    Builds an OpenAI-compatible function tool declaration from the neutral tool definition. The</span>
@@ -6035,26 +6035,26 @@ safe defaults when optional schema fields are absent.</p>
 <a id="__codelineno-0-853" name="__codelineno-0-853"></a>
 <a id="__codelineno-0-854" name="__codelineno-0-854"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-855" name="__codelineno-0-855"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-856" name="__codelineno-0-856"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-856" name="__codelineno-0-856"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-857" name="__codelineno-0-857"></a>	<span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-0-858" name="__codelineno-0-858"></a>		<span class="k">return</span> <span class="p">{</span>
-<a id="__codelineno-0-859" name="__codelineno-0-859"></a>				<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;function&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-860" name="__codelineno-0-860"></a>				<span class="s1">&#39;function&#39;</span><span class="p">:</span> <span class="p">{</span>
-<a id="__codelineno-0-861" name="__codelineno-0-861"></a>						<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-<a id="__codelineno-0-862" name="__codelineno-0-862"></a>						<span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-863" name="__codelineno-0-863"></a>						<span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">or</span> <span class="p">{</span>
-<a id="__codelineno-0-864" name="__codelineno-0-864"></a>								<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-865" name="__codelineno-0-865"></a>								<span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
-<a id="__codelineno-0-866" name="__codelineno-0-866"></a>								<span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="p">]</span>
+<a id="__codelineno-0-859" name="__codelineno-0-859"></a>				<span class="s1">'type'</span><span class="p">:</span> <span class="s1">'function'</span><span class="p">,</span>
+<a id="__codelineno-0-860" name="__codelineno-0-860"></a>				<span class="s1">'function'</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-0-861" name="__codelineno-0-861"></a>						<span class="s1">'name'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-0-862" name="__codelineno-0-862"></a>						<span class="s1">'description'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span> <span class="s1">''</span><span class="p">,</span>
+<a id="__codelineno-0-863" name="__codelineno-0-863"></a>						<span class="s1">'parameters'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">or</span> <span class="p">{</span>
+<a id="__codelineno-0-864" name="__codelineno-0-864"></a>								<span class="s1">'type'</span><span class="p">:</span> <span class="s1">'object'</span><span class="p">,</span>
+<a id="__codelineno-0-865" name="__codelineno-0-865"></a>								<span class="s1">'properties'</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
+<a id="__codelineno-0-866" name="__codelineno-0-866"></a>								<span class="s1">'required'</span><span class="p">:</span> <span class="p">[</span> <span class="p">]</span>
 <a id="__codelineno-0-867" name="__codelineno-0-867"></a>						<span class="p">},</span>
-<a id="__codelineno-0-868" name="__codelineno-0-868"></a>						<span class="s1">&#39;strict&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span> <span class="p">)</span>
+<a id="__codelineno-0-868" name="__codelineno-0-868"></a>						<span class="s1">'strict'</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">strict</span> <span class="p">)</span>
 <a id="__codelineno-0-869" name="__codelineno-0-869"></a>				<span class="p">}</span>
 <a id="__codelineno-0-870" name="__codelineno-0-870"></a>		<span class="p">}</span>
 <a id="__codelineno-0-871" name="__codelineno-0-871"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-872" name="__codelineno-0-872"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-873" name="__codelineno-0-873"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-874" name="__codelineno-0-874"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-875" name="__codelineno-0-875"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;to_openai( self ) -&gt; Dict[ str, Any ]&#39;</span>
+<a id="__codelineno-0-873" name="__codelineno-0-873"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-874" name="__codelineno-0-874"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-875" name="__codelineno-0-875"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'to_openai( self ) -&gt; Dict[ str, Any ]'</span>
 <a id="__codelineno-0-876" name="__codelineno-0-876"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -6155,7 +6155,7 @@ provider conversion path.</p>
 <span class="normal"><a href="#__codelineno-0-897">897</a></span>
 <span class="normal"><a href="#__codelineno-0-898">898</a></span>
 <span class="normal"><a href="#__codelineno-0-899">899</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-878" name="__codelineno-0-878"></a><span class="k">def</span><span class="w"> </span><span class="nf">to_grok</span><span class="p">(</span> <span class="bp">self</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]:</span>
-<a id="__codelineno-0-879" name="__codelineno-0-879"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Export Grok tool schema.</span>
+<a id="__codelineno-0-879" name="__codelineno-0-879"></a><span class="w">	</span><span class="sd">"""Export Grok tool schema.</span>
 <a id="__codelineno-0-880" name="__codelineno-0-880"></a>
 <a id="__codelineno-0-881" name="__codelineno-0-881"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-882" name="__codelineno-0-882"></a><span class="sd">	    Builds a Grok-compatible function tool declaration using the same schema shape used for OpenAI</span>
@@ -6167,14 +6167,14 @@ provider conversion path.</p>
 <a id="__codelineno-0-888" name="__codelineno-0-888"></a>
 <a id="__codelineno-0-889" name="__codelineno-0-889"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-890" name="__codelineno-0-890"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-891" name="__codelineno-0-891"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-891" name="__codelineno-0-891"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-892" name="__codelineno-0-892"></a>	<span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-0-893" name="__codelineno-0-893"></a>		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_openai</span><span class="p">(</span> <span class="p">)</span>
 <a id="__codelineno-0-894" name="__codelineno-0-894"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-895" name="__codelineno-0-895"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-896" name="__codelineno-0-896"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-897" name="__codelineno-0-897"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-898" name="__codelineno-0-898"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;to_grok( self ) -&gt; Dict[ str, Any ]&#39;</span>
+<a id="__codelineno-0-896" name="__codelineno-0-896"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-897" name="__codelineno-0-897"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-898" name="__codelineno-0-898"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'to_grok( self ) -&gt; Dict[ str, Any ]'</span>
 <a id="__codelineno-0-899" name="__codelineno-0-899"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -6283,7 +6283,7 @@ Gemini tool configuration.</p>
 <span class="normal"><a href="#__codelineno-0-928">928</a></span>
 <span class="normal"><a href="#__codelineno-0-929">929</a></span>
 <span class="normal"><a href="#__codelineno-0-930">930</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-901" name="__codelineno-0-901"></a><span class="k">def</span><span class="w"> </span><span class="nf">to_gemini</span><span class="p">(</span> <span class="bp">self</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]:</span>
-<a id="__codelineno-0-902" name="__codelineno-0-902"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Export Gemini tool schema.</span>
+<a id="__codelineno-0-902" name="__codelineno-0-902"></a><span class="w">	</span><span class="sd">"""Export Gemini tool schema.</span>
 <a id="__codelineno-0-903" name="__codelineno-0-903"></a>
 <a id="__codelineno-0-904" name="__codelineno-0-904"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-905" name="__codelineno-0-905"></a><span class="sd">	    Builds a Gemini-compatible function declaration from the neutral tool definition. The method</span>
@@ -6295,22 +6295,22 @@ Gemini tool configuration.</p>
 <a id="__codelineno-0-911" name="__codelineno-0-911"></a>
 <a id="__codelineno-0-912" name="__codelineno-0-912"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-913" name="__codelineno-0-913"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-914" name="__codelineno-0-914"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-914" name="__codelineno-0-914"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-915" name="__codelineno-0-915"></a>	<span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-0-916" name="__codelineno-0-916"></a>		<span class="k">return</span> <span class="p">{</span>
-<a id="__codelineno-0-917" name="__codelineno-0-917"></a>				<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-<a id="__codelineno-0-918" name="__codelineno-0-918"></a>				<span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-919" name="__codelineno-0-919"></a>				<span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">or</span> <span class="p">{</span>
-<a id="__codelineno-0-920" name="__codelineno-0-920"></a>						<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-921" name="__codelineno-0-921"></a>						<span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
-<a id="__codelineno-0-922" name="__codelineno-0-922"></a>						<span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="p">]</span>
+<a id="__codelineno-0-917" name="__codelineno-0-917"></a>				<span class="s1">'name'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-0-918" name="__codelineno-0-918"></a>				<span class="s1">'description'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span> <span class="s1">''</span><span class="p">,</span>
+<a id="__codelineno-0-919" name="__codelineno-0-919"></a>				<span class="s1">'parameters'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">or</span> <span class="p">{</span>
+<a id="__codelineno-0-920" name="__codelineno-0-920"></a>						<span class="s1">'type'</span><span class="p">:</span> <span class="s1">'object'</span><span class="p">,</span>
+<a id="__codelineno-0-921" name="__codelineno-0-921"></a>						<span class="s1">'properties'</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
+<a id="__codelineno-0-922" name="__codelineno-0-922"></a>						<span class="s1">'required'</span><span class="p">:</span> <span class="p">[</span> <span class="p">]</span>
 <a id="__codelineno-0-923" name="__codelineno-0-923"></a>				<span class="p">}</span>
 <a id="__codelineno-0-924" name="__codelineno-0-924"></a>		<span class="p">}</span>
 <a id="__codelineno-0-925" name="__codelineno-0-925"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-926" name="__codelineno-0-926"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-927" name="__codelineno-0-927"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-928" name="__codelineno-0-928"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-929" name="__codelineno-0-929"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;to_gemini( self ) -&gt; Dict[ str, Any ]&#39;</span>
+<a id="__codelineno-0-927" name="__codelineno-0-927"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-928" name="__codelineno-0-928"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-929" name="__codelineno-0-929"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'to_gemini( self ) -&gt; Dict[ str, Any ]'</span>
 <a id="__codelineno-0-930" name="__codelineno-0-930"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -6466,7 +6466,7 @@ generation or tool execution.</p>
 <span class="normal"><a href="#__codelineno-0-79">79</a></span>
 <span class="normal"><a href="#__codelineno-0-80">80</a></span>
 <span class="normal"><a href="#__codelineno-0-81">81</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="k">def</span><span class="w"> </span><span class="nf">throw_if</span><span class="p">(</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Validate a required model argument.</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="w">	</span><span class="sd">"""Validate a required model argument.</span>
 <a id="__codelineno-0-62" name="__codelineno-0-62"></a>
 <a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">	    Validates that a required model or tool-schema argument is present and non-empty before schema</span>
@@ -6481,12 +6481,12 @@ generation or tool execution.</p>
 <a id="__codelineno-0-73" name="__codelineno-0-73"></a>
 <a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-75" name="__codelineno-0-75"></a><span class="sd">	    ValueError: If a required value is missing, blank, or outside the supported range.</span>
-<a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-77" name="__codelineno-0-77"></a>	<span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-78" name="__codelineno-0-78"></a>		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">&#39;Argument &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; cannot be None.&#39;</span> <span class="p">)</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">'Argument "</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">" cannot be None.'</span> <span class="p">)</span>
 <a id="__codelineno-0-79" name="__codelineno-0-79"></a>
 <a id="__codelineno-0-80" name="__codelineno-0-80"></a>	<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="nb">str</span> <span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span> <span class="p">):</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a>		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">&#39;Argument &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; cannot be empty.&#39;</span> <span class="p">)</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a>		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span> <span class="sa">f</span><span class="s1">'Argument "</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">" cannot be empty.'</span> <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -6623,7 +6623,7 @@ documentation text is available.</p>
 <span class="normal"><a href="#__codelineno-0-108">108</a></span>
 <span class="normal"><a href="#__codelineno-0-109">109</a></span>
 <span class="normal"><a href="#__codelineno-0-110">110</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="k">def</span><span class="w"> </span><span class="nf">clean_docstring</span><span class="p">(</span> <span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span> <span class="nb">str</span> <span class="p">]</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Clean callable documentation.</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="w">	</span><span class="sd">"""Clean callable documentation.</span>
 <a id="__codelineno-0-85" name="__codelineno-0-85"></a>
 <a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">	    Normalizes optional callable documentation into a compact description string for generated tool</span>
@@ -6638,17 +6638,17 @@ documentation text is available.</p>
 <a id="__codelineno-0-96" name="__codelineno-0-96"></a>
 <a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-98" name="__codelineno-0-98"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-100" name="__codelineno-0-100"></a>	<span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-0-101" name="__codelineno-0-101"></a>		<span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
-<a id="__codelineno-0-102" name="__codelineno-0-102"></a>			<span class="k">return</span> <span class="s1">&#39;&#39;</span>
+<a id="__codelineno-0-102" name="__codelineno-0-102"></a>			<span class="k">return</span> <span class="s1">''</span>
 <a id="__codelineno-0-103" name="__codelineno-0-103"></a>
 <a id="__codelineno-0-104" name="__codelineno-0-104"></a>		<span class="k">return</span> <span class="n">inspect</span><span class="o">.</span><span class="n">cleandoc</span><span class="p">(</span> <span class="n">value</span> <span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span> <span class="p">)</span>
 <a id="__codelineno-0-105" name="__codelineno-0-105"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-106" name="__codelineno-0-106"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-108" name="__codelineno-0-108"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;clean_docstring( value: Optional[ str ] ) -&gt; str&#39;</span>
+<a id="__codelineno-0-107" name="__codelineno-0-107"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-108" name="__codelineno-0-108"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-109" name="__codelineno-0-109"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'clean_docstring( value: Optional[ str ] ) -&gt; str'</span>
 <a id="__codelineno-0-110" name="__codelineno-0-110"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -6831,7 +6831,7 @@ conservative schema defaults.</p>
 <span class="normal"><a href="#__codelineno-0-180">180</a></span>
 <span class="normal"><a href="#__codelineno-0-181">181</a></span>
 <span class="normal"><a href="#__codelineno-0-182">182</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-112" name="__codelineno-0-112"></a><span class="k">def</span><span class="w"> </span><span class="nf">python_type_to_json_schema</span><span class="p">(</span> <span class="n">annotation</span><span class="p">:</span> <span class="n">Any</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]:</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Convert Python annotation to JSON Schema.</span>
+<a id="__codelineno-0-113" name="__codelineno-0-113"></a><span class="w">	</span><span class="sd">"""Convert Python annotation to JSON Schema.</span>
 <a id="__codelineno-0-114" name="__codelineno-0-114"></a>
 <a id="__codelineno-0-115" name="__codelineno-0-115"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-116" name="__codelineno-0-116"></a><span class="sd">	    Maps Python type annotations to the JSON Schema fragments used by provider tool declarations.</span>
@@ -6846,13 +6846,13 @@ conservative schema defaults.</p>
 <a id="__codelineno-0-125" name="__codelineno-0-125"></a>
 <a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-127" name="__codelineno-0-127"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-129" name="__codelineno-0-129"></a>	<span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-0-130" name="__codelineno-0-130"></a>		<span class="k">if</span> <span class="n">annotation</span> <span class="ow">is</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Signature</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-<a id="__codelineno-0-131" name="__codelineno-0-131"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-131" name="__codelineno-0-131"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'string'</span> <span class="p">}</span>
 <a id="__codelineno-0-132" name="__codelineno-0-132"></a>
 <a id="__codelineno-0-133" name="__codelineno-0-133"></a>		<span class="k">if</span> <span class="n">annotation</span> <span class="ow">is</span> <span class="n">Any</span><span class="p">:</span>
-<a id="__codelineno-0-134" name="__codelineno-0-134"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-134" name="__codelineno-0-134"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'object'</span> <span class="p">}</span>
 <a id="__codelineno-0-135" name="__codelineno-0-135"></a>
 <a id="__codelineno-0-136" name="__codelineno-0-136"></a>		<span class="n">origin</span> <span class="o">=</span> <span class="n">get_origin</span><span class="p">(</span> <span class="n">annotation</span> <span class="p">)</span>
 <a id="__codelineno-0-137" name="__codelineno-0-137"></a>		<span class="n">args</span> <span class="o">=</span> <span class="n">get_args</span><span class="p">(</span> <span class="n">annotation</span> <span class="p">)</span>
@@ -6863,43 +6863,43 @@ conservative schema defaults.</p>
 <a id="__codelineno-0-142" name="__codelineno-0-142"></a>			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span> <span class="n">non_null</span> <span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
 <a id="__codelineno-0-143" name="__codelineno-0-143"></a>				<span class="k">return</span> <span class="n">python_type_to_json_schema</span><span class="p">(</span> <span class="n">non_null</span><span class="p">[</span> <span class="mi">0</span> <span class="p">]</span> <span class="p">)</span>
 <a id="__codelineno-0-144" name="__codelineno-0-144"></a>
-<a id="__codelineno-0-145" name="__codelineno-0-145"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-145" name="__codelineno-0-145"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'object'</span> <span class="p">}</span>
 <a id="__codelineno-0-146" name="__codelineno-0-146"></a>
 <a id="__codelineno-0-147" name="__codelineno-0-147"></a>		<span class="k">if</span> <span class="n">origin</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">List</span><span class="p">):</span>
 <a id="__codelineno-0-148" name="__codelineno-0-148"></a>			<span class="n">item_type</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span> <span class="mi">0</span> <span class="p">]</span> <span class="k">if</span> <span class="n">args</span> <span class="k">else</span> <span class="n">Any</span>
 <a id="__codelineno-0-149" name="__codelineno-0-149"></a>
 <a id="__codelineno-0-150" name="__codelineno-0-150"></a>			<span class="k">return</span> <span class="p">{</span>
-<a id="__codelineno-0-151" name="__codelineno-0-151"></a>					<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-152" name="__codelineno-0-152"></a>					<span class="s1">&#39;items&#39;</span><span class="p">:</span> <span class="n">python_type_to_json_schema</span><span class="p">(</span> <span class="n">item_type</span> <span class="p">)</span>
+<a id="__codelineno-0-151" name="__codelineno-0-151"></a>					<span class="s1">'type'</span><span class="p">:</span> <span class="s1">'array'</span><span class="p">,</span>
+<a id="__codelineno-0-152" name="__codelineno-0-152"></a>					<span class="s1">'items'</span><span class="p">:</span> <span class="n">python_type_to_json_schema</span><span class="p">(</span> <span class="n">item_type</span> <span class="p">)</span>
 <a id="__codelineno-0-153" name="__codelineno-0-153"></a>			<span class="p">}</span>
 <a id="__codelineno-0-154" name="__codelineno-0-154"></a>
 <a id="__codelineno-0-155" name="__codelineno-0-155"></a>		<span class="k">if</span> <span class="n">origin</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>
-<a id="__codelineno-0-156" name="__codelineno-0-156"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-156" name="__codelineno-0-156"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'object'</span> <span class="p">}</span>
 <a id="__codelineno-0-157" name="__codelineno-0-157"></a>
 <a id="__codelineno-0-158" name="__codelineno-0-158"></a>		<span class="k">if</span> <span class="n">annotation</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-159" name="__codelineno-0-159"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-159" name="__codelineno-0-159"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'string'</span> <span class="p">}</span>
 <a id="__codelineno-0-160" name="__codelineno-0-160"></a>
 <a id="__codelineno-0-161" name="__codelineno-0-161"></a>		<span class="k">if</span> <span class="n">annotation</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
-<a id="__codelineno-0-162" name="__codelineno-0-162"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-162" name="__codelineno-0-162"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'integer'</span> <span class="p">}</span>
 <a id="__codelineno-0-163" name="__codelineno-0-163"></a>
 <a id="__codelineno-0-164" name="__codelineno-0-164"></a>		<span class="k">if</span> <span class="n">annotation</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
-<a id="__codelineno-0-165" name="__codelineno-0-165"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;number&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-165" name="__codelineno-0-165"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'number'</span> <span class="p">}</span>
 <a id="__codelineno-0-166" name="__codelineno-0-166"></a>
 <a id="__codelineno-0-167" name="__codelineno-0-167"></a>		<span class="k">if</span> <span class="n">annotation</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
-<a id="__codelineno-0-168" name="__codelineno-0-168"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;boolean&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-168" name="__codelineno-0-168"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'boolean'</span> <span class="p">}</span>
 <a id="__codelineno-0-169" name="__codelineno-0-169"></a>
 <a id="__codelineno-0-170" name="__codelineno-0-170"></a>		<span class="k">if</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
-<a id="__codelineno-0-171" name="__codelineno-0-171"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-171" name="__codelineno-0-171"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'array'</span> <span class="p">}</span>
 <a id="__codelineno-0-172" name="__codelineno-0-172"></a>
 <a id="__codelineno-0-173" name="__codelineno-0-173"></a>		<span class="k">if</span> <span class="n">annotation</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
-<a id="__codelineno-0-174" name="__codelineno-0-174"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-174" name="__codelineno-0-174"></a>			<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'object'</span> <span class="p">}</span>
 <a id="__codelineno-0-175" name="__codelineno-0-175"></a>
-<a id="__codelineno-0-176" name="__codelineno-0-176"></a>		<span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span> <span class="p">}</span>
+<a id="__codelineno-0-176" name="__codelineno-0-176"></a>		<span class="k">return</span> <span class="p">{</span> <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'object'</span> <span class="p">}</span>
 <a id="__codelineno-0-177" name="__codelineno-0-177"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-178" name="__codelineno-0-178"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-179" name="__codelineno-0-179"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-180" name="__codelineno-0-180"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-181" name="__codelineno-0-181"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;python_type_to_json_schema( annotation: Any ) -&gt; Dict[ str, Any ]&#39;</span>
+<a id="__codelineno-0-179" name="__codelineno-0-179"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-180" name="__codelineno-0-180"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-181" name="__codelineno-0-181"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'python_type_to_json_schema( annotation: Any ) -&gt; Dict[ str, Any ]'</span>
 <a id="__codelineno-0-182" name="__codelineno-0-182"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -7086,7 +7086,7 @@ default values, and uses type hints when available.</p>
 <span class="normal"><a href="#__codelineno-0-246">246</a></span>
 <span class="normal"><a href="#__codelineno-0-247">247</a></span>
 <span class="normal"><a href="#__codelineno-0-248">248</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-184" name="__codelineno-0-184"></a><span class="k">def</span><span class="w"> </span><span class="nf">build_parameter_schema</span><span class="p">(</span> <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span> <span class="o">...</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Any</span> <span class="p">]:</span>
-<a id="__codelineno-0-185" name="__codelineno-0-185"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Build callable parameter schema.</span>
+<a id="__codelineno-0-185" name="__codelineno-0-185"></a><span class="w">	</span><span class="sd">"""Build callable parameter schema.</span>
 <a id="__codelineno-0-186" name="__codelineno-0-186"></a>
 <a id="__codelineno-0-187" name="__codelineno-0-187"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-188" name="__codelineno-0-188"></a><span class="sd">	    Inspects a Python callable signature and builds a provider-neutral JSON Schema parameters</span>
@@ -7102,12 +7102,12 @@ default values, and uses type hints when available.</p>
 <a id="__codelineno-0-198" name="__codelineno-0-198"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-199" name="__codelineno-0-199"></a><span class="sd">	    TypeError: If a supplied value has an unsupported type.</span>
 <a id="__codelineno-0-200" name="__codelineno-0-200"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-201" name="__codelineno-0-201"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-201" name="__codelineno-0-201"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-202" name="__codelineno-0-202"></a>	<span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-0-203" name="__codelineno-0-203"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">&#39;function&#39;</span><span class="p">,</span> <span class="n">function</span> <span class="p">)</span>
+<a id="__codelineno-0-203" name="__codelineno-0-203"></a>		<span class="n">throw_if</span><span class="p">(</span> <span class="s1">'function'</span><span class="p">,</span> <span class="n">function</span> <span class="p">)</span>
 <a id="__codelineno-0-204" name="__codelineno-0-204"></a>
 <a id="__codelineno-0-205" name="__codelineno-0-205"></a>		<span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">function</span> <span class="p">):</span>
-<a id="__codelineno-0-206" name="__codelineno-0-206"></a>			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span> <span class="s1">&#39;Argument &quot;function&quot; must be callable.&#39;</span> <span class="p">)</span>
+<a id="__codelineno-0-206" name="__codelineno-0-206"></a>			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span> <span class="s1">'Argument "function" must be callable.'</span> <span class="p">)</span>
 <a id="__codelineno-0-207" name="__codelineno-0-207"></a>
 <a id="__codelineno-0-208" name="__codelineno-0-208"></a>		<span class="n">signature</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span> <span class="n">function</span> <span class="p">)</span>
 <a id="__codelineno-0-209" name="__codelineno-0-209"></a>
@@ -7120,7 +7120,7 @@ default values, and uses type hints when available.</p>
 <a id="__codelineno-0-216" name="__codelineno-0-216"></a>		<span class="n">required</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span> <span class="nb">str</span> <span class="p">]</span> <span class="o">=</span> <span class="p">[</span> <span class="p">]</span>
 <a id="__codelineno-0-217" name="__codelineno-0-217"></a>
 <a id="__codelineno-0-218" name="__codelineno-0-218"></a>		<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">signature</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">(</span> <span class="p">):</span>
-<a id="__codelineno-0-219" name="__codelineno-0-219"></a>			<span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;self&#39;</span><span class="p">,</span> <span class="s1">&#39;cls&#39;</span><span class="p">):</span>
+<a id="__codelineno-0-219" name="__codelineno-0-219"></a>			<span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'self'</span><span class="p">,</span> <span class="s1">'cls'</span><span class="p">):</span>
 <a id="__codelineno-0-220" name="__codelineno-0-220"></a>				<span class="k">continue</span>
 <a id="__codelineno-0-221" name="__codelineno-0-221"></a>
 <a id="__codelineno-0-222" name="__codelineno-0-222"></a>			<span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span>
@@ -7133,22 +7133,22 @@ default values, and uses type hints when available.</p>
 <a id="__codelineno-0-229" name="__codelineno-0-229"></a>			<span class="n">schema</span> <span class="o">=</span> <span class="n">python_type_to_json_schema</span><span class="p">(</span> <span class="n">annotation</span> <span class="p">)</span>
 <a id="__codelineno-0-230" name="__codelineno-0-230"></a>
 <a id="__codelineno-0-231" name="__codelineno-0-231"></a>			<span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Signature</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-<a id="__codelineno-0-232" name="__codelineno-0-232"></a>				<span class="n">schema</span><span class="p">[</span> <span class="s1">&#39;default&#39;</span> <span class="p">]</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">default</span>
+<a id="__codelineno-0-232" name="__codelineno-0-232"></a>				<span class="n">schema</span><span class="p">[</span> <span class="s1">'default'</span> <span class="p">]</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">default</span>
 <a id="__codelineno-0-233" name="__codelineno-0-233"></a>			<span class="k">else</span><span class="p">:</span>
 <a id="__codelineno-0-234" name="__codelineno-0-234"></a>				<span class="n">required</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">name</span> <span class="p">)</span>
 <a id="__codelineno-0-235" name="__codelineno-0-235"></a>
 <a id="__codelineno-0-236" name="__codelineno-0-236"></a>			<span class="n">properties</span><span class="p">[</span> <span class="n">name</span> <span class="p">]</span> <span class="o">=</span> <span class="n">schema</span>
 <a id="__codelineno-0-237" name="__codelineno-0-237"></a>
 <a id="__codelineno-0-238" name="__codelineno-0-238"></a>		<span class="k">return</span> <span class="p">{</span>
-<a id="__codelineno-0-239" name="__codelineno-0-239"></a>				<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-240" name="__codelineno-0-240"></a>				<span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="n">properties</span><span class="p">,</span>
-<a id="__codelineno-0-241" name="__codelineno-0-241"></a>				<span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="n">required</span>
+<a id="__codelineno-0-239" name="__codelineno-0-239"></a>				<span class="s1">'type'</span><span class="p">:</span> <span class="s1">'object'</span><span class="p">,</span>
+<a id="__codelineno-0-240" name="__codelineno-0-240"></a>				<span class="s1">'properties'</span><span class="p">:</span> <span class="n">properties</span><span class="p">,</span>
+<a id="__codelineno-0-241" name="__codelineno-0-241"></a>				<span class="s1">'required'</span><span class="p">:</span> <span class="n">required</span>
 <a id="__codelineno-0-242" name="__codelineno-0-242"></a>		<span class="p">}</span>
 <a id="__codelineno-0-243" name="__codelineno-0-243"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-244" name="__codelineno-0-244"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-245" name="__codelineno-0-245"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-246" name="__codelineno-0-246"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-247" name="__codelineno-0-247"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;build_parameter_schema( function: Callable[ ..., Any ] ) -&gt; Dict[ str, Any ]&#39;</span>
+<a id="__codelineno-0-245" name="__codelineno-0-245"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-246" name="__codelineno-0-246"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-247" name="__codelineno-0-247"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'build_parameter_schema( function: Callable[ ..., Any ] ) -&gt; Dict[ str, Any ]'</span>
 <a id="__codelineno-0-248" name="__codelineno-0-248"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -7313,7 +7313,7 @@ normalizes document, model, and dataframe-like objects when possible.</p>
 <span class="normal"><a href="#__codelineno-0-302">302</a></span>
 <span class="normal"><a href="#__codelineno-0-303">303</a></span>
 <span class="normal"><a href="#__codelineno-0-304">304</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-250" name="__codelineno-0-250"></a><span class="k">def</span><span class="w"> </span><span class="nf">serialize_value</span><span class="p">(</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<a id="__codelineno-0-251" name="__codelineno-0-251"></a><span class="w">	</span><span class="sd">&quot;&quot;&quot;Serialize runtime value.</span>
+<a id="__codelineno-0-251" name="__codelineno-0-251"></a><span class="w">	</span><span class="sd">"""Serialize runtime value.</span>
 <a id="__codelineno-0-252" name="__codelineno-0-252"></a>
 <a id="__codelineno-0-253" name="__codelineno-0-253"></a><span class="sd">	Purpose:</span>
 <a id="__codelineno-0-254" name="__codelineno-0-254"></a><span class="sd">	    Converts common runtime objects into JSON-safe values for tool execution responses. The</span>
@@ -7328,7 +7328,7 @@ normalizes document, model, and dataframe-like objects when possible.</p>
 <a id="__codelineno-0-263" name="__codelineno-0-263"></a>
 <a id="__codelineno-0-264" name="__codelineno-0-264"></a><span class="sd">	Raises:</span>
 <a id="__codelineno-0-265" name="__codelineno-0-265"></a><span class="sd">	    Error: Raised after the underlying exception is wrapped with module, cause, and method metadata.</span>
-<a id="__codelineno-0-266" name="__codelineno-0-266"></a><span class="sd">	&quot;&quot;&quot;</span>
+<a id="__codelineno-0-266" name="__codelineno-0-266"></a><span class="sd">	"""</span>
 <a id="__codelineno-0-267" name="__codelineno-0-267"></a>	<span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-0-268" name="__codelineno-0-268"></a>		<span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-269" name="__codelineno-0-269"></a>			<span class="k">return</span> <span class="kc">None</span>
@@ -7336,19 +7336,19 @@ normalizes document, model, and dataframe-like objects when possible.</p>
 <a id="__codelineno-0-271" name="__codelineno-0-271"></a>		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="p">):</span>
 <a id="__codelineno-0-272" name="__codelineno-0-272"></a>			<span class="k">return</span> <span class="n">value</span>
 <a id="__codelineno-0-273" name="__codelineno-0-273"></a>
-<a id="__codelineno-0-274" name="__codelineno-0-274"></a>		<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">&#39;page_content&#39;</span> <span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span> <span class="p">):</span>
+<a id="__codelineno-0-274" name="__codelineno-0-274"></a>		<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">'page_content'</span> <span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">'metadata'</span> <span class="p">):</span>
 <a id="__codelineno-0-275" name="__codelineno-0-275"></a>			<span class="k">return</span> <span class="p">{</span>
-<a id="__codelineno-0-276" name="__codelineno-0-276"></a>					<span class="s1">&#39;page_content&#39;</span><span class="p">:</span> <span class="n">serialize_value</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">page_content</span> <span class="p">),</span>
-<a id="__codelineno-0-277" name="__codelineno-0-277"></a>					<span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="n">serialize_value</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">metadata</span> <span class="p">)</span>
+<a id="__codelineno-0-276" name="__codelineno-0-276"></a>					<span class="s1">'page_content'</span><span class="p">:</span> <span class="n">serialize_value</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">page_content</span> <span class="p">),</span>
+<a id="__codelineno-0-277" name="__codelineno-0-277"></a>					<span class="s1">'metadata'</span><span class="p">:</span> <span class="n">serialize_value</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">metadata</span> <span class="p">)</span>
 <a id="__codelineno-0-278" name="__codelineno-0-278"></a>			<span class="p">}</span>
 <a id="__codelineno-0-279" name="__codelineno-0-279"></a>
-<a id="__codelineno-0-280" name="__codelineno-0-280"></a>		<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">&#39;model_dump&#39;</span> <span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">model_dump</span> <span class="p">):</span>
+<a id="__codelineno-0-280" name="__codelineno-0-280"></a>		<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">'model_dump'</span> <span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">model_dump</span> <span class="p">):</span>
 <a id="__codelineno-0-281" name="__codelineno-0-281"></a>			<span class="k">return</span> <span class="n">serialize_value</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span> <span class="p">)</span> <span class="p">)</span>
 <a id="__codelineno-0-282" name="__codelineno-0-282"></a>
-<a id="__codelineno-0-283" name="__codelineno-0-283"></a>		<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">&#39;to_dict&#39;</span> <span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">to_dict</span> <span class="p">):</span>
+<a id="__codelineno-0-283" name="__codelineno-0-283"></a>		<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">'to_dict'</span> <span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">to_dict</span> <span class="p">):</span>
 <a id="__codelineno-0-284" name="__codelineno-0-284"></a>			<span class="k">return</span> <span class="n">serialize_value</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span> <span class="p">)</span> <span class="p">)</span>
 <a id="__codelineno-0-285" name="__codelineno-0-285"></a>
-<a id="__codelineno-0-286" name="__codelineno-0-286"></a>		<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">&#39;to_json&#39;</span> <span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">to_json</span> <span class="p">):</span>
+<a id="__codelineno-0-286" name="__codelineno-0-286"></a>		<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="s1">'to_json'</span> <span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span> <span class="n">value</span><span class="o">.</span><span class="n">to_json</span> <span class="p">):</span>
 <a id="__codelineno-0-287" name="__codelineno-0-287"></a>			<span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span> <span class="p">)</span>
 <a id="__codelineno-0-288" name="__codelineno-0-288"></a>
 <a id="__codelineno-0-289" name="__codelineno-0-289"></a>		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span> <span class="n">value</span><span class="p">,</span> <span class="nb">dict</span> <span class="p">):</span>
@@ -7363,9 +7363,9 @@ normalizes document, model, and dataframe-like objects when possible.</p>
 <a id="__codelineno-0-298" name="__codelineno-0-298"></a>		<span class="k">return</span> <span class="nb">str</span><span class="p">(</span> <span class="n">value</span> <span class="p">)</span>
 <a id="__codelineno-0-299" name="__codelineno-0-299"></a>	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-0-300" name="__codelineno-0-300"></a>		<span class="n">exception</span> <span class="o">=</span> <span class="n">Error</span><span class="p">(</span> <span class="n">e</span> <span class="p">)</span>
-<a id="__codelineno-0-301" name="__codelineno-0-301"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">&#39;models&#39;</span>
-<a id="__codelineno-0-302" name="__codelineno-0-302"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">&#39;ToolDef&#39;</span>
-<a id="__codelineno-0-303" name="__codelineno-0-303"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;serialize_value( value: Any ) -&gt; Any&#39;</span>
+<a id="__codelineno-0-301" name="__codelineno-0-301"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="s1">'models'</span>
+<a id="__codelineno-0-302" name="__codelineno-0-302"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">cause</span> <span class="o">=</span> <span class="s1">'ToolDef'</span>
+<a id="__codelineno-0-303" name="__codelineno-0-303"></a>		<span class="n">exception</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="s1">'serialize_value( value: Any ) -&gt; Any'</span>
 <a id="__codelineno-0-304" name="__codelineno-0-304"></a>		<span class="k">raise</span> <span class="n">exception</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -7478,7 +7478,7 @@ normalizes document, model, and dataframe-like objects when possible.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
