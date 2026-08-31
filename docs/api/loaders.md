@@ -1,3 +1,0 @@
-# Loaders API
-
-::: loaders

@@ -1,31 +1,31 @@
 ###### Fonky
 
-![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-project.png)
+![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky-project.png)
 
 <p align="left">
   <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-architecture">Architecture</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-installation">Installation</a> &nbsp;|&nbsp;
-  <a href="#-domain-api-reference">Domains</a> &nbsp;|&nbsp;
   <a href="resources/user-guide.md">Usage</a> &nbsp;|&nbsp;
-  <a href="https://is-leeroy-jenkins.github.io/funkytown/">Documentation</a> &nbsp;|&nbsp;
+  <a href="https://is-leeroy-jenkins.github.io/fonky/">Documentation</a> &nbsp;|&nbsp;
   <a href="#-requirements">Requirements</a>
 </p>
 
 ___
 
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/funkytown/)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/fonky/)
 
 Fonky is a reusable Python framework for data retrieval, document ingestion, web scraping,
-cloud loading, domain-oriented data access, and LangChain tool integration.
+preprocessing, cloud loading, structured data access, and agent-callable tool integration.
 
-The implementation remains object-oriented in `fetchers.py`, `loaders.py`, and `scrapers.py`.
-The `funkytown.py` module provides a simple functional interface over those implementation classes:
-each module-level function creates the appropriate implementation object, invokes its existing
-method, and returns the result.
+The implementation remains object-oriented in `fetchers.py`, `loaders.py`, `scrapers.py`, and
+`preprocessors.py`. The `tools.py` module is the OpenAI Agents SDK adapter layer: each public
+`@function_tool` wrapper creates the appropriate implementation object, invokes the existing method,
+and returns its result.
 
-Fonky exposes **110 operations across 9 domains** through both its functional API and
-LangChain tool surface.
+The rebuilt package preserves the original **110 retrieval, loading, and scraping tools** and adds
+**40 preprocessing tools**, for a flat surface of **150 OpenAI Agents SDK function tools**. Fonky no
+longer uses runtime domains, category registries, or category facade modules.
 
 ## 🎯 Purpose
 
@@ -41,133 +41,120 @@ Fonky provides a reusable library for:
 | 🗺️ Geospatial Data      | Geocode locations, reverse-geocode coordinates, validate addresses, request directions, and retrieve imagery and mapping data |
 | 🔭 Astronomy & Space    | Query astronomical catalogs, satellites, space weather, star maps, star charts, OpenSky, and near-Earth objects               |
 | 👥 Demographic & Health | Retrieve Census, Socrata, United Nations, population, health, CDC WONDER, PubMed, and open-city data                          |
-| 🧰 Functional API       | Typed, stateless entry points over Fonky fetchers, loaders, and scrapers                                                      |
-| 🤖 LangChain Tools      | Agent-callable versions of the functional API with schemas derived from type hints and Google-style docstrings                |
+| 🧰 Functional API       | Typed entry points over Fonky fetchers, loaders, scrapers, and preprocessors                                                   |
+| 🤖 OpenAI Agent Tools   | Agent-callable `@function_tool` wrappers with schemas derived from type hints and docstrings                                  |
 
 ## 🏗️ Architecture
 
-Fonky's LangChain integration is implemented directly in `fonky.py`.
+Fonky's agent integration is implemented directly in `tools.py`.
 
-![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-architecture.png)
+![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky-architecture.png)
 
 ___
 
 ```text
-LangChain Agent / Application
-            |
-            v
-       fonkytown/fonky.py
- literal @tool decorators
-            |
-    +-------+-------+
-    |       |       |
-    v       v       v
-fetchers  loaders  scrapers
+OpenAI Agent / Application
+           |
+           v
+      fonky/tools.py
+  @function_tool wrappers
+           |
+   +-------+---------+-------------+
+   |       |         |             |
+   v       v         v             v
+fetchers loaders  scrapers  preprocessors
+           |
+           v
+        models
 ```
 
-Each public operation is decorated directly:
+The implementation modules remain directly usable as ordinary Python APIs. Only `tools.py` serves
+as the OpenAI Agents SDK adapter layer.
+
+Each public agent operation is decorated directly:
 
 ```python
-from langchain_core.tools import tool
+from agents import function_tool
+
+from .scrapers import WebExtractor
 
 
-@tool(
-    parse_docstring=True,
-    error_on_invalid_docstring=True
-)
-def scrape_tables( uri: str ) -> Any:
+@function_tool
+def scrape_tables( uri: str ) -> list[ str ] | None:
     """Extract table cell text.
+
+    Purpose:
+        Extracts table cell text from the supplied HTML document.
 
     Args:
         uri: Fully qualified URI of the target HTML document.
 
     Returns:
-        List[str] | None: Table cell text values produced by the operation.
+        list[str] | None: Extracted table cell values.
     """
-    _instance = WebExtractor( )
-    return _instance.scrape_tables( uri=uri )
+    instance = WebExtractor( )
+    return instance.scrape_tables( uri=uri )
 ```
 
-`tools.py` is a grouping and discovery module only. It imports the already-decorated `BaseTool`
-objects from `fonky.py` and organizes them into the nine Fonky domains.
-
-### Important API consequence
-
-Because `@tool` replaces each decorated function binding with a LangChain `BaseTool`, decorated
-operations are invoked with `.invoke()` rather than as ordinary Python functions:
+The underlying implementation remains directly callable:
 
 ```python
-from funkytown.fonky import fetch_arxiv
+from fonky.scrapers import WebExtractor
 
-result = fetch_arxiv.invoke(
-    {
-        'question': 'large language model tool use',
-        'max_documents': 5,
-        'full_documents': False,
-        'include_metadata': True
-    }
-)
+extractor = WebExtractor( )
+result = extractor.scrape_tables( uri='https://example.com' )
 ```
-
-If ordinary function-call semantics are required, the underlying implementation classes in
-`fetchers.py`, `loaders.py`, and `scrapers.py` remain directly callable.
 
 ## 🧰 Project Structure
 
 ```text
-funkytown/
+fonky/
     README.md
     requirements.txt
-    __init__.py
-    fonky.py
-    tools.py
-    config.py
-    core.py
-    fetchers.py
-    loaders.py
-    models.py
-    processors.py
-    scrapers.py
-    archives.py
-    astronomical.py
-    cloud.py
-    demographic.py
-    documents.py
-    environmental.py
-    geospatial.py
-    health.py
-    web.py
-    boogr.py
+
+    fonky/
+        __init__.py
+        boogr.py
+        config.py
+        fetchers.py
+        loaders.py
+        models.py
+        preprocessors.py
+        scrapers.py
+        tools.py
 
     notebook/
-        funkytown.ipynb
-    
+        fonky.ipynb
+
     logging/
         Exceptions.db
-
 ```
+
+The former `tools.py`, `core.py`, `processors.py`, and category facade modules are no longer part of
+the package. `processors.py` became `preprocessors.py`, and the shared `Result` response container is
+provided through `models.py`.
 
 ## 🗺️ Class Map
 
-![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-classmap.png)
+![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky-classmap.png)
 
-The original class-based APIs remain available:
+The implementation APIs remain directly available:
 
 ```python
-from funkytown.fetchers import WebFetcher, GoogleSearch, Wikipedia, ArXiv
-from funkytown.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
-from funkytown.scrapers import WebExtractor
+from fonky.fetchers import WebFetcher, GoogleSearch, Wikipedia, ArXiv
+from fonky.loaders import TextLoader, PdfLoader, CsvLoader, WebLoader
+from fonky.scrapers import WebExtractor
+from fonky.preprocessors import TextParser
 ```
 
-The functional API provides a simple entry point for applications and notebooks. The
-LangChain-facing API is available from `funkytown.tools`.
+The OpenAI Agents SDK function-tool interface is available from `fonky.tools`.
 
 ## ⚙️ Installation
 
 From the project root:
 
 ```powershell
-cd funkytown
+cd fonky
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip wheel
@@ -184,7 +171,7 @@ python -m playwright install chromium
 
 ## 🔐 Environment Configuration
 
-Fonky reads credentials from environment variables through `funkytown.config`.
+Fonky reads credentials from environment variables through `fonky.config`.
 
 Common variables include:
 
@@ -224,104 +211,103 @@ embedded in source code.
 
 ## 🧰 Public Tool Interface
 
-The 110 public operations in `funkytown.py` are LangChain `BaseTool` objects because they are decorated
-directly with `@tool(...)`.
+The public agent-facing operations are defined in `fonky.tools` as OpenAI Agents SDK `FunctionTool`
+objects created with `@function_tool`.
 
-Import an operation:
-
-```python
-from funkytown.fonky import fetch_usgs_earthquakes
-```
-
-Invoke it:
+Import only the tools required by the application:
 
 ```python
-result = fetch_usgs_earthquakes.invoke(
-    {
-        'mode': 'feed',
-        'feed': 'all_day.geojson',
-        'min_magnitude': 1.0,
-        'limit': 25
-    }
+from fonky.tools import (
+    fetch_arxiv,
+    fetch_google_search,
+    load_pdf,
+    scrape_tables,
+    normalize_text,
 )
 ```
 
-The operation's typed signature and Google-style `Args:` documentation are used to construct the
-LangChain input schema.
-
-## 🤖 LangChain Tool Integration
-
-### Literal decorators
-
-Every public operation in `funkytown.py` uses the actual decorator syntax:
+Use them directly with an OpenAI Agents SDK agent:
 
 ```python
-@tool(
-    parse_docstring=True,
-    error_on_invalid_docstring=True
-)
+from agents import Agent
+
+from fonky.tools import fetch_arxiv, fetch_google_search
+
+
+agent = Agent(
+    name='Research Agent',
+    instructions='Use Fonky tools when external research is required.',
+    tools=[
+        fetch_arxiv,
+        fetch_google_search,
+    ] )
+```
+
+The Agents SDK derives each tool's input schema from the function signature, type annotations, and
+docstring.
+
+### Flat Tool Surface
+
+Fonky intentionally does **not** use domains, category registries, or domain-specific helper modules.
+The sections later in this README group related tools only for documentation readability; they have
+no runtime significance.
+
+### Direct Implementation Usage
+
+The OpenAI tool layer is optional. Applications can call the implementation classes directly:
+
+```python
+from fonky.fetchers import ArXiv
+
+fetcher = ArXiv( )
+
+documents = fetcher.fetch(
+    question='agentic retrieval',
+    max_documents=5,
+    full_documents=False,
+    include_metadata=True )
+```
+
+### OpenAI Agents SDK Integration
+
+Fonky uses OpenAI Agents SDK `@function_tool` rather than LangChain `@tool`:
+
+```python
+from agents import function_tool
+
+
+@function_tool
 def fetch_arxiv( ... ):
     ...
 ```
 
-No callable-conversion expression is used as a substitute for the requested decorator syntax.
+The core implementation modules do not depend on the Agents SDK tool abstraction. `tools.py` imports
+the implementation modules; the implementation modules do not import `tools.py`.
 
-### Domain-scoped tool sets
+### LangChain Components Retained Internally
 
-`tools.py` groups the already-decorated tools:
-
-```python
-from funkytown.tools import get_tools
-
-tools = get_tools( domain='archives' )
-```
-
-Supported domains:
-
-```text
-archives
-astronomical
-cloud
-demographic
-documents
-environmental
-geospatial
-health
-web
-```
-
-### Agent usage
-
-```python
-from langchain.agents import create_agent
-
-from funkytown.tools import get_tools
-
-agent = create_agent(
-    model='openai:gpt-5',
-    tools=get_tools( domain='archives' ),
-    system_prompt='Use Fonky tools when external research or public-source retrieval is required.'
-)
-```
+Fonky still uses selected LangChain packages internally for document loaders, retrievers,
+`Document` objects, Google integrations, and text splitting. Replacing LangChain's `@tool` decorator
+does not remove those internal implementation dependencies.
 
 ## 📓 Jupyter Notebook
 
 The included notebook is located at:
 
 ```text
-notebook/fonkytown.ipynb
+notebook/fonky.ipynb
 ```
 
 Launch it from the project root:
 
 ```powershell
-python -m jupyter lab notebook/fonkytown.ipynb
+python -m jupyter lab notebook/fonky.ipynb
 ```
 
 or:
 
 ```powershell
-python -m notebook notebook/fonkytown.ipynb
+python -m notebook notebook/fonky.ipynb
 ```
 
 If the notebook cannot find the local package, add the project root to `sys.path`:
@@ -336,9 +322,9 @@ if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 ```
 
-## 🧭 Domain API Reference
+## 🧭 Tool Reference
 
-`fonky.py` groups its functional surface by domain while keeping all functions in one module.
+`tools.py` exposes a flat tool surface. The topical sections below are documentation groupings only and do not represent runtime domains, registries, or package modules.
 
 ### Archives
 
@@ -362,7 +348,7 @@ Archive, reference, public-data, search, and research-source retrieval.
 
 Astronomy, satellite, space-weather, star-chart, and near-Earth-object retrieval.
 
-![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-astro-space.png)
+![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky-astro-space.png)
 
 | Function                    | Purpose                                                                                                                                          |
 |-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -396,7 +382,7 @@ Cloud-storage, OneDrive, Google Drive, Google Cloud, AWS, and speech-loading ope
 
 Census, Socrata, United Nations, population, and open-city data operations.
 
-![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-demo-health.png)
+![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky-demo-health.png)
 
 | Function                   | Purpose                                                                                                                                        |
 |----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -435,7 +421,7 @@ Local document loading and parsing for common office, structured-data, and noteb
 
 Weather, climate, air quality, natural hazards, water, fire, UV, and environmental data.
 
-![](https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/images/fonky-geo-climate.png)
+![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky-geo-climate.png)
 
 ___
 
@@ -523,75 +509,90 @@ Web fetching, crawling, loading, HTML extraction, scraping, GitHub loading, and 
 
 ## 🧾 Requirements
 
-### Verified LangChain Stack
+Fonky uses the OpenAI Agents SDK for its public function-tool interface while retaining selected
+LangChain packages internally for document ingestion, retrieval, `Document` objects, Google
+integrations, and text splitting.
 
-The following LangChain versions were installed together in the Fonky virtual environment and
-validated with `python -m pip check`:
+The dependency set must include the packages used by the rebuilt implementation and tool layer.
 
-```text
-langchain==1.3.16
-langchain-core==1.6.0
-langchain-community==0.4.2
-langchain-text-splitters==1.1.2
-langchain-google-community==5.0.0
-langchain-googledrive==0.1.52
-setuptools==81.0.0
+| Package                      | Purpose                                                                 |
+|------------------------------|-------------------------------------------------------------------------|
+| `openai-agents`              | OpenAI Agents SDK and `@function_tool`                                  |
+| `pydantic`                   | Structured models and validation                                        |
+| `requests`                   | HTTP client used by fetchers and scrapers                               |
+| `pandas`                     | Tabular data handling                                                   |
+| `numpy`                      | Numeric processing                                                      |
+| `langchain-core`             | `Document` and core LangChain abstractions used internally              |
+| `langchain-community`        | Community loaders and retrievers                                        |
+| `langchain-text-splitters`   | Recursive document chunking                                             |
+| `langchain-google-community` | Google-backed LangChain loaders                                         |
+| `langchain-googledrive`      | Google Drive retriever support                                          |
+| `nltk`                       | Tokenization, stop words, lexical processing, and frequency analysis    |
+| `spacy`                      | NLP pipeline support                                                    |
+| `sentence-transformers`      | Embeddings and semantic processing                                      |
+| `scikit-learn`               | Vectorization, PCA, and similarity support                              |
+| `textblob`                   | Text-processing utilities                                               |
+| `tiktoken`                   | Tokenization and chunking support                                       |
+| `python-docx`                | Word document processing                                                |
+| `PyMuPDF`                    | PDF processing                                                          |
+| `chromadb`                   | Chroma vector database integration                                      |
+| `pinecone`                   | Pinecone vector integration                                             |
+| `gensim`                     | Word2Vec and vector-processing support                                  |
+| `jq`                         | Required by LangChain JSON loading                                      |
+| `O365`                       | Required by OneDrive and SharePoint loaders                             |
+| `extract-msg`                | Required by Outlook `.msg` loading                                      |
+| `pypdf`                      | PDF loading                                                             |
+| `docx2txt`                   | DOCX text extraction                                                    |
+| `openpyxl`                   | Excel `.xlsx` support                                                   |
+| `xlrd`                       | Legacy Excel `.xls` support                                             |
+| `python-pptx`                | PowerPoint support                                                      |
+| `unstructured`               | Office, HTML, Markdown, and mixed document parsing                      |
+| `lxml`                       | XML/HTML parsing                                                        |
+| `beautifulsoup4`             | HTML parsing and scraping                                               |
+| `html5lib`                   | HTML parser backend                                                     |
+| `markdown`                   | Markdown parsing                                                        |
+| `nbformat`                   | Jupyter notebook parsing                                                |
+| `pillow`                     | Image support                                                           |
+| `rapidocr-onnxruntime`       | OCR support                                                             |
+| `playwright`                 | Browser rendering                                                       |
+| `crawl4ai`                   | Web crawling                                                            |
+| `arxiv`                      | ArXiv API support                                                       |
+| `wikipedia`                  | Wikipedia API support                                                   |
+| `xmltodict`                  | XML-to-dictionary conversion                                            |
+| `google-genai`               | Google GenAI SDK                                                        |
+| `google-api-python-client`   | Google API client                                                       |
+| `google-auth`                | Google authentication                                                   |
+| `google-auth-oauthlib`       | Google OAuth support                                                    |
+| `google-cloud-storage`       | Google Cloud Storage loaders                                            |
+| `google-cloud-speech`        | Google Speech-to-Text loader                                            |
+| `boto3`                      | AWS S3 integration                                                      |
+| `botocore`                   | AWS low-level client dependency                                         |
+| `astropy`                    | Astronomy and coordinate utilities                                      |
+| `astroquery`                 | Astronomy service queries                                               |
+| `sscws`                      | NASA SSC Web Services                                                   |
+| `OWSLib`                     | WMS/global imagery support                                              |
+| `cartopy`                    | Geospatial projections and map rendering                               |
+| `matplotlib`                 | Plotting and map output                                                 |
+| `grokipedia-api`             | Grokipedia client support                                               |
+
+Install the complete dependency set from the project root:
+
+```powershell
+python -m pip install -r requirements.txt
+python -m pip check
 ```
 
-`setuptools==81.0.0` is retained because the validated environment includes PyTorch 2.12.0, which
-requires `setuptools<82`.
+Install Playwright's Chromium runtime when browser-backed functionality is required:
 
+```powershell
+python -m playwright install chromium
+```
 
-| Package                      | Purpose                                                   | Notes                                                       |
-|------------------------------|-----------------------------------------------------------|-------------------------------------------------------------|
-| `pydantic`                   | Defines structured models and tool input schemas          | Required for `models.py` and structured tool-definition models             |
-| `typing_extensions`          | Backports newer typing features                           | Useful for compatibility across Python versions             |
-| `requests`                   | HTTP client for API fetchers                              | Required by most fetchers                                   |
-| `pandas`                     | DataFrame handling and tabular data processing            | Used for structured data and loader outputs                 |
-| `numpy`                      | Numeric processing                                        | Common dependency for data workflows                        |
-| `python-dateutil`            | Date parsing and date utilities                           | Useful for API date parameters and notebooks                |
-| `langchain`                  | Main LangChain framework                                  | Verified with `1.3.16` for agent/tool workflows            |
-| `langchain-core`             | Core LangChain abstractions                               | Verified with `1.6.0`; provides `@tool`, `Document`, and tool primitives |
-| `langchain-community`        | Community loaders and retrievers                          | Verified with `0.4.2`; required by existing loaders/retrievers |
-| `langchain-text-splitters`   | Document chunking                                         | Verified with `1.1.2`; required for recursive text splitting |
-| `langchain-google-community` | Google community integrations                             | Verified with `5.0.0`; used by Google loaders              |
-| `langchain-googledrive`      | Google Drive retriever support                            | Verified with `0.1.52`; temporary upstream integration package |
-| `pypdf`                      | PDF parsing                                               | Required by PDF loaders                                     |
-| `docx2txt`                   | Word document extraction                                  | Required by DOCX loaders                                    |
-| `openpyxl`                   | Excel `.xlsx` support                                     | Required for Excel workflows                                |
-| `xlrd`                       | Legacy Excel `.xls` support                               | Optional but useful                                         |
-| `python-pptx`                | PowerPoint document support                               | Used by PowerPoint loaders                                  |
-| `unstructured`               | Parses Office, HTML, Markdown, and mixed document formats | Heavy dependency; useful for full document support          |
-| `lxml`                       | XML/HTML parsing                                          | Required by XML and HTML workflows                          |
-| `beautifulsoup4`             | HTML parsing and scraping                                 | Required by web scraping methods                            |
-| `html5lib`                   | HTML parser backend                                       | Useful with BeautifulSoup and document loaders              |
-| `markdown`                   | Markdown parsing                                          | Useful for Markdown loader workflows                        |
-| `nbformat`                   | Jupyter notebook parsing                                  | Required for notebook loader support                        |
-| `pillow`                     | Image handling                                            | Required by image and OCR-related loaders                   |
-| `rapidocr-onnxruntime`       | OCR fallback for PDFs/images                              | Useful for image-heavy PDFs                                 |
-| `playwright`                 | Browser automation/rendering                              | Requires browser installation                               |
-| `crawl4ai`                   | Web crawling/rendering support                            | Useful for dynamic pages                                    |
-| `arxiv`                      | ArXiv API support                                         | Required by ArXiv retrieval                                 |
-| `wikipedia`                  | Wikipedia API support                                     | Required by Wikipedia retrieval                             |
-| `xmltodict`                  | XML-to-dictionary conversion                              | Useful for API and XML workflows                            |
-| `google-genai`               | Gemini / Google GenAI SDK                                 | Required for Gemini-oriented workflows                      |
-| `google-api-python-client`   | Google API client support                                 | Useful for Google Drive and other Google APIs               |
-| `google-auth`                | Google authentication                                     | Required for Google API access                              |
-| `google-auth-oauthlib`       | OAuth support for Google services                         | Required for user-authenticated Google workflows            |
-| `google-cloud-storage`       | Google Cloud Storage support                              | Required by GCS loaders                                     |
-| `google-cloud-speech`        | Google Speech-to-Text support                             | Required by speech loaders                                  |
-| `boto3`                      | AWS SDK                                                   | Required by S3 file/directory loaders                       |
-| `botocore`                   | Low-level AWS dependency                                  | Installed with `boto3`, but can be pinned explicitly        |
-| `astropy`                    | Astronomy coordinate and data tools                       | Required by astronomy fetchers                              |
-| `astroquery`                 | Astronomy data queries                                    | Required by SIMBAD / astronomy workflows                    |
-| `sscws`                      | NASA SSC Web Services client                              | Required by satellite center tools                          |
-| `OWSLib`                     | Web Map Service support                                   | Required by WMS/global imagery workflows                    |
-| `cartopy`                    | Geospatial mapping/projections                            | Heavy dependency; needed for map rendering                  |
-| `matplotlib`                 | Plotting and map rendering                                | Required by imagery/geospatial rendering                    |
-| `grokipedia-api`             | Grokipedia client support                                 | Required only when Grokipedia tools are enabled             |
-| `boogr`                      | Custom error wrapper used by service classes              | Keep as local package/module or replace with `funkytown.errors` |
+The requirements file should reflect the rebuilt OpenAI Agents SDK tool layer and include
+`openai-agents`, `nltk`, `spacy`, `jq`, `O365`, and `extract-msg` in addition to the retained
+LangChain loader/retriever dependencies.
 
 #### 📝 License
 
 Fonky is distributed under the license defined in
-[`LICENSE.txt`](https://github.com/is-leeroy-jenkins/funkytown/blob/main/LICENSE.txt).
+[`LICENSE.txt`](https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE.txt).

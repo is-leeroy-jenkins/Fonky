@@ -55,9 +55,9 @@ from typing import Dict, List, Optional, Pattern
 import requests
 from bs4 import BeautifulSoup
 from requests import Response
-import config as cfg
-from boogr import Error, Logger
-from core import Result
+from . import config as cfg
+from .boogr import Error, Logger
+from .models import Result
 
 
 def throw_if( name: str, value: object ) -> None:

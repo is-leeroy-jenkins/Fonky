@@ -93,7 +93,7 @@ from langchain_google_community import (
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from lxml import etree
 
-from boogr import Error, Logger
+from .boogr import Error, Logger
 
 
 

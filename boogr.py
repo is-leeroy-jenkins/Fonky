@@ -57,7 +57,7 @@ from pathlib import Path
 from sys import exc_info
 from typing import Any, List
 
-import config as cfg
+from . import config as cfg
 
 HEADLESS = ("STREAMLIT_SERVER_RUNNING" in os.environ
             or "streamlit" in os.environ.get( "PYTHONPATH", "" ).lower( ))

@@ -1,3 +1,0 @@
-# Fonky Tool API
-
-::: fonky

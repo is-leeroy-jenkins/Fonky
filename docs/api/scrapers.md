@@ -1,3 +1,0 @@
-# Scrapers API
-
-::: scrapers

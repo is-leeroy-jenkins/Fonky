@@ -69,16 +69,15 @@ from google import genai
 from grokipedia_api import GrokipediaClient
 from langchain_community.retrievers import ArxivRetriever, WikipediaRetriever
 from langchain_core.documents import Document
-from langchain_core.tools import Tool
 from langchain_googledrive.retrievers import GoogleDriveRetriever
 from playwright.sync_api import sync_playwright
 from owslib.wms import WebMapService
 from requests import Response
 from sscws.sscws import SscWs
 import time
-import config as cfg
-from boogr import Error
-from core import Result
+from . import config as cfg
+from .boogr import Error
+from .models import Result
 import xml.etree.ElementTree as ET
 
 
