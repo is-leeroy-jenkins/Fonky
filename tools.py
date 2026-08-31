@@ -390,7 +390,10 @@ def fetch_congress( mode: str='congresses', congress: int=0, bill_type: str='', 
             the project error type.
     """
     _instance = Congress( )
-    return _instance.fetch( mode=mode, congress=congress, bill_type=bill_type, bill_number=bill_number, law_type=law_type, law_number=law_number, report_type=report_type, report_number=report_number, offset=offset, limit=limit, sort=sort, from_date_time=from_date_time, to_date_time=to_date_time, conference=conference, time=time )
+    return _instance.fetch( mode=mode, congress=congress, bill_type=bill_type,
+	    bill_number=bill_number, law_type=law_type, law_number=law_number, report_type=report_type,
+	    report_number=report_number, offset=offset, limit=limit, sort=sort,
+	    from_date_time=from_date_time, to_date_time=to_date_time, conference=conference, time=time )
 
 
 @function_tool
@@ -422,7 +425,8 @@ def fetch_internet_archive( keywords: str, fields: List[str] | None=None, rows: 
             the project error type.
     """
     _instance = InternetArchive( )
-    return _instance.fetch( keywords=keywords, fields=fields, rows=rows, page=page, sort=sort, media_type=media_type, collection=collection, time=time )
+    return _instance.fetch( keywords=keywords, fields=fields, rows=rows, page=page, sort=sort,
+	    media_type=media_type, collection=collection, time=time )
 
 
 @function_tool
@@ -452,7 +456,8 @@ def fetch_grokipedia( mode: str='search', query: str='', page: str='', limit: in
             the project error type.
     """
     _instance = Grokipedia( )
-    return _instance.fetch( mode=mode, query=query, page=page, limit=limit, offset=offset, include_content=include_content )
+    return _instance.fetch( mode=mode, query=query, page=page, limit=limit, offset=offset,
+	    include_content=include_content )
 
 
 @function_tool
@@ -606,7 +611,11 @@ def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_
             the project error type.
     """
     _instance = NearbyObjects( )
-    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, query=query, query_type=query_type, dist_max=dist_max, body=body, sort=sort, limit=limit, dv=dv, dur=dur, stay=stay, launch=launch, h=h, occ=occ, include_physical=include_physical, include_close_approaches=include_close_approaches, ca_body=ca_body, include_discovery=include_discovery, time=time )
+    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, query=query,
+	    query_type=query_type, dist_max=dist_max, body=body, sort=sort, limit=limit, dv=dv,
+	    dur=dur, stay=stay, launch=launch, h=h, occ=occ, include_physical=include_physical,
+	    include_close_approaches=include_close_approaches, ca_body=ca_body,
+	    include_discovery=include_discovery, time=time )
 
 
 @function_tool
