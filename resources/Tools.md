@@ -1,6 +1,6 @@
-# Fonky Tools
+# 🧰 Fonky Tools
 
-## Inventory
+## 📊 Inventory
 
 | Property | Value |
 |---|---:|
@@ -8,7 +8,7 @@
 | Retrieval, loading, and scraping tools | 110 |
 | Preprocessing and NLTK tools | 40 |
 
-## Import Pattern
+## 📥 Import Pattern
 
 ```python
 from fonky.tools import fetch_arxiv
@@ -17,7 +17,7 @@ from fonky.tools import preprocess_normalize_text
 from fonky.tools import scrape_tables
 ```
 
-## Agent Pattern
+## 🤖 Agent Pattern
 
 ```python
 from agents import Agent, Runner
@@ -37,7 +37,7 @@ result = Runner.run_sync(
 print( result.final_output )
 ```
 
-## Tool Index
+## 📚 Tool Index
 
 | # | Tool |
 |---:|---|
@@ -192,9 +192,9 @@ print( result.final_output )
 | 149 | [`scraper_html_to_text()`](#scraper_html_to_text) |
 | 150 | [`validate_address()`](#validate_address) |
 
-## API Reference
+## 🧩 API Reference
 
-### convert_html_to_text
+### 🔧 convert_html_to_text
 
 **Index:** 1
 
@@ -204,22 +204,27 @@ def convert_html_to_text( html: str ) -> Any
 
 Convert HTML to plain text.
 
-Purpose:
-    Convert HTML to plain text using Fonky's web fetcher implementation.
+#### 🎯 Purpose
 
-Args:
-    html: Raw HTML content to parse or transform.
+Convert HTML to plain text using Fonky's web fetcher implementation.
 
-Returns:
-    str: Text produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `html`
+  - Raw HTML content to parse or transform.
+
+#### 📤 Returns
+
+str: Text produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### crawl_web
+### 🔧 crawl_web
 
 **Index:** 2
 
@@ -229,37 +234,55 @@ def crawl_web( seed_url: str, include_title: bool=True, include_basic_text: bool
 
 Crawl web pages from a seed URL.
 
-Purpose:
-    Crawl web pages from a seed URL. Boolean options control retrieval depth or supplemental
+#### 🎯 Purpose
+
+Crawl web pages from a seed URL. Boolean options control retrieval depth or supplemental
     content.
 
-Args:
-    seed_url: Starting URL for the crawl.
-    include_title: Whether to include title in the result.
-    include_basic_text: Whether to include basic text in the result.
-    include_raw_html: Whether to include raw html in the result.
-    selected_methods: Extraction method names to execute against the supplied HTML.
-    recursive: Whether nested folders, links, or provider resources should be traversed.
-    max_depth: Maximum recursion depth.
-    max_pages: Maximum pages permitted by the operation.
-    same_domain_only: Whether crawl traversal should remain on the seed URL domain.
-    request_timeout: Request timeout in seconds.
-    delay_seconds: Delay in seconds inserted between crawl requests.
-    max_bytes: Maximum bytes permitted by the operation.
-    headers: Optional HTTP headers applied to web requests.
-    use_playwright: Whether browser-backed rendering should be used for dynamic pages.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any]: Structured mapping produced by the operation.
+- `seed_url`
+  - Starting URL for the crawl.
+- `include_title`
+  - Whether to include title in the result.
+- `include_basic_text`
+  - Whether to include basic text in the result.
+- `include_raw_html`
+  - Whether to include raw html in the result.
+- `selected_methods`
+  - Extraction method names to execute against the supplied HTML.
+- `recursive`
+  - Whether nested folders, links, or provider resources should be traversed.
+- `max_depth`
+  - Maximum recursion depth.
+- `max_pages`
+  - Maximum pages permitted by the operation.
+- `same_domain_only`
+  - Whether crawl traversal should remain on the seed URL domain.
+- `request_timeout`
+  - Request timeout in seconds.
+- `delay_seconds`
+  - Delay in seconds inserted between crawl requests.
+- `max_bytes`
+  - Maximum bytes permitted by the operation.
+- `headers`
+  - Optional HTTP headers applied to web requests.
+- `use_playwright`
+  - Whether browser-backed rendering should be used for dynamic pages.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any]: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### encode_image
+### 🔧 encode_image
 
 **Index:** 3
 
@@ -269,21 +292,26 @@ def encode_image( path: str ) -> str
 
 Encode a local image as Base64 text.
 
-Purpose:
-    Encode a local image as Base64 text using Fonky's provider implementation.
+#### 🎯 Purpose
 
-Args:
-    path: Local image path to encode.
+Encode a local image as Base64 text using Fonky's provider implementation.
 
-Returns:
-    str: Text produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Exception: If the delegated implementation raises an operational failure.
+- `path`
+  - Local image path to encode.
+
+#### 📤 Returns
+
+str: Text produced by the operation.
+
+#### ⚠️ Raises
+
+Exception: If the delegated implementation raises an operational failure.
 
 ---
 
-### extract_web_links
+### 🔧 extract_web_links
 
 **Index:** 4
 
@@ -293,23 +321,29 @@ def extract_web_links( base_url: str, html: str ) -> Any
 
 Extract web links from the supplied content.
 
-Purpose:
-    Extract web links from the supplied content using Fonky's web fetcher implementation.
+#### 🎯 Purpose
 
-Args:
-    base_url: URL or URI value used as the request or parsing source.
-    html: Raw HTML content to parse or transform.
+Extract web links from the supplied content using Fonky's web fetcher implementation.
 
-Returns:
-    List[str]: Hyperlink values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `base_url`
+  - URL or URI value used as the request or parsing source.
+- `html`
+  - Raw HTML content to parse or transform.
+
+#### 📤 Returns
+
+List[str]: Hyperlink values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### extract_web_structured_data
+### 🔧 extract_web_structured_data
 
 **Index:** 5
 
@@ -319,24 +353,31 @@ def extract_web_structured_data( url: str, html: str, selected_methods: Optional
 
 Extract structured data.
 
-Purpose:
-    Extract structured data using Fonky's web fetcher implementation.
+#### 🎯 Purpose
 
-Args:
-    url: URL or URI value used as the request or parsing source.
-    html: Raw HTML content to parse or transform.
-    selected_methods: Extraction method names to execute against the supplied HTML.
+Extract structured data using Fonky's web fetcher implementation.
 
-Returns:
-    Dict[str, List[str]]: Text or identifier values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `url`
+  - URL or URI value used as the request or parsing source.
+- `html`
+  - Raw HTML content to parse or transform.
+- `selected_methods`
+  - Extraction method names to execute against the supplied HTML.
+
+#### 📤 Returns
+
+Dict[str, List[str]]: Text or identifier values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### extract_web_title
+### 🔧 extract_web_title
 
 **Index:** 6
 
@@ -346,22 +387,27 @@ def extract_web_title( html: str ) -> Any
 
 Extract web title from the supplied content.
 
-Purpose:
-    Extract web title from the supplied content using Fonky's web fetcher implementation.
+#### 🎯 Purpose
 
-Args:
-    html: Raw HTML content to parse or transform.
+Extract web title from the supplied content using Fonky's web fetcher implementation.
 
-Returns:
-    str: Text produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `html`
+  - Raw HTML content to parse or transform.
+
+#### 📤 Returns
+
+str: Text produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_air_now
+### 🔧 fetch_air_now
 
 **Index:** 7
 
@@ -371,32 +417,42 @@ def fetch_air_now( mode: str='current-zip', zip_code: str='', latitude: float | 
 
 Retrieve AirNow current and forecast air quality data.
 
-Purpose:
-    Retrieve AirNow current and forecast air quality data through AirNow. Use ``mode`` to select
+#### 🎯 Purpose
+
+Retrieve AirNow current and forecast air quality data through AirNow. Use ``mode`` to select
     among ``current-latlon``, ``current-zip``, ``forecast-latlon``, ``forecast-zip``. Coordinate
     and bounding arguments constrain geographic scope when supported.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``current-
-        latlon``, ``current-zip``, ``forecast-latlon``, ``forecast-zip``.
-    zip_code: Provider code identifying or filtering zip.
-    latitude: Latitude in decimal degrees.
-    longitude: Longitude in decimal degrees.
-    date: Date used by the provider or processing operation.
-    distance: Maximum provider search distance, using the units defined by that service.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``current- latlon``, ``current-zip``, ``forecast-latlon``, ``forecast-zip``.
+- `zip_code`
+  - Provider code identifying or filtering zip.
+- `latitude`
+  - Latitude in decimal degrees.
+- `longitude`
+  - Longitude in decimal degrees.
+- `date`
+  - Date used by the provider or processing operation.
+- `distance`
+  - Maximum provider search distance, using the units defined by that service.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_arxiv
+### 🔧 fetch_arxiv
 
 **Index:** 8
 
@@ -406,27 +462,35 @@ def fetch_arxiv( question: str, max_documents: int | None=None, full_documents: 
 
 Retrieve ArXiv research documents.
 
-Purpose:
-    Retrieve ArXiv research documents through ArXiv. The query text determines the records or
+#### 🎯 Purpose
+
+Retrieve ArXiv research documents through ArXiv. The query text determines the records or
     documents matched by the provider. Result-count arguments bound the amount of data
     requested. Boolean options control retrieval depth or supplemental content.
 
-Args:
-    question: Search text, lookup value, or provider query submitted by the caller.
-    max_documents: Maximum number of documents to retrieve.
-    full_documents: Whether to retrieve full document content instead of abbreviated search results.
-    include_metadata: Whether provider metadata should be included with retrieved content.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `question`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `max_documents`
+  - Maximum number of documents to retrieve.
+- `full_documents`
+  - Whether to retrieve full document content instead of abbreviated search results.
+- `include_metadata`
+  - Whether provider metadata should be included with retrieved content.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_astro_catalog
+### 🔧 fetch_astro_catalog
 
 **Index:** 9
 
@@ -436,33 +500,47 @@ def fetch_astro_catalog( mode: str='object_query', query: str='', quantity: str=
 
 Retrieve Open Astronomy Catalog queries.
 
-Purpose:
-    Retrieve Open Astronomy Catalog queries through Open Astronomy Catalog. The query text
+#### 🎯 Purpose
+
+Retrieve Open Astronomy Catalog queries through Open Astronomy Catalog. The query text
     determines the records or documents matched by the provider.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    quantity: Provider quantity or field requested from the catalog.
-    attributes: Provider attributes requested for matching catalog records.
-    arguments: Keyword arguments passed to the bound callable.
-    ra: Right ascension value.
-    dec: Declination value.
-    radius: Search radius in the units specified by the operation.
-    data_format: Provider output data format.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Any: Provider-specific structured data produced by the retrieval operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `quantity`
+  - Provider quantity or field requested from the catalog.
+- `attributes`
+  - Provider attributes requested for matching catalog records.
+- `arguments`
+  - Keyword arguments passed to the bound callable.
+- `ra`
+  - Right ascension value.
+- `dec`
+  - Declination value.
+- `radius`
+  - Search radius in the units specified by the operation.
+- `data_format`
+  - Provider output data format.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Any: Provider-specific structured data produced by the retrieval operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_astro_query
+### 🔧 fetch_astro_query
 
 **Index:** 10
 
@@ -472,31 +550,42 @@ def fetch_astro_query( mode: str='object_search', query: str='', ra: str='', dec
 
 Retrieve Simbad and astronomy object search operations.
 
-Purpose:
-    Retrieve Simbad and astronomy object search operations through Astroquery/SIMBAD. The query
+#### 🎯 Purpose
+
+Retrieve Simbad and astronomy object search operations through Astroquery/SIMBAD. The query
     text determines the records or documents matched by the provider. Result-count arguments
     bound the amount of data requested.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    ra: Right ascension value.
-    dec: Declination value.
-    radius: Search radius in the units specified by the operation.
-    radius_unit: Unit applied to the search radius.
-    row_limit: Maximum number of rows returned by the astronomy query.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any]: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `ra`
+  - Right ascension value.
+- `dec`
+  - Declination value.
+- `radius`
+  - Search radius in the units specified by the operation.
+- `radius_unit`
+  - Unit applied to the search radius.
+- `row_limit`
+  - Maximum number of rows returned by the astronomy query.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any]: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_census_data
+### 🔧 fetch_census_data
 
 **Index:** 11
 
@@ -506,32 +595,43 @@ def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='ac
 
 Retrieve U.S. Census dataset and variable.
 
-Purpose:
-    Retrieve U.S. Census dataset and variable through U.S. Census API. Use ``mode`` to select
+#### 🎯 Purpose
+
+Retrieve U.S. Census dataset and variable through U.S. Census API. Use ``mode`` to select
     among ``data``, ``variables``.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``data``,
-        ``variables``.
-    year: Dataset or observation year requested from the provider.
-    dataset: Provider dataset name or identifier.
-    fields: Comma-separated or provider-specific field selection.
-    geography_for: Census ``for`` geography clause defining the requested geography.
-    geography_in: Optional Census ``in`` geography clause constraining the request.
-    predicates: Additional Census query predicates appended to the request.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``data``, ``variables``.
+- `year`
+  - Dataset or observation year requested from the provider.
+- `dataset`
+  - Provider dataset name or identifier.
+- `fields`
+  - Comma-separated or provider-specific field selection.
+- `geography_for`
+  - Census ``for`` geography clause defining the requested geography.
+- `geography_in`
+  - Optional Census ``in`` geography clause constraining the request.
+- `predicates`
+  - Additional Census query predicates appended to the request.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_climate_data
+### 🔧 fetch_climate_data
 
 **Index:** 12
 
@@ -541,35 +641,48 @@ def fetch_climate_data( mode: str='datasets', keyword: str='', dataset: str='', 
 
 Retrieve NOAA climate dataset and data records.
 
-Purpose:
-    Retrieve NOAA climate dataset and data records through NOAA climate services. Use ``mode``
+#### 🎯 Purpose
+
+Retrieve NOAA climate dataset and data records through NOAA climate services. Use ``mode``
     to select among ``data``, ``datasets``. Date and time arguments constrain the requested
     interval when supplied. Result-count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``data``,
-        ``datasets``.
-    keyword: Keyword used to filter provider records.
-    dataset: Provider dataset name or identifier.
-    start_date: Inclusive start date for the requested time range, in the provider-supported format.
-    end_date: Inclusive end date for the requested time range, in the provider-supported format.
-    stations: Station identifiers used to restrict climate observations.
-    data_types: Climate data-type identifiers requested from the provider.
-    limit: Maximum number of records or items to return.
-    offset: Zero-based result offset used for pagination.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``data``, ``datasets``.
+- `keyword`
+  - Keyword used to filter provider records.
+- `dataset`
+  - Provider dataset name or identifier.
+- `start_date`
+  - Inclusive start date for the requested time range, in the provider-supported format.
+- `end_date`
+  - Inclusive end date for the requested time range, in the provider-supported format.
+- `stations`
+  - Station identifiers used to restrict climate observations.
+- `data_types`
+  - Climate data-type identifiers requested from the provider.
+- `limit`
+  - Maximum number of records or items to return.
+- `offset`
+  - Zero-based result offset used for pagination.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_congress
+### 🔧 fetch_congress
 
 **Index:** 13
 
@@ -579,42 +692,59 @@ def fetch_congress( mode: str='congresses', congress: int=0, bill_type: str='', 
 
 Retrieve Congress.gov legislative data.
 
-Purpose:
-    Retrieve Congress.gov legislative data through Congress.gov. Use ``mode`` to select among
+#### 🎯 Purpose
+
+Retrieve Congress.gov legislative data through Congress.gov. Use ``mode`` to select among
     ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``,
     ``reports``. Date and time arguments constrain the requested interval when supplied. Result-
     count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``,
-        ``reports``.
-    congress: Congress number used to scope legislative records.
-    bill_type: Provider type selector for bill.
-    bill_number: Legislative bill number used with the selected Congress and bill type.
-    law_type: Provider type selector for law.
-    law_number: Public or private law number used with the selected law type.
-    report_type: Provider type selector for report.
-    report_number: Committee report number used with the selected Congress and report type.
-    offset: Zero-based result offset used for pagination.
-    limit: Maximum number of records or items to return.
-    sort: Provider-supported result ordering expression.
-    from_date_time: Earliest provider update timestamp to include.
-    to_date_time: Latest provider update timestamp to include.
-    conference: Whether to restrict committee reports to conference reports.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``, ``reports``.
+- `congress`
+  - Congress number used to scope legislative records.
+- `bill_type`
+  - Provider type selector for bill.
+- `bill_number`
+  - Legislative bill number used with the selected Congress and bill type.
+- `law_type`
+  - Provider type selector for law.
+- `law_number`
+  - Public or private law number used with the selected law type.
+- `report_type`
+  - Provider type selector for report.
+- `report_number`
+  - Committee report number used with the selected Congress and report type.
+- `offset`
+  - Zero-based result offset used for pagination.
+- `limit`
+  - Maximum number of records or items to return.
+- `sort`
+  - Provider-supported result ordering expression.
+- `from_date_time`
+  - Earliest provider update timestamp to include.
+- `to_date_time`
+  - Latest provider update timestamp to include.
+- `conference`
+  - Whether to restrict committee reports to conference reports.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_earth_observatory
+### 🔧 fetch_earth_observatory
 
 **Index:** 14
 
@@ -624,33 +754,46 @@ def fetch_earth_observatory( mode: str='events', status: str='open', category: s
 
 Retrieve NASA EONET events, categories, sources, and layers.
 
-Purpose:
-    Retrieve NASA EONET events, categories, sources, and layers through NASA EONET. Date and
+#### 🎯 Purpose
+
+Retrieve NASA EONET events, categories, sources, and layers through NASA EONET. Date and
     time arguments constrain the requested interval when supplied. Result-count arguments bound
     the amount of data requested.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    status: Provider status filter applied to returned records.
-    category: Optional logical category retained in tool metadata.
-    source: Provider source identifier used to restrict or classify results.
-    limit: Maximum number of records or items to return.
-    days: Number of calendar days included in the requested interval.
-    start_date: Inclusive start date for the requested time range, in the provider-supported format.
-    end_date: Inclusive end date for the requested time range, in the provider-supported format.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any]: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `status`
+  - Provider status filter applied to returned records.
+- `category`
+  - Optional logical category retained in tool metadata.
+- `source`
+  - Provider source identifier used to restrict or classify results.
+- `limit`
+  - Maximum number of records or items to return.
+- `days`
+  - Number of calendar days included in the requested interval.
+- `start_date`
+  - Inclusive start date for the requested time range, in the provider-supported format.
+- `end_date`
+  - Inclusive end date for the requested time range, in the provider-supported format.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any]: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_envirofacts
+### 🔧 fetch_envirofacts
 
 **Index:** 15
 
@@ -660,27 +803,36 @@ def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='', facil
 
 Retrieve EPA Envirofacts table and facility records.
 
-Purpose:
-    Retrieve EPA Envirofacts table and facility records through EPA Envirofacts. Result-count
+#### 🎯 Purpose
+
+Retrieve EPA Envirofacts table and facility records through EPA Envirofacts. Result-count
     arguments bound the amount of data requested.
 
-Args:
-    table_name: Envirofacts table or resource name to query.
-    state_code: State code used to restrict provider records.
-    facility_name: Facility-name filter applied to Envirofacts records.
-    limit: Maximum number of records or items to return.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `table_name`
+  - Envirofacts table or resource name to query.
+- `state_code`
+  - State code used to restrict provider records.
+- `facility_name`
+  - Facility-name filter applied to Envirofacts records.
+- `limit`
+  - Maximum number of records or items to return.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_eonet
+### 🔧 fetch_eonet
 
 **Index:** 16
 
@@ -690,36 +842,49 @@ def fetch_eonet( mode: str='events', source: str='', category: str='', status: s
 
 Retrieve NASA EONET environmental event data.
 
-Purpose:
-    Retrieve NASA EONET environmental event data through NASA EONET. Use ``mode`` to select
+#### 🎯 Purpose
+
+Retrieve NASA EONET environmental event data through NASA EONET. Use ``mode`` to select
     among ``categories``, ``events``. Date and time arguments constrain the requested interval
     when supplied. Coordinate and bounding arguments constrain geographic scope when supported.
     Result-count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``categories``, ``events``.
-    source: Provider source identifier used to restrict or classify results.
-    category: Optional logical category retained in tool metadata.
-    status: Provider status filter applied to returned records.
-    limit: Maximum number of records or items to return.
-    days: Number of calendar days included in the requested interval.
-    start_date: Inclusive start date for the requested time range, in the provider-supported format.
-    end_date: Inclusive end date for the requested time range, in the provider-supported format.
-    bbox: Bounding box defining the geographic extent of the request.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``categories``, ``events``.
+- `source`
+  - Provider source identifier used to restrict or classify results.
+- `category`
+  - Optional logical category retained in tool metadata.
+- `status`
+  - Provider status filter applied to returned records.
+- `limit`
+  - Maximum number of records or items to return.
+- `days`
+  - Number of calendar days included in the requested interval.
+- `start_date`
+  - Inclusive start date for the requested time range, in the provider-supported format.
+- `end_date`
+  - Inclusive end date for the requested time range, in the provider-supported format.
+- `bbox`
+  - Bounding box defining the geographic extent of the request.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_firms
+### 🔧 fetch_firms
 
 **Index:** 17
 
@@ -729,31 +894,41 @@ def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinate
 
 Retrieve NASA FIRMS active fire data.
 
-Purpose:
-    Retrieve NASA FIRMS active fire data through NASA FIRMS. Use ``mode`` to select among
+#### 🎯 Purpose
+
+Retrieve NASA FIRMS active fire data through NASA FIRMS. Use ``mode`` to select among
     ``area``, ``data-availability``.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``area``,
-        ``data-availability``.
-    source: Provider source identifier used to restrict or classify results.
-    area_coordinates: FIRMS area-of-interest coordinates or ``world`` selector.
-    day_range: Number of days included in the FIRMS active-fire request.
-    date: Date used by the provider or processing operation.
-    sensor: Sensor or instrument filter applied to provider results.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``area``, ``data-availability``.
+- `source`
+  - Provider source identifier used to restrict or classify results.
+- `area_coordinates`
+  - FIRMS area-of-interest coordinates or ``world`` selector.
+- `day_range`
+  - Number of days included in the FIRMS active-fire request.
+- `date`
+  - Date used by the provider or processing operation.
+- `sensor`
+  - Sensor or instrument filter applied to provider results.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_global_health_data
+### 🔧 fetch_global_health_data
 
 **Index:** 18
 
@@ -763,28 +938,35 @@ def fetch_global_health_data( mode: str='indicator_registry', query_path: str=''
 
 Retrieve WHO global health indicator and Athena data.
 
-Purpose:
-    Retrieve WHO global health indicator and Athena data through WHO Global Health. Use ``mode``
+#### 🎯 Purpose
+
+Retrieve WHO global health indicator and Athena data through WHO Global Health. Use ``mode``
     to select among ``athena``, ``indicator_registry``.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``athena``,
-        ``indicator_registry``.
-    query_path: Path identifying the query resource.
-    fmt: Provider response format, such as JSON or XML when supported.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``athena``, ``indicator_registry``.
+- `query_path`
+  - Path identifying the query resource.
+- `fmt`
+  - Provider response format, such as JSON or XML when supported.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_global_imagery_map_services
+### 🔧 fetch_global_imagery_map_services
 
 **Index:** 19
 
@@ -794,19 +976,22 @@ def fetch_global_imagery_map_services(  ) -> Any
 
 Retrieve available imagery map services.
 
-Purpose:
-    Retrieve available imagery map services through NASA Global Imagery Browse Services.
+#### 🎯 Purpose
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+Retrieve available imagery map services through NASA Global Imagery Browse Services.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_global_imagery_mercator_map
+### 🔧 fetch_global_imagery_mercator_map
 
 **Index:** 20
 
@@ -816,22 +1001,27 @@ def fetch_global_imagery_mercator_map( ccrs: Any | None=None ) -> Any
 
 Render a Mercator imagery map.
 
-Purpose:
-    Render a Mercator imagery map through NASA Global Imagery Browse Services.
+#### 🎯 Purpose
 
-Args:
-    ccrs (Any): Optional Cartopy coordinate reference system used to construct the map.
+Render a Mercator imagery map through NASA Global Imagery Browse Services.
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `ccrs`
+  - Optional Cartopy coordinate reference system used to construct the map.
+
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_global_imagery_wms_map
+### 🔧 fetch_global_imagery_wms_map
 
 **Index:** 21
 
@@ -841,35 +1031,51 @@ def fetch_global_imagery_wms_map( layer: str, image_date: str, bbox: Tuple[float
 
 Retrieve a WMS imagery map.
 
-Purpose:
-    Retrieve a WMS imagery map through NASA Global Imagery Browse Services. Coordinate and
+#### 🎯 Purpose
+
+Retrieve a WMS imagery map through NASA Global Imagery Browse Services. Coordinate and
     bounding arguments constrain geographic scope when supported.
 
-Args:
-    layer: Map or imagery layer identifier.
-    image_date: Observation date used to select imagery.
-    bbox: Bounding box defining the geographic extent of the request.
-    width: Output image or chart width in pixels.
-    height: Output image or chart height in pixels.
-    projection: Coordinate reference system used for rendered imagery.
-    quality: Imagery quality level requested from the mapping service.
-    image_format: Output format requested for image.
-    transparent: Whether the generated map image should use a transparent background.
-    output_dir: Local directory where generated imagery is written.
-    output_name: Optional filename for generated imagery.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `layer`
+  - Map or imagery layer identifier.
+- `image_date`
+  - Observation date used to select imagery.
+- `bbox`
+  - Bounding box defining the geographic extent of the request.
+- `width`
+  - Output image or chart width in pixels.
+- `height`
+  - Output image or chart height in pixels.
+- `projection`
+  - Coordinate reference system used for rendered imagery.
+- `quality`
+  - Imagery quality level requested from the mapping service.
+- `image_format`
+  - Output format requested for image.
+- `transparent`
+  - Whether the generated map image should use a transparent background.
+- `output_dir`
+  - Local directory where generated imagery is written.
+- `output_name`
+  - Optional filename for generated imagery.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_google_drive
+### 🔧 fetch_google_drive
 
 **Index:** 22
 
@@ -879,30 +1085,40 @@ def fetch_google_drive( question: str, folder_id: str='root', results: int=10, t
 
 Retrieve Google Drive documents.
 
-Purpose:
-    Retrieve Google Drive documents through Google Drive. The query text determines the records
+#### 🎯 Purpose
+
+Retrieve Google Drive documents through Google Drive. The query text determines the records
     or documents matched by the provider. Result-count arguments bound the amount of data
     requested.
 
-Args:
-    question: Search text, lookup value, or provider query submitted by the caller.
-    folder_id: Provider folder identifier that scopes the operation.
-    results: Maximum number of search results to request.
-    template: Provider query template used to construct the request.
-    mime_type: Optional MIME type used to restrict matching files.
-    mode: Operation mode used to select the provider or processing workflow.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `question`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `folder_id`
+  - Provider folder identifier that scopes the operation.
+- `results`
+  - Maximum number of search results to request.
+- `template`
+  - Provider query template used to construct the request.
+- `mime_type`
+  - Optional MIME type used to restrict matching files.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_google_geocoding
+### 🔧 fetch_google_geocoding
 
 **Index:** 23
 
@@ -912,38 +1128,52 @@ def fetch_google_geocoding( mode: str='forward', query: str='', latitude: float=
 
 Retrieve Google forward, reverse, and place geocoding.
 
-Purpose:
-    Retrieve Google forward, reverse, and place geocoding through Google Geocoding. Use ``mode``
+#### 🎯 Purpose
+
+Retrieve Google forward, reverse, and place geocoding through Google Geocoding. Use ``mode``
     to select among ``forward``, ``place``, ``reverse``. The query text determines the records
     or documents matched by the provider. Coordinate and bounding arguments constrain geographic
     scope when supported. When supplied, ``api_key`` overrides the configured provider
     credential for this request.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``forward``,
-        ``place``, ``reverse``.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    latitude: Latitude in decimal degrees.
-    longitude: Longitude in decimal degrees.
-    place_id: Provider identifier for the selected place.
-    language: Language code used for provider results or parsing.
-    region: Provider region filter or regional bias value.
-    result_type: Provider type selector for result.
-    location_type: Provider type selector for location.
-    time: Request timeout in seconds.
-    api_key: Optional credential override used for the active request.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``forward``, ``place``, ``reverse``.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `latitude`
+  - Latitude in decimal degrees.
+- `longitude`
+  - Longitude in decimal degrees.
+- `place_id`
+  - Provider identifier for the selected place.
+- `language`
+  - Language code used for provider results or parsing.
+- `region`
+  - Provider region filter or regional bias value.
+- `result_type`
+  - Provider type selector for result.
+- `location_type`
+  - Provider type selector for location.
+- `time`
+  - Request timeout in seconds.
+- `api_key`
+  - Optional credential override used for the active request.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_google_search
+### 🔧 fetch_google_search
 
 **Index:** 24
 
@@ -953,47 +1183,71 @@ def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_ter
 
 Retrieve Google Custom Search.
 
-Purpose:
-    Retrieve Google Custom Search through Google Custom Search. The query text determines the
+#### 🎯 Purpose
+
+Retrieve Google Custom Search through Google Custom Search. The query text determines the
     records or documents matched by the provider. Result-count arguments bound the amount of
     data requested. When supplied, ``api_key`` overrides the configured provider credential for
     this request.
 
-Args:
-    keywords: Search text, lookup value, or provider query submitted by the caller.
-    results: Maximum number of search results to request.
-    start: Starting result position used for pagination.
-    exact_terms: Phrase that must appear exactly in Google Custom Search results.
-    exclude_terms: Terms that must not appear in Google Custom Search results.
-    file_type: File-extension filter applied to Google Custom Search results.
-    date_restrict: Google Custom Search date restriction expression.
-    gl: Google country-code boost applied to search results.
-    lr: Google language restriction expression.
-    safe: Google SafeSearch setting.
-    search_type: Google Custom Search result type; use the provider-supported image-search value when
-        requesting images.
-    site_search: Domain or site used to restrict Google Custom Search results.
-    site_search_filter: Whether ``site_search`` is included or excluded by Google Custom Search.
-    sort: Provider-supported result ordering expression.
-    img_size: Image-size filter used for Google image search.
-    img_type: Google image type filter.
-    img_color_type: Google image color-type filter.
-    img_dominant_color: Dominant-color filter used for Google image search.
-    time: Request timeout in seconds.
-    api_key: Optional credential override used for the active request.
-    cse_id: Google Programmable Search Engine identifier.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `keywords`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `results`
+  - Maximum number of search results to request.
+- `start`
+  - Starting result position used for pagination.
+- `exact_terms`
+  - Phrase that must appear exactly in Google Custom Search results.
+- `exclude_terms`
+  - Terms that must not appear in Google Custom Search results.
+- `file_type`
+  - File-extension filter applied to Google Custom Search results.
+- `date_restrict`
+  - Google Custom Search date restriction expression.
+- `gl`
+  - Google country-code boost applied to search results.
+- `lr`
+  - Google language restriction expression.
+- `safe`
+  - Google SafeSearch setting.
+- `search_type`
+  - Google Custom Search result type; use the provider-supported image-search value when requesting images.
+- `site_search`
+  - Domain or site used to restrict Google Custom Search results.
+- `site_search_filter`
+  - Whether ``site_search`` is included or excluded by Google Custom Search.
+- `sort`
+  - Provider-supported result ordering expression.
+- `img_size`
+  - Image-size filter used for Google image search.
+- `img_type`
+  - Google image type filter.
+- `img_color_type`
+  - Google image color-type filter.
+- `img_dominant_color`
+  - Dominant-color filter used for Google image search.
+- `time`
+  - Request timeout in seconds.
+- `api_key`
+  - Optional credential override used for the active request.
+- `cse_id`
+  - Google Programmable Search Engine identifier.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_google_weather_alerts
+### 🔧 fetch_google_weather_alerts
 
 **Index:** 25
 
@@ -1003,24 +1257,31 @@ def fetch_google_weather_alerts( address: str, language_code: str='en', time: in
 
 Retrieve google weather alerts data.
 
-Purpose:
-    Retrieve google weather alerts data through Google Weather.
+#### 🎯 Purpose
 
-Args:
-    address: Street address or place description used for geocoding, validation, or routing.
-    language_code: BCP-47-style language code used for provider results.
-    time: Request timeout in seconds.
+Retrieve google weather alerts data through Google Weather.
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `address`
+  - Street address or place description used for geocoding, validation, or routing.
+- `language_code`
+  - BCP-47-style language code used for provider results.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_google_weather_current
+### 🔧 fetch_google_weather_current
 
 **Index:** 26
 
@@ -1030,25 +1291,33 @@ def fetch_google_weather_current( address: str, units_system: str='METRIC', lang
 
 Retrieve google weather current data.
 
-Purpose:
-    Retrieve google weather current data through Google Weather.
+#### 🎯 Purpose
 
-Args:
-    address: Street address or place description used for geocoding, validation, or routing.
-    units_system: Measurement unit system requested from the provider.
-    language_code: BCP-47-style language code used for provider results.
-    time: Request timeout in seconds.
+Retrieve google weather current data through Google Weather.
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `address`
+  - Street address or place description used for geocoding, validation, or routing.
+- `units_system`
+  - Measurement unit system requested from the provider.
+- `language_code`
+  - BCP-47-style language code used for provider results.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_google_weather_daily_forecast
+### 🔧 fetch_google_weather_daily_forecast
 
 **Index:** 27
 
@@ -1058,27 +1327,36 @@ def fetch_google_weather_daily_forecast( address: str, days: int=5, units_system
 
 Retrieve daily forecast.
 
-Purpose:
-    Retrieve daily forecast through Google Weather.
+#### 🎯 Purpose
 
-Args:
-    address: Street address or place description used for geocoding, validation, or routing.
-    days: Number of calendar days included in the requested interval.
-    units_system: Measurement unit system requested from the provider.
-    language_code: BCP-47-style language code used for provider results.
-    time: Request timeout in seconds.
+Retrieve daily forecast through Google Weather.
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+- `address`
+  - Street address or place description used for geocoding, validation, or routing.
+- `days`
+  - Number of calendar days included in the requested interval.
+- `units_system`
+  - Measurement unit system requested from the provider.
+- `language_code`
+  - BCP-47-style language code used for provider results.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_google_weather_hourly_forecast
+### 🔧 fetch_google_weather_hourly_forecast
 
 **Index:** 28
 
@@ -1088,27 +1366,36 @@ def fetch_google_weather_hourly_forecast( address: str, hours: int=24, units_sys
 
 Retrieve hourly forecast.
 
-Purpose:
-    Retrieve hourly forecast through Google Weather.
+#### 🎯 Purpose
 
-Args:
-    address: Street address or place description used for geocoding, validation, or routing.
-    hours: Number of hourly observations or forecast periods to request.
-    units_system: Measurement unit system requested from the provider.
-    language_code: BCP-47-style language code used for provider results.
-    time: Request timeout in seconds.
+Retrieve hourly forecast through Google Weather.
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+- `address`
+  - Street address or place description used for geocoding, validation, or routing.
+- `hours`
+  - Number of hourly observations or forecast periods to request.
+- `units_system`
+  - Measurement unit system requested from the provider.
+- `language_code`
+  - BCP-47-style language code used for provider results.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_google_weather_hourly_history
+### 🔧 fetch_google_weather_hourly_history
 
 **Index:** 29
 
@@ -1118,27 +1405,36 @@ def fetch_google_weather_hourly_history( address: str, hours: int=24, units_syst
 
 Retrieve hourly history.
 
-Purpose:
-    Retrieve hourly history through Google Weather.
+#### 🎯 Purpose
 
-Args:
-    address: Street address or place description used for geocoding, validation, or routing.
-    hours: Number of hourly observations or forecast periods to request.
-    units_system: Measurement unit system requested from the provider.
-    language_code: BCP-47-style language code used for provider results.
-    time: Request timeout in seconds.
+Retrieve hourly history through Google Weather.
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+- `address`
+  - Street address or place description used for geocoding, validation, or routing.
+- `hours`
+  - Number of hourly observations or forecast periods to request.
+- `units_system`
+  - Measurement unit system requested from the provider.
+- `language_code`
+  - BCP-47-style language code used for provider results.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_gov_data
+### 🔧 fetch_gov_data
 
 **Index:** 30
 
@@ -1148,36 +1444,49 @@ def fetch_gov_data( mode: str='search', query: str='', page_size: int=10, offset
 
 Retrieve Data.gov package and collection.
 
-Purpose:
-    Retrieve Data.gov package and collection through Data.gov. Use ``mode`` to select among
+#### 🎯 Purpose
+
+Retrieve Data.gov package and collection through Data.gov. Use ``mode`` to select among
     ``collection``, ``package_summary``, ``search``. The query text determines the records or
     documents matched by the provider. Date and time arguments constrain the requested interval
     when supplied. Result-count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``collection``, ``package_summary``, ``search``.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    page_size: Maximum number of records requested per page.
-    offset_mark: Provider continuation marker used for paginated Data.gov search results.
-    sort_field: Provider field used to order search results.
-    sort_order: Sort direction applied to the provider search.
-    package_id: Provider identifier for the selected package.
-    collection: Provider collection identifier used to restrict results.
-    start_date: Inclusive start date for the requested time range, in the provider-supported format.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``collection``, ``package_summary``, ``search``.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `page_size`
+  - Maximum number of records requested per page.
+- `offset_mark`
+  - Provider continuation marker used for paginated Data.gov search results.
+- `sort_field`
+  - Provider field used to order search results.
+- `sort_order`
+  - Sort direction applied to the provider search.
+- `package_id`
+  - Provider identifier for the selected package.
+- `collection`
+  - Provider collection identifier used to restrict results.
+- `start_date`
+  - Inclusive start date for the requested time range, in the provider-supported format.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_grokipedia
+### 🔧 fetch_grokipedia
 
 **Index:** 31
 
@@ -1187,30 +1496,40 @@ def fetch_grokipedia( mode: str='search', query: str='', page: str='', limit: in
 
 Retrieve Grokipedia search and page.
 
-Purpose:
-    Retrieve Grokipedia search and page through Grokipedia. The query text determines the
+#### 🎯 Purpose
+
+Retrieve Grokipedia search and page through Grokipedia. The query text determines the
     records or documents matched by the provider. Result-count arguments bound the amount of
     data requested.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    page: One-based result page to request.
-    limit: Maximum number of records or items to return.
-    offset: Zero-based result offset used for pagination.
-    include_content: Whether to include content in the result.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `page`
+  - One-based result page to request.
+- `limit`
+  - Maximum number of records or items to return.
+- `offset`
+  - Zero-based result offset used for pagination.
+- `include_content`
+  - Whether to include content in the result.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_health_data
+### 🔧 fetch_health_data
 
 **Index:** 32
 
@@ -1220,35 +1539,48 @@ def fetch_health_data( mode: str='rows', domain: str='healthdata.gov', dataset_i
 
 Retrieve HealthData.gov Socrata metadata and rows.
 
-Purpose:
-    Retrieve HealthData.gov Socrata metadata and rows through HealthData.gov. Use ``mode`` to
+#### 🎯 Purpose
+
+Retrieve HealthData.gov Socrata metadata and rows through HealthData.gov. Use ``mode`` to
     select among ``metadata``, ``rows``. Result-count arguments bound the amount of data
     requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``metadata``, ``rows``.
-    domain: Provider domain or host containing the requested dataset.
-    dataset_id: Provider dataset identifier.
-    select: Socrata ``$select`` expression defining returned columns or calculations.
-    where: Socrata ``$where`` filter expression.
-    order: Provider-supported result ordering expression.
-    group: Socrata ``$group`` expression used to aggregate rows.
-    limit: Maximum number of records or items to return.
-    offset: Zero-based result offset used for pagination.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``metadata``, ``rows``.
+- `domain`
+  - Provider domain or host containing the requested dataset.
+- `dataset_id`
+  - Provider dataset identifier.
+- `select`
+  - Socrata ``$select`` expression defining returned columns or calculations.
+- `where`
+  - Socrata ``$where`` filter expression.
+- `order`
+  - Provider-supported result ordering expression.
+- `group`
+  - Socrata ``$group`` expression used to aggregate rows.
+- `limit`
+  - Maximum number of records or items to return.
+- `offset`
+  - Zero-based result offset used for pagination.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_historical_weather
+### 🔧 fetch_historical_weather
 
 **Index:** 33
 
@@ -1258,25 +1590,33 @@ def fetch_historical_weather( location: str, date: dt.date, zone: str='auto', co
 
 Retrieve historical weather archive.
 
-Purpose:
-    Retrieve historical weather archive through Open-Meteo Archive.
+#### 🎯 Purpose
 
-Args:
-    location: Place name, address, or location description resolved by the provider.
-    date: Date used by the provider or processing operation.
-    zone: Timezone identifier or automatic timezone-selection mode.
-    count: Maximum number of matching locations or records to consider.
+Retrieve historical weather archive through Open-Meteo Archive.
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `location`
+  - Place name, address, or location description resolved by the provider.
+- `date`
+  - Date used by the provider or processing operation.
+- `zone`
+  - Timezone identifier or automatic timezone-selection mode.
+- `count`
+  - Maximum number of matching locations or records to consider.
+
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_internet_archive
+### 🔧 fetch_internet_archive
 
 **Index:** 34
 
@@ -1286,32 +1626,44 @@ def fetch_internet_archive( keywords: str, fields: List[str] | None=None, rows: 
 
 Retrieve Internet Archive search and metadata.
 
-Purpose:
-    Retrieve Internet Archive search and metadata through Internet Archive. The query text
+#### 🎯 Purpose
+
+Retrieve Internet Archive search and metadata through Internet Archive. The query text
     determines the records or documents matched by the provider. Result-count arguments bound
     the amount of data requested.
 
-Args:
-    keywords: Search text, lookup value, or provider query submitted by the caller.
-    fields: Comma-separated or provider-specific field selection.
-    rows: Maximum number of rows to request.
-    page: One-based result page to request.
-    sort: Provider-supported result ordering expression.
-    media_type: Provider type selector for media.
-    collection: Provider collection identifier used to restrict results.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `keywords`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `fields`
+  - Comma-separated or provider-specific field selection.
+- `rows`
+  - Maximum number of rows to request.
+- `page`
+  - One-based result page to request.
+- `sort`
+  - Provider-supported result ordering expression.
+- `media_type`
+  - Provider type selector for media.
+- `collection`
+  - Provider collection identifier used to restrict results.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_naval_observatory
+### 🔧 fetch_naval_observatory
 
 **Index:** 35
 
@@ -1321,30 +1673,41 @@ def fetch_naval_observatory( mode: str='celnav', date_value: str='', time_value:
 
 Retrieve U.S. Naval Observatory celestial-navigation data.
 
-Purpose:
-    Retrieve U.S. Naval Observatory celestial-navigation data through U.S. Naval Observatory.
+#### 🎯 Purpose
+
+Retrieve U.S. Naval Observatory celestial-navigation data through U.S. Naval Observatory.
     Coordinate and bounding arguments constrain geographic scope when supported.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    date_value: Calendar date used by the selected provider operation.
-    time_value: Clock time or timestamp used by the selected provider operation.
-    latitude: Latitude in decimal degrees.
-    longitude: Longitude in decimal degrees.
-    location_label: Human-readable label associated with the supplied coordinates.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `date_value`
+  - Calendar date used by the selected provider operation.
+- `time_value`
+  - Clock time or timestamp used by the selected provider operation.
+- `latitude`
+  - Latitude in decimal degrees.
+- `longitude`
+  - Longitude in decimal degrees.
+- `location_label`
+  - Human-readable label associated with the supplied coordinates.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_nearby_objects
+### 🔧 fetch_nearby_objects
 
 **Index:** 36
 
@@ -1354,45 +1717,69 @@ def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_
 
 Retrieve JPL SSD and CNEOS near-Earth object data.
 
-Purpose:
-    Retrieve JPL SSD and CNEOS near-Earth object data through NASA/JPL near-Earth object
+#### 🎯 Purpose
+
+Retrieve JPL SSD and CNEOS near-Earth object data through NASA/JPL near-Earth object
     services. The query text determines the records or documents matched by the provider. Date
     and time arguments constrain the requested interval when supplied. Result-count arguments
     bound the amount of data requested.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    start_date: Inclusive start date for the requested time range, in the provider-supported format.
-    end_date: Inclusive end date for the requested time range, in the provider-supported format.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    query_type: Provider type selector for query.
-    dist_max: Maximum close-approach distance expression accepted by the JPL service.
-    body: Solar-system body used as the reference object.
-    sort: Provider-supported result ordering expression.
-    limit: Maximum number of records or items to return.
-    dv: Delta-v threshold or mission constraint used by the near-Earth object query.
-    dur: Mission duration constraint, in days, used by the near-Earth object query.
-    stay: Target stay-duration constraint, in days, used by the near-Earth object query.
-    launch: Launch-year or launch-window expression used by the near-Earth object query.
-    h: Absolute-magnitude threshold used by the near-Earth object query.
-    occ: Opportunity-count or occurrence constraint used by the mission query.
-    include_physical: Whether to include physical in the result.
-    include_close_approaches: Whether to include close approaches in the result.
-    ca_body: Reference body used for close-approach data.
-    include_discovery: Whether to include discovery in the result.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `start_date`
+  - Inclusive start date for the requested time range, in the provider-supported format.
+- `end_date`
+  - Inclusive end date for the requested time range, in the provider-supported format.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `query_type`
+  - Provider type selector for query.
+- `dist_max`
+  - Maximum close-approach distance expression accepted by the JPL service.
+- `body`
+  - Solar-system body used as the reference object.
+- `sort`
+  - Provider-supported result ordering expression.
+- `limit`
+  - Maximum number of records or items to return.
+- `dv`
+  - Delta-v threshold or mission constraint used by the near-Earth object query.
+- `dur`
+  - Mission duration constraint, in days, used by the near-Earth object query.
+- `stay`
+  - Target stay-duration constraint, in days, used by the near-Earth object query.
+- `launch`
+  - Launch-year or launch-window expression used by the near-Earth object query.
+- `h`
+  - Absolute-magnitude threshold used by the near-Earth object query.
+- `occ`
+  - Opportunity-count or occurrence constraint used by the mission query.
+- `include_physical`
+  - Whether to include physical in the result.
+- `include_close_approaches`
+  - Whether to include close approaches in the result.
+- `ca_body`
+  - Reference body used for close-approach data.
+- `include_discovery`
+  - Whether to include discovery in the result.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_news
+### 🔧 fetch_news
 
 **Index:** 37
 
@@ -1402,46 +1789,70 @@ def fetch_news( endpoint: str='all', query: str='', language: str='en', categori
 
 Retrieve The News API article.
 
-Purpose:
-    Retrieve The News API article through The News API. The query text determines the records or
+#### 🎯 Purpose
+
+Retrieve The News API article through The News API. The query text determines the records or
     documents matched by the provider. Date and time arguments constrain the requested interval
     when supplied. Result-count arguments bound the amount of data requested. Boolean options
     control retrieval depth or supplemental content. When supplied, ``api_key`` overrides the
     configured provider credential for this request.
 
-Args:
-    endpoint: Provider endpoint or endpoint family to request.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    language: Language code used for provider results or parsing.
-    categories: Comma-separated news categories used to include matching articles.
-    exclude_categories: Filter value used to exclude categories from provider results.
-    locale: Locale filter applied to news results.
-    domains: Comma-separated source domains used to include matching news articles.
-    exclude_domains: Filter value used to exclude domains from provider results.
-    source_ids: Provider identifiers for the selected source.
-    exclude_source_ids: Filter value used to exclude source ids from provider results.
-    published_after: Earliest publication timestamp accepted by the news query.
-    published_before: Latest publication timestamp accepted by the news query.
-    published_on: Specific publication date used to restrict news results.
-    sort: Provider-supported result ordering expression.
-    limit: Maximum number of records or items to return.
-    page: One-based result page to request.
-    include_similar: Whether to include similar in the result.
-    headlines_per_category: Maximum number of headlines returned for each category in headline mode.
-    time: Request timeout in seconds.
-    api_key: Optional credential override used for the active request.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any]: Structured mapping produced by the operation.
+- `endpoint`
+  - Provider endpoint or endpoint family to request.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `language`
+  - Language code used for provider results or parsing.
+- `categories`
+  - Comma-separated news categories used to include matching articles.
+- `exclude_categories`
+  - Filter value used to exclude categories from provider results.
+- `locale`
+  - Locale filter applied to news results.
+- `domains`
+  - Comma-separated source domains used to include matching news articles.
+- `exclude_domains`
+  - Filter value used to exclude domains from provider results.
+- `source_ids`
+  - Provider identifiers for the selected source.
+- `exclude_source_ids`
+  - Filter value used to exclude source ids from provider results.
+- `published_after`
+  - Earliest publication timestamp accepted by the news query.
+- `published_before`
+  - Latest publication timestamp accepted by the news query.
+- `published_on`
+  - Specific publication date used to restrict news results.
+- `sort`
+  - Provider-supported result ordering expression.
+- `limit`
+  - Maximum number of records or items to return.
+- `page`
+  - One-based result page to request.
+- `include_similar`
+  - Whether to include similar in the result.
+- `headlines_per_category`
+  - Maximum number of headlines returned for each category in headline mode.
+- `time`
+  - Request timeout in seconds.
+- `api_key`
+  - Optional credential override used for the active request.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any]: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_open_aq
+### 🔧 fetch_open_aq
 
 **Index:** 38
 
@@ -1451,38 +1862,51 @@ def fetch_open_aq( mode: str='locations', location_id: int | None=None, paramete
 
 Retrieve OpenAQ location, measurement, and air-quality records.
 
-Purpose:
-    Retrieve OpenAQ location, measurement, and air-quality records through OpenAQ. Use ``mode``
+#### 🎯 Purpose
+
+Retrieve OpenAQ location, measurement, and air-quality records through OpenAQ. Use ``mode``
     to select among ``countries``, ``latest``, ``locations``, ``parameter_latest``,
     ``parameters``, ``providers``. Coordinate and bounding arguments constrain geographic scope
     when supported. Result-count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``countries``, ``latest``, ``locations``, ``parameter_latest``, ``parameters``,
-        ``providers``.
-    location_id: Provider identifier for the selected location.
-    parameter_id: Provider identifier for the selected parameter.
-    country_id: Provider identifier for the selected country.
-    coordinates: Latitude/longitude coordinate string used by the provider.
-    radius: Search radius in the units specified by the operation.
-    providers_id: Provider identifier for the selected providers.
-    parameters_id: Provider identifier for the selected parameters.
-    limit: Maximum number of records or items to return.
-    page: One-based result page to request.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``countries``, ``latest``, ``locations``, ``parameter_latest``, ``parameters``, ``providers``.
+- `location_id`
+  - Provider identifier for the selected location.
+- `parameter_id`
+  - Provider identifier for the selected parameter.
+- `country_id`
+  - Provider identifier for the selected country.
+- `coordinates`
+  - Latitude/longitude coordinate string used by the provider.
+- `radius`
+  - Search radius in the units specified by the operation.
+- `providers_id`
+  - Provider identifier for the selected providers.
+- `parameters_id`
+  - Provider identifier for the selected parameters.
+- `limit`
+  - Maximum number of records or items to return.
+- `page`
+  - One-based result page to request.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_open_science
+### 🔧 fetch_open_science
 
 **Index:** 39
 
@@ -1492,28 +1916,37 @@ def fetch_open_science( mode: str='dataset', query: str='', accession: str='', f
 
 Retrieve NASA Open Science Data Repository resources.
 
-Purpose:
-    Retrieve NASA Open Science Data Repository resources through NASA Open Science Data
+#### 🎯 Purpose
+
+Retrieve NASA Open Science Data Repository resources through NASA Open Science Data
     Repository. The query text determines the records or documents matched by the provider.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    accession: Dataset accession identifier used to retrieve a specific Open Science resource.
-    format_value: Provider output format.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `accession`
+  - Dataset accession identifier used to retrieve a specific Open Science resource.
+- `format_value`
+  - Provider output format.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_open_sky
+### 🔧 fetch_open_sky
 
 **Index:** 40
 
@@ -1523,40 +1956,56 @@ def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', be
 
 Retrieve OpenSky Network aircraft, airport, and state-vector data.
 
-Purpose:
-    Retrieve OpenSky Network aircraft, airport, and state-vector data through OpenSky Network.
+#### 🎯 Purpose
+
+Retrieve OpenSky Network aircraft, airport, and state-vector data through OpenSky Network.
     Use ``mode`` to select among ``arrivals_airport``, ``departures_airport``,
     ``flights_aircraft``, ``states_bbox``, ``track_aircraft``.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``arrivals_airport``, ``departures_airport``, ``flights_aircraft``, ``states_bbox``,
-        ``track_aircraft``.
-    icao24: 24-bit ICAO aircraft transponder address.
-    airport: ICAO airport identifier used to query arrivals or departures.
-    begin: Beginning Unix timestamp for the requested aviation interval.
-    end: Ending Unix timestamp for the requested aviation interval.
-    time_value: Clock time or timestamp used by the selected provider operation.
-    lamin: Bounding-box minimum latitude in decimal degrees.
-    lomin: Bounding-box minimum longitude in decimal degrees.
-    lamax: Bounding-box maximum latitude in decimal degrees.
-    lomax: Bounding-box maximum longitude in decimal degrees.
-    extended: Whether extended OpenSky state-vector fields should be requested.
-    client_id: Optional credential override used for the active request.
-    client_secret: Optional credential override used for the active request.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``arrivals_airport``, ``departures_airport``, ``flights_aircraft``, ``states_bbox``, ``track_aircraft``.
+- `icao24`
+  - 24-bit ICAO aircraft transponder address.
+- `airport`
+  - ICAO airport identifier used to query arrivals or departures.
+- `begin`
+  - Beginning Unix timestamp for the requested aviation interval.
+- `end`
+  - Ending Unix timestamp for the requested aviation interval.
+- `time_value`
+  - Clock time or timestamp used by the selected provider operation.
+- `lamin`
+  - Bounding-box minimum latitude in decimal degrees.
+- `lomin`
+  - Bounding-box minimum longitude in decimal degrees.
+- `lamax`
+  - Bounding-box maximum latitude in decimal degrees.
+- `lomax`
+  - Bounding-box maximum longitude in decimal degrees.
+- `extended`
+  - Whether extended OpenSky state-vector fields should be requested.
+- `client_id`
+  - Optional credential override used for the active request.
+- `client_secret`
+  - Optional credential override used for the active request.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_open_weather
+### 🔧 fetch_open_weather
 
 **Index:** 41
 
@@ -1566,28 +2015,38 @@ def fetch_open_weather( location: str, mode: str='current', zone: str='auto', fo
 
 Retrieve Open-Meteo current and forecast weather.
 
-Purpose:
-    Retrieve Open-Meteo current and forecast weather through Open-Meteo.
+#### 🎯 Purpose
 
-Args:
-    location: Place name, address, or location description resolved by the provider.
-    mode: Operation mode used to select the provider or processing workflow.
-    zone: Timezone identifier or automatic timezone-selection mode.
-    forecast_days: Number of forecast days to request.
-    past_days: Number of historical days to include with the weather request.
-    count: Maximum number of matching locations or records to consider.
+Retrieve Open-Meteo current and forecast weather through Open-Meteo.
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+- `location`
+  - Place name, address, or location description resolved by the provider.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `zone`
+  - Timezone identifier or automatic timezone-selection mode.
+- `forecast_days`
+  - Number of forecast days to request.
+- `past_days`
+  - Number of historical days to include with the weather request.
+- `count`
+  - Maximum number of matching locations or records to consider.
+
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_purple_air
+### 🔧 fetch_purple_air
 
 **Index:** 42
 
@@ -1597,36 +2056,50 @@ def fetch_purple_air( mode: str='sensors', sensor_index: int | None=None, nwlng:
 
 Retrieve PurpleAir sensor and air quality records.
 
-Purpose:
-    Retrieve PurpleAir sensor and air quality records through PurpleAir. Use ``mode`` to select
+#### 🎯 Purpose
+
+Retrieve PurpleAir sensor and air quality records through PurpleAir. Use ``mode`` to select
     among ``sensor``, ``sensors``. Coordinate and bounding arguments constrain geographic scope
     when supported.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``sensor``,
-        ``sensors``.
-    sensor_index: PurpleAir sensor identifier.
-    nwlng: Northwest bounding-box longitude in decimal degrees.
-    nwlat: Northwest bounding-box latitude in decimal degrees.
-    selng: Southeast bounding-box longitude in decimal degrees.
-    selat: Southeast bounding-box latitude in decimal degrees.
-    location_type: Provider type selector for location.
-    max_age: Maximum age permitted by the operation.
-    modified_since: Unix timestamp used to return PurpleAir sensors modified after the specified time.
-    fields: Comma-separated or provider-specific field selection.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``sensor``, ``sensors``.
+- `sensor_index`
+  - PurpleAir sensor identifier.
+- `nwlng`
+  - Northwest bounding-box longitude in decimal degrees.
+- `nwlat`
+  - Northwest bounding-box latitude in decimal degrees.
+- `selng`
+  - Southeast bounding-box longitude in decimal degrees.
+- `selat`
+  - Southeast bounding-box latitude in decimal degrees.
+- `location_type`
+  - Provider type selector for location.
+- `max_age`
+  - Maximum age permitted by the operation.
+- `modified_since`
+  - Unix timestamp used to return PurpleAir sensors modified after the specified time.
+- `fields`
+  - Comma-separated or provider-specific field selection.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_satellite_center
+### 🔧 fetch_satellite_center
 
 **Index:** 43
 
@@ -1636,32 +2109,42 @@ def fetch_satellite_center( mode: str='observatories', query: str='', start_time
 
 Retrieve SSC satellite observatory, ground-station, and location data.
 
-Purpose:
-    Retrieve SSC satellite observatory, ground-station, and location data through NASA Satellite
+#### 🎯 Purpose
+
+Retrieve SSC satellite observatory, ground-station, and location data through NASA Satellite
     Situation Center. The query text determines the records or documents matched by the
     provider.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    start_time: Beginning timestamp for the requested provider interval.
-    end_time: Ending timestamp for the requested provider interval.
-    coordinate_systems: Coordinate system or comma-separated coordinate systems requested from the satellite
-        service.
-    resolution_factor: Sampling resolution factor applied to returned satellite location data.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `start_time`
+  - Beginning timestamp for the requested provider interval.
+- `end_time`
+  - Ending timestamp for the requested provider interval.
+- `coordinate_systems`
+  - Coordinate system or comma-separated coordinate systems requested from the satellite service.
+- `resolution_factor`
+  - Sampling resolution factor applied to returned satellite location data.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_socrata
+### 🔧 fetch_socrata
 
 **Index:** 44
 
@@ -1671,34 +2154,47 @@ def fetch_socrata( mode: str='rows', domain: str='data.cdc.gov', dataset_id: str
 
 Retrieve Socrata dataset metadata and row.
 
-Purpose:
-    Retrieve Socrata dataset metadata and row through Socrata. Use ``mode`` to select among
+#### 🎯 Purpose
+
+Retrieve Socrata dataset metadata and row through Socrata. Use ``mode`` to select among
     ``metadata``, ``rows``. Result-count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``metadata``, ``rows``.
-    domain: Provider domain or host containing the requested dataset.
-    dataset_id: Provider dataset identifier.
-    select: Socrata ``$select`` expression defining returned columns or calculations.
-    where: Socrata ``$where`` filter expression.
-    order: Provider-supported result ordering expression.
-    group: Socrata ``$group`` expression used to aggregate rows.
-    limit: Maximum number of records or items to return.
-    offset: Zero-based result offset used for pagination.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``metadata``, ``rows``.
+- `domain`
+  - Provider domain or host containing the requested dataset.
+- `dataset_id`
+  - Provider dataset identifier.
+- `select`
+  - Socrata ``$select`` expression defining returned columns or calculations.
+- `where`
+  - Socrata ``$where`` filter expression.
+- `order`
+  - Provider-supported result ordering expression.
+- `group`
+  - Socrata ``$group`` expression used to aggregate rows.
+- `limit`
+  - Maximum number of records or items to return.
+- `offset`
+  - Zero-based result offset used for pagination.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_space_weather
+### 🔧 fetch_space_weather
 
 **Index:** 45
 
@@ -1708,37 +2204,54 @@ def fetch_space_weather( mode: str='cme', start_date: str='', end_date: str='', 
 
 Retrieve NASA DONKI space weather endpoints.
 
-Purpose:
-    Retrieve NASA DONKI space weather endpoints through NASA DONKI. Date and time arguments
+#### 🎯 Purpose
+
+Retrieve NASA DONKI space weather endpoints through NASA DONKI. Date and time arguments
     constrain the requested interval when supplied. When supplied, ``api_key`` overrides the
     configured provider credential for this request.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    start_date: Inclusive start date for the requested time range, in the provider-supported format.
-    end_date: Inclusive end date for the requested time range, in the provider-supported format.
-    time: Request timeout in seconds.
-    location: Place name, address, or location description resolved by the provider.
-    catalog: Provider catalog filter.
-    notification_type: Provider type selector for notification.
-    most_accurate_only: Whether to restrict results to the provider-designated most accurate analyses.
-    complete_entry_only: Whether to restrict results to complete provider entries.
-    speed: Minimum or target speed constraint used by the space-weather query.
-    half_angle: Half-angle constraint used by the space-weather query.
-    keyword: Keyword used to filter provider records.
-    api_key: Optional credential override used for the active request.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `start_date`
+  - Inclusive start date for the requested time range, in the provider-supported format.
+- `end_date`
+  - Inclusive end date for the requested time range, in the provider-supported format.
+- `time`
+  - Request timeout in seconds.
+- `location`
+  - Place name, address, or location description resolved by the provider.
+- `catalog`
+  - Provider catalog filter.
+- `notification_type`
+  - Provider type selector for notification.
+- `most_accurate_only`
+  - Whether to restrict results to the provider-designated most accurate analyses.
+- `complete_entry_only`
+  - Whether to restrict results to complete provider entries.
+- `speed`
+  - Minimum or target speed constraint used by the space-weather query.
+- `half_angle`
+  - Half-angle constraint used by the space-weather query.
+- `keyword`
+  - Keyword used to filter provider records.
+- `api_key`
+  - Optional credential override used for the active request.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_star_chart
+### 🔧 fetch_star_chart
 
 **Index:** 46
 
@@ -1748,39 +2261,59 @@ def fetch_star_chart( mode: str='object_chart', query: str='', ra: float=0.0, de
 
 Retrieve static star chart and coordinate chart generation.
 
-Purpose:
-    Retrieve static star chart and coordinate chart generation through astronomical chart
+#### 🎯 Purpose
+
+Retrieve static star chart and coordinate chart generation through astronomical chart
     service. The query text determines the records or documents matched by the provider.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    ra: Right ascension value.
-    dec: Declination value.
-    zoom: Map or chart zoom level.
-    image_source: Imagery or survey source used to render the map or chart.
-    box_color: Color used to draw the target box on generated map or chart output.
-    show_box: Whether to display box in generated output.
-    show_grid: Whether to display grid in generated output.
-    show_lines: Whether to display lines in generated output.
-    show_boundaries: Whether to display boundaries in generated output.
-    show_const_names: Whether to display const names in generated output.
-    width: Output image or chart width in pixels.
-    height: Output image or chart height in pixels.
-    magnitude: Limiting stellar magnitude used when rendering a chart.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `ra`
+  - Right ascension value.
+- `dec`
+  - Declination value.
+- `zoom`
+  - Map or chart zoom level.
+- `image_source`
+  - Imagery or survey source used to render the map or chart.
+- `box_color`
+  - Color used to draw the target box on generated map or chart output.
+- `show_box`
+  - Whether to display box in generated output.
+- `show_grid`
+  - Whether to display grid in generated output.
+- `show_lines`
+  - Whether to display lines in generated output.
+- `show_boundaries`
+  - Whether to display boundaries in generated output.
+- `show_const_names`
+  - Whether to display const names in generated output.
+- `width`
+  - Output image or chart width in pixels.
+- `height`
+  - Output image or chart height in pixels.
+- `magnitude`
+  - Limiting stellar magnitude used when rendering a chart.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_star_map
+### 🔧 fetch_star_map
 
 **Index:** 47
 
@@ -1790,36 +2323,53 @@ def fetch_star_map( mode: str='object_link', query: str='', ra: float=0.0, dec: 
 
 Retrieve astronomical object map links and imagery.
 
-Purpose:
-    Retrieve astronomical object map links and imagery through astronomical map service. The
+#### 🎯 Purpose
+
+Retrieve astronomical object map links and imagery through astronomical map service. The
     query text determines the records or documents matched by the provider.
 
-Args:
-    mode: Operation mode used to select the provider or processing workflow.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    ra: Right ascension value.
-    dec: Declination value.
-    zoom: Map or chart zoom level.
-    image_source: Imagery or survey source used to render the map or chart.
-    box_color: Color used to draw the target box on generated map or chart output.
-    show_box: Whether to display box in generated output.
-    show_grid: Whether to display grid in generated output.
-    show_lines: Whether to display lines in generated output.
-    show_boundaries: Whether to display boundaries in generated output.
-    show_const_names: Whether to display const names in generated output.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `ra`
+  - Right ascension value.
+- `dec`
+  - Declination value.
+- `zoom`
+  - Map or chart zoom level.
+- `image_source`
+  - Imagery or survey source used to render the map or chart.
+- `box_color`
+  - Color used to draw the target box on generated map or chart output.
+- `show_box`
+  - Whether to display box in generated output.
+- `show_grid`
+  - Whether to display grid in generated output.
+- `show_lines`
+  - Whether to display lines in generated output.
+- `show_boundaries`
+  - Whether to display boundaries in generated output.
+- `show_const_names`
+  - Whether to display const names in generated output.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_tides_and_currents
+### 🔧 fetch_tides_and_currents
 
 **Index:** 48
 
@@ -1829,34 +2379,46 @@ def fetch_tides_and_currents( mode: str='water-level', station_id: str='', begin
 
 Retrieve NOAA tides, currents, and station data.
 
-Purpose:
-    Retrieve NOAA tides, currents, and station data through NOAA Tides & Currents. Use ``mode``
+#### 🎯 Purpose
+
+Retrieve NOAA tides, currents, and station data through NOAA Tides & Currents. Use ``mode``
     to select among ``station``, ``tide-predictions``, ``water-level``. Date and time arguments
     constrain the requested interval when supplied.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``station``,
-        ``tide-predictions``, ``water-level``.
-    station_id: Provider identifier for the selected station.
-    begin_date: Beginning date for the requested interval, in the provider-supported format.
-    end_date: Inclusive end date for the requested time range, in the provider-supported format.
-    datum: Vertical datum used for tide or water-level measurements.
-    units: Unit system used for returned measurements.
-    time_zone: Timezone used for returned tide or current timestamps.
-    interval: Provider sampling or reporting interval.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``station``, ``tide-predictions``, ``water-level``.
+- `station_id`
+  - Provider identifier for the selected station.
+- `begin_date`
+  - Beginning date for the requested interval, in the provider-supported format.
+- `end_date`
+  - Inclusive end date for the requested time range, in the provider-supported format.
+- `datum`
+  - Vertical datum used for tide or water-level measurements.
+- `units`
+  - Unit system used for returned measurements.
+- `time_zone`
+  - Timezone used for returned tide or current timestamps.
+- `interval`
+  - Provider sampling or reporting interval.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_united_nations
+### 🔧 fetch_united_nations
 
 **Index:** 49
 
@@ -1866,27 +2428,33 @@ def fetch_united_nations( mode: str='datasets', query_path: str='', time: int=20
 
 Retrieve United Nations SDMX dataset and query.
 
-Purpose:
-    Retrieve United Nations SDMX dataset and query through United Nations SDMX service. Use
+#### 🎯 Purpose
+
+Retrieve United Nations SDMX dataset and query through United Nations SDMX service. Use
     ``mode`` to select among ``datasets``, ``sdmx_query``.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``datasets``, ``sdmx_query``.
-    query_path: Path identifying the query resource.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``datasets``, ``sdmx_query``.
+- `query_path`
+  - Path identifying the query resource.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_usgs_earthquakes
+### 🔧 fetch_usgs_earthquakes
 
 **Index:** 50
 
@@ -1896,39 +2464,55 @@ def fetch_usgs_earthquakes( mode: str='feed', feed: str='all_day.geojson', start
 
 Retrieve USGS earthquake feed and query.
 
-Purpose:
-    Retrieve USGS earthquake feed and query through USGS Earthquake Hazards Program. Use
+#### 🎯 Purpose
+
+Retrieve USGS earthquake feed and query through USGS Earthquake Hazards Program. Use
     ``mode`` to select among ``feed``, ``search``. Date and time arguments constrain the
     requested interval when supplied. Coordinate and bounding arguments constrain geographic
     scope when supported. Result-count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``feed``,
-        ``search``.
-    feed: Predefined USGS earthquake feed name used when feed mode is selected.
-    start_date: Inclusive start date for the requested time range, in the provider-supported format.
-    end_date: Inclusive end date for the requested time range, in the provider-supported format.
-    min_magnitude: Minimum earthquake magnitude to include in the result set.
-    max_magnitude: Maximum earthquake magnitude to include in the result set.
-    limit: Maximum number of records or items to return.
-    order_by: Provider-supported field used to order results.
-    event_type: USGS event type to include; ``earthquake`` is the default.
-    latitude: Latitude in decimal degrees.
-    longitude: Longitude in decimal degrees.
-    max_radius_km: Maximum geographic search radius in kilometers.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``feed``, ``search``.
+- `feed`
+  - Predefined USGS earthquake feed name used when feed mode is selected.
+- `start_date`
+  - Inclusive start date for the requested time range, in the provider-supported format.
+- `end_date`
+  - Inclusive end date for the requested time range, in the provider-supported format.
+- `min_magnitude`
+  - Minimum earthquake magnitude to include in the result set.
+- `max_magnitude`
+  - Maximum earthquake magnitude to include in the result set.
+- `limit`
+  - Maximum number of records or items to return.
+- `order_by`
+  - Provider-supported field used to order results.
+- `event_type`
+  - USGS event type to include; ``earthquake`` is the default.
+- `latitude`
+  - Latitude in decimal degrees.
+- `longitude`
+  - Longitude in decimal degrees.
+- `max_radius_km`
+  - Maximum geographic search radius in kilometers.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_usgs_national_map
+### 🔧 fetch_usgs_national_map
 
 **Index:** 51
 
@@ -1938,34 +2522,45 @@ def fetch_usgs_national_map( mode: str='products', dataset: str='', q: str='', b
 
 Retrieve USGS National Map datasets and products.
 
-Purpose:
-    Retrieve USGS National Map datasets and products through USGS The National Map. Use ``mode``
+#### 🎯 Purpose
+
+Retrieve USGS National Map datasets and products through USGS The National Map. Use ``mode``
     to select among ``datasets``, ``products``. The query text determines the records or
     documents matched by the provider. Coordinate and bounding arguments constrain geographic
     scope when supported. Result-count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``datasets``, ``products``.
-    dataset: Provider dataset name or identifier.
-    q: Free-text provider query used to search matching records.
-    bbox: Bounding box defining the geographic extent of the request.
-    prod_formats: Product-format filter applied to National Map results.
-    max_items: Maximum number of records or items to return.
-    offset: Zero-based result offset used for pagination.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``datasets``, ``products``.
+- `dataset`
+  - Provider dataset name or identifier.
+- `q`
+  - Free-text provider query used to search matching records.
+- `bbox`
+  - Bounding box defining the geographic extent of the request.
+- `prod_formats`
+  - Product-format filter applied to National Map results.
+- `max_items`
+  - Maximum number of records or items to return.
+- `offset`
+  - Zero-based result offset used for pagination.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_usgs_sciencebase
+### 🔧 fetch_usgs_sciencebase
 
 **Index:** 52
 
@@ -1975,32 +2570,42 @@ def fetch_usgs_sciencebase( mode: str='items', q: str='', item_id: str='', max_i
 
 Retrieve USGS ScienceBase items and catalog records.
 
-Purpose:
-    Retrieve USGS ScienceBase items and catalog records through USGS ScienceBase. Use ``mode``
+#### 🎯 Purpose
+
+Retrieve USGS ScienceBase items and catalog records through USGS ScienceBase. Use ``mode``
     to select among ``item``, ``items``. The query text determines the records or documents
     matched by the provider. Result-count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``item``,
-        ``items``.
-    q: Free-text provider query used to search matching records.
-    item_id: Provider identifier for the selected item.
-    max_items: Maximum number of records or items to return.
-    offset: Zero-based result offset used for pagination.
-    fields: Comma-separated or provider-specific field selection.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``item``, ``items``.
+- `q`
+  - Free-text provider query used to search matching records.
+- `item_id`
+  - Provider identifier for the selected item.
+- `max_items`
+  - Maximum number of records or items to return.
+- `offset`
+  - Zero-based result offset used for pagination.
+- `fields`
+  - Comma-separated or provider-specific field selection.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_usgs_water_data
+### 🔧 fetch_usgs_water_data
 
 **Index:** 53
 
@@ -2010,33 +2615,44 @@ def fetch_usgs_water_data( mode: str='monitoring-locations', monitoring_location
 
 Retrieve USGS water services records.
 
-Purpose:
-    Retrieve USGS water services records through USGS Water Data. Use ``mode`` to select among
+#### 🎯 Purpose
+
+Retrieve USGS water services records through USGS Water Data. Use ``mode`` to select among
     ``latest-continuous``, ``latest-daily``, ``monitoring-locations``, ``time-series-metadata``.
     Result-count arguments bound the amount of data requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``latest-
-        continuous``, ``latest-daily``, ``monitoring-locations``, ``time-series-metadata``.
-    monitoring_location_id: USGS monitoring-location identifier used to target a specific site.
-    state_code: State code used to restrict provider records.
-    county_code: County code used to restrict provider records.
-    site_type: USGS site-type code used to restrict monitoring locations.
-    parameter_code: USGS parameter code identifying the measured property.
-    limit: Maximum number of records or items to return.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``latest- continuous``, ``latest-daily``, ``monitoring-locations``, ``time-series-metadata``.
+- `monitoring_location_id`
+  - USGS monitoring-location identifier used to target a specific site.
+- `state_code`
+  - State code used to restrict provider records.
+- `county_code`
+  - County code used to restrict provider records.
+- `site_type`
+  - USGS site-type code used to restrict monitoring locations.
+- `parameter_code`
+  - USGS parameter code identifying the measured property.
+- `limit`
+  - Maximum number of records or items to return.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_uv_index
+### 🔧 fetch_uv_index
 
 **Index:** 54
 
@@ -2046,29 +2662,37 @@ def fetch_uv_index( mode: str='daily-zip', zip_code: str='', city: str='', state
 
 Retrieve EPA UV Index current and forecast data.
 
-Purpose:
-    Retrieve EPA UV Index current and forecast data through EPA UV Index. Use ``mode`` to select
+#### 🎯 Purpose
+
+Retrieve EPA UV Index current and forecast data through EPA UV Index. Use ``mode`` to select
     among ``daily-city-state``, ``daily-zip``, ``hourly-city-state``, ``hourly-zip``.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``daily-
-        city-state``, ``daily-zip``, ``hourly-city-state``, ``hourly-zip``.
-    zip_code: Provider code identifying or filtering zip.
-    city: City name used to locate or filter provider records.
-    state: State name or abbreviation used to locate or filter provider records.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``daily- city-state``, ``daily-zip``, ``hourly-city-state``, ``hourly-zip``.
+- `zip_code`
+  - Provider code identifying or filtering zip.
+- `city`
+  - City name used to locate or filter provider records.
+- `state`
+  - State name or abbreviation used to locate or filter provider records.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_web_page
+### 🔧 fetch_web_page
 
 **Index:** 55
 
@@ -2078,23 +2702,29 @@ def fetch_web_page( url: str, time: int=10 ) -> Any
 
 Retrieve HTTP web page retrieval and HTML extraction.
 
-Purpose:
-    Retrieve HTTP web page retrieval and HTML extraction through web fetcher.
+#### 🎯 Purpose
 
-Args:
-    url: URL or URI value used as the request or parsing source.
-    time: Request timeout in seconds.
+Retrieve HTTP web page retrieval and HTML extraction through web fetcher.
 
-Returns:
-    Result | None: Fonky result wrapper containing the provider or HTTP response.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `url`
+  - URL or URI value used as the request or parsing source.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Result | None: Fonky result wrapper containing the provider or HTTP response.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_wikipedia
+### 🔧 fetch_wikipedia
 
 **Index:** 56
 
@@ -2104,27 +2734,35 @@ def fetch_wikipedia( question: str, language: str | None=None, max_documents: in
 
 Retrieve Wikipedia documents.
 
-Purpose:
-    Retrieve Wikipedia documents through Wikipedia. The query text determines the records or
+#### 🎯 Purpose
+
+Retrieve Wikipedia documents through Wikipedia. The query text determines the records or
     documents matched by the provider. Result-count arguments bound the amount of data
     requested. Boolean options control retrieval depth or supplemental content.
 
-Args:
-    question: Search text, lookup value, or provider query submitted by the caller.
-    language: Language code used for provider results or parsing.
-    max_documents: Maximum number of documents to retrieve.
-    include_metadata: Whether provider metadata should be included with retrieved content.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `question`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `language`
+  - Language code used for provider results or parsing.
+- `max_documents`
+  - Maximum number of documents to retrieve.
+- `include_metadata`
+  - Whether provider metadata should be included with retrieved content.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_wonder
+### 🔧 fetch_wonder
 
 **Index:** 57
 
@@ -2134,28 +2772,35 @@ def fetch_wonder( mode: str='metadata_template', dataset_id: str='D76', request_
 
 Retrieve CDC WONDER template and query submission.
 
-Purpose:
-    Retrieve CDC WONDER template and query submission through CDC WONDER. Use ``mode`` to select
+#### 🎯 Purpose
+
+Retrieve CDC WONDER template and query submission through CDC WONDER. Use ``mode`` to select
     among ``metadata_template``, ``query_xml``.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include
-        ``metadata_template``, ``query_xml``.
-    dataset_id: Provider dataset identifier.
-    request_xml: CDC WONDER XML request document submitted for query execution.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``metadata_template``, ``query_xml``.
+- `dataset_id`
+  - Provider dataset identifier.
+- `request_xml`
+  - CDC WONDER XML request document submitted for query execution.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### fetch_world_population
+### 🔧 fetch_world_population
 
 **Index:** 58
 
@@ -2165,32 +2810,41 @@ def fetch_world_population( mode: str='catalog', query: str='', asset_path: str=
 
 Retrieve WorldPop catalog and raster metadata.
 
-Purpose:
-    Retrieve WorldPop catalog and raster metadata through WorldPop. Use ``mode`` to select among
+#### 🎯 Purpose
+
+Retrieve WorldPop catalog and raster metadata through WorldPop. Use ``mode`` to select among
     ``catalog``, ``raster_metadata``, ``search``. The query text determines the records or
     documents matched by the provider. Result-count arguments bound the amount of data
     requested.
 
-Args:
-    mode: Operation selector. Supported values detected in the implementation include ``catalog``,
-        ``raster_metadata``, ``search``.
-    query: Search text, lookup value, or provider query submitted by the caller.
-    asset_path: Path identifying the asset resource.
-    page: One-based result page to request.
-    page_size: Maximum number of records requested per page.
-    time: Request timeout in seconds.
+#### 📥 Arguments
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``catalog``, ``raster_metadata``, ``search``.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `asset_path`
+  - Path identifying the asset resource.
+- `page`
+  - One-based result page to request.
+- `page_size`
+  - Maximum number of records requested per page.
+- `time`
+  - Request timeout in seconds.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### geocode_coordinates
+### 🔧 geocode_coordinates
 
 **Index:** 59
 
@@ -2200,25 +2854,31 @@ def geocode_coordinates( lat: float, long: float ) -> Any
 
 Geocode coordinates.
 
-Purpose:
-    Geocode coordinates using Google Maps. Coordinate and bounding arguments constrain
+#### 🎯 Purpose
+
+Geocode coordinates using Google Maps. Coordinate and bounding arguments constrain
     geographic scope when supported.
 
-Args:
-    lat: Latitude in decimal degrees.
-    long: Longitude in decimal degrees.
+#### 📥 Arguments
 
-Returns:
-    str | None: Text produced by the operation.
+- `lat`
+  - Latitude in decimal degrees.
+- `long`
+  - Longitude in decimal degrees.
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+str | None: Text produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### geocode_location
+### 🔧 geocode_location
 
 **Index:** 60
 
@@ -2228,23 +2888,28 @@ def geocode_location( address: str ) -> Any
 
 Geocode location.
 
-Purpose:
-    Geocode location using Google Maps.
+#### 🎯 Purpose
 
-Args:
-    address: Street address or place description used for geocoding, validation, or routing.
+Geocode location using Google Maps.
 
-Returns:
-    Tuple[float, float]: Latitude and longitude coordinate pair.
+#### 📥 Arguments
 
-Raises:
-    ValueError: If a required value is missing, blank, or outside the supported range.
+- `address`
+  - Street address or place description used for geocoding, validation, or routing.
+
+#### 📤 Returns
+
+Tuple[float, float]: Latitude and longitude coordinate pair.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_arxiv
+### 🔧 load_arxiv
 
 **Index:** 61
 
@@ -2254,23 +2919,28 @@ def load_arxiv( question: str ) -> Any
 
 Load ArXiv research documents.
 
-Purpose:
-    Load ArXiv research documents using the ArXiv loader. The query text determines the records
+#### 🎯 Purpose
+
+Load ArXiv research documents using the ArXiv loader. The query text determines the records
     or documents matched by the provider.
 
-Args:
-    question: Search query or prompt submitted to the backing loader.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `question`
+  - Search query or prompt submitted to the backing loader.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_aws_bucket
+### 🔧 load_aws_bucket
 
 **Index:** 62
 
@@ -2280,28 +2950,39 @@ def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id:
 
 Load documents from an Amazon S3 bucket.
 
-Purpose:
-    Load documents from an Amazon S3 bucket using the Amazon S3 bucket loader.
+#### 🎯 Purpose
 
-Args:
-    bucket: Storage bucket name.
-    prefix: Optional object-name prefix used to restrict cloud storage results.
-    aws_access_key_id: Provider identifier for the selected aws access key.
-    aws_secret_access_key: AWS credential or configuration value for secret access key.
-    aws_session_token: AWS credential or configuration value for session token.
-    region_name: Cloud region name used to configure the storage client.
-    endpoint_url: Optional alternate service endpoint URL.
+Load documents from an Amazon S3 bucket using the Amazon S3 bucket loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `bucket`
+  - Storage bucket name.
+- `prefix`
+  - Optional object-name prefix used to restrict cloud storage results.
+- `aws_access_key_id`
+  - Provider identifier for the selected aws access key.
+- `aws_secret_access_key`
+  - AWS credential or configuration value for secret access key.
+- `aws_session_token`
+  - AWS credential or configuration value for session token.
+- `region_name`
+  - Cloud region name used to configure the storage client.
+- `endpoint_url`
+  - Optional alternate service endpoint URL.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_aws_file
+### 🔧 load_aws_file
 
 **Index:** 63
 
@@ -2311,27 +2992,37 @@ def load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str]=None,
 
 Load an Amazon S3 object.
 
-Purpose:
-    Load an Amazon S3 object using the Amazon S3 file loader.
+#### 🎯 Purpose
 
-Args:
-    bucket: Storage bucket name.
-    key: Amazon S3 object key.
-    aws_access_key_id: Provider identifier for the selected aws access key.
-    aws_secret_access_key: AWS credential or configuration value for secret access key.
-    aws_session_token: AWS credential or configuration value for session token.
-    region_name: Cloud region name used to configure the storage client.
+Load an Amazon S3 object using the Amazon S3 file loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `bucket`
+  - Storage bucket name.
+- `key`
+  - Amazon S3 object key.
+- `aws_access_key_id`
+  - Provider identifier for the selected aws access key.
+- `aws_secret_access_key`
+  - AWS credential or configuration value for secret access key.
+- `aws_session_token`
+  - AWS credential or configuration value for session token.
+- `region_name`
+  - Cloud region name used to configure the storage client.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_csv
+### 🔧 load_csv
 
 **Index:** 64
 
@@ -2341,26 +3032,35 @@ def load_csv( path: str, encoding: Optional[str]='utf-8', source_column: Optiona
 
 Load a CSV file.
 
-Purpose:
-    Load a CSV file using the CSV loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
-    encoding: Optional file encoding passed to the backing loader.
-    source_column: Optional CSV column whose value is stored as the document source.
-    delimiter: Field delimiter used to parse delimited text.
-    quotechar: Quote character used to parse delimited text.
+Load a CSV file using the CSV loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+- `encoding`
+  - Optional file encoding passed to the backing loader.
+- `source_column`
+  - Optional CSV column whose value is stored as the document source.
+- `delimiter`
+  - Field delimiter used to parse delimited text.
+- `quotechar`
+  - Quote character used to parse delimited text.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_email
+### 🔧 load_email
 
 **Index:** 65
 
@@ -2370,24 +3070,31 @@ def load_email( path: str, mode: str='single', attachments: bool=True ) -> Any
 
 Load an email message.
 
-Purpose:
-    Load an email message using the email loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
-    mode: Operation mode used to select the provider or processing workflow.
-    attachments: Whether email attachments should be included when supported.
+Load an email message using the email loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `attachments`
+  - Whether email attachments should be included when supported.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_excel
+### 🔧 load_excel
 
 **Index:** 66
 
@@ -2397,24 +3104,31 @@ def load_excel( path: str, mode: str='elements', has_headers: bool=True ) -> Any
 
 Load an Excel workbook.
 
-Purpose:
-    Load an Excel workbook using the Excel loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
-    mode: Operation mode used to select the provider or processing workflow.
-    has_headers: Whether the first spreadsheet row should be treated as column headers.
+Load an Excel workbook using the Excel loader.
 
-Returns:
-    List[Document]: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `has_headers`
+  - Whether the first spreadsheet row should be treated as column headers.
+
+#### 📤 Returns
+
+List[Document]: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_github
+### 🔧 load_github
 
 **Index:** 67
 
@@ -2424,25 +3138,33 @@ def load_github( url: str, repo: str, branch: str, filetype: str='.md' ) -> Any
 
 Load files from a GitHub repository.
 
-Purpose:
-    Load files from a GitHub repository using the GitHub loader.
+#### 🎯 Purpose
 
-Args:
-    url: URL used by the web or repository loader.
-    repo: GitHub repository name or owner/repository path.
-    branch: Repository branch to inspect.
-    filetype: File suffix filter used when loading repository files.
+Load files from a GitHub repository using the GitHub loader.
 
-Returns:
-    List[Document]: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `url`
+  - URL used by the web or repository loader.
+- `repo`
+  - GitHub repository name or owner/repository path.
+- `branch`
+  - Repository branch to inspect.
+- `filetype`
+  - File suffix filter used when loading repository files.
+
+#### 📤 Returns
+
+List[Document]: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_google_bucket
+### 🔧 load_google_bucket
 
 **Index:** 68
 
@@ -2452,26 +3174,34 @@ def load_google_bucket( project_name: str, bucket: str, prefix: Optional[str]=No
 
 Load documents from a Google Cloud Storage bucket.
 
-Purpose:
-    Load documents from a Google Cloud Storage bucket using the Google Cloud Storage bucket
+#### 🎯 Purpose
+
+Load documents from a Google Cloud Storage bucket using the Google Cloud Storage bucket
     loader.
 
-Args:
-    project_name: Google Cloud project name used by the storage loader.
-    bucket: Storage bucket name.
-    prefix: Optional object-name prefix used to restrict cloud storage results.
-    continue_on_failure: Whether loading should continue when an individual object fails.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `project_name`
+  - Google Cloud project name used by the storage loader.
+- `bucket`
+  - Storage bucket name.
+- `prefix`
+  - Optional object-name prefix used to restrict cloud storage results.
+- `continue_on_failure`
+  - Whether loading should continue when an individual object fails.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_google_cloud_file
+### 🔧 load_google_cloud_file
 
 **Index:** 69
 
@@ -2481,24 +3211,31 @@ def load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any
 
 Load a Google Cloud Storage object.
 
-Purpose:
-    Load a Google Cloud Storage object using the Google Cloud Storage loader.
+#### 🎯 Purpose
 
-Args:
-    project_name: Google Cloud project name used by the storage loader.
-    bucket: Storage bucket name.
-    blob: Cloud storage object name.
+Load a Google Cloud Storage object using the Google Cloud Storage loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `project_name`
+  - Google Cloud project name used by the storage loader.
+- `bucket`
+  - Storage bucket name.
+- `blob`
+  - Cloud storage object name.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_google_drive_file
+### 🔧 load_google_drive_file
 
 **Index:** 70
 
@@ -2508,24 +3245,30 @@ def load_google_drive_file( file_id: str, recursive: bool=False ) -> Any
 
 Load a Google Drive file.
 
-Purpose:
-    Load a Google Drive file using the Google Drive loader. Boolean options control retrieval
+#### 🎯 Purpose
+
+Load a Google Drive file using the Google Drive loader. Boolean options control retrieval
     depth or supplemental content.
 
-Args:
-    file_id: Provider file identifier used to load a single file.
-    recursive: Whether the loader should traverse nested provider or URL resources.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `file_id`
+  - Provider file identifier used to load a single file.
+- `recursive`
+  - Whether the loader should traverse nested provider or URL resources.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_google_drive_folder
+### 🔧 load_google_drive_folder
 
 **Index:** 71
 
@@ -2535,24 +3278,30 @@ def load_google_drive_folder( folder_id: str, recursive: bool=False ) -> Any
 
 Load documents from a Google Drive folder.
 
-Purpose:
-    Load documents from a Google Drive folder using the Google Drive loader. Boolean options
+#### 🎯 Purpose
+
+Load documents from a Google Drive folder using the Google Drive loader. Boolean options
     control retrieval depth or supplemental content.
 
-Args:
-    folder_id: Provider folder identifier used to load folder contents.
-    recursive: Whether the loader should traverse nested provider or URL resources.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `folder_id`
+  - Provider folder identifier used to load folder contents.
+- `recursive`
+  - Whether the loader should traverse nested provider or URL resources.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_google_speech_to_text
+### 🔧 load_google_speech_to_text
 
 **Index:** 72
 
@@ -2562,24 +3311,31 @@ def load_google_speech_to_text( project_id: str, file_path: str, config: Optiona
 
 Transcribe audio with Google Speech-to-Text.
 
-Purpose:
-    Transcribe audio with Google Speech-to-Text using the Google Speech-to-Text loader.
+#### 🎯 Purpose
 
-Args:
-    project_id: Google Cloud project identifier used by the speech loader.
-    file_path: Local filesystem path to the source file.
-    config: Optional provider configuration mapping.
+Transcribe audio with Google Speech-to-Text using the Google Speech-to-Text loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `project_id`
+  - Google Cloud project identifier used by the speech loader.
+- `file_path`
+  - Local filesystem path to the source file.
+- `config`
+  - Optional provider configuration mapping.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_html
+### 🔧 load_html
 
 **Index:** 73
 
@@ -2589,22 +3345,27 @@ def load_html( path: str ) -> Any
 
 Load an HTML document.
 
-Purpose:
-    Load an HTML document using the HTML loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
+Load an HTML document using the HTML loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_json
+### 🔧 load_json
 
 **Index:** 74
 
@@ -2614,24 +3375,31 @@ def load_json( filepath: str, is_text: bool=True, is_lines: bool=False ) -> Any
 
 Load JSON content.
 
-Purpose:
-    Load JSON content using the JSON loader.
+#### 🎯 Purpose
 
-Args:
-    filepath: Local file path used by the loader.
-    is_text: Whether JSON values should be treated as text content.
-    is_lines: Whether the JSON source uses JSON Lines format.
+Load JSON content using the JSON loader.
 
-Returns:
-    List[Document]: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `filepath`
+  - Local file path used by the loader.
+- `is_text`
+  - Whether JSON values should be treated as text content.
+- `is_lines`
+  - Whether the JSON source uses JSON Lines format.
+
+#### 📤 Returns
+
+List[Document]: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_jupyter_notebook
+### 🔧 load_jupyter_notebook
 
 **Index:** 75
 
@@ -2641,27 +3409,36 @@ def load_jupyter_notebook( path: str, include_outputs: bool=False, max_output_le
 
 Load a Jupyter notebook.
 
-Purpose:
-    Load a Jupyter notebook using the Jupyter notebook loader. Boolean options control retrieval
+#### 🎯 Purpose
+
+Load a Jupyter notebook using the Jupyter notebook loader. Boolean options control retrieval
     depth or supplemental content.
 
-Args:
-    path: Local file path used by the loader.
-    include_outputs: Whether notebook cell outputs should be included.
-    max_output_length: Maximum notebook cell output length to retain.
-    remove_newline: Whether newline characters should be removed from notebook output.
-    traceback: Whether notebook traceback output should be included.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `path`
+  - Local file path used by the loader.
+- `include_outputs`
+  - Whether notebook cell outputs should be included.
+- `max_output_length`
+  - Maximum notebook cell output length to retain.
+- `remove_newline`
+  - Whether newline characters should be removed from notebook output.
+- `traceback`
+  - Whether notebook traceback output should be included.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_markdown
+### 🔧 load_markdown
 
 **Index:** 76
 
@@ -2671,22 +3448,27 @@ def load_markdown( path: str ) -> Any
 
 Load a Markdown document.
 
-Purpose:
-    Load a Markdown document using the Markdown loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
+Load a Markdown document using the Markdown loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_onedrive
+### 🔧 load_onedrive
 
 **Index:** 77
 
@@ -2696,25 +3478,33 @@ def load_onedrive( drive_id: str, folder_path: Optional[str]=None, object_ids: O
 
 Load documents from OneDrive.
 
-Purpose:
-    Load documents from OneDrive using the OneDrive loader.
+#### 🎯 Purpose
 
-Args:
-    drive_id: OneDrive drive identifier.
-    folder_path: Optional folder path within the selected drive.
-    object_ids: Optional provider object identifiers to load.
-    auth_with_token: Whether token-based authentication should be used.
+Load documents from OneDrive using the OneDrive loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `drive_id`
+  - OneDrive drive identifier.
+- `folder_path`
+  - Optional folder path within the selected drive.
+- `object_ids`
+  - Optional provider object identifiers to load.
+- `auth_with_token`
+  - Whether token-based authentication should be used.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_open_city
+### 🔧 load_open_city
 
 **Index:** 78
 
@@ -2724,26 +3514,33 @@ def load_open_city( city_id: str, dataset_id: str, limit: int=100 ) -> Any
 
 Load an Open City dataset.
 
-Purpose:
-    Load an Open City dataset using the Open City Data loader. Result-count arguments bound the
+#### 🎯 Purpose
+
+Load an Open City dataset using the Open City Data loader. Result-count arguments bound the
     amount of data requested.
 
-Args:
-    city_id: Provider identifier for the selected city.
-    dataset_id: Provider dataset identifier.
-    limit: Maximum number of records requested from the backing source.
+#### 📥 Arguments
 
-Returns:
-    List[Document]: LangChain documents loaded from the requested source.
+- `city_id`
+  - Provider identifier for the selected city.
+- `dataset_id`
+  - Provider dataset identifier.
+- `limit`
+  - Maximum number of records requested from the backing source.
 
-Raises:
-    ValueError: Raised when a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+List[Document]: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+ValueError: Raised when a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_outlook
+### 🔧 load_outlook
 
 **Index:** 79
 
@@ -2753,22 +3550,27 @@ def load_outlook( path: str ) -> Any
 
 Load an Outlook message.
 
-Purpose:
-    Load an Outlook message using the Outlook message loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
+Load an Outlook message using the Outlook message loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_pdf
+### 🔧 load_pdf
 
 **Index:** 80
 
@@ -2778,29 +3580,41 @@ def load_pdf( path: str, mode: str='single', extract: str='plain', include: bool
 
 Load and extract a PDF file.
 
-Purpose:
-    Load and extract a PDF file using the PDF loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
-    mode: Operation mode used to select the provider or processing workflow.
-    extract: PDF text-extraction strategy used by the underlying parser.
-    include: Whether optional embedded content should be included.
-    format: Output or embedded-image format requested from the loader.
-    size: Maximum chunk size used for document splitting.
-    overlap: Number of characters or tokens repeated between adjacent chunks.
-    has_tables: Whether table-aware parsing or extraction should be enabled.
+Load and extract a PDF file using the PDF loader.
 
-Returns:
-    List[Document]: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `extract`
+  - PDF text-extraction strategy used by the underlying parser.
+- `include`
+  - Whether optional embedded content should be included.
+- `format`
+  - Output or embedded-image format requested from the loader.
+- `size`
+  - Maximum chunk size used for document splitting.
+- `overlap`
+  - Number of characters or tokens repeated between adjacent chunks.
+- `has_tables`
+  - Whether table-aware parsing or extraction should be enabled.
+
+#### 📤 Returns
+
+List[Document]: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_powerpoint
+### 🔧 load_powerpoint
 
 **Index:** 81
 
@@ -2810,23 +3624,29 @@ def load_powerpoint( path: str, mode: str='single' ) -> Any
 
 Load a PowerPoint presentation.
 
-Purpose:
-    Load a PowerPoint presentation using the PowerPoint loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
-    mode: Operation mode used to select the provider or processing workflow.
+Load a PowerPoint presentation using the PowerPoint loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_powerpoint_multiple
+### 🔧 load_powerpoint_multiple
 
 **Index:** 82
 
@@ -2836,22 +3656,27 @@ def load_powerpoint_multiple( path: str ) -> Any
 
 Load multiple PowerPoint presentation elements.
 
-Purpose:
-    Load multiple PowerPoint presentation elements using the PowerPoint loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
+Load multiple PowerPoint presentation elements using the PowerPoint loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_pubmed
+### 🔧 load_pubmed
 
 **Index:** 83
 
@@ -2861,25 +3686,31 @@ def load_pubmed( query: str, max_docs: int=5 ) -> Any
 
 Load PubMed research documents.
 
-Purpose:
-    Load PubMed research documents using the PubMed loader. The query text determines the
+#### 🎯 Purpose
+
+Load PubMed research documents using the PubMed loader. The query text determines the
     records or documents matched by the provider. Result-count arguments bound the amount of
     data requested.
 
-Args:
-    query: Search query submitted to the backing loader.
-    max_docs: Maximum number of documents requested from the backing service.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `query`
+  - Search query submitted to the backing loader.
+- `max_docs`
+  - Maximum number of documents requested from the backing service.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_spfx
+### 🔧 load_spfx
 
 **Index:** 84
 
@@ -2889,22 +3720,27 @@ def load_spfx( library_id: str ) -> Any
 
 Load a SharePoint document library.
 
-Purpose:
-    Load a SharePoint document library using the SharePoint loader.
+#### 🎯 Purpose
 
-Args:
-    library_id: SharePoint document-library identifier.
+Load a SharePoint document library using the SharePoint loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `library_id`
+  - SharePoint document-library identifier.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_spfx_folder
+### 🔧 load_spfx_folder
 
 **Index:** 85
 
@@ -2914,23 +3750,29 @@ def load_spfx_folder( library_id: str, folder_id: str ) -> Any
 
 Load a SharePoint folder.
 
-Purpose:
-    Load a SharePoint folder using the SharePoint loader.
+#### 🎯 Purpose
 
-Args:
-    library_id: SharePoint document-library identifier.
-    folder_id: Provider folder identifier used to load folder contents.
+Load a SharePoint folder using the SharePoint loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `library_id`
+  - SharePoint document-library identifier.
+- `folder_id`
+  - Provider folder identifier used to load folder contents.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_text
+### 🔧 load_text
 
 **Index:** 86
 
@@ -2940,23 +3782,29 @@ def load_text( path: str, encoding: Optional[str]=None ) -> Any
 
 Load a plain-text file.
 
-Purpose:
-    Load a plain-text file using the text loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
-    encoding: Optional file encoding passed to the backing loader.
+Load a plain-text file using the text loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+- `encoding`
+  - Optional file encoding passed to the backing loader.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_web
+### 🔧 load_web
 
 **Index:** 87
 
@@ -2966,30 +3814,41 @@ def load_web( urls: str | List[str], recursive: bool=False, max_depth: int=2, pr
 
 Load web documents.
 
-Purpose:
-    Load web documents using the web loader. Boolean options control retrieval depth or
+#### 🎯 Purpose
+
+Load web documents using the web loader. Boolean options control retrieval depth or
     supplemental content.
 
-Args:
-    urls: URL string or URL list used as web-loader input.
-    recursive: Whether nested folders, links, or provider resources should be traversed.
-    max_depth: Maximum recursion depth.
-    prevent_outside: Whether recursive web loading should exclude pages outside the seed domain.
-    timeout: Maximum time in seconds to wait for the operation.
-    ignore: Whether individual loading failures should be skipped when supported.
-    progress: Whether the underlying loader should report progress.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `urls`
+  - URL string or URL list used as web-loader input.
+- `recursive`
+  - Whether nested folders, links, or provider resources should be traversed.
+- `max_depth`
+  - Maximum recursion depth.
+- `prevent_outside`
+  - Whether recursive web loading should exclude pages outside the seed domain.
+- `timeout`
+  - Maximum time in seconds to wait for the operation.
+- `ignore`
+  - Whether individual loading failures should be skipped when supported.
+- `progress`
+  - Whether the underlying loader should report progress.
 
-Raises:
-    ValueError: Raised when a required value is missing, blank, or outside the supported range.
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+ValueError: Raised when a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_web_pages
+### 🔧 load_web_pages
 
 **Index:** 88
 
@@ -2999,26 +3858,35 @@ def load_web_pages( urls: List[str], depth: int=2, timeout: int=10, ignore: bool
 
 Load static web pages.
 
-Purpose:
-    Load static web pages using the web loader.
+#### 🎯 Purpose
 
-Args:
-    urls: URL string or URL list used as web-loader input.
-    depth: Maximum recursion depth.
-    timeout: Maximum time in seconds to wait for the operation.
-    ignore: Whether individual loading failures should be skipped when supported.
-    progress: Whether the underlying loader should report progress.
+Load static web pages using the web loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `urls`
+  - URL string or URL list used as web-loader input.
+- `depth`
+  - Maximum recursion depth.
+- `timeout`
+  - Maximum time in seconds to wait for the operation.
+- `ignore`
+  - Whether individual loading failures should be skipped when supported.
+- `progress`
+  - Whether the underlying loader should report progress.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_web_recursive
+### 🔧 load_web_recursive
 
 **Index:** 89
 
@@ -3028,25 +3896,33 @@ def load_web_recursive( url: str, depth: int=2, max_time: int=10, ignore: bool=T
 
 Recursively load web documents.
 
-Purpose:
-    Recursively load web documents using the web loader.
+#### 🎯 Purpose
 
-Args:
-    url: URL used by the web or repository loader.
-    depth: Maximum recursion depth.
-    max_time: Maximum request or crawl time in seconds.
-    ignore: Whether individual loading failures should be skipped when supported.
+Recursively load web documents using the web loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `url`
+  - URL used by the web or repository loader.
+- `depth`
+  - Maximum recursion depth.
+- `max_time`
+  - Maximum request or crawl time in seconds.
+- `ignore`
+  - Whether individual loading failures should be skipped when supported.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_wikipedia
+### 🔧 load_wikipedia
 
 **Index:** 90
 
@@ -3056,23 +3932,28 @@ def load_wikipedia( question: str ) -> Any
 
 Load Wikipedia articles.
 
-Purpose:
-    Load Wikipedia articles using the Wikipedia loader. The query text determines the records or
+#### 🎯 Purpose
+
+Load Wikipedia articles using the Wikipedia loader. The query text determines the records or
     documents matched by the provider.
 
-Args:
-    question: Search query or prompt submitted to the backing loader.
+#### 📥 Arguments
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+- `question`
+  - Search query or prompt submitted to the backing loader.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_word
+### 🔧 load_word
 
 **Index:** 91
 
@@ -3082,22 +3963,27 @@ def load_word( path: str ) -> Any
 
 Load a Word document.
 
-Purpose:
-    Load a Word document using the Word loader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
+Load a Word document using the Word loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_xml
+### 🔧 load_xml
 
 **Index:** 92
 
@@ -3107,22 +3993,27 @@ def load_xml( filepath: str ) -> Any
 
 Load an XML document.
 
-Purpose:
-    Load an XML document using the XML loader.
+#### 🎯 Purpose
 
-Args:
-    filepath: Local file path used by the loader.
+Load an XML document using the XML loader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `filepath`
+  - Local file path used by the loader.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### load_xml_tree
+### 🔧 load_xml_tree
 
 **Index:** 93
 
@@ -3132,22 +4023,27 @@ def load_xml_tree( filepath: str ) -> Any
 
 Parse an XML document tree.
 
-Purpose:
-    Parse an XML document tree using the XML loader.
+#### 🎯 Purpose
 
-Args:
-    filepath: Local file path used by the loader.
+Parse an XML document tree using the XML loader.
 
-Returns:
-    etree._ElementTree | None: XML elements matching the requested XPath expression.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `filepath`
+  - Local file path used by the loader.
+
+#### 📤 Returns
+
+etree._ElementTree | None: XML elements matching the requested XPath expression.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### nltk_chunk_sentences
+### 🔧 nltk_chunk_sentences
 
 **Index:** 94
 
@@ -3157,26 +4053,32 @@ def nltk_chunk_sentences( text: str, size: int=15 ) -> DataFrame | None
 
 Group sentence tokens into fixed-size chunks and return them as tabular data.
 
-Purpose:
-    Tokenizes lowercase text into sentences, groups the sentences into fixed-size chunks, and
+#### 🎯 Purpose
+
+Tokenizes lowercase text into sentences, groups the sentences into fixed-size chunks, and
     returns a DataFrame of chunk strings. This provides a sentence-level chunking utility for
     review or dataset preparation.
 
-Args:
-    text: Text value to process.
-    size: Maximum number of tokens or sentences grouped into each chunk.
+#### 📥 Arguments
 
-Returns:
-    DataFrame | None: Pandas DataFrame containing the processed output when the operation
+- `text`
+  - Text value to process.
+- `size`
+  - Maximum number of tokens or sentences grouped into each chunk.
+
+#### 📤 Returns
+
+DataFrame | None: Pandas DataFrame containing the processed output when the operation
     succeeds.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### nltk_chunk_words
+### 🔧 nltk_chunk_words
 
 **Index:** 95
 
@@ -3186,26 +4088,32 @@ def nltk_chunk_words( text: str, size: int=5 ) -> DataFrame | None
 
 Group word tokens into fixed-size chunks and return them as tabular data.
 
-Purpose:
-    Tokenizes lowercase text into words, groups the tokens into fixed-size chunks, and returns a
+#### 🎯 Purpose
+
+Tokenizes lowercase text into words, groups the tokens into fixed-size chunks, and returns a
     DataFrame of chunk strings. This provides a simple word-level chunking utility for downstream
     vector or dataset generation.
 
-Args:
-    text: Text value to process.
-    size: Maximum number of tokens or sentences grouped into each chunk.
+#### 📥 Arguments
 
-Returns:
-    DataFrame | None: Pandas DataFrame containing the processed output when the operation
+- `text`
+  - Text value to process.
+- `size`
+  - Maximum number of tokens or sentences grouped into each chunk.
+
+#### 📤 Returns
+
+DataFrame | None: Pandas DataFrame containing the processed output when the operation
     succeeds.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### nltk_named_entity_recognition
+### 🔧 nltk_named_entity_recognition
 
 **Index:** 96
 
@@ -3215,23 +4123,28 @@ def nltk_named_entity_recognition( text: str ) -> List[Tuple[str, str]] | None
 
 Extract named-entity text and entity labels from tagged tokens.
 
-Purpose:
-    Lowercases text, tokenizes and tags it, then applies NLTK named-entity chunking. Entity text
+#### 🎯 Purpose
+
+Lowercases text, tokenizes and tags it, then applies NLTK named-entity chunking. Entity text
     and labels are collected into tuples for downstream review or extraction workflows.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### nltk_pos_tagger
+### 🔧 nltk_pos_tagger
 
 **Index:** 97
 
@@ -3241,23 +4154,28 @@ def nltk_pos_tagger( text: str ) -> List[Tuple[str, str]] | None
 
 Assign part-of-speech tags to lowercased word tokens.
 
-Purpose:
-    Lowercases and tokenizes text, then assigns NLTK part-of-speech tags to each token. The tagged
+#### 🎯 Purpose
+
+Lowercases and tokenizes text, then assigns NLTK part-of-speech tags to each token. The tagged
     sequence is stored on the instance and returned for syntactic analysis.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### nltk_sentence_tokenizer
+### 🔧 nltk_sentence_tokenizer
 
 **Index:** 98
 
@@ -3267,23 +4185,28 @@ def nltk_sentence_tokenizer( text: str ) -> List[str] | None
 
 Tokenize text into lowercased sentence strings.
 
-Purpose:
-    Lowercases text and tokenizes it into sentence strings with NLTK. The resulting sentences are
+#### 🎯 Purpose
+
+Lowercases text and tokenizes it into sentence strings with NLTK. The resulting sentences are
     stored on the parser instance and returned to the caller.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    List[ str ] | None: List of processed text values when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+List[ str ] | None: List of processed text values when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### nltk_word_lemmatizer
+### 🔧 nltk_word_lemmatizer
 
 **Index:** 99
 
@@ -3293,23 +4216,28 @@ def nltk_word_lemmatizer( text: str ) -> List[str] | None
 
 Lemmatize lowercased word tokens with the configured WordNet lemmatizer.
 
-Purpose:
-    Lowercases text, tokenizes it, and applies WordNet lemmatization to each non-empty token. This
+#### 🎯 Purpose
+
+Lowercases text, tokenizes it, and applies WordNet lemmatization to each non-empty token. This
     produces normalized lexical forms suitable for downstream analysis.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    List[ str ] | None: List of processed text values when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+List[ str ] | None: List of processed text values when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### nltk_word_stemmer
+### 🔧 nltk_word_stemmer
 
 **Index:** 100
 
@@ -3319,23 +4247,28 @@ def nltk_word_stemmer( text: str ) -> List[str] | None
 
 Stem lowercased word tokens with the configured Porter stemmer.
 
-Purpose:
-    Lowercases text, tokenizes it, and applies Porter stemming to each non-empty token. This
+#### 🎯 Purpose
+
+Lowercases text, tokenizes it, and applies Porter stemming to each non-empty token. This
     produces stemmed tokens for lexical normalization workflows.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    List[ str ] | None: List of processed text values when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+List[ str ] | None: List of processed text values when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### nltk_word_tokenizer
+### 🔧 nltk_word_tokenizer
 
 **Index:** 101
 
@@ -3345,23 +4278,28 @@ def nltk_word_tokenizer( text: str ) -> List[str] | None
 
 Tokenize text into lowercased word tokens.
 
-Purpose:
-    Lowercases text and tokenizes it into word tokens with NLTK. The resulting list is also stored
+#### 🎯 Purpose
+
+Lowercases text and tokenizes it into word tokens with NLTK. The resulting list is also stored
     on the parser instance for reuse by later NLTK operations.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    List[ str ] | None: List of processed text values when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+List[ str ] | None: List of processed text values when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_chunk_data
+### 🔧 preprocess_chunk_data
 
 **Index:** 102
 
@@ -3371,27 +4309,33 @@ def preprocess_chunk_data( filepath: str, size: int=10 ) -> DataFrame | None
 
 Chunk a single text file into fixed-size word groups represented as tabular data.
 
-Purpose:
-    Reads a single text file, filters recognized English alphabetic tokens, groups them into
+#### 🎯 Purpose
+
+Reads a single text file, filters recognized English alphabetic tokens, groups them into
     fixed-size chunks, and returns the chunk rows as a DataFrame. This provides a compact dataset-
     ready representation of token groups.
 
-Args:
-    filepath: Path to the local source file.
-    size: Maximum number of tokens or sentences grouped into each chunk.
+#### 📥 Arguments
 
-Returns:
-    DataFrame | None: Pandas DataFrame containing the processed output when the operation
+- `filepath`
+  - Path to the local source file.
+- `size`
+  - Maximum number of tokens or sentences grouped into each chunk.
+
+#### 📤 Returns
+
+DataFrame | None: Pandas DataFrame containing the processed output when the operation
     succeeds.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_chunk_datasets
+### 🔧 preprocess_chunk_datasets
 
 **Index:** 103
 
@@ -3401,27 +4345,34 @@ def preprocess_chunk_datasets( source: str, destination: str, size: int=10 ) -> 
 
 Clean and chunk a directory of text files into spreadsheet datasets.
 
-Purpose:
-    Processes all text files in a directory through cleaning, tokenization, fixed-size chunking,
+#### 🎯 Purpose
+
+Processes all text files in a directory through cleaning, tokenization, fixed-size chunking,
     and Excel export. This creates spreadsheet datasets suitable for review, labeling, or later
     ingestion.
 
-Args:
-    source: Directory containing source text files.
-    destination: Directory where generated output files are written.
-    size: Maximum number of tokens or sentences grouped into each chunk.
+#### 📥 Arguments
 
-Returns:
-    DataFrame: Pandas DataFrame containing the processed output.
+- `source`
+  - Directory containing source text files.
+- `destination`
+  - Directory where generated output files are written.
+- `size`
+  - Maximum number of tokens or sentences grouped into each chunk.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### 📤 Returns
+
+DataFrame: Pandas DataFrame containing the processed output.
+
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_chunk_files
+### 🔧 preprocess_chunk_files
 
 **Index:** 104
 
@@ -3431,26 +4382,32 @@ def preprocess_chunk_files( source: str, destination: str ) -> None
 
 Split text files into sentence chunks and write chunked output files.
 
-Purpose:
-    Reads each file in a source directory, splits text into sentences, and writes the resulting
+#### 🎯 Purpose
+
+Reads each file in a source directory, splits text into sentences, and writes the resulting
     sentence sequence to matching output files. This prepares cleaned corpora for chunk-based
     downstream workflows.
 
-Args:
-    source: Directory containing source text files.
-    destination: Directory where generated output files are written.
+#### 📥 Arguments
 
-Returns:
-    None: The operation completes without producing a return value.
+- `source`
+  - Directory containing source text files.
+- `destination`
+  - Directory where generated output files are written.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### 📤 Returns
+
+None: The operation completes without producing a return value.
+
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_clean_file
+### 🔧 preprocess_clean_file
 
 **Index:** 105
 
@@ -3460,25 +4417,30 @@ def preprocess_clean_file( filepath: str ) -> str | None
 
 Apply the standard Fonky text-cleaning pipeline to a single file.
 
-Purpose:
-    Runs a single file through the parser cleaning pipeline, including whitespace normalization,
+#### 🎯 Purpose
+
+Runs a single file through the parser cleaning pipeline, including whitespace normalization,
     encoding cleanup, symbol removal, fragment filtering, lemmatization, and stop-word removal.
     The method returns the cleaned text instead of writing a file.
 
-Args:
-    filepath: Path to the local source file.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `filepath`
+  - Path to the local source file.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_clean_files
+### 🔧 preprocess_clean_files
 
 **Index:** 106
 
@@ -3488,26 +4450,32 @@ def preprocess_clean_files( source: str, destination: str ) -> None
 
 Apply the standard Fonky text-cleaning pipeline to every file in a directory.
 
-Purpose:
-    Processes every file in a source directory through the standard cleaning pipeline and writes
+#### 🎯 Purpose
+
+Processes every file in a source directory through the standard cleaning pipeline and writes
     cleaned text to a destination directory. This supports batch preparation of corpora before
     chunking or dataset creation.
 
-Args:
-    source: Directory containing source text files.
-    destination: Directory where generated output files are written.
+#### 📥 Arguments
 
-Returns:
-    None: The operation completes without producing a return value.
+- `source`
+  - Directory containing source text files.
+- `destination`
+  - Directory where generated output files are written.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### 📤 Returns
+
+None: The operation completes without producing a return value.
+
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_collapse_whitespace
+### 🔧 preprocess_collapse_whitespace
 
 **Index:** 107
 
@@ -3517,24 +4485,29 @@ def preprocess_collapse_whitespace( text: str ) -> str | None
 
 Normalize spacing by lowercasing text and collapsing repeated whitespace.
 
-Purpose:
-    Creates a compact lowercase representation of text by splitting on whitespace and joining
+#### 🎯 Purpose
+
+Creates a compact lowercase representation of text by splitting on whitespace and joining
     tokens with single spaces. This prepares raw text for deterministic comparison, cleaning, and
     tokenization steps.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_convert_jsonl
+### 🔧 preprocess_convert_jsonl
 
 **Index:** 108
 
@@ -3544,27 +4517,34 @@ def preprocess_convert_jsonl( source: str, destination: str, size: int=10 ) -> N
 
 Convert text files into line-oriented JSON-like chunk output.
 
-Purpose:
-    Splits text files into fixed-size token groups and writes each group using a JSON-like line-
+#### 🎯 Purpose
+
+Splits text files into fixed-size token groups and writes each group using a JSON-like line-
     oriented representation. This supports quick conversion of raw text corpora into chunked
     training or testing artifacts.
 
-Args:
-    source: Directory containing source text files.
-    destination: Directory where generated output files are written.
-    size: Maximum number of tokens or sentences grouped into each chunk.
+#### 📥 Arguments
 
-Returns:
-    None: The operation completes without producing a return value.
+- `source`
+  - Directory containing source text files.
+- `destination`
+  - Directory where generated output files are written.
+- `size`
+  - Maximum number of tokens or sentences grouped into each chunk.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### 📤 Returns
+
+None: The operation completes without producing a return value.
+
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_create_frequency_distribution
+### 🔧 preprocess_create_frequency_distribution
 
 **Index:** 109
 
@@ -3574,24 +4554,29 @@ def preprocess_create_frequency_distribution( tokens: List[str] ) -> DataFrame |
 
 Build a word-frequency table from a token sequence.
 
-Purpose:
-    Counts token occurrences with NLTK frequency distribution support and returns a labeled pandas
+#### 🎯 Purpose
+
+Counts token occurrences with NLTK frequency distribution support and returns a labeled pandas
     DataFrame. The output provides a simple word-frequency table for analysis and reporting.
 
-Args:
-    tokens: Token sequence used by the processing operation.
+#### 📥 Arguments
 
-Returns:
-    DataFrame | None: Pandas DataFrame containing the processed output when the operation
+- `tokens`
+  - Token sequence used by the processing operation.
+
+#### 📤 Returns
+
+DataFrame | None: Pandas DataFrame containing the processed output when the operation
     succeeds.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_create_vectors
+### 🔧 preprocess_create_vectors
 
 **Index:** 110
 
@@ -3601,24 +4586,29 @@ def preprocess_create_vectors( tokens: List[str] ) -> DataFrame | None
 
 Create TF-IDF vectors for token values.
 
-Purpose:
-    Builds one-token documents, fits a TF-IDF vectorizer, and maps each token to its vector
+#### 🎯 Purpose
+
+Builds one-token documents, fits a TF-IDF vectorizer, and maps each token to its vector
     representation. This supplies lightweight vector features for lexical comparison workflows.
 
-Args:
-    tokens: Token sequence used by the processing operation.
+#### 📥 Arguments
 
-Returns:
-    DataFrame | None: Pandas DataFrame containing the processed output when the operation
+- `tokens`
+  - Token sequence used by the processing operation.
+
+#### 📤 Returns
+
+DataFrame | None: Pandas DataFrame containing the processed output when the operation
     succeeds.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_create_vocabulary
+### 🔧 preprocess_create_vocabulary
 
 **Index:** 111
 
@@ -3628,23 +4618,28 @@ def preprocess_create_vocabulary( tokens: List[str] ) -> Series | None
 
 Extract the vocabulary column from a token-frequency table.
 
-Purpose:
-    Counts token occurrences and returns the unique token column as a pandas Series. This gives
+#### 🎯 Purpose
+
+Counts token occurrences and returns the unique token column as a pandas Series. This gives
     downstream routines a vocabulary list derived from the active token stream.
 
-Args:
-    tokens: Token sequence used by the processing operation.
+#### 📥 Arguments
 
-Returns:
-    Series | None: Pandas Series containing the processed output when the operation succeeds.
+- `tokens`
+  - Token sequence used by the processing operation.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+Series | None: Pandas Series containing the processed output when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_create_wordbag
+### 🔧 preprocess_create_wordbag
 
 **Index:** 112
 
@@ -3654,25 +4649,30 @@ def preprocess_create_wordbag( tokens: List[str] ) -> DataFrame | None
 
 Build a bag-of-words table from a token sequence.
 
-Purpose:
-    Builds a bag-of-words representation by extracting unique terms from the token frequency
+#### 🎯 Purpose
+
+Builds a bag-of-words representation by extracting unique terms from the token frequency
     distribution. The returned DataFrame supports simple vocabulary inspection and feature
     preparation.
 
-Args:
-    tokens: Token sequence used by the processing operation.
+#### 📥 Arguments
 
-Returns:
-    DataFrame | None: Pandas DataFrame containing the processed output when the operation
+- `tokens`
+  - Token sequence used by the processing operation.
+
+#### 📤 Returns
+
+DataFrame | None: Pandas DataFrame containing the processed output when the operation
     succeeds.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_encode_sentences
+### 🔧 preprocess_encode_sentences
 
 **Index:** 113
 
@@ -3682,24 +4682,30 @@ def preprocess_encode_sentences( tokens: List[str], model: str='all-MiniLM-L6-v2
 
 Generate sentence-transformer embeddings for normalized token values.
 
-Purpose:
-    Lemmatizes token values and encodes them with a SentenceTransformer model. The returned tuple
+#### 🎯 Purpose
+
+Lemmatizes token values and encodes them with a SentenceTransformer model. The returned tuple
     pairs token text with a NumPy embedding matrix for semantic-search workflows.
 
-Args:
-    tokens: Token sequence used by the processing operation.
-    model: Sentence-transformer model used to encode the query or token sequence.
+#### 📥 Arguments
 
-Returns:
-    Tuple[ List[ str ], np.ndarray ]: Token values paired with the generated embedding matrix.
+- `tokens`
+  - Token sequence used by the processing operation.
+- `model`
+  - Sentence-transformer model used to encode the query or token sequence.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+Tuple[ List[ str ], np.ndarray ]: Token values paired with the generated embedding matrix.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_load_text
+### 🔧 preprocess_load_text
 
 **Index:** 114
 
@@ -3709,25 +4715,30 @@ def preprocess_load_text( filepath: str ) -> str | None
 
 Read UTF-8 text from a local file and return the raw string.
 
-Purpose:
-    Loads a local text file using UTF-8 with ignored decode errors so downstream cleaning routines
+#### 🎯 Purpose
+
+Loads a local text file using UTF-8 with ignored decode errors so downstream cleaning routines
     can operate on a plain string. The method records the active file path and raises a project
     Error when the file cannot be read.
 
-Args:
-    filepath: Path to the local source file.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `filepath`
+  - Path to the local source file.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_normalize_text
+### 🔧 preprocess_normalize_text
 
 **Index:** 115
 
@@ -3737,23 +4748,28 @@ def preprocess_normalize_text( text: str ) -> str | None
 
 Convert text to lowercase for stable downstream comparison and tokenization.
 
-Purpose:
-    Converts text to lowercase without otherwise changing content. This provides a simple
+#### 🎯 Purpose
+
+Converts text to lowercase without otherwise changing content. This provides a simple
     normalization stage for workflows that need case-insensitive matching or tokenization.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_encodings
+### 🔧 preprocess_remove_encodings
 
 **Index:** 116
 
@@ -3763,24 +4779,29 @@ def preprocess_remove_encodings( text: str ) -> str | None
 
 Resolve HTML entities, normalize Unicode characters, and remove control characters.
 
-Purpose:
-    Decodes common escaped sequences when possible, resolves HTML entities, normalizes Unicode to
+#### 🎯 Purpose
+
+Decodes common escaped sequences when possible, resolves HTML entities, normalizes Unicode to
     compatibility form, and strips control characters. This reduces text artifacts from scraped,
     copied, or encoded sources.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_errors
+### 🔧 preprocess_remove_errors
 
 **Index:** 117
 
@@ -3790,23 +4811,28 @@ def preprocess_remove_errors( text: str ) -> str
 
 Filter tokens against the NLTK English words corpus.
 
-Purpose:
-    Uses the NLTK English words corpus as a vocabulary filter and keeps only tokens recognized by
+#### 🎯 Purpose
+
+Uses the NLTK English words corpus as a vocabulary filter and keeps only tokens recognized by
     that corpus. This reduces obvious OCR, spelling, and parsing artifacts before later analysis.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str: Processed text value produced by the operation.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str: Processed text value produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_fragments
+### 🔧 preprocess_remove_fragments
 
 **Index:** 118
 
@@ -3816,23 +4842,28 @@ def preprocess_remove_fragments( text: str ) -> str | None
 
 Remove very short token fragments from normalized text.
 
-Purpose:
-    Removes short text fragments that are unlikely to be useful lexical units. This helps reduce
+#### 🎯 Purpose
+
+Removes short text fragments that are unlikely to be useful lexical units. This helps reduce
     noise produced by OCR, markup stripping, punctuation removal, and aggressive token cleanup.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_headers
+### 🔧 preprocess_remove_headers
 
 **Index:** 119
 
@@ -3842,29 +4873,37 @@ def preprocess_remove_headers( filepath: str, lines: int=50, headers: int=3, foo
 
 Detect and remove repeated page headers and footers from a text file.
 
-Purpose:
-    Splits a text file into page-sized blocks and identifies repeated leading and trailing line
+#### 🎯 Purpose
+
+Splits a text file into page-sized blocks and identifies repeated leading and trailing line
     groups. Matching header and footer blocks are removed to produce cleaner body text for
     analysis.
 
-Args:
-    filepath: Path to the local source file.
-    lines: Number of lines treated as one page during header and footer detection.
-    headers: Number of leading lines considered as a repeated page header.
-    footers: Number of trailing lines considered as a repeated page footer.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `filepath`
+  - Path to the local source file.
+- `lines`
+  - Number of lines treated as one page during header and footer detection.
+- `headers`
+  - Number of leading lines considered as a repeated page header.
+- `footers`
+  - Number of trailing lines considered as a repeated page footer.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
     ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_html
+### 🔧 preprocess_remove_html
 
 **Index:** 120
 
@@ -3874,23 +4913,28 @@ def preprocess_remove_html( text: str ) -> str | None
 
 Extract visible text from HTML markup.
 
-Purpose:
-    Parses HTML input with BeautifulSoup and extracts visible text content. This allows raw HTML
+#### 🎯 Purpose
+
+Parses HTML input with BeautifulSoup and extracts visible text content. This allows raw HTML
     fragments or pages to enter the same cleaning pipeline used for plain text.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_images
+### 🔧 preprocess_remove_images
 
 **Index:** 121
 
@@ -3900,23 +4944,28 @@ def preprocess_remove_images( text: str ) -> str
 
 Remove Markdown image references, HTML image elements, and direct image URLs.
 
-Purpose:
-    Removes Markdown image syntax, HTML image tags, and direct image URLs from text. This keeps
+#### 🎯 Purpose
+
+Removes Markdown image syntax, HTML image tags, and direct image URLs from text. This keeps
     descriptive text while excluding image-only references that do not support text processing.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str: Processed text value produced by the operation.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str: Processed text value produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_markdown
+### 🔧 preprocess_remove_markdown
 
 **Index:** 122
 
@@ -3926,24 +4975,29 @@ def preprocess_remove_markdown( text: str ) -> str | None
 
 Remove common Markdown links, image syntax, and formatting markers.
 
-Purpose:
-    Removes common Markdown link, image, and inline-formatting syntax from lowercase text. This
+#### 🎯 Purpose
+
+Removes common Markdown link, image, and inline-formatting syntax from lowercase text. This
     converts README-style or documentation-style content into cleaner text for downstream
     analysis.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_numbers
+### 🔧 preprocess_remove_numbers
 
 **Index:** 123
 
@@ -3953,23 +5007,28 @@ def preprocess_remove_numbers( text: str ) -> str | None
 
 Remove decimal digits from text.
 
-Purpose:
-    Removes digit sequences from lowercase text. This supports workflows that need lexical content
+#### 🎯 Purpose
+
+Removes digit sequences from lowercase text. This supports workflows that need lexical content
     without numeric values.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_numerals
+### 🔧 preprocess_remove_numerals
 
 **Index:** 124
 
@@ -3979,24 +5038,29 @@ def preprocess_remove_numerals( text: str ) -> str | None
 
 Remove Roman-numeral patterns from text.
 
-Purpose:
-    Applies the configured Roman-numeral expression to lowercase text and replaces matching
+#### 🎯 Purpose
+
+Applies the configured Roman-numeral expression to lowercase text and replaces matching
     numeral tokens with spaces. This reduces numbering artifacts in outlines, headings, and
     document sections.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_punctuation
+### 🔧 preprocess_remove_punctuation
 
 **Index:** 125
 
@@ -4006,24 +5070,29 @@ def preprocess_remove_punctuation( text: str ) -> str
 
 Strip punctuation from tokenized text while preserving word and spacing content.
 
-Purpose:
-    Tokenizes lowercase text and removes punctuation marks from each token. The method preserves
+#### 🎯 Purpose
+
+Tokenizes lowercase text and removes punctuation marks from each token. The method preserves
     alphanumeric token content while returning a whitespace-joined string for later cleaning
     stages.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str: Processed text value produced by the operation.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str: Processed text value produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_stopwords
+### 🔧 preprocess_remove_stopwords
 
 **Index:** 126
 
@@ -4033,23 +5102,28 @@ def preprocess_remove_stopwords( text: str ) -> str | None
 
 Remove English stop words from tokenized text.
 
-Purpose:
-    Tokenizes lowercase text and removes standard English stop words. This leaves a reduced token
+#### 🎯 Purpose
+
+Tokenizes lowercase text and removes standard English stop words. This leaves a reduced token
     stream better suited for frequency analysis, vocabulary extraction, and embedding preparation.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_symbols
+### 🔧 preprocess_remove_symbols
 
 **Index:** 127
 
@@ -4059,23 +5133,28 @@ def preprocess_remove_symbols( text: str ) -> str | None
 
 Remove configured symbol characters from normalized text.
 
-Purpose:
-    Removes characters listed in the parser symbol set from lowercase text. This produces cleaner
+#### 🎯 Purpose
+
+Removes characters listed in the parser symbol set from lowercase text. This produces cleaner
     text for tokenization, word-frequency generation, and embedding workflows.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str | None: Processed text value when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str | None: Processed text value when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_remove_xml
+### 🔧 preprocess_remove_xml
 
 **Index:** 128
 
@@ -4085,24 +5164,29 @@ def preprocess_remove_xml( text: str ) -> str
 
 Extract inner text from XML-like markup while recovering malformed fragments when possible.
 
-Purpose:
-    Wraps XML-like text in a temporary root node, parses it with recovery enabled, and
+#### 🎯 Purpose
+
+Wraps XML-like text in a temporary root node, parses it with recovery enabled, and
     concatenates element text and tail content. This retains readable content while discarding
     markup structure.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    str: Processed text value produced by the operation.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+str: Processed text value produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_semantic_search
+### 🔧 preprocess_semantic_search
 
 **Index:** 129
 
@@ -4112,23 +5196,30 @@ def preprocess_semantic_search( query: str, tokens: List[str], model: str='all-M
 
 Search token content by semantic similarity.
 
-Purpose:
-    Creates sentence embeddings internally and returns the highest-scoring token matches for
+#### 🎯 Purpose
+
+Creates sentence embeddings internally and returns the highest-scoring token matches for
     the supplied query. The wrapper keeps NumPy arrays and SentenceTransformer instances out
     of the agent-facing JSON schema.
 
-Args:
-    query: Natural-language query used for semantic matching.
-    tokens: Text values searched for semantic similarity.
-    model: Sentence-transformer model name used to create embeddings.
-    top: Maximum number of matches to return.
+#### 📥 Arguments
 
-Returns:
-    List[Tuple[str, float]]: Highest-scoring text values and similarity scores.
+- `query`
+  - Natural-language query used for semantic matching.
+- `tokens`
+  - Text values searched for semantic similarity.
+- `model`
+  - Sentence-transformer model name used to create embeddings.
+- `top`
+  - Maximum number of matches to return.
+
+#### 📤 Returns
+
+List[Tuple[str, float]]: Highest-scoring text values and similarity scores.
 
 ---
 
-### preprocess_split_pages
+### 🔧 preprocess_split_pages
 
 **Index:** 130
 
@@ -4138,26 +5229,32 @@ def preprocess_split_pages( filepath: str, num: int=50 ) -> List[str] | None
 
 Split a text file into page-sized text blocks.
 
-Purpose:
-    Reads a plain-text file and splits it into page-sized blocks using form-feed characters when
+#### 🎯 Purpose
+
+Reads a plain-text file and splits it into page-sized blocks using form-feed characters when
     available or fixed line counts otherwise. The resulting list can be used for page- level
     cleaning and analysis.
 
-Args:
-    filepath: Path to the local source file.
-    num: Number of lines used as the fallback page boundary.
+#### 📥 Arguments
 
-Returns:
-    List[ str ] | None: List of processed text values when the operation succeeds.
+- `filepath`
+  - Path to the local source file.
+- `num`
+  - Number of lines used as the fallback page boundary.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### 📤 Returns
+
+List[ str ] | None: List of processed text values when the operation succeeds.
+
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_split_paragraphs
+### 🔧 preprocess_split_paragraphs
 
 **Index:** 131
 
@@ -4167,23 +5264,28 @@ def preprocess_split_paragraphs( filepath: str ) -> DataFrame | None
 
 Read a text file and return paragraph-like text blocks as tabular data.
 
-Purpose:
-    Reads a text file and converts separated text blocks into a pandas DataFrame. The fallback
+#### 🎯 Purpose
+
+Reads a text file and converts separated text blocks into a pandas DataFrame. The fallback
     Latin-1 branch preserves the ability to process files that fail UTF-8 decoding.
 
-Args:
-    filepath: Path to the local source file.
+#### 📥 Arguments
 
-Returns:
-    DataFrame | None: Pandas DataFrame containing the processed output when the operation
+- `filepath`
+  - Path to the local source file.
+
+#### 📤 Returns
+
+DataFrame | None: Pandas DataFrame containing the processed output when the operation
     succeeds.
 
-Raises:
-    FileNotFoundError: If a required local file or matched path does not exist.
+#### ⚠️ Raises
+
+FileNotFoundError: If a required local file or matched path does not exist.
 
 ---
 
-### preprocess_split_sentences
+### 🔧 preprocess_split_sentences
 
 **Index:** 132
 
@@ -4193,23 +5295,28 @@ def preprocess_split_sentences( text: str ) -> List[str] | None
 
 Split text into sentence strings using NLTK sentence tokenization.
 
-Purpose:
-    Applies NLTK sentence tokenization to lowercase text and returns the resulting sentence list.
+#### 🎯 Purpose
+
+Applies NLTK sentence tokenization to lowercase text and returns the resulting sentence list.
     This provides sentence boundaries for chunking, cleaning, and dataset generation workflows.
 
-Args:
-    text: Text value to process.
+#### 📥 Arguments
 
-Returns:
-    List[ str ] | None: List of processed text values when the operation succeeds.
+- `text`
+  - Text value to process.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### 📤 Returns
+
+List[ str ] | None: List of processed text values when the operation succeeds.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### preprocess_tiktokenize
+### 🔧 preprocess_tiktokenize
 
 **Index:** 133
 
@@ -4219,25 +5326,31 @@ def preprocess_tiktokenize( text: str, encoding: str='cl100k_base' ) -> DataFram
 
 Encode text with a tiktoken tokenizer and return token identifiers as tabular data.
 
-Purpose:
-    Encodes lowercase text using the requested tiktoken encoding and returns token identifiers in
+#### 🎯 Purpose
+
+Encodes lowercase text using the requested tiktoken encoding and returns token identifiers in
     a pandas DataFrame. This supports token inspection and model-facing preprocessing workflows.
 
-Args:
-    text: Text value to process.
-    encoding: Tiktoken encoding name used for tokenization.
+#### 📥 Arguments
 
-Returns:
-    DataFrame | None: Pandas DataFrame containing the processed output when the operation
+- `text`
+  - Text value to process.
+- `encoding`
+  - Tiktoken encoding name used for tokenization.
+
+#### 📤 Returns
+
+DataFrame | None: Pandas DataFrame containing the processed output when the operation
     succeeds.
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
         project error type.
 
 ---
 
-### read_pdf
+### 🔧 read_pdf
 
 **Index:** 134
 
@@ -4247,23 +5360,29 @@ def read_pdf( path: str, mode: str='single' ) -> Any
 
 Read a PDF file.
 
-Purpose:
-    Read a PDF file using the PDF reader.
+#### 🎯 Purpose
 
-Args:
-    path: Local file path used by the loader.
-    mode: Operation mode used to select the provider or processing workflow.
+Read a PDF file using the PDF reader.
 
-Returns:
-    List[Document] | None: LangChain documents loaded from the requested source.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `path`
+  - Local file path used by the loader.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+
+#### 📤 Returns
+
+List[Document] | None: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### render_web_page
+### 🔧 render_web_page
 
 **Index:** 135
 
@@ -4273,25 +5392,33 @@ def render_web_page( url: str, timeout: int=15, headers: Optional[Dict[str, str]
 
 Render a dynamic web page with Playwright.
 
-Purpose:
-    Render a dynamic web page with Playwright.
+#### 🎯 Purpose
 
-Args:
-    url: URL or URI value used as the request or parsing source.
-    timeout: Request timeout in seconds.
-    headers: Optional HTTP headers applied to web requests.
-    use_playwright: Whether browser-backed rendering should be used for dynamic pages.
+Render a dynamic web page with Playwright.
 
-Returns:
-    str: Text produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `url`
+  - URL or URI value used as the request or parsing source.
+- `timeout`
+  - Request timeout in seconds.
+- `headers`
+  - Optional HTTP headers applied to web requests.
+- `use_playwright`
+  - Whether browser-backed rendering should be used for dynamic pages.
+
+#### 📤 Returns
+
+str: Text produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### request_directions
+### 🔧 request_directions
 
 **Index:** 136
 
@@ -4301,24 +5428,31 @@ def request_directions( origin: str, destination: str, mode: str='driving' ) -> 
 
 Request directions.
 
-Purpose:
-    Request directions using Google Maps.
+#### 🎯 Purpose
 
-Args:
-    origin: Starting address or place for a routing request.
-    destination: Destination address or place for a routing request.
-    mode: Operation mode used to select the provider or processing workflow.
+Request directions using Google Maps.
 
-Returns:
-    Dict[str, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `origin`
+  - Starting address or place for a routing request.
+- `destination`
+  - Destination address or place for a routing request.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+
+#### 📤 Returns
+
+Dict[str, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_articles
+### 🔧 scrape_articles
 
 **Index:** 137
 
@@ -4328,22 +5462,27 @@ def scrape_articles( uri: str ) -> Any
 
 Extract article text.
 
-Purpose:
-    Extract article text using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML page.
+Extract article text using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Text or identifier values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML page.
+
+#### 📤 Returns
+
+List[str] | None: Text or identifier values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_blockquotes
+### 🔧 scrape_blockquotes
 
 **Index:** 138
 
@@ -4353,22 +5492,27 @@ def scrape_blockquotes( uri: str ) -> Any
 
 Extract blockquote text.
 
-Purpose:
-    Extract blockquote text using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML document.
+Extract blockquote text using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Text or identifier values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML document.
+
+#### 📤 Returns
+
+List[str] | None: Text or identifier values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_crawler_page
+### 🔧 scrape_crawler_page
 
 **Index:** 139
 
@@ -4378,29 +5522,42 @@ def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text:
 
 Extract crawler page from an HTML page.
 
-Purpose:
-    Extract crawler page from an HTML page using Fonky's web crawler implementation.
+#### 🎯 Purpose
 
-Args:
-    url: URL or URI value used as the request or parsing source.
-    include_title: Whether to include title in the result.
-    include_basic_text: Whether to include basic text in the result.
-    include_raw_html: Whether to include raw html in the result.
-    selected_methods: Extraction method names to execute against the supplied HTML.
-    request_timeout: Request timeout in seconds.
-    max_bytes: Maximum bytes permitted by the operation.
-    headers: Optional HTTP headers applied to web requests.
-    use_playwright: Whether browser-backed rendering should be used for dynamic pages.
+Extract crawler page from an HTML page using Fonky's web crawler implementation.
 
-Returns:
-    Dict[str, Any]: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Exception: If the delegated implementation raises an operational failure.
+- `url`
+  - URL or URI value used as the request or parsing source.
+- `include_title`
+  - Whether to include title in the result.
+- `include_basic_text`
+  - Whether to include basic text in the result.
+- `include_raw_html`
+  - Whether to include raw html in the result.
+- `selected_methods`
+  - Extraction method names to execute against the supplied HTML.
+- `request_timeout`
+  - Request timeout in seconds.
+- `max_bytes`
+  - Maximum bytes permitted by the operation.
+- `headers`
+  - Optional HTTP headers applied to web requests.
+- `use_playwright`
+  - Whether browser-backed rendering should be used for dynamic pages.
+
+#### 📤 Returns
+
+Dict[str, Any]: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Exception: If the delegated implementation raises an operational failure.
 
 ---
 
-### scrape_divisions
+### 🔧 scrape_divisions
 
 **Index:** 140
 
@@ -4410,22 +5567,27 @@ def scrape_divisions( uri: str ) -> Any
 
 Extract division text.
 
-Purpose:
-    Extract division text using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML document.
+Extract division text using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Text or identifier values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML document.
+
+#### 📤 Returns
+
+List[str] | None: Text or identifier values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_headings
+### 🔧 scrape_headings
 
 **Index:** 141
 
@@ -4435,22 +5597,27 @@ def scrape_headings( uri: str ) -> Any
 
 Extract heading text.
 
-Purpose:
-    Extract heading text using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML document.
+Extract heading text using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Heading text values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML document.
+
+#### 📤 Returns
+
+List[str] | None: Heading text values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_hyperlinks
+### 🔧 scrape_hyperlinks
 
 **Index:** 142
 
@@ -4460,22 +5627,27 @@ def scrape_hyperlinks( uri: str ) -> Any
 
 Extract hyperlinks from an HTML page.
 
-Purpose:
-    Extract hyperlinks from an HTML page using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML page.
+Extract hyperlinks from an HTML page using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Hyperlink values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML page.
+
+#### 📤 Returns
+
+List[str] | None: Hyperlink values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_images
+### 🔧 scrape_images
 
 **Index:** 143
 
@@ -4485,22 +5657,27 @@ def scrape_images( uri: str ) -> Any
 
 Extract image references.
 
-Purpose:
-    Extract image references using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML page.
+Extract image references using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Image references produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML page.
+
+#### 📤 Returns
+
+List[str] | None: Image references produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_lists
+### 🔧 scrape_lists
 
 **Index:** 144
 
@@ -4510,22 +5687,27 @@ def scrape_lists( uri: str ) -> Any
 
 Extract list item text.
 
-Purpose:
-    Extract list item text using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML page.
+Extract list item text using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Text or identifier values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML page.
+
+#### 📤 Returns
+
+List[str] | None: Text or identifier values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_paragraphs
+### 🔧 scrape_paragraphs
 
 **Index:** 145
 
@@ -4535,22 +5717,27 @@ def scrape_paragraphs( uri: str ) -> Any
 
 Extract paragraph text.
 
-Purpose:
-    Extract paragraph text using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML document.
+Extract paragraph text using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Paragraph text values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML document.
+
+#### 📤 Returns
+
+List[str] | None: Paragraph text values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_sections
+### 🔧 scrape_sections
 
 **Index:** 146
 
@@ -4560,22 +5747,27 @@ def scrape_sections( uri: str ) -> Any
 
 Extract section text.
 
-Purpose:
-    Extract section text using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML document.
+Extract section text using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Text or identifier values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML document.
+
+#### 📤 Returns
+
+List[str] | None: Text or identifier values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_tables
+### 🔧 scrape_tables
 
 **Index:** 147
 
@@ -4585,22 +5777,27 @@ def scrape_tables( uri: str ) -> Any
 
 Extract table cell text.
 
-Purpose:
-    Extract table cell text using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    uri: Fully qualified URI of the target HTML document.
+Extract table cell text using Fonky's web extractor implementation.
 
-Returns:
-    List[str] | None: Table cell text values produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `uri`
+  - Fully qualified URI of the target HTML document.
+
+#### 📤 Returns
+
+List[str] | None: Table cell text values produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scrape_web_page
+### 🔧 scrape_web_page
 
 **Index:** 148
 
@@ -4610,23 +5807,29 @@ def scrape_web_page( url: str, time: int=10 ) -> Any
 
 Fetch a web page for extraction.
 
-Purpose:
-    Fetch a web page for extraction using Fonky's web extractor implementation.
+#### 🎯 Purpose
 
-Args:
-    url: Absolute URL to fetch.
-    time: Request timeout in seconds.
+Fetch a web page for extraction using Fonky's web extractor implementation.
 
-Returns:
-    Result | None: Fonky result wrapper containing the provider or HTTP response.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `url`
+  - Absolute URL to fetch.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Result | None: Fonky result wrapper containing the provider or HTTP response.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### scraper_html_to_text
+### 🔧 scraper_html_to_text
 
 **Index:** 149
 
@@ -4636,22 +5839,27 @@ def scraper_html_to_text( html: str ) -> Any
 
 Convert HTML to plain text.
 
-Purpose:
-    Convert HTML to plain text.
+#### 🎯 Purpose
 
-Args:
-    html: Raw HTML string to convert.
+Convert HTML to plain text.
 
-Returns:
-    str: Text produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+- `html`
+  - Raw HTML string to convert.
+
+#### 📤 Returns
+
+str: Text produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.
 
 ---
 
-### validate_address
+### 🔧 validate_address
 
 **Index:** 150
 
@@ -4661,17 +5869,22 @@ def validate_address( address: List[str] ) -> Any
 
 Validate address.
 
-Purpose:
-    Validate address using Google Maps.
+#### 🎯 Purpose
 
-Args:
-    address: Street address or place description used for geocoding, validation, or routing.
+Validate address using Google Maps.
 
-Returns:
-    Dict[Any, Any] | None: Structured mapping produced by the operation.
+#### 📥 Arguments
 
-Raises:
-    TypeError: If a supplied value has an unsupported type.
+- `address`
+  - Street address or place description used for geocoding, validation, or routing.
+
+#### 📤 Returns
+
+Dict[Any, Any] | None: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+TypeError: If a supplied value has an unsupported type.
     ValueError: If a required value is missing, blank, or outside the supported range.
     Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
         the project error type.

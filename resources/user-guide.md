@@ -1,263 +1,36 @@
-# Fonky User Guide
+# 🧰 Fonky User Guide
 
-## Installation
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip wheel
-python -m pip install "setuptools==81.0.0"
-python -m pip install -r requirements.txt
-python -m pip check
-python -m playwright install chromium
-```
-
-## Environment Variables
-
-```powershell
-$env:OPENAI_API_KEY = "..."
-$env:GOOGLE_API_KEY = "..."
-$env:GOOGLE_CSE_ID = "..."
-$env:NASA_API_KEY = "..."
-```
-
-## Sample Data
-
-```powershell
-New-Item -ItemType Directory -Force .\data | Out-Null
-
-"Fonky retrieves data, loads documents, scrapes web content, and preprocesses text." |
-    Set-Content .\data\sample.txt -Encoding UTF8
-```
-
-```powershell
-@"
-name,category,value
-Alpha,A,10
-Beta,B,20
-Gamma,A,30
-"@ | Set-Content .\data\sample.csv -Encoding UTF8
-```
-
-```powershell
-@"
-{
-  "messages": [
-    {"content": "Fonky JSON loader example."},
-    {"content": "Second JSON document."}
-  ]
-}
-"@ | Set-Content .\data\messages.json -Encoding UTF8
-```
-
-# Direct Python API
-
-## Text Loader
+## 📥 Import Tools
 
 ```python
-from fonky.loaders import TextLoader
-
-loader = TextLoader( )
-
-documents = loader.load(
-    path='data/sample.txt',
-    encoding='utf-8' )
-
-for document in documents:
-    print( document.page_content )
+from fonky.tools import fetch_arxiv
+from fonky.tools import load_pdf
+from fonky.tools import preprocess_normalize_text
+from fonky.tools import scrape_tables
 ```
 
-## Text Splitter
+## 🤖 Register Tools with an Agent
 
 ```python
-from fonky.loaders import TextLoader
+from agents import Agent
 
-loader = TextLoader( )
-loader.load( path='data/sample.txt', encoding='utf-8' )
+from fonky.tools import fetch_arxiv
+from fonky.tools import fetch_wikipedia
 
-chunks = loader.split(
-    chunk=500,
-    overlap=50 )
-
-for chunk in chunks:
-    print( chunk.page_content )
+agent = Agent(
+    name='Research Assistant',
+    instructions='Use the supplied Fonky tools when required.',
+    tools=[
+        fetch_arxiv,
+        fetch_wikipedia,
+    ] )
 ```
 
-## CSV Loader
-
-```python
-from fonky.loaders import CsvLoader
-
-loader = CsvLoader( )
-
-documents = loader.load(
-    path='data/sample.csv',
-    encoding='utf-8',
-    source_column='name',
-    delimiter=',',
-    quotechar='"' )
-```
-
-## PDF Loader
-
-```python
-from fonky.loaders import PdfLoader
-
-loader = PdfLoader( )
-
-documents = loader.load(
-    path='data/sample.pdf',
-    mode='single',
-    extract='plain',
-    include=False,
-    format='markdown-img' )
-```
-
-## Word Loader
-
-```python
-from fonky.loaders import WordLoader
-
-loader = WordLoader( )
-documents = loader.load( path='data/sample.docx' )
-```
-
-## Excel Loader
-
-```python
-from fonky.loaders import ExcelLoader
-
-loader = ExcelLoader( )
-
-documents = loader.load(
-    path='data/sample.xlsx',
-    mode='elements',
-    has_headers=True )
-```
-
-## JSON Loader
-
-```python
-from fonky.loaders import JsonLoader
-
-loader = JsonLoader( )
-
-documents = loader.load(
-    filepath='data/messages.json',
-    is_text=True,
-    is_lines=False )
-```
-
-## Markdown Loader
-
-```python
-from fonky.loaders import MarkdownLoader
-
-loader = MarkdownLoader( )
-documents = loader.load( path='README.md' )
-```
-
-## Jupyter Notebook Loader
-
-```python
-from fonky.loaders import JupyterNotebookLoader
-
-loader = JupyterNotebookLoader( )
-
-documents = loader.load(
-    path='notebook/fonky.ipynb',
-    include_outputs=True,
-    max_output_length=200,
-    remove_newline=False,
-    traceback=False )
-```
-
-## Web Fetcher
-
-```python
-from fonky.fetchers import WebFetcher
-
-fetcher = WebFetcher( )
-
-result = fetcher.fetch(
-    url='https://example.com',
-    time=10 )
-
-print( result.status_code )
-print( result.url )
-print( result.text[:500] )
-```
-
-## ArXiv Fetcher
-
-```python
-from fonky.fetchers import ArXiv
-
-fetcher = ArXiv( )
-
-documents = fetcher.fetch(
-    question='retrieval augmented generation',
-    max_documents=5,
-    full_documents=False,
-    include_metadata=True )
-```
-
-## Wikipedia Fetcher
-
-```python
-from fonky.fetchers import Wikipedia
-
-fetcher = Wikipedia( )
-
-documents = fetcher.fetch(
-    question='federal budget process',
-    max_documents=5,
-    include_metadata=True )
-```
-
-## Paragraph Scraper
-
-```python
-from fonky.scrapers import WebExtractor
-
-extractor = WebExtractor( )
-paragraphs = extractor.scrape_paragraphs( uri='https://example.com' )
-```
-
-## Table Scraper
-
-```python
-from fonky.scrapers import WebExtractor
-
-extractor = WebExtractor( )
-tables = extractor.scrape_tables( uri='https://example.com' )
-```
-
-## Heading Scraper
-
-```python
-from fonky.scrapers import WebExtractor
-
-extractor = WebExtractor( )
-headings = extractor.scrape_headings( uri='https://example.com' )
-```
-
-## Text Normalization
-
-```python
-from fonky.preprocessors import TextParser
-
-parser = TextParser( )
-value = parser.normalize_text( text='Fonky PROVIDES reusable preprocessing.' )
-print( value )
-```
-
-# OpenAI Agents SDK
-
-## Minimal Agent
+## ▶️ Run an Agent Synchronously
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import fetch_arxiv
 
 agent = Agent(
@@ -269,43 +42,20 @@ agent = Agent(
 
 result = Runner.run_sync(
     agent,
-    'Research retrieval augmented generation.' )
+    'Find research on retrieval augmented generation.' )
 
 print( result.final_output )
 ```
 
-## Multi-Tool Research Agent
-
-```python
-from agents import Agent, Runner
-
-from fonky.tools import fetch_arxiv
-from fonky.tools import fetch_google_search
-from fonky.tools import fetch_wikipedia
-
-agent = Agent(
-    name='Research Assistant',
-    instructions='Select the most appropriate source for each request.',
-    tools=[
-        fetch_arxiv,
-        fetch_google_search,
-        fetch_wikipedia,
-    ] )
-
-result = Runner.run_sync(
-    agent,
-    'Research retrieval augmented generation.' )
-
-print( result.final_output )
-```
-
-## Async Agent
+## ⏱️ Run an Agent Asynchronously
 
 ```python
 import asyncio
 
 from agents import Agent, Runner
+
 from fonky.tools import fetch_wikipedia
+
 
 async def main( ) -> None:
     agent = Agent(
@@ -320,16 +70,19 @@ async def main( ) -> None:
 
     print( result.final_output )
 
+
 asyncio.run( main( ) )
 ```
 
-## Streaming Agent
+## 📡 Stream an Agent Run
 
 ```python
 import asyncio
 
 from agents import Agent, Runner
+
 from fonky.tools import fetch_google_search
+
 
 async def main( ) -> None:
     agent = Agent(
@@ -345,16 +98,19 @@ async def main( ) -> None:
     async for event in result.stream_events( ):
         print( event )
 
+
 asyncio.run( main( ) )
 ```
 
-## FunctionTool Schema
+## 🧩 Inspect a Tool Schema
 
 ```python
 import json
 
 from agents import FunctionTool
+
 from fonky.tools import fetch_arxiv
+
 
 if isinstance( fetch_arxiv, FunctionTool ):
     print( fetch_arxiv.name )
@@ -362,10 +118,11 @@ if isinstance( fetch_arxiv, FunctionTool ):
     print( json.dumps( fetch_arxiv.params_json_schema, indent=2 ) )
 ```
 
-## Wrapped Function Test
+## 🧪 Call the Wrapped Python Function Directly
 
 ```python
 from fonky.tools import preprocess_normalize_text
+
 
 value = preprocess_normalize_text.__wrapped__(
     text='  MULTIPLE    SPACES  ' )
@@ -373,154 +130,614 @@ value = preprocess_normalize_text.__wrapped__(
 print( value )
 ```
 
-# Document Agents
+---
 
-## Text Agent
+# 🔎 Research Tool Examples
+
+## fetch_arxiv
 
 ```python
 from agents import Agent, Runner
+
+from fonky.tools import fetch_arxiv
+
+agent = Agent(
+    name='ArXiv Researcher',
+    tools=[
+        fetch_arxiv,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Search ArXiv for papers about retrieval augmented generation. Return five results.' )
+
+print( result.final_output )
+```
+
+Direct wrapper test:
+
+```python
+from fonky.tools import fetch_arxiv
+
+documents = fetch_arxiv.__wrapped__(
+    question='retrieval augmented generation',
+    max_documents=5,
+    full_documents=False,
+    include_metadata=True )
+
+print( documents )
+```
+
+## fetch_wikipedia
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_wikipedia
+
+agent = Agent(
+    name='Wikipedia Researcher',
+    tools=[
+        fetch_wikipedia,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Use Wikipedia to explain the U.S. Census Bureau.' )
+
+print( result.final_output )
+```
+
+## fetch_google_search
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_google_search
+
+agent = Agent(
+    name='Google Search Agent',
+    tools=[
+        fetch_google_search,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Find public resources explaining federal appropriations law.' )
+
+print( result.final_output )
+```
+
+## fetch_gov_data
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_gov_data
+
+agent = Agent(
+    name='Data.gov Agent',
+    tools=[
+        fetch_gov_data,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Find Data.gov datasets related to federal spending.' )
+
+print( result.final_output )
+```
+
+## fetch_congress
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_congress
+
+agent = Agent(
+    name='Congress.gov Agent',
+    tools=[
+        fetch_congress,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve recent bills from the 119th Congress.' )
+
+print( result.final_output )
+```
+
+## fetch_internet_archive
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_internet_archive
+
+agent = Agent(
+    name='Internet Archive Agent',
+    tools=[
+        fetch_internet_archive,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Search Internet Archive for historical federal budget materials.' )
+
+print( result.final_output )
+```
+
+---
+
+# 📄 Document Tool Examples
+
+## load_text
+
+```python
+from agents import Agent, Runner
+
 from fonky.tools import load_text
 
-agent = Agent( name='Text Analyst', tools=[load_text] )
-result = Runner.run_sync( agent, 'Load data/sample.txt and summarize it.' )
+agent = Agent(
+    name='Text File Agent',
+    tools=[
+        load_text,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load data/sample.txt and summarize it.' )
+
 print( result.final_output )
 ```
 
-## PDF and Word Agent
+Direct wrapper test:
+
+```python
+from fonky.tools import load_text
+
+documents = load_text.__wrapped__(
+    path='data/sample.txt',
+    encoding='utf-8' )
+
+print( documents )
+```
+
+## load_pdf
 
 ```python
 from agents import Agent, Runner
-from fonky.tools import load_pdf, load_word
 
-agent = Agent( name='Document Analyst', tools=[load_pdf, load_word] )
-result = Runner.run_sync( agent, 'Load data/report.pdf and summarize it.' )
+from fonky.tools import load_pdf
+
+agent = Agent(
+    name='PDF Agent',
+    tools=[
+        load_pdf,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load data/report.pdf and summarize its findings.' )
+
 print( result.final_output )
 ```
 
-## Structured File Agent
+Direct wrapper test:
+
+```python
+from fonky.tools import load_pdf
+
+documents = load_pdf.__wrapped__(
+    path='data/report.pdf',
+    mode='single',
+    extract='plain',
+    include=False,
+    format='markdown-img' )
+
+print( documents )
+```
+
+## load_word
 
 ```python
 from agents import Agent, Runner
-from fonky.tools import load_csv, load_excel, load_json
 
-agent = Agent( name='Structured Data Analyst', tools=[load_csv, load_excel, load_json] )
-result = Runner.run_sync( agent, 'Load data/sample.csv and summarize it.' )
+from fonky.tools import load_word
+
+agent = Agent(
+    name='Word Document Agent',
+    tools=[
+        load_word,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load data/report.docx and summarize it.' )
+
 print( result.final_output )
 ```
 
-# Preprocessing Tools
+## load_csv
 
-## Normalize Text
+```python
+from agents import Agent, Runner
+
+from fonky.tools import load_csv
+
+agent = Agent(
+    name='CSV Agent',
+    tools=[
+        load_csv,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load data/sample.csv and summarize the records.' )
+
+print( result.final_output )
+```
+
+## load_excel
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import load_excel
+
+agent = Agent(
+    name='Excel Agent',
+    tools=[
+        load_excel,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load data/sample.xlsx and summarize the workbook content.' )
+
+print( result.final_output )
+```
+
+## load_json
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import load_json
+
+agent = Agent(
+    name='JSON Agent',
+    tools=[
+        load_json,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load data/messages.json and summarize its content.' )
+
+print( result.final_output )
+```
+
+## load_jupyter_notebook
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import load_jupyter_notebook
+
+agent = Agent(
+    name='Notebook Agent',
+    tools=[
+        load_jupyter_notebook,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load notebook/fonky.ipynb and summarize its cells and outputs.' )
+
+print( result.final_output )
+```
+
+## Multi-Format Document Agent
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import load_csv
+from fonky.tools import load_excel
+from fonky.tools import load_json
+from fonky.tools import load_pdf
+from fonky.tools import load_text
+from fonky.tools import load_word
+
+agent = Agent(
+    name='Document Router',
+    instructions='Select the appropriate loader for the requested file.',
+    tools=[
+        load_text,
+        load_pdf,
+        load_word,
+        load_csv,
+        load_excel,
+        load_json,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load data/report.pdf and summarize it.' )
+
+print( result.final_output )
+```
+
+---
+
+# 🌐 Web Tool Examples
+
+## fetch_web_page
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_web_page
+
+agent = Agent(
+    name='Web Fetch Agent',
+    tools=[
+        fetch_web_page,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Fetch https://example.com and summarize the page.' )
+
+print( result.final_output )
+```
+
+## scrape_paragraphs
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import scrape_paragraphs
+
+agent = Agent(
+    name='Paragraph Extractor',
+    tools=[
+        scrape_paragraphs,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Extract the paragraphs from https://example.com.' )
+
+print( result.final_output )
+```
+
+Direct wrapper test:
+
+```python
+from fonky.tools import scrape_paragraphs
+
+paragraphs = scrape_paragraphs.__wrapped__(
+    uri='https://example.com' )
+
+print( paragraphs )
+```
+
+## scrape_tables
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import scrape_tables
+
+agent = Agent(
+    name='Table Extractor',
+    tools=[
+        scrape_tables,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Extract the tables from the supplied page.' )
+
+print( result.final_output )
+```
+
+## scrape_headings
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import scrape_headings
+
+agent = Agent(
+    name='Heading Extractor',
+    tools=[
+        scrape_headings,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Extract headings from https://example.com.' )
+
+print( result.final_output )
+```
+
+## scrape_hyperlinks
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import scrape_hyperlinks
+
+agent = Agent(
+    name='Hyperlink Extractor',
+    tools=[
+        scrape_hyperlinks,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Extract hyperlinks from https://example.com.' )
+
+print( result.final_output )
+```
+
+## crawl_web
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import crawl_web
+
+agent = Agent(
+    name='Crawler Agent',
+    tools=[
+        crawl_web,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Crawl https://example.com at shallow depth.' )
+
+print( result.final_output )
+```
+
+## Combined Web Agent
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_web_page
+from fonky.tools import scrape_headings
+from fonky.tools import scrape_hyperlinks
+from fonky.tools import scrape_paragraphs
+from fonky.tools import scrape_tables
+
+agent = Agent(
+    name='Web Analysis Agent',
+    tools=[
+        fetch_web_page,
+        scrape_headings,
+        scrape_paragraphs,
+        scrape_tables,
+        scrape_hyperlinks,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Inspect https://example.com and return its headings, paragraphs, tables, and links.' )
+
+print( result.final_output )
+```
+
+---
+
+# 🧹 Preprocessing Tool Examples
+
+## preprocess_normalize_text
 
 ```python
 from fonky.tools import preprocess_normalize_text
 
-value = preprocess_normalize_text.__wrapped__( text='Fonky PROVIDES reusable preprocessing.' )
+value = preprocess_normalize_text.__wrapped__(
+    text='Fonky PROVIDES reusable preprocessing.' )
+
 print( value )
 ```
 
-## Collapse Whitespace
+## preprocess_collapse_whitespace
 
 ```python
 from fonky.tools import preprocess_collapse_whitespace
 
-value = preprocess_collapse_whitespace.__wrapped__( text='Fonky     collapses      whitespace.' )
+value = preprocess_collapse_whitespace.__wrapped__(
+    text='Fonky     collapses      repeated whitespace.' )
+
 print( value )
 ```
 
-## Remove Punctuation
+## preprocess_remove_punctuation
 
 ```python
 from fonky.tools import preprocess_remove_punctuation
 
-value = preprocess_remove_punctuation.__wrapped__( text='Budget, execution: obligations; outlays!' )
+value = preprocess_remove_punctuation.__wrapped__(
+    text='Budget, execution: obligations; outlays!' )
+
 print( value )
 ```
 
-## Remove Stop Words
+## preprocess_remove_stopwords
 
 ```python
 from fonky.tools import preprocess_remove_stopwords
 
-value = preprocess_remove_stopwords.__wrapped__( text='The analyst reviewed the report and the data.' )
+value = preprocess_remove_stopwords.__wrapped__(
+    text='The analyst reviewed the report and the supporting data.' )
+
 print( value )
 ```
 
-## Split Sentences
+## preprocess_split_sentences
 
 ```python
 from fonky.tools import preprocess_split_sentences
 
-sentences = preprocess_split_sentences.__wrapped__( text='Fonky loads documents. Fonky preprocesses text.' )
+sentences = preprocess_split_sentences.__wrapped__(
+    text='Fonky loads documents. Fonky preprocesses text.' )
+
 print( sentences )
 ```
 
-## Tiktoken
+## preprocess_tiktokenize
 
 ```python
 from fonky.tools import preprocess_tiktokenize
 
-df_tokens = preprocess_tiktokenize.__wrapped__( text='Fonky tokenization example.', encoding='cl100k_base' )
+df_tokens = preprocess_tiktokenize.__wrapped__(
+    text='Fonky tokenization example.',
+    encoding='cl100k_base' )
+
 print( df_tokens )
 ```
 
-## Frequency Distribution
+## preprocess_create_frequency_distribution
 
 ```python
 from fonky.tools import preprocess_create_frequency_distribution
 
-tokens = ['budget', 'budget', 'outlays', 'obligations', 'budget']
-df_frequency = preprocess_create_frequency_distribution.__wrapped__( tokens=tokens )
+df_frequency = preprocess_create_frequency_distribution.__wrapped__(
+    tokens=[
+        'budget',
+        'budget',
+        'outlays',
+        'obligations',
+        'budget',
+    ] )
+
 print( df_frequency )
 ```
 
-## Vocabulary
+## preprocess_create_vocabulary
 
 ```python
 from fonky.tools import preprocess_create_vocabulary
 
-tokens = ['budget', 'obligations', 'outlays', 'budget']
-series_vocabulary = preprocess_create_vocabulary.__wrapped__( tokens=tokens )
+series_vocabulary = preprocess_create_vocabulary.__wrapped__(
+    tokens=[
+        'budget',
+        'obligations',
+        'outlays',
+        'budget',
+    ] )
+
 print( series_vocabulary )
 ```
 
-## NLTK Word Tokenization
-
-```python
-from fonky.tools import nltk_word_tokenizer
-
-tokens = nltk_word_tokenizer.__wrapped__( text='Fonky performs NLTK tokenization.' )
-print( tokens )
-```
-
-## NLTK Lemmatization
-
-```python
-from fonky.tools import nltk_word_lemmatizer
-
-lemmas = nltk_word_lemmatizer.__wrapped__( text='cars studies running analyzed' )
-print( lemmas )
-```
-
-## NLTK POS Tagging
-
-```python
-from fonky.tools import nltk_pos_tagger
-
-tags = nltk_pos_tagger.__wrapped__( text='The analyst reviewed the financial report.' )
-print( tags )
-```
-
-## NLTK Named Entity Recognition
-
-```python
-from fonky.tools import nltk_named_entity_recognition
-
-entities = nltk_named_entity_recognition.__wrapped__( text='NASA operates the Goddard Space Flight Center in Maryland.' )
-print( entities )
-```
-
-## Semantic Search
+## preprocess_semantic_search
 
 ```python
 from fonky.tools import preprocess_semantic_search
@@ -540,440 +757,631 @@ matches = preprocess_semantic_search.__wrapped__(
 print( matches )
 ```
 
-# Web Agents
-
-## Web Fetch Agent
+## NLTK Tools
 
 ```python
-from agents import Agent, Runner
-from fonky.tools import fetch_web_page
+from fonky.tools import nltk_named_entity_recognition
+from fonky.tools import nltk_pos_tagger
+from fonky.tools import nltk_word_lemmatizer
+from fonky.tools import nltk_word_tokenizer
 
-agent = Agent( name='Web Reader', tools=[fetch_web_page] )
-result = Runner.run_sync( agent, 'Fetch https://example.com and summarize the page.' )
-print( result.final_output )
+tokens = nltk_word_tokenizer.__wrapped__(
+    text='NASA operates the Goddard Space Flight Center.' )
+
+lemmas = nltk_word_lemmatizer.__wrapped__(
+    text='cars studies running analyzed' )
+
+tags = nltk_pos_tagger.__wrapped__(
+    text='The analyst reviewed the financial report.' )
+
+entities = nltk_named_entity_recognition.__wrapped__(
+    text='NASA operates the Goddard Space Flight Center in Maryland.' )
 ```
 
-## Web Extraction Agent
+## Preprocessing Agent
 
 ```python
 from agents import Agent, Runner
-from fonky.tools import scrape_headings, scrape_hyperlinks, scrape_paragraphs, scrape_tables
+
+from fonky.tools import preprocess_normalize_text
+from fonky.tools import preprocess_remove_punctuation
+from fonky.tools import preprocess_remove_stopwords
+from fonky.tools import preprocess_split_sentences
 
 agent = Agent(
-    name='Web Extractor',
-    tools=[scrape_headings, scrape_paragraphs, scrape_tables, scrape_hyperlinks] )
+    name='Preprocessing Agent',
+    tools=[
+        preprocess_normalize_text,
+        preprocess_remove_punctuation,
+        preprocess_remove_stopwords,
+        preprocess_split_sentences,
+    ] )
 
-result = Runner.run_sync( agent, 'Extract headings and hyperlinks from https://example.com.' )
+result = Runner.run_sync(
+    agent,
+    'Normalize this text, remove punctuation, remove stop words, and split it into sentences: '
+    '"The analysts are reviewing the budget, and the financial reports."' )
+
 print( result.final_output )
 ```
 
-## Web Crawl Agent
+---
+
+# 🌦️ Environmental Tool Examples
+
+## fetch_open_weather
 
 ```python
 from agents import Agent, Runner
-from fonky.tools import crawl_web
 
-agent = Agent( name='Site Crawler', tools=[crawl_web] )
-result = Runner.run_sync( agent, 'Crawl https://example.com at shallow depth.' )
-print( result.final_output )
-```
-
-# Research Agents
-
-## ArXiv
-
-```python
-from agents import Agent, Runner
-from fonky.tools import fetch_arxiv
-
-agent = Agent( name='Academic Researcher', tools=[fetch_arxiv] )
-result = Runner.run_sync( agent, 'Find papers about tool-using language models.' )
-print( result.final_output )
-```
-
-## Wikipedia
-
-```python
-from agents import Agent, Runner
-from fonky.tools import fetch_wikipedia
-
-agent = Agent( name='Reference Assistant', tools=[fetch_wikipedia] )
-result = Runner.run_sync( agent, 'Explain the history of the U.S. Census Bureau.' )
-print( result.final_output )
-```
-
-## Google Search
-
-```python
-from agents import Agent, Runner
-from fonky.tools import fetch_google_search
-
-agent = Agent( name='Search Assistant', tools=[fetch_google_search] )
-result = Runner.run_sync( agent, 'Find public resources explaining federal appropriations law.' )
-print( result.final_output )
-```
-
-## Congress.gov
-
-```python
-from agents import Agent, Runner
-from fonky.tools import fetch_congress
-
-agent = Agent( name='Legislative Research Assistant', tools=[fetch_congress] )
-result = Runner.run_sync( agent, 'Retrieve recent bills from the 119th Congress.' )
-print( result.final_output )
-```
-
-## Data.gov
-
-```python
-from agents import Agent, Runner
-from fonky.tools import fetch_gov_data
-
-agent = Agent( name='Federal Dataset Finder', tools=[fetch_gov_data] )
-result = Runner.run_sync( agent, 'Find datasets related to federal spending.' )
-print( result.final_output )
-```
-
-# Environmental Agents
-
-## Open Weather
-
-```python
-from agents import Agent, Runner
 from fonky.tools import fetch_open_weather
 
-agent = Agent( name='Weather Assistant', tools=[fetch_open_weather] )
-result = Runner.run_sync( agent, 'Retrieve current weather for Arlington, Virginia.' )
-print( result.final_output )
-```
-
-## Google Weather
-
-```python
-from agents import Agent, Runner
-from fonky.tools import fetch_google_weather_current, fetch_google_weather_daily_forecast, fetch_google_weather_hourly_forecast
-
 agent = Agent(
-    name='Weather Planning Assistant',
-    tools=[fetch_google_weather_current, fetch_google_weather_hourly_forecast, fetch_google_weather_daily_forecast] )
+    name='Weather Agent',
+    tools=[
+        fetch_open_weather,
+    ] )
 
-result = Runner.run_sync( agent, 'Retrieve the daily forecast for Arlington, Virginia.' )
+result = Runner.run_sync(
+    agent,
+    'Retrieve current weather for Arlington, Virginia.' )
+
 print( result.final_output )
 ```
 
-## USGS Earthquakes
+## fetch_usgs_earthquakes
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import fetch_usgs_earthquakes
 
-agent = Agent( name='Earthquake Analyst', tools=[fetch_usgs_earthquakes] )
-result = Runner.run_sync( agent, 'Retrieve recent earthquakes.' )
+agent = Agent(
+    name='Earthquake Agent',
+    tools=[
+        fetch_usgs_earthquakes,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve recent earthquakes.' )
+
 print( result.final_output )
 ```
 
-## USGS Water Data
+## fetch_usgs_water_data
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import fetch_usgs_water_data
 
-agent = Agent( name='Water Data Analyst', tools=[fetch_usgs_water_data] )
-result = Runner.run_sync( agent, 'Find USGS water monitoring locations in Virginia.' )
+agent = Agent(
+    name='Water Data Agent',
+    tools=[
+        fetch_usgs_water_data,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Find USGS water monitoring locations in Virginia.' )
+
 print( result.final_output )
 ```
 
-## Air Quality
+## fetch_air_now
 
 ```python
 from agents import Agent, Runner
-from fonky.tools import fetch_air_now, fetch_open_aq
 
-agent = Agent( name='Air Quality Analyst', tools=[fetch_air_now, fetch_open_aq] )
-result = Runner.run_sync( agent, 'Retrieve air-quality data near ZIP Code 22201.' )
+from fonky.tools import fetch_air_now
+
+agent = Agent(
+    name='AirNow Agent',
+    tools=[
+        fetch_air_now,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve current air-quality observations for ZIP Code 22201.' )
+
 print( result.final_output )
 ```
 
-# Geospatial Agents
-
-## Geocoding
+## fetch_open_aq
 
 ```python
 from agents import Agent, Runner
+
+from fonky.tools import fetch_open_aq
+
+agent = Agent(
+    name='OpenAQ Agent',
+    tools=[
+        fetch_open_aq,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve air-quality locations near Arlington, Virginia.' )
+
+print( result.final_output )
+```
+
+---
+
+# 🗺️ Geospatial Tool Examples
+
+## geocode_location
+
+```python
+from agents import Agent, Runner
+
 from fonky.tools import geocode_location
 
-agent = Agent( name='Geocoding Assistant', tools=[geocode_location] )
-result = Runner.run_sync( agent, 'Geocode 1600 Pennsylvania Avenue NW, Washington, DC.' )
+agent = Agent(
+    name='Geocoding Agent',
+    tools=[
+        geocode_location,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Geocode 1600 Pennsylvania Avenue NW, Washington, DC.' )
+
 print( result.final_output )
 ```
 
-## Reverse Geocoding
+## geocode_coordinates
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import geocode_coordinates
 
-agent = Agent( name='Reverse Geocoder', tools=[geocode_coordinates] )
-result = Runner.run_sync( agent, 'Reverse geocode latitude 38.8977 and longitude -77.0365.' )
+agent = Agent(
+    name='Reverse Geocoding Agent',
+    tools=[
+        geocode_coordinates,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Reverse geocode latitude 38.8977 and longitude -77.0365.' )
+
 print( result.final_output )
 ```
 
-## Address Validation
+## validate_address
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import validate_address
 
-agent = Agent( name='Address Validator', tools=[validate_address] )
-result = Runner.run_sync( agent, 'Validate 1600 Pennsylvania Avenue NW, Washington, DC.' )
+agent = Agent(
+    name='Address Validation Agent',
+    tools=[
+        validate_address,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Validate 1600 Pennsylvania Avenue NW, Washington, DC.' )
+
 print( result.final_output )
 ```
 
-## Directions
+## request_directions
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import request_directions
 
-agent = Agent( name='Directions Assistant', tools=[request_directions] )
-result = Runner.run_sync( agent, 'Get driving directions from Arlington, Virginia to Baltimore, Maryland.' )
+agent = Agent(
+    name='Directions Agent',
+    tools=[
+        request_directions,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Get driving directions from Arlington, Virginia to Baltimore, Maryland.' )
+
 print( result.final_output )
 ```
 
-# Demographic and Health Agents
+---
 
-## Census
+# 👥 Demographic and Health Tool Examples
+
+## fetch_census_data
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import fetch_census_data
 
-agent = Agent( name='Census Analyst', tools=[fetch_census_data] )
-result = Runner.run_sync( agent, 'Retrieve state population data.' )
+agent = Agent(
+    name='Census Agent',
+    tools=[
+        fetch_census_data,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve state population data.' )
+
 print( result.final_output )
 ```
 
-## Global Health
+## fetch_socrata
 
 ```python
 from agents import Agent, Runner
+
+from fonky.tools import fetch_socrata
+
+agent = Agent(
+    name='Socrata Agent',
+    tools=[
+        fetch_socrata,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve records from the requested Socrata dataset.' )
+
+print( result.final_output )
+```
+
+## fetch_global_health_data
+
+```python
+from agents import Agent, Runner
+
 from fonky.tools import fetch_global_health_data
 
-agent = Agent( name='Global Health Analyst', tools=[fetch_global_health_data] )
-result = Runner.run_sync( agent, 'Retrieve the global health indicator registry.' )
+agent = Agent(
+    name='Global Health Agent',
+    tools=[
+        fetch_global_health_data,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve the global health indicator registry.' )
+
 print( result.final_output )
 ```
 
-## PubMed
+## load_pubmed
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import load_pubmed
 
-agent = Agent( name='Biomedical Research Assistant', tools=[load_pubmed] )
-result = Runner.run_sync( agent, 'Find literature about machine learning in clinical decision support.' )
+agent = Agent(
+    name='PubMed Agent',
+    tools=[
+        load_pubmed,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Find biomedical literature about machine learning in clinical decision support.' )
+
 print( result.final_output )
 ```
 
-# Astronomy and Space Agents
+---
 
-## Astroquery
+# 🔭 Astronomy and Space Tool Examples
+
+## fetch_astro_query
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import fetch_astro_query
 
-agent = Agent( name='Astronomy Assistant', tools=[fetch_astro_query] )
-result = Runner.run_sync( agent, 'Look up M31.' )
+agent = Agent(
+    name='Astronomy Agent',
+    tools=[
+        fetch_astro_query,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Look up M31.' )
+
 print( result.final_output )
 ```
 
-## Near-Earth Objects
+## fetch_nearby_objects
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import fetch_nearby_objects
 
-agent = Agent( name='Near Earth Object Assistant', tools=[fetch_nearby_objects] )
-result = Runner.run_sync( agent, 'Retrieve near-Earth close approaches.' )
+agent = Agent(
+    name='Near Earth Object Agent',
+    tools=[
+        fetch_nearby_objects,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve near-Earth close approaches.' )
+
 print( result.final_output )
 ```
 
-## Space Weather
+## fetch_space_weather
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import fetch_space_weather
 
-agent = Agent( name='Space Weather Assistant', tools=[fetch_space_weather] )
-result = Runner.run_sync( agent, 'Retrieve recent coronal mass ejection data.' )
+agent = Agent(
+    name='Space Weather Agent',
+    tools=[
+        fetch_space_weather,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve recent coronal mass ejection data.' )
+
 print( result.final_output )
 ```
 
-# Cloud and Repository Agents
+---
 
-## Google Drive
+# ☁️ Cloud and Repository Tool Examples
+
+## load_google_drive_file
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import load_google_drive_file
 
-agent = Agent( name='Drive Document Assistant', tools=[load_google_drive_file] )
-result = Runner.run_sync( agent, 'Load the requested Google Drive file.' )
+agent = Agent(
+    name='Google Drive File Agent',
+    tools=[
+        load_google_drive_file,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load the requested Google Drive file.' )
+
 print( result.final_output )
 ```
 
-## AWS S3
+## load_google_drive_folder
 
 ```python
 from agents import Agent, Runner
+
+from fonky.tools import load_google_drive_folder
+
+agent = Agent(
+    name='Google Drive Folder Agent',
+    tools=[
+        load_google_drive_folder,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load documents from the requested Google Drive folder.' )
+
+print( result.final_output )
+```
+
+## load_aws_file
+
+```python
+from agents import Agent, Runner
+
 from fonky.tools import load_aws_file
 
-agent = Agent( name='S3 Document Assistant', tools=[load_aws_file] )
-result = Runner.run_sync( agent, 'Load the requested S3 object.' )
+agent = Agent(
+    name='S3 File Agent',
+    tools=[
+        load_aws_file,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load the requested S3 object.' )
+
 print( result.final_output )
 ```
 
-## Google Cloud Storage
+## load_aws_bucket
 
 ```python
 from agents import Agent, Runner
+
+from fonky.tools import load_aws_bucket
+
+agent = Agent(
+    name='S3 Bucket Agent',
+    tools=[
+        load_aws_bucket,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load documents from the requested S3 prefix.' )
+
+print( result.final_output )
+```
+
+## load_google_cloud_file
+
+```python
+from agents import Agent, Runner
+
 from fonky.tools import load_google_cloud_file
 
-agent = Agent( name='Cloud Storage Assistant', tools=[load_google_cloud_file] )
-result = Runner.run_sync( agent, 'Load the requested Google Cloud Storage object.' )
+agent = Agent(
+    name='Google Cloud Storage Agent',
+    tools=[
+        load_google_cloud_file,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load the requested Google Cloud Storage object.' )
+
 print( result.final_output )
 ```
 
-## GitHub
+## load_github
 
 ```python
 from agents import Agent, Runner
+
 from fonky.tools import load_github
 
-agent = Agent( name='Repository Reader', tools=[load_github] )
-result = Runner.run_sync( agent, 'Load Markdown files from the requested repository.' )
-print( result.final_output )
-```
-
-# Combined Workflows
-
-## Research and Normalize
-
-```python
-from agents import Agent, Runner
-from fonky.tools import fetch_wikipedia, preprocess_normalize_text
-
-agent = Agent( name='Research Preparation Assistant', tools=[fetch_wikipedia, preprocess_normalize_text] )
-result = Runner.run_sync( agent, 'Retrieve a short explanation of the federal budget process and normalize the text.' )
-print( result.final_output )
-```
-
-## Load and Normalize
-
-```python
-from agents import Agent, Runner
-from fonky.tools import load_text, preprocess_normalize_text
-
-agent = Agent( name='Document Preparation Assistant', tools=[load_text, preprocess_normalize_text] )
-result = Runner.run_sync( agent, 'Load data/sample.txt and normalize the text.' )
-print( result.final_output )
-```
-
-## Web Extraction Workflow
-
-```python
-from agents import Agent, Runner
-from fonky.tools import fetch_web_page, scrape_headings, scrape_hyperlinks, scrape_paragraphs
-
 agent = Agent(
-    name='Web Content Analyst',
-    tools=[fetch_web_page, scrape_headings, scrape_paragraphs, scrape_hyperlinks] )
-
-result = Runner.run_sync( agent, 'Inspect https://example.com and return its headings and links.' )
-print( result.final_output )
-```
-
-# Production Controls
-
-## Tool Scope
-
-```python
-tools=[
-    fetch_arxiv,
-    fetch_wikipedia,
-]
-```
-
-## Credentials
-
-```text
-Environment variables
-Cloud workload identity
-Provider credential chain
-Secret manager
-```
-
-## Direct Deterministic Execution
-
-```python
-from fonky.loaders import PdfLoader
-
-loader = PdfLoader( )
-
-documents = loader.load(
-    path='data/report.pdf',
-    mode='single',
-    extract='plain',
-    include=False,
-    format='markdown-img' )
-```
-
-## Agent-Selected Execution
-
-```python
-from agents import Agent
-from fonky.tools import load_pdf, load_word
-
-agent = Agent(
-    name='Document Router',
+    name='GitHub Loader Agent',
     tools=[
-        load_pdf,
-        load_word,
+        load_github,
     ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load Markdown files from the requested repository.' )
+
+print( result.final_output )
 ```
 
-# Validation
+---
 
-## Compile
+# 🔗 Combined Tool Examples
 
-```powershell
-python -m compileall .\fonky
+## Research and Preprocessing
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_wikipedia
+from fonky.tools import preprocess_normalize_text
+
+agent = Agent(
+    name='Research Preparation Agent',
+    tools=[
+        fetch_wikipedia,
+        preprocess_normalize_text,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve a short explanation of the federal budget process and normalize the text.' )
+
+print( result.final_output )
 ```
 
-## Core Imports
+## Load and Preprocess
 
-```powershell
-python -c "from fonky.fetchers import ArXiv; from fonky.loaders import PdfLoader; from fonky.scrapers import WebExtractor; from fonky.preprocessors import TextParser; print('ok')"
+```python
+from agents import Agent, Runner
+
+from fonky.tools import load_text
+from fonky.tools import preprocess_normalize_text
+
+agent = Agent(
+    name='Document Preparation Agent',
+    tools=[
+        load_text,
+        preprocess_normalize_text,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Load data/sample.txt and normalize the text.' )
+
+print( result.final_output )
 ```
 
-## Tool Imports
+## Research Router
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_arxiv
+from fonky.tools import fetch_google_search
+from fonky.tools import fetch_wikipedia
+
+agent = Agent(
+    name='Research Router',
+    instructions=(
+        'Use ArXiv for scholarly literature, Wikipedia for background, '
+        'and Google Search for current web discovery.'
+    ),
+    tools=[
+        fetch_arxiv,
+        fetch_wikipedia,
+        fetch_google_search,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Research retrieval augmented generation.' )
+
+print( result.final_output )
+```
+
+## Environmental Router
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import fetch_air_now
+from fonky.tools import fetch_open_weather
+from fonky.tools import fetch_usgs_earthquakes
+from fonky.tools import fetch_usgs_water_data
+
+agent = Agent(
+    name='Environmental Data Router',
+    tools=[
+        fetch_open_weather,
+        fetch_usgs_earthquakes,
+        fetch_usgs_water_data,
+        fetch_air_now,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Retrieve recent earthquake information.' )
+
+print( result.final_output )
+```
+
+---
+
+# ✅ Wrapper Validation
+
+## Import Validation
 
 ```powershell
 python -c "from fonky.tools import fetch_arxiv, load_pdf, scrape_tables, preprocess_normalize_text; print('ok')"
-```
-
-## Dependency Check
-
-```powershell
-python -m pip check
 ```
 
 ## Tool Count
 
 ```python
 import inspect
+
 import fonky.tools as tools
 
 count = sum(
@@ -985,25 +1393,61 @@ count = sum(
 print( count )
 ```
 
+Expected:
+
 ```text
 150
 ```
 
-## MkDocs
+## Schema Validation
 
-```powershell
-mkdocs build
-mkdocs serve
+```python
+import json
+
+from agents import FunctionTool
+
+from fonky.tools import fetch_arxiv
+
+assert isinstance( fetch_arxiv, FunctionTool )
+
+print( json.dumps(
+    fetch_arxiv.params_json_schema,
+    indent=2 ) )
 ```
+
+## Direct Wrapper Validation
+
+```python
+from fonky.tools import preprocess_normalize_text
+
+result = preprocess_normalize_text.__wrapped__(
+    text='  TEST    VALUE  ' )
+
+print( result )
+```
+
+## Agent Execution Validation
+
+```python
+from agents import Agent, Runner
+
+from fonky.tools import preprocess_normalize_text
+
+agent = Agent(
+    name='Wrapper Validation Agent',
+    tools=[
+        preprocess_normalize_text,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Normalize the text "  TEST    VALUE  ".' )
+
+print( result.final_output )
+```
+
+# 📚 Reference
 
 ```text
-http://127.0.0.1:8000/
+Tools.md
 ```
-
-# Reference Files
-
-| File | Scope |
-|---|---|
-| `README.md` | Installation, architecture, configuration, validation |
-| `Tools.md` | Complete tool signatures and API documentation |
-| `user-guide.md` | Usage patterns and examples |
