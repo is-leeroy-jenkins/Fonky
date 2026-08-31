@@ -207,6 +207,6 @@ python -c "from fonky.fetchers import ArXiv; from fonky.loaders import PdfLoader
 
 
 
-## 📝 License
+## 📝 [MIT License](https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE.txt)
 
-[LICENSE.txt](https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE.txt)
+

@@ -683,7 +683,10 @@ def fetch_space_weather( mode: str='cme', start_date: str='', end_date: str='', 
             the project error type.
     """
     _instance = SpaceWeather( )
-    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, time=time, location=location, catalog=catalog, notification_type=notification_type, most_accurate_only=most_accurate_only, complete_entry_only=complete_entry_only, speed=speed, half_angle=half_angle, keyword=keyword, api_key=api_key )
+    return _instance.fetch( mode=mode, start_date=start_date, end_date=end_date, time=time,
+	    location=location, catalog=catalog, notification_type=notification_type,
+	    most_accurate_only=most_accurate_only, complete_entry_only=complete_entry_only,
+	    speed=speed, half_angle=half_angle, keyword=keyword, api_key=api_key )
 
 
 @function_tool
