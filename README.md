@@ -7,7 +7,7 @@
   <a href="#%EF%B8%8F-architecture">Architecture</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-installation">Installation</a> &nbsp;|&nbsp;
   <a href="resources/user-guide.md">Usage</a> &nbsp;|&nbsp;
-  <a href="https://is-leeroy-jenkins.github.io/fonky/">Documentation</a> &nbsp;|&nbsp;
+  <a href="resources/Tools.md">Tools</a> &nbsp;|&nbsp;
   <a href="#-requirements">Requirements</a>
 </p>
 

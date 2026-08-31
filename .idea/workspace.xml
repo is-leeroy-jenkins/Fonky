@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea75f0e2-56da-4b3e-a3a5-6275ee06f820" name="Changes" comment="Updates" />
+    <list default="true" id="ea75f0e2-56da-4b3e-a3a5-6275ee06f820" name="Changes" comment="Updates">
+      <change beforePath="$PROJECT_DIR$/.idea/fonky.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/fonky.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseLocalColorSettings">
+    <option name="in-editor" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,9 +53,10 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/terry/source/repos/fonky",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -71,7 +78,11 @@
       <workItem from="1788199267965" duration="132000" />
       <workItem from="1788199439447" duration="1104000" />
       <workItem from="1788200593695" duration="2665000" />
-      <workItem from="1788205586819" duration="648000" />
+      <workItem from="1788205586819" duration="748000" />
+      <workItem from="1788206387554" duration="2649000" />
+      <workItem from="1788210464408" duration="621000" />
+      <workItem from="1788211120577" duration="366000" />
+      <workItem from="1788212124890" duration="305000" />
     </task>
     <task id="LOCAL-00001" summary="Updates">
       <option name="closed" value="true" />
@@ -81,7 +92,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788206180418</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Updates">
+      <option name="closed" value="true" />
+      <created>1788206312803</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1788206312803</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
