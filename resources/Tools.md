@@ -1,51 +1,46 @@
-# Fonky Tool Reference
+# Fonky Tools
 
-## Overview
+## Inventory
 
-Fonky exposes **150 OpenAI Agents SDK function tools** through `fonky.tools`.
-Each tool is defined with `@function_tool` and wraps functionality implemented by the
-`fetchers.py`, `loaders.py`, `scrapers.py`, or `preprocessors.py` modules.
+| Property | Value |
+|---|---:|
+| OpenAI Agents SDK `FunctionTool` objects | 150 |
+| Retrieval, loading, and scraping tools | 110 |
+| Preprocessing and NLTK tools | 40 |
 
-This reference is generated directly from the current `tools.py` implementation. Tool names,
-signatures, type annotations, default values, and documentation below therefore reflect the
-actual callable tool surface rather than a separate manually maintained registry.
-
-Fonky intentionally uses a **flat tool interface**. The tools are not assigned to runtime
-domains or category registries.
-
-### Basic Agent Usage
+## Import Pattern
 
 ```python
-from agents import Agent
-
-from fonky.tools import fetch_arxiv, load_pdf, normalize_text
-
-
-agent = Agent(
-    name='Fonky Agent',
-    instructions='Use the available Fonky tools when they are appropriate.',
-    tools=[
-        fetch_arxiv,
-        load_pdf,
-        normalize_text,
-    ] )
+from fonky.tools import fetch_arxiv
+from fonky.tools import load_pdf
+from fonky.tools import preprocess_normalize_text
+from fonky.tools import scrape_tables
 ```
 
-### Direct Imports
-
-Import only the tools required by the application:
+## Agent Pattern
 
 ```python
-from fonky.tools import fetch_google_search
-from fonky.tools import load_word
-from fonky.tools import scrape_tables
-from fonky.tools import chunk_text
+from agents import Agent, Runner
+
+from fonky.tools import fetch_arxiv
+
+agent = Agent(
+    name='Research Assistant',
+    tools=[
+        fetch_arxiv,
+    ] )
+
+result = Runner.run_sync(
+    agent,
+    'Research retrieval augmented generation.' )
+
+print( result.final_output )
 ```
 
 ## Tool Index
 
 | # | Tool |
-|---:|------|
+|---:|---|
 | 1 | [`convert_html_to_text()`](#convert_html_to_text) |
 | 2 | [`crawl_web()`](#crawl_web) |
 | 3 | [`encode_image()`](#encode_image) |
@@ -197,13 +192,11 @@ from fonky.tools import chunk_text
 | 149 | [`scraper_html_to_text()`](#scraper_html_to_text) |
 | 150 | [`validate_address()`](#validate_address) |
 
----
-
-## Complete Tool Documentation
+## API Reference
 
 ### convert_html_to_text
 
-**Tool 1 of 150**
+**Index:** 1
 
 ```python
 def convert_html_to_text( html: str ) -> Any
@@ -228,7 +221,7 @@ Raises:
 
 ### crawl_web
 
-**Tool 2 of 150**
+**Index:** 2
 
 ```python
 def crawl_web( seed_url: str, include_title: bool=True, include_basic_text: bool=True, include_raw_html: bool=False, selected_methods: Optional[List[str]]=None, recursive: bool=False, max_depth: int=1, max_pages: int=10, same_domain_only: bool=True, request_timeout: int=10, delay_seconds: float=0.25, max_bytes: int=1000000, headers: Optional[Dict[str, str]]=None, use_playwright: bool=False ) -> Any
@@ -268,7 +261,7 @@ Raises:
 
 ### encode_image
 
-**Tool 3 of 150**
+**Index:** 3
 
 ```python
 def encode_image( path: str ) -> str
@@ -292,7 +285,7 @@ Raises:
 
 ### extract_web_links
 
-**Tool 4 of 150**
+**Index:** 4
 
 ```python
 def extract_web_links( base_url: str, html: str ) -> Any
@@ -318,7 +311,7 @@ Raises:
 
 ### extract_web_structured_data
 
-**Tool 5 of 150**
+**Index:** 5
 
 ```python
 def extract_web_structured_data( url: str, html: str, selected_methods: Optional[List[str]]=None ) -> Any
@@ -345,7 +338,7 @@ Raises:
 
 ### extract_web_title
 
-**Tool 6 of 150**
+**Index:** 6
 
 ```python
 def extract_web_title( html: str ) -> Any
@@ -370,7 +363,7 @@ Raises:
 
 ### fetch_air_now
 
-**Tool 7 of 150**
+**Index:** 7
 
 ```python
 def fetch_air_now( mode: str='current-zip', zip_code: str='', latitude: float | None=None, longitude: float | None=None, date: str='', distance: int=25, time: int=20 ) -> Any
@@ -405,7 +398,7 @@ Raises:
 
 ### fetch_arxiv
 
-**Tool 8 of 150**
+**Index:** 8
 
 ```python
 def fetch_arxiv( question: str, max_documents: int | None=None, full_documents: bool | None=None, include_metadata: bool | None=None ) -> Any
@@ -435,7 +428,7 @@ Raises:
 
 ### fetch_astro_catalog
 
-**Tool 9 of 150**
+**Index:** 9
 
 ```python
 def fetch_astro_catalog( mode: str='object_query', query: str='', quantity: str='', attributes: str='', arguments: str='', ra: str='', dec: str='', radius: int=2, data_format: str='json', time: int=20 ) -> Any
@@ -471,7 +464,7 @@ Raises:
 
 ### fetch_astro_query
 
-**Tool 10 of 150**
+**Index:** 10
 
 ```python
 def fetch_astro_query( mode: str='object_search', query: str='', ra: str='', dec: str='', radius: float=0.5, radius_unit: str='deg', row_limit: int=100 ) -> Any
@@ -505,7 +498,7 @@ Raises:
 
 ### fetch_census_data
 
-**Tool 11 of 150**
+**Index:** 11
 
 ```python
 def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='acs/acs5', fields: str='NAME,B01001_001E', geography_for: str='state:*', geography_in: str='', predicates: str='', time: int=20 ) -> Any
@@ -540,7 +533,7 @@ Raises:
 
 ### fetch_climate_data
 
-**Tool 12 of 150**
+**Index:** 12
 
 ```python
 def fetch_climate_data( mode: str='datasets', keyword: str='', dataset: str='', start_date: str='', end_date: str='', stations: str='', data_types: str='', limit: int=25, offset: int=0, time: int=20 ) -> Any
@@ -578,7 +571,7 @@ Raises:
 
 ### fetch_congress
 
-**Tool 13 of 150**
+**Index:** 13
 
 ```python
 def fetch_congress( mode: str='congresses', congress: int=0, bill_type: str='', bill_number: int=0, law_type: str='', law_number: int=0, report_type: str='', report_number: int=0, offset: int=0, limit: int=20, sort: str='updateDate+desc', from_date_time: str='', to_date_time: str='', conference: bool=False, time: int=20 ) -> Any
@@ -623,7 +616,7 @@ Raises:
 
 ### fetch_earth_observatory
 
-**Tool 14 of 150**
+**Index:** 14
 
 ```python
 def fetch_earth_observatory( mode: str='events', status: str='open', category: str='', source: str='', limit: int=20, days: int=30, start_date: str='', end_date: str='', time: int=20 ) -> Any
@@ -659,7 +652,7 @@ Raises:
 
 ### fetch_envirofacts
 
-**Tool 15 of 150**
+**Index:** 15
 
 ```python
 def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='', facility_name: str='', limit: int=25, time: int=20 ) -> Any
@@ -689,7 +682,7 @@ Raises:
 
 ### fetch_eonet
 
-**Tool 16 of 150**
+**Index:** 16
 
 ```python
 def fetch_eonet( mode: str='events', source: str='', category: str='', status: str='open', limit: int=25, days: int=30, start_date: str='', end_date: str='', bbox: str='', time: int=20 ) -> Any
@@ -728,7 +721,7 @@ Raises:
 
 ### fetch_firms
 
-**Tool 17 of 150**
+**Index:** 17
 
 ```python
 def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinates: str='world', day_range: int=1, date: str='', sensor: str='ALL', time: int=20 ) -> Any
@@ -762,7 +755,7 @@ Raises:
 
 ### fetch_global_health_data
 
-**Tool 18 of 150**
+**Index:** 18
 
 ```python
 def fetch_global_health_data( mode: str='indicator_registry', query_path: str='', fmt: str='json', time: int=20 ) -> Any
@@ -793,7 +786,7 @@ Raises:
 
 ### fetch_global_imagery_map_services
 
-**Tool 19 of 150**
+**Index:** 19
 
 ```python
 def fetch_global_imagery_map_services(  ) -> Any
@@ -815,7 +808,7 @@ Raises:
 
 ### fetch_global_imagery_mercator_map
 
-**Tool 20 of 150**
+**Index:** 20
 
 ```python
 def fetch_global_imagery_mercator_map( ccrs: Any | None=None ) -> Any
@@ -840,7 +833,7 @@ Raises:
 
 ### fetch_global_imagery_wms_map
 
-**Tool 21 of 150**
+**Index:** 21
 
 ```python
 def fetch_global_imagery_wms_map( layer: str, image_date: str, bbox: Tuple[float, float, float, float], width: int=1200, height: int=600, projection: str='epsg4326', quality: str='best', image_format: str='image/png', transparent: bool=True, output_dir: str='python-examples', output_name: str='', time: int=20 ) -> Any
@@ -878,7 +871,7 @@ Raises:
 
 ### fetch_google_drive
 
-**Tool 22 of 150**
+**Index:** 22
 
 ```python
 def fetch_google_drive( question: str, folder_id: str='root', results: int=10, template: str='gdrive-query', mime_type: str | None=None, mode: str='documents' ) -> Any
@@ -911,7 +904,7 @@ Raises:
 
 ### fetch_google_geocoding
 
-**Tool 23 of 150**
+**Index:** 23
 
 ```python
 def fetch_google_geocoding( mode: str='forward', query: str='', latitude: float=0.0, longitude: float=0.0, place_id: str='', language: str='en', region: str='', result_type: str='', location_type: str='', time: int=10, api_key: Optional[str]=None ) -> Any
@@ -952,7 +945,7 @@ Raises:
 
 ### fetch_google_search
 
-**Tool 24 of 150**
+**Index:** 24
 
 ```python
 def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_terms: str='', exclude_terms: str='', file_type: str='', date_restrict: str='', gl: str='', lr: str='', safe: str='off', search_type: str='', site_search: str='', site_search_filter: str='', sort: str='', img_size: str='', img_type: str='', img_color_type: str='', img_dominant_color: str='', time: int=10, api_key: str | None=None, cse_id: str | None=None ) -> Any
@@ -1002,7 +995,7 @@ Raises:
 
 ### fetch_google_weather_alerts
 
-**Tool 25 of 150**
+**Index:** 25
 
 ```python
 def fetch_google_weather_alerts( address: str, language_code: str='en', time: int=10 ) -> Any
@@ -1029,7 +1022,7 @@ Raises:
 
 ### fetch_google_weather_current
 
-**Tool 26 of 150**
+**Index:** 26
 
 ```python
 def fetch_google_weather_current( address: str, units_system: str='METRIC', language_code: str='en', time: int=10 ) -> Any
@@ -1057,7 +1050,7 @@ Raises:
 
 ### fetch_google_weather_daily_forecast
 
-**Tool 27 of 150**
+**Index:** 27
 
 ```python
 def fetch_google_weather_daily_forecast( address: str, days: int=5, units_system: str='METRIC', language_code: str='en', time: int=10 ) -> Any
@@ -1087,7 +1080,7 @@ Raises:
 
 ### fetch_google_weather_hourly_forecast
 
-**Tool 28 of 150**
+**Index:** 28
 
 ```python
 def fetch_google_weather_hourly_forecast( address: str, hours: int=24, units_system: str='METRIC', language_code: str='en', time: int=10 ) -> Any
@@ -1117,7 +1110,7 @@ Raises:
 
 ### fetch_google_weather_hourly_history
 
-**Tool 29 of 150**
+**Index:** 29
 
 ```python
 def fetch_google_weather_hourly_history( address: str, hours: int=24, units_system: str='METRIC', language_code: str='en', time: int=10 ) -> Any
@@ -1147,7 +1140,7 @@ Raises:
 
 ### fetch_gov_data
 
-**Tool 30 of 150**
+**Index:** 30
 
 ```python
 def fetch_gov_data( mode: str='search', query: str='', page_size: int=10, offset_mark: str='*', sort_field: str='score', sort_order: str='DESC', package_id: str='', collection: str='', start_date: str='', time: int=20 ) -> Any
@@ -1186,7 +1179,7 @@ Raises:
 
 ### fetch_grokipedia
 
-**Tool 31 of 150**
+**Index:** 31
 
 ```python
 def fetch_grokipedia( mode: str='search', query: str='', page: str='', limit: int=12, offset: int=0, include_content: bool=True ) -> Any
@@ -1219,7 +1212,7 @@ Raises:
 
 ### fetch_health_data
 
-**Tool 32 of 150**
+**Index:** 32
 
 ```python
 def fetch_health_data( mode: str='rows', domain: str='healthdata.gov', dataset_id: str='', select: str='', where: str='', order: str='', group: str='', limit: int=25, offset: int=0, time: int=20 ) -> Any
@@ -1257,7 +1250,7 @@ Raises:
 
 ### fetch_historical_weather
 
-**Tool 33 of 150**
+**Index:** 33
 
 ```python
 def fetch_historical_weather( location: str, date: dt.date, zone: str='auto', count: int=10 ) -> Any
@@ -1285,7 +1278,7 @@ Raises:
 
 ### fetch_internet_archive
 
-**Tool 34 of 150**
+**Index:** 34
 
 ```python
 def fetch_internet_archive( keywords: str, fields: List[str] | None=None, rows: int=10, page: int=1, sort: str='downloads desc', media_type: str='', collection: str='', time: int=20 ) -> Any
@@ -1320,7 +1313,7 @@ Raises:
 
 ### fetch_naval_observatory
 
-**Tool 35 of 150**
+**Index:** 35
 
 ```python
 def fetch_naval_observatory( mode: str='celnav', date_value: str='', time_value: str='', latitude: float=0.0, longitude: float=0.0, location_label: str='', time: int=20 ) -> Any
@@ -1353,7 +1346,7 @@ Raises:
 
 ### fetch_nearby_objects
 
-**Tool 36 of 150**
+**Index:** 36
 
 ```python
 def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_date: str='', query: str='', query_type: str='sstr', dist_max: str='10LD', body: str='Earth', sort: str='date', limit: int=20, dv: float=6.0, dur: int=360, stay: int=8, launch: str='2020-2045', h: float=26.0, occ: int=7, include_physical: bool=True, include_close_approaches: bool=True, ca_body: str='Earth', include_discovery: bool=True, time: int=20 ) -> Any
@@ -1401,7 +1394,7 @@ Raises:
 
 ### fetch_news
 
-**Tool 37 of 150**
+**Index:** 37
 
 ```python
 def fetch_news( endpoint: str='all', query: str='', language: str='en', categories: str='', exclude_categories: str='', locale: str='', domains: str='', exclude_domains: str='', source_ids: str='', exclude_source_ids: str='', published_after: str='', published_before: str='', published_on: str='', sort: str='published_at', limit: int=10, page: int=1, include_similar: bool=True, headlines_per_category: int=6, time: int=10, api_key: str | None=None ) -> Any
@@ -1450,7 +1443,7 @@ Raises:
 
 ### fetch_open_aq
 
-**Tool 38 of 150**
+**Index:** 38
 
 ```python
 def fetch_open_aq( mode: str='locations', location_id: int | None=None, parameter_id: int | None=None, country_id: int | None=None, coordinates: str='', radius: int=25000, providers_id: str='', parameters_id: str='', limit: int=25, page: int=1, time: int=20 ) -> Any
@@ -1491,7 +1484,7 @@ Raises:
 
 ### fetch_open_science
 
-**Tool 39 of 150**
+**Index:** 39
 
 ```python
 def fetch_open_science( mode: str='dataset', query: str='', accession: str='', format_value: str='json', time: int=20 ) -> Any
@@ -1522,7 +1515,7 @@ Raises:
 
 ### fetch_open_sky
 
-**Tool 40 of 150**
+**Index:** 40
 
 ```python
 def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', begin: int | None=None, end: int | None=None, time_value: int | None=None, lamin: float | None=None, lomin: float | None=None, lamax: float | None=None, lomax: float | None=None, extended: bool=False, client_id: str | None=None, client_secret: str | None=None, time: int=20 ) -> Any
@@ -1565,7 +1558,7 @@ Raises:
 
 ### fetch_open_weather
 
-**Tool 41 of 150**
+**Index:** 41
 
 ```python
 def fetch_open_weather( location: str, mode: str='current', zone: str='auto', forecast_days: int=7, past_days: int=0, count: int=10 ) -> Any
@@ -1596,7 +1589,7 @@ Raises:
 
 ### fetch_purple_air
 
-**Tool 42 of 150**
+**Index:** 42
 
 ```python
 def fetch_purple_air( mode: str='sensors', sensor_index: int | None=None, nwlng: float | None=None, nwlat: float | None=None, selng: float | None=None, selat: float | None=None, location_type: int=0, max_age: int=0, modified_since: int=0, fields: str='', time: int=20 ) -> Any
@@ -1635,7 +1628,7 @@ Raises:
 
 ### fetch_satellite_center
 
-**Tool 43 of 150**
+**Index:** 43
 
 ```python
 def fetch_satellite_center( mode: str='observatories', query: str='', start_time: str='', end_time: str='', coordinate_systems: str='gse', resolution_factor: int=1, time: int=20 ) -> Any
@@ -1670,7 +1663,7 @@ Raises:
 
 ### fetch_socrata
 
-**Tool 44 of 150**
+**Index:** 44
 
 ```python
 def fetch_socrata( mode: str='rows', domain: str='data.cdc.gov', dataset_id: str='', select: str='', where: str='', order: str='', group: str='', limit: int=25, offset: int=0, time: int=20 ) -> Any
@@ -1707,7 +1700,7 @@ Raises:
 
 ### fetch_space_weather
 
-**Tool 45 of 150**
+**Index:** 45
 
 ```python
 def fetch_space_weather( mode: str='cme', start_date: str='', end_date: str='', time: int=20, location: str='ALL', catalog: str='ALL', notification_type: str='all', most_accurate_only: bool=True, complete_entry_only: bool=True, speed: int=0, half_angle: int=0, keyword: str='', api_key: str | None=None ) -> Any
@@ -1747,7 +1740,7 @@ Raises:
 
 ### fetch_star_chart
 
-**Tool 46 of 150**
+**Index:** 46
 
 ```python
 def fetch_star_chart( mode: str='object_chart', query: str='', ra: float=0.0, dec: float=0.0, zoom: int=5, image_source: str='DSS2', box_color: str='yellow', show_box: bool=True, show_grid: bool=True, show_lines: bool=True, show_boundaries: bool=True, show_const_names: bool=False, width: int=900, height: int=450, magnitude: float=7.5, time: int=20 ) -> Any
@@ -1789,7 +1782,7 @@ Raises:
 
 ### fetch_star_map
 
-**Tool 47 of 150**
+**Index:** 47
 
 ```python
 def fetch_star_map( mode: str='object_link', query: str='', ra: float=0.0, dec: float=0.0, zoom: int=5, image_source: str='DSS2', box_color: str='yellow', show_box: bool=True, show_grid: bool=True, show_lines: bool=True, show_boundaries: bool=True, show_const_names: bool=False, time: int=20 ) -> Any
@@ -1828,7 +1821,7 @@ Raises:
 
 ### fetch_tides_and_currents
 
-**Tool 48 of 150**
+**Index:** 48
 
 ```python
 def fetch_tides_and_currents( mode: str='water-level', station_id: str='', begin_date: str='', end_date: str='', datum: str='MLLW', units: str='metric', time_zone: str='gmt', interval: str='hilo', time: int=20 ) -> Any
@@ -1865,7 +1858,7 @@ Raises:
 
 ### fetch_united_nations
 
-**Tool 49 of 150**
+**Index:** 49
 
 ```python
 def fetch_united_nations( mode: str='datasets', query_path: str='', time: int=20 ) -> Any
@@ -1895,7 +1888,7 @@ Raises:
 
 ### fetch_usgs_earthquakes
 
-**Tool 50 of 150**
+**Index:** 50
 
 ```python
 def fetch_usgs_earthquakes( mode: str='feed', feed: str='all_day.geojson', start_date: str='', end_date: str='', min_magnitude: float=1.0, max_magnitude: float=10.0, limit: int=25, order_by: str='time', event_type: str='earthquake', latitude: float | None=None, longitude: float | None=None, max_radius_km: float | None=None, time: int=20 ) -> Any
@@ -1937,7 +1930,7 @@ Raises:
 
 ### fetch_usgs_national_map
 
-**Tool 51 of 150**
+**Index:** 51
 
 ```python
 def fetch_usgs_national_map( mode: str='products', dataset: str='', q: str='', bbox: str='', prod_formats: str='', max_items: int=25, offset: int=0, time: int=20 ) -> Any
@@ -1974,7 +1967,7 @@ Raises:
 
 ### fetch_usgs_sciencebase
 
-**Tool 52 of 150**
+**Index:** 52
 
 ```python
 def fetch_usgs_sciencebase( mode: str='items', q: str='', item_id: str='', max_items: int=25, offset: int=0, fields: str='', time: int=20 ) -> Any
@@ -2009,7 +2002,7 @@ Raises:
 
 ### fetch_usgs_water_data
 
-**Tool 53 of 150**
+**Index:** 53
 
 ```python
 def fetch_usgs_water_data( mode: str='monitoring-locations', monitoring_location_id: str='', state_code: str='', county_code: str='', site_type: str='', parameter_code: str='', limit: int=25, time: int=20 ) -> Any
@@ -2045,7 +2038,7 @@ Raises:
 
 ### fetch_uv_index
 
-**Tool 54 of 150**
+**Index:** 54
 
 ```python
 def fetch_uv_index( mode: str='daily-zip', zip_code: str='', city: str='', state: str='', time: int=20 ) -> Any
@@ -2077,7 +2070,7 @@ Raises:
 
 ### fetch_web_page
 
-**Tool 55 of 150**
+**Index:** 55
 
 ```python
 def fetch_web_page( url: str, time: int=10 ) -> Any
@@ -2103,7 +2096,7 @@ Raises:
 
 ### fetch_wikipedia
 
-**Tool 56 of 150**
+**Index:** 56
 
 ```python
 def fetch_wikipedia( question: str, language: str | None=None, max_documents: int | None=None, include_metadata: bool | None=None ) -> Any
@@ -2133,7 +2126,7 @@ Raises:
 
 ### fetch_wonder
 
-**Tool 57 of 150**
+**Index:** 57
 
 ```python
 def fetch_wonder( mode: str='metadata_template', dataset_id: str='D76', request_xml: str='', time: int=20 ) -> Any
@@ -2164,7 +2157,7 @@ Raises:
 
 ### fetch_world_population
 
-**Tool 58 of 150**
+**Index:** 58
 
 ```python
 def fetch_world_population( mode: str='catalog', query: str='', asset_path: str='', page: int=1, page_size: int=25, time: int=20 ) -> Any
@@ -2199,7 +2192,7 @@ Raises:
 
 ### geocode_coordinates
 
-**Tool 59 of 150**
+**Index:** 59
 
 ```python
 def geocode_coordinates( lat: float, long: float ) -> Any
@@ -2227,7 +2220,7 @@ Raises:
 
 ### geocode_location
 
-**Tool 60 of 150**
+**Index:** 60
 
 ```python
 def geocode_location( address: str ) -> Any
@@ -2253,7 +2246,7 @@ Raises:
 
 ### load_arxiv
 
-**Tool 61 of 150**
+**Index:** 61
 
 ```python
 def load_arxiv( question: str ) -> Any
@@ -2279,7 +2272,7 @@ Raises:
 
 ### load_aws_bucket
 
-**Tool 62 of 150**
+**Index:** 62
 
 ```python
 def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id: Optional[str]=None, aws_secret_access_key: Optional[str]=None, aws_session_token: Optional[str]=None, region_name: Optional[str]=None, endpoint_url: Optional[str]=None ) -> Any
@@ -2310,7 +2303,7 @@ Raises:
 
 ### load_aws_file
 
-**Tool 63 of 150**
+**Index:** 63
 
 ```python
 def load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str]=None, aws_secret_access_key: Optional[str]=None, aws_session_token: Optional[str]=None, region_name: Optional[str]=None ) -> Any
@@ -2340,7 +2333,7 @@ Raises:
 
 ### load_csv
 
-**Tool 64 of 150**
+**Index:** 64
 
 ```python
 def load_csv( path: str, encoding: Optional[str]='utf-8', source_column: Optional[str]=None, delimiter: str=',', quotechar: str='"' ) -> Any
@@ -2369,7 +2362,7 @@ Raises:
 
 ### load_email
 
-**Tool 65 of 150**
+**Index:** 65
 
 ```python
 def load_email( path: str, mode: str='single', attachments: bool=True ) -> Any
@@ -2396,7 +2389,7 @@ Raises:
 
 ### load_excel
 
-**Tool 66 of 150**
+**Index:** 66
 
 ```python
 def load_excel( path: str, mode: str='elements', has_headers: bool=True ) -> Any
@@ -2423,7 +2416,7 @@ Raises:
 
 ### load_github
 
-**Tool 67 of 150**
+**Index:** 67
 
 ```python
 def load_github( url: str, repo: str, branch: str, filetype: str='.md' ) -> Any
@@ -2451,7 +2444,7 @@ Raises:
 
 ### load_google_bucket
 
-**Tool 68 of 150**
+**Index:** 68
 
 ```python
 def load_google_bucket( project_name: str, bucket: str, prefix: Optional[str]=None, continue_on_failure: bool=False ) -> Any
@@ -2480,7 +2473,7 @@ Raises:
 
 ### load_google_cloud_file
 
-**Tool 69 of 150**
+**Index:** 69
 
 ```python
 def load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any
@@ -2507,7 +2500,7 @@ Raises:
 
 ### load_google_drive_file
 
-**Tool 70 of 150**
+**Index:** 70
 
 ```python
 def load_google_drive_file( file_id: str, recursive: bool=False ) -> Any
@@ -2534,7 +2527,7 @@ Raises:
 
 ### load_google_drive_folder
 
-**Tool 71 of 150**
+**Index:** 71
 
 ```python
 def load_google_drive_folder( folder_id: str, recursive: bool=False ) -> Any
@@ -2561,7 +2554,7 @@ Raises:
 
 ### load_google_speech_to_text
 
-**Tool 72 of 150**
+**Index:** 72
 
 ```python
 def load_google_speech_to_text( project_id: str, file_path: str, config: Optional[Dict[str, Any]]=None ) -> Any
@@ -2588,7 +2581,7 @@ Raises:
 
 ### load_html
 
-**Tool 73 of 150**
+**Index:** 73
 
 ```python
 def load_html( path: str ) -> Any
@@ -2613,7 +2606,7 @@ Raises:
 
 ### load_json
 
-**Tool 74 of 150**
+**Index:** 74
 
 ```python
 def load_json( filepath: str, is_text: bool=True, is_lines: bool=False ) -> Any
@@ -2640,7 +2633,7 @@ Raises:
 
 ### load_jupyter_notebook
 
-**Tool 75 of 150**
+**Index:** 75
 
 ```python
 def load_jupyter_notebook( path: str, include_outputs: bool=False, max_output_length: int=10, remove_newline: bool=False, traceback: bool=False ) -> Any
@@ -2670,7 +2663,7 @@ Raises:
 
 ### load_markdown
 
-**Tool 76 of 150**
+**Index:** 76
 
 ```python
 def load_markdown( path: str ) -> Any
@@ -2695,7 +2688,7 @@ Raises:
 
 ### load_onedrive
 
-**Tool 77 of 150**
+**Index:** 77
 
 ```python
 def load_onedrive( drive_id: str, folder_path: Optional[str]=None, object_ids: Optional[List[str]]=None, auth_with_token: bool=True ) -> Any
@@ -2723,7 +2716,7 @@ Raises:
 
 ### load_open_city
 
-**Tool 78 of 150**
+**Index:** 78
 
 ```python
 def load_open_city( city_id: str, dataset_id: str, limit: int=100 ) -> Any
@@ -2752,7 +2745,7 @@ Raises:
 
 ### load_outlook
 
-**Tool 79 of 150**
+**Index:** 79
 
 ```python
 def load_outlook( path: str ) -> Any
@@ -2777,7 +2770,7 @@ Raises:
 
 ### load_pdf
 
-**Tool 80 of 150**
+**Index:** 80
 
 ```python
 def load_pdf( path: str, mode: str='single', extract: str='plain', include: bool=False, format: str='markdown-img', size: int=1000, overlap: int=150, has_tables: bool=True ) -> Any
@@ -2809,7 +2802,7 @@ Raises:
 
 ### load_powerpoint
 
-**Tool 81 of 150**
+**Index:** 81
 
 ```python
 def load_powerpoint( path: str, mode: str='single' ) -> Any
@@ -2835,7 +2828,7 @@ Raises:
 
 ### load_powerpoint_multiple
 
-**Tool 82 of 150**
+**Index:** 82
 
 ```python
 def load_powerpoint_multiple( path: str ) -> Any
@@ -2860,7 +2853,7 @@ Raises:
 
 ### load_pubmed
 
-**Tool 83 of 150**
+**Index:** 83
 
 ```python
 def load_pubmed( query: str, max_docs: int=5 ) -> Any
@@ -2888,7 +2881,7 @@ Raises:
 
 ### load_spfx
 
-**Tool 84 of 150**
+**Index:** 84
 
 ```python
 def load_spfx( library_id: str ) -> Any
@@ -2913,7 +2906,7 @@ Raises:
 
 ### load_spfx_folder
 
-**Tool 85 of 150**
+**Index:** 85
 
 ```python
 def load_spfx_folder( library_id: str, folder_id: str ) -> Any
@@ -2939,7 +2932,7 @@ Raises:
 
 ### load_text
 
-**Tool 86 of 150**
+**Index:** 86
 
 ```python
 def load_text( path: str, encoding: Optional[str]=None ) -> Any
@@ -2965,7 +2958,7 @@ Raises:
 
 ### load_web
 
-**Tool 87 of 150**
+**Index:** 87
 
 ```python
 def load_web( urls: str | List[str], recursive: bool=False, max_depth: int=2, prevent_outside: bool=True, timeout: int=10, ignore: bool=True, progress: bool=True ) -> Any
@@ -2998,7 +2991,7 @@ Raises:
 
 ### load_web_pages
 
-**Tool 88 of 150**
+**Index:** 88
 
 ```python
 def load_web_pages( urls: List[str], depth: int=2, timeout: int=10, ignore: bool=True, progress: bool=True ) -> Any
@@ -3027,7 +3020,7 @@ Raises:
 
 ### load_web_recursive
 
-**Tool 89 of 150**
+**Index:** 89
 
 ```python
 def load_web_recursive( url: str, depth: int=2, max_time: int=10, ignore: bool=True ) -> Any
@@ -3055,7 +3048,7 @@ Raises:
 
 ### load_wikipedia
 
-**Tool 90 of 150**
+**Index:** 90
 
 ```python
 def load_wikipedia( question: str ) -> Any
@@ -3081,7 +3074,7 @@ Raises:
 
 ### load_word
 
-**Tool 91 of 150**
+**Index:** 91
 
 ```python
 def load_word( path: str ) -> Any
@@ -3106,7 +3099,7 @@ Raises:
 
 ### load_xml
 
-**Tool 92 of 150**
+**Index:** 92
 
 ```python
 def load_xml( filepath: str ) -> Any
@@ -3131,7 +3124,7 @@ Raises:
 
 ### load_xml_tree
 
-**Tool 93 of 150**
+**Index:** 93
 
 ```python
 def load_xml_tree( filepath: str ) -> Any
@@ -3156,7 +3149,7 @@ Raises:
 
 ### nltk_chunk_sentences
 
-**Tool 94 of 150**
+**Index:** 94
 
 ```python
 def nltk_chunk_sentences( text: str, size: int=15 ) -> DataFrame | None
@@ -3185,7 +3178,7 @@ Raises:
 
 ### nltk_chunk_words
 
-**Tool 95 of 150**
+**Index:** 95
 
 ```python
 def nltk_chunk_words( text: str, size: int=5 ) -> DataFrame | None
@@ -3214,7 +3207,7 @@ Raises:
 
 ### nltk_named_entity_recognition
 
-**Tool 96 of 150**
+**Index:** 96
 
 ```python
 def nltk_named_entity_recognition( text: str ) -> List[Tuple[str, str]] | None
@@ -3240,7 +3233,7 @@ Raises:
 
 ### nltk_pos_tagger
 
-**Tool 97 of 150**
+**Index:** 97
 
 ```python
 def nltk_pos_tagger( text: str ) -> List[Tuple[str, str]] | None
@@ -3266,7 +3259,7 @@ Raises:
 
 ### nltk_sentence_tokenizer
 
-**Tool 98 of 150**
+**Index:** 98
 
 ```python
 def nltk_sentence_tokenizer( text: str ) -> List[str] | None
@@ -3292,7 +3285,7 @@ Raises:
 
 ### nltk_word_lemmatizer
 
-**Tool 99 of 150**
+**Index:** 99
 
 ```python
 def nltk_word_lemmatizer( text: str ) -> List[str] | None
@@ -3318,7 +3311,7 @@ Raises:
 
 ### nltk_word_stemmer
 
-**Tool 100 of 150**
+**Index:** 100
 
 ```python
 def nltk_word_stemmer( text: str ) -> List[str] | None
@@ -3344,7 +3337,7 @@ Raises:
 
 ### nltk_word_tokenizer
 
-**Tool 101 of 150**
+**Index:** 101
 
 ```python
 def nltk_word_tokenizer( text: str ) -> List[str] | None
@@ -3370,7 +3363,7 @@ Raises:
 
 ### preprocess_chunk_data
 
-**Tool 102 of 150**
+**Index:** 102
 
 ```python
 def preprocess_chunk_data( filepath: str, size: int=10 ) -> DataFrame | None
@@ -3400,7 +3393,7 @@ Raises:
 
 ### preprocess_chunk_datasets
 
-**Tool 103 of 150**
+**Index:** 103
 
 ```python
 def preprocess_chunk_datasets( source: str, destination: str, size: int=10 ) -> DataFrame
@@ -3430,7 +3423,7 @@ Raises:
 
 ### preprocess_chunk_files
 
-**Tool 104 of 150**
+**Index:** 104
 
 ```python
 def preprocess_chunk_files( source: str, destination: str ) -> None
@@ -3459,7 +3452,7 @@ Raises:
 
 ### preprocess_clean_file
 
-**Tool 105 of 150**
+**Index:** 105
 
 ```python
 def preprocess_clean_file( filepath: str ) -> str | None
@@ -3487,7 +3480,7 @@ Raises:
 
 ### preprocess_clean_files
 
-**Tool 106 of 150**
+**Index:** 106
 
 ```python
 def preprocess_clean_files( source: str, destination: str ) -> None
@@ -3516,7 +3509,7 @@ Raises:
 
 ### preprocess_collapse_whitespace
 
-**Tool 107 of 150**
+**Index:** 107
 
 ```python
 def preprocess_collapse_whitespace( text: str ) -> str | None
@@ -3543,7 +3536,7 @@ Raises:
 
 ### preprocess_convert_jsonl
 
-**Tool 108 of 150**
+**Index:** 108
 
 ```python
 def preprocess_convert_jsonl( source: str, destination: str, size: int=10 ) -> None
@@ -3573,7 +3566,7 @@ Raises:
 
 ### preprocess_create_frequency_distribution
 
-**Tool 109 of 150**
+**Index:** 109
 
 ```python
 def preprocess_create_frequency_distribution( tokens: List[str] ) -> DataFrame | None
@@ -3600,7 +3593,7 @@ Raises:
 
 ### preprocess_create_vectors
 
-**Tool 110 of 150**
+**Index:** 110
 
 ```python
 def preprocess_create_vectors( tokens: List[str] ) -> DataFrame | None
@@ -3627,7 +3620,7 @@ Raises:
 
 ### preprocess_create_vocabulary
 
-**Tool 111 of 150**
+**Index:** 111
 
 ```python
 def preprocess_create_vocabulary( tokens: List[str] ) -> Series | None
@@ -3653,7 +3646,7 @@ Raises:
 
 ### preprocess_create_wordbag
 
-**Tool 112 of 150**
+**Index:** 112
 
 ```python
 def preprocess_create_wordbag( tokens: List[str] ) -> DataFrame | None
@@ -3681,7 +3674,7 @@ Raises:
 
 ### preprocess_encode_sentences
 
-**Tool 113 of 150**
+**Index:** 113
 
 ```python
 def preprocess_encode_sentences( tokens: List[str], model: str='all-MiniLM-L6-v2' ) -> Tuple[List[str], np.ndarray]
@@ -3708,7 +3701,7 @@ Raises:
 
 ### preprocess_load_text
 
-**Tool 114 of 150**
+**Index:** 114
 
 ```python
 def preprocess_load_text( filepath: str ) -> str | None
@@ -3736,7 +3729,7 @@ Raises:
 
 ### preprocess_normalize_text
 
-**Tool 115 of 150**
+**Index:** 115
 
 ```python
 def preprocess_normalize_text( text: str ) -> str | None
@@ -3762,7 +3755,7 @@ Raises:
 
 ### preprocess_remove_encodings
 
-**Tool 116 of 150**
+**Index:** 116
 
 ```python
 def preprocess_remove_encodings( text: str ) -> str | None
@@ -3789,7 +3782,7 @@ Raises:
 
 ### preprocess_remove_errors
 
-**Tool 117 of 150**
+**Index:** 117
 
 ```python
 def preprocess_remove_errors( text: str ) -> str
@@ -3815,7 +3808,7 @@ Raises:
 
 ### preprocess_remove_fragments
 
-**Tool 118 of 150**
+**Index:** 118
 
 ```python
 def preprocess_remove_fragments( text: str ) -> str | None
@@ -3841,7 +3834,7 @@ Raises:
 
 ### preprocess_remove_headers
 
-**Tool 119 of 150**
+**Index:** 119
 
 ```python
 def preprocess_remove_headers( filepath: str, lines: int=50, headers: int=3, footers: int=3 ) -> str | None
@@ -3873,7 +3866,7 @@ Raises:
 
 ### preprocess_remove_html
 
-**Tool 120 of 150**
+**Index:** 120
 
 ```python
 def preprocess_remove_html( text: str ) -> str | None
@@ -3899,7 +3892,7 @@ Raises:
 
 ### preprocess_remove_images
 
-**Tool 121 of 150**
+**Index:** 121
 
 ```python
 def preprocess_remove_images( text: str ) -> str
@@ -3925,7 +3918,7 @@ Raises:
 
 ### preprocess_remove_markdown
 
-**Tool 122 of 150**
+**Index:** 122
 
 ```python
 def preprocess_remove_markdown( text: str ) -> str | None
@@ -3952,7 +3945,7 @@ Raises:
 
 ### preprocess_remove_numbers
 
-**Tool 123 of 150**
+**Index:** 123
 
 ```python
 def preprocess_remove_numbers( text: str ) -> str | None
@@ -3978,7 +3971,7 @@ Raises:
 
 ### preprocess_remove_numerals
 
-**Tool 124 of 150**
+**Index:** 124
 
 ```python
 def preprocess_remove_numerals( text: str ) -> str | None
@@ -4005,7 +3998,7 @@ Raises:
 
 ### preprocess_remove_punctuation
 
-**Tool 125 of 150**
+**Index:** 125
 
 ```python
 def preprocess_remove_punctuation( text: str ) -> str
@@ -4032,7 +4025,7 @@ Raises:
 
 ### preprocess_remove_stopwords
 
-**Tool 126 of 150**
+**Index:** 126
 
 ```python
 def preprocess_remove_stopwords( text: str ) -> str | None
@@ -4058,7 +4051,7 @@ Raises:
 
 ### preprocess_remove_symbols
 
-**Tool 127 of 150**
+**Index:** 127
 
 ```python
 def preprocess_remove_symbols( text: str ) -> str | None
@@ -4084,7 +4077,7 @@ Raises:
 
 ### preprocess_remove_xml
 
-**Tool 128 of 150**
+**Index:** 128
 
 ```python
 def preprocess_remove_xml( text: str ) -> str
@@ -4111,7 +4104,7 @@ Raises:
 
 ### preprocess_semantic_search
 
-**Tool 129 of 150**
+**Index:** 129
 
 ```python
 def preprocess_semantic_search( query: str, tokens: List[str], model: str='all-MiniLM-L6-v2', top: int=5 ) -> List[Tuple[str, float]]
@@ -4137,7 +4130,7 @@ Returns:
 
 ### preprocess_split_pages
 
-**Tool 130 of 150**
+**Index:** 130
 
 ```python
 def preprocess_split_pages( filepath: str, num: int=50 ) -> List[str] | None
@@ -4166,7 +4159,7 @@ Raises:
 
 ### preprocess_split_paragraphs
 
-**Tool 131 of 150**
+**Index:** 131
 
 ```python
 def preprocess_split_paragraphs( filepath: str ) -> DataFrame | None
@@ -4192,7 +4185,7 @@ Raises:
 
 ### preprocess_split_sentences
 
-**Tool 132 of 150**
+**Index:** 132
 
 ```python
 def preprocess_split_sentences( text: str ) -> List[str] | None
@@ -4218,7 +4211,7 @@ Raises:
 
 ### preprocess_tiktokenize
 
-**Tool 133 of 150**
+**Index:** 133
 
 ```python
 def preprocess_tiktokenize( text: str, encoding: str='cl100k_base' ) -> DataFrame | None
@@ -4246,7 +4239,7 @@ Raises:
 
 ### read_pdf
 
-**Tool 134 of 150**
+**Index:** 134
 
 ```python
 def read_pdf( path: str, mode: str='single' ) -> Any
@@ -4272,7 +4265,7 @@ Raises:
 
 ### render_web_page
 
-**Tool 135 of 150**
+**Index:** 135
 
 ```python
 def render_web_page( url: str, timeout: int=15, headers: Optional[Dict[str, str]]=None, use_playwright: bool=False ) -> Any
@@ -4300,7 +4293,7 @@ Raises:
 
 ### request_directions
 
-**Tool 136 of 150**
+**Index:** 136
 
 ```python
 def request_directions( origin: str, destination: str, mode: str='driving' ) -> Any
@@ -4327,7 +4320,7 @@ Raises:
 
 ### scrape_articles
 
-**Tool 137 of 150**
+**Index:** 137
 
 ```python
 def scrape_articles( uri: str ) -> Any
@@ -4352,7 +4345,7 @@ Raises:
 
 ### scrape_blockquotes
 
-**Tool 138 of 150**
+**Index:** 138
 
 ```python
 def scrape_blockquotes( uri: str ) -> Any
@@ -4377,7 +4370,7 @@ Raises:
 
 ### scrape_crawler_page
 
-**Tool 139 of 150**
+**Index:** 139
 
 ```python
 def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text: bool=True, include_raw_html: bool=False, selected_methods: Optional[List[str]]=None, request_timeout: int=10, max_bytes: int=1000000, headers: Optional[Dict[str, str]]=None, use_playwright: bool=False ) -> Any
@@ -4409,7 +4402,7 @@ Raises:
 
 ### scrape_divisions
 
-**Tool 140 of 150**
+**Index:** 140
 
 ```python
 def scrape_divisions( uri: str ) -> Any
@@ -4434,7 +4427,7 @@ Raises:
 
 ### scrape_headings
 
-**Tool 141 of 150**
+**Index:** 141
 
 ```python
 def scrape_headings( uri: str ) -> Any
@@ -4459,7 +4452,7 @@ Raises:
 
 ### scrape_hyperlinks
 
-**Tool 142 of 150**
+**Index:** 142
 
 ```python
 def scrape_hyperlinks( uri: str ) -> Any
@@ -4484,7 +4477,7 @@ Raises:
 
 ### scrape_images
 
-**Tool 143 of 150**
+**Index:** 143
 
 ```python
 def scrape_images( uri: str ) -> Any
@@ -4509,7 +4502,7 @@ Raises:
 
 ### scrape_lists
 
-**Tool 144 of 150**
+**Index:** 144
 
 ```python
 def scrape_lists( uri: str ) -> Any
@@ -4534,7 +4527,7 @@ Raises:
 
 ### scrape_paragraphs
 
-**Tool 145 of 150**
+**Index:** 145
 
 ```python
 def scrape_paragraphs( uri: str ) -> Any
@@ -4559,7 +4552,7 @@ Raises:
 
 ### scrape_sections
 
-**Tool 146 of 150**
+**Index:** 146
 
 ```python
 def scrape_sections( uri: str ) -> Any
@@ -4584,7 +4577,7 @@ Raises:
 
 ### scrape_tables
 
-**Tool 147 of 150**
+**Index:** 147
 
 ```python
 def scrape_tables( uri: str ) -> Any
@@ -4609,7 +4602,7 @@ Raises:
 
 ### scrape_web_page
 
-**Tool 148 of 150**
+**Index:** 148
 
 ```python
 def scrape_web_page( url: str, time: int=10 ) -> Any
@@ -4635,7 +4628,7 @@ Raises:
 
 ### scraper_html_to_text
 
-**Tool 149 of 150**
+**Index:** 149
 
 ```python
 def scraper_html_to_text( html: str ) -> Any
@@ -4660,7 +4653,7 @@ Raises:
 
 ### validate_address
 
-**Tool 150 of 150**
+**Index:** 150
 
 ```python
 def validate_address( address: List[str] ) -> Any
