@@ -197,7 +197,7 @@ class Processor( ):
 	encoding: Optional[ Encoding ]
 	nlp: Optional[ Language ]
 	parts_of_speech: Optional[ List[ Tuple[ str, str ] ] ]
-	embedddings: Optional[ List[ np.ndarray ] ]
+	embeddings: Optional[ List[ np.ndarray ] ]
 	chunk_size: Optional[ int ]
 	corrected: Optional[ str ]
 	raw_input: Optional[ str ]
@@ -238,7 +238,7 @@ class Processor( ):
 		self.chunks = [ ]
 		self.chunk_size = 0
 		self.paragraphs = [ ]
-		self.embedddings = [ ]
+		self.embeddings = [ ]
 		self.stop_words = set( )
 		self.vocabulary = set( )
 		self.frequency_distribution = { }
