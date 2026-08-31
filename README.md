@@ -19,23 +19,23 @@ ___
 
 ## 🎯 Purpose
 
-| Capability | Module |
-|---|---|
-| Data retrieval | `fonky.fetchers` |
-| Document ingestion | `fonky.loaders` |
-| Web extraction | `fonky.scrapers` |
-| Text and NLP preprocessing | `fonky.preprocessors` |
-| Shared models and response structures | `fonky.models` |
-| OpenAI Agents SDK tools | `fonky.tools` |
-| Runtime configuration | `fonky.config` |
-| Error wrapping and logging | `fonky.boogr` |
+| Capability                            | Module                |
+|---------------------------------------|-----------------------|
+| Data retrieval                        | `fonky.fetchers`      |
+| Document ingestion                    | `fonky.loaders`       |
+| Web extraction                        | `fonky.scrapers`      |
+| Text and NLP preprocessing            | `fonky.preprocessors` |
+| Shared models and response structures | `fonky.models`        |
+| OpenAI Agents SDK tools               | `fonky.tools`         |
+| Runtime configuration                 | `fonky.config`        |
+| Error wrapping and logging            | `fonky.boogr`         |
 
 ### 🧮 Tool Inventory
 
-| Tool Type | Count |
-|---|---:|
-| Retrieval, loading, and scraping tools | 110 |
-| Preprocessing and NLTK tools | 40 |
+| Tool Type                               |   Count |
+|-----------------------------------------|--------:|
+| Retrieval, loading, and scraping tools  |     110 |
+| Preprocessing and NLTK tools            |      40 |
 | **Total OpenAI `FunctionTool` objects** | **150** |
 
 ## 🏗️ Architecture
