@@ -1,4 +1,4 @@
-# Fonky
+# 🧰 Fonky
 
 ![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky-project.png)
 
@@ -7,15 +7,15 @@
   <a href="#architecture">Architecture</a> &nbsp;|&nbsp;
   <a href="#installation">Installation</a> &nbsp;|&nbsp;
   <a href="#configuration">Configuration</a> &nbsp;|&nbsp;
-  <a href="#direct-python-api">Python API</a> &nbsp;|&nbsp;
-  <a href="#openai-agents-sdk">Agents SDK</a> &nbsp;|&nbsp;
+  <a href="https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/Tools.md">Tools</a> &nbsp;|&nbsp;
+  <a href="https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/user-guide.md">User-Guide</a> &nbsp;|&nbsp;
   <a href="#validation">Validation</a> &nbsp;|&nbsp;
   <a href="#documentation">Documentation</a>
 </p>
 
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/fonky/)
 
-## Purpose
+## 🎯 Purpose
 
 | Capability | Module |
 |---|---|
@@ -28,7 +28,7 @@
 | Runtime configuration | `fonky.config` |
 | Error wrapping and logging | `fonky.boogr` |
 
-### Tool Inventory
+### 🧮 Tool Inventory
 
 | Tool Type | Count |
 |---|---:|
@@ -36,7 +36,7 @@
 | Preprocessing and NLTK tools | 40 |
 | **Total OpenAI `FunctionTool` objects** | **150** |
 
-## Architecture
+## 🏗️ Architecture
 
 ```text
 OpenAI Agent / Application
@@ -59,7 +59,7 @@ config.py
 boogr.py
 ```
 
-### Dependency Contract
+### 🔗 Dependency Contract
 
 ```text
 tools.py -> fetchers.py
@@ -73,7 +73,7 @@ scrapers.py       -X-> tools.py
 preprocessors.py  -X-> tools.py
 ```
 
-## Package Structure
+## 📦 Package Structure
 
 ```text
 fonky/
@@ -88,7 +88,7 @@ fonky/
 └── tools.py
 ```
 
-### Repository Documentation
+### 📚 Repository Documentation
 
 ```text
 README.md
@@ -97,7 +97,7 @@ user-guide.md
 requirements.txt
 ```
 
-## Installation
+## ⚙️ Installation
 
 ```powershell
 python -m venv .venv
@@ -108,20 +108,20 @@ python -m pip install -r requirements.txt
 python -m pip check
 ```
 
-### Playwright
+### 🌐 Playwright
 
 ```powershell
 python -m playwright install chromium
 ```
 
-### Import Validation
+### ✅ Import Validation
 
 ```powershell
 python -c "import fonky; import fonky.tools; print('ok')"
 ```
 
 
-### Synchronous Agent
+### ▶️ Synchronous Agent
 
 ```python
 from agents import Agent, Runner
@@ -144,7 +144,7 @@ result = Runner.run_sync(
 print( result.final_output )
 ```
 
-### Asynchronous Agent
+### ⏱️ Asynchronous Agent
 
 ```python
 result = await Runner.run(
@@ -152,7 +152,7 @@ result = await Runner.run(
     'Research retrieval augmented generation.' )
 ```
 
-### Streaming Agent
+### 📡 Streaming Agent
 
 ```python
 result = Runner.run_streamed(
@@ -163,7 +163,7 @@ async for event in result.stream_events( ):
     print( event )
 ```
 
-### Tool Schema
+### 🧩 Tool Schema
 
 ```python
 import json
@@ -177,7 +177,7 @@ if isinstance( fetch_arxiv, FunctionTool ):
     print( json.dumps( fetch_arxiv.params_json_schema, indent=2 ) )
 ```
 
-### Wrapped Callable Test
+### 🧪 Wrapped Callable Test
 
 ```python
 from fonky.tools import preprocess_normalize_text
@@ -189,15 +189,15 @@ print( value )
 ```
 
 
-## Validation
+## ✅ Validation
 
-### Compile
+### 🛠️ Compile
 
 ```powershell
 python -m compileall .\fonky
 ```
 
-### Core Imports
+### 📥 Core Imports
 
 ```powershell
 python -c "from fonky.fetchers import ArXiv; from fonky.loaders import PdfLoader; from fonky.scrapers import WebExtractor; from fonky.preprocessors import TextParser; print('ok')"
@@ -205,6 +205,6 @@ python -c "from fonky.fetchers import ArXiv; from fonky.loaders import PdfLoader
 
 
 
-## License
+## 📝 License
 
 [LICENSE.txt](https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE.txt)
