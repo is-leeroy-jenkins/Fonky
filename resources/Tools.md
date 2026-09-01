@@ -2,40 +2,35 @@
 
 ## 📊 Inventory
 
-| Property | Value |
-|---|---:|
-| OpenAI Agents SDK `FunctionTool` objects | 150 |
-| Retrieval, loading, and scraping tools | 110 |
-| Preprocessing and NLTK tools | 40 |
+| Provider path | Integration | Wrappers | Tool declarations |
+|---|---|---:|---:|
+| `fonky.gpt.tools` | OpenAI Agents SDK `@function_tool` | 150 | Decorated objects |
+| `fonky.gemini.tools` | Google ADK callables | 150 | ADK-generated |
+| `fonky.grok.tools` | xAI SDK | 150 | 150 explicit `*_tool` declarations |
+| `fonky.langchain.tools` | LangChain `@tool(parse_docstring=True)` | 150 | Decorated objects |
 
-## 📥 Import Pattern
-
-```python
-from fonky.tools import fetch_arxiv
-from fonky.tools import load_pdf
-from fonky.tools import preprocess_normalize_text
-from fonky.tools import scrape_tables
-```
-
-## 🤖 Agent Pattern
+## 📥 Import Paths
 
 ```python
-from agents import Agent, Runner
-
-from fonky.tools import fetch_arxiv
-
-agent = Agent(
-    name='Research Assistant',
-    tools=[
-        fetch_arxiv,
-    ] )
-
-result = Runner.run_sync(
-    agent,
-    'Research retrieval augmented generation.' )
-
-print( result.final_output )
+from fonky.gpt import tools as gpt_tools
+from fonky.gemini import tools as gemini_tools
+from fonky.grok import tools as grok_tools
+from fonky.langchain import tools as langchain_tools
 ```
+
+## 🏷️ Naming
+
+| Executable wrapper | Grok declaration |
+|---|---|
+| `fetch_cse_search` | `cse_search_tool` |
+| `fetch_news` | `news_tool` |
+| `load_text` | `text_tool` |
+| `fetch_arxiv` | `arxiv_fetch_tool` |
+| `load_arxiv` | `arxiv_load_tool` |
+| `read_pdf` | `pdf_read_tool` |
+| `load_pdf` | `pdf_load_tool` |
+
+Operational prefixes remain on executable wrapper names. Separate xAI declaration variables remove the leading operation prefix and append `_tool`; collisions retain the operation as a trailing qualifier.
 
 ## 📚 Tool Index
 
@@ -54,17 +49,17 @@ print( result.final_output )
 | 11 | [`fetch_census_data()`](#fetch_census_data) |
 | 12 | [`fetch_climate_data()`](#fetch_climate_data) |
 | 13 | [`fetch_congress()`](#fetch_congress) |
-| 14 | [`fetch_earth_observatory()`](#fetch_earth_observatory) |
-| 15 | [`fetch_envirofacts()`](#fetch_envirofacts) |
-| 16 | [`fetch_eonet()`](#fetch_eonet) |
-| 17 | [`fetch_firms()`](#fetch_firms) |
-| 18 | [`fetch_global_health_data()`](#fetch_global_health_data) |
-| 19 | [`fetch_global_imagery_map_services()`](#fetch_global_imagery_map_services) |
-| 20 | [`fetch_global_imagery_mercator_map()`](#fetch_global_imagery_mercator_map) |
-| 21 | [`fetch_global_imagery_wms_map()`](#fetch_global_imagery_wms_map) |
-| 22 | [`fetch_google_drive()`](#fetch_google_drive) |
-| 23 | [`fetch_google_geocoding()`](#fetch_google_geocoding) |
-| 24 | [`fetch_google_search()`](#fetch_google_search) |
+| 14 | [`fetch_cse_search()`](#fetch_cse_search) |
+| 15 | [`fetch_earth_observatory()`](#fetch_earth_observatory) |
+| 16 | [`fetch_envirofacts()`](#fetch_envirofacts) |
+| 17 | [`fetch_eonet()`](#fetch_eonet) |
+| 18 | [`fetch_firms()`](#fetch_firms) |
+| 19 | [`fetch_global_health_data()`](#fetch_global_health_data) |
+| 20 | [`fetch_global_imagery_map_services()`](#fetch_global_imagery_map_services) |
+| 21 | [`fetch_global_imagery_mercator_map()`](#fetch_global_imagery_mercator_map) |
+| 22 | [`fetch_global_imagery_wms_map()`](#fetch_global_imagery_wms_map) |
+| 23 | [`fetch_google_drive()`](#fetch_google_drive) |
+| 24 | [`fetch_google_geocoding()`](#fetch_google_geocoding) |
 | 25 | [`fetch_google_weather_alerts()`](#fetch_google_weather_alerts) |
 | 26 | [`fetch_google_weather_current()`](#fetch_google_weather_current) |
 | 27 | [`fetch_google_weather_daily_forecast()`](#fetch_google_weather_daily_forecast) |
@@ -206,21 +201,16 @@ Convert HTML to plain text.
 
 #### 🎯 Purpose
 
-Convert HTML to plain text using Fonky's web fetcher implementation.
+Convert HTML to plain text through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `html`
-  - Raw HTML content to parse or transform.
+  - Html value used by the operation.
 
 #### 📤 Returns
 
-str: Text produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -236,49 +226,42 @@ Crawl web pages from a seed URL.
 
 #### 🎯 Purpose
 
-Crawl web pages from a seed URL. Boolean options control retrieval depth or supplemental
-    content.
+Crawl web pages from a seed URL through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `seed_url`
-  - Starting URL for the crawl.
+  - Seed url value used by the operation.
 - `include_title`
-  - Whether to include title in the result.
+  - Include title value used by the operation.
 - `include_basic_text`
-  - Whether to include basic text in the result.
+  - Include basic text value used by the operation.
 - `include_raw_html`
-  - Whether to include raw html in the result.
+  - Include raw html value used by the operation.
 - `selected_methods`
-  - Extraction method names to execute against the supplied HTML.
+  - Selected methods value used by the operation.
 - `recursive`
-  - Whether nested folders, links, or provider resources should be traversed.
+  - Whether nested resources should be traversed recursively.
 - `max_depth`
-  - Maximum recursion depth.
+  - Max depth value used by the operation.
 - `max_pages`
-  - Maximum pages permitted by the operation.
+  - Max pages value used by the operation.
 - `same_domain_only`
-  - Whether crawl traversal should remain on the seed URL domain.
+  - Same domain only value used by the operation.
 - `request_timeout`
-  - Request timeout in seconds.
+  - Request timeout value used by the operation.
 - `delay_seconds`
-  - Delay in seconds inserted between crawl requests.
+  - Delay seconds value used by the operation.
 - `max_bytes`
-  - Maximum bytes permitted by the operation.
+  - Max bytes value used by the operation.
 - `headers`
-  - Optional HTTP headers applied to web requests.
+  - Headers value used by the operation.
 - `use_playwright`
-  - Whether browser-backed rendering should be used for dynamic pages.
+  - Use playwright value used by the operation.
 
 #### 📤 Returns
 
-Dict[str, Any]: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -294,20 +277,16 @@ Encode a local image as Base64 text.
 
 #### 🎯 Purpose
 
-Encode a local image as Base64 text using Fonky's provider implementation.
+Encode a local image as Base64 text through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `path`
-  - Local image path to encode.
+  - Local filesystem path used by the operation.
 
 #### 📤 Returns
 
-str: Text produced by the operation.
-
-#### ⚠️ Raises
-
-Exception: If the delegated implementation raises an operational failure.
+str: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -319,27 +298,22 @@ Exception: If the delegated implementation raises an operational failure.
 def extract_web_links( base_url: str, html: str ) -> Any
 ```
 
-Extract web links from the supplied content.
+Extract web links from supplied HTML content.
 
 #### 🎯 Purpose
 
-Extract web links from the supplied content using Fonky's web fetcher implementation.
+Extract web links from supplied HTML content through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `base_url`
-  - URL or URI value used as the request or parsing source.
+  - Base url value used by the operation.
 - `html`
-  - Raw HTML content to parse or transform.
+  - Html value used by the operation.
 
 #### 📤 Returns
 
-List[str]: Hyperlink values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -351,29 +325,24 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def extract_web_structured_data( url: str, html: str, selected_methods: Optional[List[str]]=None ) -> Any
 ```
 
-Extract structured data.
+Extract structured data from supplied HTML content.
 
 #### 🎯 Purpose
 
-Extract structured data using Fonky's web fetcher implementation.
+Extract structured data from supplied HTML content through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `url`
-  - URL or URI value used as the request or parsing source.
+  - URL used by the operation.
 - `html`
-  - Raw HTML content to parse or transform.
+  - Html value used by the operation.
 - `selected_methods`
-  - Extraction method names to execute against the supplied HTML.
+  - Selected methods value used by the operation.
 
 #### 📤 Returns
 
-Dict[str, List[str]]: Text or identifier values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -385,25 +354,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def extract_web_title( html: str ) -> Any
 ```
 
-Extract web title from the supplied content.
+Extract a web title from supplied HTML content.
 
 #### 🎯 Purpose
 
-Extract web title from the supplied content using Fonky's web fetcher implementation.
+Extract a web title from supplied HTML content through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `html`
-  - Raw HTML content to parse or transform.
+  - Html value used by the operation.
 
 #### 📤 Returns
 
-str: Text produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -419,9 +383,7 @@ Retrieve AirNow current and forecast air quality data.
 
 #### 🎯 Purpose
 
-Retrieve AirNow current and forecast air quality data through AirNow. Use ``mode`` to select
-    among ``current-latlon``, ``current-zip``, ``forecast-latlon``, ``forecast-zip``. Coordinate
-    and bounding arguments constrain geographic scope when supported.
+Retrieve AirNow current and forecast air quality data through AirNow. Use ``mode`` to select among ``current-latlon``, ``current-zip``, ``forecast-latlon``, ``forecast-zip``. Coordinate and bounding arguments constrain geographic scope when supported.
 
 #### 📥 Arguments
 
@@ -442,13 +404,11 @@ Retrieve AirNow current and forecast air quality data through AirNow. Use ``mode
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -464,9 +424,7 @@ Retrieve ArXiv research documents.
 
 #### 🎯 Purpose
 
-Retrieve ArXiv research documents through ArXiv. The query text determines the records or
-    documents matched by the provider. Result-count arguments bound the amount of data
-    requested. Boolean options control retrieval depth or supplemental content.
+Retrieve ArXiv research documents through ArXiv. The query text determines the records or documents matched by the provider. Result-count arguments bound the amount of data requested. Boolean options control retrieval depth or supplemental content.
 
 #### 📥 Arguments
 
@@ -481,12 +439,11 @@ Retrieve ArXiv research documents through ArXiv. The query text determines the r
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -502,8 +459,7 @@ Retrieve Open Astronomy Catalog queries.
 
 #### 🎯 Purpose
 
-Retrieve Open Astronomy Catalog queries through Open Astronomy Catalog. The query text
-    determines the records or documents matched by the provider.
+Retrieve Open Astronomy Catalog queries through Open Astronomy Catalog. The query text determines the records or documents matched by the provider.
 
 #### 📥 Arguments
 
@@ -534,9 +490,7 @@ Any: Provider-specific structured data produced by the retrieval operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -552,9 +506,7 @@ Retrieve Simbad and astronomy object search operations.
 
 #### 🎯 Purpose
 
-Retrieve Simbad and astronomy object search operations through Astroquery/SIMBAD. The query
-    text determines the records or documents matched by the provider. Result-count arguments
-    bound the amount of data requested.
+Retrieve Simbad and astronomy object search operations through Astroquery/SIMBAD. The query text determines the records or documents matched by the provider. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -575,13 +527,11 @@ Retrieve Simbad and astronomy object search operations through Astroquery/SIMBAD
 
 #### 📤 Returns
 
-Dict[str, Any]: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -597,8 +547,7 @@ Retrieve U.S. Census dataset and variable.
 
 #### 🎯 Purpose
 
-Retrieve U.S. Census dataset and variable through U.S. Census API. Use ``mode`` to select
-    among ``data``, ``variables``.
+Retrieve U.S. Census dataset and variable through U.S. Census API. Use ``mode`` to select among ``data``, ``variables``.
 
 #### 📥 Arguments
 
@@ -621,13 +570,11 @@ Retrieve U.S. Census dataset and variable through U.S. Census API. Use ``mode`` 
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -643,9 +590,7 @@ Retrieve NOAA climate dataset and data records.
 
 #### 🎯 Purpose
 
-Retrieve NOAA climate dataset and data records through NOAA climate services. Use ``mode``
-    to select among ``data``, ``datasets``. Date and time arguments constrain the requested
-    interval when supplied. Result-count arguments bound the amount of data requested.
+Retrieve NOAA climate dataset and data records through NOAA climate services. Use ``mode`` to select among ``data``, ``datasets``. Date and time arguments constrain the requested interval when supplied. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -672,13 +617,11 @@ Retrieve NOAA climate dataset and data records through NOAA climate services. Us
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -694,10 +637,7 @@ Retrieve Congress.gov legislative data.
 
 #### 🎯 Purpose
 
-Retrieve Congress.gov legislative data through Congress.gov. Use ``mode`` to select among
-    ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``,
-    ``reports``. Date and time arguments constrain the requested interval when supplied. Result-
-    count arguments bound the amount of data requested.
+Retrieve Congress.gov legislative data through Congress.gov. Use ``mode`` to select among ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``, ``reports``. Date and time arguments constrain the requested interval when supplied. Result- count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -734,461 +674,27 @@ Retrieve Congress.gov legislative data through Congress.gov. Use ``mode`` to sel
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
-### 🔧 fetch_earth_observatory
+### 🔧 fetch_cse_search
 
 **Index:** 14
 
 ```python
-def fetch_earth_observatory( mode: str='events', status: str='open', category: str='', source: str='', limit: int=20, days: int=30, start_date: str='', end_date: str='', time: int=20 ) -> Any
+def fetch_cse_search( keywords: str, results: int=10, start: int=1, exact_terms: str='', exclude_terms: str='', file_type: str='', date_restrict: str='', gl: str='', lr: str='', safe: str='off', search_type: str='', site_search: str='', site_search_filter: str='', sort: str='', img_size: str='', img_type: str='', img_color_type: str='', img_dominant_color: str='', time: int=10, api_key: str | None=None, cse_id: str | None=None ) -> Any
 ```
 
-Retrieve NASA EONET events, categories, sources, and layers.
+Retrieve Google Programmable Search Engine results.
 
 #### 🎯 Purpose
 
-Retrieve NASA EONET events, categories, sources, and layers through NASA EONET. Date and
-    time arguments constrain the requested interval when supplied. Result-count arguments bound
-    the amount of data requested.
-
-#### 📥 Arguments
-
-- `mode`
-  - Operation mode used to select the provider or processing workflow.
-- `status`
-  - Provider status filter applied to returned records.
-- `category`
-  - Optional logical category retained in tool metadata.
-- `source`
-  - Provider source identifier used to restrict or classify results.
-- `limit`
-  - Maximum number of records or items to return.
-- `days`
-  - Number of calendar days included in the requested interval.
-- `start_date`
-  - Inclusive start date for the requested time range, in the provider-supported format.
-- `end_date`
-  - Inclusive end date for the requested time range, in the provider-supported format.
-- `time`
-  - Request timeout in seconds.
-
-#### 📤 Returns
-
-Dict[str, Any]: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_envirofacts
-
-**Index:** 15
-
-```python
-def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='', facility_name: str='', limit: int=25, time: int=20 ) -> Any
-```
-
-Retrieve EPA Envirofacts table and facility records.
-
-#### 🎯 Purpose
-
-Retrieve EPA Envirofacts table and facility records through EPA Envirofacts. Result-count
-    arguments bound the amount of data requested.
-
-#### 📥 Arguments
-
-- `table_name`
-  - Envirofacts table or resource name to query.
-- `state_code`
-  - State code used to restrict provider records.
-- `facility_name`
-  - Facility-name filter applied to Envirofacts records.
-- `limit`
-  - Maximum number of records or items to return.
-- `time`
-  - Request timeout in seconds.
-
-#### 📤 Returns
-
-Dict[str, Any] | None: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_eonet
-
-**Index:** 16
-
-```python
-def fetch_eonet( mode: str='events', source: str='', category: str='', status: str='open', limit: int=25, days: int=30, start_date: str='', end_date: str='', bbox: str='', time: int=20 ) -> Any
-```
-
-Retrieve NASA EONET environmental event data.
-
-#### 🎯 Purpose
-
-Retrieve NASA EONET environmental event data through NASA EONET. Use ``mode`` to select
-    among ``categories``, ``events``. Date and time arguments constrain the requested interval
-    when supplied. Coordinate and bounding arguments constrain geographic scope when supported.
-    Result-count arguments bound the amount of data requested.
-
-#### 📥 Arguments
-
-- `mode`
-  - Operation selector. Supported values detected in the implementation include ``categories``, ``events``.
-- `source`
-  - Provider source identifier used to restrict or classify results.
-- `category`
-  - Optional logical category retained in tool metadata.
-- `status`
-  - Provider status filter applied to returned records.
-- `limit`
-  - Maximum number of records or items to return.
-- `days`
-  - Number of calendar days included in the requested interval.
-- `start_date`
-  - Inclusive start date for the requested time range, in the provider-supported format.
-- `end_date`
-  - Inclusive end date for the requested time range, in the provider-supported format.
-- `bbox`
-  - Bounding box defining the geographic extent of the request.
-- `time`
-  - Request timeout in seconds.
-
-#### 📤 Returns
-
-Dict[str, Any] | None: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_firms
-
-**Index:** 17
-
-```python
-def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinates: str='world', day_range: int=1, date: str='', sensor: str='ALL', time: int=20 ) -> Any
-```
-
-Retrieve NASA FIRMS active fire data.
-
-#### 🎯 Purpose
-
-Retrieve NASA FIRMS active fire data through NASA FIRMS. Use ``mode`` to select among
-    ``area``, ``data-availability``.
-
-#### 📥 Arguments
-
-- `mode`
-  - Operation selector. Supported values detected in the implementation include ``area``, ``data-availability``.
-- `source`
-  - Provider source identifier used to restrict or classify results.
-- `area_coordinates`
-  - FIRMS area-of-interest coordinates or ``world`` selector.
-- `day_range`
-  - Number of days included in the FIRMS active-fire request.
-- `date`
-  - Date used by the provider or processing operation.
-- `sensor`
-  - Sensor or instrument filter applied to provider results.
-- `time`
-  - Request timeout in seconds.
-
-#### 📤 Returns
-
-Dict[str, Any] | None: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_global_health_data
-
-**Index:** 18
-
-```python
-def fetch_global_health_data( mode: str='indicator_registry', query_path: str='', fmt: str='json', time: int=20 ) -> Any
-```
-
-Retrieve WHO global health indicator and Athena data.
-
-#### 🎯 Purpose
-
-Retrieve WHO global health indicator and Athena data through WHO Global Health. Use ``mode``
-    to select among ``athena``, ``indicator_registry``.
-
-#### 📥 Arguments
-
-- `mode`
-  - Operation selector. Supported values detected in the implementation include ``athena``, ``indicator_registry``.
-- `query_path`
-  - Path identifying the query resource.
-- `fmt`
-  - Provider response format, such as JSON or XML when supported.
-- `time`
-  - Request timeout in seconds.
-
-#### 📤 Returns
-
-Dict[str, Any] | None: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_global_imagery_map_services
-
-**Index:** 19
-
-```python
-def fetch_global_imagery_map_services(  ) -> Any
-```
-
-Retrieve available imagery map services.
-
-#### 🎯 Purpose
-
-Retrieve available imagery map services through NASA Global Imagery Browse Services.
-
-#### 📤 Returns
-
-Dict[str, Any] | None: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_global_imagery_mercator_map
-
-**Index:** 20
-
-```python
-def fetch_global_imagery_mercator_map( ccrs: Any | None=None ) -> Any
-```
-
-Render a Mercator imagery map.
-
-#### 🎯 Purpose
-
-Render a Mercator imagery map through NASA Global Imagery Browse Services.
-
-#### 📥 Arguments
-
-- `ccrs`
-  - Optional Cartopy coordinate reference system used to construct the map.
-
-#### 📤 Returns
-
-Dict[str, Any] | None: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_global_imagery_wms_map
-
-**Index:** 21
-
-```python
-def fetch_global_imagery_wms_map( layer: str, image_date: str, bbox: Tuple[float, float, float, float], width: int=1200, height: int=600, projection: str='epsg4326', quality: str='best', image_format: str='image/png', transparent: bool=True, output_dir: str='python-examples', output_name: str='', time: int=20 ) -> Any
-```
-
-Retrieve a WMS imagery map.
-
-#### 🎯 Purpose
-
-Retrieve a WMS imagery map through NASA Global Imagery Browse Services. Coordinate and
-    bounding arguments constrain geographic scope when supported.
-
-#### 📥 Arguments
-
-- `layer`
-  - Map or imagery layer identifier.
-- `image_date`
-  - Observation date used to select imagery.
-- `bbox`
-  - Bounding box defining the geographic extent of the request.
-- `width`
-  - Output image or chart width in pixels.
-- `height`
-  - Output image or chart height in pixels.
-- `projection`
-  - Coordinate reference system used for rendered imagery.
-- `quality`
-  - Imagery quality level requested from the mapping service.
-- `image_format`
-  - Output format requested for image.
-- `transparent`
-  - Whether the generated map image should use a transparent background.
-- `output_dir`
-  - Local directory where generated imagery is written.
-- `output_name`
-  - Optional filename for generated imagery.
-- `time`
-  - Request timeout in seconds.
-
-#### 📤 Returns
-
-Dict[str, Any] | None: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_google_drive
-
-**Index:** 22
-
-```python
-def fetch_google_drive( question: str, folder_id: str='root', results: int=10, template: str='gdrive-query', mime_type: str | None=None, mode: str='documents' ) -> Any
-```
-
-Retrieve Google Drive documents.
-
-#### 🎯 Purpose
-
-Retrieve Google Drive documents through Google Drive. The query text determines the records
-    or documents matched by the provider. Result-count arguments bound the amount of data
-    requested.
-
-#### 📥 Arguments
-
-- `question`
-  - Search text, lookup value, or provider query submitted by the caller.
-- `folder_id`
-  - Provider folder identifier that scopes the operation.
-- `results`
-  - Maximum number of search results to request.
-- `template`
-  - Provider query template used to construct the request.
-- `mime_type`
-  - Optional MIME type used to restrict matching files.
-- `mode`
-  - Operation mode used to select the provider or processing workflow.
-
-#### 📤 Returns
-
-List[Document] | None: LangChain documents loaded from the requested source.
-
-#### ⚠️ Raises
-
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_google_geocoding
-
-**Index:** 23
-
-```python
-def fetch_google_geocoding( mode: str='forward', query: str='', latitude: float=0.0, longitude: float=0.0, place_id: str='', language: str='en', region: str='', result_type: str='', location_type: str='', time: int=10, api_key: Optional[str]=None ) -> Any
-```
-
-Retrieve Google forward, reverse, and place geocoding.
-
-#### 🎯 Purpose
-
-Retrieve Google forward, reverse, and place geocoding through Google Geocoding. Use ``mode``
-    to select among ``forward``, ``place``, ``reverse``. The query text determines the records
-    or documents matched by the provider. Coordinate and bounding arguments constrain geographic
-    scope when supported. When supplied, ``api_key`` overrides the configured provider
-    credential for this request.
-
-#### 📥 Arguments
-
-- `mode`
-  - Operation selector. Supported values detected in the implementation include ``forward``, ``place``, ``reverse``.
-- `query`
-  - Search text, lookup value, or provider query submitted by the caller.
-- `latitude`
-  - Latitude in decimal degrees.
-- `longitude`
-  - Longitude in decimal degrees.
-- `place_id`
-  - Provider identifier for the selected place.
-- `language`
-  - Language code used for provider results or parsing.
-- `region`
-  - Provider region filter or regional bias value.
-- `result_type`
-  - Provider type selector for result.
-- `location_type`
-  - Provider type selector for location.
-- `time`
-  - Request timeout in seconds.
-- `api_key`
-  - Optional credential override used for the active request.
-
-#### 📤 Returns
-
-Dict[str, Any] | None: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
-
----
-
-### 🔧 fetch_google_search
-
-**Index:** 24
-
-```python
-def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_terms: str='', exclude_terms: str='', file_type: str='', date_restrict: str='', gl: str='', lr: str='', safe: str='off', search_type: str='', site_search: str='', site_search_filter: str='', sort: str='', img_size: str='', img_type: str='', img_color_type: str='', img_dominant_color: str='', time: int=10, api_key: str | None=None, cse_id: str | None=None ) -> Any
-```
-
-Retrieve Google Custom Search.
-
-#### 🎯 Purpose
-
-Retrieve Google Custom Search through Google Custom Search. The query text determines the
-    records or documents matched by the provider. Result-count arguments bound the amount of
-    data requested. When supplied, ``api_key`` overrides the configured provider credential for
-    this request.
+Retrieve results through Google Programmable Search Engine (Custom Search JSON API). The query text determines the records or documents matched by the provider. Result-count arguments bound the amount of data requested. When supplied, ``api_key`` overrides the configured provider credential for this request.
 
 #### 📥 Arguments
 
@@ -1237,13 +743,404 @@ Retrieve Google Custom Search through Google Custom Search. The query text deter
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+
+---
+
+### 🔧 fetch_earth_observatory
+
+**Index:** 15
+
+```python
+def fetch_earth_observatory( mode: str='events', status: str='open', category: str='', source: str='', limit: int=20, days: int=30, start_date: str='', end_date: str='', time: int=20 ) -> Any
+```
+
+Retrieve NASA EONET events, categories, sources, and layers.
+
+#### 🎯 Purpose
+
+Retrieve NASA EONET events, categories, sources, and layers through NASA EONET. Date and time arguments constrain the requested interval when supplied. Result-count arguments bound the amount of data requested.
+
+#### 📥 Arguments
+
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+- `status`
+  - Provider status filter applied to returned records.
+- `category`
+  - Optional logical category retained in tool metadata.
+- `source`
+  - Provider source identifier used to restrict or classify results.
+- `limit`
+  - Maximum number of records or items to return.
+- `days`
+  - Number of calendar days included in the requested interval.
+- `start_date`
+  - Inclusive start date for the requested time range, in the provider-supported format.
+- `end_date`
+  - Inclusive end date for the requested time range, in the provider-supported format.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Any: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+
+---
+
+### 🔧 fetch_envirofacts
+
+**Index:** 16
+
+```python
+def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='', facility_name: str='', limit: int=25, time: int=20 ) -> Any
+```
+
+Retrieve EPA Envirofacts table and facility records.
+
+#### 🎯 Purpose
+
+Retrieve EPA Envirofacts table and facility records through EPA Envirofacts. Result-count arguments bound the amount of data requested.
+
+#### 📥 Arguments
+
+- `table_name`
+  - Envirofacts table or resource name to query.
+- `state_code`
+  - State code used to restrict provider records.
+- `facility_name`
+  - Facility-name filter applied to Envirofacts records.
+- `limit`
+  - Maximum number of records or items to return.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Any: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+
+---
+
+### 🔧 fetch_eonet
+
+**Index:** 17
+
+```python
+def fetch_eonet( mode: str='events', source: str='', category: str='', status: str='open', limit: int=25, days: int=30, start_date: str='', end_date: str='', bbox: str='', time: int=20 ) -> Any
+```
+
+Retrieve NASA EONET environmental event data.
+
+#### 🎯 Purpose
+
+Retrieve NASA EONET environmental event data through NASA EONET. Use ``mode`` to select among ``categories``, ``events``. Date and time arguments constrain the requested interval when supplied. Coordinate and bounding arguments constrain geographic scope when supported. Result-count arguments bound the amount of data requested.
+
+#### 📥 Arguments
+
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``categories``, ``events``.
+- `source`
+  - Provider source identifier used to restrict or classify results.
+- `category`
+  - Optional logical category retained in tool metadata.
+- `status`
+  - Provider status filter applied to returned records.
+- `limit`
+  - Maximum number of records or items to return.
+- `days`
+  - Number of calendar days included in the requested interval.
+- `start_date`
+  - Inclusive start date for the requested time range, in the provider-supported format.
+- `end_date`
+  - Inclusive end date for the requested time range, in the provider-supported format.
+- `bbox`
+  - Bounding box defining the geographic extent of the request.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Any: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+
+---
+
+### 🔧 fetch_firms
+
+**Index:** 18
+
+```python
+def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinates: str='world', day_range: int=1, date: str='', sensor: str='ALL', time: int=20 ) -> Any
+```
+
+Retrieve NASA FIRMS active fire data.
+
+#### 🎯 Purpose
+
+Retrieve NASA FIRMS active fire data through NASA FIRMS. Use ``mode`` to select among ``area``, ``data-availability``.
+
+#### 📥 Arguments
+
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``area``, ``data-availability``.
+- `source`
+  - Provider source identifier used to restrict or classify results.
+- `area_coordinates`
+  - FIRMS area-of-interest coordinates or ``world`` selector.
+- `day_range`
+  - Number of days included in the FIRMS active-fire request.
+- `date`
+  - Date used by the provider or processing operation.
+- `sensor`
+  - Sensor or instrument filter applied to provider results.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Any: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+
+---
+
+### 🔧 fetch_global_health_data
+
+**Index:** 19
+
+```python
+def fetch_global_health_data( mode: str='indicator_registry', query_path: str='', fmt: str='json', time: int=20 ) -> Any
+```
+
+Retrieve WHO global health indicator and Athena data.
+
+#### 🎯 Purpose
+
+Retrieve WHO global health indicator and Athena data through WHO Global Health.
+
+#### 📥 Arguments
+
+- `mode`
+  - Operation mode used to select the backing workflow.
+- `query_path`
+  - Query path value used by the operation.
+- `fmt`
+  - Fmt value used by the operation.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Any: Value produced by the delegated Fonky implementation.
+
+---
+
+### 🔧 fetch_global_imagery_map_services
+
+**Index:** 20
+
+```python
+def fetch_global_imagery_map_services(  ) -> Any
+```
+
+Retrieve available imagery map services.
+
+#### 🎯 Purpose
+
+Retrieve available imagery map services through NASA Global Imagery Browse Services.
+
+#### 📤 Returns
+
+Any: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+
+---
+
+### 🔧 fetch_global_imagery_mercator_map
+
+**Index:** 21
+
+```python
+def fetch_global_imagery_mercator_map( ccrs: Any | None=None ) -> Any
+```
+
+Render a Mercator imagery map.
+
+#### 🎯 Purpose
+
+Render a Mercator imagery map through NASA Global Imagery Browse Services.
+
+#### 📥 Arguments
+
+- `ccrs`
+  - Optional Cartopy coordinate reference system used to construct the map.
+
+#### 📤 Returns
+
+Any: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+
+---
+
+### 🔧 fetch_global_imagery_wms_map
+
+**Index:** 22
+
+```python
+def fetch_global_imagery_wms_map( layer: str, image_date: str, bbox: Tuple[float, float, float, float], width: int=1200, height: int=600, projection: str='epsg4326', quality: str='best', image_format: str='image/png', transparent: bool=True, output_dir: str='python-examples', output_name: str='', time: int=20 ) -> Any
+```
+
+Retrieve a WMS imagery map.
+
+#### 🎯 Purpose
+
+Retrieve a WMS imagery map through NASA Global Imagery Browse Services. Coordinate and bounding arguments constrain geographic scope when supported.
+
+#### 📥 Arguments
+
+- `layer`
+  - Map or imagery layer identifier.
+- `image_date`
+  - Observation date used to select imagery.
+- `bbox`
+  - Bounding box defining the geographic extent of the request.
+- `width`
+  - Output image or chart width in pixels.
+- `height`
+  - Output image or chart height in pixels.
+- `projection`
+  - Coordinate reference system used for rendered imagery.
+- `quality`
+  - Imagery quality level requested from the mapping service.
+- `image_format`
+  - Output format requested for image.
+- `transparent`
+  - Whether the generated map image should use a transparent background.
+- `output_dir`
+  - Local directory where generated imagery is written.
+- `output_name`
+  - Optional filename for generated imagery.
+- `time`
+  - Request timeout in seconds.
+
+#### 📤 Returns
+
+Any: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+
+---
+
+### 🔧 fetch_google_drive
+
+**Index:** 23
+
+```python
+def fetch_google_drive( question: str, folder_id: str='root', results: int=10, template: str='gdrive-query', mime_type: str | None=None, mode: str='documents' ) -> Any
+```
+
+Retrieve Google Drive documents.
+
+#### 🎯 Purpose
+
+Retrieve Google Drive documents through Google Drive. The query text determines the records or documents matched by the provider. Result-count arguments bound the amount of data requested.
+
+#### 📥 Arguments
+
+- `question`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `folder_id`
+  - Provider folder identifier that scopes the operation.
+- `results`
+  - Maximum number of search results to request.
+- `template`
+  - Provider query template used to construct the request.
+- `mime_type`
+  - Optional MIME type used to restrict matching files.
+- `mode`
+  - Operation mode used to select the provider or processing workflow.
+
+#### 📤 Returns
+
+Any: LangChain documents loaded from the requested source.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+
+---
+
+### 🔧 fetch_google_geocoding
+
+**Index:** 24
+
+```python
+def fetch_google_geocoding( mode: str='forward', query: str='', latitude: float=0.0, longitude: float=0.0, place_id: str='', language: str='en', region: str='', result_type: str='', location_type: str='', time: int=10, api_key: Optional[str]=None ) -> Any
+```
+
+Retrieve Google forward, reverse, and place geocoding.
+
+#### 🎯 Purpose
+
+Retrieve Google forward, reverse, and place geocoding through Google Geocoding. Use ``mode`` to select among ``forward``, ``place``, ``reverse``. The query text determines the records or documents matched by the provider. Coordinate and bounding arguments constrain geographic scope when supported. When supplied, ``api_key`` overrides the configured provider credential for this request.
+
+#### 📥 Arguments
+
+- `mode`
+  - Operation selector. Supported values detected in the implementation include ``forward``, ``place``, ``reverse``.
+- `query`
+  - Search text, lookup value, or provider query submitted by the caller.
+- `latitude`
+  - Latitude in decimal degrees.
+- `longitude`
+  - Longitude in decimal degrees.
+- `place_id`
+  - Provider identifier for the selected place.
+- `language`
+  - Language code used for provider results or parsing.
+- `region`
+  - Provider region filter or regional bias value.
+- `result_type`
+  - Provider type selector for result.
+- `location_type`
+  - Provider type selector for location.
+- `time`
+  - Request timeout in seconds.
+- `api_key`
+  - Optional credential override used for the active request.
+
+#### 📤 Returns
+
+Any: Structured mapping produced by the operation.
+
+#### ⚠️ Raises
+
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1272,12 +1169,11 @@ Retrieve google weather alerts data through Google Weather.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1308,12 +1204,11 @@ Retrieve google weather current data through Google Weather.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1346,13 +1241,11 @@ Retrieve daily forecast through Google Weather.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1385,13 +1278,11 @@ Retrieve hourly forecast through Google Weather.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1424,13 +1315,11 @@ Retrieve hourly history through Google Weather.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1446,10 +1335,7 @@ Retrieve Data.gov package and collection.
 
 #### 🎯 Purpose
 
-Retrieve Data.gov package and collection through Data.gov. Use ``mode`` to select among
-    ``collection``, ``package_summary``, ``search``. The query text determines the records or
-    documents matched by the provider. Date and time arguments constrain the requested interval
-    when supplied. Result-count arguments bound the amount of data requested.
+Retrieve Data.gov package and collection through Data.gov. Use ``mode`` to select among ``collection``, ``package_summary``, ``search``. The query text determines the records or documents matched by the provider. Date and time arguments constrain the requested interval when supplied. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -1476,13 +1362,11 @@ Retrieve Data.gov package and collection through Data.gov. Use ``mode`` to selec
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1498,9 +1382,7 @@ Retrieve Grokipedia search and page.
 
 #### 🎯 Purpose
 
-Retrieve Grokipedia search and page through Grokipedia. The query text determines the
-    records or documents matched by the provider. Result-count arguments bound the amount of
-    data requested.
+Retrieve Grokipedia search and page through Grokipedia. The query text determines the records or documents matched by the provider. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -1519,13 +1401,11 @@ Retrieve Grokipedia search and page through Grokipedia. The query text determine
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1541,9 +1421,7 @@ Retrieve HealthData.gov Socrata metadata and rows.
 
 #### 🎯 Purpose
 
-Retrieve HealthData.gov Socrata metadata and rows through HealthData.gov. Use ``mode`` to
-    select among ``metadata``, ``rows``. Result-count arguments bound the amount of data
-    requested.
+Retrieve HealthData.gov Socrata metadata and rows through HealthData.gov. Use ``mode`` to select among ``metadata``, ``rows``. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -1570,13 +1448,11 @@ Retrieve HealthData.gov Socrata metadata and rows through HealthData.gov. Use ``
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1607,12 +1483,11 @@ Retrieve historical weather archive through Open-Meteo Archive.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1628,9 +1503,7 @@ Retrieve Internet Archive search and metadata.
 
 #### 🎯 Purpose
 
-Retrieve Internet Archive search and metadata through Internet Archive. The query text
-    determines the records or documents matched by the provider. Result-count arguments bound
-    the amount of data requested.
+Retrieve Internet Archive search and metadata through Internet Archive. The query text determines the records or documents matched by the provider. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -1653,13 +1526,11 @@ Retrieve Internet Archive search and metadata through Internet Archive. The quer
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1675,8 +1546,7 @@ Retrieve U.S. Naval Observatory celestial-navigation data.
 
 #### 🎯 Purpose
 
-Retrieve U.S. Naval Observatory celestial-navigation data through U.S. Naval Observatory.
-    Coordinate and bounding arguments constrain geographic scope when supported.
+Retrieve U.S. Naval Observatory celestial-navigation data through U.S. Naval Observatory. Coordinate and bounding arguments constrain geographic scope when supported.
 
 #### 📥 Arguments
 
@@ -1697,13 +1567,11 @@ Retrieve U.S. Naval Observatory celestial-navigation data through U.S. Naval Obs
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1719,10 +1587,7 @@ Retrieve JPL SSD and CNEOS near-Earth object data.
 
 #### 🎯 Purpose
 
-Retrieve JPL SSD and CNEOS near-Earth object data through NASA/JPL near-Earth object
-    services. The query text determines the records or documents matched by the provider. Date
-    and time arguments constrain the requested interval when supplied. Result-count arguments
-    bound the amount of data requested.
+Retrieve JPL SSD and CNEOS near-Earth object data through NASA/JPL near-Earth object services. The query text determines the records or documents matched by the provider. Date and time arguments constrain the requested interval when supplied. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -1769,13 +1634,11 @@ Retrieve JPL SSD and CNEOS near-Earth object data through NASA/JPL near-Earth ob
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1791,11 +1654,7 @@ Retrieve The News API article.
 
 #### 🎯 Purpose
 
-Retrieve The News API article through The News API. The query text determines the records or
-    documents matched by the provider. Date and time arguments constrain the requested interval
-    when supplied. Result-count arguments bound the amount of data requested. Boolean options
-    control retrieval depth or supplemental content. When supplied, ``api_key`` overrides the
-    configured provider credential for this request.
+Retrieve The News API article through The News API. The query text determines the records or documents matched by the provider. Date and time arguments constrain the requested interval when supplied. Result-count arguments bound the amount of data requested. Boolean options control retrieval depth or supplemental content. When supplied, ``api_key`` overrides the configured provider credential for this request.
 
 #### 📥 Arguments
 
@@ -1842,13 +1701,11 @@ Retrieve The News API article through The News API. The query text determines th
 
 #### 📤 Returns
 
-Dict[str, Any]: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1864,10 +1721,7 @@ Retrieve OpenAQ location, measurement, and air-quality records.
 
 #### 🎯 Purpose
 
-Retrieve OpenAQ location, measurement, and air-quality records through OpenAQ. Use ``mode``
-    to select among ``countries``, ``latest``, ``locations``, ``parameter_latest``,
-    ``parameters``, ``providers``. Coordinate and bounding arguments constrain geographic scope
-    when supported. Result-count arguments bound the amount of data requested.
+Retrieve OpenAQ location, measurement, and air-quality records through OpenAQ. Use ``mode`` to select among ``countries``, ``latest``, ``locations``, ``parameter_latest``, ``parameters``, ``providers``. Coordinate and bounding arguments constrain geographic scope when supported. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -1896,13 +1750,11 @@ Retrieve OpenAQ location, measurement, and air-quality records through OpenAQ. U
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1918,8 +1770,7 @@ Retrieve NASA Open Science Data Repository resources.
 
 #### 🎯 Purpose
 
-Retrieve NASA Open Science Data Repository resources through NASA Open Science Data
-    Repository. The query text determines the records or documents matched by the provider.
+Retrieve NASA Open Science Data Repository resources through NASA Open Science Data Repository. The query text determines the records or documents matched by the provider.
 
 #### 📥 Arguments
 
@@ -1936,13 +1787,11 @@ Retrieve NASA Open Science Data Repository resources through NASA Open Science D
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -1951,16 +1800,14 @@ ValueError: If a required value is missing, blank, or outside the supported rang
 **Index:** 40
 
 ```python
-def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', begin: int | None=None, end: int | None=None, time_value: int | None=None, lamin: float | None=None, lomin: float | None=None, lamax: float | None=None, lomax: float | None=None, extended: bool=False, client_id: str | None=None, client_secret: str | None=None, time: int=20 ) -> Any
+def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', begin: int | None=None, end: int | None=None, time_value: int | None=None, lamin: float | None=None, lomin: float | None=None, lamax: float | None=None, lomax: float | None=None, extended: bool=False, client_id: str=None, client_secret: str=None, time: int=20 ) -> Any
 ```
 
 Retrieve OpenSky Network aircraft, airport, and state-vector data.
 
 #### 🎯 Purpose
 
-Retrieve OpenSky Network aircraft, airport, and state-vector data through OpenSky Network.
-    Use ``mode`` to select among ``arrivals_airport``, ``departures_airport``,
-    ``flights_aircraft``, ``states_bbox``, ``track_aircraft``.
+Retrieve OpenSky Network aircraft, airport, and state-vector data through OpenSky Network. Use ``mode`` to select among ``arrivals_airport``, ``departures_airport``, ``flights_aircraft``, ``states_bbox``, ``track_aircraft``.
 
 #### 📥 Arguments
 
@@ -1995,13 +1842,11 @@ Retrieve OpenSky Network aircraft, airport, and state-vector data through OpenSk
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2036,13 +1881,11 @@ Retrieve Open-Meteo current and forecast weather through Open-Meteo.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2058,9 +1901,7 @@ Retrieve PurpleAir sensor and air quality records.
 
 #### 🎯 Purpose
 
-Retrieve PurpleAir sensor and air quality records through PurpleAir. Use ``mode`` to select
-    among ``sensor``, ``sensors``. Coordinate and bounding arguments constrain geographic scope
-    when supported.
+Retrieve PurpleAir sensor and air quality records through PurpleAir. Use ``mode`` to select among ``sensor``, ``sensors``. Coordinate and bounding arguments constrain geographic scope when supported.
 
 #### 📥 Arguments
 
@@ -2089,13 +1930,11 @@ Retrieve PurpleAir sensor and air quality records through PurpleAir. Use ``mode`
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2111,9 +1950,7 @@ Retrieve SSC satellite observatory, ground-station, and location data.
 
 #### 🎯 Purpose
 
-Retrieve SSC satellite observatory, ground-station, and location data through NASA Satellite
-    Situation Center. The query text determines the records or documents matched by the
-    provider.
+Retrieve SSC satellite observatory, ground-station, and location data through NASA Satellite Situation Center. The query text determines the records or documents matched by the provider.
 
 #### 📥 Arguments
 
@@ -2134,13 +1971,11 @@ Retrieve SSC satellite observatory, ground-station, and location data through NA
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2156,8 +1991,7 @@ Retrieve Socrata dataset metadata and row.
 
 #### 🎯 Purpose
 
-Retrieve Socrata dataset metadata and row through Socrata. Use ``mode`` to select among
-    ``metadata``, ``rows``. Result-count arguments bound the amount of data requested.
+Retrieve Socrata dataset metadata and row through Socrata. Use ``mode`` to select among ``metadata``, ``rows``. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -2184,13 +2018,11 @@ Retrieve Socrata dataset metadata and row through Socrata. Use ``mode`` to selec
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2206,9 +2038,7 @@ Retrieve NASA DONKI space weather endpoints.
 
 #### 🎯 Purpose
 
-Retrieve NASA DONKI space weather endpoints through NASA DONKI. Date and time arguments
-    constrain the requested interval when supplied. When supplied, ``api_key`` overrides the
-    configured provider credential for this request.
+Retrieve NASA DONKI space weather endpoints through NASA DONKI. Date and time arguments constrain the requested interval when supplied. When supplied, ``api_key`` overrides the configured provider credential for this request.
 
 #### 📥 Arguments
 
@@ -2241,13 +2071,11 @@ Retrieve NASA DONKI space weather endpoints through NASA DONKI. Date and time ar
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2263,8 +2091,7 @@ Retrieve static star chart and coordinate chart generation.
 
 #### 🎯 Purpose
 
-Retrieve static star chart and coordinate chart generation through astronomical chart
-    service. The query text determines the records or documents matched by the provider.
+Retrieve static star chart and coordinate chart generation through astronomical chart service. The query text determines the records or documents matched by the provider.
 
 #### 📥 Arguments
 
@@ -2303,13 +2130,11 @@ Retrieve static star chart and coordinate chart generation through astronomical 
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2325,8 +2150,7 @@ Retrieve astronomical object map links and imagery.
 
 #### 🎯 Purpose
 
-Retrieve astronomical object map links and imagery through astronomical map service. The
-    query text determines the records or documents matched by the provider.
+Retrieve astronomical object map links and imagery through astronomical map service. The query text determines the records or documents matched by the provider.
 
 #### 📥 Arguments
 
@@ -2359,13 +2183,11 @@ Retrieve astronomical object map links and imagery through astronomical map serv
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2381,9 +2203,7 @@ Retrieve NOAA tides, currents, and station data.
 
 #### 🎯 Purpose
 
-Retrieve NOAA tides, currents, and station data through NOAA Tides & Currents. Use ``mode``
-    to select among ``station``, ``tide-predictions``, ``water-level``. Date and time arguments
-    constrain the requested interval when supplied.
+Retrieve NOAA tides, currents, and station data through NOAA Tides & Currents. Use ``mode`` to select among ``station``, ``tide-predictions``, ``water-level``. Date and time arguments constrain the requested interval when supplied.
 
 #### 📥 Arguments
 
@@ -2408,13 +2228,11 @@ Retrieve NOAA tides, currents, and station data through NOAA Tides & Currents. U
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2430,8 +2248,7 @@ Retrieve United Nations SDMX dataset and query.
 
 #### 🎯 Purpose
 
-Retrieve United Nations SDMX dataset and query through United Nations SDMX service. Use
-    ``mode`` to select among ``datasets``, ``sdmx_query``.
+Retrieve United Nations SDMX dataset and query through United Nations SDMX service. Use ``mode`` to select among ``datasets``, ``sdmx_query``.
 
 #### 📥 Arguments
 
@@ -2444,13 +2261,11 @@ Retrieve United Nations SDMX dataset and query through United Nations SDMX servi
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2466,10 +2281,7 @@ Retrieve USGS earthquake feed and query.
 
 #### 🎯 Purpose
 
-Retrieve USGS earthquake feed and query through USGS Earthquake Hazards Program. Use
-    ``mode`` to select among ``feed``, ``search``. Date and time arguments constrain the
-    requested interval when supplied. Coordinate and bounding arguments constrain geographic
-    scope when supported. Result-count arguments bound the amount of data requested.
+Retrieve USGS earthquake feed and query through USGS Earthquake Hazards Program. Use ``mode`` to select among ``feed``, ``search``. Date and time arguments constrain the requested interval when supplied. Coordinate and bounding arguments constrain geographic scope when supported. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -2502,13 +2314,11 @@ Retrieve USGS earthquake feed and query through USGS Earthquake Hazards Program.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2524,10 +2334,7 @@ Retrieve USGS National Map datasets and products.
 
 #### 🎯 Purpose
 
-Retrieve USGS National Map datasets and products through USGS The National Map. Use ``mode``
-    to select among ``datasets``, ``products``. The query text determines the records or
-    documents matched by the provider. Coordinate and bounding arguments constrain geographic
-    scope when supported. Result-count arguments bound the amount of data requested.
+Retrieve USGS National Map datasets and products through USGS The National Map. Use ``mode`` to select among ``datasets``, ``products``. The query text determines the records or documents matched by the provider. Coordinate and bounding arguments constrain geographic scope when supported. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -2550,13 +2357,11 @@ Retrieve USGS National Map datasets and products through USGS The National Map. 
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2572,9 +2377,7 @@ Retrieve USGS ScienceBase items and catalog records.
 
 #### 🎯 Purpose
 
-Retrieve USGS ScienceBase items and catalog records through USGS ScienceBase. Use ``mode``
-    to select among ``item``, ``items``. The query text determines the records or documents
-    matched by the provider. Result-count arguments bound the amount of data requested.
+Retrieve USGS ScienceBase items and catalog records through USGS ScienceBase. Use ``mode`` to select among ``item``, ``items``. The query text determines the records or documents matched by the provider. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -2595,13 +2398,11 @@ Retrieve USGS ScienceBase items and catalog records through USGS ScienceBase. Us
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2617,9 +2418,7 @@ Retrieve USGS water services records.
 
 #### 🎯 Purpose
 
-Retrieve USGS water services records through USGS Water Data. Use ``mode`` to select among
-    ``latest-continuous``, ``latest-daily``, ``monitoring-locations``, ``time-series-metadata``.
-    Result-count arguments bound the amount of data requested.
+Retrieve USGS water services records through USGS Water Data. Use ``mode`` to select among ``latest-continuous``, ``latest-daily``, ``monitoring-locations``, ``time-series-metadata``. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -2642,13 +2441,11 @@ Retrieve USGS water services records through USGS Water Data. Use ``mode`` to se
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2664,8 +2461,7 @@ Retrieve EPA UV Index current and forecast data.
 
 #### 🎯 Purpose
 
-Retrieve EPA UV Index current and forecast data through EPA UV Index. Use ``mode`` to select
-    among ``daily-city-state``, ``daily-zip``, ``hourly-city-state``, ``hourly-zip``.
+Retrieve EPA UV Index current and forecast data through EPA UV Index. Use ``mode`` to select among ``daily-city-state``, ``daily-zip``, ``hourly-city-state``, ``hourly-zip``.
 
 #### 📥 Arguments
 
@@ -2682,13 +2478,11 @@ Retrieve EPA UV Index current and forecast data through EPA UV Index. Use ``mode
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2700,27 +2494,22 @@ ValueError: If a required value is missing, blank, or outside the supported rang
 def fetch_web_page( url: str, time: int=10 ) -> Any
 ```
 
-Retrieve HTTP web page retrieval and HTML extraction.
+Retrieve HTTP web page content and HTML extraction data.
 
 #### 🎯 Purpose
 
-Retrieve HTTP web page retrieval and HTML extraction through web fetcher.
+Retrieve HTTP web page content and HTML extraction data through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `url`
-  - URL or URI value used as the request or parsing source.
+  - URL used by the operation.
 - `time`
   - Request timeout in seconds.
 
 #### 📤 Returns
 
-Result | None: Fonky result wrapper containing the provider or HTTP response.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -2736,9 +2525,7 @@ Retrieve Wikipedia documents.
 
 #### 🎯 Purpose
 
-Retrieve Wikipedia documents through Wikipedia. The query text determines the records or
-    documents matched by the provider. Result-count arguments bound the amount of data
-    requested. Boolean options control retrieval depth or supplemental content.
+Retrieve Wikipedia documents through Wikipedia. The query text determines the records or documents matched by the provider. Result-count arguments bound the amount of data requested. Boolean options control retrieval depth or supplemental content.
 
 #### 📥 Arguments
 
@@ -2753,12 +2540,11 @@ Retrieve Wikipedia documents through Wikipedia. The query text determines the re
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2774,29 +2560,22 @@ Retrieve CDC WONDER template and query submission.
 
 #### 🎯 Purpose
 
-Retrieve CDC WONDER template and query submission through CDC WONDER. Use ``mode`` to select
-    among ``metadata_template``, ``query_xml``.
+Retrieve CDC WONDER template and query submission through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `mode`
-  - Operation selector. Supported values detected in the implementation include ``metadata_template``, ``query_xml``.
+  - Operation mode used to select the backing workflow.
 - `dataset_id`
-  - Provider dataset identifier.
+  - Dataset id value used by the operation.
 - `request_xml`
-  - CDC WONDER XML request document submitted for query execution.
+  - Request xml value used by the operation.
 - `time`
   - Request timeout in seconds.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -2812,10 +2591,7 @@ Retrieve WorldPop catalog and raster metadata.
 
 #### 🎯 Purpose
 
-Retrieve WorldPop catalog and raster metadata through WorldPop. Use ``mode`` to select among
-    ``catalog``, ``raster_metadata``, ``search``. The query text determines the records or
-    documents matched by the provider. Result-count arguments bound the amount of data
-    requested.
+Retrieve WorldPop catalog and raster metadata through WorldPop. Use ``mode`` to select among ``catalog``, ``raster_metadata``, ``search``. The query text determines the records or documents matched by the provider. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -2834,13 +2610,11 @@ Retrieve WorldPop catalog and raster metadata through WorldPop. Use ``mode`` to 
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2856,8 +2630,7 @@ Geocode coordinates.
 
 #### 🎯 Purpose
 
-Geocode coordinates using Google Maps. Coordinate and bounding arguments constrain
-    geographic scope when supported.
+Geocode coordinates using Google Maps. Coordinate and bounding arguments constrain geographic scope when supported.
 
 #### 📥 Arguments
 
@@ -2868,13 +2641,11 @@ Geocode coordinates using Google Maps. Coordinate and bounding arguments constra
 
 #### 📤 Returns
 
-str | None: Text produced by the operation.
+Any: Text produced by the operation.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2899,13 +2670,11 @@ Geocode location using Google Maps.
 
 #### 📤 Returns
 
-Tuple[float, float]: Latitude and longitude coordinate pair.
+Any: Latitude and longitude coordinate pair.
 
 #### ⚠️ Raises
 
-ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2921,8 +2690,7 @@ Load ArXiv research documents.
 
 #### 🎯 Purpose
 
-Load ArXiv research documents using the ArXiv loader. The query text determines the records
-    or documents matched by the provider.
+Load ArXiv research documents using the ArXiv loader. The query text determines the records or documents matched by the provider.
 
 #### 📥 Arguments
 
@@ -2931,12 +2699,11 @@ Load ArXiv research documents using the ArXiv loader. The query text determines 
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -2973,12 +2740,11 @@ Load documents from an Amazon S3 bucket using the Amazon S3 bucket loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3013,12 +2779,11 @@ Load an Amazon S3 object using the Amazon S3 file loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3051,12 +2816,11 @@ Load a CSV file using the CSV loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3085,12 +2849,11 @@ Load an email message using the email loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3119,12 +2882,11 @@ Load an Excel workbook using the Excel loader.
 
 #### 📤 Returns
 
-List[Document]: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3140,27 +2902,22 @@ Load files from a GitHub repository.
 
 #### 🎯 Purpose
 
-Load files from a GitHub repository using the GitHub loader.
+Load files from a GitHub repository through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `url`
-  - URL used by the web or repository loader.
+  - URL used by the operation.
 - `repo`
-  - GitHub repository name or owner/repository path.
+  - Repo value used by the operation.
 - `branch`
-  - Repository branch to inspect.
+  - Branch value used by the operation.
 - `filetype`
-  - File suffix filter used when loading repository files.
+  - Filetype value used by the operation.
 
 #### 📤 Returns
 
-List[Document]: LangChain documents loaded from the requested source.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -3176,8 +2933,7 @@ Load documents from a Google Cloud Storage bucket.
 
 #### 🎯 Purpose
 
-Load documents from a Google Cloud Storage bucket using the Google Cloud Storage bucket
-    loader.
+Load documents from a Google Cloud Storage bucket using the Google Cloud Storage bucket loader.
 
 #### 📥 Arguments
 
@@ -3192,12 +2948,11 @@ Load documents from a Google Cloud Storage bucket using the Google Cloud Storage
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3226,12 +2981,11 @@ Load a Google Cloud Storage object using the Google Cloud Storage loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3247,8 +3001,7 @@ Load a Google Drive file.
 
 #### 🎯 Purpose
 
-Load a Google Drive file using the Google Drive loader. Boolean options control retrieval
-    depth or supplemental content.
+Load a Google Drive file using the Google Drive loader. Boolean options control retrieval depth or supplemental content.
 
 #### 📥 Arguments
 
@@ -3259,12 +3012,11 @@ Load a Google Drive file using the Google Drive loader. Boolean options control 
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3280,8 +3032,7 @@ Load documents from a Google Drive folder.
 
 #### 🎯 Purpose
 
-Load documents from a Google Drive folder using the Google Drive loader. Boolean options
-    control retrieval depth or supplemental content.
+Load documents from a Google Drive folder using the Google Drive loader. Boolean options control retrieval depth or supplemental content.
 
 #### 📥 Arguments
 
@@ -3292,12 +3043,11 @@ Load documents from a Google Drive folder using the Google Drive loader. Boolean
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3326,12 +3076,11 @@ Transcribe audio with Google Speech-to-Text using the Google Speech-to-Text load
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type. the project error type.
 
 ---
 
@@ -3356,12 +3105,11 @@ Load an HTML document using the HTML loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3390,12 +3138,11 @@ Load JSON content using the JSON loader.
 
 #### 📤 Returns
 
-List[Document]: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3411,8 +3158,7 @@ Load a Jupyter notebook.
 
 #### 🎯 Purpose
 
-Load a Jupyter notebook using the Jupyter notebook loader. Boolean options control retrieval
-    depth or supplemental content.
+Load a Jupyter notebook using the Jupyter notebook loader. Boolean options control retrieval depth or supplemental content.
 
 #### 📥 Arguments
 
@@ -3429,12 +3175,11 @@ Load a Jupyter notebook using the Jupyter notebook loader. Boolean options contr
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3459,12 +3204,11 @@ Load a Markdown document using the Markdown loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3495,12 +3239,11 @@ Load documents from OneDrive using the OneDrive loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3516,8 +3259,7 @@ Load an Open City dataset.
 
 #### 🎯 Purpose
 
-Load an Open City dataset using the Open City Data loader. Result-count arguments bound the
-    amount of data requested.
+Load an Open City dataset using the Open City Data loader. Result-count arguments bound the amount of data requested.
 
 #### 📥 Arguments
 
@@ -3530,13 +3272,11 @@ Load an Open City dataset using the Open City Data loader. Result-count argument
 
 #### 📤 Returns
 
-List[Document]: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-ValueError: Raised when a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+ValueError: Raised when a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3561,12 +3301,11 @@ Load an Outlook message using the Outlook message loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3605,12 +3344,11 @@ Load and extract a PDF file using the PDF loader.
 
 #### 📤 Returns
 
-List[Document]: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3637,12 +3375,11 @@ Load a PowerPoint presentation using the PowerPoint loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3667,12 +3404,11 @@ Load multiple PowerPoint presentation elements using the PowerPoint loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3688,25 +3424,18 @@ Load PubMed research documents.
 
 #### 🎯 Purpose
 
-Load PubMed research documents using the PubMed loader. The query text determines the
-    records or documents matched by the provider. Result-count arguments bound the amount of
-    data requested.
+Load PubMed research documents through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `query`
-  - Search query submitted to the backing loader.
+  - Search query or natural-language request submitted to the backing operation.
 - `max_docs`
-  - Maximum number of documents requested from the backing service.
+  - Max docs value used by the operation.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -3731,12 +3460,11 @@ Load a SharePoint document library using the SharePoint loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3763,12 +3491,11 @@ Load a SharePoint folder using the SharePoint loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3795,12 +3522,11 @@ Load a plain-text file using the text loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3816,35 +3542,28 @@ Load web documents.
 
 #### 🎯 Purpose
 
-Load web documents using the web loader. Boolean options control retrieval depth or
-    supplemental content.
+Load web documents through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `urls`
-  - URL string or URL list used as web-loader input.
+  - Urls value used by the operation.
 - `recursive`
-  - Whether nested folders, links, or provider resources should be traversed.
+  - Whether nested resources should be traversed recursively.
 - `max_depth`
-  - Maximum recursion depth.
+  - Max depth value used by the operation.
 - `prevent_outside`
-  - Whether recursive web loading should exclude pages outside the seed domain.
+  - Prevent outside value used by the operation.
 - `timeout`
   - Maximum time in seconds to wait for the operation.
 - `ignore`
-  - Whether individual loading failures should be skipped when supported.
+  - Ignore value used by the operation.
 - `progress`
-  - Whether the underlying loader should report progress.
+  - Progress value used by the operation.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
-
-#### ⚠️ Raises
-
-ValueError: Raised when a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -3860,29 +3579,24 @@ Load static web pages.
 
 #### 🎯 Purpose
 
-Load static web pages using the web loader.
+Load static web pages through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `urls`
-  - URL string or URL list used as web-loader input.
+  - Urls value used by the operation.
 - `depth`
-  - Maximum recursion depth.
+  - Depth value used by the operation.
 - `timeout`
   - Maximum time in seconds to wait for the operation.
 - `ignore`
-  - Whether individual loading failures should be skipped when supported.
+  - Ignore value used by the operation.
 - `progress`
-  - Whether the underlying loader should report progress.
+  - Progress value used by the operation.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -3898,27 +3612,22 @@ Recursively load web documents.
 
 #### 🎯 Purpose
 
-Recursively load web documents using the web loader.
+Recursively load web documents through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `url`
-  - URL used by the web or repository loader.
+  - URL used by the operation.
 - `depth`
-  - Maximum recursion depth.
+  - Depth value used by the operation.
 - `max_time`
-  - Maximum request or crawl time in seconds.
+  - Max time value used by the operation.
 - `ignore`
-  - Whether individual loading failures should be skipped when supported.
+  - Ignore value used by the operation.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -3934,8 +3643,7 @@ Load Wikipedia articles.
 
 #### 🎯 Purpose
 
-Load Wikipedia articles using the Wikipedia loader. The query text determines the records or
-    documents matched by the provider.
+Load Wikipedia articles using the Wikipedia loader. The query text determines the records or documents matched by the provider.
 
 #### 📥 Arguments
 
@@ -3944,12 +3652,11 @@ Load Wikipedia articles using the Wikipedia loader. The query text determines th
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -3974,12 +3681,11 @@ Load a Word document using the Word loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -4004,12 +3710,11 @@ Load an XML document using the XML loader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -4034,12 +3739,11 @@ Parse an XML document tree using the XML loader.
 
 #### 📤 Returns
 
-etree._ElementTree | None: XML elements matching the requested XPath expression.
+Any: XML elements matching the requested XPath expression.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -4055,26 +3759,18 @@ Group sentence tokens into fixed-size chunks and return them as tabular data.
 
 #### 🎯 Purpose
 
-Tokenizes lowercase text into sentences, groups the sentences into fixed-size chunks, and
-    returns a DataFrame of chunk strings. This provides a sentence-level chunking utility for
-    review or dataset preparation.
+Group sentence tokens into fixed-size chunks and return them as tabular data through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 - `size`
-  - Maximum number of tokens or sentences grouped into each chunk.
+  - Maximum size or group size used by the operation.
 
 #### 📤 Returns
 
-DataFrame | None: Pandas DataFrame containing the processed output when the operation
-    succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+DataFrame | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4090,26 +3786,18 @@ Group word tokens into fixed-size chunks and return them as tabular data.
 
 #### 🎯 Purpose
 
-Tokenizes lowercase text into words, groups the tokens into fixed-size chunks, and returns a
-    DataFrame of chunk strings. This provides a simple word-level chunking utility for downstream
-    vector or dataset generation.
+Group word tokens into fixed-size chunks and return them as tabular data through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 - `size`
-  - Maximum number of tokens or sentences grouped into each chunk.
+  - Maximum size or group size used by the operation.
 
 #### 📤 Returns
 
-DataFrame | None: Pandas DataFrame containing the processed output when the operation
-    succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+DataFrame | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4125,22 +3813,16 @@ Extract named-entity text and entity labels from tagged tokens.
 
 #### 🎯 Purpose
 
-Lowercases text, tokenizes and tags it, then applies NLTK named-entity chunking. Entity text
-    and labels are collected into tuples for downstream review or extraction workflows.
+Extract named-entity text and entity labels from tagged tokens through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+List[Tuple[str, str]] | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4156,22 +3838,16 @@ Assign part-of-speech tags to lowercased word tokens.
 
 #### 🎯 Purpose
 
-Lowercases and tokenizes text, then assigns NLTK part-of-speech tags to each token. The tagged
-    sequence is stored on the instance and returned for syntactic analysis.
+Assign part-of-speech tags to lowercased word tokens through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+List[Tuple[str, str]] | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4187,22 +3863,16 @@ Tokenize text into lowercased sentence strings.
 
 #### 🎯 Purpose
 
-Lowercases text and tokenizes it into sentence strings with NLTK. The resulting sentences are
-    stored on the parser instance and returned to the caller.
+Tokenize text into lowercased sentence strings through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-List[ str ] | None: List of processed text values when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+List[str] | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4218,22 +3888,16 @@ Lemmatize lowercased word tokens with the configured WordNet lemmatizer.
 
 #### 🎯 Purpose
 
-Lowercases text, tokenizes it, and applies WordNet lemmatization to each non-empty token. This
-    produces normalized lexical forms suitable for downstream analysis.
+Lemmatize lowercased word tokens with the configured WordNet lemmatizer through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-List[ str ] | None: List of processed text values when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+List[str] | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4249,22 +3913,16 @@ Stem lowercased word tokens with the configured Porter stemmer.
 
 #### 🎯 Purpose
 
-Lowercases text, tokenizes it, and applies Porter stemming to each non-empty token. This
-    produces stemmed tokens for lexical normalization workflows.
+Stem lowercased word tokens with the configured Porter stemmer through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-List[ str ] | None: List of processed text values when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+List[str] | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4280,22 +3938,16 @@ Tokenize text into lowercased word tokens.
 
 #### 🎯 Purpose
 
-Lowercases text and tokenizes it into word tokens with NLTK. The resulting list is also stored
-    on the parser instance for reuse by later NLTK operations.
+Tokenize text into lowercased word tokens through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-List[ str ] | None: List of processed text values when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+List[str] | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4307,31 +3959,22 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def preprocess_chunk_data( filepath: str, size: int=10 ) -> DataFrame | None
 ```
 
-Chunk a single text file into fixed-size word groups represented as tabular data.
+Chunk a text file into fixed-size word groups represented as tabular data.
 
 #### 🎯 Purpose
 
-Reads a single text file, filters recognized English alphabetic tokens, groups them into
-    fixed-size chunks, and returns the chunk rows as a DataFrame. This provides a compact dataset-
-    ready representation of token groups.
+Chunk a text file into fixed-size word groups represented as tabular data through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `filepath`
-  - Path to the local source file.
+  - Local filesystem path used by the operation.
 - `size`
-  - Maximum number of tokens or sentences grouped into each chunk.
+  - Maximum size or group size used by the operation.
 
 #### 📤 Returns
 
-DataFrame | None: Pandas DataFrame containing the processed output when the operation
-    succeeds.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+DataFrame | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4347,28 +3990,20 @@ Clean and chunk a directory of text files into spreadsheet datasets.
 
 #### 🎯 Purpose
 
-Processes all text files in a directory through cleaning, tokenization, fixed-size chunking,
-    and Excel export. This creates spreadsheet datasets suitable for review, labeling, or later
-    ingestion.
+Clean and chunk a directory of text files into spreadsheet datasets through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `source`
-  - Directory containing source text files.
+  - Source value used to scope or identify the backing operation.
 - `destination`
-  - Directory where generated output files are written.
+  - Destination used to receive generated or processed output.
 - `size`
-  - Maximum number of tokens or sentences grouped into each chunk.
+  - Maximum size or group size used by the operation.
 
 #### 📤 Returns
 
-DataFrame: Pandas DataFrame containing the processed output.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+DataFrame: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4384,26 +4019,18 @@ Split text files into sentence chunks and write chunked output files.
 
 #### 🎯 Purpose
 
-Reads each file in a source directory, splits text into sentences, and writes the resulting
-    sentence sequence to matching output files. This prepares cleaned corpora for chunk-based
-    downstream workflows.
+Split text files into sentence chunks and write chunked output files through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `source`
-  - Directory containing source text files.
+  - Source value used to scope or identify the backing operation.
 - `destination`
-  - Directory where generated output files are written.
+  - Destination used to receive generated or processed output.
 
 #### 📤 Returns
 
-None: The operation completes without producing a return value.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+None: This function performs its work through the delegated implementation and does not return a value.
 
 ---
 
@@ -4419,24 +4046,16 @@ Apply the standard Fonky text-cleaning pipeline to a single file.
 
 #### 🎯 Purpose
 
-Runs a single file through the parser cleaning pipeline, including whitespace normalization,
-    encoding cleanup, symbol removal, fragment filtering, lemmatization, and stop-word removal.
-    The method returns the cleaned text instead of writing a file.
+Apply the standard Fonky text-cleaning pipeline to a single file through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `filepath`
-  - Path to the local source file.
+  - Local filesystem path used by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4452,26 +4071,18 @@ Apply the standard Fonky text-cleaning pipeline to every file in a directory.
 
 #### 🎯 Purpose
 
-Processes every file in a source directory through the standard cleaning pipeline and writes
-    cleaned text to a destination directory. This supports batch preparation of corpora before
-    chunking or dataset creation.
+Apply the standard Fonky text-cleaning pipeline to every file in a directory through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `source`
-  - Directory containing source text files.
+  - Source value used to scope or identify the backing operation.
 - `destination`
-  - Directory where generated output files are written.
+  - Destination used to receive generated or processed output.
 
 #### 📤 Returns
 
-None: The operation completes without producing a return value.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+None: This function performs its work through the delegated implementation and does not return a value.
 
 ---
 
@@ -4487,23 +4098,16 @@ Normalize spacing by lowercasing text and collapsing repeated whitespace.
 
 #### 🎯 Purpose
 
-Creates a compact lowercase representation of text by splitting on whitespace and joining
-    tokens with single spaces. This prepares raw text for deterministic comparison, cleaning, and
-    tokenization steps.
+Normalize spacing by lowercasing text and collapsing repeated whitespace through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4519,28 +4123,20 @@ Convert text files into line-oriented JSON-like chunk output.
 
 #### 🎯 Purpose
 
-Splits text files into fixed-size token groups and writes each group using a JSON-like line-
-    oriented representation. This supports quick conversion of raw text corpora into chunked
-    training or testing artifacts.
+Convert text files into line-oriented JSON-like chunk output through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `source`
-  - Directory containing source text files.
+  - Source value used to scope or identify the backing operation.
 - `destination`
-  - Directory where generated output files are written.
+  - Destination used to receive generated or processed output.
 - `size`
-  - Maximum number of tokens or sentences grouped into each chunk.
+  - Maximum size or group size used by the operation.
 
 #### 📤 Returns
 
-None: The operation completes without producing a return value.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+None: This function performs its work through the delegated implementation and does not return a value.
 
 ---
 
@@ -4556,23 +4152,16 @@ Build a word-frequency table from a token sequence.
 
 #### 🎯 Purpose
 
-Counts token occurrences with NLTK frequency distribution support and returns a labeled pandas
-    DataFrame. The output provides a simple word-frequency table for analysis and reporting.
+Build a word-frequency table from a token sequence through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `tokens`
-  - Token sequence used by the processing operation.
+  - Token values processed by the operation.
 
 #### 📤 Returns
 
-DataFrame | None: Pandas DataFrame containing the processed output when the operation
-    succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+DataFrame | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4588,23 +4177,16 @@ Create TF-IDF vectors for token values.
 
 #### 🎯 Purpose
 
-Builds one-token documents, fits a TF-IDF vectorizer, and maps each token to its vector
-    representation. This supplies lightweight vector features for lexical comparison workflows.
+Create TF-IDF vectors for token values through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `tokens`
-  - Token sequence used by the processing operation.
+  - Token values processed by the operation.
 
 #### 📤 Returns
 
-DataFrame | None: Pandas DataFrame containing the processed output when the operation
-    succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+DataFrame | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4620,22 +4202,16 @@ Extract the vocabulary column from a token-frequency table.
 
 #### 🎯 Purpose
 
-Counts token occurrences and returns the unique token column as a pandas Series. This gives
-    downstream routines a vocabulary list derived from the active token stream.
+Extract the vocabulary column from a token-frequency table through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `tokens`
-  - Token sequence used by the processing operation.
+  - Token values processed by the operation.
 
 #### 📤 Returns
 
-Series | None: Pandas Series containing the processed output when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+Series | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4651,24 +4227,16 @@ Build a bag-of-words table from a token sequence.
 
 #### 🎯 Purpose
 
-Builds a bag-of-words representation by extracting unique terms from the token frequency
-    distribution. The returned DataFrame supports simple vocabulary inspection and feature
-    preparation.
+Build a bag-of-words table from a token sequence through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `tokens`
-  - Token sequence used by the processing operation.
+  - Token values processed by the operation.
 
 #### 📤 Returns
 
-DataFrame | None: Pandas DataFrame containing the processed output when the operation
-    succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+DataFrame | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4684,24 +4252,18 @@ Generate sentence-transformer embeddings for normalized token values.
 
 #### 🎯 Purpose
 
-Lemmatizes token values and encodes them with a SentenceTransformer model. The returned tuple
-    pairs token text with a NumPy embedding matrix for semantic-search workflows.
+Generate sentence-transformer embeddings for normalized token values through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `tokens`
-  - Token sequence used by the processing operation.
+  - Token values processed by the operation.
 - `model`
-  - Sentence-transformer model used to encode the query or token sequence.
+  - Model identifier used by the operation.
 
 #### 📤 Returns
 
-Tuple[ List[ str ], np.ndarray ]: Token values paired with the generated embedding matrix.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+Tuple[List[str], np.ndarray]: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4717,24 +4279,16 @@ Read UTF-8 text from a local file and return the raw string.
 
 #### 🎯 Purpose
 
-Loads a local text file using UTF-8 with ignored decode errors so downstream cleaning routines
-    can operate on a plain string. The method records the active file path and raises a project
-    Error when the file cannot be read.
+Read UTF-8 text from a local file and return the raw string through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `filepath`
-  - Path to the local source file.
+  - Local filesystem path used by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4746,26 +4300,20 @@ FileNotFoundError: If a required local file or matched path does not exist.
 def preprocess_normalize_text( text: str ) -> str | None
 ```
 
-Convert text to lowercase for stable downstream comparison and tokenization.
+Convert text to lowercase for stable comparison and tokenization.
 
 #### 🎯 Purpose
 
-Converts text to lowercase without otherwise changing content. This provides a simple
-    normalization stage for workflows that need case-insensitive matching or tokenization.
+Convert text to lowercase for stable comparison and tokenization through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4781,23 +4329,16 @@ Resolve HTML entities, normalize Unicode characters, and remove control characte
 
 #### 🎯 Purpose
 
-Decodes common escaped sequences when possible, resolves HTML entities, normalizes Unicode to
-    compatibility form, and strips control characters. This reduces text artifacts from scraped,
-    copied, or encoded sources.
+Resolve HTML entities, normalize Unicode characters, and remove control characters through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4813,22 +4354,16 @@ Filter tokens against the NLTK English words corpus.
 
 #### 🎯 Purpose
 
-Uses the NLTK English words corpus as a vocabulary filter and keeps only tokens recognized by
-    that corpus. This reduces obvious OCR, spelling, and parsing artifacts before later analysis.
+Filter tokens against the NLTK English words corpus through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str: Processed text value produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4844,22 +4379,16 @@ Remove very short token fragments from normalized text.
 
 #### 🎯 Purpose
 
-Removes short text fragments that are unlikely to be useful lexical units. This helps reduce
-    noise produced by OCR, markup stripping, punctuation removal, and aggressive token cleanup.
+Remove very short token fragments from normalized text through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4875,31 +4404,22 @@ Detect and remove repeated page headers and footers from a text file.
 
 #### 🎯 Purpose
 
-Splits a text file into page-sized blocks and identifies repeated leading and trailing line
-    groups. Matching header and footer blocks are removed to produce cleaner body text for
-    analysis.
+Detect and remove repeated page headers and footers from a text file through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `filepath`
-  - Path to the local source file.
+  - Local filesystem path used by the operation.
 - `lines`
-  - Number of lines treated as one page during header and footer detection.
+  - Lines value used by the operation.
 - `headers`
-  - Number of leading lines considered as a repeated page header.
+  - Headers value used by the operation.
 - `footers`
-  - Number of trailing lines considered as a repeated page footer.
+  - Footers value used by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
-    ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4915,22 +4435,16 @@ Extract visible text from HTML markup.
 
 #### 🎯 Purpose
 
-Parses HTML input with BeautifulSoup and extracts visible text content. This allows raw HTML
-    fragments or pages to enter the same cleaning pipeline used for plain text.
+Extract visible text from HTML markup through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4946,22 +4460,16 @@ Remove Markdown image references, HTML image elements, and direct image URLs.
 
 #### 🎯 Purpose
 
-Removes Markdown image syntax, HTML image tags, and direct image URLs from text. This keeps
-    descriptive text while excluding image-only references that do not support text processing.
+Remove Markdown image references, HTML image elements, and direct image URLs through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str: Processed text value produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -4977,23 +4485,16 @@ Remove common Markdown links, image syntax, and formatting markers.
 
 #### 🎯 Purpose
 
-Removes common Markdown link, image, and inline-formatting syntax from lowercase text. This
-    converts README-style or documentation-style content into cleaner text for downstream
-    analysis.
+Remove common Markdown links, image syntax, and formatting markers through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5009,22 +4510,16 @@ Remove decimal digits from text.
 
 #### 🎯 Purpose
 
-Removes digit sequences from lowercase text. This supports workflows that need lexical content
-    without numeric values.
+Remove decimal digits from text through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5040,23 +4535,16 @@ Remove Roman-numeral patterns from text.
 
 #### 🎯 Purpose
 
-Applies the configured Roman-numeral expression to lowercase text and replaces matching
-    numeral tokens with spaces. This reduces numbering artifacts in outlines, headings, and
-    document sections.
+Remove Roman-numeral patterns from text through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5068,27 +4556,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def preprocess_remove_punctuation( text: str ) -> str
 ```
 
-Strip punctuation from tokenized text while preserving word and spacing content.
+Strip punctuation from tokenized text.
 
 #### 🎯 Purpose
 
-Tokenizes lowercase text and removes punctuation marks from each token. The method preserves
-    alphanumeric token content while returning a whitespace-joined string for later cleaning
-    stages.
+Strip punctuation from tokenized text through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str: Processed text value produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5104,22 +4585,16 @@ Remove English stop words from tokenized text.
 
 #### 🎯 Purpose
 
-Tokenizes lowercase text and removes standard English stop words. This leaves a reduced token
-    stream better suited for frequency analysis, vocabulary extraction, and embedding preparation.
+Remove English stop words from tokenized text through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5135,22 +4610,16 @@ Remove configured symbol characters from normalized text.
 
 #### 🎯 Purpose
 
-Removes characters listed in the parser symbol set from lowercase text. This produces cleaner
-    text for tokenization, word-frequency generation, and embedding workflows.
+Remove configured symbol characters from normalized text through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str | None: Processed text value when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5162,27 +4631,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def preprocess_remove_xml( text: str ) -> str
 ```
 
-Extract inner text from XML-like markup while recovering malformed fragments when possible.
+Extract inner text from XML-like markup.
 
 #### 🎯 Purpose
 
-Wraps XML-like text in a temporary root node, parses it with recovery enabled, and
-    concatenates element text and tail content. This retains readable content while discarding
-    markup structure.
+Extract inner text from XML-like markup through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-str: Processed text value produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+str: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5198,24 +4660,22 @@ Search token content by semantic similarity.
 
 #### 🎯 Purpose
 
-Creates sentence embeddings internally and returns the highest-scoring token matches for
-    the supplied query. The wrapper keeps NumPy arrays and SentenceTransformer instances out
-    of the agent-facing JSON schema.
+Search token content by semantic similarity through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `query`
-  - Natural-language query used for semantic matching.
+  - Search query or natural-language request submitted to the backing operation.
 - `tokens`
-  - Text values searched for semantic similarity.
+  - Token values processed by the operation.
 - `model`
-  - Sentence-transformer model name used to create embeddings.
+  - Model identifier used by the operation.
 - `top`
-  - Maximum number of matches to return.
+  - Top value used by the operation.
 
 #### 📤 Returns
 
-List[Tuple[str, float]]: Highest-scoring text values and similarity scores.
+List[Tuple[str, float]]: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5231,26 +4691,18 @@ Split a text file into page-sized text blocks.
 
 #### 🎯 Purpose
 
-Reads a plain-text file and splits it into page-sized blocks using form-feed characters when
-    available or fixed line counts otherwise. The resulting list can be used for page- level
-    cleaning and analysis.
+Split a text file into page-sized text blocks through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `filepath`
-  - Path to the local source file.
+  - Local filesystem path used by the operation.
 - `num`
-  - Number of lines used as the fallback page boundary.
+  - Num value used by the operation.
 
 #### 📤 Returns
 
-List[ str ] | None: List of processed text values when the operation succeeds.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+List[str] | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5266,22 +4718,16 @@ Read a text file and return paragraph-like text blocks as tabular data.
 
 #### 🎯 Purpose
 
-Reads a text file and converts separated text blocks into a pandas DataFrame. The fallback
-    Latin-1 branch preserves the ability to process files that fail UTF-8 decoding.
+Read a text file and return paragraph-like text blocks as tabular data through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `filepath`
-  - Path to the local source file.
+  - Local filesystem path used by the operation.
 
 #### 📤 Returns
 
-DataFrame | None: Pandas DataFrame containing the processed output when the operation
-    succeeds.
-
-#### ⚠️ Raises
-
-FileNotFoundError: If a required local file or matched path does not exist.
+DataFrame | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5297,22 +4743,16 @@ Split text into sentence strings using NLTK sentence tokenization.
 
 #### 🎯 Purpose
 
-Applies NLTK sentence tokenization to lowercase text and returns the resulting sentence list.
-    This provides sentence boundaries for chunking, cleaning, and dataset generation workflows.
+Split text into sentence strings using NLTK sentence tokenization through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 
 #### 📤 Returns
 
-List[ str ] | None: List of processed text values when the operation succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+List[str] | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5328,25 +4768,18 @@ Encode text with a tiktoken tokenizer and return token identifiers as tabular da
 
 #### 🎯 Purpose
 
-Encodes lowercase text using the requested tiktoken encoding and returns token identifiers in
-    a pandas DataFrame. This supports token inspection and model-facing preprocessing workflows.
+Encode text with a tiktoken tokenizer and return token identifiers as tabular data through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `text`
-  - Text value to process.
+  - Text value processed by the operation.
 - `encoding`
-  - Tiktoken encoding name used for tokenization.
+  - Text encoding or tokenizer encoding used by the operation.
 
 #### 📤 Returns
 
-DataFrame | None: Pandas DataFrame containing the processed output when the operation
-    succeeds.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-        project error type.
+DataFrame | None: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5373,12 +4806,11 @@ Read a PDF file using the PDF reader.
 
 #### 📤 Returns
 
-List[Document] | None: LangChain documents loaded from the requested source.
+Any: LangChain documents loaded from the requested source.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -5394,27 +4826,22 @@ Render a dynamic web page with Playwright.
 
 #### 🎯 Purpose
 
-Render a dynamic web page with Playwright.
+Render a dynamic web page with Playwright through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `url`
-  - URL or URI value used as the request or parsing source.
+  - URL used by the operation.
 - `timeout`
-  - Request timeout in seconds.
+  - Maximum time in seconds to wait for the operation.
 - `headers`
-  - Optional HTTP headers applied to web requests.
+  - Headers value used by the operation.
 - `use_playwright`
-  - Whether browser-backed rendering should be used for dynamic pages.
+  - Use playwright value used by the operation.
 
 #### 📤 Returns
 
-str: Text produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5443,12 +4870,11 @@ Request directions using Google Maps.
 
 #### 📤 Returns
 
-Dict[str, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---
 
@@ -5460,25 +4886,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scrape_articles( uri: str ) -> Any
 ```
 
-Extract article text.
+Extract article text from an HTML page.
 
 #### 🎯 Purpose
 
-Extract article text using Fonky's web extractor implementation.
+Extract article text from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML page.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Text or identifier values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5490,25 +4911,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scrape_blockquotes( uri: str ) -> Any
 ```
 
-Extract blockquote text.
+Extract blockquote text from an HTML page.
 
 #### 🎯 Purpose
 
-Extract blockquote text using Fonky's web extractor implementation.
+Extract blockquote text from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML document.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Text or identifier values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5520,40 +4936,36 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text: bool=True, include_raw_html: bool=False, selected_methods: Optional[List[str]]=None, request_timeout: int=10, max_bytes: int=1000000, headers: Optional[Dict[str, str]]=None, use_playwright: bool=False ) -> Any
 ```
 
-Extract crawler page from an HTML page.
+Extract a crawler page from an HTML page.
 
 #### 🎯 Purpose
 
-Extract crawler page from an HTML page using Fonky's web crawler implementation.
+Extract a crawler page from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `url`
-  - URL or URI value used as the request or parsing source.
+  - URL used by the operation.
 - `include_title`
-  - Whether to include title in the result.
+  - Include title value used by the operation.
 - `include_basic_text`
-  - Whether to include basic text in the result.
+  - Include basic text value used by the operation.
 - `include_raw_html`
-  - Whether to include raw html in the result.
+  - Include raw html value used by the operation.
 - `selected_methods`
-  - Extraction method names to execute against the supplied HTML.
+  - Selected methods value used by the operation.
 - `request_timeout`
-  - Request timeout in seconds.
+  - Request timeout value used by the operation.
 - `max_bytes`
-  - Maximum bytes permitted by the operation.
+  - Max bytes value used by the operation.
 - `headers`
-  - Optional HTTP headers applied to web requests.
+  - Headers value used by the operation.
 - `use_playwright`
-  - Whether browser-backed rendering should be used for dynamic pages.
+  - Use playwright value used by the operation.
 
 #### 📤 Returns
 
-Dict[str, Any]: Structured mapping produced by the operation.
-
-#### ⚠️ Raises
-
-Exception: If the delegated implementation raises an operational failure.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5565,25 +4977,20 @@ Exception: If the delegated implementation raises an operational failure.
 def scrape_divisions( uri: str ) -> Any
 ```
 
-Extract division text.
+Extract division text from an HTML page.
 
 #### 🎯 Purpose
 
-Extract division text using Fonky's web extractor implementation.
+Extract division text from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML document.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Text or identifier values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5595,25 +5002,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scrape_headings( uri: str ) -> Any
 ```
 
-Extract heading text.
+Extract heading text from an HTML page.
 
 #### 🎯 Purpose
 
-Extract heading text using Fonky's web extractor implementation.
+Extract heading text from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML document.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Heading text values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5629,21 +5031,16 @@ Extract hyperlinks from an HTML page.
 
 #### 🎯 Purpose
 
-Extract hyperlinks from an HTML page using Fonky's web extractor implementation.
+Extract hyperlinks from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML page.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Hyperlink values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5655,25 +5052,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scrape_images( uri: str ) -> Any
 ```
 
-Extract image references.
+Extract image references from an HTML page.
 
 #### 🎯 Purpose
 
-Extract image references using Fonky's web extractor implementation.
+Extract image references from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML page.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Image references produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5685,25 +5077,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scrape_lists( uri: str ) -> Any
 ```
 
-Extract list item text.
+Extract list-item text from an HTML page.
 
 #### 🎯 Purpose
 
-Extract list item text using Fonky's web extractor implementation.
+Extract list-item text from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML page.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Text or identifier values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5715,25 +5102,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scrape_paragraphs( uri: str ) -> Any
 ```
 
-Extract paragraph text.
+Extract paragraph text from an HTML page.
 
 #### 🎯 Purpose
 
-Extract paragraph text using Fonky's web extractor implementation.
+Extract paragraph text from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML document.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Paragraph text values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5745,25 +5127,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scrape_sections( uri: str ) -> Any
 ```
 
-Extract section text.
+Extract section text from an HTML page.
 
 #### 🎯 Purpose
 
-Extract section text using Fonky's web extractor implementation.
+Extract section text from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML document.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Text or identifier values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5775,25 +5152,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scrape_tables( uri: str ) -> Any
 ```
 
-Extract table cell text.
+Extract table-cell text from an HTML page.
 
 #### 🎯 Purpose
 
-Extract table cell text using Fonky's web extractor implementation.
+Extract table-cell text from an HTML page through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `uri`
-  - Fully qualified URI of the target HTML document.
+  - URI used by the operation.
 
 #### 📤 Returns
 
-List[str] | None: Table cell text values produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5809,23 +5181,18 @@ Fetch a web page for extraction.
 
 #### 🎯 Purpose
 
-Fetch a web page for extraction using Fonky's web extractor implementation.
+Fetch a web page for extraction through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `url`
-  - Absolute URL to fetch.
+  - URL used by the operation.
 - `time`
   - Request timeout in seconds.
 
 #### 📤 Returns
 
-Result | None: Fonky result wrapper containing the provider or HTTP response.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5837,25 +5204,20 @@ Error: If the implementation wraps a provider, parsing, filesystem, or processin
 def scraper_html_to_text( html: str ) -> Any
 ```
 
-Convert HTML to plain text.
+Convert scraper HTML to plain text.
 
 #### 🎯 Purpose
 
-Convert HTML to plain text.
+Convert scraper HTML to plain text through Fonky's canonical implementation so the callable can be registered directly with a Google ADK Agent through its ``tools`` collection.
 
 #### 📥 Arguments
 
 - `html`
-  - Raw HTML string to convert.
+  - Html value used by the operation.
 
 #### 📤 Returns
 
-str: Text produced by the operation.
-
-#### ⚠️ Raises
-
-Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+Any: Value produced by the delegated Fonky implementation.
 
 ---
 
@@ -5880,13 +5242,10 @@ Validate address using Google Maps.
 
 #### 📤 Returns
 
-Dict[Any, Any] | None: Structured mapping produced by the operation.
+Any: Structured mapping produced by the operation.
 
 #### ⚠️ Raises
 
-TypeError: If a supplied value has an unsupported type.
-    ValueError: If a required value is missing, blank, or outside the supported range.
-    Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-        the project error type.
+TypeError: If a supplied value has an unsupported type. ValueError: If a required value is missing, blank, or outside the supported range. Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
 
 ---

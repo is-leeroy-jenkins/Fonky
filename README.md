@@ -1,62 +1,53 @@
 # 🧰 Fonky
 
-![](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/images/fonky-project.png)
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-project.png)
 
 <p align="left">
   <a href="#purpose">Purpose</a> &nbsp;|&nbsp;
   <a href="#architecture">Architecture</a> &nbsp;|&nbsp;
+  <a href="#package-structure">Package Structure</a> &nbsp;|&nbsp;
   <a href="#installation">Installation</a> &nbsp;|&nbsp;
-  <a href="#configuration">Configuration</a> &nbsp;|&nbsp;
-  <a href="https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/Tools.md">Tools</a> &nbsp;|&nbsp;
-  <a href="https://github.com/is-leeroy-jenkins/funkytown/blob/main/resources/user-guide.md">User-Guide</a> &nbsp;|&nbsp;
-  <a href="#validation">Validation</a> &nbsp;|&nbsp;
-  <a href="#documentation">Documentation</a>
+  <a href="#provider-integrations">Provider Integrations</a> &nbsp;|&nbsp;
+  <a href="resources/Tools.md">Tools</a> &nbsp;|&nbsp;
+  <a href="resources/user-guide.md">User Guide</a> &nbsp;|&nbsp;
+  <a href="#validation">Validation</a>
 </p>
 
-___
-
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/fonky/)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/Fonky/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 
 ## 🎯 Purpose
 
-| Capability                            | Module                |
-|---------------------------------------|-----------------------|
-| Data retrieval                        | `fonky.fetchers`      |
-| Document ingestion                    | `fonky.loaders`       |
-| Web extraction                        | `fonky.scrapers`      |
-| Text and NLP preprocessing            | `fonky.preprocessors` |
-| Shared models and response structures | `fonky.models`        |
-| OpenAI Agents SDK tools               | `fonky.tools`         |
-| Runtime configuration                 | `fonky.config`        |
-| Error wrapping and logging            | `fonky.boogr`         |
+| Capability | Module |
+|---|---|
+| Data retrieval | `fonky.fetchers` |
+| Document ingestion | `fonky.loaders` |
+| Web extraction | `fonky.scrapers` |
+| Text and NLP processing | `fonky.processors` |
+| Shared models and response structures | `fonky.models` |
+| Runtime configuration | `fonky.config` |
+| Error wrapping and logging | `fonky.boogr` |
+| OpenAI Agents SDK tools | `fonky.gpt.tools` |
+| Google ADK tools | `fonky.gemini.tools` |
+| xAI Grok tools | `fonky.grok.tools` |
+| LangChain tools | `fonky.langchain.tools` |
 
+### Tool Surface
 
-## 🛠️ Architecture 
+| Provider path | Framework | Executable wrappers | Provider declarations |
+|---|---|---:|---:|
+| `fonky.gpt.tools` | OpenAI Agents SDK | 150 | Decorated `FunctionTool` objects |
+| `fonky.gemini.tools` | Google ADK | 150 | ADK wraps callables |
+| `fonky.grok.tools` | xAI SDK | 150 | 150 explicit `*_tool` declarations |
+| `fonky.langchain.tools` | LangChain Core | 150 | Decorated LangChain tools |
 
-![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/fonky-architecture.png)
+## 🛠️ Architecture
 
-```text
-OpenAI Agent / Application
-           |
-           v
-      fonky/tools.py
-  @function_tool wrappers
-           |
-   +-------+---------+-------------+
-   |       |         |             |
-   v       v         v             v
-fetchers loaders  scrapers  preprocessors
-   |       |         |             |
-   +-------+---------+-------------+
-           |
-           v
-        models.py
+![](resources/fonky-architecture.png)
 
-config.py
-boogr.py
-```
+## 🔁 Workflow
 
-
+![](resources/fonky-workflow.png)
 
 ## 📦 Package Structure
 
@@ -68,38 +59,47 @@ fonky/
 ├── fetchers.py
 ├── loaders.py
 ├── models.py
-├── preprocessors.py
+├── processors.py
 ├── scrapers.py
-└── tools.py
-```
-
-### 📚 Repository Documentation
-
-```text
-README.md
-Tools.md
-user-guide.md
-requirements.txt
+├── gpt/
+│   ├── __init__.py
+│   └── tools.py
+├── gemini/
+│   ├── __init__.py
+│   └── tools.py
+├── grok/
+│   ├── __init__.py
+│   └── tools.py
+└── langchain/
+    ├── __init__.py
+    └── tools.py
 ```
 
 ## ⚙️ Installation
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\activate
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip wheel
 python -m pip install -r requirements.txt
+python -m pip check
 ```
 
+### Playwright
 
+```powershell
+python -m playwright install chromium
+```
 
+## 🤖 Provider Integrations
 
-### ▶️ Ex Synchronous Agent
+### OpenAI Agents SDK
 
 ```python
-from agents import Agent, Runner            # using OpanAI agents SDK
+from agents import Agent, Runner
 
-from fonky.tools import fetch_arxiv
-from fonky.tools import fetch_wikipedia
+from fonky.gpt.tools import fetch_arxiv
+from fonky.gpt.tools import fetch_wikipedia
 
 agent = Agent(
     name='Research Assistant',
@@ -111,73 +111,71 @@ agent = Agent(
 
 result = Runner.run_sync(
     agent,
-    'Research question involving retrieval augmented generation.' )
+    'Research retrieval augmented generation.' )
 
 print( result.final_output )
 ```
 
-### ⏱️  Asynchronous Agent
+### Google ADK
 
 ```python
-result = await Runner.run(
-    agent,
-    'Research question involving retrieval retrieval augmented generation.' )
+from google.adk.agents import Agent
+
+from fonky.gemini.tools import fetch_arxiv
+from fonky.gemini.tools import fetch_wikipedia
+
+agent = Agent(
+    name='research_assistant',
+    model='gemini-3.7-flash',
+    instruction='Use the supplied Fonky tools when required.',
+    tools=[
+        fetch_arxiv,
+        fetch_wikipedia,
+    ] )
 ```
 
-### 📡 Streaming Agent
+### xAI Grok
 
 ```python
-result = Runner.run_streamed(
-    agent,
-    'Research question involving retrieval retrieval augmented generation.' )
+from fonky.grok.tools import cse_search_tool
+from fonky.grok.tools import fetch_cse_search
 
-async for event in result.stream_events( ):
-    print( event )
+tools = [
+    cse_search_tool,
+]
+
+# Pass ``tools`` to the xAI chat request.
+# When Grok requests ``fetch_cse_search``, execute the callable locally:
+result = fetch_cse_search(
+    keywords='federal appropriations law',
+    results=5 )
 ```
 
-### 🧩 Tool Schema
+### LangChain
 
 ```python
-import json
+from fonky.langchain.tools import fetch_arxiv
+from fonky.langchain.tools import fetch_wikipedia
 
-from agents import FunctionTool
-from fonky.tools import fetch_arxiv
-
-if isinstance( fetch_arxiv, FunctionTool ):
-    print( fetch_arxiv.name )
-    print( fetch_arxiv.description )
-    print( json.dumps( fetch_arxiv.params_json_schema, indent=2 ) )
+tools = [
+    fetch_arxiv,
+    fetch_wikipedia,
+]
 ```
-
-### 🧪 Wrapped Callable Test
-
-```python
-from fonky.tools import preprocess_normalize_text
-
-value = preprocess_normalize_text.__wrapped__(
-    text='  MULTIPLE    SPACES  ' )
-
-print( value )
-```
-
 
 ## ✅ Validation
 
-### 🛠️ Compile
-
 ```powershell
 python -m compileall .\fonky
+python -c "import fonky; import fonky.gpt.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.langchain.tools; print('ok')"
 ```
 
-### 📥 Core Imports
+## 📚 Documentation
 
-```powershell
-python -c "from fonky.fetchers import ArXiv; from fonky.loaders import PdfLoader; from fonky.scrapers import WebExtractor; from fonky.preprocessors import TextParser; print('ok')"
-```
-
-
+- [Tools Reference](resources/Tools.md)
+- [User Guide](resources/user-guide.md)
+- [MkDocs Site](https://is-leeroy-jenkins.github.io/Fonky/)
 
 ## 📝 License
 
-- [MIT License](https://github.com/is-leeroy-jenkins/fonky/blob/main/LICENSE.txt)
-
+[MIT License](LICENSE.txt)
