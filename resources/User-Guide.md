@@ -1,4 +1,6 @@
-![]()
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-guide.png)
+
+___
 
 ## 📥 Select a Provider Integration
 
