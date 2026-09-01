@@ -7,9 +7,9 @@
   <a href="#architecture">Architecture</a> &nbsp;|&nbsp;
   <a href="#package-structure">Package Structure</a> &nbsp;|&nbsp;
   <a href="#installation">Installation</a> &nbsp;|&nbsp;
-  <a href="#provider-integrations">Provider Integrations</a> &nbsp;|&nbsp;
+  <a href="#-provider-integrations">Provider Integrations</a> &nbsp;|&nbsp;
   <a href="resources/Tools.md">Tools</a> &nbsp;|&nbsp;
-  <a href="resources/user-guide.md">User Guide</a> &nbsp;|&nbsp;
+  <a href="resources/User-Guide.md">User Guide</a> &nbsp;|&nbsp;
   <a href="#validation">Validation</a>
 </p>
 
