@@ -1,4 +1,4 @@
-# 🧰 Fonky User Guide
+![]()
 
 ## 📥 Select a Provider Integration
 
