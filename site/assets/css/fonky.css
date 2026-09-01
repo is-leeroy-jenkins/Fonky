@@ -11,7 +11,29 @@
     --fonky-muted: #C7C7C7;
     --fonky-code-bg: #101820;
 }
+/* Header and top navigation */
+.md-header
+{
+    background-color: #2467AA;
+}
 
+.md-tabs
+{
+    background-color: #2467AA;
+}
+
+/* Search box */
+.md-search__form
+{
+    background-color: #102A43;
+}
+
+/* Search box focus */
+.md-search__form:hover,
+.md-search__form:focus-within
+{
+    background-color: #163A5F;
+}
 .md-grid
 {
     max-width: 92rem;
