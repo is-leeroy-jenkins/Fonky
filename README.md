@@ -179,5 +179,4 @@ python -c "import fonky; import fonky.gpt.tools; import fonky.gemini.tools; impo
 
 ## 📝 License
 
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/is-leeroy-jenkins/Fonky/blob/main/LICENSE.txt)
