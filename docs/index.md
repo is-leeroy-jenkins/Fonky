@@ -1,4 +1,4 @@
-![](./img/fonky-architecture.png)
+![](./img/fonky-project.png)
 ___
 
 Fonky is a Python library that exposes retrieval, loading, scraping, document-processing, and

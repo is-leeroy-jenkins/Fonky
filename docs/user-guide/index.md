@@ -1,4 +1,6 @@
-# User Guide
+![](../img/fonky-guide.png)
+
+___
 
 The user guide is organized by operation rather than provider.
 
