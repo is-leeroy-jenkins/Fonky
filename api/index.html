@@ -12,11 +12,13 @@
         <meta name="author" content="Terry D. Eppler">
       
       
-        <link rel="canonical" href="https://is-leeroy-jenkins.github.io/Fonky/development/">
+        <link rel="canonical" href="https://is-leeroy-jenkins.github.io/Fonky/api/">
       
       
-        <link rel="prev" href="../api/langchain-tools/">
+        <link rel="prev" href="../user-guide/processing/">
       
+      
+        <link rel="next" href="fetchers/">
       
       
         
@@ -27,7 +29,7 @@
     
     
       
-        <title>Development - Fonky Documentation</title>
+        <title>Overview - Fonky Documentation</title>
       
     
     
@@ -82,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#development" class="md-skip">
+        <a href="#api-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Development
+              Overview
             
           </span>
         </div>
@@ -273,11 +275,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../api/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -293,11 +297,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../development/" class="md-tabs__link">
         
   
   
@@ -641,28 +643,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -680,7 +685,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -695,10 +700,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../api/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -714,6 +746,48 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#canonical-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Canonical modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provider-tool-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provider tool modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -726,7 +800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/fetchers/" class="md-nav__link">
+      <a href="fetchers/" class="md-nav__link">
         
   
   
@@ -754,7 +828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/loaders/" class="md-nav__link">
+      <a href="loaders/" class="md-nav__link">
         
   
   
@@ -782,7 +856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/scrapers/" class="md-nav__link">
+      <a href="scrapers/" class="md-nav__link">
         
   
   
@@ -810,7 +884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/processors/" class="md-nav__link">
+      <a href="processors/" class="md-nav__link">
         
   
   
@@ -838,7 +912,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/models/" class="md-nav__link">
+      <a href="models/" class="md-nav__link">
         
   
   
@@ -866,7 +940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/config/" class="md-nav__link">
+      <a href="config/" class="md-nav__link">
         
   
   
@@ -894,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/boogr/" class="md-nav__link">
+      <a href="boogr/" class="md-nav__link">
         
   
   
@@ -928,10 +1002,13 @@
       
       
         
+          
+          
+        
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -940,7 +1017,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_9" >
         
           
-          <label class="md-nav__link" for="__nav_4_9" id="__nav_4_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_9" id="__nav_4_9_label" tabindex="">
             
   
   
@@ -976,7 +1053,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/gpt-tools/" class="md-nav__link">
+      <a href="gpt-tools/" class="md-nav__link">
         
   
   
@@ -1004,7 +1081,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/gemini-tools/" class="md-nav__link">
+      <a href="gemini-tools/" class="md-nav__link">
         
   
   
@@ -1032,7 +1109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/grok-tools/" class="md-nav__link">
+      <a href="grok-tools/" class="md-nav__link">
         
   
   
@@ -1060,7 +1137,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/langchain-tools/" class="md-nav__link">
+      <a href="langchain-tools/" class="md-nav__link">
         
   
   
@@ -1100,37 +1177,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Development
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../development/" class="md-nav__link">
         
   
   
@@ -1146,142 +1196,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#source-contract" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Source contract
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation-contract" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Documentation contract
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#provider-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Provider validation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Provider validation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openai-agents-sdk" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAI Agents SDK
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#google-adk" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Google ADK
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#xai" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        xAI
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#langchain" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        LangChain
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#static-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Static validation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Documentation validation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extension-checklist" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Extension checklist
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1313,10 +1227,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#source-contract" class="md-nav__link">
+  <a href="#canonical-modules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Source contract
+        Canonical modules
       
     </span>
   </a>
@@ -1324,104 +1238,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#documentation-contract" class="md-nav__link">
+  <a href="#provider-tool-modules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Documentation contract
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#provider-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Provider validation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Provider validation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openai-agents-sdk" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenAI Agents SDK
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#google-adk" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Google ADK
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#xai" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        xAI
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#langchain" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        LangChain
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#static-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Static validation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Documentation validation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#extension-checklist" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Extension checklist
+        Provider tool modules
       
     </span>
   </a>
@@ -1448,74 +1268,76 @@
   
 
 
-<h1 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h1>
-<h2 id="source-contract">Source contract<a class="headerlink" href="#source-contract" title="Permanent link">&para;</a></h2>
-<p>Provider tool modules expose canonical Fonky implementations. New provider wrappers must not
-duplicate retrieval, loading, scraping, or processing logic.</p>
-<h2 id="documentation-contract">Documentation contract<a class="headerlink" href="#documentation-contract" title="Permanent link">&para;</a></h2>
-<p>Public functions require:</p>
-<ul>
-<li>typed Python signatures;</li>
-<li>a summary line;</li>
-<li><code>Purpose:</code>;</li>
-<li>Google-style <code>Args:</code> entries;</li>
-<li><code>Returns:</code>;</li>
-<li><code>Raises:</code> when applicable.</li>
-</ul>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">operation</span><span class="p">(</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>        <span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="sd">"""Run an operation.</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="sd">    Purpose:</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="sd">        Execute the operation through the canonical Fonky implementation.</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="sd">        value (str): Value used by the operation.</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="sd">        Any: Result returned by the canonical implementation.</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="sd">    """</span>
-</code></pre></div>
-<h2 id="provider-validation">Provider validation<a class="headerlink" href="#provider-validation" title="Permanent link">&para;</a></h2>
-<h3 id="openai-agents-sdk">OpenAI Agents SDK<a class="headerlink" href="#openai-agents-sdk" title="Permanent link">&para;</a></h3>
-<p>Every GPT tool must construct successfully with <code>@function_tool</code>.</p>
-<h3 id="google-adk">Google ADK<a class="headerlink" href="#google-adk" title="Permanent link">&para;</a></h3>
-<p>Every Gemini tool must remain a plain callable that ADK can inspect and wrap.</p>
-<h3 id="xai">xAI<a class="headerlink" href="#xai" title="Permanent link">&para;</a></h3>
-<p>Every Grok executable wrapper must have one unique declaration object. Declaration variable names
-use the <code>*_tool</code> naming contract.</p>
-<h3 id="langchain">LangChain<a class="headerlink" href="#langchain" title="Permanent link">&para;</a></h3>
-<p>Every LangChain tool must construct successfully with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@tool</span><span class="p">(</span> <span class="n">parse_docstring</span><span class="o">=</span><span class="kc">True</span> <span class="p">)</span>
-</code></pre></div>
-<p>The generated argument schema must match the Python signature and parsed documentation comments.</p>
-<h2 id="static-validation">Static validation<a class="headerlink" href="#static-validation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">compileall</span> <span class="p">.\</span><span class="n">fonky</span>
-</code></pre></div>
-<p>Validate imports:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">python</span> <span class="n">-c</span> <span class="s2">"import fonky.fetchers; import fonky.loaders; import fonky.scrapers; import fonky.processors; print('ok')"</span>
-</code></pre></div>
-<p>Validate provider modules:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">python</span> <span class="n">-c</span> <span class="s2">"import fonky.gpt.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.langchain.tools; print('ok')"</span>
-</code></pre></div>
-<h2 id="documentation-validation">Documentation validation<a class="headerlink" href="#documentation-validation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">mkdocs</span> <span class="n">build</span> <span class="p">-</span><span class="n">-strict</span>
-</code></pre></div>
-<p>A documentation change is incomplete when the MkDocs build fails, an API module cannot import, or
-navigation points to a missing page.</p>
-<h2 id="extension-checklist">Extension checklist<a class="headerlink" href="#extension-checklist" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Implement canonical functionality in the correct core module.</li>
-<li>Add or update the shared models required by the operation.</li>
-<li>Add provider wrappers only after the canonical implementation is complete.</li>
-<li>Preserve the executable tool name across provider packages.</li>
-<li>Add xAI declaration naming only where a separate declaration object is required.</li>
-<li>Update Google-style documentation comments.</li>
-<li>Update the user guide when the operation introduces a new workflow.</li>
-<li>Run provider validation.</li>
-<li>Run <code>mkdocs build --strict</code>.</li>
-</ol>
+<h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<p><img alt="" src="../img/fonky-workflow.png" /></p>
+<hr />
+<h2 id="canonical-modules">Canonical modules<a class="headerlink" href="#canonical-modules" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="fetchers/"><code>fonky.fetchers</code></a></td>
+<td>Retrieval and external API operations.</td>
+</tr>
+<tr>
+<td><a href="loaders/"><code>fonky.loaders</code></a></td>
+<td>Document, file, cloud, mail, and structured-data loading.</td>
+</tr>
+<tr>
+<td><a href="scrapers/"><code>fonky.scrapers</code></a></td>
+<td>Web extraction, rendering, and crawling.</td>
+</tr>
+<tr>
+<td><a href="processors/"><code>fonky.processors</code></a></td>
+<td>Text, NLP, chunking, vectorization, and semantic-search operations.</td>
+</tr>
+<tr>
+<td><a href="models/"><code>fonky.models</code></a></td>
+<td>Shared request and response structures.</td>
+</tr>
+<tr>
+<td><a href="config/"><code>fonky.config</code></a></td>
+<td>Runtime configuration.</td>
+</tr>
+<tr>
+<td><a href="boogr/"><code>fonky.boogr</code></a></td>
+<td>Error wrapping and logging.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="provider-tool-modules">Provider tool modules<a class="headerlink" href="#provider-tool-modules" title="Permanent link">&para;</a></h2>
+<p><img alt="" src="../img/ai-tools.png" /></p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Framework</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="gpt-tools/"><code>fonky.gpt.tools</code></a></td>
+<td>OpenAI Agents SDK</td>
+</tr>
+<tr>
+<td><a href="gemini-tools/"><code>fonky.gemini.tools</code></a></td>
+<td>Google ADK</td>
+</tr>
+<tr>
+<td><a href="grok-tools/"><code>fonky.grok.tools</code></a></td>
+<td>xAI SDK</td>
+</tr>
+<tr>
+<td><a href="langchain-tools/"><code>fonky.langchain.tools</code></a></td>
+<td>LangChain Core</td>
+</tr>
+</tbody>
+</table>
 
 
 

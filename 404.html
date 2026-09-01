@@ -6,8 +6,10 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Data retrieval, document ingestion, web scraping, cloud access, public data, scientific and geospatial integration framework.">
+        <meta name="description" content="Documentation for the Fonky provider-native AI tooling library.">
       
+      
+        <meta name="author" content="Terry D. Eppler">
       
       
       
@@ -16,19 +18,19 @@
         
       
       
-      <link rel="icon" href="/funkytown/images/favicon.ico">
+      <link rel="icon" href="/Fonky/assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Fonky</title>
+        <title>Fonky Documentation</title>
       
     
     
-      <link rel="stylesheet" href="/funkytown/assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="/Fonky/assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="/funkytown/assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="/Fonky/assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -47,11 +49,11 @@
       
     
     
-      <link rel="stylesheet" href="/funkytown/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="/Fonky/assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="/funkytown/stylesheets/fonky.css">
+      <link rel="stylesheet" href="/Fonky/assets/css/fonky.css">
     
-    <script>__md_scope=new URL("/funkytown/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("/Fonky/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -67,7 +69,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="light-blue">
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -85,9 +87,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/funkytown/." title="Fonky" class="md-header__button md-logo" aria-label="Fonky" data-md-component="logo">
+    <a href="/Fonky/." title="Fonky Documentation" class="md-header__button md-logo" aria-label="Fonky Documentation" data-md-component="logo">
       
-  <img src="/funkytown/images/fonky_logo.png" alt="logo">
+  <img src="/Fonky/img/fonky.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -98,7 +100,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Fonky
+            Fonky Documentation
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -117,7 +119,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="light-blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
     
   
 </form>
@@ -147,13 +149,16 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
-      
-        <div class="md-search__suggest" data-md-component="search-suggest"></div>
       
     </form>
     <div class="md-search__output">
@@ -172,7 +177,7 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/is-leeroy-jenkins/funkytown#fonky" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/is-leeroy-jenkins/Fonky" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -203,7 +208,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/funkytown/." class="md-tabs__link">
+      <a href="/Fonky/." class="md-tabs__link">
         
   
   
@@ -222,64 +227,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/funkytown/getting-started/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Getting Started
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="/funkytown/usage/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Usage
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="/funkytown/configuration/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Configuration
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="/funkytown/architecture/" class="md-tabs__link">
+      <a href="/Fonky/architecture/" class="md-tabs__link">
         
   
   
@@ -300,7 +248,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/funkytown/user-guide/" class="md-tabs__link">
+        <a href="/Fonky/user-guide/" class="md-tabs__link">
           
   
   
@@ -317,29 +265,10 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="/funkytown/troubleshooting/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Troubleshooting
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
     
     
       <li class="md-tabs__item">
-        <a href="/funkytown/api/fonky/" class="md-tabs__link">
+        <a href="/Fonky/api/" class="md-tabs__link">
           
   
   
@@ -356,18 +285,17 @@
   
   
   
-    
-    
-      <li class="md-tabs__item">
-        <a href="/funkytown/development/" class="md-tabs__link">
-          
+    <li class="md-tabs__item">
+      <a href="/Fonky/development/" class="md-tabs__link">
+        
   
+  
+    
   
   Development
 
-        </a>
-      </li>
-    
+      </a>
+    </li>
   
 
       
@@ -393,16 +321,16 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/funkytown/." title="Fonky" class="md-nav__button md-logo" aria-label="Fonky" data-md-component="logo">
+    <a href="/Fonky/." title="Fonky Documentation" class="md-nav__button md-logo" aria-label="Fonky Documentation" data-md-component="logo">
       
-  <img src="/funkytown/images/fonky_logo.png" alt="logo">
+  <img src="/Fonky/img/fonky.png" alt="logo">
 
     </a>
-    Fonky
+    Fonky Documentation
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/is-leeroy-jenkins/funkytown#fonky" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/is-leeroy-jenkins/Fonky" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -422,7 +350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/." class="md-nav__link">
+      <a href="/Fonky/." class="md-nav__link">
         
   
   
@@ -449,88 +377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/getting-started/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Getting Started
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/usage/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Usage
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/configuration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/architecture/" class="md-nav__link">
+      <a href="/Fonky/architecture/" class="md-nav__link">
         
   
   
@@ -572,10 +419,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -593,8 +440,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -611,7 +458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/user-guide/" class="md-nav__link">
+      <a href="/Fonky/user-guide/" class="md-nav__link">
         
   
   
@@ -639,14 +486,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/user-guide/" class="md-nav__link">
+      <a href="/Fonky/user-guide/providers/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Guide Index
+    Provider Setup
   
 
     
@@ -667,14 +514,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/guides/archives/" class="md-nav__link">
+      <a href="/Fonky/user-guide/retrieval/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Archives & Research
+    Retrieval
   
 
     
@@ -695,14 +542,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/guides/astronomical/" class="md-nav__link">
+      <a href="/Fonky/user-guide/loading/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Astronomy & Space
+    Loading
   
 
     
@@ -723,14 +570,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/guides/cloud/" class="md-nav__link">
+      <a href="/Fonky/user-guide/web-extraction/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Cloud & Remote Storage
+    Web Extraction
   
 
     
@@ -751,378 +598,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/guides/demographic/" class="md-nav__link">
+      <a href="/Fonky/user-guide/processing/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Demographic & Public Data
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/documents/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Document Loading
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/environmental/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Environmental & Climate
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/geospatial/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Geospatial & Mapping
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/health/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Health Data
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/web/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Web Retrieval & Scraping
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/interface-selection/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Functional vs Class Usage
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/usage/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Usage Patterns
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/composing-workflows/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Combining Capabilities
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/state/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    State Management
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/failures/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Failure Handling
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/results/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Results & Return Shapes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/dependencies/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Credentials & Dependencies
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/guides/troubleshooting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Troubleshooting Guide
+    Processing
   
 
     
@@ -1149,33 +632,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="/funkytown/troubleshooting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Troubleshooting
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
     
     
     
@@ -1192,10 +648,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
@@ -1213,8 +669,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1231,14 +687,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/api/fonky/" class="md-nav__link">
+      <a href="/Fonky/api/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Functional API
+    Overview
   
 
     
@@ -1259,35 +715,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/api/tools/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    LangChain Tools
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/api/fetchers/" class="md-nav__link">
+      <a href="/Fonky/api/fetchers/" class="md-nav__link">
         
   
   
@@ -1315,7 +743,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/api/loaders/" class="md-nav__link">
+      <a href="/Fonky/api/loaders/" class="md-nav__link">
         
   
   
@@ -1343,7 +771,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/api/scrapers/" class="md-nav__link">
+      <a href="/Fonky/api/scrapers/" class="md-nav__link">
         
   
   
@@ -1371,35 +799,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/api/models/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/api/processors/" class="md-nav__link">
+      <a href="/Fonky/api/processors/" class="md-nav__link">
         
   
   
@@ -1427,14 +827,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/api/core/" class="md-nav__link">
+      <a href="/Fonky/api/models/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Core
+    Models
   
 
     
@@ -1455,14 +855,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/api/config/" class="md-nav__link">
+      <a href="/Fonky/api/config/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Configuration API
+    Configuration
   
 
     
@@ -1483,14 +883,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/api/boogr/" class="md-nav__link">
+      <a href="/Fonky/api/boogr/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Boogr
+    Error Handling
   
 
     
@@ -1504,15 +904,8 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
+              
+                
   
   
   
@@ -1533,17 +926,17 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_9" >
         
           
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4_9" id="__nav_4_9_label" tabindex="0">
             
   
   
   <span class="md-ellipsis">
     
   
-    Development
+    Provider Tools
   
 
     
@@ -1554,12 +947,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_9">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Development
+    Provider Tools
   
 
           </label>
@@ -1572,14 +965,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/development/" class="md-nav__link">
+      <a href="/Fonky/api/gpt-tools/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Overview
+    OpenAI Agents SDK
   
 
     
@@ -1600,14 +993,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/development/development-guide/" class="md-nav__link">
+      <a href="/Fonky/api/gemini-tools/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Development Guide
+    Google ADK
   
 
     
@@ -1628,14 +1021,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/development/adding-fetcher/" class="md-nav__link">
+      <a href="/Fonky/api/grok-tools/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Adding a Fetcher
+    xAI Grok
   
 
     
@@ -1656,98 +1049,14 @@
   
   
     <li class="md-nav__item">
-      <a href="/funkytown/development/adding-loader/" class="md-nav__link">
+      <a href="/Fonky/api/langchain-tools/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Adding a Loader
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/development/adding-scraper/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Adding a Scraper
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/development/adding-wrapper/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Adding a Wrapper
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="/funkytown/development/testing/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Testing & Documentation
+    LangChain
   
 
     
@@ -1764,6 +1073,41 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/Fonky/development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1795,14 +1139,6 @@
           
             <div class="md-content" data-md-component="content">
               
-                
-
-
-
-  
-
-
-              
               <article class="md-content__inner md-typeset">
                 
   <h1>404 - Not found</h1>
@@ -1823,8 +1159,6 @@
       </main>
       
         <footer class="md-footer">
-  
-    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1851,10 +1185,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/funkytown/", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "/funkytown/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "/Fonky/", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.share", "content.code.copy", "content.code.select"], "search": "/Fonky/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/funkytown/assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="/Fonky/assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="/Fonky/assets/js/fonky.js"></script>
       
     
   </body>

@@ -1,171 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/architecture/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/architecture/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/configuration/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/development/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/getting-started/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/troubleshooting/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/boogr/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/usage/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/config/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/user-guide/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/fetchers/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/boogr/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/gemini-tools/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/config/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/gpt-tools/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/core/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/grok-tools/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/fetchers/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/langchain-tools/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/fonky/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/loaders/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/loaders/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/models/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/models/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/processors/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/processors/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/api/scrapers/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/scrapers/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/api/tools/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/loading/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/development/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/processing/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/development/adding-fetcher/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/providers/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/development/adding-loader/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/retrieval/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
     <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/development/adding-scraper/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/development/adding-wrapper/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/development/development-guide/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/development/testing/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/archives/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/astronomical/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/cloud/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/composing-workflows/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/demographic/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/dependencies/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/documents/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/environmental/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/failures/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/geospatial/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/health/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/interface-selection/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/results/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/state/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/troubleshooting/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/usage/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/guides/web/</loc>
-         <lastmod>2026-08-25</lastmod>
-    </url>
-    <url>
-         <loc>https://is-leeroy-jenkins.github.io/funkytown/user-guide/</loc>
-         <lastmod>2026-08-25</lastmod>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/web-extraction/</loc>
+         <lastmod>2026-09-01</lastmod>
     </url>
 </urlset>
