@@ -1,5 +1,8 @@
+<p align="center">
+  <img src="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/ai-tools.png" width="550">
+</p>
 
-![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/ai-tools.png)
+___
 
 ## 📊 Inventory
 
