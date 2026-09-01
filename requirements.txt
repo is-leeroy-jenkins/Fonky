@@ -30,6 +30,8 @@ langchain-community==0.4.2
 langchain-text-splitters==1.1.2
 langchain-google-community==5.0.0
 langchain-googledrive==0.1.52
+openai
+openai-agents
 
 
 # --------------------------------------------------------------------------------------------------

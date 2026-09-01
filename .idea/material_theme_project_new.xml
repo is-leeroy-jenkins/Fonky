@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="MaterialThemeProjectNewConfig">
-    <option name="applicationFrameState">
-      <MTProjectApplicationFrameConfigState>
-        <option name="enabled" value="true" />
-        <option name="overrideColor" value="false" />
-      </MTProjectApplicationFrameConfigState>
-    </option>
     <option name="metadata">
       <MTProjectMetadataState>
         <option name="applicationFrameMigrated" value="true" />

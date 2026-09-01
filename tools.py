@@ -846,7 +846,7 @@ def fetch_star_chart( mode: str='object_chart', query: str='', ra: float=0.0,
 def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', begin: int | None=None,
 		end: int | None=None, time_value: int | None=None, lamin: float | None=None,
 		lomin: float | None=None, lamax: float | None=None, lomax: float | None=None,
-		extended: bool=False, client_id: str | None=None, client_secret: str | None=None, time: int=20 ) -> Any:
+		extended: bool=False, client_id: str=None, client_secret: str=None, time: int=20 ) -> Any:
     """Retrieve OpenSky Network aircraft, airport, and state-vector data.
 
     Purpose:
@@ -881,7 +881,9 @@ def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', be
             the project error type.
     """
     _instance = OpenSky( )
-    return _instance.fetch( mode=mode, icao24=icao24, airport=airport, begin=begin, end=end, time_value=time_value, lamin=lamin, lomin=lomin, lamax=lamax, lomax=lomax, extended=extended, client_id=client_id, client_secret=client_secret, time=time )
+    return _instance.fetch( mode=mode, icao24=icao24, airport=airport, begin=begin, end=end,
+	    time_value=time_value, lamin=lamin, lomin=lomin, lamax=lamax, lomax=lomax,
+	    extended=extended, client_id=client_id, client_secret=client_secret, time=time )
 
 
 
@@ -953,7 +955,8 @@ def load_onedrive( drive_id: str, folder_path: Optional[str]=None,
             the project error type.
     """
     _instance = OneDriveDocLoader( )
-    return _instance.load( drive_id=drive_id, folder_path=folder_path, object_ids=object_ids, auth_with_token=auth_with_token )
+    return _instance.load( drive_id=drive_id, folder_path=folder_path, object_ids=object_ids,
+	    auth_with_token=auth_with_token )
 
 
 @function_tool
@@ -1004,7 +1007,9 @@ def load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str]=None,
             the project error type.
     """
     _instance = AwsFileLoader( )
-    return _instance.load( bucket=bucket, key=key, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token, region_name=region_name )
+    return _instance.load( bucket=bucket, key=key, aws_access_key_id=aws_access_key_id,
+	    aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token,
+	    region_name=region_name )
 
 
 @function_tool
@@ -1054,7 +1059,8 @@ def load_google_bucket( project_name: str, bucket: str, prefix: Optional[str]=No
             the project error type.
     """
     _instance = GoogleBucketLoader( )
-    return _instance.load( project_name=project_name, bucket=bucket, prefix=prefix, continue_on_failure=continue_on_failure )
+    return _instance.load( project_name=project_name, bucket=bucket, prefix=prefix,
+	    continue_on_failure=continue_on_failure )
 
 
 @function_tool
@@ -1083,7 +1089,9 @@ def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id:
             the project error type.
     """
     _instance = AwsBucketLoader( )
-    return _instance.load( bucket=bucket, prefix=prefix, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token, region_name=region_name, endpoint_url=endpoint_url )
+    return _instance.load( bucket=bucket, prefix=prefix, aws_access_key_id=aws_access_key_id,
+	    aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token,
+	    region_name=region_name, endpoint_url=endpoint_url )
 
 
 
@@ -1117,7 +1125,8 @@ def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='ac
             the project error type.
     """
     _instance = CensusData( )
-    return _instance.fetch( mode=mode, year=year, dataset=dataset, fields=fields, geography_for=geography_for, geography_in=geography_in, predicates=predicates, time=time )
+    return _instance.fetch( mode=mode, year=year, dataset=dataset, fields=fields,
+	    geography_for=geography_for, geography_in=geography_in, predicates=predicates, time=time )
 
 
 @function_tool
@@ -1644,7 +1653,8 @@ def load_jupyter_notebook( path: str, include_outputs: bool=False, max_output_le
             the project error type.
     """
     _instance = JupyterNotebookLoader( )
-    return _instance.load( path=path, include_outputs=include_outputs, max_output_length=max_output_length, remove_newline=remove_newline, traceback=traceback )
+    return _instance.load( path=path, include_outputs=include_outputs,
+	    max_output_length=max_output_length, remove_newline=remove_newline, traceback=traceback )
 
 
 @function_tool
@@ -1669,7 +1679,8 @@ def fetch_google_weather_current( address: str, units_system: str='METRIC', lang
             the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_current( address=address, units_system=units_system, language_code=language_code, time=time )
+    return _instance.fetch_current( address=address, units_system=units_system,
+	    language_code=language_code, time=time )
 
 
 @function_tool
@@ -1696,7 +1707,8 @@ def fetch_google_weather_hourly_forecast( address: str, hours: int=24, units_sys
             the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_hourly_forecast( address=address, hours=hours, units_system=units_system, language_code=language_code, time=time )
+    return _instance.fetch_hourly_forecast( address=address, hours=hours, units_system=units_system,
+	    language_code=language_code, time=time )
 
 
 @function_tool
@@ -1723,7 +1735,8 @@ def fetch_google_weather_daily_forecast( address: str, days: int=5, units_system
             the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_daily_forecast( address=address, days=days, units_system=units_system, language_code=language_code, time=time )
+    return _instance.fetch_daily_forecast( address=address, days=days, units_system=units_system,
+	    language_code=language_code, time=time )
 
 
 @function_tool
@@ -1750,7 +1763,8 @@ def fetch_google_weather_hourly_history( address: str, hours: int=24, units_syst
             the project error type.
     """
     _instance = GoogleWeather( )
-    return _instance.fetch_hourly_history( address=address, hours=hours, units_system=units_system, language_code=language_code, time=time )
+    return _instance.fetch_hourly_history( address=address, hours=hours,
+	    units_system=units_system, language_code=language_code, time=time )
 
 
 @function_tool
@@ -1938,7 +1952,9 @@ def fetch_usgs_water_data( mode: str='monitoring-locations', monitoring_location
             the project error type.
     """
     _instance = USGSWaterData( )
-    return _instance.fetch( mode=mode, monitoring_location_id=monitoring_location_id, state_code=state_code, county_code=county_code, site_type=site_type, parameter_code=parameter_code, limit=limit, time=time )
+    return _instance.fetch( mode=mode, monitoring_location_id=monitoring_location_id,
+	    state_code=state_code, county_code=county_code, site_type=site_type,
+	    parameter_code=parameter_code, limit=limit, time=time )
 
 @function_tool
 def fetch_air_now( mode: str='current-zip', zip_code: str='', latitude: float | None=None,
@@ -1969,7 +1985,8 @@ def fetch_air_now( mode: str='current-zip', zip_code: str='', latitude: float | 
             the project error type.
     """
     _instance = AirNow( )
-    return _instance.fetch( mode=mode, zip_code=zip_code, latitude=latitude, longitude=longitude, date=date, distance=distance, time=time )
+    return _instance.fetch( mode=mode, zip_code=zip_code, latitude=latitude, longitude=longitude,
+	    date=date, distance=distance, time=time )
 
 
 @function_tool
@@ -2005,7 +2022,9 @@ def fetch_climate_data( mode: str='datasets', keyword: str='', dataset: str='', 
             the project error type.
     """
     _instance = ClimateData( )
-    return _instance.fetch( mode=mode, keyword=keyword, dataset=dataset, start_date=start_date, end_date=end_date, stations=stations, data_types=data_types, limit=limit, offset=offset, time=time )
+    return _instance.fetch( mode=mode, keyword=keyword, dataset=dataset, start_date=start_date,
+	    end_date=end_date, stations=stations, data_types=data_types, limit=limit,
+	    offset=offset, time=time )
 
 
 @function_tool
@@ -2042,7 +2061,8 @@ def fetch_eonet( mode: str='events', source: str='', category: str='', status: s
             the project error type.
     """
     _instance = EoNet( )
-    return _instance.fetch( mode=mode, source=source, category=category, status=status, limit=limit, days=days, start_date=start_date, end_date=end_date, bbox=bbox, time=time )
+    return _instance.fetch( mode=mode, source=source, category=category, status=status,
+	    limit=limit, days=days, start_date=start_date, end_date=end_date, bbox=bbox, time=time )
 
 
 @function_tool
@@ -2069,7 +2089,8 @@ def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='',
             the project error type.
     """
     _instance = EnviroFacts( )
-    return _instance.fetch( table_name=table_name, state_code=state_code, facility_name=facility_name, limit=limit, time=time )
+    return _instance.fetch( table_name=table_name, state_code=state_code,
+	    facility_name=facility_name, limit=limit, time=time )
 
 
 @function_tool
@@ -2104,7 +2125,8 @@ def fetch_tides_and_currents( mode: str='water-level', station_id: str='', begin
             the project error type.
     """
     _instance = TidesAndCurrents( )
-    return _instance.fetch( mode=mode, station_id=station_id, begin_date=begin_date, end_date=end_date, datum=datum, units=units, time_zone=time_zone, interval=interval, time=time )
+    return _instance.fetch( mode=mode, station_id=station_id, begin_date=begin_date,
+	    end_date=end_date, datum=datum, units=units, time_zone=time_zone, interval=interval, time=time )
 
 
 @function_tool
@@ -2171,7 +2193,9 @@ def fetch_purple_air( mode: str='sensors', sensor_index: int | None=None, nwlng:
             the project error type.
     """
     _instance = PurpleAir( )
-    return _instance.fetch( mode=mode, sensor_index=sensor_index, nwlng=nwlng, nwlat=nwlat, selng=selng, selat=selat, location_type=location_type, max_age=max_age, modified_since=modified_since, fields=fields, time=time )
+    return _instance.fetch( mode=mode, sensor_index=sensor_index, nwlng=nwlng,
+	    nwlat=nwlat, selng=selng, selat=selat, location_type=location_type,
+	    max_age=max_age, modified_since=modified_since, fields=fields, time=time )
 
 
 @function_tool
@@ -2210,7 +2234,9 @@ def fetch_open_aq( mode: str='locations', location_id: int | None=None, paramete
             the project error type.
     """
     _instance = OpenAQ( )
-    return _instance.fetch( mode=mode, location_id=location_id, parameter_id=parameter_id, country_id=country_id, coordinates=coordinates, radius=radius, providers_id=providers_id, parameters_id=parameters_id, limit=limit, page=page, time=time )
+    return _instance.fetch( mode=mode, location_id=location_id, parameter_id=parameter_id,
+	    country_id=country_id, coordinates=coordinates, radius=radius, providers_id=providers_id,
+	    parameters_id=parameters_id, limit=limit, page=page, time=time )
 
 
 @function_tool
@@ -2373,7 +2399,9 @@ def fetch_global_imagery_wms_map( layer: str,
             the project error type.
     """
     _instance = GlobalImagery( )
-    return _instance.fetch_wms_map( layer=layer, image_date=image_date, bbox=bbox, width=width, height=height, projection=projection, quality=quality, image_format=image_format, transparent=transparent, output_dir=output_dir, output_name=output_name, time=time )
+    return _instance.fetch_wms_map( layer=layer, image_date=image_date, bbox=bbox, width=width,
+	    height=height, projection=projection, quality=quality, image_format=image_format,
+	    transparent=transparent, output_dir=output_dir, output_name=output_name, time=time )
 
 
 @function_tool
@@ -2486,7 +2514,8 @@ def fetch_usgs_national_map( mode: str='products', dataset: str='', q: str='', b
             the project error type.
     """
     _instance = USGSTheNationalMap( )
-    return _instance.fetch( mode=mode, dataset=dataset, q=q, bbox=bbox, prod_formats=prod_formats, max_items=max_items, offset=offset, time=time )
+    return _instance.fetch( mode=mode, dataset=dataset, q=q, bbox=bbox, prod_formats=prod_formats,
+	    max_items=max_items, offset=offset, time=time )
 
 
 @function_tool
@@ -2557,7 +2586,8 @@ def fetch_health_data( mode: str='rows', domain: str='healthdata.gov', dataset_i
             the project error type.
     """
     _instance = HealthData( )
-    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select, where=where, order=order, group=group, limit=limit, offset=offset, time=time )
+    return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select,
+	    where=where, order=order, group=group, limit=limit, offset=offset, time=time )
 
 
 @function_tool
@@ -2825,7 +2855,9 @@ def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text:
         Exception: If the delegated implementation raises an operational failure.
     """
     _instance = WebCrawler( headers=headers, use_playwright=use_playwright )
-    return _instance.scrape_page( url=url, include_title=include_title, include_basic_text=include_basic_text, include_raw_html=include_raw_html, selected_methods=selected_methods, request_timeout=request_timeout, max_bytes=max_bytes )
+    return _instance.scrape_page( url=url, include_title=include_title,
+	    include_basic_text=include_basic_text, include_raw_html=include_raw_html,
+	    selected_methods=selected_methods, request_timeout=request_timeout, max_bytes=max_bytes )
 
 
 @function_tool
@@ -2879,7 +2911,8 @@ def load_web( urls: str | List[str], recursive: bool=False, max_depth: int=2,
         Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
             the project error type.
     """
-    _instance = WebLoader( recursive=recursive, max_depth=max_depth, prevent_outside=prevent_outside, timeout=timeout, ignore=ignore, progress=progress )
+    _instance = WebLoader( recursive=recursive, max_depth=max_depth,
+	    prevent_outside=prevent_outside, timeout=timeout, ignore=ignore, progress=progress )
     return _instance.load( urls=urls )
 
 
@@ -2930,7 +2963,8 @@ def load_web_pages( urls: List[str], depth: int=2, timeout: int=10, ignore: bool
             the project error type.
     """
     _instance = WebLoader( )
-    return _instance.load_pages( urls=urls, depth=depth, timeout=timeout, ignore=ignore, progress=progress )
+    return _instance.load_pages( urls=urls, depth=depth, timeout=timeout,
+	    ignore=ignore, progress=progress )
 
 
 @function_tool
@@ -3516,7 +3550,8 @@ def preprocess_remove_headers( filepath: str, lines: int=50, headers: int=3, foo
             project error type.
     """
     instance = TextParser( )
-    return instance.remove_headers( filepath=filepath, lines=lines, headers=headers, footers=footers )
+    return instance.remove_headers( filepath=filepath, lines=lines,
+	    headers=headers, footers=footers )
 
 @function_tool
 def preprocess_remove_numbers( text: str ) -> str | None:
