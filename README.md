@@ -173,8 +173,8 @@ python -c "import fonky; import fonky.gpt.tools; import fonky.gemini.tools; impo
 
 ## 📚 Documentation
 
-- [Tools Reference](resources/Tools.md)
-- [User Guide](resources/user-guide.md)
+- [Tools Reference](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/Tools.md)
+- [User Guide](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/User-Guide.md)
 - [MkDocs Site](https://is-leeroy-jenkins.github.io/Fonky/)
 
 ## 📝 License
