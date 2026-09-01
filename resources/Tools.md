@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/ai-tools.png" width="800">
+  <img src="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/ai-tools.png" width="1000">
 </p>
 
 ___
