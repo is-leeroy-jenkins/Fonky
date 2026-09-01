@@ -3,14 +3,14 @@
 ![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-project.png)
 
 <p align="left">
-  <a href="#purpose">Purpose</a> &nbsp;|&nbsp;
-  <a href="#architecture">Architecture</a> &nbsp;|&nbsp;
-  <a href="#package-structure">Package Structure</a> &nbsp;|&nbsp;
-  <a href="#installation">Installation</a> &nbsp;|&nbsp;
+  <a href="#-purpose">Purpose</a> &nbsp;|&nbsp;
+  <a href="#%EF%B8%8F-architecture">Architecture</a> &nbsp;|&nbsp;
+  <a href="#-package-structure">Package Structure</a> &nbsp;|&nbsp;
+  <a href="#%EF%B8%8F-installation">Installation</a> &nbsp;|&nbsp;
   <a href="#-provider-integrations">Provider Integrations</a> &nbsp;|&nbsp;
   <a href="resources/Tools.md">Tools</a> &nbsp;|&nbsp;
   <a href="resources/User-Guide.md">User Guide</a> &nbsp;|&nbsp;
-  <a href="#validation">Validation</a>
+  <a href="#-validation">Validation</a>
 </p>
 
 ___
