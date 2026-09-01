@@ -48,7 +48,7 @@ ___
 
 ## 🔁 Fonky flow
 
-![](resources/fonky-workflow.png)
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-workflow.png))
 
 ## 📦 Package Structure
 
