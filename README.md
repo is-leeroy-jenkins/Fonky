@@ -56,19 +56,7 @@ config.py
 boogr.py
 ```
 
-### 🔗 Dependency Contract
 
-```text
-tools.py -> fetchers.py
-tools.py -> loaders.py
-tools.py -> scrapers.py
-tools.py -> preprocessors.py
-
-fetchers.py       -X-> tools.py
-loaders.py        -X-> tools.py
-scrapers.py       -X-> tools.py
-preprocessors.py  -X-> tools.py
-```
 
 ## 📦 Package Structure
 
