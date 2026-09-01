@@ -30,13 +30,6 @@ ___
 | Runtime configuration                 | `fonky.config`        |
 | Error wrapping and logging            | `fonky.boogr`         |
 
-### 🧮 Tool Inventory
-
-| Tool Type                               |   Count |
-|-----------------------------------------|--------:|
-| Retrieval, loading, and scraping tools  |     110 |
-| Preprocessing and NLTK tools            |      40 |
-| **Total OpenAI `FunctionTool` objects** | **150** |
 
 
 ![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/fonky-architecture.png)
