@@ -86,30 +86,17 @@ requirements.txt
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip wheel
-python -m pip install "setuptools==81.0.0"
+.venv\Scripts\activate
 python -m pip install -r requirements.txt
-python -m pip check
-```
-
-### 🌐 Playwright
-
-```powershell
-python -m playwright install chromium
-```
-
-### ✅ Import Validation
-
-```powershell
-python -c "import fonky; import fonky.tools; print('ok')"
 ```
 
 
-### ▶️ Synchronous Agent
+
+
+### ▶️ Ex Synchronous Agent
 
 ```python
-from agents import Agent, Runner
+from agents import Agent, Runner            # using OpanAI agents SDK
 
 from fonky.tools import fetch_arxiv
 from fonky.tools import fetch_wikipedia
@@ -124,7 +111,7 @@ agent = Agent(
 
 result = Runner.run_sync(
     agent,
-    'Research retrieval augmented generation.' )
+    'Research question involving retrieval augmented generation.' )
 
 print( result.final_output )
 ```
@@ -134,7 +121,7 @@ print( result.final_output )
 ```python
 result = await Runner.run(
     agent,
-    'Research retrieval augmented generation.' )
+    'Research question involving retrieval retrieval augmented generation.' )
 ```
 
 ### 📡 Streaming Agent
@@ -142,7 +129,7 @@ result = await Runner.run(
 ```python
 result = Runner.run_streamed(
     agent,
-    'Research retrieval augmented generation.' )
+    'Research question involving retrieval retrieval augmented generation.' )
 
 async for event in result.stream_events( ):
     print( event )
