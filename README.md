@@ -38,7 +38,8 @@ ___
 | Preprocessing and NLTK tools            |      40 |
 | **Total OpenAI `FunctionTool` objects** | **150** |
 
-## 🏗️ Architecture
+
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/fonky-architecture.png)
 
 ```text
 OpenAI Agent / Application
