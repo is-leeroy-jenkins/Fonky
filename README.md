@@ -1,4 +1,4 @@
-# 🧰 Fonky
+###### Fonky
 
 ![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-project.png)
 
@@ -13,39 +13,40 @@
   <a href="#validation">Validation</a>
 </p>
 
+___
+
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-0078FC?style=for-the-badge&logo=github)](https://is-leeroy-jenkins.github.io/Fonky/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
 
 ## 🎯 Purpose
 
-| Capability | Module |
-|---|---|
-| Data retrieval | `fonky.fetchers` |
-| Document ingestion | `fonky.loaders` |
-| Web extraction | `fonky.scrapers` |
-| Text and NLP processing | `fonky.processors` |
-| Shared models and response structures | `fonky.models` |
-| Runtime configuration | `fonky.config` |
-| Error wrapping and logging | `fonky.boogr` |
-| OpenAI Agents SDK tools | `fonky.gpt.tools` |
-| Google ADK tools | `fonky.gemini.tools` |
-| xAI Grok tools | `fonky.grok.tools` |
-| LangChain tools | `fonky.langchain.tools` |
+| Capability                            | Module                  |
+|---------------------------------------|-------------------------|
+| Data retrieval                        | `fonky.fetchers`        |
+| Document ingestion                    | `fonky.loaders`         |
+| Web extraction                        | `fonky.scrapers`        |
+| Text and NLP processing               | `fonky.processors`      |
+| Shared models and response structures | `fonky.models`          |
+| Runtime configuration                 | `fonky.config`          |
+| Error wrapping and logging            | `fonky.boogr`           |
+| OpenAI Agents SDK tools               | `fonky.gpt.tools`       |
+| Google ADK tools                      | `fonky.gemini.tools`    |
+| xAI Grok tools                        | `fonky.grok.tools`      |
+| LangChain tools                       | `fonky.langchain.tools` |
 
 ### Tool Surface
 
-| Provider path | Framework | Executable wrappers | Provider declarations |
-|---|---|---:|---:|
-| `fonky.gpt.tools` | OpenAI Agents SDK | 150 | Decorated `FunctionTool` objects |
-| `fonky.gemini.tools` | Google ADK | 150 | ADK wraps callables |
-| `fonky.grok.tools` | xAI SDK | 150 | 150 explicit `*_tool` declarations |
-| `fonky.langchain.tools` | LangChain Core | 150 | Decorated LangChain tools |
+| Provider path           | Framework         | Executable wrappers |              Provider declarations |
+|-------------------------|-------------------|--------------------:|-----------------------------------:|
+| `fonky.gpt.tools`       | OpenAI Agents SDK |                 150 |   Decorated `FunctionTool` objects |
+| `fonky.gemini.tools`    | Google ADK        |                 150 |                ADK wraps callables |
+| `fonky.grok.tools`      | xAI SDK           |                 150 | 150 explicit `*_tool` declarations |
+| `fonky.langchain.tools` | LangChain Core    |                 150 |          Decorated LangChain tools |
 
 ## 🛠️ Architecture
 
 ![](resources/fonky-architecture.png)
 
-## 🔁 Workflow
+## 🔁 Fonky flow
 
 ![](resources/fonky-workflow.png)
 
@@ -178,4 +179,5 @@ python -c "import fonky; import fonky.gpt.tools; import fonky.gemini.tools; impo
 
 ## 📝 License
 
-[MIT License](LICENSE.txt)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.txt)
