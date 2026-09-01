@@ -9,11 +9,11 @@
       Last Modified On:        08-31-2026
   ******************************************************************************************
   <summary>
-    Provides the OpenAI Agents SDK function-tool interface for Fonky.
+    Provides the Gemini Agents SDK function-tool interface for Fonky.
 
     Purpose:
         Exposes individual OpenAI Agents SDK function tools over implementation classes in
-        ``fetchers.py``, ``loaders.py``, ``scrapers.py``, and ``preprocessors.py``. Each public
+        ``fetchers.py``, ``loaders.py``, ``scrapers.py``, and ``processors.py``. Each public
         operation creates a fresh implementation instance, invokes the corresponding operation,
         and returns its result.
   </summary>
@@ -23,101 +23,101 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 from sentence_transformers import SentenceTransformer
 import datetime as dt
-from agents import function_tool
+from google import genai
+from google.genai import types
 
 # ==========================================================================================
 # FETCHERS IMPORTS
 # ==========================================================================================
 
-from .fetchers import AirNow
-from .fetchers import ArXiv
-from .fetchers import AstroCatalog
-from .fetchers import AstroQuery
-from .fetchers import CensusData
-from .fetchers import ClimateData
-from .fetchers import Congress
-from .fetchers import EarthObservatory
-from .fetchers import EnviroFacts
-from .fetchers import EoNet
-from .fetchers import Firms
-from .fetchers import GlobalHealthData
-from .fetchers import GlobalImagery
-from .fetchers import GoogleDrive
-from .fetchers import GoogleGeocoding
-from .fetchers import GoogleMaps
-from .fetchers import GoogleSearch
-from .fetchers import GoogleWeather
-from .fetchers import GovData
-from .fetchers import Grokipedia
-from .fetchers import HealthData
-from .fetchers import HistoricalWeather
-from .fetchers import InternetArchive
-from .fetchers import NavalObservatory
-from .fetchers import NearbyObjects
-from .fetchers import OpenAQ
-from .fetchers import OpenScience
-from .fetchers import OpenSky
-from .fetchers import OpenWeather
-from .fetchers import PurpleAir
-from .fetchers import SatelliteCenter
-from .fetchers import Socrata
-from .fetchers import SpaceWeather
-from .fetchers import StarChart
-from .fetchers import StarMap
-from .fetchers import TheNews
-from .fetchers import TidesAndCurrents
-from .fetchers import USGSEarthquakes
-from .fetchers import USGSScienceBase
-from .fetchers import USGSTheNationalMap
-from .fetchers import USGSWaterData
-from .fetchers import UnitedNations
-from .fetchers import UvIndex
-from .fetchers import WebCrawler
-from .fetchers import WebFetcher
-from .fetchers import Wikipedia
-from .fetchers import Wonder
-from .fetchers import WorldPopulation
-from .fetchers import encode_image as _encode_image
+from fetchers import AirNow
+from fetchers import ArXiv
+from fetchers import AstroCatalog
+from fetchers import AstroQuery
+from fetchers import CensusData
+from fetchers import ClimateData
+from fetchers import Congress
+from fetchers import EarthObservatory
+from fetchers import EnviroFacts
+from fetchers import EoNet
+from fetchers import Firms
+from fetchers import GlobalHealthData
+from fetchers import GlobalImagery
+from fetchers import GoogleDrive
+from fetchers import GoogleGeocoding
+from fetchers import GoogleMaps
+from fetchers import GoogleSearch
+from fetchers import GoogleWeather
+from fetchers import GovData
+from fetchers import Grokipedia
+from fetchers import HealthData
+from fetchers import HistoricalWeather
+from fetchers import InternetArchive
+from fetchers import NavalObservatory
+from fetchers import NearbyObjects
+from fetchers import OpenAQ
+from fetchers import OpenScience
+from fetchers import OpenSky
+from fetchers import OpenWeather
+from fetchers import PurpleAir
+from fetchers import SatelliteCenter
+from fetchers import Socrata
+from fetchers import SpaceWeather
+from fetchers import StarChart
+from fetchers import StarMap
+from fetchers import TheNews
+from fetchers import TidesAndCurrents
+from fetchers import USGSEarthquakes
+from fetchers import USGSScienceBase
+from fetchers import USGSTheNationalMap
+from fetchers import USGSWaterData
+from fetchers import UnitedNations
+from fetchers import UvIndex
+from fetchers import WebCrawler
+from fetchers import WebFetcher
+from fetchers import Wikipedia
+from fetchers import Wonder
+from fetchers import WorldPopulation
+from fetchers import encode_image as _encode_image
 
 # --------- LOADERS IMPORTS ---------
 
-from .loaders import ArXivLoader
-from .loaders import AwsBucketLoader
-from .loaders import AwsFileLoader
-from .loaders import CsvLoader
-from .loaders import EmailLoader
-from .loaders import ExcelLoader
-from .loaders import GithubLoader
-from .loaders import GoogleBucketLoader
-from .loaders import GoogleCloudFileLoader
-from .loaders import GoogleDriveLoader
-from .loaders import GoogleSpeechToTextLoader
-from .loaders import HtmlLoader
-from .loaders import JsonLoader
-from .loaders import JupyterNotebookLoader
-from .loaders import MarkdownLoader
-from .loaders import OneDriveDocLoader
-from .loaders import OpenCityLoader
-from .loaders import OutlookLoader
-from .loaders import PdfLoader
-from .loaders import PdfReader
-from .loaders import PowerPointLoader
-from .loaders import PubMedSearchLoader
-from .loaders import SpfxLoader
-from .loaders import TextLoader
-from .loaders import WebLoader
-from .loaders import WikiLoader
-from .loaders import WordLoader
-from .loaders import XmlLoader
+from loaders import ArXivLoader
+from loaders import AwsBucketLoader
+from loaders import AwsFileLoader
+from loaders import CsvLoader
+from loaders import EmailLoader
+from loaders import ExcelLoader
+from loaders import GithubLoader
+from loaders import GoogleBucketLoader
+from loaders import GoogleCloudFileLoader
+from loaders import GoogleDriveLoader
+from loaders import GoogleSpeechToTextLoader
+from loaders import HtmlLoader
+from loaders import JsonLoader
+from loaders import JupyterNotebookLoader
+from loaders import MarkdownLoader
+from loaders import OneDriveDocLoader
+from loaders import OpenCityLoader
+from loaders import OutlookLoader
+from loaders import PdfLoader
+from loaders import PdfReader
+from loaders import PowerPointLoader
+from loaders import PubMedSearchLoader
+from loaders import SpfxLoader
+from loaders import TextLoader
+from loaders import WebLoader
+from loaders import WikiLoader
+from loaders import WordLoader
+from loaders import XmlLoader
 
 # --------- SCRAPERS IMPORTS ---------
 
-from .scrapers import WebExtractor
-from .preprocessors import NltkParser
-from .preprocessors import TextParser
+from scrapers import WebExtractor
+from processors import NltkParser
+from processors import TextParser
 
 
-@function_tool
 def fetch_arxiv( question: str, max_documents: int | None=None, full_documents: bool | None=None,
 		include_metadata: bool | None=None ) -> Any:
     """Retrieve ArXiv research documents.
@@ -144,7 +144,6 @@ def fetch_arxiv( question: str, max_documents: int | None=None, full_documents: 
     return _instance.fetch( question=question, max_documents=max_documents,
 	    full_documents=full_documents, include_metadata=include_metadata )
 
-@function_tool
 def fetch_google_drive( question: str, folder_id: str='root', results: int=10,
 		template: str='gdrive-query', mime_type: str | None=None, mode: str='documents' ) -> Any:
     """Retrieve Google Drive documents.
@@ -174,7 +173,6 @@ def fetch_google_drive( question: str, folder_id: str='root', results: int=10,
     return _instance.fetch( question=question, folder_id=folder_id, results=results,
 	    template=template, mime_type=mime_type, mode=mode )
 
-@function_tool
 def fetch_wikipedia( question: str, language: str | None=None, max_documents: int | None=None,
 		include_metadata: bool | None=None ) -> Any:
     """Retrieve Wikipedia documents.
@@ -201,7 +199,6 @@ def fetch_wikipedia( question: str, language: str | None=None, max_documents: in
     return _instance.fetch( question=question, language=language, max_documents=max_documents,
 	    include_metadata=include_metadata )
 
-@function_tool
 def fetch_news( endpoint: str='all', query: str='', language: str='en', categories: str='',
 		exclude_categories: str='', locale: str='', domains: str='', exclude_domains: str='',
 		source_ids: str='', exclude_source_ids: str='', published_after: str='',
@@ -256,7 +253,6 @@ def fetch_news( endpoint: str='all', query: str='', language: str='en', categori
 	    page=page, include_similar=include_similar, headlines_per_category=headlines_per_category,
 	    time=time, api_key=api_key )
 
-@function_tool
 def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_terms: str='',
 		exclude_terms: str='', file_type: str='', date_restrict: str='', gl: str='', lr: str='',
 		safe: str='off', search_type: str='', site_search: str='', site_search_filter: str='',
@@ -310,7 +306,6 @@ def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_ter
 	    img_size=img_size, img_type=img_type, img_color_type=img_color_type,
 	    img_dominant_color=img_dominant_color, time=time, api_key=api_key, cse_id=cse_id )
 
-@function_tool
 def fetch_gov_data( mode: str='search', query: str='', page_size: int=10, offset_mark: str='*',
 		sort_field: str='score', sort_order: str='DESC', package_id: str='', collection: str='',
 		start_date: str='', time: int=20 ) -> Any:
@@ -349,7 +344,6 @@ def fetch_gov_data( mode: str='search', query: str='', page_size: int=10, offset
 	    start_date=start_date, time=time )
 
 
-@function_tool
 def fetch_congress( mode: str='congresses', congress: int=0, bill_type: str='', bill_number: int=0,
 		law_type: str='', law_number: int=0, report_type: str='', report_number: int=0,
 		offset: int=0, limit: int=20, sort: str='updateDate+desc', from_date_time: str='',
@@ -396,7 +390,6 @@ def fetch_congress( mode: str='congresses', congress: int=0, bill_type: str='', 
 	    from_date_time=from_date_time, to_date_time=to_date_time, conference=conference, time=time )
 
 
-@function_tool
 def fetch_internet_archive( keywords: str, fields: List[str] | None=None, rows: int=10, page: int=1,
 		sort: str='downloads desc', media_type: str='', collection: str='', time: int=20 ) -> Any:
     """Retrieve Internet Archive search and metadata.
@@ -429,7 +422,6 @@ def fetch_internet_archive( keywords: str, fields: List[str] | None=None, rows: 
 	    media_type=media_type, collection=collection, time=time )
 
 
-@function_tool
 def fetch_grokipedia( mode: str='search', query: str='', page: str='', limit: int=12,
 		offset: int=0, include_content: bool=True ) -> Any:
     """Retrieve Grokipedia search and page.
@@ -460,7 +452,6 @@ def fetch_grokipedia( mode: str='search', query: str='', page: str='', limit: in
 	    include_content=include_content )
 
 
-@function_tool
 def load_arxiv( question: str ) -> Any:
     """Load ArXiv research documents.
 
@@ -481,7 +472,6 @@ def load_arxiv( question: str ) -> Any:
     _instance = ArXivLoader( )
     return _instance.load( question=question )
 
-@function_tool
 def load_wikipedia( question: str ) -> Any:
     """Load Wikipedia articles.
 
@@ -503,7 +493,6 @@ def load_wikipedia( question: str ) -> Any:
     return _instance.load( question=question )
 
 
-@function_tool
 def fetch_naval_observatory( mode: str='celnav', date_value: str='', time_value: str='',
 		latitude: float=0.0, longitude: float=0.0, location_label: str='', time: int=20 ) -> Any:
     """Retrieve U.S. Naval Observatory celestial-navigation data.
@@ -533,7 +522,6 @@ def fetch_naval_observatory( mode: str='celnav', date_value: str='', time_value:
     return _instance.fetch( mode=mode, date_value=date_value, time_value=time_value,
 	    latitude=latitude, longitude=longitude, location_label=location_label, time=time )
 
-@function_tool
 def fetch_satellite_center( mode: str='observatories', query: str='', start_time: str='',
 		end_time: str='', coordinate_systems: str='gse', resolution_factor: int=1, time: int=20 ) -> Any:
     """Retrieve SSC satellite observatory, ground-station, and location data.
@@ -565,7 +553,6 @@ def fetch_satellite_center( mode: str='observatories', query: str='', start_time
     return _instance.fetch( mode=mode, query=query, start_time=start_time, end_time=end_time,
 	    coordinate_systems=coordinate_systems, resolution_factor=resolution_factor, time=time )
 
-@function_tool
 def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_date: str='',
 		query: str='', query_type: str='sstr', dist_max: str='10LD', body: str='Earth',
 		sort: str='date', limit: int=20, dv: float=6.0, dur: int=360, stay: int=8,
@@ -618,7 +605,6 @@ def fetch_nearby_objects( mode: str='close_approaches', start_date: str='', end_
 	    include_discovery=include_discovery, time=time )
 
 
-@function_tool
 def fetch_open_science( mode: str='dataset', query: str='', accession: str='',
 		format_value: str='json', time: int=20 ) -> Any:
     """Retrieve NASA Open Science Data Repository resources.
@@ -647,7 +633,6 @@ def fetch_open_science( mode: str='dataset', query: str='', accession: str='',
 	    format_value=format_value, time=time )
 
 
-@function_tool
 def fetch_space_weather( mode: str='cme', start_date: str='', end_date: str='', time: int=20,
 		location: str='ALL', catalog: str='ALL', notification_type: str='all',
 		most_accurate_only: bool=True, complete_entry_only: bool=True, speed: int=0,
@@ -689,7 +674,6 @@ def fetch_space_weather( mode: str='cme', start_date: str='', end_date: str='', 
 	    speed=speed, half_angle=half_angle, keyword=keyword, api_key=api_key )
 
 
-@function_tool
 def fetch_astro_catalog( mode: str='object_query', query: str='', quantity: str='',
 		attributes: str='', arguments: str='', ra: str='', dec: str='', radius: int=2,
 		data_format: str='json', time: int=20 ) -> Any:
@@ -724,7 +708,6 @@ def fetch_astro_catalog( mode: str='object_query', query: str='', quantity: str=
 	    arguments=arguments, ra=ra, dec=dec, radius=radius, data_format=data_format, time=time )
 
 
-@function_tool
 def fetch_astro_query( mode: str='object_search', query: str='', ra: str='', dec: str='',
 		radius: float=0.5, radius_unit: str='deg', row_limit: int=100 ) -> Any:
     """Retrieve Simbad and astronomy object search operations.
@@ -756,7 +739,6 @@ def fetch_astro_query( mode: str='object_search', query: str='', ra: str='', dec
 	    radius_unit=radius_unit, row_limit=row_limit )
 
 
-@function_tool
 def fetch_star_map( mode: str='object_link', query: str='', ra: float=0.0, dec: float=0.0,
 		zoom: int=5, image_source: str='DSS2', box_color: str='yellow', show_box: bool=True,
 		show_grid: bool=True, show_lines: bool=True, show_boundaries: bool=True,
@@ -797,7 +779,6 @@ def fetch_star_map( mode: str='object_link', query: str='', ra: float=0.0, dec: 
 	    show_const_names=show_const_names, time=time )
 
 
-@function_tool
 def fetch_star_chart( mode: str='object_chart', query: str='', ra: float=0.0,
 		dec: float=0.0, zoom: int=5, image_source: str='DSS2', box_color: str='yellow',
 		show_box: bool=True, show_grid: bool=True, show_lines: bool=True, show_boundaries: bool=True,
@@ -842,7 +823,6 @@ def fetch_star_chart( mode: str='object_chart', query: str='', ra: float=0.0,
 	    width=width, height=height, magnitude=magnitude, time=time )
 
 
-@function_tool
 def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', begin: int | None=None,
 		end: int | None=None, time_value: int | None=None, lamin: float | None=None,
 		lomin: float | None=None, lamax: float | None=None, lomax: float | None=None,
@@ -885,9 +865,6 @@ def fetch_open_sky( mode: str='states_bbox', icao24: str='', airport: str='', be
 	    time_value=time_value, lamin=lamin, lomin=lomin, lamax=lamax, lomax=lomax,
 	    extended=extended, client_id=client_id, client_secret=client_secret, time=time )
 
-
-
-@function_tool
 def load_google_drive_file( file_id: str, recursive: bool=False ) -> Any:
     """Load a Google Drive file.
 
@@ -909,8 +886,6 @@ def load_google_drive_file( file_id: str, recursive: bool=False ) -> Any:
     _instance = GoogleDriveLoader( )
     return _instance.load_file( file_id=file_id, recursive=recursive )
 
-
-@function_tool
 def load_google_drive_folder( folder_id: str, recursive: bool=False ) -> Any:
     """Load documents from a Google Drive folder.
 
@@ -932,8 +907,6 @@ def load_google_drive_folder( folder_id: str, recursive: bool=False ) -> Any:
     _instance = GoogleDriveLoader( )
     return _instance.load_folder( folder_id=folder_id, recursive=recursive )
 
-
-@function_tool
 def load_onedrive( drive_id: str, folder_path: Optional[str]=None,
 		object_ids: Optional[List[str]]=None, auth_with_token: bool=True ) -> Any:
     """Load documents from OneDrive.
@@ -958,8 +931,6 @@ def load_onedrive( drive_id: str, folder_path: Optional[str]=None,
     return _instance.load( drive_id=drive_id, folder_path=folder_path, object_ids=object_ids,
 	    auth_with_token=auth_with_token )
 
-
-@function_tool
 def load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any:
     """Load a Google Cloud Storage object.
 
@@ -981,8 +952,6 @@ def load_google_cloud_file( project_name: str, bucket: str, blob: str ) -> Any:
     _instance = GoogleCloudFileLoader( )
     return _instance.load( project_name=project_name, bucket=bucket, blob=blob )
 
-
-@function_tool
 def load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str]=None,
 		aws_secret_access_key: Optional[str]=None, aws_session_token: Optional[str]=None,
 		region_name: Optional[str]=None ) -> Any:
@@ -1011,8 +980,6 @@ def load_aws_file( bucket: str, key: str, aws_access_key_id: Optional[str]=None,
 	    aws_secret_access_key=aws_secret_access_key, aws_session_token=aws_session_token,
 	    region_name=region_name )
 
-
-@function_tool
 def load_google_speech_to_text( project_id: str, file_path: str,
 		config: Optional[Dict[str, Any]]=None ) -> Any:
     """Transcribe audio with Google Speech-to-Text.
@@ -1035,8 +1002,6 @@ def load_google_speech_to_text( project_id: str, file_path: str,
     _instance = GoogleSpeechToTextLoader( )
     return _instance.load( project_id=project_id, file_path=file_path, config=config )
 
-
-@function_tool
 def load_google_bucket( project_name: str, bucket: str, prefix: Optional[str]=None,
 		continue_on_failure: bool=False ) -> Any:
     """Load documents from a Google Cloud Storage bucket.
@@ -1062,8 +1027,6 @@ def load_google_bucket( project_name: str, bucket: str, prefix: Optional[str]=No
     return _instance.load( project_name=project_name, bucket=bucket, prefix=prefix,
 	    continue_on_failure=continue_on_failure )
 
-
-@function_tool
 def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id: Optional[str]=None,
 		aws_secret_access_key: Optional[str]=None, aws_session_token: Optional[str]=None,
 		region_name: Optional[str]=None, endpoint_url: Optional[str]=None ) -> Any:
@@ -1094,8 +1057,6 @@ def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id:
 	    region_name=region_name, endpoint_url=endpoint_url )
 
 
-
-@function_tool
 def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='acs/acs5',
 		fields: str='NAME,B01001_001E', geography_for: str='state:*', geography_in: str='',
 		predicates: str='', time: int=20 ) -> Any:
@@ -1129,7 +1090,6 @@ def fetch_census_data( mode: str='variables', year: str='2022', dataset: str='ac
 	    geography_for=geography_for, geography_in=geography_in, predicates=predicates, time=time )
 
 
-@function_tool
 def fetch_socrata( mode: str='rows', domain: str='data.cdc.gov', dataset_id: str='',
 		select: str='', where: str='', order: str='', group: str='', limit: int=25,
 		offset: int=0, time: int=20 ) -> Any:
@@ -1164,8 +1124,6 @@ def fetch_socrata( mode: str='rows', domain: str='data.cdc.gov', dataset_id: str
     return _instance.fetch( mode=mode, domain=domain, dataset_id=dataset_id, select=select,
 	    where=where, order=order, group=group, limit=limit, offset=offset, time=time )
 
-
-@function_tool
 def fetch_united_nations( mode: str='datasets', query_path: str='', time: int=20 ) -> Any:
     """Retrieve United Nations SDMX dataset and query.
 
@@ -1190,8 +1148,6 @@ def fetch_united_nations( mode: str='datasets', query_path: str='', time: int=20
     _instance = UnitedNations( )
     return _instance.fetch( mode=mode, query_path=query_path, time=time )
 
-
-@function_tool
 def fetch_world_population( mode: str='catalog', query: str='', asset_path: str='',
 		page: int=1, page_size: int=25, time: int=20 ) -> Any:
     """Retrieve WorldPop catalog and raster metadata.
@@ -1223,8 +1179,6 @@ def fetch_world_population( mode: str='catalog', query: str='', asset_path: str=
     return _instance.fetch( mode=mode, query=query, asset_path=asset_path, page=page,
 	    page_size=page_size, time=time )
 
-
-@function_tool
 def load_open_city( city_id: str, dataset_id: str, limit: int=100 ) -> Any:
     """Load an Open City dataset.
 
@@ -1248,9 +1202,6 @@ def load_open_city( city_id: str, dataset_id: str, limit: int=100 ) -> Any:
     _instance = OpenCityLoader( )
     return _instance.load( city_id=city_id, dataset_id=dataset_id, limit=limit )
 
-
-
-@function_tool
 def load_text( path: str, encoding: Optional[str]=None ) -> Any:
     """Load a plain-text file.
 
@@ -1271,8 +1222,6 @@ def load_text( path: str, encoding: Optional[str]=None ) -> Any:
     _instance = TextLoader( )
     return _instance.load( path=path, encoding=encoding )
 
-
-@function_tool
 def load_csv( path: str, encoding: Optional[str]='utf-8', source_column: Optional[str]=None,
 		delimiter: str=',', quotechar: str='"' ) -> Any:
     """Load a CSV file.
@@ -1295,10 +1244,9 @@ def load_csv( path: str, encoding: Optional[str]='utf-8', source_column: Optiona
             the project error type.
     """
     _instance = CsvLoader( )
-    return _instance.load( path=path, encoding=encoding, source_column=source_column, delimiter=delimiter, quotechar=quotechar )
+    return _instance.load( path=path, encoding=encoding, source_column=source_column,
+	    delimiter=delimiter, quotechar=quotechar )
 
-
-@function_tool
 def read_pdf( path: str, mode: str='single' ) -> Any:
     """Read a PDF file.
 
@@ -1319,7 +1267,6 @@ def read_pdf( path: str, mode: str='single' ) -> Any:
     _instance = PdfReader( )
     return _instance.load( path=path, mode=mode )
 
-@function_tool
 def load_pdf( path: str, mode: str='single', extract: str='plain', include: bool=False,
 		format: str='markdown-img', size: int=1000, overlap: int=150, has_tables: bool=True ) -> Any:
     """Load and extract a PDF file.
@@ -1347,8 +1294,6 @@ def load_pdf( path: str, mode: str='single', extract: str='plain', include: bool
     _instance = PdfLoader( size=size, overlap=overlap, has_tables=has_tables )
     return _instance.load( path=path, mode=mode, extract=extract, include=include, format=format )
 
-
-@function_tool
 def load_excel( path: str, mode: str='elements', has_headers: bool=True ) -> Any:
     """Load an Excel workbook.
 
@@ -1370,8 +1315,6 @@ def load_excel( path: str, mode: str='elements', has_headers: bool=True ) -> Any
     _instance = ExcelLoader( )
     return _instance.load( path=path, mode=mode, has_headers=has_headers )
 
-
-@function_tool
 def load_word( path: str ) -> Any:
     """Load a Word document.
 
@@ -1391,8 +1334,6 @@ def load_word( path: str ) -> Any:
     _instance = WordLoader( )
     return _instance.load( path=path )
 
-
-@function_tool
 def load_markdown( path: str ) -> Any:
     """Load a Markdown document.
 
@@ -1413,7 +1354,6 @@ def load_markdown( path: str ) -> Any:
     return _instance.load( path=path )
 
 
-@function_tool
 def load_html( path: str ) -> Any:
     """Load an HTML document.
 
@@ -1434,7 +1374,6 @@ def load_html( path: str ) -> Any:
     return _instance.load( path=path )
 
 
-@function_tool
 def load_outlook( path: str ) -> Any:
     """Load an Outlook message.
 
@@ -1455,7 +1394,6 @@ def load_outlook( path: str ) -> Any:
     return _instance.load( path=path )
 
 
-@function_tool
 def load_spfx( library_id: str ) -> Any:
     """Load a SharePoint document library.
 
@@ -1476,7 +1414,6 @@ def load_spfx( library_id: str ) -> Any:
     return _instance.load( library_id=library_id )
 
 
-@function_tool
 def load_spfx_folder( library_id: str, folder_id: str ) -> Any:
     """Load a SharePoint folder.
 
@@ -1498,7 +1435,6 @@ def load_spfx_folder( library_id: str, folder_id: str ) -> Any:
     return _instance.load_folder( library_id=library_id, folder_id=folder_id )
 
 
-@function_tool
 def load_powerpoint( path: str, mode: str='single' ) -> Any:
     """Load a PowerPoint presentation.
 
@@ -1520,7 +1456,6 @@ def load_powerpoint( path: str, mode: str='single' ) -> Any:
     return _instance.load( path=path, mode=mode )
 
 
-@function_tool
 def load_powerpoint_multiple( path: str ) -> Any:
     """Load multiple PowerPoint presentation elements.
 
@@ -1541,7 +1476,6 @@ def load_powerpoint_multiple( path: str ) -> Any:
     return _instance.load_multiple( path=path )
 
 
-@function_tool
 def load_email( path: str, mode: str='single', attachments: bool=True ) -> Any:
     """Load an email message.
 
@@ -1564,7 +1498,6 @@ def load_email( path: str, mode: str='single', attachments: bool=True ) -> Any:
     return _instance.load( path=path, mode=mode, attachments=attachments )
 
 
-@function_tool
 def load_json( filepath: str, is_text: bool=True, is_lines: bool=False ) -> Any:
     """Load JSON content.
 
@@ -1587,7 +1520,6 @@ def load_json( filepath: str, is_text: bool=True, is_lines: bool=False ) -> Any:
     return _instance.load( filepath=filepath, is_text=is_text, is_lines=is_lines )
 
 
-@function_tool
 def load_xml( filepath: str ) -> Any:
     """Load an XML document.
 
@@ -1608,7 +1540,6 @@ def load_xml( filepath: str ) -> Any:
     return _instance.load( filepath=filepath )
 
 
-@function_tool
 def load_xml_tree( filepath: str ) -> Any:
     """Parse an XML document tree.
 
@@ -1629,7 +1560,6 @@ def load_xml_tree( filepath: str ) -> Any:
     return _instance.load_tree( filepath=filepath )
 
 
-@function_tool
 def load_jupyter_notebook( path: str, include_outputs: bool=False, max_output_length: int=10,
 		remove_newline: bool=False, traceback: bool=False ) -> Any:
     """Load a Jupyter notebook.
@@ -1657,7 +1587,6 @@ def load_jupyter_notebook( path: str, include_outputs: bool=False, max_output_le
 	    max_output_length=max_output_length, remove_newline=remove_newline, traceback=traceback )
 
 
-@function_tool
 def fetch_google_weather_current( address: str, units_system: str='METRIC', language_code: str='en',
 		time: int=10 ) -> Any:
     """Retrieve google weather current data.
@@ -1683,7 +1612,6 @@ def fetch_google_weather_current( address: str, units_system: str='METRIC', lang
 	    language_code=language_code, time=time )
 
 
-@function_tool
 def fetch_google_weather_hourly_forecast( address: str, hours: int=24, units_system: str='METRIC',
 		language_code: str='en', time: int=10 ) -> Any:
     """Retrieve hourly forecast.
@@ -1711,7 +1639,6 @@ def fetch_google_weather_hourly_forecast( address: str, hours: int=24, units_sys
 	    language_code=language_code, time=time )
 
 
-@function_tool
 def fetch_google_weather_daily_forecast( address: str, days: int=5, units_system: str='METRIC',
 		language_code: str='en', time: int=10 ) -> Any:
     """Retrieve daily forecast.
@@ -1739,7 +1666,6 @@ def fetch_google_weather_daily_forecast( address: str, days: int=5, units_system
 	    language_code=language_code, time=time )
 
 
-@function_tool
 def fetch_google_weather_hourly_history( address: str, hours: int=24, units_system: str='METRIC',
 		language_code: str='en', time: int=10 ) -> Any:
     """Retrieve hourly history.
@@ -1767,7 +1693,6 @@ def fetch_google_weather_hourly_history( address: str, hours: int=24, units_syst
 	    units_system=units_system, language_code=language_code, time=time )
 
 
-@function_tool
 def fetch_google_weather_alerts( address: str, language_code: str='en', time: int=10 ) -> Any:
     """Retrieve google weather alerts data.
 
@@ -1790,7 +1715,6 @@ def fetch_google_weather_alerts( address: str, language_code: str='en', time: in
     return _instance.fetch_alerts( address=address, language_code=language_code, time=time )
 
 
-@function_tool
 def fetch_earth_observatory( mode: str='events', status: str='open', category: str='', source: str='',
 		limit: int=20, days: int=30, start_date: str='', end_date: str='', time: int=20 ) -> Any:
     """Retrieve NASA EONET events, categories, sources, and layers.
@@ -1824,7 +1748,6 @@ def fetch_earth_observatory( mode: str='events', status: str='open', category: s
 	    limit=limit, days=days, start_date=start_date, end_date=end_date, time=time )
 
 
-@function_tool
 def fetch_open_weather( location: str, mode: str='current', zone: str='auto', forecast_days: int=7,
 		past_days: int=0, count: int=10 ) -> Any:
     """Retrieve Open-Meteo current and forecast weather.
@@ -1853,7 +1776,6 @@ def fetch_open_weather( location: str, mode: str='current', zone: str='auto', fo
 	    past_days=past_days, count=count )
 
 
-@function_tool
 def fetch_historical_weather( location: str, date: dt.date, zone: str='auto', count: int=10 ) -> Any:
     """Retrieve historical weather archive.
 
@@ -1877,7 +1799,6 @@ def fetch_historical_weather( location: str, date: dt.date, zone: str='auto', co
     return _instance.fetch( location=location, date=date, zone=zone, count=count )
 
 
-@function_tool
 def fetch_usgs_earthquakes( mode: str='feed', feed: str='all_day.geojson', start_date: str='',
 		end_date: str='', min_magnitude: float=1.0, max_magnitude: float=10.0,
 		limit: int=25, order_by: str='time', event_type: str='earthquake', latitude: float | None=None,
@@ -1921,7 +1842,6 @@ def fetch_usgs_earthquakes( mode: str='feed', feed: str='all_day.geojson', start
 	    max_radius_km=max_radius_km, time=time )
 
 
-@function_tool
 def fetch_usgs_water_data( mode: str='monitoring-locations', monitoring_location_id: str='',
 		state_code: str='', county_code: str='', site_type: str='', parameter_code: str='',
 		limit: int=25, time: int=20 ) -> Any:
@@ -1956,7 +1876,6 @@ def fetch_usgs_water_data( mode: str='monitoring-locations', monitoring_location
 	    state_code=state_code, county_code=county_code, site_type=site_type,
 	    parameter_code=parameter_code, limit=limit, time=time )
 
-@function_tool
 def fetch_air_now( mode: str='current-zip', zip_code: str='', latitude: float | None=None,
 		longitude: float | None=None, date: str='', distance: int=25, time: int=20 ) -> Any:
     """Retrieve AirNow current and forecast air quality data.
@@ -1989,7 +1908,6 @@ def fetch_air_now( mode: str='current-zip', zip_code: str='', latitude: float | 
 	    date=date, distance=distance, time=time )
 
 
-@function_tool
 def fetch_climate_data( mode: str='datasets', keyword: str='', dataset: str='', start_date: str='',
 		end_date: str='', stations: str='', data_types: str='', limit: int=25,
 		offset: int=0, time: int=20 ) -> Any:
@@ -2027,7 +1945,6 @@ def fetch_climate_data( mode: str='datasets', keyword: str='', dataset: str='', 
 	    offset=offset, time=time )
 
 
-@function_tool
 def fetch_eonet( mode: str='events', source: str='', category: str='', status: str='open',
 		limit: int=25, days: int=30, start_date: str='', end_date: str='',
 		bbox: str='', time: int=20 ) -> Any:
@@ -2065,7 +1982,6 @@ def fetch_eonet( mode: str='events', source: str='', category: str='', status: s
 	    limit=limit, days=days, start_date=start_date, end_date=end_date, bbox=bbox, time=time )
 
 
-@function_tool
 def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='',
 		facility_name: str='', limit: int=25, time: int=20 ) -> Any:
     """Retrieve EPA Envirofacts table and facility records.
@@ -2093,7 +2009,6 @@ def fetch_envirofacts( table_name: str='TRI_FACILITY', state_code: str='',
 	    facility_name=facility_name, limit=limit, time=time )
 
 
-@function_tool
 def fetch_tides_and_currents( mode: str='water-level', station_id: str='', begin_date: str='',
 		end_date: str='', datum: str='MLLW', units: str='metric', time_zone: str='gmt',
 		interval: str='hilo', time: int=20 ) -> Any:
@@ -2129,7 +2044,6 @@ def fetch_tides_and_currents( mode: str='water-level', station_id: str='', begin
 	    end_date=end_date, datum=datum, units=units, time_zone=time_zone, interval=interval, time=time )
 
 
-@function_tool
 def fetch_uv_index( mode: str='daily-zip', zip_code: str='', city: str='',
 		state: str='', time: int=20 ) -> Any:
     """Retrieve EPA UV Index current and forecast data.
@@ -2158,7 +2072,6 @@ def fetch_uv_index( mode: str='daily-zip', zip_code: str='', city: str='',
     return _instance.fetch( mode=mode, zip_code=zip_code, city=city, state=state, time=time )
 
 
-@function_tool
 def fetch_purple_air( mode: str='sensors', sensor_index: int | None=None, nwlng: float | None=None,
 		nwlat: float | None=None, selng: float | None=None, selat: float | None=None,
 		location_type: int=0, max_age: int=0, modified_since: int=0, fields: str='',
@@ -2198,7 +2111,6 @@ def fetch_purple_air( mode: str='sensors', sensor_index: int | None=None, nwlng:
 	    max_age=max_age, modified_since=modified_since, fields=fields, time=time )
 
 
-@function_tool
 def fetch_open_aq( mode: str='locations', location_id: int | None=None, parameter_id: int | None=None,
 		country_id: int | None=None, coordinates: str='', radius: int=25000, providers_id: str='',
 		parameters_id: str='', limit: int=25, page: int=1, time: int=20 ) -> Any:
@@ -2239,7 +2151,6 @@ def fetch_open_aq( mode: str='locations', location_id: int | None=None, paramete
 	    parameters_id=parameters_id, limit=limit, page=page, time=time )
 
 
-@function_tool
 def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinates: str='world',
 		day_range: int=1, date: str='', sensor: str='ALL', time: int=20 ) -> Any:
     """Retrieve NASA FIRMS active fire data.
@@ -2272,7 +2183,6 @@ def fetch_firms( mode: str='area', source: str='VIIRS_SNPP_NRT', area_coordinate
 
 
 
-@function_tool
 def geocode_location( address: str ) -> Any:
     """Geocode location.
 
@@ -2294,7 +2204,6 @@ def geocode_location( address: str ) -> Any:
     return _instance.geocode_location( address=address )
 
 
-@function_tool
 def geocode_coordinates( lat: float, long: float ) -> Any:
     """Geocode coordinates.
 
@@ -2318,7 +2227,6 @@ def geocode_coordinates( lat: float, long: float ) -> Any:
     return _instance.geocode_coordinates( lat=lat, long=long )
 
 
-@function_tool
 def validate_address( address: List[str] ) -> Any:
     """Validate address.
 
@@ -2341,7 +2249,6 @@ def validate_address( address: List[str] ) -> Any:
     return _instance.validate_address( address=address )
 
 
-@function_tool
 def request_directions( origin: str, destination: str, mode: str='driving' ) -> Any:
     """Request directions.
 
@@ -2364,7 +2271,6 @@ def request_directions( origin: str, destination: str, mode: str='driving' ) -> 
     return _instance.request_directions( origin=origin, destination=destination, mode=mode )
 
 
-@function_tool
 def fetch_global_imagery_wms_map( layer: str,
 		image_date: str, bbox: Tuple[float, float, float, float],
 		width: int=1200, height: int=600, projection: str='epsg4326', quality: str='best',
@@ -2404,7 +2310,6 @@ def fetch_global_imagery_wms_map( layer: str,
 	    transparent=transparent, output_dir=output_dir, output_name=output_name, time=time )
 
 
-@function_tool
 def fetch_global_imagery_map_services(  ) -> Any:
     """Retrieve available imagery map services.
 
@@ -2422,7 +2327,6 @@ def fetch_global_imagery_map_services(  ) -> Any:
     return _instance.fetch_map_services(  )
 
 
-@function_tool
 def fetch_global_imagery_mercator_map( ccrs: Any | None=None ) -> Any:
     """Render a Mercator imagery map.
 
@@ -2442,7 +2346,6 @@ def fetch_global_imagery_mercator_map( ccrs: Any | None=None ) -> Any:
     _instance = GlobalImagery( )
     return _instance.fetch_mercator_map( ccrs=ccrs )
 
-@function_tool
 def fetch_google_geocoding( mode: str='forward', query: str='', latitude: float=0.0,
 		longitude: float=0.0, place_id: str='', language: str='en', region: str='',
 		result_type: str='', location_type: str='', time: int=10, api_key: Optional[str]=None ) -> Any:
@@ -2483,7 +2386,6 @@ def fetch_google_geocoding( mode: str='forward', query: str='', latitude: float=
 	    location_type=location_type, time=time, api_key=api_key )
 
 
-@function_tool
 def fetch_usgs_national_map( mode: str='products', dataset: str='', q: str='', bbox: str='',
 		prod_formats: str='', max_items: int=25, offset: int=0, time: int=20 ) -> Any:
     """Retrieve USGS National Map datasets and products.
@@ -2518,7 +2420,6 @@ def fetch_usgs_national_map( mode: str='products', dataset: str='', q: str='', b
 	    max_items=max_items, offset=offset, time=time )
 
 
-@function_tool
 def fetch_usgs_sciencebase( mode: str='items', q: str='', item_id: str='', max_items: int=25,
 		offset: int=0, fields: str='', time: int=20 ) -> Any:
     """Retrieve USGS ScienceBase items and catalog records.
@@ -2553,7 +2454,6 @@ def fetch_usgs_sciencebase( mode: str='items', q: str='', item_id: str='', max_i
 # ==========================================================================================
 
 
-@function_tool
 def fetch_health_data( mode: str='rows', domain: str='healthdata.gov', dataset_id: str='',
 		select: str='', where: str='', order: str='', group: str='', limit: int=25,
 		offset: int=0, time: int=20 ) -> Any:
@@ -2590,7 +2490,6 @@ def fetch_health_data( mode: str='rows', domain: str='healthdata.gov', dataset_i
 	    where=where, order=order, group=group, limit=limit, offset=offset, time=time )
 
 
-@function_tool
 def fetch_global_health_data( mode: str='indicator_registry', query_path: str='',
 		fmt: str='json', time: int=20 ) -> Any:
     """Retrieve WHO global health indicator and Athena data.
@@ -2618,7 +2517,6 @@ def fetch_global_health_data( mode: str='indicator_registry', query_path: str=''
     return _instance.fetch( mode=mode, query_path=query_path, fmt=fmt, time=time )
 
 
-@function_tool
 def fetch_wonder( mode: str='metadata_template', dataset_id: str='D76',
 		request_xml: str='', time: int=20 ) -> Any:
     """Retrieve CDC WONDER template and query submission.
@@ -2646,7 +2544,6 @@ def fetch_wonder( mode: str='metadata_template', dataset_id: str='D76',
     return _instance.fetch( mode=mode, dataset_id=dataset_id, request_xml=request_xml, time=time )
 
 
-@function_tool
 def load_pubmed( query: str, max_docs: int=5 ) -> Any:
     """Load PubMed research documents.
 
@@ -2673,7 +2570,6 @@ def load_pubmed( query: str, max_docs: int=5 ) -> Any:
 # ==========================================================================================
 
 
-@function_tool
 def fetch_web_page( url: str, time: int=10 ) -> Any:
     """Retrieve HTTP web page retrieval and HTML extraction.
 
@@ -2695,7 +2591,6 @@ def fetch_web_page( url: str, time: int=10 ) -> Any:
     return _instance.fetch( url=url, time=time )
 
 
-@function_tool
 def convert_html_to_text( html: str ) -> Any:
     """Convert HTML to plain text.
 
@@ -2716,7 +2611,6 @@ def convert_html_to_text( html: str ) -> Any:
     return _instance.html_to_text( html=html )
 
 
-@function_tool
 def extract_web_title( html: str ) -> Any:
     """Extract web title from the supplied content.
 
@@ -2737,7 +2631,6 @@ def extract_web_title( html: str ) -> Any:
     return _instance.extract_title( html=html )
 
 
-@function_tool
 def extract_web_links( base_url: str, html: str ) -> Any:
     """Extract web links from the supplied content.
 
@@ -2759,7 +2652,6 @@ def extract_web_links( base_url: str, html: str ) -> Any:
     return _instance.extract_links( base_url=base_url, html=html )
 
 
-@function_tool
 def extract_web_structured_data( url: str, html: str,
 		selected_methods: Optional[List[str]]=None ) -> Any:
     """Extract structured data.
@@ -2783,7 +2675,6 @@ def extract_web_structured_data( url: str, html: str,
     return _instance.extract_structured_data( url=url, html=html, selected_methods=selected_methods )
 
 
-@function_tool
 def crawl_web( seed_url: str, include_title: bool=True, include_basic_text: bool=True,
 		include_raw_html: bool=False, selected_methods: Optional[List[str]]=None,
 		recursive: bool=False, max_depth: int=1, max_pages: int=10, same_domain_only: bool=True,
@@ -2827,7 +2718,6 @@ def crawl_web( seed_url: str, include_title: bool=True, include_basic_text: bool
 	    delay_seconds=delay_seconds, max_bytes=max_bytes )
 
 
-@function_tool
 def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text: bool=True,
 		include_raw_html: bool=False, selected_methods: Optional[List[str]]=None,
 		request_timeout: int=10, max_bytes: int=1000000,
@@ -2860,7 +2750,6 @@ def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text:
 	    selected_methods=selected_methods, request_timeout=request_timeout, max_bytes=max_bytes )
 
 
-@function_tool
 def render_web_page( url: str, timeout: int=15, headers: Optional[ Dict[ str, str ] ]=None,
 		use_playwright: bool=False ) -> Any:
     """Render a dynamic web page with Playwright.
@@ -2885,7 +2774,6 @@ def render_web_page( url: str, timeout: int=15, headers: Optional[ Dict[ str, st
     return _instance.render_with_playwright( url=url, timeout=timeout )
 
 
-@function_tool
 def load_web( urls: str | List[str], recursive: bool=False, max_depth: int=2,
 		prevent_outside: bool=True, timeout: int=10, ignore: bool=True, progress: bool=True ) -> Any:
     """Load web documents.
@@ -2916,7 +2804,6 @@ def load_web( urls: str | List[str], recursive: bool=False, max_depth: int=2,
     return _instance.load( urls=urls )
 
 
-@function_tool
 def load_web_recursive( url: str, depth: int=2, max_time: int=10, ignore: bool=True ) -> Any:
     """Recursively load web documents.
 
@@ -2940,7 +2827,6 @@ def load_web_recursive( url: str, depth: int=2, max_time: int=10, ignore: bool=T
     return _instance.load_recursive( url=url, depth=depth, max_time=max_time, ignore=ignore )
 
 
-@function_tool
 def load_web_pages( urls: List[str], depth: int=2, timeout: int=10, ignore: bool=True,
 		progress: bool=True ) -> Any:
     """Load static web pages.
@@ -2967,7 +2853,6 @@ def load_web_pages( urls: List[str], depth: int=2, timeout: int=10, ignore: bool
 	    ignore=ignore, progress=progress )
 
 
-@function_tool
 def load_github( url: str, repo: str, branch: str, filetype: str='.md' ) -> Any:
     """Load files from a GitHub repository.
 
@@ -2991,7 +2876,6 @@ def load_github( url: str, repo: str, branch: str, filetype: str='.md' ) -> Any:
     return _instance.load( url=url, repo=repo, branch=branch, filetype=filetype )
 
 
-@function_tool
 def scrape_web_page( url: str, time: int=10 ) -> Any:
     """Fetch a web page for extraction.
 
@@ -3013,7 +2897,6 @@ def scrape_web_page( url: str, time: int=10 ) -> Any:
     return _instance.scrape( url=url, time=time )
 
 
-@function_tool
 def scraper_html_to_text( html: str ) -> Any:
     """Convert HTML to plain text.
 
@@ -3034,7 +2917,6 @@ def scraper_html_to_text( html: str ) -> Any:
     return _instance.html_to_text( html=html )
 
 
-@function_tool
 def scrape_paragraphs( uri: str ) -> Any:
     """Extract paragraph text.
 
@@ -3055,7 +2937,6 @@ def scrape_paragraphs( uri: str ) -> Any:
     return _instance.scrape_paragraphs( uri=uri )
 
 
-@function_tool
 def scrape_lists( uri: str ) -> Any:
     """Extract list item text.
 
@@ -3076,7 +2957,6 @@ def scrape_lists( uri: str ) -> Any:
     return _instance.scrape_lists( uri=uri )
 
 
-@function_tool
 def scrape_tables( uri: str ) -> Any:
     """Extract table cell text.
 
@@ -3097,7 +2977,6 @@ def scrape_tables( uri: str ) -> Any:
     return _instance.scrape_tables( uri=uri )
 
 
-@function_tool
 def scrape_articles( uri: str ) -> Any:
     """Extract article text.
 
@@ -3118,7 +2997,6 @@ def scrape_articles( uri: str ) -> Any:
     return _instance.scrape_articles( uri=uri )
 
 
-@function_tool
 def scrape_headings( uri: str ) -> Any:
     """Extract heading text.
 
@@ -3139,7 +3017,6 @@ def scrape_headings( uri: str ) -> Any:
     return _instance.scrape_headings( uri=uri )
 
 
-@function_tool
 def scrape_divisions( uri: str ) -> Any:
     """Extract division text.
 
@@ -3160,7 +3037,6 @@ def scrape_divisions( uri: str ) -> Any:
     return _instance.scrape_divisions( uri=uri )
 
 
-@function_tool
 def scrape_sections( uri: str ) -> Any:
     """Extract section text.
 
@@ -3181,7 +3057,6 @@ def scrape_sections( uri: str ) -> Any:
     return _instance.scrape_sections( uri=uri )
 
 
-@function_tool
 def scrape_blockquotes( uri: str ) -> Any:
     """Extract blockquote text.
 
@@ -3202,7 +3077,6 @@ def scrape_blockquotes( uri: str ) -> Any:
     return _instance.scrape_blockquotes( uri=uri )
 
 
-@function_tool
 def scrape_hyperlinks( uri: str ) -> Any:
     """Extract hyperlinks from an HTML page.
 
@@ -3223,7 +3097,6 @@ def scrape_hyperlinks( uri: str ) -> Any:
     return _instance.scrape_hyperlinks( uri=uri )
 
 
-@function_tool
 def scrape_images( uri: str ) -> Any:
     """Extract image references.
 
@@ -3244,7 +3117,6 @@ def scrape_images( uri: str ) -> Any:
     return _instance.scrape_images( uri=uri )
 
 
-@function_tool
 def encode_image( path: str ) -> str:
     """Encode a local image as Base64 text.
 
@@ -3266,7 +3138,6 @@ def encode_image( path: str ) -> str:
 # PREPROCESSOR TOOLS
 # ==========================================================================================
 
-@function_tool
 def preprocess_load_text( filepath: str ) -> str | None:
     """Read UTF-8 text from a local file and return the raw string.
 
@@ -3289,7 +3160,6 @@ def preprocess_load_text( filepath: str ) -> str | None:
     instance = TextParser( )
     return instance.load_text( filepath=filepath )
 
-@function_tool
 def preprocess_collapse_whitespace( text: str ) -> str | None:
     """Normalize spacing by lowercasing text and collapsing repeated whitespace.
 
@@ -3311,7 +3181,6 @@ def preprocess_collapse_whitespace( text: str ) -> str | None:
     instance = TextParser( )
     return instance.collapse_whitespace( text=text )
 
-@function_tool
 def preprocess_remove_punctuation( text: str ) -> str:
     """Strip punctuation from tokenized text while preserving word and spacing content.
 
@@ -3333,7 +3202,6 @@ def preprocess_remove_punctuation( text: str ) -> str:
     instance = TextParser( )
     return instance.remove_punctuation( text=text )
 
-@function_tool
 def preprocess_normalize_text( text: str ) -> str | None:
     """Convert text to lowercase for stable downstream comparison and tokenization.
 
@@ -3354,7 +3222,6 @@ def preprocess_normalize_text( text: str ) -> str | None:
     instance = TextParser( )
     return instance.normalize_text( text=text )
 
-@function_tool
 def preprocess_remove_errors( text: str ) -> str:
     """Filter tokens against the NLTK English words corpus.
 
@@ -3375,7 +3242,6 @@ def preprocess_remove_errors( text: str ) -> str:
     instance = TextParser( )
     return instance.remove_errors( text=text )
 
-@function_tool
 def preprocess_remove_fragments( text: str ) -> str | None:
     """Remove very short token fragments from normalized text.
 
@@ -3396,7 +3262,6 @@ def preprocess_remove_fragments( text: str ) -> str | None:
     instance = TextParser( )
     return instance.remove_fragments( text=text )
 
-@function_tool
 def preprocess_remove_symbols( text: str ) -> str | None:
     """Remove configured symbol characters from normalized text.
 
@@ -3417,7 +3282,6 @@ def preprocess_remove_symbols( text: str ) -> str | None:
     instance = TextParser( )
     return instance.remove_symbols( text=text )
 
-@function_tool
 def preprocess_remove_html( text: str ) -> str | None:
     """Extract visible text from HTML markup.
 
@@ -3438,7 +3302,6 @@ def preprocess_remove_html( text: str ) -> str | None:
     instance = TextParser( )
     return instance.remove_html( text=text )
 
-@function_tool
 def preprocess_remove_xml( text: str ) -> str:
     """Extract inner text from XML-like markup while recovering malformed fragments when possible.
 
@@ -3460,7 +3323,6 @@ def preprocess_remove_xml( text: str ) -> str:
     instance = TextParser( )
     return instance.remove_xml( text=text )
 
-@function_tool
 def preprocess_remove_markdown( text: str ) -> str | None:
     """Remove common Markdown links, image syntax, and formatting markers.
 
@@ -3482,7 +3344,6 @@ def preprocess_remove_markdown( text: str ) -> str | None:
     instance = TextParser( )
     return instance.remove_markdown( text=text )
 
-@function_tool
 def preprocess_remove_stopwords( text: str ) -> str | None:
     """Remove English stop words from tokenized text.
 
@@ -3503,7 +3364,6 @@ def preprocess_remove_stopwords( text: str ) -> str | None:
     instance = TextParser( )
     return instance.remove_stopwords( text=text )
 
-@function_tool
 def preprocess_remove_encodings( text: str ) -> str | None:
     """Resolve HTML entities, normalize Unicode characters, and remove control characters.
 
@@ -3525,7 +3385,6 @@ def preprocess_remove_encodings( text: str ) -> str | None:
     instance = TextParser( )
     return instance.remove_encodings( text=text )
 
-@function_tool
 def preprocess_remove_headers( filepath: str, lines: int=50, headers: int=3, footers: int=3 ) -> str | None:
     """Detect and remove repeated page headers and footers from a text file.
 
@@ -3553,7 +3412,6 @@ def preprocess_remove_headers( filepath: str, lines: int=50, headers: int=3, foo
     return instance.remove_headers( filepath=filepath, lines=lines,
 	    headers=headers, footers=footers )
 
-@function_tool
 def preprocess_remove_numbers( text: str ) -> str | None:
     """Remove decimal digits from text.
 
@@ -3574,7 +3432,6 @@ def preprocess_remove_numbers( text: str ) -> str | None:
     instance = TextParser( )
     return instance.remove_numbers( text=text )
 
-@function_tool
 def preprocess_remove_numerals( text: str ) -> str | None:
     """Remove Roman-numeral patterns from text.
 
@@ -3596,7 +3453,6 @@ def preprocess_remove_numerals( text: str ) -> str | None:
     instance = TextParser( )
     return instance.remove_numerals( text=text )
 
-@function_tool
 def preprocess_remove_images( text: str ) -> str:
     """Remove Markdown image references, HTML image elements, and direct image URLs.
 
@@ -3617,7 +3473,6 @@ def preprocess_remove_images( text: str ) -> str:
     instance = TextParser( )
     return instance.remove_images( text=text )
 
-@function_tool
 def preprocess_tiktokenize( text: str, encoding: str='cl100k_base' ) -> DataFrame | None:
     """Encode text with a tiktoken tokenizer and return token identifiers as tabular data.
 
@@ -3640,7 +3495,6 @@ def preprocess_tiktokenize( text: str, encoding: str='cl100k_base' ) -> DataFram
     instance = TextParser( )
     return instance.tiktokenize( text=text, encoding=encoding )
 
-@function_tool
 def preprocess_split_sentences( text: str ) -> List[str] | None:
     """Split text into sentence strings using NLTK sentence tokenization.
 
@@ -3661,7 +3515,6 @@ def preprocess_split_sentences( text: str ) -> List[str] | None:
     instance = TextParser( )
     return instance.split_sentences( text=text )
 
-@function_tool
 def preprocess_split_pages( filepath: str, num: int=50 ) -> List[str] | None:
     """Split a text file into page-sized text blocks.
 
@@ -3685,7 +3538,6 @@ def preprocess_split_pages( filepath: str, num: int=50 ) -> List[str] | None:
     instance = TextParser( )
     return instance.split_pages( filepath=filepath, num=num )
 
-@function_tool
 def preprocess_split_paragraphs( filepath: str ) -> DataFrame | None:
     """Read a text file and return paragraph-like text blocks as tabular data.
 
@@ -3706,7 +3558,6 @@ def preprocess_split_paragraphs( filepath: str ) -> DataFrame | None:
     instance = TextParser( )
     return instance.split_paragraphs( filepath=filepath )
 
-@function_tool
 def preprocess_create_frequency_distribution( tokens: List[str] ) -> DataFrame | None:
     """Build a word-frequency table from a token sequence.
 
@@ -3728,7 +3579,6 @@ def preprocess_create_frequency_distribution( tokens: List[str] ) -> DataFrame |
     instance = TextParser( )
     return instance.create_frequency_distribution( tokens=tokens )
 
-@function_tool
 def preprocess_create_vocabulary( tokens: List[str] ) -> Series | None:
     """Extract the vocabulary column from a token-frequency table.
 
@@ -3749,7 +3599,6 @@ def preprocess_create_vocabulary( tokens: List[str] ) -> Series | None:
     instance = TextParser( )
     return instance.create_vocabulary( tokens=tokens )
 
-@function_tool
 def preprocess_create_wordbag( tokens: List[str] ) -> DataFrame | None:
     """Build a bag-of-words table from a token sequence.
 
@@ -3772,7 +3621,6 @@ def preprocess_create_wordbag( tokens: List[str] ) -> DataFrame | None:
     instance = TextParser( )
     return instance.create_wordbag( tokens=tokens )
 
-@function_tool
 def preprocess_create_vectors( tokens: List[str] ) -> DataFrame | None:
     """Create TF-IDF vectors for token values.
 
@@ -3794,7 +3642,6 @@ def preprocess_create_vectors( tokens: List[str] ) -> DataFrame | None:
     instance = TextParser( )
     return instance.create_vectors( tokens=tokens )
 
-@function_tool
 def preprocess_clean_file( filepath: str ) -> str | None:
     """Apply the standard Fonky text-cleaning pipeline to a single file.
 
@@ -3817,7 +3664,6 @@ def preprocess_clean_file( filepath: str ) -> str | None:
     instance = TextParser( )
     return instance.clean_file( filepath=filepath )
 
-@function_tool
 def preprocess_clean_files( source: str, destination: str ) -> None:
     """Apply the standard Fonky text-cleaning pipeline to every file in a directory.
 
@@ -3841,7 +3687,6 @@ def preprocess_clean_files( source: str, destination: str ) -> None:
     instance = TextParser( )
     return instance.clean_files( source=source, destination=destination )
 
-@function_tool
 def preprocess_chunk_files( source: str, destination: str ) -> None:
     """Split text files into sentence chunks and write chunked output files.
 
@@ -3865,7 +3710,6 @@ def preprocess_chunk_files( source: str, destination: str ) -> None:
     instance = TextParser( )
     return instance.chunk_files( source=source, destination=destination )
 
-@function_tool
 def preprocess_chunk_data( filepath: str, size: int=10 ) -> DataFrame | None:
     """Chunk a single text file into fixed-size word groups represented as tabular data.
 
@@ -3890,7 +3734,6 @@ def preprocess_chunk_data( filepath: str, size: int=10 ) -> DataFrame | None:
     instance = TextParser( )
     return instance.chunk_data( filepath=filepath, size=size )
 
-@function_tool
 def preprocess_chunk_datasets( source: str, destination: str, size: int=10 ) -> DataFrame:
     """Clean and chunk a directory of text files into spreadsheet datasets.
 
@@ -3915,7 +3758,6 @@ def preprocess_chunk_datasets( source: str, destination: str, size: int=10 ) -> 
     instance = TextParser( )
     return instance.chunk_datasets( source=source, destination=destination, size=size )
 
-@function_tool
 def preprocess_convert_jsonl( source: str, destination: str, size: int=10 ) -> None:
     """Convert text files into line-oriented JSON-like chunk output.
 
@@ -3940,7 +3782,6 @@ def preprocess_convert_jsonl( source: str, destination: str, size: int=10 ) -> N
     instance = TextParser( )
     return instance.convert_jsonl( source=source, destination=destination, size=size )
 
-@function_tool
 def preprocess_encode_sentences( tokens: List[str], model: str='all-MiniLM-L6-v2' ) -> Tuple[List[str], np.ndarray]:
     """Generate sentence-transformer embeddings for normalized token values.
 
@@ -3962,7 +3803,6 @@ def preprocess_encode_sentences( tokens: List[str], model: str='all-MiniLM-L6-v2
     instance = TextParser( )
     return instance.encode_sentences( tokens=tokens, model=model )
 
-@function_tool
 def nltk_word_tokenizer( text: str ) -> List[str] | None:
     """Tokenize text into lowercased word tokens.
 
@@ -3983,7 +3823,6 @@ def nltk_word_tokenizer( text: str ) -> List[str] | None:
     instance = NltkParser( )
     return instance.word_tokenizer( text=text )
 
-@function_tool
 def nltk_sentence_tokenizer( text: str ) -> List[str] | None:
     """Tokenize text into lowercased sentence strings.
 
@@ -4004,7 +3843,6 @@ def nltk_sentence_tokenizer( text: str ) -> List[str] | None:
     instance = NltkParser( )
     return instance.sentence_tokenizer( text=text )
 
-@function_tool
 def nltk_word_stemmer( text: str ) -> List[str] | None:
     """Stem lowercased word tokens with the configured Porter stemmer.
 
@@ -4025,7 +3863,6 @@ def nltk_word_stemmer( text: str ) -> List[str] | None:
     instance = NltkParser( )
     return instance.word_stemmer( text=text )
 
-@function_tool
 def nltk_word_lemmatizer( text: str ) -> List[str] | None:
     """Lemmatize lowercased word tokens with the configured WordNet lemmatizer.
 
@@ -4046,7 +3883,6 @@ def nltk_word_lemmatizer( text: str ) -> List[str] | None:
     instance = NltkParser( )
     return instance.word_lemmatizer( text=text )
 
-@function_tool
 def nltk_pos_tagger( text: str ) -> List[Tuple[str, str]] | None:
     """Assign part-of-speech tags to lowercased word tokens.
 
@@ -4067,7 +3903,6 @@ def nltk_pos_tagger( text: str ) -> List[Tuple[str, str]] | None:
     instance = NltkParser( )
     return instance.pos_tagger( text=text )
 
-@function_tool
 def nltk_named_entity_recognition( text: str ) -> List[Tuple[str, str]] | None:
     """Extract named-entity text and entity labels from tagged tokens.
 
@@ -4088,7 +3923,6 @@ def nltk_named_entity_recognition( text: str ) -> List[Tuple[str, str]] | None:
     instance = NltkParser( )
     return instance.named_entity_recognition( text=text )
 
-@function_tool
 def nltk_chunk_words( text: str, size: int=5 ) -> DataFrame | None:
     """Group word tokens into fixed-size chunks and return them as tabular data.
 
@@ -4112,7 +3946,6 @@ def nltk_chunk_words( text: str, size: int=5 ) -> DataFrame | None:
     instance = NltkParser( )
     return instance.chunk_words( text=text, size=size )
 
-@function_tool
 def nltk_chunk_sentences( text: str, size: int=15 ) -> DataFrame | None:
     """Group sentence tokens into fixed-size chunks and return them as tabular data.
 
@@ -4136,7 +3969,6 @@ def nltk_chunk_sentences( text: str, size: int=15 ) -> DataFrame | None:
     instance = NltkParser( )
     return instance.chunk_sentences( text=text, size=size )
 
-@function_tool
 def preprocess_semantic_search( query: str, tokens: List[ str ],
         model: str='all-MiniLM-L6-v2', top: int=5 ) -> List[ Tuple[ str, float ] ]:
     """Search token content by semantic similarity.

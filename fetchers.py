@@ -1404,7 +1404,7 @@ class WebCrawler( WebFetcher ):
 			raise exception
 
 class ArXiv( Fetcher ):
-	"""Ar Xiv fetcher.
+	"""ArXiv fetcher.
 
 	Purpose:
 	    Coordinates ArXiv research document retrieval within Fonky. The class stores provider

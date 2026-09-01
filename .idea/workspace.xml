@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5cdbbb26-1ccb-432c-8a54-9373eb7164c6" name="Changes" comment="update">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copyright/python.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/fonky.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/fonky.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gemini/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gpt/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gpt/tools.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/grok/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/langchain/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fetchers.py" beforeDir="false" afterPath="$PROJECT_DIR$/fetchers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessors.py" beforeDir="false" afterPath="$PROJECT_DIR$/processors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/gemini/tools.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +30,17 @@
     &quot;assignee&quot;: &quot;is-leeroy-jenkins&quot;
   }
 }</component>
+  <component name="GitToolBoxStore">
+    <option name="largeFiles">
+      <LargeFiles>
+        <option name="unlockedFilePaths">
+          <set>
+            <option value="$PROJECT_DIR$/fetchers.py" />
+          </set>
+        </option>
+      </LargeFiles>
+    </option>
+  </component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="78145f30-18cb-443d-a346-237522922b0e" />
   </component>
@@ -58,13 +72,24 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/terry/source/repos/fonky",
+    "last_opened_file_path": "C:/Users/terry/source/repos/fonky/gemini",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.jshint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.jshint": "",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "vcs.Git"
+    "settings.editor.selected.configurable": "MTCustomThemeConfigurable"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\terry\source\repos\fonky\gemini" />
+      <recent name="C:\Users\terry\source\repos\fonky" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\terry\source\repos\fonky\gpt" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -82,7 +107,9 @@
       <updated>1788224257239</updated>
       <workItem from="1788224258328" duration="43000" />
       <workItem from="1788224332445" duration="3602000" />
-      <workItem from="1788228042005" duration="1329000" />
+      <workItem from="1788228042005" duration="1916000" />
+      <workItem from="1788264268814" duration="157000" />
+      <workItem from="1788264500173" duration="3517000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -100,7 +127,15 @@
       <option name="project" value="LOCAL" />
       <updated>1788226730679</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="update">
+      <option name="closed" value="true" />
+      <created>1788229466659</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1788229466659</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
