@@ -9,13 +9,14 @@
       Last Modified On:        08-31-2026
   ******************************************************************************************
   <summary>
-    Provides the Gemini Agents SDK function-tool interface for Fonky.
+    Provides the Google ADK function-tool interface for Fonky.
 
     Purpose:
-        Exposes individual OpenAI Agents SDK function tools over implementation classes in
-        ``fetchers.py``, ``loaders.py``, ``scrapers.py``, and ``processors.py``. Each public
-        operation creates a fresh implementation instance, invokes the corresponding operation,
-        and returns its result.
+        Exposes individual Google ADK-compatible Python function tools over implementation
+        classes in ``fetchers.py``, ``loaders.py``, ``scrapers.py``, and ``processors.py``.
+        Google ADK automatically wraps these callables as FunctionTool instances when they are
+        supplied to an Agent through its ``tools`` collection. Each public operation creates a
+        fresh implementation instance, invokes the corresponding operation, and returns its result.
   </summary>
   ******************************************************************************************
 '''
@@ -23,99 +24,99 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple
 from sentence_transformers import SentenceTransformer
 import datetime as dt
-from google import genai
-from google.genai import types
+import numpy as np
+from pandas import DataFrame, Series
 
 # ==========================================================================================
 # FETCHERS IMPORTS
 # ==========================================================================================
 
-from fetchers import AirNow
-from fetchers import ArXiv
-from fetchers import AstroCatalog
-from fetchers import AstroQuery
-from fetchers import CensusData
-from fetchers import ClimateData
-from fetchers import Congress
-from fetchers import EarthObservatory
-from fetchers import EnviroFacts
-from fetchers import EoNet
-from fetchers import Firms
-from fetchers import GlobalHealthData
-from fetchers import GlobalImagery
-from fetchers import GoogleDrive
-from fetchers import GoogleGeocoding
-from fetchers import GoogleMaps
-from fetchers import GoogleSearch
-from fetchers import GoogleWeather
-from fetchers import GovData
-from fetchers import Grokipedia
-from fetchers import HealthData
-from fetchers import HistoricalWeather
-from fetchers import InternetArchive
-from fetchers import NavalObservatory
-from fetchers import NearbyObjects
-from fetchers import OpenAQ
-from fetchers import OpenScience
-from fetchers import OpenSky
-from fetchers import OpenWeather
-from fetchers import PurpleAir
-from fetchers import SatelliteCenter
-from fetchers import Socrata
-from fetchers import SpaceWeather
-from fetchers import StarChart
-from fetchers import StarMap
-from fetchers import TheNews
-from fetchers import TidesAndCurrents
-from fetchers import USGSEarthquakes
-from fetchers import USGSScienceBase
-from fetchers import USGSTheNationalMap
-from fetchers import USGSWaterData
-from fetchers import UnitedNations
-from fetchers import UvIndex
-from fetchers import WebCrawler
-from fetchers import WebFetcher
-from fetchers import Wikipedia
-from fetchers import Wonder
-from fetchers import WorldPopulation
-from fetchers import encode_image as _encode_image
+from ..fetchers import AirNow
+from ..fetchers import ArXiv
+from ..fetchers import AstroCatalog
+from ..fetchers import AstroQuery
+from ..fetchers import CensusData
+from ..fetchers import ClimateData
+from ..fetchers import Congress
+from ..fetchers import EarthObservatory
+from ..fetchers import EnviroFacts
+from ..fetchers import EoNet
+from ..fetchers import Firms
+from ..fetchers import GlobalHealthData
+from ..fetchers import GlobalImagery
+from ..fetchers import GoogleDrive
+from ..fetchers import GoogleGeocoding
+from ..fetchers import GoogleMaps
+from ..fetchers import GoogleSearch
+from ..fetchers import GoogleWeather
+from ..fetchers import GovData
+from ..fetchers import Grokipedia
+from ..fetchers import HealthData
+from ..fetchers import HistoricalWeather
+from ..fetchers import InternetArchive
+from ..fetchers import NavalObservatory
+from ..fetchers import NearbyObjects
+from ..fetchers import OpenAQ
+from ..fetchers import OpenScience
+from ..fetchers import OpenSky
+from ..fetchers import OpenWeather
+from ..fetchers import PurpleAir
+from ..fetchers import SatelliteCenter
+from ..fetchers import Socrata
+from ..fetchers import SpaceWeather
+from ..fetchers import StarChart
+from ..fetchers import StarMap
+from ..fetchers import TheNews
+from ..fetchers import TidesAndCurrents
+from ..fetchers import USGSEarthquakes
+from ..fetchers import USGSScienceBase
+from ..fetchers import USGSTheNationalMap
+from ..fetchers import USGSWaterData
+from ..fetchers import UnitedNations
+from ..fetchers import UvIndex
+from ..fetchers import WebCrawler
+from ..fetchers import WebFetcher
+from ..fetchers import Wikipedia
+from ..fetchers import Wonder
+from ..fetchers import WorldPopulation
+from ..fetchers import encode_image as _encode_image
 
 # --------- LOADERS IMPORTS ---------
 
-from loaders import ArXivLoader
-from loaders import AwsBucketLoader
-from loaders import AwsFileLoader
-from loaders import CsvLoader
-from loaders import EmailLoader
-from loaders import ExcelLoader
-from loaders import GithubLoader
-from loaders import GoogleBucketLoader
-from loaders import GoogleCloudFileLoader
-from loaders import GoogleDriveLoader
-from loaders import GoogleSpeechToTextLoader
-from loaders import HtmlLoader
-from loaders import JsonLoader
-from loaders import JupyterNotebookLoader
-from loaders import MarkdownLoader
-from loaders import OneDriveDocLoader
-from loaders import OpenCityLoader
-from loaders import OutlookLoader
-from loaders import PdfLoader
-from loaders import PdfReader
-from loaders import PowerPointLoader
-from loaders import PubMedSearchLoader
-from loaders import SpfxLoader
-from loaders import TextLoader
-from loaders import WebLoader
-from loaders import WikiLoader
-from loaders import WordLoader
-from loaders import XmlLoader
+from ..loaders import ArXivLoader
+from ..loaders import AwsBucketLoader
+from ..loaders import AwsFileLoader
+from ..loaders import CsvLoader
+from ..loaders import EmailLoader
+from ..loaders import ExcelLoader
+from ..loaders import GithubLoader
+from ..loaders import GoogleBucketLoader
+from ..loaders import GoogleCloudFileLoader
+from ..loaders import GoogleDriveLoader
+from ..loaders import GoogleSpeechToTextLoader
+from ..loaders import HtmlLoader
+from ..loaders import JsonLoader
+from ..loaders import JupyterNotebookLoader
+from ..loaders import MarkdownLoader
+from ..loaders import OneDriveDocLoader
+from ..loaders import OpenCityLoader
+from ..loaders import OutlookLoader
+from ..loaders import PdfLoader
+from ..loaders import PdfReader
+from ..loaders import PowerPointLoader
+from ..loaders import PubMedSearchLoader
+from ..loaders import SpfxLoader
+from ..loaders import TextLoader
+from ..loaders import WebLoader
+from ..loaders import WikiLoader
+from ..loaders import WordLoader
+from ..loaders import XmlLoader
 
 # --------- SCRAPERS IMPORTS ---------
 
-from scrapers import WebExtractor
-from processors import NltkParser
-from processors import TextParser
+from ..scrapers import WebExtractor
+from ..processors import NltkParser
+from ..processors import TextParser
 
 
 def fetch_arxiv( question: str, max_documents: int | None=None, full_documents: bool | None=None,
@@ -253,15 +254,15 @@ def fetch_news( endpoint: str='all', query: str='', language: str='en', categori
 	    page=page, include_similar=include_similar, headlines_per_category=headlines_per_category,
 	    time=time, api_key=api_key )
 
-def fetch_google_search( keywords: str, results: int=10, start: int=1, exact_terms: str='',
+def fetch_cse_search( keywords: str, results: int=10, start: int=1, exact_terms: str='',
 		exclude_terms: str='', file_type: str='', date_restrict: str='', gl: str='', lr: str='',
 		safe: str='off', search_type: str='', site_search: str='', site_search_filter: str='',
 		sort: str='', img_size: str='', img_type: str='', img_color_type: str='',
 		img_dominant_color: str='', time: int=10, api_key: str | None=None, cse_id: str | None=None ) -> Any:
-    """Retrieve Google Custom Search.
+    """Retrieve Google Programmable Search Engine results.
 
     Purpose:
-        Retrieve Google Custom Search through Google Custom Search. The query text determines the
+        Retrieve results through Google Programmable Search Engine (Custom Search JSON API). The query text determines the
         records or documents matched by the provider. Result-count arguments bound the amount of
         data requested. When supplied, ``api_key`` overrides the configured provider credential for
         this request.
@@ -997,6 +998,7 @@ def load_google_speech_to_text( project_id: str, file_path: str,
 
     Raises:
         Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
+            the project error type.
             the project error type.
     """
     _instance = GoogleSpeechToTextLoader( )
@@ -2490,28 +2492,13 @@ def fetch_health_data( mode: str='rows', domain: str='healthdata.gov', dataset_i
 	    where=where, order=order, group=group, limit=limit, offset=offset, time=time )
 
 
+
 def fetch_global_health_data( mode: str='indicator_registry', query_path: str='',
 		fmt: str='json', time: int=20 ) -> Any:
     """Retrieve WHO global health indicator and Athena data.
 
     Purpose:
-        Retrieve WHO global health indicator and Athena data through WHO Global Health. Use ``mode``
-        to select among ``athena``, ``indicator_registry``.
-
-    Args:
-        mode: Operation selector. Supported values detected in the implementation include ``athena``,
-            ``indicator_registry``.
-        query_path: Path identifying the query resource.
-        fmt: Provider response format, such as JSON or XML when supported.
-        time: Request timeout in seconds.
-
-    Returns:
-        Dict[str, Any] | None: Structured mapping produced by the operation.
-
-    Raises:
-        ValueError: If a required value is missing, blank, or outside the supported range.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
+        Retrieve WHO global health indicator and Athena data through WHO Global Health.
     """
     _instance = GlobalHealthData( )
     return _instance.fetch( mode=mode, query_path=query_path, fmt=fmt, time=time )
@@ -2519,158 +2506,44 @@ def fetch_global_health_data( mode: str='indicator_registry', query_path: str=''
 
 def fetch_wonder( mode: str='metadata_template', dataset_id: str='D76',
 		request_xml: str='', time: int=20 ) -> Any:
-    """Retrieve CDC WONDER template and query submission.
-
-    Purpose:
-        Retrieve CDC WONDER template and query submission through CDC WONDER. Use ``mode`` to select
-        among ``metadata_template``, ``query_xml``.
-
-    Args:
-        mode: Operation selector. Supported values detected in the implementation include
-            ``metadata_template``, ``query_xml``.
-        dataset_id: Provider dataset identifier.
-        request_xml: CDC WONDER XML request document submitted for query execution.
-        time: Request timeout in seconds.
-
-    Returns:
-        Dict[str, Any] | None: Structured mapping produced by the operation.
-
-    Raises:
-        ValueError: If a required value is missing, blank, or outside the supported range.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Retrieve CDC WONDER template and query submission."""
     _instance = Wonder( )
     return _instance.fetch( mode=mode, dataset_id=dataset_id, request_xml=request_xml, time=time )
 
 
 def load_pubmed( query: str, max_docs: int=5 ) -> Any:
-    """Load PubMed research documents.
-
-    Purpose:
-        Load PubMed research documents using the PubMed loader. The query text determines the
-        records or documents matched by the provider. Result-count arguments bound the amount of
-        data requested.
-
-    Args:
-        query: Search query submitted to the backing loader.
-        max_docs: Maximum number of documents requested from the backing service.
-
-    Returns:
-        List[Document] | None: LangChain documents loaded from the requested source.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Load PubMed research documents."""
     _instance = PubMedSearchLoader( )
     return _instance.load( query=query, max_docs=max_docs )
 
-# ==========================================================================================
-# ==========================================================================================
-
 
 def fetch_web_page( url: str, time: int=10 ) -> Any:
-    """Retrieve HTTP web page retrieval and HTML extraction.
-
-    Purpose:
-        Retrieve HTTP web page retrieval and HTML extraction through web fetcher.
-
-    Args:
-        url: URL or URI value used as the request or parsing source.
-        time: Request timeout in seconds.
-
-    Returns:
-        Result | None: Fonky result wrapper containing the provider or HTTP response.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Retrieve HTTP web page content and HTML extraction data."""
     _instance = WebFetcher( )
     return _instance.fetch( url=url, time=time )
 
 
 def convert_html_to_text( html: str ) -> Any:
-    """Convert HTML to plain text.
-
-    Purpose:
-        Convert HTML to plain text using Fonky's web fetcher implementation.
-
-    Args:
-        html: Raw HTML content to parse or transform.
-
-    Returns:
-        str: Text produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Convert HTML to plain text."""
     _instance = WebFetcher( )
     return _instance.html_to_text( html=html )
 
 
 def extract_web_title( html: str ) -> Any:
-    """Extract web title from the supplied content.
-
-    Purpose:
-        Extract web title from the supplied content using Fonky's web fetcher implementation.
-
-    Args:
-        html: Raw HTML content to parse or transform.
-
-    Returns:
-        str: Text produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract a web title from supplied HTML content."""
     _instance = WebFetcher( )
     return _instance.extract_title( html=html )
 
 
 def extract_web_links( base_url: str, html: str ) -> Any:
-    """Extract web links from the supplied content.
-
-    Purpose:
-        Extract web links from the supplied content using Fonky's web fetcher implementation.
-
-    Args:
-        base_url: URL or URI value used as the request or parsing source.
-        html: Raw HTML content to parse or transform.
-
-    Returns:
-        List[str]: Hyperlink values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract web links from supplied HTML content."""
     _instance = WebFetcher( )
     return _instance.extract_links( base_url=base_url, html=html )
 
 
 def extract_web_structured_data( url: str, html: str,
 		selected_methods: Optional[List[str]]=None ) -> Any:
-    """Extract structured data.
-
-    Purpose:
-        Extract structured data using Fonky's web fetcher implementation.
-
-    Args:
-        url: URL or URI value used as the request or parsing source.
-        html: Raw HTML content to parse or transform.
-        selected_methods: Extraction method names to execute against the supplied HTML.
-
-    Returns:
-        Dict[str, List[str]]: Text or identifier values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract structured data from supplied HTML content."""
     _instance = WebFetcher( )
     return _instance.extract_structured_data( url=url, html=html, selected_methods=selected_methods )
 
@@ -2680,36 +2553,7 @@ def crawl_web( seed_url: str, include_title: bool=True, include_basic_text: bool
 		recursive: bool=False, max_depth: int=1, max_pages: int=10, same_domain_only: bool=True,
 		request_timeout: int=10, delay_seconds: float=0.25, max_bytes: int=1000000,
 		headers: Optional[ Dict[ str, str ] ]=None, use_playwright: bool=False ) -> Any:
-    """Crawl web pages from a seed URL.
-
-    Purpose:
-        Crawl web pages from a seed URL. Boolean options control retrieval depth or supplemental
-        content.
-
-    Args:
-        seed_url: Starting URL for the crawl.
-        include_title: Whether to include title in the result.
-        include_basic_text: Whether to include basic text in the result.
-        include_raw_html: Whether to include raw html in the result.
-        selected_methods: Extraction method names to execute against the supplied HTML.
-        recursive: Whether nested folders, links, or provider resources should be traversed.
-        max_depth: Maximum recursion depth.
-        max_pages: Maximum pages permitted by the operation.
-        same_domain_only: Whether crawl traversal should remain on the seed URL domain.
-        request_timeout: Request timeout in seconds.
-        delay_seconds: Delay in seconds inserted between crawl requests.
-        max_bytes: Maximum bytes permitted by the operation.
-        headers: Optional HTTP headers applied to web requests.
-        use_playwright: Whether browser-backed rendering should be used for dynamic pages.
-
-    Returns:
-        Dict[str, Any]: Structured mapping produced by the operation.
-
-    Raises:
-        ValueError: If a required value is missing, blank, or outside the supported range.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Crawl web pages from a seed URL."""
     _instance = WebCrawler( headers=headers, use_playwright=use_playwright )
     return _instance.crawl( seed_url=seed_url, include_title=include_title,
 	    include_basic_text=include_basic_text, include_raw_html=include_raw_html,
@@ -2722,28 +2566,7 @@ def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text:
 		include_raw_html: bool=False, selected_methods: Optional[List[str]]=None,
 		request_timeout: int=10, max_bytes: int=1000000,
 		headers: Optional[ Dict[ str, str ] ]=None, use_playwright: bool=False ) -> Any:
-    """Extract crawler page from an HTML page.
-
-    Purpose:
-        Extract crawler page from an HTML page using Fonky's web crawler implementation.
-
-    Args:
-        url: URL or URI value used as the request or parsing source.
-        include_title: Whether to include title in the result.
-        include_basic_text: Whether to include basic text in the result.
-        include_raw_html: Whether to include raw html in the result.
-        selected_methods: Extraction method names to execute against the supplied HTML.
-        request_timeout: Request timeout in seconds.
-        max_bytes: Maximum bytes permitted by the operation.
-        headers: Optional HTTP headers applied to web requests.
-        use_playwright: Whether browser-backed rendering should be used for dynamic pages.
-
-    Returns:
-        Dict[str, Any]: Structured mapping produced by the operation.
-
-    Raises:
-        Exception: If the delegated implementation raises an operational failure.
-    """
+    """Extract a crawler page from an HTML page."""
     _instance = WebCrawler( headers=headers, use_playwright=use_playwright )
     return _instance.scrape_page( url=url, include_title=include_title,
 	    include_basic_text=include_basic_text, include_raw_html=include_raw_html,
@@ -2752,1247 +2575,365 @@ def scrape_crawler_page( url: str, include_title: bool=True, include_basic_text:
 
 def render_web_page( url: str, timeout: int=15, headers: Optional[ Dict[ str, str ] ]=None,
 		use_playwright: bool=False ) -> Any:
-    """Render a dynamic web page with Playwright.
-
-    Purpose:
-        Render a dynamic web page with Playwright.
-
-    Args:
-        url: URL or URI value used as the request or parsing source.
-        timeout: Request timeout in seconds.
-        headers: Optional HTTP headers applied to web requests.
-        use_playwright: Whether browser-backed rendering should be used for dynamic pages.
-
-    Returns:
-        str: Text produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Render a dynamic web page with Playwright."""
     _instance = WebCrawler( headers=headers, use_playwright=use_playwright )
     return _instance.render_with_playwright( url=url, timeout=timeout )
 
 
 def load_web( urls: str | List[str], recursive: bool=False, max_depth: int=2,
 		prevent_outside: bool=True, timeout: int=10, ignore: bool=True, progress: bool=True ) -> Any:
-    """Load web documents.
-
-    Purpose:
-        Load web documents using the web loader. Boolean options control retrieval depth or
-        supplemental content.
-
-    Args:
-        urls: URL string or URL list used as web-loader input.
-        recursive: Whether nested folders, links, or provider resources should be traversed.
-        max_depth: Maximum recursion depth.
-        prevent_outside: Whether recursive web loading should exclude pages outside the seed domain.
-        timeout: Maximum time in seconds to wait for the operation.
-        ignore: Whether individual loading failures should be skipped when supported.
-        progress: Whether the underlying loader should report progress.
-
-    Returns:
-        List[Document] | None: LangChain documents loaded from the requested source.
-
-    Raises:
-        ValueError: Raised when a required value is missing, blank, or outside the supported range.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Load web documents."""
     _instance = WebLoader( recursive=recursive, max_depth=max_depth,
 	    prevent_outside=prevent_outside, timeout=timeout, ignore=ignore, progress=progress )
     return _instance.load( urls=urls )
 
 
 def load_web_recursive( url: str, depth: int=2, max_time: int=10, ignore: bool=True ) -> Any:
-    """Recursively load web documents.
-
-    Purpose:
-        Recursively load web documents using the web loader.
-
-    Args:
-        url: URL used by the web or repository loader.
-        depth: Maximum recursion depth.
-        max_time: Maximum request or crawl time in seconds.
-        ignore: Whether individual loading failures should be skipped when supported.
-
-    Returns:
-        List[Document] | None: LangChain documents loaded from the requested source.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Recursively load web documents."""
     _instance = WebLoader( )
     return _instance.load_recursive( url=url, depth=depth, max_time=max_time, ignore=ignore )
 
 
 def load_web_pages( urls: List[str], depth: int=2, timeout: int=10, ignore: bool=True,
 		progress: bool=True ) -> Any:
-    """Load static web pages.
-
-    Purpose:
-        Load static web pages using the web loader.
-
-    Args:
-        urls: URL string or URL list used as web-loader input.
-        depth: Maximum recursion depth.
-        timeout: Maximum time in seconds to wait for the operation.
-        ignore: Whether individual loading failures should be skipped when supported.
-        progress: Whether the underlying loader should report progress.
-
-    Returns:
-        List[Document] | None: LangChain documents loaded from the requested source.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Load static web pages."""
     _instance = WebLoader( )
     return _instance.load_pages( urls=urls, depth=depth, timeout=timeout,
 	    ignore=ignore, progress=progress )
 
 
 def load_github( url: str, repo: str, branch: str, filetype: str='.md' ) -> Any:
-    """Load files from a GitHub repository.
-
-    Purpose:
-        Load files from a GitHub repository using the GitHub loader.
-
-    Args:
-        url: URL used by the web or repository loader.
-        repo: GitHub repository name or owner/repository path.
-        branch: Repository branch to inspect.
-        filetype: File suffix filter used when loading repository files.
-
-    Returns:
-        List[Document]: LangChain documents loaded from the requested source.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Load files from a GitHub repository."""
     _instance = GithubLoader( )
     return _instance.load( url=url, repo=repo, branch=branch, filetype=filetype )
 
 
 def scrape_web_page( url: str, time: int=10 ) -> Any:
-    """Fetch a web page for extraction.
-
-    Purpose:
-        Fetch a web page for extraction using Fonky's web extractor implementation.
-
-    Args:
-        url: Absolute URL to fetch.
-        time: Request timeout in seconds.
-
-    Returns:
-        Result | None: Fonky result wrapper containing the provider or HTTP response.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Fetch a web page for extraction."""
     _instance = WebExtractor( )
     return _instance.scrape( url=url, time=time )
 
 
 def scraper_html_to_text( html: str ) -> Any:
-    """Convert HTML to plain text.
-
-    Purpose:
-        Convert HTML to plain text.
-
-    Args:
-        html: Raw HTML string to convert.
-
-    Returns:
-        str: Text produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Convert scraper HTML to plain text."""
     _instance = WebExtractor( )
     return _instance.html_to_text( html=html )
 
 
 def scrape_paragraphs( uri: str ) -> Any:
-    """Extract paragraph text.
-
-    Purpose:
-        Extract paragraph text using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML document.
-
-    Returns:
-        List[str] | None: Paragraph text values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract paragraph text from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_paragraphs( uri=uri )
 
 
 def scrape_lists( uri: str ) -> Any:
-    """Extract list item text.
-
-    Purpose:
-        Extract list item text using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML page.
-
-    Returns:
-        List[str] | None: Text or identifier values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract list-item text from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_lists( uri=uri )
 
 
 def scrape_tables( uri: str ) -> Any:
-    """Extract table cell text.
-
-    Purpose:
-        Extract table cell text using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML document.
-
-    Returns:
-        List[str] | None: Table cell text values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract table-cell text from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_tables( uri=uri )
 
 
 def scrape_articles( uri: str ) -> Any:
-    """Extract article text.
-
-    Purpose:
-        Extract article text using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML page.
-
-    Returns:
-        List[str] | None: Text or identifier values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract article text from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_articles( uri=uri )
 
 
 def scrape_headings( uri: str ) -> Any:
-    """Extract heading text.
-
-    Purpose:
-        Extract heading text using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML document.
-
-    Returns:
-        List[str] | None: Heading text values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract heading text from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_headings( uri=uri )
 
 
 def scrape_divisions( uri: str ) -> Any:
-    """Extract division text.
-
-    Purpose:
-        Extract division text using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML document.
-
-    Returns:
-        List[str] | None: Text or identifier values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract division text from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_divisions( uri=uri )
 
 
 def scrape_sections( uri: str ) -> Any:
-    """Extract section text.
-
-    Purpose:
-        Extract section text using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML document.
-
-    Returns:
-        List[str] | None: Text or identifier values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract section text from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_sections( uri=uri )
 
 
 def scrape_blockquotes( uri: str ) -> Any:
-    """Extract blockquote text.
-
-    Purpose:
-        Extract blockquote text using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML document.
-
-    Returns:
-        List[str] | None: Text or identifier values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract blockquote text from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_blockquotes( uri=uri )
 
 
 def scrape_hyperlinks( uri: str ) -> Any:
-    """Extract hyperlinks from an HTML page.
-
-    Purpose:
-        Extract hyperlinks from an HTML page using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML page.
-
-    Returns:
-        List[str] | None: Hyperlink values produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract hyperlinks from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_hyperlinks( uri=uri )
 
 
 def scrape_images( uri: str ) -> Any:
-    """Extract image references.
-
-    Purpose:
-        Extract image references using Fonky's web extractor implementation.
-
-    Args:
-        uri: Fully qualified URI of the target HTML page.
-
-    Returns:
-        List[str] | None: Image references produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in
-            the project error type.
-    """
+    """Extract image references from an HTML page."""
     _instance = WebExtractor( )
     return _instance.scrape_images( uri=uri )
 
 
 def encode_image( path: str ) -> str:
-    """Encode a local image as Base64 text.
-
-    Purpose:
-        Encode a local image as Base64 text using Fonky's provider implementation.
-
-    Args:
-        path: Local image path to encode.
-
-    Returns:
-        str: Text produced by the operation.
-
-    Raises:
-        Exception: If the delegated implementation raises an operational failure.
-    """
+    """Encode a local image as Base64 text."""
     return _encode_image( path=path )
 
 # ==========================================================================================
-# PREPROCESSOR TOOLS
+# PROCESSOR TOOLS
 # ==========================================================================================
 
 def preprocess_load_text( filepath: str ) -> str | None:
-    """Read UTF-8 text from a local file and return the raw string.
-
-    Purpose:
-        Loads a local text file using UTF-8 with ignored decode errors so downstream cleaning routines
-        can operate on a plain string. The method records the active file path and raises a project
-        Error when the file cannot be read.
-
-    Args:
-        filepath: Path to the local source file.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Read UTF-8 text from a local file and return the raw string."""
     instance = TextParser( )
     return instance.load_text( filepath=filepath )
 
+
 def preprocess_collapse_whitespace( text: str ) -> str | None:
-    """Normalize spacing by lowercasing text and collapsing repeated whitespace.
-
-    Purpose:
-        Creates a compact lowercase representation of text by splitting on whitespace and joining
-        tokens with single spaces. This prepares raw text for deterministic comparison, cleaning, and
-        tokenization steps.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Normalize spacing by lowercasing text and collapsing repeated whitespace."""
     instance = TextParser( )
     return instance.collapse_whitespace( text=text )
 
+
 def preprocess_remove_punctuation( text: str ) -> str:
-    """Strip punctuation from tokenized text while preserving word and spacing content.
-
-    Purpose:
-        Tokenizes lowercase text and removes punctuation marks from each token. The method preserves
-        alphanumeric token content while returning a whitespace-joined string for later cleaning
-        stages.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str: Processed text value produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Strip punctuation from tokenized text."""
     instance = TextParser( )
     return instance.remove_punctuation( text=text )
 
+
 def preprocess_normalize_text( text: str ) -> str | None:
-    """Convert text to lowercase for stable downstream comparison and tokenization.
-
-    Purpose:
-        Converts text to lowercase without otherwise changing content. This provides a simple
-        normalization stage for workflows that need case-insensitive matching or tokenization.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Convert text to lowercase for stable comparison and tokenization."""
     instance = TextParser( )
     return instance.normalize_text( text=text )
 
+
 def preprocess_remove_errors( text: str ) -> str:
-    """Filter tokens against the NLTK English words corpus.
-
-    Purpose:
-        Uses the NLTK English words corpus as a vocabulary filter and keeps only tokens recognized by
-        that corpus. This reduces obvious OCR, spelling, and parsing artifacts before later analysis.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str: Processed text value produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Filter tokens against the NLTK English words corpus."""
     instance = TextParser( )
     return instance.remove_errors( text=text )
 
+
 def preprocess_remove_fragments( text: str ) -> str | None:
-    """Remove very short token fragments from normalized text.
-
-    Purpose:
-        Removes short text fragments that are unlikely to be useful lexical units. This helps reduce
-        noise produced by OCR, markup stripping, punctuation removal, and aggressive token cleanup.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Remove very short token fragments from normalized text."""
     instance = TextParser( )
     return instance.remove_fragments( text=text )
 
+
 def preprocess_remove_symbols( text: str ) -> str | None:
-    """Remove configured symbol characters from normalized text.
-
-    Purpose:
-        Removes characters listed in the parser symbol set from lowercase text. This produces cleaner
-        text for tokenization, word-frequency generation, and embedding workflows.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Remove configured symbol characters from normalized text."""
     instance = TextParser( )
     return instance.remove_symbols( text=text )
 
+
 def preprocess_remove_html( text: str ) -> str | None:
-    """Extract visible text from HTML markup.
-
-    Purpose:
-        Parses HTML input with BeautifulSoup and extracts visible text content. This allows raw HTML
-        fragments or pages to enter the same cleaning pipeline used for plain text.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Extract visible text from HTML markup."""
     instance = TextParser( )
     return instance.remove_html( text=text )
 
+
 def preprocess_remove_xml( text: str ) -> str:
-    """Extract inner text from XML-like markup while recovering malformed fragments when possible.
-
-    Purpose:
-        Wraps XML-like text in a temporary root node, parses it with recovery enabled, and
-        concatenates element text and tail content. This retains readable content while discarding
-        markup structure.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str: Processed text value produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Extract inner text from XML-like markup."""
     instance = TextParser( )
     return instance.remove_xml( text=text )
 
+
 def preprocess_remove_markdown( text: str ) -> str | None:
-    """Remove common Markdown links, image syntax, and formatting markers.
-
-    Purpose:
-        Removes common Markdown link, image, and inline-formatting syntax from lowercase text. This
-        converts README-style or documentation-style content into cleaner text for downstream
-        analysis.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Remove common Markdown links, image syntax, and formatting markers."""
     instance = TextParser( )
     return instance.remove_markdown( text=text )
 
+
 def preprocess_remove_stopwords( text: str ) -> str | None:
-    """Remove English stop words from tokenized text.
-
-    Purpose:
-        Tokenizes lowercase text and removes standard English stop words. This leaves a reduced token
-        stream better suited for frequency analysis, vocabulary extraction, and embedding preparation.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Remove English stop words from tokenized text."""
     instance = TextParser( )
     return instance.remove_stopwords( text=text )
 
+
 def preprocess_remove_encodings( text: str ) -> str | None:
-    """Resolve HTML entities, normalize Unicode characters, and remove control characters.
-
-    Purpose:
-        Decodes common escaped sequences when possible, resolves HTML entities, normalizes Unicode to
-        compatibility form, and strips control characters. This reduces text artifacts from scraped,
-        copied, or encoded sources.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Resolve HTML entities, normalize Unicode characters, and remove control characters."""
     instance = TextParser( )
     return instance.remove_encodings( text=text )
 
-def preprocess_remove_headers( filepath: str, lines: int=50, headers: int=3, footers: int=3 ) -> str | None:
-    """Detect and remove repeated page headers and footers from a text file.
 
-    Purpose:
-        Splits a text file into page-sized blocks and identifies repeated leading and trailing line
-        groups. Matching header and footer blocks are removed to produce cleaner body text for
-        analysis.
-
-    Args:
-        filepath: Path to the local source file.
-        lines: Number of lines treated as one page during header and footer detection.
-        headers: Number of leading lines considered as a repeated page header.
-        footers: Number of trailing lines considered as a repeated page footer.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-        ValueError: If a required value is missing, blank, or outside the supported range.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+def preprocess_remove_headers( filepath: str, lines: int=50, headers: int=3,
+		footers: int=3 ) -> str | None:
+    """Detect and remove repeated page headers and footers from a text file."""
     instance = TextParser( )
     return instance.remove_headers( filepath=filepath, lines=lines,
 	    headers=headers, footers=footers )
 
+
 def preprocess_remove_numbers( text: str ) -> str | None:
-    """Remove decimal digits from text.
-
-    Purpose:
-        Removes digit sequences from lowercase text. This supports workflows that need lexical content
-        without numeric values.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Remove decimal digits from text."""
     instance = TextParser( )
     return instance.remove_numbers( text=text )
 
+
 def preprocess_remove_numerals( text: str ) -> str | None:
-    """Remove Roman-numeral patterns from text.
-
-    Purpose:
-        Applies the configured Roman-numeral expression to lowercase text and replaces matching
-        numeral tokens with spaces. This reduces numbering artifacts in outlines, headings, and
-        document sections.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Remove Roman-numeral patterns from text."""
     instance = TextParser( )
     return instance.remove_numerals( text=text )
 
+
 def preprocess_remove_images( text: str ) -> str:
-    """Remove Markdown image references, HTML image elements, and direct image URLs.
-
-    Purpose:
-        Removes Markdown image syntax, HTML image tags, and direct image URLs from text. This keeps
-        descriptive text while excluding image-only references that do not support text processing.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        str: Processed text value produced by the operation.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Remove Markdown image references, HTML image elements, and direct image URLs."""
     instance = TextParser( )
     return instance.remove_images( text=text )
 
+
 def preprocess_tiktokenize( text: str, encoding: str='cl100k_base' ) -> DataFrame | None:
-    """Encode text with a tiktoken tokenizer and return token identifiers as tabular data.
-
-    Purpose:
-        Encodes lowercase text using the requested tiktoken encoding and returns token identifiers in
-        a pandas DataFrame. This supports token inspection and model-facing preprocessing workflows.
-
-    Args:
-        text: Text value to process.
-        encoding: Tiktoken encoding name used for tokenization.
-
-    Returns:
-        DataFrame | None: Pandas DataFrame containing the processed output when the operation
-        succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Encode text with a tiktoken tokenizer and return token identifiers as tabular data."""
     instance = TextParser( )
     return instance.tiktokenize( text=text, encoding=encoding )
 
+
 def preprocess_split_sentences( text: str ) -> List[str] | None:
-    """Split text into sentence strings using NLTK sentence tokenization.
-
-    Purpose:
-        Applies NLTK sentence tokenization to lowercase text and returns the resulting sentence list.
-        This provides sentence boundaries for chunking, cleaning, and dataset generation workflows.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        List[ str ] | None: List of processed text values when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Split text into sentence strings using NLTK sentence tokenization."""
     instance = TextParser( )
     return instance.split_sentences( text=text )
 
+
 def preprocess_split_pages( filepath: str, num: int=50 ) -> List[str] | None:
-    """Split a text file into page-sized text blocks.
-
-    Purpose:
-        Reads a plain-text file and splits it into page-sized blocks using form-feed characters when
-        available or fixed line counts otherwise. The resulting list can be used for page- level
-        cleaning and analysis.
-
-    Args:
-        filepath: Path to the local source file.
-        num: Number of lines used as the fallback page boundary.
-
-    Returns:
-        List[ str ] | None: List of processed text values when the operation succeeds.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Split a text file into page-sized text blocks."""
     instance = TextParser( )
     return instance.split_pages( filepath=filepath, num=num )
 
+
 def preprocess_split_paragraphs( filepath: str ) -> DataFrame | None:
-    """Read a text file and return paragraph-like text blocks as tabular data.
-
-    Purpose:
-        Reads a text file and converts separated text blocks into a pandas DataFrame. The fallback
-        Latin-1 branch preserves the ability to process files that fail UTF-8 decoding.
-
-    Args:
-        filepath: Path to the local source file.
-
-    Returns:
-        DataFrame | None: Pandas DataFrame containing the processed output when the operation
-        succeeds.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-    """
+    """Read a text file and return paragraph-like text blocks as tabular data."""
     instance = TextParser( )
     return instance.split_paragraphs( filepath=filepath )
 
+
 def preprocess_create_frequency_distribution( tokens: List[str] ) -> DataFrame | None:
-    """Build a word-frequency table from a token sequence.
-
-    Purpose:
-        Counts token occurrences with NLTK frequency distribution support and returns a labeled pandas
-        DataFrame. The output provides a simple word-frequency table for analysis and reporting.
-
-    Args:
-        tokens: Token sequence used by the processing operation.
-
-    Returns:
-        DataFrame | None: Pandas DataFrame containing the processed output when the operation
-        succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Build a word-frequency table from a token sequence."""
     instance = TextParser( )
     return instance.create_frequency_distribution( tokens=tokens )
 
+
 def preprocess_create_vocabulary( tokens: List[str] ) -> Series | None:
-    """Extract the vocabulary column from a token-frequency table.
-
-    Purpose:
-        Counts token occurrences and returns the unique token column as a pandas Series. This gives
-        downstream routines a vocabulary list derived from the active token stream.
-
-    Args:
-        tokens: Token sequence used by the processing operation.
-
-    Returns:
-        Series | None: Pandas Series containing the processed output when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Extract the vocabulary column from a token-frequency table."""
     instance = TextParser( )
     return instance.create_vocabulary( tokens=tokens )
 
+
 def preprocess_create_wordbag( tokens: List[str] ) -> DataFrame | None:
-    """Build a bag-of-words table from a token sequence.
-
-    Purpose:
-        Builds a bag-of-words representation by extracting unique terms from the token frequency
-        distribution. The returned DataFrame supports simple vocabulary inspection and feature
-        preparation.
-
-    Args:
-        tokens: Token sequence used by the processing operation.
-
-    Returns:
-        DataFrame | None: Pandas DataFrame containing the processed output when the operation
-        succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Build a bag-of-words table from a token sequence."""
     instance = TextParser( )
     return instance.create_wordbag( tokens=tokens )
 
+
 def preprocess_create_vectors( tokens: List[str] ) -> DataFrame | None:
-    """Create TF-IDF vectors for token values.
-
-    Purpose:
-        Builds one-token documents, fits a TF-IDF vectorizer, and maps each token to its vector
-        representation. This supplies lightweight vector features for lexical comparison workflows.
-
-    Args:
-        tokens: Token sequence used by the processing operation.
-
-    Returns:
-        DataFrame | None: Pandas DataFrame containing the processed output when the operation
-        succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Create TF-IDF vectors for token values."""
     instance = TextParser( )
     return instance.create_vectors( tokens=tokens )
 
+
 def preprocess_clean_file( filepath: str ) -> str | None:
-    """Apply the standard Fonky text-cleaning pipeline to a single file.
-
-    Purpose:
-        Runs a single file through the parser cleaning pipeline, including whitespace normalization,
-        encoding cleanup, symbol removal, fragment filtering, lemmatization, and stop-word removal.
-        The method returns the cleaned text instead of writing a file.
-
-    Args:
-        filepath: Path to the local source file.
-
-    Returns:
-        str | None: Processed text value when the operation succeeds.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Apply the standard Fonky text-cleaning pipeline to a single file."""
     instance = TextParser( )
     return instance.clean_file( filepath=filepath )
 
+
 def preprocess_clean_files( source: str, destination: str ) -> None:
-    """Apply the standard Fonky text-cleaning pipeline to every file in a directory.
-
-    Purpose:
-        Processes every file in a source directory through the standard cleaning pipeline and writes
-        cleaned text to a destination directory. This supports batch preparation of corpora before
-        chunking or dataset creation.
-
-    Args:
-        source: Directory containing source text files.
-        destination: Directory where generated output files are written.
-
-    Returns:
-        None: The operation completes without producing a return value.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Apply the standard Fonky text-cleaning pipeline to every file in a directory."""
     instance = TextParser( )
     return instance.clean_files( source=source, destination=destination )
 
+
 def preprocess_chunk_files( source: str, destination: str ) -> None:
-    """Split text files into sentence chunks and write chunked output files.
-
-    Purpose:
-        Reads each file in a source directory, splits text into sentences, and writes the resulting
-        sentence sequence to matching output files. This prepares cleaned corpora for chunk-based
-        downstream workflows.
-
-    Args:
-        source: Directory containing source text files.
-        destination: Directory where generated output files are written.
-
-    Returns:
-        None: The operation completes without producing a return value.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Split text files into sentence chunks and write chunked output files."""
     instance = TextParser( )
     return instance.chunk_files( source=source, destination=destination )
 
+
 def preprocess_chunk_data( filepath: str, size: int=10 ) -> DataFrame | None:
-    """Chunk a single text file into fixed-size word groups represented as tabular data.
-
-    Purpose:
-        Reads a single text file, filters recognized English alphabetic tokens, groups them into
-        fixed-size chunks, and returns the chunk rows as a DataFrame. This provides a compact dataset-
-        ready representation of token groups.
-
-    Args:
-        filepath: Path to the local source file.
-        size: Maximum number of tokens or sentences grouped into each chunk.
-
-    Returns:
-        DataFrame | None: Pandas DataFrame containing the processed output when the operation
-        succeeds.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Chunk a text file into fixed-size word groups represented as tabular data."""
     instance = TextParser( )
     return instance.chunk_data( filepath=filepath, size=size )
 
+
 def preprocess_chunk_datasets( source: str, destination: str, size: int=10 ) -> DataFrame:
-    """Clean and chunk a directory of text files into spreadsheet datasets.
-
-    Purpose:
-        Processes all text files in a directory through cleaning, tokenization, fixed-size chunking,
-        and Excel export. This creates spreadsheet datasets suitable for review, labeling, or later
-        ingestion.
-
-    Args:
-        source: Directory containing source text files.
-        destination: Directory where generated output files are written.
-        size: Maximum number of tokens or sentences grouped into each chunk.
-
-    Returns:
-        DataFrame: Pandas DataFrame containing the processed output.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Clean and chunk a directory of text files into spreadsheet datasets."""
     instance = TextParser( )
     return instance.chunk_datasets( source=source, destination=destination, size=size )
 
+
 def preprocess_convert_jsonl( source: str, destination: str, size: int=10 ) -> None:
-    """Convert text files into line-oriented JSON-like chunk output.
-
-    Purpose:
-        Splits text files into fixed-size token groups and writes each group using a JSON-like line-
-        oriented representation. This supports quick conversion of raw text corpora into chunked
-        training or testing artifacts.
-
-    Args:
-        source: Directory containing source text files.
-        destination: Directory where generated output files are written.
-        size: Maximum number of tokens or sentences grouped into each chunk.
-
-    Returns:
-        None: The operation completes without producing a return value.
-
-    Raises:
-        FileNotFoundError: If a required local file or matched path does not exist.
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Convert text files into line-oriented JSON-like chunk output."""
     instance = TextParser( )
     return instance.convert_jsonl( source=source, destination=destination, size=size )
 
+
 def preprocess_encode_sentences( tokens: List[str], model: str='all-MiniLM-L6-v2' ) -> Tuple[List[str], np.ndarray]:
-    """Generate sentence-transformer embeddings for normalized token values.
-
-    Purpose:
-        Lemmatizes token values and encodes them with a SentenceTransformer model. The returned tuple
-        pairs token text with a NumPy embedding matrix for semantic-search workflows.
-
-    Args:
-        tokens: Token sequence used by the processing operation.
-        model: Sentence-transformer model used to encode the query or token sequence.
-
-    Returns:
-        Tuple[ List[ str ], np.ndarray ]: Token values paired with the generated embedding matrix.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Generate sentence-transformer embeddings for normalized token values."""
     instance = TextParser( )
     return instance.encode_sentences( tokens=tokens, model=model )
 
+
 def nltk_word_tokenizer( text: str ) -> List[str] | None:
-    """Tokenize text into lowercased word tokens.
-
-    Purpose:
-        Lowercases text and tokenizes it into word tokens with NLTK. The resulting list is also stored
-        on the parser instance for reuse by later NLTK operations.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        List[ str ] | None: List of processed text values when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Tokenize text into lowercased word tokens."""
     instance = NltkParser( )
     return instance.word_tokenizer( text=text )
 
+
 def nltk_sentence_tokenizer( text: str ) -> List[str] | None:
-    """Tokenize text into lowercased sentence strings.
-
-    Purpose:
-        Lowercases text and tokenizes it into sentence strings with NLTK. The resulting sentences are
-        stored on the parser instance and returned to the caller.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        List[ str ] | None: List of processed text values when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Tokenize text into lowercased sentence strings."""
     instance = NltkParser( )
     return instance.sentence_tokenizer( text=text )
 
+
 def nltk_word_stemmer( text: str ) -> List[str] | None:
-    """Stem lowercased word tokens with the configured Porter stemmer.
-
-    Purpose:
-        Lowercases text, tokenizes it, and applies Porter stemming to each non-empty token. This
-        produces stemmed tokens for lexical normalization workflows.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        List[ str ] | None: List of processed text values when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Stem lowercased word tokens with the configured Porter stemmer."""
     instance = NltkParser( )
     return instance.word_stemmer( text=text )
 
+
 def nltk_word_lemmatizer( text: str ) -> List[str] | None:
-    """Lemmatize lowercased word tokens with the configured WordNet lemmatizer.
-
-    Purpose:
-        Lowercases text, tokenizes it, and applies WordNet lemmatization to each non-empty token. This
-        produces normalized lexical forms suitable for downstream analysis.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        List[ str ] | None: List of processed text values when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Lemmatize lowercased word tokens with the configured WordNet lemmatizer."""
     instance = NltkParser( )
     return instance.word_lemmatizer( text=text )
 
+
 def nltk_pos_tagger( text: str ) -> List[Tuple[str, str]] | None:
-    """Assign part-of-speech tags to lowercased word tokens.
-
-    Purpose:
-        Lowercases and tokenizes text, then assigns NLTK part-of-speech tags to each token. The tagged
-        sequence is stored on the instance and returned for syntactic analysis.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Assign part-of-speech tags to lowercased word tokens."""
     instance = NltkParser( )
     return instance.pos_tagger( text=text )
 
+
 def nltk_named_entity_recognition( text: str ) -> List[Tuple[str, str]] | None:
-    """Extract named-entity text and entity labels from tagged tokens.
-
-    Purpose:
-        Lowercases text, tokenizes and tags it, then applies NLTK named-entity chunking. Entity text
-        and labels are collected into tuples for downstream review or extraction workflows.
-
-    Args:
-        text: Text value to process.
-
-    Returns:
-        List[ Tuple[ str, str ] ] | None: List of text and label tuples when the operation succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Extract named-entity text and entity labels from tagged tokens."""
     instance = NltkParser( )
     return instance.named_entity_recognition( text=text )
 
+
 def nltk_chunk_words( text: str, size: int=5 ) -> DataFrame | None:
-    """Group word tokens into fixed-size chunks and return them as tabular data.
-
-    Purpose:
-        Tokenizes lowercase text into words, groups the tokens into fixed-size chunks, and returns a
-        DataFrame of chunk strings. This provides a simple word-level chunking utility for downstream
-        vector or dataset generation.
-
-    Args:
-        text: Text value to process.
-        size: Maximum number of tokens or sentences grouped into each chunk.
-
-    Returns:
-        DataFrame | None: Pandas DataFrame containing the processed output when the operation
-        succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Group word tokens into fixed-size chunks and return them as tabular data."""
     instance = NltkParser( )
     return instance.chunk_words( text=text, size=size )
 
+
 def nltk_chunk_sentences( text: str, size: int=15 ) -> DataFrame | None:
-    """Group sentence tokens into fixed-size chunks and return them as tabular data.
-
-    Purpose:
-        Tokenizes lowercase text into sentences, groups the sentences into fixed-size chunks, and
-        returns a DataFrame of chunk strings. This provides a sentence-level chunking utility for
-        review or dataset preparation.
-
-    Args:
-        text: Text value to process.
-        size: Maximum number of tokens or sentences grouped into each chunk.
-
-    Returns:
-        DataFrame | None: Pandas DataFrame containing the processed output when the operation
-        succeeds.
-
-    Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the
-            project error type.
-    """
+    """Group sentence tokens into fixed-size chunks and return them as tabular data."""
     instance = NltkParser( )
     return instance.chunk_sentences( text=text, size=size )
 
+
 def preprocess_semantic_search( query: str, tokens: List[ str ],
         model: str='all-MiniLM-L6-v2', top: int=5 ) -> List[ Tuple[ str, float ] ]:
-    """Search token content by semantic similarity.
-
-    Purpose:
-        Creates sentence embeddings internally and returns the highest-scoring token matches for
-        the supplied query. The wrapper keeps NumPy arrays and SentenceTransformer instances out
-        of the agent-facing JSON schema.
-
-    Args:
-        query: Natural-language query used for semantic matching.
-        tokens: Text values searched for semantic similarity.
-        model: Sentence-transformer model name used to create embeddings.
-        top: Maximum number of matches to return.
-
-    Returns:
-        List[Tuple[str, float]]: Highest-scoring text values and similarity scores.
-    """
+    """Search token content by semantic similarity."""
     instance = TextParser( )
     encoded = instance.encode_sentences( tokens=tokens, model=model )
     sentences, embeddings = encoded
     transformer = SentenceTransformer( model )
     return instance.semantic_search( query=query, tokens=sentences, embeddings=embeddings,
         model=transformer, top=top )
+
 
 # ==========================================================================================
 # PUBLIC EXPORTS
@@ -4003,7 +2944,7 @@ __all__: List[ str ] = [
 	'fetch_google_drive',
 	'fetch_wikipedia',
 	'fetch_news',
-	'fetch_google_search',
+	'fetch_cse_search',
 	'fetch_gov_data',
 	'fetch_congress',
 	'fetch_internet_archive',
