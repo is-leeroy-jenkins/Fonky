@@ -31,6 +31,7 @@ ___
 | Error wrapping and logging            | `fonky.boogr`         |
 
 
+## 🛠️ Architecture 
 
 ![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/fonky-architecture.png)
 
@@ -140,7 +141,7 @@ result = Runner.run_sync(
 print( result.final_output )
 ```
 
-### ⏱️ Asynchronous Agent
+### ⏱️  Asynchronous Agent
 
 ```python
 result = await Runner.run(
