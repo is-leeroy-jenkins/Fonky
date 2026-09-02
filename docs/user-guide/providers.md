@@ -25,6 +25,51 @@ result = Runner.run_sync(
 print( result.final_output )
 ```
 
+## Anthropic Claude
+
+Fonky exposes native Anthropic tool definitions through `fonky.claude.tools`. Each public function
+is decorated with `@beta_tool` and delegates directly to the canonical Fonky implementation.
+
+```python
+from anthropic import Anthropic
+
+from fonky.claude.tools import fetch_arxiv
+from fonky.claude.tools import fetch_cse_search
+from fonky.claude.tools import fetch_wikipedia
+
+client = Anthropic( )
+
+tools = [
+    fetch_arxiv.to_dict( ),
+    fetch_cse_search.to_dict( ),
+    fetch_wikipedia.to_dict( ),
+]
+
+response = client.beta.messages.create(
+    model='claude-sonnet-4-6',
+    max_tokens=4096,
+    tools=tools,
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Research retrieval augmented generation.',
+        },
+    ] )
+
+print( response )
+```
+
+The `to_dict()` method returns the Anthropic tool declaration generated from the decorated Python
+function's typed signature and documentation. When Claude returns a `tool_use` block, execute the
+corresponding Fonky callable locally and return the result through the normal Anthropic tool-result
+message flow.
+
+!!! note "Structured tool results"
+    Anthropic's automatic Tool Runner expects tool results to be strings or supported Anthropic
+    content blocks. Fonky preserves the canonical return types of its tools, including dictionaries,
+    DataFrames, NumPy arrays, and document collections. Serialize structured results before sending
+    them back to Claude when using a workflow that requires Anthropic-compatible tool-result content.
+
 ## Google ADK
 
 ```python
