@@ -198,6 +198,23 @@ LOG_DIR: Path = get_path( 'LOG_DIR', ROOT_DIR / 'logging' )
 LOG_PATH: str = get_text( 'LOG_PATH', str( LOG_DIR / 'Exceptions.db' ) )
 LOG_FILE: str = get_text( 'LOG_FILE', 'Exceptions' )
 
+
+# ------ MODELS  -------------------
+
+GPT_MODELS = [ 'gpt-5.6-sol', 'gpt-5.6-luna', 'gpt-5-mini', 'gpt-5-nano', 'gpt-4.1',
+		'gpt-4.1-mini', ]
+
+GEMINI_MODELS = [ 'gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-3.5-flash',
+		'gemini-3.5-flash-lite', 'gemini-3.1-pro-preview', 'gemini-3.1-flash-lite',
+		'gemini-3-flash-preview', 'gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', ]
+
+GROK_MODELS = [ 'grok-4.6', 'grok-4.5', 'grok-4.3', 'grok-4.20-multi-agent',
+		'grok-4.20-multi-agent-latest', ]
+
+CLAUDE_MODELS = [ 'claude-fable-5', 'claude-opus-5', 'claude-opus-4-8', 'claude-opus-4-7',
+		'claude-opus-4-6', 'claude-sonnet-5', 'claude-sonnet-4-6', 'claude-sonnet-4-5-20250929',
+		'claude-haiku-4-5-20251001', ]
+
 # ------ ENVIRONMENT API KEYS  -------------------
 AIRNOW_API_KEY = os.getenv( 'AIRNOW_API_KEY' )
 CLAUDE_API_KEY = os.getenv( 'CLAUDE_API_KEY' )
