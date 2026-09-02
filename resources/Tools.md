@@ -40,8 +40,8 @@ Operational prefixes remain on executable wrapper names. Separate xAI declaratio
 
 |   # | Tool                                                                                      |
 |----:|-------------------------------------------------------------------------------------------|
-|   1 | [`convert_html_to_text()`](#convert_html_to_text)                                         |
-|   2 | [`crawl_web()`](#crawl_web)                                                               |
+|   1 | [`convert_html_to_text()`](#-convert_html_to_text)                                        |
+|   2 | [`crawl_web()`](#-crawl_web)                                                              |
 |   3 | [`encode_image()`](#encode_image)                                                         |
 |   4 | [`extract_web_links()`](#extract_web_links)                                               |
 |   5 | [`extract_web_structured_data()`](#extract_web_structured_data)                           |
