@@ -45,11 +45,11 @@ ___
 
 ## 🛠️ Architecture
 
-![](resources/fonky-architecture.png)
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-architecture.png)
 
 ## 🔁 Workflow
 
-![](resources/fonky-workflow.png)
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-workflow.png)
 
 ## 📦 Package Structure
 
