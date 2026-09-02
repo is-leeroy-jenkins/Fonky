@@ -45,6 +45,8 @@ agent = Agent(
     ] )
 ```
 
+Google ADK accepts the Fonky callables directly in the agent `tools` collection.
+
 ## xAI Grok
 
 ```python
@@ -62,8 +64,8 @@ result = fetch_cse_search(
 print( result )
 ```
 
-The xAI declaration object is passed to the model. The executable wrapper performs the local
-operation when the model requests `fetch_cse_search`.
+The `*_tool` object is the xAI declaration. The corresponding operationally-prefixed callable
+executes the local Fonky implementation.
 
 ## LangChain
 
@@ -79,7 +81,19 @@ tools = [
 ]
 ```
 
-Inspect a generated LangChain schema:
+Invoke a LangChain tool directly:
+
+```python
+result = fetch_cse_search.invoke(
+    {
+        'keywords': 'federal appropriations law',
+        'results': 5,
+    } )
+
+print( result )
+```
+
+Inspect the parsed tool schema:
 
 ```python
 print( fetch_cse_search.args_schema.model_json_schema( ) )

@@ -9,7 +9,6 @@ repo_name: is-leeroy-jenkins/Fonky
 theme:
   name: material
   language: en
-  logo: img/fonky.png
   features:
     - navigation.instant
     - navigation.tracking
@@ -69,10 +68,18 @@ nav:
   - User Guide:
       - Overview: user-guide/index.md
       - Provider Setup: user-guide/providers.md
-      - Retrieval: user-guide/retrieval.md
-      - Loading: user-guide/loading.md
-      - Web Extraction: user-guide/web-extraction.md
-      - Processing: user-guide/processing.md
+      - Configuration & API Keys: user-guide/configuration.md
+      - Research & Reference: user-guide/research-reference.md
+      - Astronomy & Space: user-guide/astronomy-space.md
+      - Cloud & Storage: user-guide/cloud-storage.md
+      - Demographics & Public Data: user-guide/demographics-public-data.md
+      - Documents & Files: user-guide/documents-files.md
+      - Environment & Weather: user-guide/environment-weather.md
+      - Geospatial: user-guide/geospatial.md
+      - Health & Science: user-guide/health-science.md
+      - Web Retrieval & Loading: user-guide/web-retrieval-loading.md
+      - Web Scraping: user-guide/web-scraping.md
+      - Processing & NLP: user-guide/processing-nlp.md
   - API Reference:
       - Overview: api/index.md
       - Fetchers: api/fetchers.md

@@ -65,7 +65,39 @@
          <lastmod>2026-09-01</lastmod>
     </url>
     <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/astronomy-space/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/cloud-storage/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/demographics-public-data/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/documents-files/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/environment-weather/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/geospatial/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/health-science/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/loading/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/processing-nlp/</loc>
          <lastmod>2026-09-01</lastmod>
     </url>
     <url>
@@ -77,11 +109,23 @@
          <lastmod>2026-09-01</lastmod>
     </url>
     <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/research-reference/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/retrieval/</loc>
          <lastmod>2026-09-01</lastmod>
     </url>
     <url>
          <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/web-extraction/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/web-retrieval-loading/</loc>
+         <lastmod>2026-09-01</lastmod>
+    </url>
+    <url>
+         <loc>https://is-leeroy-jenkins.github.io/Fonky/user-guide/web-scraping/</loc>
          <lastmod>2026-09-01</lastmod>
     </url>
 </urlset>
