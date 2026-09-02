@@ -27,6 +27,7 @@ from typing import Any
 from agents import FunctionTool
 from anthropic import beta_tool
 
+from ..config import throw_if
 from ..gpt import tools as _gpt_tools
 
 
@@ -55,11 +56,8 @@ def _create_claude_tool( name: str, source_tool: FunctionTool ) -> Any:
         ValueError: If the tool name is empty or the source tool does not expose its wrapped
             callable.
     """
-    if not name:
-        raise ValueError( 'Argument "name" cannot be empty!' )
-
-    if source_tool is None:
-        raise ValueError( 'Argument "source_tool" cannot be empty!' )
+    throw_if( 'name', name )
+    throw_if( 'source_tool', source_tool )
 
     _callable = getattr( source_tool, '__wrapped__', None )
     if _callable is None or not callable( _callable ):
