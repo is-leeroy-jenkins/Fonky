@@ -8,7 +8,8 @@ text-processing functionality to AI agents through provider-specific tool integr
 
 Fonky separates canonical implementations from agent-framework integration. Retrieval, loading,
 scraping, and processing logic remains in shared modules while provider packages expose those
-operations through the conventions required by OpenAI Agents SDK, Google ADK, xAI, and LangChain.
+operations through the conventions required by OpenAI Agents SDK, Anthropic Claude, Google ADK,
+xAI, and LangChain.
 
 ## Core capabilities
 
@@ -27,12 +28,14 @@ operations through the conventions required by OpenAI Agents SDK, Google ADK, xA
 | Package | Framework | Tool exposure |
 |---|---|---|
 | `fonky.gpt.tools` | OpenAI Agents SDK | `@function_tool` |
+| `fonky.claude.tools` | Anthropic Claude SDK | `@beta_tool` |
 | `fonky.gemini.tools` | Google ADK | Plain Python callables wrapped by ADK |
 | `fonky.grok.tools` | xAI SDK | Executable callables plus explicit `*_tool` declarations |
 | `fonky.langchain.tools` | LangChain Core | `@tool(parse_docstring=True)` |
 
-Each provider package exposes the same 150 logical Fonky operations while preserving the
-provider-specific tool contract.
+Each provider package exposes the same logical Fonky operations while preserving the provider-specific
+tool contract. The Claude integration is a peer adapter that delegates directly to the canonical
+Fonky implementation modules rather than depending on another provider package.
 
 ## Documentation layout
 
