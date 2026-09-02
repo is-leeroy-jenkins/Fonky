@@ -18,6 +18,9 @@ fonky/
 ├── gpt/
 │   ├── __init__.py
 │   └── tools.py
+├── claude/
+│   ├── __init__.py
+│   └── tools.py
 ├── gemini/
 │   ├── __init__.py
 │   └── tools.py
@@ -41,17 +44,48 @@ fonky/
 | `fonky.config` | Runtime configuration and credentials. |
 | `fonky.boogr` | Error wrapping and logging. |
 
-Provider modules delegate to this layer. Canonical functionality is not duplicated in provider
-packages.
+Provider modules delegate directly to this layer. Canonical functionality is not duplicated in
+provider packages, and one provider package must not serve as the implementation layer for another
+provider package.
 
 ## Provider integration layer
 
 | Package | Integration contract |
 |---|---|
 | `fonky.gpt.tools` | OpenAI `@function_tool` wrappers. |
+| `fonky.claude.tools` | Anthropic `@beta_tool` wrappers. |
 | `fonky.gemini.tools` | Plain callable wrappers for Google ADK. |
 | `fonky.grok.tools` | Executable wrappers plus xAI declaration objects. |
 | `fonky.langchain.tools` | LangChain `@tool(parse_docstring=True)` wrappers. |
+
+### Anthropic Claude
+
+`fonky.claude.tools` is a peer provider adapter. Each public Claude tool is decorated directly with
+Anthropic's `@beta_tool` and delegates to the same canonical implementation classes used by the
+other provider packages.
+
+```text
+Claude tool call
+    ↓
+fonky.claude.tools
+    ↓
+fetchers.py / loaders.py / scrapers.py / processors.py
+    ↓
+canonical Fonky operation
+```
+
+The Claude adapter does not import `fonky.gpt.tools`, unwrap OpenAI tool objects, or dynamically
+register another provider's tools.
+
+Anthropic derives a Claude tool's input schema from the decorated callable's typed signature and
+docstring. The function signature therefore remains part of the provider contract and should
+preserve the canonical Fonky argument semantics and defaults.
+
+Anthropic's automatic Tool Runner expects tool results to be strings or supported Anthropic content
+blocks. Fonky does not change canonical return types merely to satisfy that execution helper. Tools
+that return dictionaries, DataFrames, NumPy arrays, document collections, or other structured Python
+objects require application-level serialization when their results are returned to Claude through a
+manual tool-use loop or other Anthropic workflow.
 
 ## Tool naming
 
