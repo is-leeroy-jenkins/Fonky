@@ -9,6 +9,7 @@ repo_name: is-leeroy-jenkins/Fonky
 theme:
   name: material
   language: en
+  logo: img/fonky.png
   features:
     - navigation.instant
     - navigation.tracking
