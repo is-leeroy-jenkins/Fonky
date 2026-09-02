@@ -20,20 +20,7 @@ ___
 
 ## 🎯 Purpose
 
-| Capability                            | Module                  |
-|---------------------------------------|-------------------------|
-| Data retrieval                        | `fonky.fetchers`        |
-| Document ingestion                    | `fonky.loaders`         |
-| Web extraction                        | `fonky.scrapers`        |
-| Text and NLP processing               | `fonky.processors`      |
-| Shared models and response structures | `fonky.models`          |
-| Runtime configuration                 | `fonky.config`          |
-| Error wrapping and logging            | `fonky.boogr`           |
-| OpenAI Agents SDK tools               | `fonky.gpt.tools`       |
-| Google ADK tools                      | `fonky.gemini.tools`    |
-| xAI Grok tools                        | `fonky.grok.tools`      |
-| LangChain tools                       | `fonky.langchain.tools` |
-
+Fonky is a Python library that provides a unified collection of reusable tools for AI, data acquisition, document processing, web access, geospatial analysis, environmental data, and other common application workflows. It helps solve the problem of repeatedly implementing and maintaining provider-specific integrations by encapsulating existing loaders, fetchers, scrapers, preprocessors, and related utilities behind consistent, easy-to-call interfaces. Fonky can be imported directly into Python applications, notebooks, automation pipelines, or AI-agent frameworks, allowing developers to invoke individual tools as ordinary functions or expose them through provider-specific integrations such as GPT, Gemini, Grok, and LangChain without duplicating the underlying implementation.
 
 ## 🛠️ Architecture
 
