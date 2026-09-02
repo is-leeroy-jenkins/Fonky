@@ -1,4 +1,6 @@
-# User Guide
+![](../img/fonky-guide.png)
+
+___
 
 ## Provider Integration
 

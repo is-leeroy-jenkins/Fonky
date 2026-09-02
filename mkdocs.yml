@@ -69,6 +69,8 @@ nav:
       - Overview: user-guide/index.md
       - Provider Setup: user-guide/providers.md
       - Configuration & API Keys: user-guide/configuration.md
+      - API Key Setup: user-guide/API-Setup.md
+      - Tool Index: user-guide/Tools.md
       - Research & Reference: user-guide/research-reference.md
       - Astronomy & Space: user-guide/astronomy-space.md
       - Cloud & Storage: user-guide/cloud-storage.md
