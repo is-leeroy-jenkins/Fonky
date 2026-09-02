@@ -10,8 +10,7 @@
   <a href="#-provider-integrations">Integrations</a> &nbsp;|&nbsp;
   <a href="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/Tools.md#-tool-index">Tool Index</a> &nbsp;|&nbsp;
   <a href="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/User-Guide.md">User Guide</a> &nbsp;|&nbsp;
-  <a href="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/Tools.md#-tool-index">Configuration</a> &nbsp;|&nbsp;
-  <a href="#-validation">Validation</a>
+  <a href="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/Configuration.md#configuration">Configuration</a> &nbsp;|&nbsp;
 </p>
 
 ___
