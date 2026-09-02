@@ -96,54 +96,54 @@ reads these values during import with `os.getenv(...)`.
 
 ## Credential and Service Variables
 
-| `config.py` constant | Environment variable | Service / setting |
-|---|---|---|
-| `AIRNOW_API_KEY` | `AIRNOW_API_KEY` | AirNow |
-| `CLAUDE_API_KEY` | `CLAUDE_API_KEY` | Anthropic Claude |
-| `CONGRESS_API_KEY` | `CONGRESS_API_KEY` | Congress.gov / congressional data |
-| `CHROMA_API_KEY` | `CHROMA_API_KEY` | Chroma |
-| `CHROMA_TENET_ID` | `CHROMA_TENET_ID` | Chroma tenant identifier |
-| `GEOAPIFY_API_KEY` | `GEOAPIFY_API_KEY` | Geoapify |
-| `GEOCODING_API_KEY` | `GEOCODING_API_KEY` | Geocoding service |
-| `GEMINI_API_KEY` | `GEMINI_API_KEY` | Google Gemini |
-| `GOOGLE_API_KEY` | `GOOGLE_API_KEY` | Google APIs / Programmable Search |
-| `GOOGLE_CSE_ID` | `GOOGLE_CSE_ID` | Google Programmable Search Engine ID |
-| `GOOGLE_CLOUD_PROJECT_ID` | `GOOGLE_CLOUD_PROJECT_ID` | Google Cloud project |
-| `GOOGLE_CLOUD_LOCATION` | `GOOGLE_CLOUD_LOCATION` | Google Cloud location |
-| `GOVINFO_API_KEY` | `GOVINFO_API_KEY` | GovInfo |
-| `GOOGLE_GENAI_USE_VERTEXAI` | `GOOGLE_GENAI_USE_VERTEXAI` | Google GenAI Vertex AI mode |
-| `GOOGLE_WEATHER_API_KEY` | `GOOGLE_WEATHER_API_KEY` | Google Weather |
-| `GOOGLE_ACCOUNT_FILE` | `GOOGLE_ACCOUNT_CREDENTIALS` | Google service-account credentials file |
-| `GOOGLE_DRIVE_TOKEN_PATH` | `GOOGLE_DRIVE_TOKEN_PATH` | Google Drive OAuth token path |
-| `GOOGLE_DRIVE_FOLDER_ID` | `GOOGLE_DRIVE_FOLDER_ID` | Default Google Drive folder |
-| `HUGGINGFACE_API_KEY` | `HUGGINGFACE_API_KEY` | Hugging Face |
-| `IPINFO_API_KEY` | `IPINFO_API_KEY` | IPinfo |
-| `OPENAI_API_KEY` | `OPENAI_API_KEY` | OpenAI |
-| `PINECONE_API_KEY` | `PINECONE_API_KEY` | Pinecone |
-| `LANGSMITH_API_KEY` | `LANGSMITH_API_KEY` | LangSmith |
-| `LLAMAINDEX_API_KEY` | `LLAMAINDEX_API_KEY` | LlamaIndex |
-| `LLAMACLOUD_API_KEY` | `LLAMACLOUD_API_KEY` | LlamaCloud |
-| `MISTRAL_API_KEY` | `MISTRAL_API_KEY` | Mistral |
-| `NASA_API_KEY` | `NASA_API_KEY` | NASA APIs |
-| `NASA_EARTHDATA_TOKEN` | `NASA_EARTHDATA_TOKEN` | NASA Earthdata |
-| `NEWS_API_KEY` | `NEWSAPI_API_KEY` | NewsAPI |
-| `THENEWS_API_KEY` | `THENEWSAPI_API_KEY` | TheNewsAPI |
-| `WEATHERAPI_API_KEY` | `WEATHERAPI_API_KEY` | WeatherAPI |
-| `XAI_API_KEY` | `XAI_API_KEY` | xAI |
-| `O365_CLIENT_ID` | `O365_CLIENT_ID` | Microsoft 365 OAuth client ID |
-| `O365_CLIENT_SECRET` | `O365_CLIENT_SECRET` | Microsoft 365 OAuth client secret |
-| `OPENAQ_API_KEY` | `OPENAQ_API_KEY` | OpenAQ |
-| `OPENSKY_API_CLIENT_ID` | `OPENSKY_API_CLIENT_ID` | OpenSky API client ID |
-| `OPENSKY_API_CREDENTIALS` | `OPENSKY_API_CREDENTIALS` | OpenSky API credentials |
-| `OPENSKY_API_CLIENT_SECRET` | `OPENSKY_API_CLIENT_ID` | OpenSky API client secret binding in current config.py |
-| `CENSUS_API_KEY` | `CENSUS_API_KEY` | U.S. Census |
-| `SOCRATA_API_KEY` | `SOCRATA_API_KEY` | Socrata |
-| `HEALTHDATA_API_KEY` | `HEALTHDATA_API_KEY` | HealthData.gov |
-| `USGS_WATERDATA_API_KEY` | `USGS_API_KEY` | USGS |
-| `DATA_GOV_API_KEY` | `DATAGOV_API_KEY` | Data.gov |
-| `FIRMS_MAP_KEY` | `FIRMS_MAP_KEY` | NASA FIRMS |
-| `PURPLEAIR_API_KEY` | `PURPLEAIR_API_KEY` | PurpleAir |
-| `SKY_MAP_TOKEN` | `SKY_MAP_TOKEN` | Sky Map |
+| `config.py` constant        | Environment variable         | Service / setting                                      |
+|-----------------------------|------------------------------|--------------------------------------------------------|
+| `AIRNOW_API_KEY`            | `AIRNOW_API_KEY`             | AirNow                                                 |
+| `CLAUDE_API_KEY`            | `CLAUDE_API_KEY`             | Anthropic Claude                                       |
+| `CONGRESS_API_KEY`          | `CONGRESS_API_KEY`           | Congress.gov / congressional data                      |
+| `CHROMA_API_KEY`            | `CHROMA_API_KEY`             | Chroma                                                 |
+| `CHROMA_TENET_ID`           | `CHROMA_TENET_ID`            | Chroma tenant identifier                               |
+| `GEOAPIFY_API_KEY`          | `GEOAPIFY_API_KEY`           | Geoapify                                               |
+| `GEOCODING_API_KEY`         | `GEOCODING_API_KEY`          | Geocoding service                                      |
+| `GEMINI_API_KEY`            | `GEMINI_API_KEY`             | Google Gemini                                          |
+| `GOOGLE_API_KEY`            | `GOOGLE_API_KEY`             | Google APIs / Programmable Search                      |
+| `GOOGLE_CSE_ID`             | `GOOGLE_CSE_ID`              | Google Programmable Search Engine ID                   |
+| `GOOGLE_CLOUD_PROJECT_ID`   | `GOOGLE_CLOUD_PROJECT_ID`    | Google Cloud project                                   |
+| `GOOGLE_CLOUD_LOCATION`     | `GOOGLE_CLOUD_LOCATION`      | Google Cloud location                                  |
+| `GOVINFO_API_KEY`           | `GOVINFO_API_KEY`            | GovInfo                                                |
+| `GOOGLE_GENAI_USE_VERTEXAI` | `GOOGLE_GENAI_USE_VERTEXAI`  | Google GenAI Vertex AI mode                            |
+| `GOOGLE_WEATHER_API_KEY`    | `GOOGLE_WEATHER_API_KEY`     | Google Weather                                         |
+| `GOOGLE_ACCOUNT_FILE`       | `GOOGLE_ACCOUNT_CREDENTIALS` | Google service-account credentials file                |
+| `GOOGLE_DRIVE_TOKEN_PATH`   | `GOOGLE_DRIVE_TOKEN_PATH`    | Google Drive OAuth token path                          |
+| `GOOGLE_DRIVE_FOLDER_ID`    | `GOOGLE_DRIVE_FOLDER_ID`     | Default Google Drive folder                            |
+| `HUGGINGFACE_API_KEY`       | `HUGGINGFACE_API_KEY`        | Hugging Face                                           |
+| `IPINFO_API_KEY`            | `IPINFO_API_KEY`             | IPinfo                                                 |
+| `OPENAI_API_KEY`            | `OPENAI_API_KEY`             | OpenAI                                                 |
+| `PINECONE_API_KEY`          | `PINECONE_API_KEY`           | Pinecone                                               |
+| `LANGSMITH_API_KEY`         | `LANGSMITH_API_KEY`          | LangSmith                                              |
+| `LLAMAINDEX_API_KEY`        | `LLAMAINDEX_API_KEY`         | LlamaIndex                                             |
+| `LLAMACLOUD_API_KEY`        | `LLAMACLOUD_API_KEY`         | LlamaCloud                                             |
+| `MISTRAL_API_KEY`           | `MISTRAL_API_KEY`            | Mistral                                                |
+| `NASA_API_KEY`              | `NASA_API_KEY`               | NASA APIs                                              |
+| `NASA_EARTHDATA_TOKEN`      | `NASA_EARTHDATA_TOKEN`       | NASA Earthdata                                         |
+| `NEWS_API_KEY`              | `NEWSAPI_API_KEY`            | NewsAPI                                                |
+| `THENEWS_API_KEY`           | `THENEWSAPI_API_KEY`         | TheNewsAPI                                             |
+| `WEATHERAPI_API_KEY`        | `WEATHERAPI_API_KEY`         | WeatherAPI                                             |
+| `XAI_API_KEY`               | `XAI_API_KEY`                | xAI                                                    |
+| `O365_CLIENT_ID`            | `O365_CLIENT_ID`             | Microsoft 365 OAuth client ID                          |
+| `O365_CLIENT_SECRET`        | `O365_CLIENT_SECRET`         | Microsoft 365 OAuth client secret                      |
+| `OPENAQ_API_KEY`            | `OPENAQ_API_KEY`             | OpenAQ                                                 |
+| `OPENSKY_API_CLIENT_ID`     | `OPENSKY_API_CLIENT_ID`      | OpenSky API client ID                                  |
+| `OPENSKY_API_CREDENTIALS`   | `OPENSKY_API_CREDENTIALS`    | OpenSky API credentials                                |
+| `OPENSKY_API_CLIENT_SECRET` | `OPENSKY_API_CLIENT_ID`      | OpenSky API client secret binding in current config.py |
+| `CENSUS_API_KEY`            | `CENSUS_API_KEY`             | U.S. Census                                            |
+| `SOCRATA_API_KEY`           | `SOCRATA_API_KEY`            | Socrata                                                |
+| `HEALTHDATA_API_KEY`        | `HEALTHDATA_API_KEY`         | HealthData.gov                                         |
+| `USGS_WATERDATA_API_KEY`    | `USGS_API_KEY`               | USGS                                                   |
+| `DATA_GOV_API_KEY`          | `DATAGOV_API_KEY`            | Data.gov                                               |
+| `FIRMS_MAP_KEY`             | `FIRMS_MAP_KEY`              | NASA FIRMS                                             |
+| `PURPLEAIR_API_KEY`         | `PURPLEAIR_API_KEY`          | PurpleAir                                              |
+| `SKY_MAP_TOKEN`             | `SKY_MAP_TOKEN`              | Sky Map                                                |
 
 ## Minimal Provider Configuration
 
@@ -310,13 +310,13 @@ SKY_MAP_TOKEN=
 
 The Python constant name and the environment-variable name are not always identical:
 
-| Python constant | Environment variable |
-|---|---|
-| `GOOGLE_ACCOUNT_FILE` | `GOOGLE_ACCOUNT_CREDENTIALS` |
-| `NEWS_API_KEY` | `NEWSAPI_API_KEY` |
-| `THENEWS_API_KEY` | `THENEWSAPI_API_KEY` |
-| `USGS_WATERDATA_API_KEY` | `USGS_API_KEY` |
-| `DATA_GOV_API_KEY` | `DATAGOV_API_KEY` |
+| Python constant             | Environment variable                          |
+|-----------------------------|-----------------------------------------------|
+| `GOOGLE_ACCOUNT_FILE`       | `GOOGLE_ACCOUNT_CREDENTIALS`                  |
+| `NEWS_API_KEY`              | `NEWSAPI_API_KEY`                             |
+| `THENEWS_API_KEY`           | `THENEWSAPI_API_KEY`                          |
+| `USGS_WATERDATA_API_KEY`    | `USGS_API_KEY`                                |
+| `DATA_GOV_API_KEY`          | `DATAGOV_API_KEY`                             |
 | `OPENSKY_API_CLIENT_SECRET` | `OPENSKY_API_CLIENT_ID` in the current source |
 
 !!! warning "OpenSky client-secret binding"
