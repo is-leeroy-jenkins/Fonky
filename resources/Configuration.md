@@ -7,6 +7,15 @@ ___
 Fonky centralizes environment-backed credentials and service settings in `config.py`. The module
 reads these values during import with `os.getenv(...)`.
 
+## Windows
+
+- To make the key persist across all terminal sessions via the Windows interface:
+
+1. Press Win + R, type sysdm.cpl, and hit Enter to open System Properties.
+2. Go to the Advanced tab and click Environment Variables...
+3. Under User variables, click New...Set Variable name to MY_API_KEY_NAME.
+4. Set Variable value to YOUR_API_KEY.
+5. lick OK on all windows and restart your terminal/IDE to apply the changes.
 
 ## API Signup and API Key Reference
 
