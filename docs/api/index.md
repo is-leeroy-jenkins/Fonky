@@ -20,6 +20,7 @@ ___
 | Module | Framework |
 |---|---|
 | [`fonky.gpt.tools`](gpt-tools.md) | OpenAI Agents SDK |
+| [`fonky.claude.tools`](claude-tools.md) | Anthropic Claude SDK |
 | [`fonky.gemini.tools`](gemini-tools.md) | Google ADK |
 | [`fonky.grok.tools`](grok-tools.md) | xAI SDK |
 | [`fonky.langchain.tools`](langchain-tools.md) | LangChain Core |
