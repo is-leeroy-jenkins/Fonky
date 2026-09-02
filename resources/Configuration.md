@@ -1,4 +1,8 @@
-# Configuration & API Keys
+![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-apikeys.png)
+
+___
+
+## Configuration & API Keys
 
 Fonky centralizes environment-backed credentials and service settings in `config.py`. The module
 reads these values during import with `os.getenv(...)`.

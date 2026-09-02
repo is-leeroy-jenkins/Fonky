@@ -88,6 +88,8 @@ python -m playwright install chromium
 
 ## 🔑 Configuration and API Keys
 
+[Set-up API Keys]
+
 Fonky reads credentials and service configuration from environment variables in `config.py`.
 Only configure the variables required by the tools and providers you use.
 
