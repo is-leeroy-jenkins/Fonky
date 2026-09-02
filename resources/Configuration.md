@@ -3,6 +3,97 @@
 Fonky centralizes environment-backed credentials and service settings in `config.py`. The module
 reads these values during import with `os.getenv(...)`.
 
+
+[Gov Info API](https://www.govinfo.gov/api-signup)
+
+
+[Google Geolocation API](https://developers.google.com/maps/documentation/geolocation/overview)
+
+
+[Google Maps API](https://developers.google.com/maps/documentation/urls/get-started)
+
+
+[Google Weather API](https://developers.google.com/maps/documentation/weather/get-api-key)
+
+
+[Gemini AI API](https://aistudio.google.com/api-keys?)
+
+
+[CDC API](https://data.cdc.gov/login)
+
+
+[NASA Firms API](https://firms.modaps.eosdis.nasa.gov/usfs/api/map_key/)
+
+
+[Wikipedia API](https://www.mediawiki.org/wiki/Wikimedia_APIs/Get_started)
+
+
+[Xai API](https://accounts.x.ai/account)
+
+
+[Claude AI API](https://platform.claude.com/docs/en/api/admin/api_keys)
+
+[NASA API](https://api.nasa.gov/)
+
+
+[TheNewsAPI](https://www.thenewsapi.com/register)
+
+
+[Grokipedia API](https://accounts.x.ai/account)
+
+
+[Purpler Air API](https://develop.purpleair.com/dashboards/keys)
+
+
+[Census API](https://api.census.gov/data/key_signup.html)
+
+
+[Air Now API](https://docs.airnowapi.org/account/request/)
+
+
+[Astronomy API](https://astronomyapi.com/auth/signup)
+
+
+[ChromaDB API](https://docs.trychroma.com/cloud/getting-started)
+
+
+[GeoApify API](https://apidocs.geoapify.com/)
+
+[Google Custom Search Engine API](https://developers.google.com/custom-search/v1/introduction)
+
+[Hugging Face API](https://huggingface.co/)
+
+[IP Info API](https://ipinfo.io/signup)
+
+[Jina AI API](https://jina.ai/api-dashboard/)
+
+[LangSmith API](https://smith.langchain.com/?utm_source=docs&utm_medium=cta&utm_campaign=langsmith-signup)
+
+[Llama Index API](https://developers.llamaindex.ai/llamaparse/general/api_key/)
+
+[Mistral AI API](https://v2.auth.mistral.ai/login?flow=93cd89ac-fb49-4ed7-ac7d-4357537c9ffc)
+
+[USGS API](https://api.waterdata.usgs.gov/signup/)
+
+[The Weather API](https://www.weatherapi.com/api-explorer.aspx)
+
+[Socrata API](https://dev.socrata.com/docs/other/api-keys#?route=overview)
+
+[Open Weather API](https://openweathermap.org/api)
+
+[Pinecone API](https://docs.pinecone.io/reference/api/2025-04/admin/create_api_key)
+
+[Weaviate API](https://docs.weaviate.io/cloud/manage-clusters/connect#retrieve-your-api-key-and-rest-endpoint)
+
+[OpenSky API](https://opensky-network.org/data/api)
+
+[Aviation Stack API](https://aviationstack.com/signup/free/monthly)
+
+[Congress API](https://api.congress.gov/sign-up/)
+
+[OpenAQ API](https://docs.openaq.org/using-the-api/api-key)
+
+
 ## Credential and Service Variables
 
 | `config.py` constant | Environment variable | Service / setting |
