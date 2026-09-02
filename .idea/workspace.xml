@@ -5,48 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5cdbbb26-1ccb-432c-8a54-9373eb7164c6" name="Changes" comment="update">
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/astronomy-space.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/cloud-storage.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/demographics-public-data.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/documents-files.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/environment-weather.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/geospatial.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/health-science.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/processing-nlp.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/research-reference.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/web-retrieval-loading.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user-guide/web-scraping.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/api/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/index.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/user-guide/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user-guide/index.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/user-guide/providers.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user-guide/providers.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mkdocs.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/boogr/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/boogr/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/config/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/config/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/fetchers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/fetchers/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/gemini-tools/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/gemini-tools/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/gpt-tools/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/gpt-tools/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/grok-tools/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/grok-tools/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/langchain-tools/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/langchain-tools/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/loaders/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/loaders/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/models/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/models/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/processors/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/processors/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/api/scrapers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/api/scrapers/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/architecture/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/architecture/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/development/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/development/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/site/search/search_index.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/user-guide/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/user-guide/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/user-guide/loading/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/user-guide/loading/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/user-guide/processing/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/user-guide/processing/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/user-guide/providers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/user-guide/providers/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/user-guide/retrieval/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/user-guide/retrieval/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/user-guide/web-extraction/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/user-guide/web-extraction/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +64,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/terry/source/repos/fonky/docs",
+    "last_opened_file_path": "C:/Users/terry/source/repos/fonky",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.jshint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -115,8 +75,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\terry\source\repos\fonky\docs" />
       <recent name="C:\Users\terry\source\repos\fonky" />
+      <recent name="C:\Users\terry\source\repos\fonky\docs" />
       <recent name="C:\Users\terry\source\repos\fonky\docs\img" />
       <recent name="C:\Users\terry\source\repos\fonky\langchain" />
       <recent name="C:\Users\terry\source\repos\fonky\grok" />
@@ -144,7 +104,7 @@
       <workItem from="1788224332445" duration="3602000" />
       <workItem from="1788228042005" duration="1916000" />
       <workItem from="1788264268814" duration="157000" />
-      <workItem from="1788264500173" duration="21190000" />
+      <workItem from="1788264500173" duration="21873000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -514,7 +474,23 @@
       <option name="project" value="LOCAL" />
       <updated>1788303643952</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="update">
+      <option name="closed" value="true" />
+      <created>1788312157294</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1788312157294</updated>
+    </task>
+    <task id="LOCAL-00048" summary="update">
+      <option name="closed" value="true" />
+      <created>1788312172426</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1788312172426</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
