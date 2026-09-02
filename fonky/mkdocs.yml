@@ -1,0 +1,107 @@
+site_name: Fonky Documentation
+site_description: Documentation for the Fonky provider-native AI tooling library.
+site_author: Terry D. Eppler
+site_url: https://is-leeroy-jenkins.github.io/Fonky/
+
+repo_url: https://github.com/is-leeroy-jenkins/Fonky
+repo_name: is-leeroy-jenkins/Fonky
+
+theme:
+  name: material
+  language: en
+  logo: img/fonky.png
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.select
+  palette:
+    - scheme: slate
+      primary: blue
+      accent: blue
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - ..
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_signature_annotations: true
+            separate_signature: true
+            members_order: source
+            filters:
+              - "!^_"
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - tables
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - User Guide:
+      - Overview: user-guide/index.md
+      - Provider Setup: user-guide/providers.md
+      - Configuration & API Keys: user-guide/configuration.md
+      - API Key Setup: user-guide/API-Setup.md
+      - Tool Index: user-guide/Tools.md
+      - Research & Reference: user-guide/research-reference.md
+      - Astronomy & Space: user-guide/astronomy-space.md
+      - Cloud & Storage: user-guide/cloud-storage.md
+      - Demographics & Public Data: user-guide/demographics-public-data.md
+      - Documents & Files: user-guide/documents-files.md
+      - Environment & Weather: user-guide/environment-weather.md
+      - Geospatial: user-guide/geospatial.md
+      - Health & Science: user-guide/health-science.md
+      - Web Retrieval & Loading: user-guide/web-retrieval-loading.md
+      - Web Scraping: user-guide/web-scraping.md
+      - Processing & NLP: user-guide/processing-nlp.md
+  - API Reference:
+      - Overview: api/index.md
+      - Fetchers: api/fetchers.md
+      - Loaders: api/loaders.md
+      - Scrapers: api/scrapers.md
+      - Processors: api/processors.md
+      - Models: api/models.md
+      - Configuration: api/config.md
+      - Error Handling: api/boogr.md
+      - Provider Tools:
+          - OpenAI Agents SDK: api/gpt-tools.md
+          - Anthropic Claude: api/claude-tools.md
+          - Google ADK: api/gemini-tools.md
+          - xAI Grok: api/grok-tools.md
+          - LangChain: api/langchain-tools.md
+  - Development: development.md
+
+extra_css:
+  - assets/css/fonky.css
+
+extra_javascript:
+  - assets/js/fonky.js
