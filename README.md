@@ -20,7 +20,7 @@ ___
 
 ## 🎯 Purpose
 
-Fonky is a Python library that provides a unified collection of reusable tools for AI, data acquisition, document processing, web access, geospatial analysis, environmental data, and other common application workflows. It helps solve the problem of repeatedly implementing and maintaining provider-specific integrations by encapsulating existing loaders, fetchers, scrapers, preprocessors, and related utilities behind consistent, easy-to-call interfaces. Fonky can be imported directly into Python applications, notebooks, automation pipelines, or AI-agent frameworks, allowing developers to invoke individual tools as ordinary functions or expose them through provider-specific integrations such as GPT, Gemini, Grok, and LangChain without duplicating the underlying implementation.
+Fonky is a Python library that provides a unified collection of reusable tools for AI, data acquisition, document processing, web access, geospatial analysis, environmental data, and other common application workflows. It helps solve the problem of repeatedly implementing and maintaining provider-specific integrations by encapsulating existing loaders, fetchers, scrapers, preprocessors, and related utilities behind consistent, easy-to-call interfaces. Fonky can be imported directly into Python applications, notebooks, automation pipelines, or AI-agent frameworks, allowing developers to invoke individual tools as ordinary functions or expose them through provider-specific integrations such as GPT, Claude, Gemini, Grok, and LangChain without duplicating the underlying implementation.
 
 ## 🛠️ Architecture
 
@@ -43,6 +43,9 @@ fonky/
 ├── processors.py
 ├── scrapers.py
 ├── gpt/
+│   ├── __init__.py
+│   └── tools.py
+├── claude/
 │   ├── __init__.py
 │   └── tools.py
 ├── gemini/
@@ -154,6 +157,41 @@ result = Runner.run_sync(
 print( result.final_output )
 ```
 
+### Anthropic Claude
+
+Fonky exposes a direct Anthropic integration through `fonky.claude.tools`. Each public Claude tool is decorated with Anthropic's `@beta_tool` and delegates directly to the canonical Fonky implementation in `fetchers.py`, `loaders.py`, `scrapers.py`, or `processors.py`.
+
+```python
+from anthropic import Anthropic
+
+from fonky.claude.tools import fetch_arxiv
+from fonky.claude.tools import fetch_wikipedia
+
+client = Anthropic()
+
+tools = [
+    fetch_arxiv.to_dict(),
+    fetch_wikipedia.to_dict(),
+]
+
+response = client.beta.messages.create(
+    model='claude-sonnet-4-6',
+    max_tokens=4096,
+    tools=tools,
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Research retrieval augmented generation.',
+        },
+    ] )
+
+print( response )
+```
+
+The Claude adapter does not depend on `fonky.gpt` or unwrap another provider's tools. It exposes the same Fonky operations as native Anthropic `beta_tool` objects while preserving the underlying implementation signatures, defaults, documentation, and behavior.
+
+> **Structured tool results:** Anthropic's automatic Tool Runner expects tool results to be strings or supported Anthropic content blocks. Fonky tools that return dictionaries, DataFrames, NumPy arrays, document collections, or other structured Python values retain those native return types. Applications using those tools in an Anthropic tool-result loop should serialize the returned value before sending it back to Claude.
+
 ### Google ADK
 
 ```python
@@ -205,7 +243,7 @@ tools = [
 
 ```powershell
 python -m compileall .\fonky
-python -c "import fonky; import fonky.gpt.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.langchain.tools; print('ok')"
+python -c "import fonky; import fonky.gpt.tools; import fonky.claude.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.langchain.tools; print('ok')"
 ```
 
 ## 📚 Documentation
