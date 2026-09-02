@@ -213,7 +213,11 @@ def fetch_news( endpoint: str='all', query: str='', language: str='en', categori
     """Retrieve The News API article.
 
     Purpose:
-        Retrieve The News API article through The News API. The query text determines the records or documents matched by the provider. Date and time arguments constrain the requested interval when supplied. Result-count arguments bound the amount of data requested. Boolean options control retrieval depth or supplemental content. When supplied, ``api_key`` overrides the configured provider credential for this request.
+        Retrieve The News API article through The News API. The query text determines the records
+        or documents matched by the provider. Date and time arguments constrain the requested
+        interval when supplied. Result-count arguments bound the amount of data requested.
+        Boolean options control retrieval depth or supplemental content. When supplied, ``api_key``
+        overrides the configured provider credential for this request.
 
     Args:
         endpoint (str): Provider endpoint or endpoint family to request.
@@ -1016,7 +1020,8 @@ def load_aws_bucket( bucket: str, prefix: Optional[str]=None, aws_access_key_id:
         Any: LangChain documents loaded from the requested source.
 
     Raises:
-        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure in the project error type.
+        Error: If the implementation wraps a provider, parsing, filesystem, or processing failure
+            in the project error type.
     """
     _instance = AwsBucketLoader( )
     return _instance.load( bucket=bucket, prefix=prefix, aws_access_key_id=aws_access_key_id,
