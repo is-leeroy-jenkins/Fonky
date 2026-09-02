@@ -91,6 +91,7 @@ nav:
       - Error Handling: api/boogr.md
       - Provider Tools:
           - OpenAI Agents SDK: api/gpt-tools.md
+          - Anthropic Claude: api/claude-tools.md
           - Google ADK: api/gemini-tools.md
           - xAI Grok: api/grok-tools.md
           - LangChain: api/langchain-tools.md
