@@ -34,14 +34,6 @@ ___
 | xAI Grok tools                        | `fonky.grok.tools`      |
 | LangChain tools                       | `fonky.langchain.tools` |
 
-### Tool Surface
-
-| Provider path           | Framework         | Executable wrappers |              Provider declarations |
-|-------------------------|-------------------|--------------------:|-----------------------------------:|
-| `fonky.gpt.tools`       | OpenAI Agents SDK |                 150 |   Decorated `FunctionTool` objects |
-| `fonky.gemini.tools`    | Google ADK        |                 150 |                ADK wraps callables |
-| `fonky.grok.tools`      | xAI SDK           |                 150 | 150 explicit `*_tool` declarations |
-| `fonky.langchain.tools` | LangChain Core    |                 150 |          Decorated LangChain tools |
 
 ## 🛠️ Architecture
 
@@ -150,73 +142,6 @@ Only configure the variables required by the tools and providers you use.
 | `PURPLEAIR_API_KEY`         | `PURPLEAIR_API_KEY`          | PurpleAir                                              |
 | `SKY_MAP_TOKEN`             | `SKY_MAP_TOKEN`              | Sky Map                                                |
 
-### `.env` Example
-
-```dotenv
-OPENAI_API_KEY=
-GEMINI_API_KEY=
-XAI_API_KEY=
-
-GOOGLE_API_KEY=
-GOOGLE_CSE_ID=
-GOOGLE_WEATHER_API_KEY=
-GOOGLE_CLOUD_PROJECT_ID=
-GOOGLE_CLOUD_LOCATION=
-GOOGLE_GENAI_USE_VERTEXAI=
-GOOGLE_ACCOUNT_CREDENTIALS=
-GOOGLE_DRIVE_TOKEN_PATH=
-GOOGLE_DRIVE_FOLDER_ID=
-
-CONGRESS_API_KEY=
-GOVINFO_API_KEY=
-DATAGOV_API_KEY=
-CENSUS_API_KEY=
-SOCRATA_API_KEY=
-
-AIRNOW_API_KEY=
-OPENAQ_API_KEY=
-PURPLEAIR_API_KEY=
-FIRMS_MAP_KEY=
-USGS_API_KEY=
-WEATHERAPI_API_KEY=
-
-NASA_API_KEY=
-NASA_EARTHDATA_TOKEN=
-SKY_MAP_TOKEN=
-
-NEWSAPI_API_KEY=
-THENEWSAPI_API_KEY=
-
-GEOAPIFY_API_KEY=
-GEOCODING_API_KEY=
-IPINFO_API_KEY=
-
-HUGGINGFACE_API_KEY=
-MISTRAL_API_KEY=
-CLAUDE_API_KEY=
-
-PINECONE_API_KEY=
-CHROMA_API_KEY=
-CHROMA_TENET_ID=
-LANGSMITH_API_KEY=
-LLAMAINDEX_API_KEY=
-LLAMACLOUD_API_KEY=
-
-O365_CLIENT_ID=
-O365_CLIENT_SECRET=
-
-OPENSKY_API_CLIENT_ID=
-OPENSKY_API_CREDENTIALS=
-```
-
-`config.py` reads variables with `os.getenv(...)`; unset values remain `None` unless a separate
-configuration helper supplies a default.
-
-> **OpenSky source binding:** the current `config.py` assigns `OPENSKY_API_CLIENT_SECRET` from
-> `OPENSKY_API_CLIENT_ID`. The documentation above reflects the source exactly. If a distinct
-> OpenSky client-secret environment variable is intended, `config.py` must be corrected separately.
-
-Do not commit populated credential files or secrets to source control.
 
 ## 🤖 Provider Integrations
 
