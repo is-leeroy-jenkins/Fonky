@@ -8,7 +8,7 @@
   <a href="#-package-structure">Package Structure</a> &nbsp;|&nbsp;
   <a href="#%EF%B8%8F-installation">Installation</a> &nbsp;|&nbsp;
   <a href="#-provider-integrations">Provider Integrations</a> &nbsp;|&nbsp;
-  <a href="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/Tools.md">Tools</a> &nbsp;|&nbsp;
+  <a href="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/Tools.md#-tool-index">Tool Index</a> &nbsp;|&nbsp;
   <a href="https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/User-Guide.md">User Guide</a> &nbsp;|&nbsp;
   <a href="#-validation">Validation</a>
 </p>
