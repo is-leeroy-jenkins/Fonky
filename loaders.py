@@ -2634,10 +2634,8 @@ class OneDriveDocLoader( Loader ):
 			self.object_ids = object_ids
 			self.auth_with_token = auth_with_token
 			
-			kwargs: Dict[ str, Any ] = {
-					'drive_id': self.drive_id,
-					'auth_with_token': self.auth_with_token,
-			}
+			kwargs: Dict[ str, Any ] = { 'drive_id': self.drive_id,
+					'auth_with_token': self.auth_with_token, }
 			
 			if self.folder_path:
 				kwargs[ 'folder_path' ] = self.folder_path

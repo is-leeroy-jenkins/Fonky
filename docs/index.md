@@ -1,4 +1,4 @@
-![Fonky provider-native architecture](./img/fonky-architecture.png)
+![Fonky provider-native architecture](./img/fonky-project.png)
 ___
 
 Fonky is a Python library that exposes retrieval, loading, scraping, document-processing, and
