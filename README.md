@@ -24,11 +24,11 @@ Fonky is a Python library that provides a unified collection of reusable tools f
 
 ## 🛠️ Architecture
 
-![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-architecture.png)
+![Fonky provider-native architecture](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-architecture.png)
 
 ## 🔁 Workflow
 
-![](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-workflow.png)
+![Fonky provider tool execution workflow](https://github.com/is-leeroy-jenkins/Fonky/blob/main/resources/images/fonky-workflow.png)
 
 ## 📦 Package Structure
 
@@ -136,6 +136,16 @@ python -m playwright install chromium
 
 
 ## 🤖 Provider Integrations
+
+| Provider | Fonky module | Native tool contract | Tool-result boundary |
+|---|---|---|---|
+| OpenAI Agents SDK | `fonky.gpt.tools` | `@function_tool` objects | OpenAI Agents runtime |
+| Anthropic Claude | `fonky.claude.tools` | `@beta_tool` objects | Local execution; return a string or supported Anthropic content block |
+| Google ADK | `fonky.gemini.tools` | Plain typed callables | Google ADK runtime |
+| xAI Grok | `fonky.grok.tools` | Callable plus explicit `*_tool` schema | Local execution and xAI tool-result submission |
+| Mistral AI | `fonky.mistral.tools` | Callable plus JSON `*_tool` declaration | Local execution; serialize content with the matching `tool_call_id` |
+| LangChain | `fonky.langchain.tools` | `@tool(parse_docstring=True)` objects | LangChain runtime |
+
 
 ### OpenAI Agents SDK
 
