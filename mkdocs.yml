@@ -72,6 +72,11 @@ nav:
       - Configuration & API Keys: user-guide/configuration.md
       - API Key Setup: user-guide/API-Setup.md
       - Tool Index: user-guide/Tools.md
+      - Core Workflows:
+          - Retrieval: user-guide/retrieval.md
+          - Loading: user-guide/loading.md
+          - Web Extraction: user-guide/web-extraction.md
+          - Processing: user-guide/processing.md
       - Research & Reference: user-guide/research-reference.md
       - Astronomy & Space: user-guide/astronomy-space.md
       - Cloud & Storage: user-guide/cloud-storage.md
