@@ -1466,6 +1466,34 @@
   
   
     <li class="md-nav__item">
+      <a href="api/mistral-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mistral AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="api/langchain-tools/" class="md-nav__link">
         
   
@@ -1630,7 +1658,7 @@
 
   <h1>Home</h1>
 
-<p><img alt="" src="img/fonky-architecture.png" /></p>
+<p><img alt="Fonky provider-native architecture" src="img/fonky-architecture.png" /></p>
 <hr />
 <p>Fonky is a Python library that exposes retrieval, loading, scraping, document-processing, and
 text-processing functionality to AI agents through provider-specific tool integrations.</p>
@@ -1638,7 +1666,7 @@ text-processing functionality to AI agents through provider-specific tool integr
 <p>Fonky separates canonical implementations from agent-framework integration. Retrieval, loading,
 scraping, and processing logic remains in shared modules while provider packages expose those
 operations through the conventions required by OpenAI Agents SDK, Anthropic Claude, Google ADK,
-xAI, and LangChain.</p>
+xAI, Mistral AI, and LangChain.</p>
 <h2 id="core-capabilities">Core capabilities<a class="headerlink" href="#core-capabilities" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1717,15 +1745,24 @@ xAI, and LangChain.</p>
 <td>Executable callables plus explicit <code>*_tool</code> declarations</td>
 </tr>
 <tr>
+<td><code>fonky.mistral.tools</code></td>
+<td>Mistral AI SDK</td>
+<td>Executable callables plus JSON <code>*_tool</code> declarations</td>
+</tr>
+<tr>
 <td><code>fonky.langchain.tools</code></td>
 <td>LangChain Core</td>
 <td><code>@tool(parse_docstring=True)</code></td>
 </tr>
 </tbody>
 </table>
+<p>The architecture and workflow diagrams identify Claude and Mistral separately because they use
+different declaration objects and tool-result messages even though both execute Fonky callables
+locally.</p>
+<p><img alt="Fonky provider tool execution workflow" src="img/fonky-workflow.png" /></p>
 <p>Each provider package exposes the same logical Fonky operations while preserving the provider-specific
-tool contract. The Claude integration is a peer adapter that delegates directly to the canonical
-Fonky implementation modules rather than depending on another provider package.</p>
+tool contract. Every provider integration is a peer adapter that delegates directly to the canonical
+to the canonical Fonky implementation modules rather than depending on another provider package.</p>
 <h2 id="documentation-layout">Documentation layout<a class="headerlink" href="#documentation-layout" title="Permanent link">&para;</a></h2>
 <ol>
 <li><strong>Architecture</strong> defines canonical modules, provider adapters, naming rules, and execution flow.</li>
