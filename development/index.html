@@ -608,6 +608,180 @@
   
   
   
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Workflows
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Workflows
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieval
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/loading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/web-extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Extraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../user-guide/research-reference/" class="md-nav__link">
         
@@ -1368,6 +1542,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../api/mistral-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mistral AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../api/langchain-tools/" class="md-nav__link">
         
   
@@ -1549,6 +1751,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#mistral-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mistral AI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#langchain" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1710,6 +1923,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#mistral-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mistral AI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#langchain" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1824,6 +2048,10 @@ content block; structured Fonky results require explicit serialization by the ca
 <h3 id="xai">xAI<a class="headerlink" href="#xai" title="Permanent link">&para;</a></h3>
 <p>Every Grok executable wrapper must have one unique declaration object. Declaration variable names
 use the <code>*_tool</code> naming contract.</p>
+<h3 id="mistral-ai">Mistral AI<a class="headerlink" href="#mistral-ai" title="Permanent link">&para;</a></h3>
+<p>Every Mistral executable wrapper must have one unique JSON declaration dictionary. Declaration
+variable names use the <code>*_tool</code> naming contract, and each declaration's function name and required
+arguments must match its executable wrapper.</p>
 <h3 id="langchain">LangChain<a class="headerlink" href="#langchain" title="Permanent link">&para;</a></h3>
 <p>Every LangChain tool must construct successfully with:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@tool</span><span class="p">(</span> <span class="n">parse_docstring</span><span class="o">=</span><span class="kc">True</span> <span class="p">)</span>
@@ -1836,7 +2064,7 @@ use the <code>*_tool</code> naming contract.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">python</span> <span class="n">-c</span> <span class="s2">"import fonky.fetchers; import fonky.loaders; import fonky.scrapers; import fonky.processors; print('ok')"</span>
 </code></pre></div>
 <p>Validate provider modules:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">python</span> <span class="n">-c</span> <span class="s2">"import fonky.gpt.tools; import fonky.claude.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.langchain.tools; print('ok')"</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">python</span> <span class="n">-c</span> <span class="s2">"import fonky.gpt.tools; import fonky.claude.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.mistral.tools; import fonky.langchain.tools; print('ok')"</span>
 </code></pre></div>
 <h2 id="documentation-validation">Documentation validation<a class="headerlink" href="#documentation-validation" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">mkdocs</span> <span class="n">build</span> <span class="p">-</span><span class="n">-strict</span>
@@ -1850,7 +2078,7 @@ navigation points to a missing page.</p>
 <li>Add provider wrappers only after the canonical implementation is complete.</li>
 <li>Preserve the executable tool name across provider packages.</li>
 <li>Keep provider adapters independent from one another and delegate directly to canonical modules.</li>
-<li>Add xAI declaration naming only where a separate declaration object is required.</li>
+<li>Add xAI or Mistral declaration naming only where a separate declaration object is required.</li>
 <li>Update Google-style documentation comments.</li>
 <li>Update the user guide when the operation introduces a new workflow.</li>
 <li>Run provider validation.</li>
