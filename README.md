@@ -294,12 +294,6 @@ tools = [
 ]
 ```
 
-## ✅ Validation
-
-```powershell
-python -m compileall .\fonky
-python -c "import fonky; import fonky.gpt.tools; import fonky.claude.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.mistral.tools; import fonky.langchain.tools; print('ok')"
-```
 
 ## 📚 Documentation
 
