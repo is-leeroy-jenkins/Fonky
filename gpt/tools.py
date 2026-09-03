@@ -344,7 +344,10 @@ def fetch_congress( mode: str='congresses', congress: int=0, bill_type: str='', 
     """Retrieve Congress.gov legislative data.
 
     Purpose:
-        Retrieve Congress.gov legislative data through Congress.gov. Use ``mode`` to select among ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``, ``reports``. Date and time arguments constrain the requested interval when supplied. Result- count arguments bound the amount of data requested.
+        Retrieve Congress.gov legislative data through Congress.gov. Use ``mode`` to select among
+        ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``,
+        ``reports``. Date and time arguments constrain the requested interval when supplied.
+        Result- count arguments bound the amount of data requested.
 
     Args:
         mode (str): Operation selector. Supported values detected in the implementation include ``bill_detail``, ``bills``, ``congresses``, ``law_detail``, ``laws``, ``report_detail``, ``reports``.

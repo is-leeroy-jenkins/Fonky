@@ -293,8 +293,8 @@ python -c "import fonky; import fonky.gpt.tools; import fonky.claude.tools; impo
 
 ## 📚 Documentation
 
-- [Tools Reference](resources/Tools.md)
-- [User Guide](resources/user-guide.md)
+- [Tools Reference](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/)Tools.md)
+- [User Guide](https://github.com/is-leeroy-jenkins/fonky/blob/main/resources/User-Guide.md)
 - [MkDocs Site](https://is-leeroy-jenkins.github.io/Fonky/)
 
 ## 📝 License
