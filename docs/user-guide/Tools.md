@@ -6,23 +6,27 @@ ___
 | Provider path           | Integration                             | Wrappers |                  Tool declarations |
 |-------------------------|-----------------------------------------|---------:|-----------------------------------:|
 | `fonky.gpt.tools`       | OpenAI Agents SDK `@function_tool`      |      150 |                  Decorated objects |
+| `fonky.claude.tools`    | Anthropic Claude SDK `@beta_tool`      |      150 |                  Decorated objects |
 | `fonky.gemini.tools`    | Google ADK callables                    |      150 |                      ADK-generated |
 | `fonky.grok.tools`      | xAI SDK                                 |      150 | 150 explicit `*_tool` declarations |
+| `fonky.mistral.tools`   | Mistral AI SDK                          |      150 | 150 JSON `*_tool` declarations     |
 | `fonky.langchain.tools` | LangChain `@tool(parse_docstring=True)` |      150 |                  Decorated objects |
 
 ## 📥 Import Paths
 
 ```python
 from fonky.gpt import tools as gpt_tools
+from fonky.claude import tools as claude_tools
 from fonky.gemini import tools as gemini_tools
 from fonky.grok import tools as grok_tools
+from fonky.mistral import tools as mistral_tools
 from fonky.langchain import tools as langchain_tools
 ```
 
 ## 🏷️ Naming
 
-| Executable wrapper | Grok declaration   |
-|--------------------|--------------------|
+| Executable wrapper | Grok/Mistral declaration |
+|--------------------|--------------------------|
 | `fetch_cse_search` | `cse_search_tool`  |
 | `fetch_news`       | `news_tool`        |
 | `load_text`        | `text_tool`        |
@@ -31,7 +35,7 @@ from fonky.langchain import tools as langchain_tools
 | `read_pdf`         | `pdf_read_tool`    |
 | `load_pdf`         | `pdf_load_tool`    |
 
-Operational prefixes remain on executable wrapper names. Separate xAI declaration variables remove the leading operation prefix and append `_tool`; collisions retain the operation as a trailing qualifier.
+Operational prefixes remain on executable wrapper names. Separate xAI and Mistral declaration variables remove the leading operation prefix and append `_tool`; collisions retain the operation as a trailing qualifier.
 
 ## 📚 Tool Index
 

@@ -82,6 +82,12 @@ GOOGLE_DRIVE_TOKEN_PATH=
 GOOGLE_DRIVE_FOLDER_ID=
 ```
 
+### Mistral AI
+
+```dotenv
+MISTRAL_API_KEY=
+```
+
 ### xAI Grok
 
 ```dotenv

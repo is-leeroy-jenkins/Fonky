@@ -112,6 +112,49 @@ print( result )
 The `*_tool` object is the xAI declaration. The corresponding operationally-prefixed callable
 executes the local Fonky implementation.
 
+## Mistral AI
+
+Fonky exposes Mistral-compatible JSON declarations and their executable local callables through
+`fonky.mistral.tools`.
+
+```python
+from mistralai.client import Mistral
+
+from fonky.config import MISTRAL_API_KEY
+from fonky.mistral.tools import arxiv_fetch_tool
+from fonky.mistral.tools import fetch_arxiv
+
+client = Mistral(
+    api_key=MISTRAL_API_KEY )
+
+tools = [
+    arxiv_fetch_tool,
+]
+
+response = client.chat.complete(
+    model='mistral-medium-latest',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Research retrieval augmented generation.',
+        },
+    ],
+    tools=tools )
+
+documents = fetch_arxiv(
+    question='retrieval augmented generation',
+    max_documents=5,
+    full_documents=False,
+    include_metadata=True )
+
+print( response )
+print( documents )
+```
+
+The `*_tool` dictionary supplies Mistral's JSON function declaration. When Mistral requests the
+function, execute the corresponding operationally-prefixed callable locally. Serialize structured
+Fonky results before returning them through a Mistral tool-result message.
+
 ## LangChain
 
 ```python

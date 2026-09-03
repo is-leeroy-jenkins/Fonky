@@ -20,7 +20,7 @@ ___
 
 ## 🎯 Purpose
 
-Fonky is a Python library that provides a unified collection of reusable tools for AI, data acquisition, document processing, web access, geospatial analysis, environmental data, and other common application workflows. It helps solve the problem of repeatedly implementing and maintaining provider-specific integrations by encapsulating existing loaders, fetchers, scrapers, preprocessors, and related utilities behind consistent, easy-to-call interfaces. Fonky can be imported directly into Python applications, notebooks, automation pipelines, or AI-agent frameworks, allowing developers to invoke individual tools as ordinary functions or expose them through provider-specific integrations such as GPT, Claude, Gemini, Grok, and LangChain without duplicating the underlying implementation.
+Fonky is a Python library that provides a unified collection of reusable tools for AI, data acquisition, document processing, web access, geospatial analysis, environmental data, and other common application workflows. It helps solve the problem of repeatedly implementing and maintaining provider-specific integrations by encapsulating existing loaders, fetchers, scrapers, preprocessors, and related utilities behind consistent, easy-to-call interfaces. Fonky can be imported directly into Python applications, notebooks, automation pipelines, or AI-agent frameworks, allowing developers to invoke individual tools as ordinary functions or expose them through provider-specific integrations such as GPT, Claude, Gemini, Grok, Mistral, and LangChain without duplicating the underlying implementation.
 
 ## 🛠️ Architecture
 
@@ -52,6 +52,9 @@ fonky/
 │   ├── __init__.py
 │   └── tools.py
 ├── grok/
+│   ├── __init__.py
+│   └── tools.py
+├── mistral/
 │   ├── __init__.py
 │   └── tools.py
 └── langchain/
@@ -227,6 +230,48 @@ result = fetch_cse_search(
     results=5 )
 ```
 
+### Mistral AI
+
+Fonky exposes executable wrappers and Mistral-compatible JSON function declarations through
+`fonky.mistral.tools`. Each declaration is paired with a callable that delegates directly to the
+canonical Fonky implementation.
+
+```python
+from mistralai.client import Mistral
+
+from fonky.config import MISTRAL_API_KEY
+from fonky.mistral.tools import cse_search_tool
+from fonky.mistral.tools import fetch_cse_search
+
+client = Mistral(
+    api_key=MISTRAL_API_KEY )
+
+tools = [
+    cse_search_tool,
+]
+
+response = client.chat.complete(
+    model='mistral-medium-latest',
+    messages=[
+        {
+            'role': 'user',
+            'content': 'Find sources about federal appropriations law.',
+        },
+    ],
+    tools=tools )
+
+result = fetch_cse_search(
+    keywords='federal appropriations law',
+    results=5 )
+
+print( response )
+print( result )
+```
+
+When Mistral returns a tool call, the application executes the matching Fonky callable locally and
+returns a serialized tool-result message. Fonky preserves canonical return types, so dictionaries,
+DataFrames, NumPy arrays, and document collections must be serialized by the calling workflow.
+
 ### LangChain
 
 ```python
@@ -243,7 +288,7 @@ tools = [
 
 ```powershell
 python -m compileall .\fonky
-python -c "import fonky; import fonky.gpt.tools; import fonky.claude.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.langchain.tools; print('ok')"
+python -c "import fonky; import fonky.gpt.tools; import fonky.claude.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.mistral.tools; import fonky.langchain.tools; print('ok')"
 ```
 
 ## 📚 Documentation

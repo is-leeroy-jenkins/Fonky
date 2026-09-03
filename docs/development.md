@@ -61,6 +61,12 @@ Every Gemini tool must remain a plain callable that ADK can inspect and wrap.
 Every Grok executable wrapper must have one unique declaration object. Declaration variable names
 use the `*_tool` naming contract.
 
+### Mistral AI
+
+Every Mistral executable wrapper must have one unique JSON declaration dictionary. Declaration
+variable names use the `*_tool` naming contract, and each declaration's function name and required
+arguments must match its executable wrapper.
+
 ### LangChain
 
 Every LangChain tool must construct successfully with:
@@ -86,7 +92,7 @@ python -c "import fonky.fetchers; import fonky.loaders; import fonky.scrapers; i
 Validate provider modules:
 
 ```powershell
-python -c "import fonky.gpt.tools; import fonky.claude.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.langchain.tools; print('ok')"
+python -c "import fonky.gpt.tools; import fonky.claude.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.mistral.tools; import fonky.langchain.tools; print('ok')"
 ```
 
 ## Documentation validation
@@ -105,7 +111,7 @@ navigation points to a missing page.
 3. Add provider wrappers only after the canonical implementation is complete.
 4. Preserve the executable tool name across provider packages.
 5. Keep provider adapters independent from one another and delegate directly to canonical modules.
-6. Add xAI declaration naming only where a separate declaration object is required.
+6. Add xAI or Mistral declaration naming only where a separate declaration object is required.
 7. Update Google-style documentation comments.
 8. Update the user guide when the operation introduces a new workflow.
 9. Run provider validation.

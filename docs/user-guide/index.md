@@ -6,7 +6,7 @@ ___
 
 | Guide | Scope |
 |---|---|
-| [Provider Setup](providers.md) | OpenAI Agents SDK, Anthropic Claude, Google ADK, xAI Grok, and LangChain registration and invocation. |
+| [Provider Setup](providers.md) | OpenAI Agents SDK, Anthropic Claude, Google ADK, xAI Grok, Mistral AI, and LangChain registration and invocation. |
 | [Configuration & API Keys](configuration.md) | Environment variables, API keys, OAuth credentials, Google service settings, and a complete `.env` template. |
 
 ## Tool Domains
@@ -33,5 +33,6 @@ from fonky.gpt import tools as gpt_tools
 from fonky.claude import tools as claude_tools
 from fonky.gemini import tools as gemini_tools
 from fonky.grok import tools as grok_tools
+from fonky.mistral import tools as mistral_tools
 from fonky.langchain import tools as langchain_tools
 ```

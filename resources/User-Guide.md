@@ -10,6 +10,12 @@ ___
 from fonky.gpt import tools
 ```
 
+### Anthropic Claude
+
+```python
+from fonky.claude import tools
+```
+
 ### Google ADK
 
 ```python
@@ -20,6 +26,12 @@ from fonky.gemini import tools
 
 ```python
 from fonky.grok import tools
+```
+
+### Mistral AI
+
+```python
+from fonky.mistral import tools
 ```
 
 ### LangChain
@@ -388,9 +400,28 @@ documents = fetch_arxiv(
 print( documents )
 ```
 
+## 🏷️ Mistral Declaration and Callable
+
+```python
+from fonky.mistral.tools import arxiv_fetch_tool
+from fonky.mistral.tools import fetch_arxiv
+
+tools = [
+    arxiv_fetch_tool,
+]
+
+documents = fetch_arxiv(
+    question='retrieval augmented generation',
+    max_documents=5,
+    full_documents=False,
+    include_metadata=True )
+
+print( documents )
+```
+
 ## ✅ Validate Installation
 
 ```powershell
 python -m compileall .\fonky
-python -c "import fonky.gpt.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.langchain.tools; print('ok')"
+python -c "import fonky.gpt.tools; import fonky.claude.tools; import fonky.gemini.tools; import fonky.grok.tools; import fonky.mistral.tools; import fonky.langchain.tools; print('ok')"
 ```

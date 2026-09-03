@@ -23,4 +23,5 @@ ___
 | [`fonky.claude.tools`](claude-tools.md) | Anthropic Claude SDK |
 | [`fonky.gemini.tools`](gemini-tools.md) | Google ADK |
 | [`fonky.grok.tools`](grok-tools.md) | xAI SDK |
+| [`fonky.mistral.tools`](mistral-tools.md) | Mistral AI SDK |
 | [`fonky.langchain.tools`](langchain-tools.md) | LangChain Core |

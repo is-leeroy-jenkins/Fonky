@@ -27,6 +27,9 @@ fonky/
 ├── grok/
 │   ├── __init__.py
 │   └── tools.py
+├── mistral/
+│   ├── __init__.py
+│   └── tools.py
 └── langchain/
     ├── __init__.py
     └── tools.py
@@ -56,6 +59,7 @@ provider package.
 | `fonky.claude.tools` | Anthropic `@beta_tool` wrappers. |
 | `fonky.gemini.tools` | Plain callable wrappers for Google ADK. |
 | `fonky.grok.tools` | Executable wrappers plus xAI declaration objects. |
+| `fonky.mistral.tools` | Executable wrappers plus Mistral JSON function declarations. |
 | `fonky.langchain.tools` | LangChain `@tool(parse_docstring=True)` wrappers. |
 
 ### Anthropic Claude
@@ -87,6 +91,16 @@ that return dictionaries, DataFrames, NumPy arrays, document collections, or oth
 objects require application-level serialization when their results are returned to Claude through a
 manual tool-use loop or other Anthropic workflow.
 
+### Mistral AI
+
+`fonky.mistral.tools` is a peer provider adapter. Each executable wrapper delegates directly to the
+canonical Fonky implementation, and each companion `*_tool` dictionary provides the JSON function
+schema accepted by Mistral chat and agent requests.
+
+The Mistral adapter does not import declarations or wrappers from another provider package.
+Applications execute requested functions locally and serialize structured results before returning
+them to Mistral.
+
 ## Tool naming
 
 Executable wrapper names retain their operational prefix:
@@ -101,7 +115,7 @@ scrape_web_page
 preprocess_normalize_text
 ```
 
-Separate xAI declaration variables remove the leading operation prefix and append `_tool`.
+Separate xAI and Mistral declaration variables remove the leading operation prefix and append `_tool`.
 
 ```text
 fetch_cse_search  -> cse_search_tool
@@ -109,7 +123,7 @@ fetch_news        -> news_tool
 load_text         -> text_tool
 ```
 
-When stripping the prefix would create a collision, the operation is retained as a trailing
+For either provider, when stripping the prefix would create a collision, the operation is retained as a trailing
 qualifier.
 
 ```text
