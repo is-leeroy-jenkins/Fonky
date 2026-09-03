@@ -1,6 +1,6 @@
 # Architecture
 
-![](./img/fonky-architecture.png)
+![Fonky provider-native architecture](./img/fonky-architecture.png)
 ___
 
 ## Package structure
@@ -61,6 +61,24 @@ provider package.
 | `fonky.grok.tools` | Executable wrappers plus xAI declaration objects. |
 | `fonky.mistral.tools` | Executable wrappers plus Mistral JSON function declarations. |
 | `fonky.langchain.tools` | LangChain `@tool(parse_docstring=True)` wrappers. |
+
+## Claude and Mistral tool-result boundary
+
+Claude and Mistral both select Fonky functions from provider-native schemas and require the
+application to execute the selected callable locally. Their declaration and result contracts remain
+distinct.
+
+| Contract | Anthropic Claude | Mistral AI |
+|---|---|---|
+| Fonky module | `fonky.claude.tools` | `fonky.mistral.tools` |
+| Declaration | `@beta_tool` object; use `to_dict()` for the API declaration | JSON `*_tool` dictionary |
+| Requested call | Anthropic `tool_use` block | Mistral `tool_calls` entry |
+| Execution | Invoke the matching Fonky callable locally | Invoke the matching Fonky callable locally |
+| Result return | String or supported Anthropic content block | Serialized content associated with the matching `tool_call_id` |
+| Canonical return type | Preserved until the provider boundary | Preserved until the provider boundary |
+
+Neither adapter changes the return value produced by the shared Fonky implementation. Serialization
+is an application-level provider-boundary responsibility.
 
 ### Anthropic Claude
 
@@ -163,7 +181,7 @@ descriptions.
 
 ## Execution workflow
 
-![](./img/fonky-workflow.png)
+![Fonky provider tool execution workflow](./img/fonky-workflow.png)
 
 ### Agent execution
 

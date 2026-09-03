@@ -1,5 +1,17 @@
 # Provider Setup
 
+## Provider contract comparison
+
+| Provider | Declaration supplied to the model | Execution and result return |
+|---|---|---|
+| OpenAI Agents SDK | `@function_tool` object | Managed through the Agents SDK runtime |
+| Anthropic Claude | `@beta_tool` declaration from `to_dict()` | Execute locally; return a string or supported content block |
+| Google ADK | Plain typed callable | Managed through the ADK runtime |
+| xAI Grok | Explicit `*_tool` declaration | Execute locally and submit the xAI tool result |
+| Mistral AI | JSON `*_tool` dictionary | Execute locally; serialize content with the matching `tool_call_id` |
+| LangChain | `@tool(parse_docstring=True)` object | Managed through the LangChain tool runtime |
+
+
 ## OpenAI Agents SDK
 
 ```python

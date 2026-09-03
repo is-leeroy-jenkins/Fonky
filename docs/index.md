@@ -1,4 +1,4 @@
-![](./img/fonky-architecture.png)
+![Fonky provider-native architecture](./img/fonky-architecture.png)
 ___
 
 Fonky is a Python library that exposes retrieval, loading, scraping, document-processing, and
@@ -33,6 +33,12 @@ xAI, Mistral AI, and LangChain.
 | `fonky.grok.tools` | xAI SDK | Executable callables plus explicit `*_tool` declarations |
 | `fonky.mistral.tools` | Mistral AI SDK | Executable callables plus JSON `*_tool` declarations |
 | `fonky.langchain.tools` | LangChain Core | `@tool(parse_docstring=True)` |
+
+The architecture and workflow diagrams identify Claude and Mistral separately because they use
+different declaration objects and tool-result messages even though both execute Fonky callables
+locally.
+
+![Fonky provider tool execution workflow](./img/fonky-workflow.png)
 
 Each provider package exposes the same logical Fonky operations while preserving the provider-specific
 tool contract. Every provider integration is a peer adapter that delegates directly to the canonical

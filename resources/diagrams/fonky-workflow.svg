@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#10182b"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="10" flood-color="#000814" flood-opacity=".52"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#4cc9f0"/>
+    </marker>
+    <style>
+      .title{font:700 46px 'DejaVu Sans',Arial,sans-serif;fill:#f7fbff;letter-spacing:2px}
+      .subtitle{font:400 21px 'DejaVu Sans',Arial,sans-serif;fill:#93a9c4}
+      .step{font:700 16px 'DejaVu Sans',Arial,sans-serif;fill:#4cc9f0;letter-spacing:1.5px}
+      .box-title{font:700 24px 'DejaVu Sans',Arial,sans-serif;fill:#f7fbff}
+      .box-sub{font:400 17px 'DejaVu Sans',Arial,sans-serif;fill:#a8bad0}
+      .provider{font:600 17px 'DejaVu Sans',Arial,sans-serif;fill:#e5f1fc}
+      .branch-title{font:700 22px 'DejaVu Sans',Arial,sans-serif;fill:#ffffff}
+      .branch-sub{font:400 16px 'DejaVu Sans',Arial,sans-serif;fill:#d5e3f2}
+      .footer{font:400 16px 'DejaVu Sans',Arial,sans-serif;fill:#7087a3}
+    </style>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#background)"/>
+  <circle cx="1735" cy="130" r="120" fill="#4cc9f0" opacity=".045"/>
+  <text x="90" y="86" class="title">FONKY • TOOL EXECUTION WORKFLOW</text>
+  <text x="92" y="124" class="subtitle">Native provider discovery · Canonical local execution · Provider-specific result return</text>
+
+  <text x="92" y="181" class="step">01 · REQUEST</text>
+  <rect x="90" y="201" width="360" height="122" rx="18" fill="#122235" stroke="#2c4664" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="270" y="248" text-anchor="middle" class="box-title">User Request</text>
+  <text x="270" y="280" text-anchor="middle" class="box-sub">Question · task · document</text>
+  <text x="270" y="305" text-anchor="middle" class="box-sub">or data operation</text>
+
+  <path d="M450 262 H520" stroke="#4cc9f0" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="532" y="181" class="step">02 · PROVIDER RUNTIME</text>
+  <rect x="530" y="201" width="570" height="122" rx="18" fill="#122235" stroke="#2c4664" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="815" y="239" text-anchor="middle" class="box-title">Model Selects a Fonky Tool</text>
+  <text x="815" y="274" text-anchor="middle" class="provider">OpenAI · Claude · Gemini · Grok · Mistral · LangChain</text>
+  <text x="815" y="303" text-anchor="middle" class="box-sub">Typed signature and provider-native schema guide selection</text>
+
+  <path d="M1100 262 H1170" stroke="#4cc9f0" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="1182" y="181" class="step">03 · ADAPTER</text>
+  <rect x="1180" y="201" width="650" height="122" rx="18" fill="#122235" stroke="#2c4664" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="1505" y="243" text-anchor="middle" class="box-title">Provider Tool Call</text>
+  <text x="1505" y="278" text-anchor="middle" class="box-sub">Resolve callable · validate arguments · preserve defaults</text>
+  <text x="1505" y="305" text-anchor="middle" class="box-sub">No provider adapter imports another provider adapter</text>
+
+  <path d="M1505 323 V385" stroke="#4cc9f0" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="92" y="401" class="step">04 · CANONICAL EXECUTION</text>
+  <rect x="90" y="423" width="1740" height="180" rx="22" fill="#0f4c75" stroke="#62d4ff" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="960" y="465" text-anchor="middle" class="box-title">Fonky Wrapper Delegates to the Shared Implementation</text>
+  <rect x="135" y="493" width="365" height="76" rx="13" fill="#092f4a" stroke="#57c7ee"/>
+  <rect x="535" y="493" width="365" height="76" rx="13" fill="#092f4a" stroke="#57c7ee"/>
+  <rect x="935" y="493" width="365" height="76" rx="13" fill="#092f4a" stroke="#57c7ee"/>
+  <rect x="1335" y="493" width="450" height="76" rx="13" fill="#092f4a" stroke="#57c7ee"/>
+  <text x="317" y="524" text-anchor="middle" class="box-title">fetchers.py</text>
+  <text x="317" y="551" text-anchor="middle" class="box-sub">retrieve external data</text>
+  <text x="717" y="524" text-anchor="middle" class="box-title">loaders.py</text>
+  <text x="717" y="551" text-anchor="middle" class="box-sub">load local or cloud content</text>
+  <text x="1117" y="524" text-anchor="middle" class="box-title">scrapers.py</text>
+  <text x="1117" y="551" text-anchor="middle" class="box-sub">extract and crawl the web</text>
+  <text x="1560" y="524" text-anchor="middle" class="box-title">processors.py</text>
+  <text x="1560" y="551" text-anchor="middle" class="box-sub">transform · tokenize · search</text>
+
+  <path d="M960 603 V661" stroke="#4cc9f0" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="92" y="678" class="step">05 · RESULT CONTRACT</text>
+  <rect x="90" y="700" width="1740" height="238" rx="22" fill="#111f34" stroke="#263b56" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="960" y="741" text-anchor="middle" class="box-title">Canonical Python Result</text>
+  <text x="960" y="771" text-anchor="middle" class="box-sub">String · dictionary · DataFrame · NumPy array · document collection · provider response</text>
+
+  <path d="M960 786 V814 M960 814 H470 M960 814 H1450 M470 814 V837 M1450 814 V837" stroke="#4cc9f0" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="145" y="840" width="650" height="72" rx="14" fill="#38251f" stroke="#d97757" stroke-width="2.5"/>
+  <rect x="1125" y="840" width="650" height="72" rx="14" fill="#3a241c" stroke="#ff7b45" stroke-width="2.5"/>
+  <text x="470" y="871" text-anchor="middle" class="branch-title">Anthropic Claude</text>
+  <text x="470" y="898" text-anchor="middle" class="branch-sub">Return a string or supported Anthropic content block</text>
+  <text x="1450" y="871" text-anchor="middle" class="branch-title">Mistral AI</text>
+  <text x="1450" y="898" text-anchor="middle" class="branch-sub">Serialize content and return the matching tool_call_id</text>
+
+  <path d="M470 912 V969 H960 M1450 912 V969 H960 M960 969 V1002" stroke="#4cc9f0" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="700" y="994" width="520" height="62" rx="15" fill="#12334a" stroke="#4cc9f0" stroke-width="2"/>
+  <text x="960" y="1034" text-anchor="middle" class="box-title">Provider Produces the Final Response</text>
+  <text x="1815" y="1050" text-anchor="end" class="footer">Structured return types remain canonical; serialization occurs at the provider boundary</text>
+</svg>
