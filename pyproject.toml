@@ -5,13 +5,102 @@ description = "Provider-agnostic data fetching, loading, scraping, and tool orch
 requires-python = ">=3.11"
 readme = "README.md"
 authors = [
-    { name = "Terry D. Eppler" }
+    { name = "Terry D. Eppler", email = "terryeppler@gmail.com" }
 ]
-dependencies = []
+license = "MIT"
+license-files = ["LICENSE.txt"]
+keywords = ["ai", "agents", "data-loading", "retrieval", "tool-calling"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "anthropic",
+    "arxiv>=2.1,<3",
+    "astropy>=6.1,<8",
+    "astroquery>=0.4,<1",
+    "beautifulsoup4>=4.12,<5",
+    "boto3>=1.35,<2",
+    "botocore>=1.35,<2",
+    "cartopy>=0.23,<1",
+    "chromadb",
+    "crawl4ai>=0.4,<1",
+    "docx2txt>=0.8,<0.9",
+    "gensim",
+    "google-api-python-client>=2.150,<3",
+    "google-auth-oauthlib>=1.2,<2",
+    "google-auth>=2.35,<3",
+    "google-cloud-speech>=2.27,<3",
+    "google-cloud-storage>=2.18,<4",
+    "google-genai>=1.0,<2",
+    "grokipedia-api>=0.1,<1",
+    "html5lib>=1.1,<2",
+    "langchain-community==0.4.2",
+    "langchain-core==1.6.0",
+    "langchain-google-community==5.0.0",
+    "langchain-googledrive==0.1.52",
+    "langchain-text-splitters==1.1.2",
+    "langchain==1.3.16",
+    "lxml>=5.2,<7",
+    "markdown>=3.6,<4",
+    "matplotlib>=3.9,<4",
+    "mistralai>=2,<3",
+    "nbformat>=5.10,<6",
+    "nltk",
+    "numpy>=1.26,<3",
+    "openai-agents",
+    "openai",
+    "openpyxl>=3.1,<4",
+    "OWSLib>=0.31,<1",
+    "pandas>=2.2,<3",
+    "pillow>=10.4,<13",
+    "pinecone",
+    "playwright>=1.48,<2",
+    "pydantic>=2.7,<3",
+    "PyMuPDF",
+    "pypdf>=5.0,<7",
+    "python-dateutil>=2.9,<3",
+    "python-docx",
+    "python-pptx>=1.0,<2",
+    "rapidocr-onnxruntime>=1.3,<2",
+    "requests>=2.32,<3",
+    "scikit-learn",
+    "sentence-transformers",
+    "spacy",
+    "sscws>=2.4,<3",
+    "textblob",
+    "tiktoken",
+    "typing_extensions>=4.11,<5",
+    "unstructured>=0.16,<1",
+    "wikipedia>=1.4,<2",
+    "xai-sdk",
+    "xlrd>=2.0,<3",
+    "xmltodict>=0.13,<1",
+]
+
+[project.urls]
+Documentation = "https://is-leeroy-jenkins.github.io/fonky/"
+Issues = "https://github.com/is-leeroy-jenkins/fonky/issues"
+Repository = "https://github.com/is-leeroy-jenkins/fonky"
 
 [tool.setuptools]
-packages = ["fonky"]
+package-dir = { fonky = "." }
+packages = [
+    "fonky",
+    "fonky.claude",
+    "fonky.gemini",
+    "fonky.gpt",
+    "fonky.grok",
+    "fonky.langchain",
+    "fonky.mistral",
+]
 
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"

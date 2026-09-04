@@ -1,0 +1,100 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and verify distributions
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install packaging tools
+        run: python -m pip install --upgrade build packaging twine
+
+      - name: Verify release tag matches package version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          python - <<'PY'
+          import os
+          import tomllib
+
+          from packaging.version import Version
+
+          with open("pyproject.toml", "rb") as stream:
+              package_version = tomllib.load(stream)["project"]["version"]
+
+          release_version = os.environ["RELEASE_TAG"].removeprefix("v")
+          if Version(release_version) != Version(package_version):
+              raise SystemExit(
+                  f"Release tag {os.environ['RELEASE_TAG']!r} does not match "
+                  f"package version {package_version!r}."
+              )
+          PY
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Check distribution metadata
+        run: python -m twine check --strict dist/*
+
+      - name: Smoke-test wheel contents
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          wheel = next(Path("dist").glob("*.whl"))
+          required = {
+              "fonky/__init__.py",
+              "fonky/claude/tools.py",
+              "fonky/gemini/tools.py",
+              "fonky/gpt/tools.py",
+              "fonky/grok/tools.py",
+              "fonky/langchain/tools.py",
+              "fonky/mistral/tools.py",
+          }
+          with ZipFile(wheel) as archive:
+              missing = required.difference(archive.namelist())
+          if missing:
+              raise SystemExit(f"Wheel is missing: {sorted(missing)}")
+          PY
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-distributions
+          path: dist/
+
+  publish:
+    name: Publish distributions to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/fonky/
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: python-distributions
+          path: dist/
+
+      - name: Publish distributions
+        uses: pypa/gh-action-pypi-publish@release/v1

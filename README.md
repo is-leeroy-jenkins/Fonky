@@ -68,8 +68,14 @@ fonky/
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip wheel
-python -m pip install -r requirements.txt
+python -m pip install fonky
 python -m pip check
+```
+
+For an editable development installation from a repository checkout:
+
+```powershell
+python -m pip install -e .
 ```
 
 ### Playwright
